@@ -1,0 +1,6 @@
+本目录为续训 (RESUME)，非从零训练。
+resume_from=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/rl/checkpoints/2026-07-03_18-11-38/26-07-03_18-11-38-258181_PPO/checkpoints/agent_102400.pt
+wall_time=2026-07-06T10:12:52
+max_iterations=300
+rew_orientation_scale=5.0
+orientation_reward_distance_threshold=0.08

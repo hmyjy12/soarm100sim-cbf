@@ -1,0 +1,21 @@
+# SO-100 Reach execute 推理运行日志
+wall_time=2026-07-03T17:31:05
+checkpoint=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/rl/checkpoints/2026-07-03_16-50-43/26-07-03_16-50-43-349531_PPO/checkpoints/best_agent.pt
+seed=42
+num_envs=64
+step_dt_s=0.03333333333333333
+collect_joint_json=False
+# episode_end: target_success_rate=位置; orientation_success_rate=姿态; success_rate=6D; ever_*=回合内曾进入对应成功区
+---
+episode_end ep=1 steps_in_ep=299 sim_t=9.9667s reward_mean=4.994804 target_success_rate=0.828125 orientation_success_rate=0.140625 success_rate=0.140625 ever_target_success_rate=0.843750 ever_orientation_success_rate=0.171875 ever_success_rate=0.171875
+episode_end ep=2 steps_in_ep=299 sim_t=19.9333s reward_mean=4.994704 target_success_rate=0.906250 orientation_success_rate=0.187500 success_rate=0.187500 ever_target_success_rate=0.906250 ever_orientation_success_rate=0.265625 ever_success_rate=0.265625
+episode_end ep=3 steps_in_ep=299 sim_t=29.9000s reward_mean=4.922388 target_success_rate=0.859375 orientation_success_rate=0.171875 success_rate=0.171875 ever_target_success_rate=0.859375 ever_orientation_success_rate=0.281250 ever_success_rate=0.265625
+episode_end ep=4 steps_in_ep=299 sim_t=39.8667s reward_mean=5.029367 target_success_rate=0.875000 orientation_success_rate=0.203125 success_rate=0.203125 ever_target_success_rate=0.890625 ever_orientation_success_rate=0.296875 ever_success_rate=0.265625
+episode_end ep=5 steps_in_ep=299 sim_t=49.8333s reward_mean=4.958171 target_success_rate=0.796875 orientation_success_rate=0.187500 success_rate=0.187500 ever_target_success_rate=0.859375 ever_orientation_success_rate=0.250000 ever_success_rate=0.250000
+episode_end ep=6 steps_in_ep=299 sim_t=59.8000s reward_mean=4.983604 target_success_rate=0.828125 orientation_success_rate=0.171875 success_rate=0.156250 ever_target_success_rate=0.875000 ever_orientation_success_rate=0.250000 ever_success_rate=0.203125
+episode_end ep=7 steps_in_ep=299 sim_t=69.7667s reward_mean=4.828572 target_success_rate=0.796875 orientation_success_rate=0.140625 success_rate=0.140625 ever_target_success_rate=0.843750 ever_orientation_success_rate=0.187500 ever_success_rate=0.187500
+episode_end ep=8 steps_in_ep=299 sim_t=79.7333s reward_mean=4.974159 target_success_rate=0.875000 orientation_success_rate=0.171875 success_rate=0.171875 ever_target_success_rate=0.875000 ever_orientation_success_rate=0.203125 ever_success_rate=0.203125
+episode_end ep=9 steps_in_ep=299 sim_t=89.7000s reward_mean=5.228586 target_success_rate=0.937500 orientation_success_rate=0.296875 success_rate=0.296875 ever_target_success_rate=0.937500 ever_orientation_success_rate=0.312500 ever_success_rate=0.312500
+episode_end ep=10 steps_in_ep=299 sim_t=99.6667s reward_mean=4.945577 target_success_rate=0.843750 orientation_success_rate=0.203125 success_rate=0.171875 ever_target_success_rate=0.875000 ever_orientation_success_rate=0.250000 ever_success_rate=0.218750
+episode_end ep=11 steps_in_ep=299 sim_t=109.6333s reward_mean=4.930752 target_success_rate=0.906250 orientation_success_rate=0.140625 success_rate=0.140625 ever_target_success_rate=0.906250 ever_orientation_success_rate=0.171875 ever_success_rate=0.171875
+episode_end ep=12 steps_in_ep=299 sim_t=119.6000s reward_mean=4.916057 target_success_rate=0.921875 orientation_success_rate=0.109375 success_rate=0.093750 ever_target_success_rate=0.968750 ever_orientation_success_rate=0.187500 ever_success_rate=0.171875

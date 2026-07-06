@@ -1,0 +1,33 @@
+{
+  "chunk_id": 20,
+  "total_records": 20000,
+  "save_formats": [
+    "json"
+  ],
+  "chunk_files": {
+    "json": [
+      "chunk_000001.json",
+      "chunk_000002.json",
+      "chunk_000003.json",
+      "chunk_000004.json",
+      "chunk_000005.json",
+      "chunk_000006.json",
+      "chunk_000007.json",
+      "chunk_000008.json",
+      "chunk_000009.json",
+      "chunk_000010.json",
+      "chunk_000011.json",
+      "chunk_000012.json",
+      "chunk_000013.json",
+      "chunk_000014.json",
+      "chunk_000015.json",
+      "chunk_000016.json",
+      "chunk_000017.json",
+      "chunk_000018.json",
+      "chunk_000019.json",
+      "chunk_000020.json"
+    ]
+  },
+  "output_path": "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/rl/datasets/workspace_joint_dataset.json",
+  "merged_npz": "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/rl/workspace_cache/workspace_tcp_merged.npz"
+}
