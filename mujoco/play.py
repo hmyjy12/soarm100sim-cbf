@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""SO-100 Plus Reach：MuJoCo 推理（默认 7.3 best_agent）。
+"""SO-100 Plus Reach：MuJoCo 推理（默认 C：bank-start best_agent）。
 
 注意：本目录名为 mujoco，与官方库同名，因此本脚本用 importlib 加载本地模块。
 

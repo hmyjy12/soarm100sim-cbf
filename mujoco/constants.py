@@ -18,12 +18,12 @@ DEFAULT_MJCF = (
     / "scene_plus.xml"
 )
 
-# 7.3 18:11 正式训练 best
+# C：2026-07-06 bank-start 重训 best（主用）
 DEFAULT_CHECKPOINT = (
     RL_ROOT
     / "checkpoints"
-    / "2026-07-03_18-11-38"
-    / "26-07-03_18-11-38-258181_PPO"
+    / "2026-07-06_14-44-29"
+    / "PPO"
     / "checkpoints"
     / "best_agent.pt"
 )
