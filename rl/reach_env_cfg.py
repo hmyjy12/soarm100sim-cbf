@@ -59,6 +59,10 @@ class ReachEnvCfg(DirectRLEnvCfg):
     workspace_npz_path: str = ""
     workspace_npz_path_train: str = _rl_path("workspace_cache", "workspace_tcp_merged_train.npz")
     workspace_npz_path_test: str = _rl_path("workspace_cache", "workspace_tcp_merged_test.npz")
+    # True：起点/目标均从 NPZ bank 抽（起点用 joint_pos，目标用 tcp）；False：起点仍为 home
+    reset_start_from_bank: bool = True
+    # 起点 TCP 与目标 TCP 的最小欧氏距离（m）；过近会重抽，避免重合/近重合
+    reset_start_target_min_tcp_dist_m: float = 0.05
 
     # --- 控制 ---
     action_scale: float = 0.25

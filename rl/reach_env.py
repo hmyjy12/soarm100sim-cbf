@@ -21,7 +21,7 @@ from sample.tcp_pose import compute_pinch_tcp_pose_torch
 
 
 class ReachEnv(DirectRLEnv):
-    """单臂 Reach：目标从 workspace NPZ 随机采样，奖励结构对齐 tar&ori。"""
+    """单臂 Reach：从 workspace NPZ bank 采样起点/目标（可强制最小 TCP 距离）。"""
 
     cfg: ReachEnvCfg
 
@@ -56,15 +56,29 @@ class ReachEnv(DirectRLEnv):
             quat_bank = None
             if "tcp_quat_wxyz" in data.files:
                 quat_bank = np.asarray(data["tcp_quat_wxyz"], dtype=np.float64)
+            joint_bank = None
+            if "joint_pos" in data.files:
+                joint_bank = np.asarray(data["joint_pos"], dtype=np.float64)
 
         if merged.ndim != 2 or merged.shape[1] != 3 or merged.shape[0] == 0:
             raise ValueError(f"NPZ 位置数组形状应为 (N,3)，实际: {merged.shape}")
         if ref == "dataset" and quat_bank is None:
             raise KeyError(f"orientation_desired_reference='dataset' 需要 NPZ 含 tcp_quat_wxyz: {npz_path}")
+        if cfg.reset_start_from_bank:
+            if joint_bank is None:
+                raise KeyError(
+                    f"reset_start_from_bank=True 需要 NPZ 含 joint_pos: {npz_path}"
+                )
+            n_arm = len(cfg.arm_joint_names)
+            if joint_bank.ndim != 2 or joint_bank.shape[0] != merged.shape[0] or joint_bank.shape[1] != n_arm:
+                raise ValueError(
+                    f"NPZ joint_pos 形状应为 (N,{n_arm}) 且 N 与 tcp 一致，实际: {joint_bank.shape}"
+                )
 
         self._workspace_npz_path = npz_path
         self._tcp_target_bank_np = merged
         self._tcp_target_quat_bank_np = quat_bank
+        self._joint_pos_bank_np = joint_bank
 
         super().__init__(cfg, render_mode, **kwargs)
 
@@ -83,6 +97,9 @@ class ReachEnv(DirectRLEnv):
         if self._tcp_target_quat_bank_np is not None:
             quat_t = torch.as_tensor(self._tcp_target_quat_bank_np, device=self.device, dtype=torch.float32)
             self._tcp_target_quat_bank = quat_t / torch.norm(quat_t, dim=-1, keepdim=True).clamp_min(1e-8)
+        self._joint_pos_bank = None
+        if self._joint_pos_bank_np is not None:
+            self._joint_pos_bank = torch.as_tensor(self._joint_pos_bank_np, device=self.device, dtype=torch.float32)
 
         self._target_pos_w = torch.zeros(self.num_envs, 3, device=self.device)
         self._target_quat_w = torch.zeros(self.num_envs, 4, device=self.device)
@@ -111,6 +128,15 @@ class ReachEnv(DirectRLEnv):
         self._last_ever_target_success_rate = torch.tensor(0.0, device=self.device)
         self._last_ever_orientation_success_rate = torch.tensor(0.0, device=self.device)
         self._last_ever_success_rate = torch.tensor(0.0, device=self.device)
+
+        # episode 误差跟踪（reset 前快照，供离线评测）
+        self._ep_min_pos_err = torch.full((self.num_envs,), float("inf"), device=self.device)
+        self._ep_min_ori_deg = torch.full((self.num_envs,), float("inf"), device=self.device)
+        self._last_done_pos_err = torch.zeros(0, device=self.device)
+        self._last_done_ori_deg = torch.zeros(0, device=self.device)
+        self._last_done_min_pos_err = torch.zeros(0, device=self.device)
+        self._last_done_min_ori_deg = torch.zeros(0, device=self.device)
+        self._last_done_mask = torch.zeros(self.num_envs, dtype=torch.bool, device=self.device)
 
         if cfg.debug_vis:
             self.set_debug_vis(True)
@@ -252,6 +278,11 @@ class ReachEnv(DirectRLEnv):
         self._prev_distance = cur_distance.clone()
         self._prev_tcp_pos_w = tcp_w.clone()
 
+        # 回合内最优误差（供评测：reset 前仍可读）
+        ori_deg = (2.0 * torch.acos(align_quat.clamp(0.0, 1.0))) * (180.0 / 3.141592653589793)
+        self._ep_min_pos_err = torch.minimum(self._ep_min_pos_err, cur_distance)
+        self._ep_min_ori_deg = torch.minimum(self._ep_min_ori_deg, ori_deg)
+
         total = rew_dist + rew_success + rew_hold + rew_action_rate + rew_joint_vel + rew_contact + rew_orientation
         self.extras["log"] = {
             # 回合结束时统计（episode 完结瞬间的成功率，skrl 每轮 rollout 聚合）
@@ -282,14 +313,61 @@ class ReachEnv(DirectRLEnv):
         time_out = self.episode_length_buf >= self.max_episode_length - 1
         terminated = torch.zeros_like(time_out)
         done = terminated | time_out
+        self._last_done_mask = done
         if torch.any(done):
+            # reset 之前快照：step() 返回后状态可能已恢复到 home
+            tcp_w, ee_q = self._tcp_pose_w()
+            des_q = self._get_desired_quat_w(ee_q)
+            pos_err = torch.norm(tcp_w - self._target_pos_w, dim=-1)
+            ee_u = ee_q / torch.norm(ee_q, dim=-1, keepdim=True).clamp_min(1e-8)
+            dq_u = des_q / torch.norm(des_q, dim=-1, keepdim=True).clamp_min(1e-8)
+            align = (ee_u * dq_u).sum(dim=-1).abs().clamp(0.0, 1.0)
+            ori_deg = (2.0 * torch.acos(align)) * (180.0 / 3.141592653589793)
+            self._last_done_pos_err = pos_err[done].detach().clone()
+            self._last_done_ori_deg = ori_deg[done].detach().clone()
+            self._last_done_min_pos_err = self._ep_min_pos_err[done].detach().clone()
+            self._last_done_min_ori_deg = self._ep_min_ori_deg[done].detach().clone()
+
             self._last_target_success_rate = self._in_target_success_region[done].float().mean()
             self._last_orientation_success_rate = self._in_orientation_success_region[done].float().mean()
             self._last_success_rate = self._in_success_region[done].float().mean()
             self._last_ever_target_success_rate = self._ever_target_success[done].float().mean()
             self._last_ever_orientation_success_rate = self._ever_orientation_success[done].float().mean()
             self._last_ever_success_rate = self._ever_success[done].float().mean()
+        else:
+            self._last_done_pos_err = torch.zeros(0, device=self.device)
+            self._last_done_ori_deg = torch.zeros(0, device=self.device)
+            self._last_done_min_pos_err = torch.zeros(0, device=self.device)
+            self._last_done_min_ori_deg = torch.zeros(0, device=self.device)
         return terminated, time_out
+
+    def _sample_start_target_bank_indices(self, n: int) -> tuple[torch.Tensor, torch.Tensor]:
+        """从 bank 抽起点/目标索引；强制不同索引且 TCP 距离 >= 配置阈值。"""
+        n_bank = int(self._tcp_target_bank.shape[0])
+        if n_bank < 2:
+            raise RuntimeError(f"workspace bank 至少需要 2 条样本，当前: {n_bank}")
+
+        min_dist = float(self.cfg.reset_start_target_min_tcp_dist_m)
+        start_idx = torch.randint(0, n_bank, (n,), device=self.device)
+        start_tcp = self._tcp_target_bank[start_idx]
+        target_idx = torch.randint(0, n_bank, (n,), device=self.device)
+        best_dist = torch.norm(self._tcp_target_bank[target_idx] - start_tcp, dim=-1)
+
+        for _ in range(32):
+            ok = (best_dist >= min_dist) & (target_idx != start_idx)
+            if bool(torch.all(ok)):
+                break
+            cand = torch.randint(0, n_bank, (n,), device=self.device)
+            cand_dist = torch.norm(self._tcp_target_bank[cand] - start_tcp, dim=-1)
+            # 未达标的 env：接受更远候选；已达标则保持
+            take = (~ok) & (cand_dist > best_dist)
+            target_idx = torch.where(take, cand, target_idx)
+            best_dist = torch.where(take, cand_dist, best_dist)
+
+        same = target_idx == start_idx
+        if torch.any(same):
+            target_idx = torch.where(same, (start_idx + 1) % n_bank, target_idx)
+        return start_idx, target_idx
 
     def _reset_idx(self, env_ids: Sequence[int] | None):
         if env_ids is None:
@@ -301,16 +379,22 @@ class ReachEnv(DirectRLEnv):
         n = len(env_ids)
         joint_pos = self.robot.data.default_joint_pos[env_ids].clone()
         joint_vel = torch.zeros_like(joint_pos)
+
+        n_bank = int(self._tcp_target_bank.shape[0])
+        if self.cfg.reset_start_from_bank:
+            start_idx, target_idx = self._sample_start_target_bank_indices(n)
+            joint_pos[:, self._arm_joint_ids] = self._joint_pos_bank[start_idx]
+        else:
+            target_idx = torch.randint(0, n_bank, (n,), device=self.device)
+
         mag = float(self.cfg.reset_joint_noise_rad)
         if mag > 0.0:
             noise = sample_uniform(-mag, mag, (n, len(self._arm_joint_ids)), device=self.device)
             joint_pos[:, self._arm_joint_ids] += noise
 
-        n_bank = int(self._tcp_target_bank.shape[0])
-        idx = torch.randint(0, n_bank, (n,), device=self.device)
-        target_rel = self._tcp_target_bank[idx]
+        target_rel = self._tcp_target_bank[target_idx]
         if self._tcp_target_quat_bank is not None:
-            self._target_quat_w[env_ids] = self._tcp_target_quat_bank[idx]
+            self._target_quat_w[env_ids] = self._tcp_target_quat_bank[target_idx]
         else:
             self._target_quat_w[env_ids] = 0.0
             self._target_quat_w[env_ids, 0] = 1.0
@@ -345,6 +429,8 @@ class ReachEnv(DirectRLEnv):
         self._ever_target_success[env_ids] = False
         self._ever_orientation_success[env_ids] = not self.cfg.enable_orientation_constraint
         self._ever_success[env_ids] = False
+        self._ep_min_pos_err[env_ids] = float("inf")
+        self._ep_min_ori_deg[env_ids] = float("inf")
 
         if self.cfg.debug_vis:
             self._ensure_debug_markers()

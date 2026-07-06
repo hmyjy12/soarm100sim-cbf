@@ -94,8 +94,8 @@ DEFAULTS = {
     # --- 环境配置：1/default=稳定 ReachEnvCfg；2/ori=姿态实验 ReachEnvCfg2 ---
     "env_cfg": "1",
     # --- 训练规模 ---
-    "num_envs": 128,
-    "max_iterations": 800,
+    "num_envs": 256,
+    "max_iterations": 2000,
     "seed": 42,
     # --- 数据与资产 ---
     "workspace_npz": "",  # 空则 workspace_cache/workspace_tcp_merged_train.npz

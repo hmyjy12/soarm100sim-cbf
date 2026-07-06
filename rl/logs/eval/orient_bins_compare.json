@@ -1,0 +1,113 @@
+{
+  "meta": {
+    "wall_time": "2026-07-06T13:40:02",
+    "num_episodes": 256,
+    "num_envs": 64,
+    "seed": 42,
+    "use_train_npz": false
+  },
+  "results": [
+    {
+      "name": "2026-07-03_cfg1_agent_102400",
+      "checkpoint": "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/rl/checkpoints/2026-07-03_18-11-38/26-07-03_18-11-38-258181_PPO/checkpoints/agent_102400.pt",
+      "num_episodes": 256,
+      "episode_end": {
+        "position": {
+          "mean_m": 0.005928053002662637,
+          "median_m": 0.004606985487043858,
+          "p90_m": 0.011567501816898584,
+          "success_le_1cm": 0.87109375,
+          "success_le_2cm": 0.984375,
+          "success_le_3cm": 0.99609375
+        },
+        "orientation": {
+          "mean_deg": 25.492772099096328,
+          "median_deg": 18.968213081359863,
+          "p90_deg": 54.09333801269531,
+          "success_le_10deg": 0.2265625,
+          "success_le_20deg": 0.515625,
+          "success_le_30deg": 0.703125
+        },
+        "joint_success": {
+          "pos1cm_ori_le_10deg": 0.22265625,
+          "pos1cm_ori_le_20deg": 0.4921875,
+          "pos1cm_ori_le_30deg": 0.6640625
+        }
+      },
+      "episode_best": {
+        "position": {
+          "mean_m": 0.004142900378951708,
+          "median_m": 0.0029624721501022577,
+          "p90_m": 0.009576138574630022,
+          "success_le_1cm": 0.91796875,
+          "success_le_2cm": 0.99609375,
+          "success_le_3cm": 1.0
+        },
+        "orientation": {
+          "mean_deg": 21.84723335201852,
+          "median_deg": 16.938668251037598,
+          "p90_deg": 48.68051338195801,
+          "success_le_10deg": 0.28515625,
+          "success_le_20deg": 0.58203125,
+          "success_le_30deg": 0.75
+        },
+        "joint_success": {
+          "pos1cm_ori_le_10deg": 0.28125,
+          "pos1cm_ori_le_20deg": 0.56640625,
+          "pos1cm_ori_le_30deg": 0.71484375
+        }
+      }
+    },
+    {
+      "name": "2026-07-06_cfg2_pathA_best",
+      "checkpoint": "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/rl/checkpoints/2026-07-06_11-37-06_resume/PPO_resume/checkpoints/best_agent.pt",
+      "num_episodes": 256,
+      "episode_end": {
+        "position": {
+          "mean_m": 0.006821509385645186,
+          "median_m": 0.005354083143174648,
+          "p90_m": 0.012480613775551319,
+          "success_le_1cm": 0.81640625,
+          "success_le_2cm": 0.9921875,
+          "success_le_3cm": 0.9921875
+        },
+        "orientation": {
+          "mean_deg": 25.42017799662426,
+          "median_deg": 19.88663101196289,
+          "p90_deg": 51.667367935180664,
+          "success_le_10deg": 0.2421875,
+          "success_le_20deg": 0.5078125,
+          "success_le_30deg": 0.7109375
+        },
+        "joint_success": {
+          "pos1cm_ori_le_10deg": 0.23828125,
+          "pos1cm_ori_le_20deg": 0.46484375,
+          "pos1cm_ori_le_30deg": 0.60546875
+        }
+      },
+      "episode_best": {
+        "position": {
+          "mean_m": 0.004708741199578981,
+          "median_m": 0.003414316102862358,
+          "p90_m": 0.010420544538646936,
+          "success_le_1cm": 0.88671875,
+          "success_le_2cm": 0.9921875,
+          "success_le_3cm": 0.99609375
+        },
+        "orientation": {
+          "mean_deg": 21.791255394695327,
+          "median_deg": 17.52380084991455,
+          "p90_deg": 46.445884704589844,
+          "success_le_10deg": 0.30078125,
+          "success_le_20deg": 0.5703125,
+          "success_le_30deg": 0.75390625
+        },
+        "joint_success": {
+          "pos1cm_ori_le_10deg": 0.296875,
+          "pos1cm_ori_le_20deg": 0.53515625,
+          "pos1cm_ori_le_30deg": 0.69140625
+        }
+      }
+    }
+  ]
+}

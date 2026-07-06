@@ -142,6 +142,7 @@ def create_inference_stack(
     use_test_npz: bool = True,
     enable_contact_sensors: bool = False,
     debug_vis: bool = True,
+    reset_start_from_bank: bool | None = None,
 ) -> dict[str, Any]:
     """构建 ReachEnv + skrl Runner（eval）。"""
     from isaaclab_rl.skrl import SkrlVecEnvWrapper
@@ -155,6 +156,8 @@ def create_inference_stack(
     env_cfg.scene.num_envs = int(num_envs)
     env_cfg.debug_vis = bool(debug_vis)
     env_cfg.enable_contact_sensors = bool(enable_contact_sensors)
+    if reset_start_from_bank is not None:
+        env_cfg.reset_start_from_bank = bool(reset_start_from_bank)
     if use_test_npz and (env_cfg.workspace_npz_path_test or "").strip():
         env_cfg.workspace_npz_path = os.path.abspath(env_cfg.workspace_npz_path_test)
 

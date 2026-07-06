@@ -1,0 +1,11 @@
+{
+  "mode": "resume",
+  "resume_from": "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/rl/checkpoints/2026-07-03_18-11-38/26-07-03_18-11-38-258181_PPO/checkpoints/agent_102400.pt",
+  "log_dir": "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/rl/checkpoints/2026-07-06_11-37-06_resume",
+  "max_iterations": 150,
+  "env_cfg_key": "2",
+  "env_cfg_module": "reach_env_cfg2",
+  "env_cfg_class": "ReachEnvCfg2",
+  "rew_orientation_scale": 3.0,
+  "orientation_reward_distance_threshold": 0.05
+}
