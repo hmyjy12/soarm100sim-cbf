@@ -58,6 +58,7 @@ CBF_D_SAFE = _c.CBF_D_SAFE
 CBF_GAMMA = _c.CBF_GAMMA
 CBF_LAMBDA = _c.CBF_LAMBDA
 CBF_ACTIVATE_MARGIN = _c.CBF_ACTIVATE_MARGIN
+CBF_FILTER_TAU = _c.CBF_FILTER_TAU
 CbfConfig = _cbf.CbfConfig
 cbf_step_log_record = _cbf.cbf_step_log_record
 
@@ -264,6 +265,7 @@ def run(args: argparse.Namespace) -> int:
                             f"  @{info.get('cbf_worst_monitor', '?')}"
                             f"  cbf={'Y' if info.get('cbf_active') else 'n'}"
                             f"  feas={'Y' if info.get('cbf_feasible', True) else 'N'}"
+                            f"  proj={'Y' if info.get('cbf_projected') else 'n'}"
                             f"  n={info.get('n_constraints', 0)}"
                             f"  |dq_cbf|={info.get('dq_cbf_norm', 0.0):.4f}"
                         )

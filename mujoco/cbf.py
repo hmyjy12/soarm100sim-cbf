@@ -1,6 +1,6 @@
-"""EMBODISTEER 式全身 CBF-QP：在名义关节增量上求最小安全修正。
+"""EMBODISTEER 式全身 CBF-QP：在 PPO 名义增量上做最小安全修正。
 
-不可行时策略 A：Δq_cbf = 0，仍执行 PPO 名义 Δq_nom。
+v2：在当前 q 评估 h；约束作用于 dq_total=dq_nom+dq_cbf；不可行时投影 dq_nom。
 """
 
 from __future__ import annotations
@@ -23,16 +23,23 @@ def _project_box(x: np.ndarray, lb: np.ndarray, ub: np.ndarray) -> np.ndarray:
     return np.clip(x, lb, ub)
 
 
+def _dq_cbf_bounds(dq_nom: np.ndarray, dq_max: float) -> tuple[np.ndarray, np.ndarray]:
+    """dq_total=dq_nom+dq_cbf ∈ [-dq_max,dq_max] 时 dq_cbf 的逐关节上下界。"""
+    dq_nom = np.asarray(dq_nom, dtype=np.float64).reshape(-1)
+    m = float(dq_max)
+    return -m - dq_nom, m - dq_nom
+
+
 def _find_feasible_point(
     a_ineq: np.ndarray,
     b_ineq: np.ndarray,
     lb: np.ndarray,
     ub: np.ndarray,
+    x0: np.ndarray | None = None,
     max_iter: int = 200,
 ) -> tuple[np.ndarray | None, bool]:
-    """找满足 A x >= b 且 box 内的可行点。"""
     n = lb.shape[0]
-    x = _project_box(np.zeros(n, dtype=np.float64), lb, ub)
+    x = _project_box(np.zeros(n, dtype=np.float64) if x0 is None else x0.copy(), lb, ub)
     if a_ineq.shape[0] == 0:
         return x, True
     for _ in range(max_iter):
@@ -54,14 +61,16 @@ def _solve_qp_projected_gradient(
     b_ineq: np.ndarray,
     lb: np.ndarray,
     ub: np.ndarray,
+    x0: np.ndarray | None = None,
     max_iter: int = 300,
 ) -> tuple[np.ndarray | None, bool]:
-    """min ½ xᵀ H x  s.t. A x >= b, box。纯 numpy，无 scipy 依赖。"""
+    """min ½ xᵀ H x  s.t. A x >= b, box。"""
     n = lb.shape[0]
     if a_ineq.shape[0] == 0:
         return np.zeros(n, dtype=np.float64), True
 
-    x, ok = _find_feasible_point(a_ineq, b_ineq, lb, ub)
+    x0_use = np.zeros(n, dtype=np.float64) if x0 is None else _project_box(x0, lb, ub)
+    x, ok = _find_feasible_point(a_ineq, b_ineq, lb, ub, x0=x0_use)
     if not ok or x is None:
         return None, False
 
@@ -86,6 +95,31 @@ def _solve_qp_projected_gradient(
         return x, True
     return None, False
 
+
+def _project_dq_total(
+    dq_nom: np.ndarray,
+    a_ineq: np.ndarray,
+    b_total: np.ndarray,
+    dq_max: float,
+    max_iter: int = 120,
+) -> tuple[np.ndarray, bool]:
+    """不可行时：将 dq_nom 投影到 CBF+box 可行集，min 改动（迭代投影）。"""
+    m = float(dq_max)
+    dq = np.clip(np.asarray(dq_nom, dtype=np.float64).reshape(-1), -m, m)
+    if a_ineq.shape[0] == 0:
+        return dq, True
+    for _ in range(max_iter):
+        viol = b_total - a_ineq @ dq
+        worst = float(np.max(viol))
+        if worst <= 1e-7:
+            return dq, True
+        i = int(np.argmax(viol))
+        ai = a_ineq[i]
+        denom = float(ai @ ai) + 1e-12
+        dq = dq + ((worst + 1e-5) / denom) * ai
+        dq = np.clip(dq, -m, m)
+    return dq, False
+
 try:
     from .constants import ACTION_DIM, ACTION_SCALE
 except ImportError:
@@ -94,11 +128,11 @@ except ImportError:
 
 DEFAULT_MONITOR_SPECS: tuple[tuple[str, float], ...] = (
     ("shoulder_pitch", 0.02),
-    ("ellbow", 0.03),
-    ("wrist_pitch", 0.02),
-    ("wrist_roll", 0.02),
-    ("gripper", 0.02),
-    ("tcp", 0.01),
+    ("ellbow", 0.035),
+    ("wrist_pitch", 0.035),
+    ("wrist_roll", 0.025),
+    ("gripper", 0.025),
+    ("tcp", 0.015),
 )
 
 DEFAULT_OBSTACLE_GEOM_NAMES: tuple[str, ...] = ("obstacle_rod",)
@@ -133,7 +167,7 @@ class CbfConfig:
     gamma: float = 0.8
     lambda_cbf: float = 0.5
     dq_max: float = ACTION_SCALE
-    activate_margin: float = 0.10
+    activate_margin: float = 0.04
     task_weight: np.ndarray = field(default_factory=lambda: np.ones(3, dtype=np.float64))
     monitor_specs: tuple[tuple[str, float], ...] = DEFAULT_MONITOR_SPECS
     obstacle_geom_names: tuple[str, ...] = DEFAULT_OBSTACLE_GEOM_NAMES
@@ -413,43 +447,49 @@ def _worst_barrier(
     return records, h_min, worst
 
 
-def _build_constraints(records: list[dict], cfg: CbfConfig) -> tuple[np.ndarray, np.ndarray]:
+def _build_constraints(
+    records: list[dict],
+    cfg: CbfConfig,
+    dq_nom: np.ndarray,
+) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+    """返回 A, b_total（约束 dq_total）, b_cbf（约束 dq_cbf）。"""
     rows: list[np.ndarray] = []
-    rhs: list[float] = []
+    rhs_total: list[float] = []
+    rhs_cbf: list[float] = []
+    dq_nom = np.asarray(dq_nom, dtype=np.float64).reshape(ACTION_DIM)
     for rec in records:
         h = float(rec["h"])
         if h >= cfg.activate_margin:
             continue
         grad_q = np.asarray(rec["grad_q"], dtype=np.float64)
+        b_tot = -cfg.gamma * h
         rows.append(grad_q)
-        rhs.append(-cfg.gamma * h)
+        rhs_total.append(b_tot)
+        rhs_cbf.append(b_tot - float(grad_q @ dq_nom))
     if not rows:
-        return np.zeros((0, ACTION_DIM)), np.zeros(0, dtype=np.float64)
-    return np.stack(rows, axis=0), np.asarray(rhs, dtype=np.float64)
+        z = np.zeros(0, dtype=np.float64)
+        empty = np.zeros((0, ACTION_DIM), dtype=np.float64)
+        return empty, z, z
+    a = np.stack(rows, axis=0)
+    return a, np.asarray(rhs_total, dtype=np.float64), np.asarray(rhs_cbf, dtype=np.float64)
 
 
-def _solve_qp_embodisteer(
-    j_task: np.ndarray,
+def _solve_qp_min_correction(
     a_ineq: np.ndarray,
     b_ineq: np.ndarray,
-    cfg: CbfConfig,
+    lb: np.ndarray,
+    ub: np.ndarray,
 ) -> tuple[np.ndarray | None, bool]:
-    """min ½‖W^{1/2} J Δq‖² + ½λ‖Δq‖²  s.t. AΔq ≥ b, box."""
+    """min ½‖dq_cbf‖²  s.t. A·dq_cbf ≥ b, box（贴近 dq_nom 的最小修正）。"""
     n = ACTION_DIM
-    w = np.asarray(cfg.task_weight, dtype=np.float64).reshape(3)
-    w_sqrt = np.sqrt(np.clip(w, 1e-12, None))
-    j_w = w_sqrt[:, None] * j_task
-    h_mat = j_w.T @ j_w + float(cfg.lambda_cbf) * np.eye(n, dtype=np.float64)
-
-    lb = -float(cfg.dq_max) * np.ones(n, dtype=np.float64)
-    ub = float(cfg.dq_max) * np.ones(n, dtype=np.float64)
+    h_mat = np.eye(n, dtype=np.float64)
 
     if a_ineq.shape[0] == 0:
         return np.zeros(n, dtype=np.float64), True
 
     if _HAS_SCIPY:
         def objective(x: np.ndarray) -> float:
-            return 0.5 * float(x @ h_mat @ x)
+            return 0.5 * float(x @ x)
 
         constraints = []
         for i in range(a_ineq.shape[0]):
@@ -482,54 +522,70 @@ def solve_cbf_correction(
     obstacles: list[Obstacle],
     tcp_pose_fn,
 ) -> tuple[np.ndarray, dict]:
-    """在 q_diff = q + dq_nom 处求 Δq_cbf。"""
+    """在当前 q 处求 Δq_cbf，使 dq_total=dq_nom+Δq_cbf 满足 CBF。"""
     dq_nom = np.asarray(dq_nom, dtype=np.float64).reshape(ACTION_DIM)
     info: dict = {
         "cbf_active": False,
         "cbf_feasible": True,
+        "cbf_projected": False,
         "h_min": float("inf"),
         "cbf_worst_monitor": "",
         "cbf_worst_obstacle": "",
         "dq_cbf_norm": 0.0,
         "dq_nom_norm": float(np.linalg.norm(dq_nom)),
+        "nom_violation": 0.0,
         "n_constraints": 0,
     }
     if not obstacles:
         return np.zeros(ACTION_DIM, dtype=np.float64), info
 
-    q_now = _backup_arm_qpos(data, ids)
-    q_diff = q_now + dq_nom
-
-    def _eval():
-        return _worst_barrier(model, data, ids, monitors, obstacles, cfg, tcp_pose_fn)
-
-    records, h_min, worst = _with_arm_qpos(model, data, ids, q_diff, _eval)
+    records, h_min, worst = _worst_barrier(
+        model, data, ids, monitors, obstacles, cfg, tcp_pose_fn
+    )
     info["h_min"] = float(h_min)
     if worst is not None:
         info["cbf_worst_monitor"] = str(worst["monitor"])
         info["cbf_worst_obstacle"] = str(worst["obstacle"])
+        info["nom_violation"] = float(-(float(worst["grad_q"] @ dq_nom) + cfg.gamma * float(worst["h"])))
 
-    if h_min >= cfg.activate_margin:
+    need_active = h_min < cfg.activate_margin
+    if not need_active:
+        for rec in records:
+            if float(rec["h"]) >= cfg.activate_margin:
+                continue
+            g = np.asarray(rec["grad_q"], dtype=np.float64)
+            if float(g @ dq_nom) < -cfg.gamma * float(rec["h"]) - 1e-9:
+                need_active = True
+                break
+
+    if not need_active:
         return np.zeros(ACTION_DIM, dtype=np.float64), info
 
     info["cbf_active"] = True
-    a_ineq, b_ineq = _build_constraints(records, cfg)
+    a_ineq, b_total, b_cbf = _build_constraints(records, cfg, dq_nom)
     info["n_constraints"] = int(a_ineq.shape[0])
 
-    def _task_jac():
-        _, j_task = tcp_pos_and_jacobian(model, data, ids, tcp_pose_fn)
-        return j_task
+    lb_cbf, ub_cbf = _dq_cbf_bounds(dq_nom, cfg.dq_max)
+    dq_cbf, ok = _solve_qp_min_correction(a_ineq, b_cbf, lb_cbf, ub_cbf)
 
-    j_task = _with_arm_qpos(model, data, ids, q_diff, _task_jac)
-
-    dq_cbf, ok = _solve_qp_embodisteer(j_task, a_ineq, b_ineq, cfg)
     if not ok or dq_cbf is None:
-        info["cbf_feasible"] = False
-        return np.zeros(ACTION_DIM, dtype=np.float64), info
+        dq_total, proj_ok = _project_dq_total(dq_nom, a_ineq, b_total, cfg.dq_max)
+        dq_cbf = dq_total - dq_nom
+        info["cbf_feasible"] = bool(proj_ok)
+        info["cbf_projected"] = True
+    else:
+        dq_total = dq_nom + dq_cbf
+        if not np.all(a_ineq @ dq_total >= b_total - 1e-5):
+            dq_total, proj_ok = _project_dq_total(dq_nom, a_ineq, b_total, cfg.dq_max)
+            dq_cbf = dq_total - dq_nom
+            info["cbf_feasible"] = bool(proj_ok)
+            info["cbf_projected"] = True
 
-    dq_cbf = np.clip(dq_cbf, -cfg.dq_max, cfg.dq_max)
+    dq_cbf = np.clip(dq_cbf, lb_cbf, ub_cbf)
+    dq_total = np.clip(dq_nom + dq_cbf, -cfg.dq_max, cfg.dq_max)
+    dq_cbf = dq_total - dq_nom
     info["dq_cbf_norm"] = float(np.linalg.norm(dq_cbf))
-    info["dq_total_norm"] = float(np.linalg.norm(dq_nom + dq_cbf))
+    info["dq_total_norm"] = float(np.linalg.norm(dq_total))
     return dq_cbf, info
 
 
@@ -548,4 +604,6 @@ def cbf_step_log_record(ep: int, step: int, t: float, info: dict) -> dict:
         "dq_nom_norm": float(info.get("dq_nom_norm", 0.0)),
         "dq_cbf_norm": float(info.get("dq_cbf_norm", 0.0)),
         "dq_total_norm": float(info.get("dq_total_norm", info.get("dq_nom_norm", 0.0))),
+        "cbf_projected": bool(info.get("cbf_projected", False)),
+        "nom_violation": float(info.get("nom_violation", 0.0)),
     }

@@ -15,6 +15,7 @@ try:
         ACTION_FILTER_TAU,
         ACTION_SCALE,
         BASE_BODY,
+        CBF_FILTER_TAU,
         DECIMATION,
         GRIPPER_BODY,
         HOME_QPOS,
@@ -28,6 +29,7 @@ except ImportError:
         ACTION_FILTER_TAU,
         ACTION_SCALE,
         BASE_BODY,
+        CBF_FILTER_TAU,
         DECIMATION,
         GRIPPER_BODY,
         HOME_QPOS,
@@ -169,7 +171,11 @@ class ReachStepper:
     cbf_cfg: object | None = None
     cbf_monitors: list | None = None
     cbf_obstacles: list | None = None
+    cbf_filter_tau: float = CBF_FILTER_TAU
     filtered_action: np.ndarray = field(
+        default_factory=lambda: np.zeros(ACTION_DIM, dtype=np.float64)
+    )
+    filtered_dq_cbf: np.ndarray = field(
         default_factory=lambda: np.zeros(ACTION_DIM, dtype=np.float64)
     )
 
@@ -177,6 +183,8 @@ class ReachStepper:
         dt_ctrl = self.sim_dt * self.decimation
         tau = max(float(self.filter_tau), 1e-6)
         self.beta = float(dt_ctrl / (tau + dt_ctrl))
+        cbf_tau = max(float(self.cbf_filter_tau), 1e-6)
+        self.cbf_beta = float(dt_ctrl / (cbf_tau + dt_ctrl))
         if self.enable_cbf and self.cbf_cfg is not None:
             try:
                 from .cbf import resolve_monitor_points
@@ -189,6 +197,7 @@ class ReachStepper:
 
     def reset_filter(self) -> None:
         self.filtered_action[:] = 0.0
+        self.filtered_dq_cbf[:] = 0.0
 
     def refresh_cbf_obstacles(self, data: mujoco.MjData) -> None:
         if not self.enable_cbf or self.cbf_cfg is None or self.model is None:
@@ -216,7 +225,7 @@ class ReachStepper:
                 from .cbf import solve_cbf_correction
             except ImportError:
                 from cbf import solve_cbf_correction  # type: ignore
-            dq_cbf, cbf_info = solve_cbf_correction(
+            dq_cbf_raw, cbf_info = solve_cbf_correction(
                 model,
                 data,
                 self.ids,
@@ -226,6 +235,10 @@ class ReachStepper:
                 self.cbf_obstacles or [],
                 tcp_pose_w,
             )
+            self.filtered_dq_cbf += self.cbf_beta * (dq_cbf_raw - self.filtered_dq_cbf)
+            dq_cbf = self.filtered_dq_cbf.copy()
+            cbf_info["dq_cbf_raw_norm"] = float(np.linalg.norm(dq_cbf_raw))
+            cbf_info["dq_cbf_norm"] = float(np.linalg.norm(dq_cbf))
         dq_total = dq_nom + dq_cbf
         dq_total = np.clip(dq_total, -self.action_scale, self.action_scale)
         tgt = curr_q + dq_total
