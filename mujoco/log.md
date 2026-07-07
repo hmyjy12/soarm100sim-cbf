@@ -10,7 +10,7 @@
 
 | 项目 | 设定 |
 |------|------|
-| 场景文件 | `SO-ARM100/Simulation/SO100/mujoco/scene_plus.xml` |
+| 场景文件 | `scene_plus.xml`（有杆）/ `scene_plus_norod.xml`（无杆对照） |
 | 障碍物 | 竖直细杆 `obstacle_rod` |
 | **杆位置（固定）** | **世界系 `(0.15, 0.09, 0.17)` m**，偏基座左侧 (+Y) |
 | 杆几何 | 半径 12 mm，半长 150 mm（总高 30 cm） |
@@ -33,33 +33,86 @@
 ```bash
 cd soarm100sim
 
-# 默认：256 局、seed=42、同一批 idx 跑无 CBF + CBF v2
-python mujoco/eval_cbf.py --num-episodes 256 --seed 42
+# 有杆：256 局、seed=42，无 CBF + CBF（同批 idx）
+python mujoco/eval_cbf.py --num-episodes 256 --seed 42 \
+  --cbf-label "CBF v2.1" \
+  --out-dir logs/eval/cbf_capsule_stepA
 
-# 快速冒烟（2 局）
-python mujoco/eval_cbf.py --num-episodes 2 --seed 42 --log-every 1
+# 复用同一批 idx（公平对比）
+python mujoco/eval_cbf.py \
+  --indices-file logs/eval/cbf_fixed_rod/indices_seed42_n256.json \
+  --num-episodes 256 --out-dir logs/eval/cbf_capsule_stepA \
+  --cbf-label "CBF v2.1"
+
+# P0：无杆对照（Reach 上限 / obstacle tax）
+python mujoco/eval_cbf.py --no-obstacle \
+  --indices-file logs/eval/cbf_fixed_rod/indices_seed42_n256.json \
+  --num-episodes 256 --out-dir logs/eval/norod_seed42
+
+# P1：多 seed 稳健性（各 seed 独立抽样 idx → out-dir/seed_XX/）
+python mujoco/eval_cbf.py --seeds 42,0,1,100 --num-episodes 256 \
+  --out-dir logs/eval/cbf_multiseed --cbf-label "CBF v2.1"
+
+# 可选：固定同一批 idx 跨 seed（仅复现校验，非稳健性）
+python mujoco/eval_cbf.py --seeds 42,0,1,100 --num-episodes 256 \
+  --indices-file logs/eval/cbf_fixed_rod/indices_seed42_n256.json \
+  --out-dir logs/eval/cbf_multiseed_sameidx --cbf-label "CBF v2.1"
+
+# 仅从 episodes.csv 重算 summary（升级指标后无需重跑仿真）
+python mujoco/eval_cbf.py --summarize-only --out-dir logs/eval/cbf_capsule_stepA \
+  --cbf-label "CBF v2.1"
 ```
 
-**输出目录**（默认 `logs/eval/cbf_fixed_rod/`）：
+**输出目录**（每次 `--out-dir` 指定）：
 
 | 文件 | 内容 |
 |------|------|
-| `indices_seed42_n256.json` | 可复现的目标 idx 列表 |
-| `episodes.csv` | 每局配对：baseline vs CBF |
-| `summary.md` / `summary.json` | 总体、**条件概率**、hard/medium/easy 分层汇总 |
+| `indices_seed*_n*.json` | 可复现的目标 idx 列表 |
+| `episodes.csv` | 每局配对 + **P0/P1 扩展列** |
+| `summary.md` / `summary.json` | **原有指标 + P0/P1 扩展 + 条件概率 + 分层** |
+| `multi_seed_summary.json` / `.md` | 多 seed 关键指标 mean/std + 各 seed 明细 |
 
-```bash
-# 仅从已有 episodes.csv 重算 summary（改统计项后无需重跑仿真）
-python mujoco/eval_cbf.py --summarize-only
-```
+### 指标说明（原有 + P0/P1，summary 中均保留）
 
-### 成功指标（脚本内定义）
+#### 原有（继续作为主参考）
 
-- **到达**：`best_dist` / `best_ori`（回合内最优，对齐 Isaac `ever_*`）
-- **CBF 安全**：`h_min_ep ≥ 0`
-- **物理**：与 `obstacle_rod` 接触的仿真步数（`contact_steps`）；**无碰杆** = 整局 `contact_steps==0`
-- **联合 SafeReach@2cm**：`h_min_ep ≥ 0` 且 `best_dist ≤ 2 cm`
-- **条件概率**（`summary.md` 第二节）：`P(CBF无碰|baseline有碰)`、`P(CBF新碰|baseline无碰)` 等；用于解读全局 `no_contact_rate` 被「本来不碰」样本稀释的问题
+| 指标 | 含义 |
+|------|------|
+| `pos≤1/2/3cm` | 回合内最优 TCP 距离（**不管是否碰杆**） |
+| `ori≤10/20/30°` | 回合内最优姿态误差 |
+| `6D` / `joint_pos1cm_ori20` | 位置+姿态联合 |
+| `no_contact_rate` | 整局无物理碰杆 |
+| `SafeReach@2cm` | `h_min≥0` 且 `pos≤2cm`（CBF 包络意义下安全到达） |
+| `h_min_ep` | 一局内 CBF 屏障 h 的最小值 |
+| `Δbest_dist` / **Regress@10mm** | 同 idx 配对；后者 = CBF 比无 CBF **差超过 10mm** 的局占比 |
+| **条件概率** | `P(无碰\|base有碰)`、`P(新碰\|base无碰)` 等 |
+
+#### P0 扩展（对齐论文 COR / 严格成功）
+
+| 指标 | 含义 |
+|------|------|
+| **COR_episode** | 碰撞发生率 = `1 − no_contact_rate`（至少一步碰杆） |
+| **COR_step_mean** | 每局「碰杆步数/总步数」的均值 |
+| **PhysReach@2cm** | **无碰杆** 且 `best_dist≤2cm`（物理安全到达，**推荐主 KPI**） |
+| **PhysReach@1cm+20°** | 无碰杆 + 6D 阈值 |
+| **success_strict_*** | 与 PhysReach 相同（碰杆即失败，贴近 EmbodiSteer 表 COR↓ 精神） |
+
+#### P1 扩展（CBF 诊断）
+
+| 指标 | 含义 |
+|------|------|
+| `h<0` 且无碰杆 | 包络偏瘦或激活滞后 |
+| `h≥0` 但有碰杆 | 包络漏检 |
+| `cbf_active/corrected_ratio` | 激活/修正步占比 |
+| `worst_monitor` 分布 | 哪段连杆最紧 |
+| **Regress@20mm** | 退化 >20mm 占比 |
+
+#### 分解指标（需三次跑、同 idx）
+
+| 量 | 计算 |
+|----|------|
+| **Obstacle tax** | 有杆无 CBF 的 Reach@2cm − **无杆** Reach@2cm |
+| **CBF overhead** | 有杆 CBF 的 Reach@2cm − 有杆无 CBF 的 Reach@2cm |
 
 ### 目标难度分层（启发式，固定杆下）
 
@@ -286,3 +339,34 @@ python mujoco/play.py --enable-cbf --verbose --cbf-log logs/mujoco_cbf_v2.jsonl 
 2. **更早介入**：h_min 中位从 +17.8 mm 降到 +5.1 mm，约束更常激活；全局无碰杆 **+15.6 pt**（v2 为 +9.8 pt）。
 3. **到达代价加大**：pos≤2cm −12.5 pt（v2 仅 −5.9 pt）；p90 best_dist 与退化>10mm 明显变差，主要来自 hard 档绕杆更保守。
 4. **包络仍偏瘦**：base 有碰子集 CBF 安全率仍为 **0%**（物理碰了但 h 仍可能<0）→ Step B（全链胶囊 / mesh 半径）仍有必要。
+
+---
+
+## 实验 4：多 seed 稳健性（CBF v2.1）
+
+- **日期**：2026-07-07
+- **命令**：`--seeds 42,0,1,100 --num-episodes 256`（**各 seed 独立抽样 idx**）
+- **输出**：`logs/eval/cbf_multiseed/`（`seed_XX/` + `multi_seed_summary.md`）
+
+### 跨 seed 汇总（mean ± std，N=4×256）
+
+| 指标 | mean | std |
+|------|------|-----|
+| pos≤2cm (base) | 81.2% | 3.2% |
+| COR (base) | 33.4% | 2.9% |
+| pos≤2cm (CBF) | 70.5% | 3.1% |
+| COR (CBF) | **15.8%** | 2.1% |
+| PhysReach@2cm (CBF) | **69.1%** | 2.7% |
+| 无碰杆 (CBF) | **84.2%** | 2.1% |
+| P(无碰\|base有碰) | **53.1%** | 3.1% |
+| P(新碰\|base无碰) | **0.1%** | 0.2% |
+| Regress@10mm | 31.1% | 3.0% |
+
+### 解读
+
+1. **避障效果稳定**：COR 从 ~33% 降到 ~16%（约 −17 pt），跨 seed std 仅 2.1%；`P(新碰|base无碰)` 近乎 0。
+2. **消除碰杆能力一致**：`P(无碰|base有碰)` 均值 **53%**，与 seed=42 单跑（52.6%）吻合，std 3.1%。
+3. **到达代价稳定但明显**：pos≤2cm CBF 比 base 低约 **10.7 pt**（81.2%→70.5%）；PhysReach@2cm 略升 **+2.5 pt**（66.6%→69.1%），说明在「碰杆即失败」口径下 CBF 净效益为正。
+4. **Regress@10mm ~31%**：约三成局 best_dist 退化 >1 cm，与单 seed 28.5% 同量级。
+
+> 完整各 seed 明细见 [`logs/eval/cbf_multiseed/multi_seed_summary.md`](../logs/eval/cbf_multiseed/multi_seed_summary.md)。

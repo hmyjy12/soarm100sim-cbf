@@ -1,0 +1,76 @@
+{
+  "meta": {
+    "timestamp": "2026-07-07T15:38:11",
+    "git_commit": "f8374a7",
+    "checkpoint": "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/rl/checkpoints/2026-07-06_14-44-29/PPO/checkpoints/best_agent.pt",
+    "mjcf": "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/SO-ARM100/Simulation/SO100/mujoco/scene_plus_norod.xml",
+    "npz": "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/rl/workspace_cache/workspace_tcp_merged_test.npz",
+    "num_episodes": 2,
+    "seed": 42,
+    "indices_file": "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/logs/eval/cbf_fixed_rod/indices_seed42_n256.json",
+    "cbf_d_safe": 0.02,
+    "cbf_gamma": 0.8,
+    "cbf_activate_margin": 0.04,
+    "cbf_label": "CBF",
+    "no_obstacle": true,
+    "scene_note": "\u65e0\u907f\u969c\u6746\uff08\u5bf9\u7167\u4e0a\u9650\uff09",
+    "fixed_rod_body": "obstacle_rod",
+    "fixed_rod_pos_m": [
+      0.15,
+      0.09,
+      0.17
+    ]
+  },
+  "overall": {
+    "baseline": {
+      "pos_le_1cm": 1.0,
+      "pos_le_2cm": 1.0,
+      "pos_le_3cm": 1.0,
+      "ori_le_10deg": 0.5,
+      "ori_le_20deg": 0.5,
+      "ori_le_30deg": 0.5,
+      "joint_pos1cm_ori20": 0.5,
+      "median_best_dist_mm": 3.3094557369893156,
+      "p75_best_dist_mm": 4.449265702736233,
+      "p90_best_dist_mm": 5.1331516821843834,
+      "no_contact_rate": 1.0,
+      "cor_episode": 0.0,
+      "phys_reach_2cm": 1.0,
+      "phys_reach_1cm_ori20": 0.5,
+      "success_strict_2cm": 1.0,
+      "success_strict_1cm_ori20": 0.5,
+      "cor_step_mean": 0.0
+    }
+  },
+  "by_tier": {
+    "hard": {
+      "count": 2,
+      "baseline": {
+        "pos_le_1cm": 1.0,
+        "pos_le_2cm": 1.0,
+        "pos_le_3cm": 1.0,
+        "ori_le_10deg": 0.5,
+        "ori_le_20deg": 0.5,
+        "ori_le_30deg": 0.5,
+        "joint_pos1cm_ori20": 0.5,
+        "median_best_dist_mm": 3.3094557369893156,
+        "p75_best_dist_mm": 4.449265702736233,
+        "p90_best_dist_mm": 5.1331516821843834,
+        "no_contact_rate": 1.0,
+        "cor_episode": 0.0,
+        "phys_reach_2cm": 1.0,
+        "phys_reach_1cm_ori20": 0.5,
+        "success_strict_2cm": 1.0,
+        "success_strict_1cm_ori20": 0.5,
+        "cor_step_mean": 0.0
+      }
+    }
+  },
+  "conditional": {
+    "n": 2,
+    "note": "baseline-only norod"
+  },
+  "diagnostics": {
+    "note": "baseline-only norod"
+  }
+}

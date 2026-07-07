@@ -18,6 +18,15 @@ DEFAULT_MJCF = (
     / "scene_plus.xml"
 )
 
+DEFAULT_MJCF_NOROD = (
+    REPO_ROOT
+    / "SO-ARM100"
+    / "Simulation"
+    / "SO100"
+    / "mujoco"
+    / "scene_plus_norod.xml"
+)
+
 # C：2026-07-06 bank-start 重训 best（主用）
 DEFAULT_CHECKPOINT = (
     RL_ROOT

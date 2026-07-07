@@ -1,7 +1,7 @@
 # CBF 避障评测汇总
 
-- 生成时间：2026-07-07T15:41:30
-- Git commit：`d2aabe1`
+- 生成时间：2026-07-07T15:48:01
+- Git commit：`f8374a7`
 - Checkpoint：`/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/rl/checkpoints/2026-07-06_14-44-29/PPO/checkpoints/best_agent.pt`
 - MJCF：`/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/SO-ARM100/Simulation/SO100/mujoco/scene_plus.xml`
 - NPZ：`/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/rl/workspace_cache/workspace_tcp_merged_test.npz`
@@ -11,7 +11,7 @@
 
 ## 总体对比（原有指标，保留）
 
-| 指标 | 无 CBF | CBF | Δ (CBF−base) |
+| 指标 | 无 CBF | CBF v2.1 | Δ (CBF v2.1−base) |
 |------|--------|--------|--------------|
 | pos le 1cm | 75.0% | 63.7% | -11.3 pt |
 | pos le 2cm | 85.5% | 73.0% | -12.5 pt |
@@ -36,7 +36,7 @@
 
 ## P0 扩展：COR / 物理安全到达 / 严格成功
 
-| 指标 | 无 CBF | CBF | Δ |
+| 指标 | 无 CBF | CBF v2.1 | Δ |
 |------|--------|--------|---|
 | cor_episode | 29.7% | 14.1% | -15.6 pt |
 | phys_reach_2cm | 70.3% | 71.5% | +1.2 pt |
@@ -88,7 +88,7 @@
 
 - h<0 且无碰杆（包络偏瘦/滞后）：**31.2%**
 - h≥0 但有碰杆（包络漏检）：**0.0%**
-- CBF 激活步占比均值：**0.0%**
+- CBF 激活步占比均值：**64.9%**
 - CBF 修正步占比均值：**42.2%**
 
 **worst_monitor 分布（CBF 局内累计）：**
