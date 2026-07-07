@@ -101,7 +101,7 @@ DEFAULT_MONITOR_SPECS: tuple[tuple[str, float], ...] = (
     ("tcp", 0.01),
 )
 
-DEFAULT_OBSTACLE_GEOM_NAMES: tuple[str, ...] = ("obstacle_box",)
+DEFAULT_OBSTACLE_GEOM_NAMES: tuple[str, ...] = ("obstacle_rod",)
 
 
 @dataclass
@@ -111,6 +111,20 @@ class AxisAlignedBoxObstacle:
     name: str
     center: np.ndarray
     half_extents: np.ndarray
+
+
+@dataclass
+class CylinderObstacle:
+    """有限圆柱（细杆）：中心、单位轴向、半径、半长。"""
+
+    name: str
+    center: np.ndarray
+    axis: np.ndarray
+    radius: float
+    half_length: float
+
+
+Obstacle = AxisAlignedBoxObstacle | CylinderObstacle
 
 
 @dataclass
@@ -162,21 +176,133 @@ def box_h_and_grad_p(
     return h, grad_p
 
 
-def load_box_obstacles(model: mujoco.MjModel, data: mujoco.MjData, geom_names: tuple[str, ...]):
-    obstacles: list[AxisAlignedBoxObstacle] = []
+def _unit(v: np.ndarray) -> np.ndarray:
+    n = float(np.linalg.norm(v))
+    if n < 1e-12:
+        return np.array([0.0, 0.0, 1.0], dtype=np.float64)
+    return v / n
+
+
+def cylinder_h_and_grad_p(
+    p: np.ndarray,
+    center: np.ndarray,
+    axis: np.ndarray,
+    radius: float,
+    half_length: float,
+    d_safe: float,
+    r_link: float,
+) -> tuple[float, np.ndarray]:
+    """点到有限圆柱（侧面+端盖）的符号距离 h 与 ∇_p h。"""
+    p = np.asarray(p, dtype=np.float64).reshape(3)
+    center = np.asarray(center, dtype=np.float64).reshape(3)
+    axis = _unit(np.asarray(axis, dtype=np.float64).reshape(3))
+    v = p - center
+    t_ax = float(np.dot(v, axis))
+    r_vec = v - t_ax * axis
+    r_dist = float(np.linalg.norm(r_vec))
+    margin = float(d_safe + r_link)
+
+    if abs(t_ax) <= half_length:
+        if r_dist > 1e-8:
+            grad_p = r_vec / r_dist
+            h = r_dist - float(radius) - margin
+            return h, grad_p
+        sign = 1.0 if abs(axis[0]) < 0.9 else 1.0
+        grad_p = np.array([sign, 0.0, 0.0], dtype=np.float64)
+        if abs(axis[0]) > 0.9:
+            grad_p = np.array([0.0, sign, 0.0], dtype=np.float64)
+        h = -float(radius) - margin
+        return h, grad_p
+
+    t_cap = half_length if t_ax > 0.0 else -half_length
+    cap_center = center + t_cap * axis
+    v_cap = p - cap_center
+    r_cap = v_cap - np.dot(v_cap, axis) * axis
+    r_cap_dist = float(np.linalg.norm(r_cap))
+    axial = abs(t_ax) - half_length
+    if r_cap_dist <= float(radius):
+        grad_p = axis if t_ax > 0.0 else -axis
+        h = axial - margin
+        return h, grad_p
+    if r_cap_dist > 1e-8:
+        radial_dir = r_cap / r_cap_dist
+        closest = cap_center + radial_dir * float(radius)
+    else:
+        closest = cap_center
+        radial_dir = np.array([1.0, 0.0, 0.0], dtype=np.float64)
+    delta = p - closest
+    dist = float(np.linalg.norm(delta))
+    if dist > 1e-8:
+        return dist - margin, delta / dist
+    return -margin, radial_dir
+
+
+def obstacle_h_and_grad_p(
+    p: np.ndarray,
+    obs: Obstacle,
+    d_safe: float,
+    r_link: float,
+) -> tuple[float, np.ndarray]:
+    if isinstance(obs, CylinderObstacle):
+        return cylinder_h_and_grad_p(
+            p, obs.center, obs.axis, obs.radius, obs.half_length, d_safe, r_link
+        )
+    return box_h_and_grad_p(p, obs.center, obs.half_extents, d_safe, r_link)
+
+
+def _geom_world_pose(model: mujoco.MjModel, data: mujoco.MjData, gid: int):
+    bid = int(model.geom_bodyid[gid])
+    gpos = np.asarray(model.geom_pos[gid], dtype=np.float64)
+    gquat = np.asarray(model.geom_quat[gid], dtype=np.float64)
+    if float(np.linalg.norm(gquat)) < 1e-12:
+        gquat = np.array([1.0, 0.0, 0.0, 0.0], dtype=np.float64)
+    body_pos = np.asarray(data.xpos[bid], dtype=np.float64)
+    body_mat = np.asarray(data.xmat[bid], dtype=np.float64).reshape(3, 3)
+    # geom_quat 相对 body 的旋转（MuJoCo 4-tuple wxyz）
+    w, x, y, z = gquat
+    rot_g = np.array(
+        [
+            [1 - 2 * (y * y + z * z), 2 * (x * y - w * z), 2 * (x * z + w * y)],
+            [2 * (x * y + w * z), 1 - 2 * (x * x + z * z), 2 * (y * z - w * x)],
+            [2 * (x * z - w * y), 2 * (y * z + w * x), 1 - 2 * (x * x + y * y)],
+        ],
+        dtype=np.float64,
+    )
+    center = body_pos + body_mat @ gpos
+    world_rot = body_mat @ rot_g
+    return center, world_rot
+
+
+def load_obstacles(model: mujoco.MjModel, data: mujoco.MjData, geom_names: tuple[str, ...]):
+    obstacles: list[Obstacle] = []
     for gname in geom_names:
         gid = mujoco.mj_name2id(model, mujoco.mjtObj.mjOBJ_GEOM, gname)
         if gid < 0:
             continue
-        if int(model.geom_type[gid]) != int(mujoco.mjtGeom.mjGEOM_BOX):
-            continue
-        bid = int(model.geom_bodyid[gid])
-        gpos = np.asarray(model.geom_pos[gid], dtype=np.float64)
-        rmat = np.asarray(data.xmat[bid], dtype=np.float64).reshape(3, 3)
-        center = np.asarray(data.xpos[bid], dtype=np.float64) + rmat @ gpos
-        half_extents = np.asarray(model.geom_size[gid][:3], dtype=np.float64)
-        obstacles.append(AxisAlignedBoxObstacle(name=gname, center=center, half_extents=half_extents))
+        center, world_rot = _geom_world_pose(model, data, gid)
+        gtype = int(model.geom_type[gid])
+        if gtype == int(mujoco.mjtGeom.mjGEOM_BOX):
+            half_extents = np.asarray(model.geom_size[gid][:3], dtype=np.float64)
+            obstacles.append(AxisAlignedBoxObstacle(name=gname, center=center, half_extents=half_extents))
+        elif gtype == int(mujoco.mjtGeom.mjGEOM_CYLINDER):
+            radius = float(model.geom_size[gid][0])
+            half_length = float(model.geom_size[gid][1])
+            axis = _unit(world_rot[:, 2])
+            obstacles.append(
+                CylinderObstacle(
+                    name=gname,
+                    center=center,
+                    axis=axis,
+                    radius=radius,
+                    half_length=half_length,
+                )
+            )
     return obstacles
+
+
+def load_box_obstacles(model: mujoco.MjModel, data: mujoco.MjData, geom_names: tuple[str, ...]):
+    """兼容旧名。"""
+    return [o for o in load_obstacles(model, data, geom_names) if isinstance(o, AxisAlignedBoxObstacle)]
 
 
 def resolve_monitor_points(model: mujoco.MjModel, specs: tuple[tuple[str, float], ...]) -> list[MonitorPoint]:
@@ -259,7 +385,7 @@ def _worst_barrier(
     data: mujoco.MjData,
     ids,
     monitors: list[MonitorPoint],
-    obstacles: list[AxisAlignedBoxObstacle],
+    obstacles: list[Obstacle],
     cfg: CbfConfig,
     tcp_pose_fn,
 ) -> tuple[list[dict], float, dict | None]:
@@ -272,7 +398,7 @@ def _worst_barrier(
         else:
             pos, j_pos = body_pos_and_jacobian(model, data, ids, mon.body_id)
         for obs in obstacles:
-            h, grad_p = box_h_and_grad_p(pos, obs.center, obs.half_extents, cfg.d_safe, mon.r_link)
+            h, grad_p = obstacle_h_and_grad_p(pos, obs, cfg.d_safe, mon.r_link)
             grad_q = j_pos.T @ grad_p
             rec = {
                 "monitor": mon.name,
@@ -353,7 +479,7 @@ def solve_cbf_correction(
     dq_nom: np.ndarray,
     cfg: CbfConfig,
     monitors: list[MonitorPoint],
-    obstacles: list[AxisAlignedBoxObstacle],
+    obstacles: list[Obstacle],
     tcp_pose_fn,
 ) -> tuple[np.ndarray, dict]:
     """在 q_diff = q + dq_nom 处求 Δq_cbf。"""

@@ -194,10 +194,10 @@ class ReachStepper:
         if not self.enable_cbf or self.cbf_cfg is None or self.model is None:
             return
         try:
-            from .cbf import load_box_obstacles
+            from .cbf import load_obstacles
         except ImportError:
-            from cbf import load_box_obstacles  # type: ignore
-        self.cbf_obstacles = load_box_obstacles(
+            from cbf import load_obstacles  # type: ignore
+        self.cbf_obstacles = load_obstacles(
             self.model, data, self.cbf_cfg.obstacle_geom_names
         )
 
