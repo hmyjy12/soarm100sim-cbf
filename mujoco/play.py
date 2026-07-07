@@ -6,6 +6,7 @@
   cd soarm100sim && python mujoco/play.py
   python mujoco/play.py --headless --episodes 20
   python mujoco/play.py --episodes 5 --speed 0.5   # 半速看过程
+  python mujoco/play.py --episodes 1 --hold-home 30   # 先停 30s 看 3D 里相机装位
   python mujoco/play.py --enable-cbf --verbose     # 开启全身 CBF-QP 避障
   python mujoco/play.py --enable-cbf --cbf-log logs/mujoco_cbf.jsonl
 """
@@ -59,6 +60,8 @@ CBF_GAMMA = _c.CBF_GAMMA
 CBF_LAMBDA = _c.CBF_LAMBDA
 CBF_ACTIVATE_MARGIN = _c.CBF_ACTIVATE_MARGIN
 CBF_FILTER_TAU = _c.CBF_FILTER_TAU
+SCENE_DEPTH_CAM = _c.SCENE_DEPTH_CAM
+WRIST_RGB_CAM = _c.WRIST_RGB_CAM
 CbfConfig = _cbf.CbfConfig
 cbf_step_log_record = _cbf.cbf_step_log_record
 
@@ -124,6 +127,53 @@ def _draw_target(viewer, target_pos: np.ndarray) -> None:
             scn.ngeom = 1
     except Exception:
         pass
+
+
+def _print_camera_mounts(model: mujoco.MjModel, data: mujoco.MjData) -> None:
+    """打印相机/支架世界系位姿，便于在 3D viewer 里对照检查。"""
+    _cam = _load_local("so100_mj_camera", _THIS / "camera.py")
+    print("[mujoco_play] 相机安装（home 位，世界系 m）")
+    for body in ("scene_depth_cam_mount", "wrist_rgb_cam_mount", "scene_cam_lookat"):
+        bid = mujoco.mj_name2id(model, mujoco.mjtObj.mjOBJ_BODY, body)
+        if bid < 0:
+            continue
+        p = data.xpos[bid]
+        print(f"  body {body:24s} pos=({p[0]:+.3f}, {p[1]:+.3f}, {p[2]:+.3f})")
+    for cam_name in (SCENE_DEPTH_CAM, WRIST_RGB_CAM):
+        ext = _cam.camera_extrinsics(model, data, cam_name)
+        view = _cam.camera_view_direction(data, model, cam_name)
+        p = ext.pos_world
+        print(
+            f"  cam  {cam_name:24s} pos=({p[0]:+.3f}, {p[1]:+.3f}, {p[2]:+.3f}) "
+            f"view=({view[0]:+.2f}, {view[1]:+.2f}, {view[2]:+.2f})"
+        )
+    print("  3D 中深灰盒=scene_depth 支架，夹爪顶缝小盒=wrist_rgb；右侧选 body 可高亮")
+
+
+class _CameraPreview:
+    """兼容 play.py：委托给 camera.LiveCameraPreview。"""
+
+    def __init__(
+        self,
+        model: mujoco.MjModel,
+        *,
+        show_depth: bool = False,
+        backend: str = "auto",
+        save_dir: str | None = None,
+    ) -> None:
+        _cam = _load_local("so100_mj_camera", _THIS / "camera.py")
+        self._inner = _cam.LiveCameraPreview(
+            model,
+            show_depth=show_depth,
+            backend=backend,
+            save_dir=save_dir,
+        )
+
+    def update(self, data: mujoco.MjData) -> None:
+        self._inner.update(data)
+
+    def close(self) -> None:
+        self._inner.close()
 
 
 def run(args: argparse.Namespace) -> int:
@@ -198,16 +248,47 @@ def run(args: argparse.Namespace) -> int:
     )
 
     viewer = None
+    cam_preview = None
+    if args.show_cam:
+        try:
+            cam_preview = _CameraPreview(
+                model,
+                show_depth=bool(args.cam_depth),
+                backend=str(args.cam_backend),
+                save_dir=str(args.cam_save_dir) if args.cam_save_dir else None,
+            )
+            bk = cam_preview._inner.backend_name
+            if bk == "save":
+                out = cam_preview._inner._save_dir
+                print(f"[mujoco_play] 相机预览 ON（写帧模式）→ {out}/live_*.png")
+            elif bk == "mpl":
+                print("[mujoco_play] 相机预览 ON（matplotlib 窗口）")
+            else:
+                print("[mujoco_play] 相机预览 ON（OpenCV 窗口）")
+        except Exception as exc:
+            print(f"[ERROR] 相机预览启动失败: {exc}", file=sys.stderr)
+            return 1
     if not args.headless:
         try:
             import mujoco.viewer as mjv
 
             viewer = mjv.launch_passive(model, data)
+            reset_home(model, data, ids)
+            _print_camera_mounts(model, data)
+            if float(args.hold_home) > 0:
+                print(
+                    f"[mujoco_play] home 暂停 {float(args.hold_home):.0f}s："
+                    "拖动旋转视角，检查相机安装位置…"
+                )
+                _draw_target(viewer, bank_pos[int(rng.integers(0, bank_pos.shape[0]))])
+                viewer.sync()
+                time.sleep(float(args.hold_home))
         except Exception as exc:
             print(f"[WARN] viewer unavailable ({exc}), fallback headless")
             viewer = None
-            use_realtime = False
-            sleep_s = 0.0
+            if cam_preview is None:
+                use_realtime = False
+                sleep_s = 0.0
 
     ep = 0
     try:
@@ -252,6 +333,8 @@ def run(args: argparse.Namespace) -> int:
                 if viewer is not None:
                     _draw_target(viewer, target_pos)
                     viewer.sync()
+                if cam_preview is not None:
+                    cam_preview.update(data)
                 if sleep_s > 0:
                     time.sleep(sleep_s)
 
@@ -294,6 +377,8 @@ def run(args: argparse.Namespace) -> int:
                 viewer.sync()
                 time.sleep(0.05)
     finally:
+        if cam_preview is not None:
+            cam_preview.close()
         # 用户已关窗时再 close 容易 segfault，跳过即可
         pass
 
@@ -311,6 +396,36 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--action-scale", type=float, default=ACTION_SCALE)
     p.add_argument("--filter-tau", type=float, default=ACTION_FILTER_TAU)
     p.add_argument("--headless", action="store_true")
+    p.add_argument(
+        "--hold-home",
+        type=float,
+        default=0.0,
+        help="3D 窗口打开后于 home 位暂停 N 秒（检查相机安装），再开始 episode",
+    )
+    p.add_argument(
+        "--show-cam",
+        "--view",
+        action="store_true",
+        help="弹出 OpenCV 窗口显示固定/腕部相机画面（--view 同义）",
+    )
+    p.add_argument(
+        "--cam-depth",
+        action="store_true",
+        help="配合 --show-cam，额外显示固定相机深度伪彩",
+    )
+    p.add_argument(
+        "--cam-backend",
+        type=str,
+        default="auto",
+        choices=("auto", "cv2", "mpl", "save"),
+        help="相机预览后端：auto 依次尝试 cv2→matplotlib→写 PNG",
+    )
+    p.add_argument(
+        "--cam-save-dir",
+        type=str,
+        default="",
+        help="cam-backend=save 时的输出目录（默认 logs/vision_preview）",
+    )
     p.add_argument(
         "--realtime",
         action=argparse.BooleanOptionalAction,

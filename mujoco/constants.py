@@ -77,3 +77,20 @@ OBSTACLE_ROD_JOINT = "obstacle_rod_joint"
 OBSTACLE_ROD_GEOM = "obstacle_rod"
 OBSTACLE_ROD_MOUNT_POS_M = (0.15, 0.09, 0.02)
 OBSTACLE_ROD_CENTER_POS_M = (0.15, 0.09, 0.17)
+
+# 双相机（sim2real 视觉链路；见 mujoco/camera.py / vision_smoke.py）
+SCENE_DEPTH_CAM = "scene_depth"
+WRIST_RGB_CAM = "wrist_rgb"
+SCENE_CAM_LOOKAT_BODY = "scene_cam_lookat"
+SCENE_DEPTH_CAM_MOUNT_POS_M = (0.05, -0.15, 0.50)
+SCENE_CAM_LOOKAT_POS_M = (0.20, 0.05, 0.18)
+# 腕部 RGB：与定爪指尖 wrist_roll 局部对齐（= TCP_FIXED_FINGER_TIP + z 外壳抬高）
+WRIST_RGB_CAM_PARENT = "wrist_roll"
+WRIST_RGB_CAM_POS_LOCAL_WRIST_ROLL = (0.0, -0.031, 0.036)
+WRIST_RGB_CAM_QUAT_LOCAL_WRIST_ROLL = (0.0, 0.0, 0.9809, 0.1946)
+# home 位 gripper 局部近似（定爪指尖同高）：(-0.0204, 0.0052, -0.0322)
+WRIST_RGB_CAM_POS_GRIPPER_HINT = (-0.0204, 0.0052, -0.0322)
+CAM_WIDTH = 640
+CAM_HEIGHT = 480
+CAM_FOVY_SCENE = 60.0
+CAM_FOVY_WRIST = 55.0

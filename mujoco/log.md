@@ -26,6 +26,25 @@
 - `rl/log.md`：Isaac Lab 上 A/B/C 策略 **无避障** 的 reach 对比。
 - **本文件**：MuJoCo 上 **有固定杆 + 可选 CBF** 的推理与避障评测。
 
+### 视觉链路（sim2real 准备）
+
+| 相机 | MJCF 名 | 挂载 | 用途 |
+|------|---------|------|------|
+| 固定场景深度 | `scene_depth` | 基座侧后方 `(0.05,-0.15,0.50)`，`targetbody`→`scene_cam_lookat` | 俯视工作区 |
+| 腕部 RGB | `wrist_rgb` | `wrist_roll` 上与**定爪指尖**对齐（`TCP_FIXED_FINGER_TIP` + 6mm） | 近场、遮挡补检 |
+
+```bash
+python mujoco/vision_smoke.py
+python mujoco/vision_smoke.py --steps 120 --frame-stride 20
+# 实时看相机（本机 OpenCV 常无 GUI、未必装 matplotlib → 默认 auto 会落到写 PNG + 自动打开）：
+python mujoco/play.py --show-cam --episodes 3 --speed 0.3
+python mujoco/play.py --show-cam --cam-backend save --episodes 3 --speed 0.3
+# 若已安装 matplotlib：--cam-backend mpl
+python mujoco/vision_preview.py   # 只看相机，无 3D 窗口
+```
+
+输出：`logs/vision_smoke/`（RGB、深度可视化、可选回放帧）。
+
 ---
 
 ## 批量评测脚本
