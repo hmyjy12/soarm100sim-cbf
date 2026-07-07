@@ -160,10 +160,15 @@ def make_obs(data: mujoco.MjData, ids: RobotIds, target_pos_w, target_quat_wxyz)
 class ReachStepper:
     policy: object
     ids: RobotIds
+    model: mujoco.MjModel | None = None
     action_scale: float = ACTION_SCALE
     filter_tau: float = ACTION_FILTER_TAU
     sim_dt: float = SIM_DT
     decimation: int = DECIMATION
+    enable_cbf: bool = False
+    cbf_cfg: object | None = None
+    cbf_monitors: list | None = None
+    cbf_obstacles: list | None = None
     filtered_action: np.ndarray = field(
         default_factory=lambda: np.zeros(ACTION_DIM, dtype=np.float64)
     )
@@ -172,18 +177,71 @@ class ReachStepper:
         dt_ctrl = self.sim_dt * self.decimation
         tau = max(float(self.filter_tau), 1e-6)
         self.beta = float(dt_ctrl / (tau + dt_ctrl))
+        if self.enable_cbf and self.cbf_cfg is not None:
+            try:
+                from .cbf import resolve_monitor_points
+            except ImportError:
+                from cbf import resolve_monitor_points  # type: ignore
+            if self.model is None:
+                raise ValueError("enable_cbf=True 需要传入 model")
+            if self.cbf_monitors is None:
+                self.cbf_monitors = resolve_monitor_points(self.model, self.cbf_cfg.monitor_specs)
 
     def reset_filter(self) -> None:
         self.filtered_action[:] = 0.0
 
-    def compute_targets(self, data: mujoco.MjData, target_pos_w, target_quat_w):
+    def refresh_cbf_obstacles(self, data: mujoco.MjData) -> None:
+        if not self.enable_cbf or self.cbf_cfg is None or self.model is None:
+            return
+        try:
+            from .cbf import load_box_obstacles
+        except ImportError:
+            from cbf import load_box_obstacles  # type: ignore
+        self.cbf_obstacles = load_box_obstacles(
+            self.model, data, self.cbf_cfg.obstacle_geom_names
+        )
+
+    def compute_targets(self, model: mujoco.MjModel, data: mujoco.MjData, target_pos_w, target_quat_w):
         obs, info = make_obs(data, self.ids, target_pos_w, target_quat_w)
         raw = np.clip(self.policy.act_mean(obs).astype(np.float64), -1.0, 1.0)
         self.filtered_action += self.beta * (raw - self.filtered_action)
         curr_q = joint_pos(data, self.ids)
-        tgt = curr_q + self.action_scale * self.filtered_action
+        dq_nom = self.action_scale * self.filtered_action
+        dq_cbf = np.zeros(ACTION_DIM, dtype=np.float64)
+        cbf_info: dict = {}
+        if self.enable_cbf and self.cbf_cfg is not None and self.cbf_monitors is not None:
+            if self.cbf_obstacles is None:
+                self.refresh_cbf_obstacles(data)
+            try:
+                from .cbf import solve_cbf_correction
+            except ImportError:
+                from cbf import solve_cbf_correction  # type: ignore
+            dq_cbf, cbf_info = solve_cbf_correction(
+                model,
+                data,
+                self.ids,
+                dq_nom,
+                self.cbf_cfg,
+                self.cbf_monitors,
+                self.cbf_obstacles or [],
+                tcp_pose_w,
+            )
+        dq_total = dq_nom + dq_cbf
+        dq_total = np.clip(dq_total, -self.action_scale, self.action_scale)
+        tgt = curr_q + dq_total
         tgt = np.clip(tgt, self.ids.q_low, self.ids.q_high)
-        return tgt, {"obs": obs, "raw_action": raw, **info}
+        if not cbf_info:
+            cbf_info = {}
+        cbf_info.setdefault("dq_nom_norm", float(np.linalg.norm(dq_nom)))
+        cbf_info.setdefault("dq_total_norm", float(np.linalg.norm(dq_total)))
+        return tgt, {
+            "obs": obs,
+            "raw_action": raw,
+            "dq_nom": dq_nom,
+            "dq_cbf": dq_cbf,
+            **cbf_info,
+            **info,
+        }
 
 
 def set_ctrl(data: mujoco.MjData, ids: RobotIds, q_tgt: np.ndarray) -> None:
