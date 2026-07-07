@@ -257,6 +257,62 @@ def _rate(mask: np.ndarray) -> float:
     return float(mask.mean()) if mask.size else float("nan")
 
 
+def _compute_conditional_stats(
+    b_contact: np.ndarray,
+    c_contact: np.ndarray,
+    safe_mask: np.ndarray,
+    c_dist: np.ndarray,
+    tiers: np.ndarray | None = None,
+) -> dict:
+    """碰撞与避障的条件概率（比全局 no_contact_rate 更能反映 CBF 真实作用）。"""
+    base_hit = b_contact > 0
+    cbf_hit = c_contact > 0
+    base_no = ~base_hit
+    safe_reach_2cm = safe_mask & (c_dist <= 0.02)
+
+    def _one(mask: np.ndarray | None = None) -> dict:
+        bh = base_hit if mask is None else base_hit[mask]
+        ch = cbf_hit if mask is None else cbf_hit[mask]
+        bn = base_no if mask is None else base_no[mask]
+        sm = safe_mask if mask is None else safe_mask[mask]
+        sr = safe_reach_2cm if mask is None else safe_reach_2cm[mask]
+        n = int(bh.size)
+        n_base_hit = int(bh.sum())
+        n_base_no = int(bn.sum())
+        resolved = int((bh & ~ch).sum()) if n_base_hit else 0
+        new_hit = int((bn & ch).sum()) if n_base_no else 0
+        return {
+            "n": n,
+            "n_baseline_contact": n_base_hit,
+            "n_baseline_no_contact": n_base_no,
+            "baseline_contact_rate": _rate(bh),
+            "cbf_contact_rate": _rate(ch),
+            "no_contact_rate_baseline": _rate(~bh),
+            "no_contact_rate_cbf": _rate(~ch),
+            "no_contact_delta_pt": float((_rate(~ch) - _rate(~bh)) * 100.0),
+            "p_cbf_no_contact_given_base_contact": _rate(~ch[bh]) if n_base_hit else float("nan"),
+            "p_cbf_contact_given_base_contact": _rate(ch[bh]) if n_base_hit else float("nan"),
+            "n_contact_resolved": resolved,
+            "contact_resolve_rate_given_base_contact": _rate(~ch[bh]) if n_base_hit else float("nan"),
+            "p_new_contact_given_base_no_contact": _rate(ch[bn]) if n_base_no else float("nan"),
+            "n_new_contact": new_hit,
+            "cbf_safe_rate": _rate(sm),
+            "cbf_safe_rate_given_base_contact": _rate(sm[bh]) if n_base_hit else float("nan"),
+            "cbf_safe_rate_given_base_no_contact": _rate(sm[bn]) if n_base_no else float("nan"),
+            "safe_reach_2cm_rate": _rate(sr),
+            "safe_reach_2cm_given_base_contact": _rate(sr[bh]) if n_base_hit else float("nan"),
+            "safe_reach_2cm_given_base_no_contact": _rate(sr[bn]) if n_base_no else float("nan"),
+        }
+
+    out = _one()
+    if tiers is not None:
+        out["by_tier"] = {
+            str(tier): _one(mask=(tiers == tier))
+            for tier in sorted({str(t) for t in tiers})
+        }
+    return out
+
+
 def _bucket_stats(
     best_dist: np.ndarray,
     best_ori: np.ndarray,
@@ -295,10 +351,15 @@ def write_episodes_csv(path: Path, rows: list[dict]) -> None:
         w.writerows(rows)
 
 
+def _pct(v: float) -> str:
+    return "—" if not math.isfinite(v) else f"{v * 100:.1f}%"
+
+
 def build_summary_md(
     meta: dict,
     overall: dict,
     by_tier: dict[str, dict],
+    conditional: dict | None = None,
 ) -> str:
     lines = [
         "# CBF 固定杆评测汇总",
@@ -369,6 +430,77 @@ def build_summary_md(
             ]
         )
 
+    if conditional is not None:
+        c = conditional
+        lines.extend(
+            [
+                "",
+                "## 条件概率（解读全局 no_contact 用）",
+                "",
+                "> `no_contact` = 整局 `contact_steps==0`（任意一步未与杆发生物理接触）。",
+                "",
+                "### 样本构成",
+                "",
+                f"- baseline 全程无碰杆：**{c['n_baseline_no_contact']}/{c['n']}** "
+                f"({_pct(c['no_contact_rate_baseline'])})",
+                f"- baseline 有碰杆：**{c['n_baseline_contact']}/{c['n']}** "
+                f"({_pct(c['baseline_contact_rate'])})",
+                f"- 全局无碰杆率提升：**{c['no_contact_delta_pt']:+.1f} pt** "
+                f"({_pct(c['no_contact_rate_baseline'])} → {_pct(c['no_contact_rate_cbf'])})",
+                "",
+                "### 2×2：baseline 碰杆与否 × CBF 结果",
+                "",
+                "| baseline | N | CBF 无碰杆 | CBF 仍碰杆 |",
+                "|----------|---|-----------|-----------|",
+                f"| 有碰杆 | {c['n_baseline_contact']} | "
+                f"{_pct(c['p_cbf_no_contact_given_base_contact'])} "
+                f"({c['n_contact_resolved']} 局) | "
+                f"{_pct(c['p_cbf_contact_given_base_contact'])} |",
+                f"| 无碰杆 | {c['n_baseline_no_contact']} | "
+                f"{_pct(1.0 - c['p_new_contact_given_base_no_contact'])} | "
+                f"{_pct(c['p_new_contact_given_base_no_contact'])} "
+                f"({c['n_new_contact']} 局) |",
+                "",
+                "### 关键条件指标",
+                "",
+                "| 指标 | 全体 | baseline 有碰 | baseline 无碰 |",
+                "|------|------|-------------|-------------|",
+                f"| CBF 消除碰杆 P(无碰\\|base有碰) | — | "
+                f"**{_pct(c['contact_resolve_rate_given_base_contact'])}** | — |",
+                f"| CBF 新引入碰杆 P(碰\\|base无碰) | — | — | "
+                f"**{_pct(c['p_new_contact_given_base_no_contact'])}** |",
+                f"| CBF 安全率 P(h_min≥0) | {_pct(c['cbf_safe_rate'])} | "
+                f"{_pct(c['cbf_safe_rate_given_base_contact'])} | "
+                f"{_pct(c['cbf_safe_rate_given_base_no_contact'])} |",
+                f"| SafeReach@2cm | {_pct(c['safe_reach_2cm_rate'])} | "
+                f"{_pct(c['safe_reach_2cm_given_base_contact'])} | "
+                f"{_pct(c['safe_reach_2cm_given_base_no_contact'])} |",
+                "",
+                "> **读表提示**：全局 +10 pt 无碰杆会被「本来就不会碰」的样本稀释；"
+                "应优先看 `P(无碰|base有碰)` 与 hard 档分层。",
+            ]
+        )
+        if "by_tier" in c:
+            lines.extend(
+                [
+                    "",
+                    "### 条件概率 · 按难度分层",
+                    "",
+                    "| 档位 | N | base有碰 | P(无碰\\|base有碰) | P(碰\\|base无碰) | CBF安全\\|base有碰 |",
+                    "|------|---|---------|-------------------|------------------|-------------------|",
+                ]
+            )
+            for tier in ("hard", "medium", "easy"):
+                if tier not in c["by_tier"]:
+                    continue
+                t = c["by_tier"][tier]
+                lines.append(
+                    f"| {tier} | {t['n']} | {t['n_baseline_contact']} | "
+                    f"{_pct(t['contact_resolve_rate_given_base_contact'])} | "
+                    f"{_pct(t['p_new_contact_given_base_no_contact'])} | "
+                    f"{_pct(t['cbf_safe_rate_given_base_contact'])} |"
+                )
+
     lines.extend(["", "## 按难度分层", "", "| 档位 | N | SafeReach@2cm (CBF) | pos≤2cm base | pos≤2cm CBF | h_min 中位 (CBF) |", "|------|---|---------------------|-------------|-------------|------------------|"])
     for tier in ("hard", "medium", "easy"):
         if tier not in by_tier:
@@ -397,6 +529,137 @@ def _git_commit_short() -> str:
         return out.strip()
     except Exception:
         return "unknown"
+
+
+def _aggregate_results(
+    baseline_results: list[EpisodeResult],
+    cbf_results: list[EpisodeResult],
+) -> tuple[dict, dict[str, dict], dict]:
+    b_dist = np.array([r.best_dist_m for r in baseline_results])
+    b_ori = np.array([r.best_ori_deg for r in baseline_results])
+    b_contact = np.array([r.contact_steps for r in baseline_results])
+    c_dist = np.array([r.best_dist_m for r in cbf_results])
+    c_ori = np.array([r.best_ori_deg for r in cbf_results])
+    c_contact = np.array([r.contact_steps for r in cbf_results])
+    c_hmin = np.array([r.h_min_ep_m or float("nan") for r in cbf_results])
+    tiers = np.array([r.tier for r in baseline_results])
+    safe_mask = c_hmin >= H_SAFE_EPS_M
+
+    overall = {
+        "baseline": _bucket_stats(b_dist, b_ori, None, b_contact, None),
+        "cbf": _bucket_stats(c_dist, c_ori, c_hmin, c_contact, safe_mask),
+        "delta_best_dist_mm": {
+            "median_mm": float(np.median((c_dist - b_dist) * 1000.0)),
+            "p90_mm": float(np.percentile((c_dist - b_dist) * 1000.0, 90)),
+            "worse_10mm_rate": float(np.mean((c_dist - b_dist) > 0.01)),
+        },
+    }
+
+    by_tier: dict[str, dict] = {}
+    for tier in sorted({r.tier for r in baseline_results}):
+        mask = tiers == tier
+        by_tier[tier] = {
+            "count": int(mask.sum()),
+            "baseline": _bucket_stats(b_dist[mask], b_ori[mask], None, b_contact[mask], None),
+            "cbf": _bucket_stats(
+                c_dist[mask],
+                c_ori[mask],
+                c_hmin[mask],
+                c_contact[mask],
+                safe_mask[mask],
+            ),
+        }
+
+    conditional = _compute_conditional_stats(
+        b_contact, c_contact, safe_mask, c_dist, tiers=tiers
+    )
+    return overall, by_tier, conditional
+
+
+def _write_summary(
+    out_dir: Path,
+    meta: dict,
+    overall: dict,
+    by_tier: dict[str, dict],
+    conditional: dict,
+) -> None:
+    payload = {
+        "meta": meta,
+        "overall": overall,
+        "conditional": conditional,
+        "by_tier": by_tier,
+    }
+    summary_json = out_dir / "summary.json"
+    summary_json.write_text(json.dumps(payload, indent=2), encoding="utf-8")
+    summary_md = build_summary_md(meta, overall, by_tier, conditional=conditional)
+    summary_path = out_dir / "summary.md"
+    summary_path.write_text(summary_md, encoding="utf-8")
+    print(f"[eval_cbf] summary → {summary_path}")
+
+
+def summarize_from_csv(csv_path: Path, out_dir: Path, meta: dict | None = None) -> int:
+    rows = list(csv.DictReader(csv_path.open(encoding="utf-8")))
+    if not rows:
+        print(f"[ERROR] empty csv: {csv_path}", file=sys.stderr)
+        return 1
+    required = {
+        "baseline_contact_steps",
+        "cbf_contact_steps",
+        "cbf_safe",
+        "cbf_best_dist_mm",
+        "tier",
+    }
+    if not required.issubset(rows[0].keys()):
+        print(f"[ERROR] csv missing paired baseline/cbf columns: {csv_path}", file=sys.stderr)
+        return 1
+
+    baseline_results: list[EpisodeResult] = []
+    cbf_results: list[EpisodeResult] = []
+    for r in rows:
+        tier = r["tier"]
+        idx = int(r["idx"])
+        tp = np.array([float(r["target_x"]), float(r["target_y"]), float(r["target_z"])])
+        baseline_results.append(
+            EpisodeResult(
+                idx=idx,
+                tier=tier,
+                target_pos=tp,
+                enable_cbf=False,
+                best_dist_m=float(r["baseline_best_dist_mm"]) / 1000.0,
+                best_ori_deg=float(r["baseline_best_ori_deg"]),
+                end_dist_m=float(r["baseline_end_dist_mm"]) / 1000.0,
+                contact_steps=int(r["baseline_contact_steps"]),
+            )
+        )
+        cbf_results.append(
+            EpisodeResult(
+                idx=idx,
+                tier=tier,
+                target_pos=tp,
+                enable_cbf=True,
+                best_dist_m=float(r["cbf_best_dist_mm"]) / 1000.0,
+                best_ori_deg=float(r["cbf_best_ori_deg"]),
+                end_dist_m=float(r["cbf_end_dist_mm"]) / 1000.0,
+                contact_steps=int(r["cbf_contact_steps"]),
+                h_min_ep_m=float(r["cbf_h_min_ep_mm"]) / 1000.0,
+            )
+        )
+
+    overall, by_tier, conditional = _aggregate_results(baseline_results, cbf_results)
+    if meta is None:
+        old_json = out_dir / "summary.json"
+        if old_json.is_file():
+            meta = json.loads(old_json.read_text(encoding="utf-8")).get("meta", {})
+        else:
+            meta = {}
+    meta = {
+        **meta,
+        "timestamp": datetime.now().isoformat(timespec="seconds"),
+        "summarized_from_csv": str(csv_path),
+    }
+    out_dir.mkdir(parents=True, exist_ok=True)
+    _write_summary(out_dir, meta, overall, by_tier, conditional)
+    return 0
 
 
 def evaluate(args: argparse.Namespace) -> int:
@@ -583,40 +846,7 @@ def evaluate(args: argparse.Namespace) -> int:
         print(f"[eval_cbf] episodes → {episodes_csv}")
 
     if baseline_results and cbf_results:
-        b_dist = np.array([r.best_dist_m for r in baseline_results])
-        b_ori = np.array([r.best_ori_deg for r in baseline_results])
-        b_contact = np.array([r.contact_steps for r in baseline_results])
-        c_dist = np.array([r.best_dist_m for r in cbf_results])
-        c_ori = np.array([r.best_ori_deg for r in cbf_results])
-        c_contact = np.array([r.contact_steps for r in cbf_results])
-        c_hmin = np.array([r.h_min_ep_m or float("nan") for r in cbf_results])
-        safe_mask = c_hmin >= H_SAFE_EPS_M
-
-        overall = {
-            "baseline": _bucket_stats(b_dist, b_ori, None, b_contact, None),
-            "cbf": _bucket_stats(c_dist, c_ori, c_hmin, c_contact, safe_mask),
-            "delta_best_dist_mm": {
-                "median_mm": float(np.median((c_dist - b_dist) * 1000.0)),
-                "p90_mm": float(np.percentile((c_dist - b_dist) * 1000.0, 90)),
-                "worse_10mm_rate": float(np.mean((c_dist - b_dist) > 0.01)),
-            },
-        }
-
-        by_tier: dict[str, dict] = {}
-        tiers = sorted({r.tier for r in baseline_results})
-        for tier in tiers:
-            mask = np.array([r.tier == tier for r in baseline_results])
-            by_tier[tier] = {
-                "count": int(mask.sum()),
-                "baseline": _bucket_stats(b_dist[mask], b_ori[mask], None, b_contact[mask], None),
-                "cbf": _bucket_stats(
-                    c_dist[mask],
-                    c_ori[mask],
-                    c_hmin[mask],
-                    c_contact[mask],
-                    safe_mask[mask],
-                ),
-            }
+        overall, by_tier, conditional = _aggregate_results(baseline_results, cbf_results)
 
         meta = {
             "timestamp": datetime.now().isoformat(timespec="seconds"),
@@ -633,15 +863,7 @@ def evaluate(args: argparse.Namespace) -> int:
             "fixed_rod_body": FIXED_ROD_BODY,
             "fixed_rod_pos_m": list(FIXED_ROD_POS_M),
         }
-        summary_json = out_dir / "summary.json"
-        summary_json.write_text(
-            json.dumps({"meta": meta, "overall": overall, "by_tier": by_tier}, indent=2),
-            encoding="utf-8",
-        )
-        summary_md = build_summary_md(meta, overall, by_tier)
-        summary_path = out_dir / "summary.md"
-        summary_path.write_text(summary_md, encoding="utf-8")
-        print(f"[eval_cbf] summary → {summary_path}")
+        _write_summary(out_dir, meta, overall, by_tier, conditional)
 
     return 0
 
@@ -669,9 +891,29 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--cbf-gamma", type=float, default=CBF_GAMMA)
     p.add_argument("--cbf-lambda", type=float, default=CBF_LAMBDA)
     p.add_argument("--cbf-activate-margin", type=float, default=CBF_ACTIVATE_MARGIN)
+    p.add_argument(
+        "--summarize-only",
+        action="store_true",
+        help="仅从已有 episodes.csv 重算 summary（不跑仿真）",
+    )
+    p.add_argument(
+        "--episodes-csv",
+        type=str,
+        default="",
+        help="配合 --summarize-only，默认 out-dir/episodes.csv",
+    )
     return p
 
 
 if __name__ == "__main__":
     cli = build_parser()
-    raise SystemExit(evaluate(cli.parse_args()))
+    ns = cli.parse_args()
+    if ns.summarize_only:
+        out_dir = Path(ns.out_dir).expanduser().resolve()
+        csv_path = (
+            Path(ns.episodes_csv).expanduser().resolve()
+            if ns.episodes_csv
+            else out_dir / "episodes.csv"
+        )
+        raise SystemExit(summarize_from_csv(csv_path, out_dir))
+    raise SystemExit(evaluate(ns))

@@ -187,13 +187,17 @@ class ReachStepper:
         self.cbf_beta = float(dt_ctrl / (cbf_tau + dt_ctrl))
         if self.enable_cbf and self.cbf_cfg is not None:
             try:
-                from .cbf import resolve_monitor_points
+                from .cbf import resolve_monitors
             except ImportError:
-                from cbf import resolve_monitor_points  # type: ignore
+                from cbf import resolve_monitors  # type: ignore
             if self.model is None:
                 raise ValueError("enable_cbf=True 需要传入 model")
             if self.cbf_monitors is None:
-                self.cbf_monitors = resolve_monitor_points(self.model, self.cbf_cfg.monitor_specs)
+                self.cbf_monitors = resolve_monitors(
+                    self.model,
+                    self.cbf_cfg.monitor_specs,
+                    self.cbf_cfg.capsule_specs,
+                )
 
     def reset_filter(self) -> None:
         self.filtered_action[:] = 0.0

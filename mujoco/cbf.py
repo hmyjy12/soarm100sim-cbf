@@ -1,6 +1,7 @@
 """EMBODISTEER 式全身 CBF-QP：在 PPO 名义增量上做最小安全修正。
 
 v2：在当前 q 评估 h；约束作用于 dq_total=dq_nom+dq_cbf；不可行时投影 dq_nom。
+v2.1 Step A：前臂 ellbow→wrist_pitch 胶囊监测（r=4cm，9 点采样）。
 """
 
 from __future__ import annotations
@@ -129,11 +130,18 @@ except ImportError:
 DEFAULT_MONITOR_SPECS: tuple[tuple[str, float], ...] = (
     ("shoulder_pitch", 0.02),
     ("ellbow", 0.035),
-    ("wrist_pitch", 0.035),
+    # wrist_pitch 由前臂胶囊覆盖（见 DEFAULT_CAPSULE_SPECS）
     ("wrist_roll", 0.025),
     ("gripper", 0.025),
     ("tcp", 0.015),
 )
+
+# Step A：前臂 ellbow→wrist_pitch 胶囊（半径略大于原 wrist_pitch 点球）
+DEFAULT_CAPSULE_SPECS: tuple[tuple[str, str, float], ...] = (
+    ("ellbow", "wrist_pitch", 0.04),
+)
+
+CAPSULE_SEGMENT_SAMPLES = 9
 
 DEFAULT_OBSTACLE_GEOM_NAMES: tuple[str, ...] = ("obstacle_rod",)
 
@@ -170,6 +178,7 @@ class CbfConfig:
     activate_margin: float = 0.04
     task_weight: np.ndarray = field(default_factory=lambda: np.ones(3, dtype=np.float64))
     monitor_specs: tuple[tuple[str, float], ...] = DEFAULT_MONITOR_SPECS
+    capsule_specs: tuple[tuple[str, str, float], ...] = DEFAULT_CAPSULE_SPECS
     obstacle_geom_names: tuple[str, ...] = DEFAULT_OBSTACLE_GEOM_NAMES
 
 
@@ -180,6 +189,17 @@ class MonitorPoint:
     body_id: int | None = None  # None 表示 pinch TCP
 
 
+@dataclass
+class CapsuleMonitor:
+    """连杆胶囊：父子 body 原点连线 + 半径 r_link（CBF 用线段采样近似）。"""
+
+    name: str
+    body_a_id: int
+    body_b_id: int
+    r_link: float
+
+
+Monitor = MonitorPoint | CapsuleMonitor
 def box_h_and_grad_p(
     p: np.ndarray,
     center: np.ndarray,
@@ -284,6 +304,38 @@ def obstacle_h_and_grad_p(
     return box_h_and_grad_p(p, obs.center, obs.half_extents, d_safe, r_link)
 
 
+def segment_obstacle_h_and_grad(
+    p0: np.ndarray,
+    p1: np.ndarray,
+    j0: np.ndarray,
+    j1: np.ndarray,
+    obs: Obstacle,
+    d_safe: float,
+    r_link: float,
+    n_samples: int = CAPSULE_SEGMENT_SAMPLES,
+) -> tuple[float, np.ndarray, float]:
+    """线段胶囊到障碍的最紧 h 与 ∇_q h（采样最近点 + Jacobian 线性插值）。"""
+    p0 = np.asarray(p0, dtype=np.float64).reshape(3)
+    p1 = np.asarray(p1, dtype=np.float64).reshape(3)
+    j0 = np.asarray(j0, dtype=np.float64)
+    j1 = np.asarray(j1, dtype=np.float64)
+    n = max(2, int(n_samples))
+    ts = np.linspace(0.0, 1.0, n, dtype=np.float64)
+
+    h_min = float("inf")
+    grad_q_best = np.zeros(ACTION_DIM, dtype=np.float64)
+    t_best = 0.0
+    for t in ts:
+        p = p0 + t * (p1 - p0)
+        h, grad_p = obstacle_h_and_grad_p(p, obs, d_safe, r_link)
+        if float(h) < h_min:
+            h_min = float(h)
+            t_best = float(t)
+            j_interp = (1.0 - t) * j0 + t * j1
+            grad_q_best = j_interp.T @ grad_p
+    return h_min, grad_q_best, t_best
+
+
 def _geom_world_pose(model: mujoco.MjModel, data: mujoco.MjData, gid: int):
     bid = int(model.geom_bodyid[gid])
     gpos = np.asarray(model.geom_pos[gid], dtype=np.float64)
@@ -337,6 +389,39 @@ def load_obstacles(model: mujoco.MjModel, data: mujoco.MjData, geom_names: tuple
 def load_box_obstacles(model: mujoco.MjModel, data: mujoco.MjData, geom_names: tuple[str, ...]):
     """兼容旧名。"""
     return [o for o in load_obstacles(model, data, geom_names) if isinstance(o, AxisAlignedBoxObstacle)]
+
+
+def resolve_capsule_monitors(
+    model: mujoco.MjModel, specs: tuple[tuple[str, str, float], ...]
+) -> list[CapsuleMonitor]:
+    capsules: list[CapsuleMonitor] = []
+    for body_a, body_b, r_link in specs:
+        bid_a = mujoco.mj_name2id(model, mujoco.mjtObj.mjOBJ_BODY, body_a)
+        bid_b = mujoco.mj_name2id(model, mujoco.mjtObj.mjOBJ_BODY, body_b)
+        if bid_a < 0:
+            raise ValueError(f"capsule body_a not found: {body_a}")
+        if bid_b < 0:
+            raise ValueError(f"capsule body_b not found: {body_b}")
+        name = f"{body_a}->{body_b}"
+        capsules.append(
+            CapsuleMonitor(
+                name=name,
+                body_a_id=int(bid_a),
+                body_b_id=int(bid_b),
+                r_link=float(r_link),
+            )
+        )
+    return capsules
+
+
+def resolve_monitors(
+    model: mujoco.MjModel,
+    point_specs: tuple[tuple[str, float], ...],
+    capsule_specs: tuple[tuple[str, str, float], ...] = DEFAULT_CAPSULE_SPECS,
+) -> list[Monitor]:
+    monitors: list[Monitor] = list(resolve_monitor_points(model, point_specs))
+    monitors.extend(resolve_capsule_monitors(model, capsule_specs))
+    return monitors
 
 
 def resolve_monitor_points(model: mujoco.MjModel, specs: tuple[tuple[str, float], ...]) -> list[MonitorPoint]:
@@ -418,7 +503,7 @@ def _worst_barrier(
     model: mujoco.MjModel,
     data: mujoco.MjData,
     ids,
-    monitors: list[MonitorPoint],
+    monitors: list[Monitor],
     obstacles: list[Obstacle],
     cfg: CbfConfig,
     tcp_pose_fn,
@@ -427,6 +512,26 @@ def _worst_barrier(
     h_min = float("inf")
     worst: dict | None = None
     for mon in monitors:
+        if isinstance(mon, CapsuleMonitor):
+            p0, j0 = body_pos_and_jacobian(model, data, ids, mon.body_a_id)
+            p1, j1 = body_pos_and_jacobian(model, data, ids, mon.body_b_id)
+            for obs in obstacles:
+                h, grad_q, t_seg = segment_obstacle_h_and_grad(
+                    p0, p1, j0, j1, obs, cfg.d_safe, mon.r_link
+                )
+                rec = {
+                    "monitor": mon.name,
+                    "obstacle": obs.name,
+                    "h": float(h),
+                    "grad_q": grad_q,
+                    "capsule_t": float(t_seg),
+                }
+                records.append(rec)
+                if float(h) < h_min:
+                    h_min = float(h)
+                    worst = rec
+            continue
+
         if mon.body_id is None:
             pos, j_pos = tcp_pos_and_jacobian(model, data, ids, tcp_pose_fn)
         else:
@@ -518,7 +623,7 @@ def solve_cbf_correction(
     ids,
     dq_nom: np.ndarray,
     cfg: CbfConfig,
-    monitors: list[MonitorPoint],
+    monitors: list[Monitor],
     obstacles: list[Obstacle],
     tcp_pose_fn,
 ) -> tuple[np.ndarray, dict]:
