@@ -71,3 +71,9 @@ CBF_ACTIVATE_MARGIN = 0.04
 CBF_FILTER_TAU = 0.06
 
 HOME_QPOS = (0.0, -1.57079, 1.57079, 0.0, 0.0, 0.0, 0.0)
+
+# 可碰倒细杆（scene_plus.xml）：铰点与直立几何中心
+OBSTACLE_ROD_JOINT = "obstacle_rod_joint"
+OBSTACLE_ROD_GEOM = "obstacle_rod"
+OBSTACLE_ROD_MOUNT_POS_M = (0.15, 0.09, 0.02)
+OBSTACLE_ROD_CENTER_POS_M = (0.15, 0.09, 0.17)

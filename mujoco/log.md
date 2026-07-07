@@ -11,7 +11,7 @@
 | 项目 | 设定 |
 |------|------|
 | 场景文件 | `scene_plus.xml`（有杆）/ `scene_plus_norod.xml`（无杆对照） |
-| 障碍物 | 竖直细杆 `obstacle_rod` |
+| 障碍物 | 竖直细杆 `obstacle_rod`（**底部 ball joint，可碰倒**；每局自动立起） |
 | **杆位置（固定）** | **世界系 `(0.15, 0.09, 0.17)` m**，偏基座左侧 (+Y) |
 | 杆几何 | 半径 12 mm，半长 150 mm（总高 30 cm） |
 | 物理碰撞 | 开启（`contype/conaffinity=1`） |

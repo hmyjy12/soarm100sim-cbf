@@ -266,10 +266,34 @@ def set_ctrl(data: mujoco.MjData, ids: RobotIds, q_tgt: np.ndarray) -> None:
         data.ctrl[aid] = float(q_tgt[i])
 
 
+def reset_obstacle_rod(model: mujoco.MjModel, data: mujoco.MjData) -> None:
+    """每局将可碰倒细杆复位为直立（无该关节时静默跳过）。"""
+    try:
+        from .constants import OBSTACLE_ROD_JOINT, OBSTACLE_ROD_MOUNT_POS_M
+    except ImportError:
+        from constants import OBSTACLE_ROD_JOINT, OBSTACLE_ROD_MOUNT_POS_M  # type: ignore
+
+    jid = mujoco.mj_name2id(model, mujoco.mjtObj.mjOBJ_JOINT, OBSTACLE_ROD_JOINT)
+    if jid < 0:
+        return
+    qadr = int(model.jnt_qposadr[jid])
+    vadr = int(model.jnt_dofadr[jid])
+    jtype = int(model.jnt_type[jid])
+    if jtype == int(mujoco.mjtJoint.mjJNT_BALL):
+        data.qpos[qadr : qadr + 4] = np.array([1.0, 0.0, 0.0, 0.0], dtype=np.float64)
+        data.qvel[vadr : vadr + 3] = 0.0
+    elif jtype == int(mujoco.mjtJoint.mjJNT_FREE):
+        mount = np.asarray(OBSTACLE_ROD_MOUNT_POS_M, dtype=np.float64)
+        data.qpos[qadr : qadr + 3] = mount
+        data.qpos[qadr + 3 : qadr + 7] = np.array([1.0, 0.0, 0.0, 0.0], dtype=np.float64)
+        data.qvel[vadr : vadr + 6] = 0.0
+
+
 def reset_home(model: mujoco.MjModel, data: mujoco.MjData, ids: RobotIds) -> None:
     home = np.asarray(HOME_QPOS, dtype=np.float64)
     for i, adr in enumerate(ids.qpos_adr):
         data.qpos[adr] = home[i]
+    reset_obstacle_rod(model, data)
     data.qvel[:] = 0.0
     set_ctrl(data, ids, home)
     mujoco.mj_forward(model, data)
