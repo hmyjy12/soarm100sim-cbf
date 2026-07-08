@@ -45,6 +45,41 @@ python mujoco/vision_preview.py   # 只看相机，无 3D 窗口
 
 输出：`logs/vision_smoke/`（RGB、深度可视化、可选回放帧）。
 
+### 相机标定（世界系 ↔ 像素 / 深度）
+
+| 相机 | 类型 | 存什么 | 每步怎么更新 |
+|------|------|--------|--------------|
+| `scene_depth` | **固定** | `T_base_cam` + 内参 K | 不变（或每步读 `data.cam_xpos/xmat` 作仿真 ground truth） |
+| `wrist_rgb` | **随动** | 静态手眼 `T_wrist_roll_cam` + K | `T_world_cam(q) = T_world_wrist_roll(q) @ T_wrist_roll_cam` |
+
+约定见 `mujoco/calib.py`（MuJoCo 光轴 **-Z**，深度为沿射线距离）。
+
+```bash
+# 导出仿真标定 JSON + 重投影/手眼不变性检查
+python mujoco/calib_verify.py
+python mujoco/calib_verify.py --out logs/calib/camera_calib.json --poses 32
+python mujoco/calib_verify.py --annotate   # 本机 OpenGL：写 reproj_*.png
+```
+
+真机路径（后续）：
+1. **固定深度**：棋盘格/Charuco → 一次 `T_base_cam` 写入 JSON。
+2. **腕部 RGB**：眼在手外/眼在手上 → `T_wrist_roll_cam`；运行时由 `/joint_states` + FK 或 TF 更新 `T_world_wrist_roll`。
+3. **勿**把腕部某一时刻的 `T_world_cam` 当常数（臂动就错）。
+
+代码入口：`mujoco/calib.py`（`project_world` / `unproject_depth_to_world` / `export_sim_calibration`）。
+
+**仿真棋盘格标定**（真机前验证 OpenCV 流程 + 与 GT 对比）：
+
+```bash
+pip install opencv-python   # 若未装
+python mujoco/calib_chessboard_sim.py                      # 默认 --detect gt
+python mujoco/calib_chessboard_sim.py --detect render      # OpenCV 从 RGB 角点（实验性）
+python mujoco/calib_chessboard_sim.py --camera wrist_rgb --arm-poses 14
+python mujoco/calib_chessboard_sim.py --camera both --noise-px 0.3
+```
+
+场景：`scene_calib_chess.xml`（无杆 + 可移动棋盘）；输出 `logs/calib/chess_sim/`（角点标注图 + `chess_calib_report.json`）。
+
 ---
 
 ## 批量评测脚本
