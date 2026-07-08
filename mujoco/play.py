@@ -8,6 +8,7 @@
   python mujoco/play.py --episodes 5 --speed 0.5   # 半速看过程
   python mujoco/play.py --episodes 1 --hold-home 30   # 先停 30s 看 3D 里相机装位
   python mujoco/play.py --enable-cbf --verbose     # 开启全身 CBF-QP 避障
+  python mujoco/play.py --enable-cbf --obstacle-source vision --vision-debug  # 视觉障碍
   python mujoco/play.py --enable-cbf --cbf-log logs/mujoco_cbf.jsonl
 """
 
@@ -235,6 +236,28 @@ def run(args: argparse.Namespace) -> int:
         cbf_cfg=cbf_cfg,
     )
 
+    obs_source = None
+    if args.enable_cbf:
+        _obs = _load_local("so100_mj_obstacle_source", _THIS / "obstacle_source.py")
+        obs_source = _obs.make_obstacle_source(
+            str(args.obstacle_source),
+            model,
+            geom_names=cbf_cfg.obstacle_geom_names,
+            calib_json=args.calib_json,
+            use_sim_cam=bool(args.use_sim_cam),
+        )
+        stepper.cbf_obstacle_source = obs_source
+        print(f"[mujoco_play] obstacle source={args.obstacle_source}")
+        if str(args.obstacle_source).lower() in ("vision", "scene_depth", "depth"):
+            if args.use_sim_cam:
+                print("[mujoco_play] 视觉内外参：MuJoCo fovy/xpos（调试，非标定 JSON）")
+            else:
+                print(f"[mujoco_play] 视觉内外参：{Path(args.calib_json).expanduser().resolve()}")
+            print(
+                "[mujoco_play] 视觉障碍 v1：scene_depth 深度→圆柱拟合；"
+                "wrist_rgb 暂不参与（近场补盲留后续）"
+            )
+
     bank_pos, bank_quat = load_target_bank(npz)
     rng = np.random.default_rng(int(args.seed))
     steps_per_ep = int(round(EPISODE_LENGTH_S / (SIM_DT * DECIMATION)))
@@ -352,6 +375,15 @@ def run(args: argparse.Namespace) -> int:
                             f"  n={info.get('n_constraints', 0)}"
                             f"  |dq_cbf|={info.get('dq_cbf_norm', 0.0):.4f}"
                         )
+                        if args.vision_debug and obs_source is not None:
+                            dbg = getattr(obs_source, "last_debug", None)
+                            if dbg is not None:
+                                cbf_msg += (
+                                    f"  vis_pts={dbg.n_roi}"
+                                    f"  vis_det={'Y' if dbg.detected else 'n'}"
+                                )
+                                if dbg.center_err_mm is not None:
+                                    cbf_msg += f"  vis_err={dbg.center_err_mm:.1f}mm"
                     print(
                         f"  t={k * ctrl_dt:5.2f}s  dist={dist*1000:.1f}mm  "
                         f"ori={ori:.1f}deg  tcp=({tcp[0]:.3f},{tcp[1]:.3f},{tcp[2]:.3f})"
@@ -379,6 +411,8 @@ def run(args: argparse.Namespace) -> int:
     finally:
         if cam_preview is not None:
             cam_preview.close()
+        if obs_source is not None and hasattr(obs_source, "close"):
+            obs_source.close()
         # 用户已关窗时再 close 容易 segfault，跳过即可
         pass
 
@@ -454,6 +488,29 @@ def build_parser() -> argparse.ArgumentParser:
         type=str,
         default="",
         help="CBF 逐步 JSONL 日志路径（例：logs/mujoco_cbf.jsonl）",
+    )
+    p.add_argument(
+        "--obstacle-source",
+        type=str,
+        default="geom",
+        choices=("geom", "vision"),
+        help="障碍来源：geom=MuJoCo GT；vision=scene_depth 深度拟合",
+    )
+    p.add_argument(
+        "--calib-json",
+        type=str,
+        default="logs/calib/camera_calib.json",
+        help="vision 模式：相机标定 JSON（内参 K + mounts.T_parent_cam）",
+    )
+    p.add_argument(
+        "--use-sim-cam",
+        action="store_true",
+        help="vision 模式：用 MuJoCo fovy/xpos 代替标定 JSON（仅调试对比）",
+    )
+    p.add_argument(
+        "--vision-debug",
+        action="store_true",
+        help="配合 --verbose --obstacle-source vision，打印视觉检测点数/误差",
     )
     return p
 

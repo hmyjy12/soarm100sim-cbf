@@ -171,6 +171,7 @@ class ReachStepper:
     cbf_cfg: object | None = None
     cbf_monitors: list | None = None
     cbf_obstacles: list | None = None
+    cbf_obstacle_source: object | None = None
     cbf_filter_tau: float = CBF_FILTER_TAU
     filtered_action: np.ndarray = field(
         default_factory=lambda: np.zeros(ACTION_DIM, dtype=np.float64)
@@ -202,9 +203,15 @@ class ReachStepper:
     def reset_filter(self) -> None:
         self.filtered_action[:] = 0.0
         self.filtered_dq_cbf[:] = 0.0
+        if self.cbf_obstacle_source is not None:
+            self.cbf_obstacle_source.reset()
 
     def refresh_cbf_obstacles(self, data: mujoco.MjData) -> None:
         if not self.enable_cbf or self.cbf_cfg is None or self.model is None:
+            return
+        if self.cbf_obstacle_source is not None:
+            self.cbf_obstacle_source.update(self.model, data)
+            self.cbf_obstacles = self.cbf_obstacle_source.get_obstacles()
             return
         try:
             from .cbf import load_obstacles
@@ -223,7 +230,12 @@ class ReachStepper:
         dq_cbf = np.zeros(ACTION_DIM, dtype=np.float64)
         cbf_info: dict = {}
         if self.enable_cbf and self.cbf_cfg is not None and self.cbf_monitors is not None:
-            if self.cbf_obstacles is None:
+            if (
+                self.cbf_obstacle_source is not None
+                and getattr(self.cbf_obstacle_source, "refresh_every_step", False)
+            ):
+                self.refresh_cbf_obstacles(data)
+            elif self.cbf_obstacles is None:
                 self.refresh_cbf_obstacles(data)
             try:
                 from .cbf import solve_cbf_correction

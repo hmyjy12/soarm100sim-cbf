@@ -126,6 +126,76 @@ class CameraCalibration:
         p.parent.mkdir(parents=True, exist_ok=True)
         p.write_text(json.dumps(self.to_dict(), indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 
+    @classmethod
+    def from_dict(cls, d: dict[str, Any]) -> CameraCalibration:
+        intr: dict[str, CameraIntrinsics] = {}
+        for name, raw in d["intrinsics"].items():
+            intr[name] = CameraIntrinsics(
+                name=str(raw.get("name", name)),
+                width=int(raw["width"]),
+                height=int(raw["height"]),
+                fovy_deg=float(raw.get("fovy_deg", 0.0)),
+                fx=float(raw["fx"]),
+                fy=float(raw["fy"]),
+                cx=float(raw["cx"]),
+                cy=float(raw["cy"]),
+            )
+        mounts: dict[str, MountExtrinsics] = {}
+        for name, raw in d["mounts"].items():
+            mounts[name] = MountExtrinsics(
+                camera=str(raw.get("camera", name)),
+                parent_body=str(raw["parent_body"]),
+                T_parent_cam=np.asarray(raw["T_parent_cam"], dtype=np.float64),
+            )
+        fixed = tuple(str(x) for x in d.get("fixed_cameras", ()))
+        moving = {str(k): str(v) for k, v in d.get("moving_cameras", {}).items()}
+        return cls(
+            world_frame=str(d.get("world_frame", BASE_BODY)),
+            intrinsics=intr,
+            mounts=mounts,
+            fixed_cameras=fixed,
+            moving_cameras=moving,
+        )
+
+    def intrinsics_for(self, cam_name: str) -> CameraIntrinsics:
+        if cam_name not in self.intrinsics:
+            raise KeyError(f"camera not in calibration: {cam_name}")
+        return self.intrinsics[cam_name]
+
+    def mount_for(self, cam_name: str) -> MountExtrinsics:
+        if cam_name not in self.mounts:
+            raise KeyError(f"camera mount not in calibration: {cam_name}")
+        return self.mounts[cam_name]
+
+
+DEFAULT_CALIB_JSON = (
+    Path(__file__).resolve().parent.parent / "logs" / "calib" / "camera_calib.json"
+)
+
+
+def load_json(path: Path | str | None = None) -> CameraCalibration:
+    """加载 ``camera_calib.json``（真机 / 仿真共用）。"""
+    p = Path(path if path is not None else DEFAULT_CALIB_JSON).expanduser().resolve()
+    if not p.is_file():
+        raise FileNotFoundError(
+            f"标定文件不存在: {p}\n"
+            "  仿真请先运行: python mujoco/calib_verify.py\n"
+            "  真机请写入 Charuco/棋盘格标定结果"
+        )
+    data = json.loads(p.read_text(encoding="utf-8"))
+    return CameraCalibration.from_dict(data)
+
+
+def T_world_cam_calibrated(
+    model: mujoco.MjModel,
+    data: mujoco.MjData,
+    cal: CameraCalibration,
+    cam_name: str,
+) -> np.ndarray:
+    """由标定 JSON 的 ``T_parent_cam`` + 当前父 link 位姿得到 ``T_world_cam``。"""
+    mount = cal.mount_for(cam_name)
+    return T_world_cam_from_mount(model, data, mount.parent_body, mount.T_parent_cam)
+
 
 def make_T(R: np.ndarray, t: np.ndarray) -> np.ndarray:
     T = np.eye(4, dtype=np.float64)
