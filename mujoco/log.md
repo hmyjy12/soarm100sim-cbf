@@ -424,3 +424,91 @@ python mujoco/play.py --enable-cbf --verbose --cbf-log logs/mujoco_cbf_v2.jsonl 
 4. **Regress@10mm ~31%**：约三成局 best_dist 退化 >1 cm，与单 seed 28.5% 同量级。
 
 > 完整各 seed 明细见 [`logs/eval/cbf_multiseed/multi_seed_summary.md`](../logs/eval/cbf_multiseed/multi_seed_summary.md)。
+
+---
+
+## 实验 5：Challenge-set 上的 ideal pointcloud SDF + CBF-QP 验证
+
+- **日期**：2026-07-13
+- **目的**：避免随机 target 太容易导致评估失真。先用 **no-CBF baseline** 扫描 target bank，只保留 baseline 会接触 / 推倒障碍物的 idx，再在同一批 challenge idx 上比较：
+  - `none`：不开避障；
+  - `geom`：解析 MuJoCo geom 距离 + CBF-QP；
+  - `ideal_sdf`：明确障碍物 geom → 表面点云 → `PointCloudSdfObstacle` → CBF-QP。
+- **脚本**：`mujoco/eval_sdf_challenge.py`
+- **注意**：`ideal_sdf` 只把 geom 用作干净障碍物点云来源；控制时走点云 SDF/KD-tree 距离查询，不走解析 box/cylinder 距离。视觉 `scene_depth` 链路未参与本实验。
+
+### 5.1 固定细杆 challenge-set
+
+- **场景**：`SO-ARM100/Simulation/SO100/mujoco/scene_plus.xml`
+- **输出**：`logs/eval/sdf_challenge_rod/`
+- **扫描**：`scan_count=512, seed=42`
+- **challenge 集**：64 个 idx，全部满足 no-CBF baseline 与 `obstacle_rod` 发生接触。
+
+| 方法 | N | contact rate ↓ | reach@2cm ↑ | mean best_dist ↓ | mean end_dist ↓ | mean h_min | mean max\|dq_cbf\| |
+|------|---:|---------------:|------------:|-----------------:|----------------:|-----------:|------------------:|
+| none | 64 | **100.0%** | **92.2%** | **8.4 mm** | **9.9 mm** | — | 0.000 |
+| geom | 64 | 23.4% | 3.1% | 97.3 mm | 104.7 mm | −0.88 mm | 0.356 |
+| ideal_sdf | 64 | 23.4% | 3.1% | 95.7 mm | 103.6 mm | −2.31 mm | 0.374 |
+
+**配对观察**：
+
+| geom 是否接触 | ideal_sdf 是否接触 | 数量 |
+|---------------|--------------------|-----:|
+| 否 | 否 | 49 |
+| 是 | 是 | 15 |
+| 是 | 否 | 0 |
+| 否 | 是 | 0 |
+
+**解读**：
+
+1. `ideal_sdf` 与解析 `geom` 在细杆 challenge-set 上行为高度一致：contact rate 相同，配对接触结果完全一致。
+2. `ideal_sdf` 的 mean best/end distance 略优，但 mean h_min 更负、max correction 略大，说明点云 SDF 有轻微距离误差 / 更激进的约束表现。
+3. CBF 确实把 baseline 的 100% 接触降到 23.4%，但到达代价很大：reach@2cm 从 92.2% 降到 3.1%。这说明当前主要瓶颈不是 SDF 后端，而是 **CBF safety filter 缺少绕行/重规划能力**，在必须穿过障碍附近的目标上会牺牲到达。
+4. 推荐可视化成功样本：`1198`, `2502`, `799`。其中 `1198`：none 接触 5 步，geom/ideal_sdf 均 0 接触，best_dist 约 10–11 mm。
+
+### 5.2 长方体墙 challenge-set
+
+- **场景**：`SO-ARM100/Simulation/SO100/mujoco/scene_plus_wall.xml`
+- **障碍物**：将原细杆替换为长方体 box；geom 名仍为 `obstacle_rod` 以兼容现有 CBF 配置。
+- **输出**：`logs/eval/sdf_challenge_wall/`
+- **扫描**：`scan_count=512, seed=42`
+- **challenge 集**：64 个 idx，全部满足 no-CBF baseline 与长方体墙发生接触。
+
+| 方法 | N | contact rate ↓ | reach@2cm ↑ | mean best_dist ↓ | mean end_dist ↓ | mean h_min | mean max\|dq_cbf\| |
+|------|---:|---------------:|------------:|-----------------:|----------------:|-----------:|------------------:|
+| none | 64 | **100.0%** | **92.2%** | **8.8 mm** | **10.1 mm** | — | 0.000 |
+| geom | 64 | 32.8% | 6.3% | 100.5 mm | 109.0 mm | −1.35 mm | 0.365 |
+| ideal_sdf | 64 | **31.3%** | **7.8%** | **96.3 mm** | **103.5 mm** | −1.69 mm | 0.375 |
+
+**配对观察**：
+
+| geom 是否接触 | ideal_sdf 是否接触 | 数量 |
+|---------------|--------------------|-----:|
+| 否 | 否 | 43 |
+| 是 | 是 | 20 |
+| 是 | 否 | 1 |
+| 否 | 是 | 0 |
+
+**解读**：
+
+1. 长方体墙比细杆更难：contact rate 从 rod 的 23.4% 升到约 31–33%；baseline 平均 contact steps 也更高。
+2. `ideal_sdf` 在 wall 上略优于解析 `geom`：contact rate 31.3% vs 32.8%，reach@2cm 7.8% vs 6.3%，mean best/end distance 也略低。
+3. 配对结果没有出现系统性的 “geom 成功但 SDF 失败”；反而有 1 个样本 `idx=1157` 是 ideal_sdf 0 接触、geom 仍接触 7 步。
+4. 推荐可视化成功样本：
+   - `2088`：none 接触 5 步；geom/ideal_sdf 均 0 接触；best_dist 约 2.9 mm。
+   - `2746`：none 接触 39 步；geom/ideal_sdf 均 0 接触；best_dist 约 8.3–8.5 mm。
+   - `1573`, `3925`：均为 baseline 接触、CBF 两后端无接触，且 best_dist < 2 cm 左右。
+5. 推荐可视化失败样本：`2390`, `1788`, `1107`, `1089`。这些样本 ideal_sdf 仍有大量接触，通常表现为目标与障碍冲突强，policy 持续朝目标方向推，CBF 只能局部反推，无法主动生成绕行轨迹。
+
+### 5.3 阶段性结论
+
+1. **SDF 后端作为距离查询替代基本成立**：在细杆和长方体墙两个 challenge-set 上，`ideal_sdf` 与解析 `geom` 的表现接近；wall 场景中 `ideal_sdf` 还略优。
+2. **先前 scene_depth SDF 失败不是 SDF+CBF-QP 本身失败**：问题来自把整张深度 ROI 当成障碍点云，导致机器人/背景点污染距离场。当前 `ideal_sdf` 使用明确障碍物点云后不再打废 policy。
+3. **主要瓶颈转移到控制策略层**：当前 CBF-QP 是速度级 safety filter，能显著降低 contact，但在 challenge targets 上 reach@2cm 大幅下降。仅靠硬约束修正 nominal policy，缺少绕行、局部 waypoint 或切向引导时，很难兼顾高到达率和低接触率。
+4. **下一步建议**：
+   - 继续使用 challenge-set 评估，不再用随机容易目标做主要结论；
+   - 对 CBF 参数做网格消融（`d_safe`, `gamma`, `activate_margin`, `cbf_filter_tau`）；
+   - 引入 slack CBF 或分层优先级，降低不可达目标下的硬阻塞；
+   - 加入切向绕行项 / 局部 waypoint，引导 policy 绕过障碍而不是持续正面顶住 CBF；
+   - 后续视觉/open-vocab 阶段必须输出“障碍物点云”，不能直接使用整图 ROI 点云。
+
