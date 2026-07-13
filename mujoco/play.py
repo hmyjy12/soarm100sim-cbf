@@ -103,6 +103,7 @@ reset_home = _rt.reset_home
 resolve_robot_ids = _rt.resolve_robot_ids
 set_ctrl = _rt.set_ctrl
 tcp_pose_w = _rt.tcp_pose_w
+joint_pos = _rt.joint_pos
 
 
 def _ori_deg(quat_dot: float) -> float:
@@ -128,6 +129,67 @@ def _draw_target(viewer, target_pos: np.ndarray) -> None:
             scn.ngeom = 1
     except Exception:
         pass
+
+
+def _arr(x) -> list[float]:
+    return np.asarray(x, dtype=np.float64).reshape(-1).tolist()
+
+
+def _traj_log_record(
+    ep: int,
+    step: int,
+    t_s: float,
+    idx: int,
+    q_before: np.ndarray,
+    q_after: np.ndarray,
+    q_target: np.ndarray,
+    tcp_after: np.ndarray,
+    target_pos: np.ndarray,
+    info: dict,
+    obs_source,
+    prev_dq_total: np.ndarray | None,
+) -> dict:
+    dq_nom = np.asarray(info.get("dq_nom", np.zeros_like(q_before)), dtype=np.float64).reshape(-1)
+    dq_cbf = np.asarray(info.get("dq_cbf", np.zeros_like(q_before)), dtype=np.float64).reshape(-1)
+    dq_total = np.asarray(q_target - q_before, dtype=np.float64).reshape(-1)
+    if prev_dq_total is None:
+        ddq_total = np.zeros_like(dq_total)
+    else:
+        ddq_total = dq_total - np.asarray(prev_dq_total, dtype=np.float64).reshape(-1)
+    dbg = getattr(obs_source, "last_debug", None) if obs_source is not None else None
+    return {
+        "ep": int(ep),
+        "step": int(step),
+        "t_s": float(t_s),
+        "target_idx": int(idx),
+        "target_pos": _arr(target_pos),
+        "tcp_pos": _arr(tcp_after),
+        "q": _arr(q_after),
+        "q_before": _arr(q_before),
+        "q_target": _arr(q_target),
+        "dist_m": float(info.get("distance", float("nan"))),
+        "quat_dot": float(info.get("quat_dot", float("nan"))),
+        "dq_nom": _arr(dq_nom),
+        "dq_cbf": _arr(dq_cbf),
+        "dq_total": _arr(dq_total),
+        "ddq_total_norm": float(np.linalg.norm(ddq_total)),
+        "dq_nom_norm": float(np.linalg.norm(dq_nom)),
+        "dq_cbf_norm": float(np.linalg.norm(dq_cbf)),
+        "dq_total_norm": float(np.linalg.norm(dq_total)),
+        "raw_action": _arr(info.get("raw_action", np.zeros_like(dq_total))),
+        "h_min_m": float(info.get("h_min", float("inf"))),
+        "cbf_active": bool(info.get("cbf_active", False)),
+        "cbf_feasible": bool(info.get("cbf_feasible", True)),
+        "cbf_projected": bool(info.get("cbf_projected", False)),
+        "n_constraints": int(info.get("n_constraints", 0)),
+        "worst_monitor": str(info.get("cbf_worst_monitor", "")),
+        "worst_obstacle": str(info.get("cbf_worst_obstacle", "")),
+        "nom_violation": float(info.get("nom_violation", 0.0)),
+        "vision_detected": bool(getattr(dbg, "detected", False)) if dbg is not None else False,
+        "vision_roi_points": int(getattr(dbg, "n_roi", 0)) if dbg is not None else 0,
+        "sdf_points": int(getattr(dbg, "n_sdf_points", 0)) if dbg is not None else 0,
+        "self_filtered_points": int(getattr(dbg, "n_self_filtered", 0)) if dbg is not None else 0,
+    }
 
 
 def _print_camera_mounts(model: mujoco.MjModel, data: mujoco.MjData) -> None:
@@ -248,15 +310,34 @@ def run(args: argparse.Namespace) -> int:
         )
         stepper.cbf_obstacle_source = obs_source
         print(f"[mujoco_play] obstacle source={args.obstacle_source}")
-        if str(args.obstacle_source).lower() in ("vision", "scene_depth", "depth"):
-            if args.use_sim_cam:
-                print("[mujoco_play] 视觉内外参：MuJoCo fovy/xpos（调试，非标定 JSON）")
+        obs_kind = str(args.obstacle_source).lower()
+        if obs_kind in (
+            "geom_sdf",
+            "ideal_sdf",
+            "pointcloud",
+            "ideal_pointcloud",
+            "vision",
+            "scene_depth",
+            "depth",
+            "sdf",
+            "scene_depth_sdf",
+            "depth_sdf",
+            "vision_sdf",
+        ):
+            if obs_kind in ("geom_sdf", "ideal_sdf", "pointcloud", "ideal_pointcloud"):
+                print("[mujoco_play] 理想点云 SDF：指定 obstacle geom → 表面点云 → SDF（不走视觉链路）")
             else:
-                print(f"[mujoco_play] 视觉内外参：{Path(args.calib_json).expanduser().resolve()}")
-            print(
-                "[mujoco_play] 视觉障碍 v1：scene_depth 深度→圆柱拟合；"
-                "wrist_rgb 暂不参与（近场补盲留后续）"
-            )
+                if args.use_sim_cam:
+                    print("[mujoco_play] 视觉内外参：MuJoCo fovy/xpos（调试，非标定 JSON）")
+                else:
+                    print(f"[mujoco_play] 视觉内外参：{Path(args.calib_json).expanduser().resolve()}")
+            if obs_kind in ("vision", "scene_depth", "depth"):
+                print(
+                    "[mujoco_play] 视觉障碍 v1：scene_depth 深度→圆柱拟合；"
+                    "wrist_rgb 暂不参与（近场补盲留后续）"
+                )
+            elif obs_kind in ("sdf", "scene_depth_sdf", "depth_sdf", "vision_sdf"):
+                print("[mujoco_play] 视觉障碍 SDF：scene_depth 深度→ROI 表面点云 unsigned SDF")
 
     bank_pos, bank_quat = load_target_bank(npz)
     rng = np.random.default_rng(int(args.seed))
@@ -265,6 +346,10 @@ def run(args: argparse.Namespace) -> int:
     if cbf_log_path is not None:
         cbf_log_path.parent.mkdir(parents=True, exist_ok=True)
         print(f"[mujoco_play] CBF log → {cbf_log_path}")
+    traj_log_path = Path(args.traj_log).expanduser().resolve() if args.traj_log else None
+    if traj_log_path is not None:
+        traj_log_path.parent.mkdir(parents=True, exist_ok=True)
+        print(f"[mujoco_play] trajectory log → {traj_log_path}")
     print(
         f"[INFO] bank={bank_pos.shape[0]}  steps/ep={steps_per_ep}  "
         f"scale={args.action_scale} tau={args.filter_tau}"
@@ -319,7 +404,12 @@ def run(args: argparse.Namespace) -> int:
             if viewer is not None and not viewer.is_running():
                 break
 
-            idx = int(rng.integers(0, bank_pos.shape[0]))
+            if int(args.target_idx) >= 0:
+                idx = int(args.target_idx)
+                if idx >= bank_pos.shape[0]:
+                    raise ValueError(f"--target-idx {idx} out of range [0, {bank_pos.shape[0]})")
+            else:
+                idx = int(rng.integers(0, bank_pos.shape[0]))
             target_pos = bank_pos[idx].copy()
             target_quat = bank_quat[idx].copy()
             target_quat /= max(float(np.linalg.norm(target_quat)), 1e-12)
@@ -332,11 +422,13 @@ def run(args: argparse.Namespace) -> int:
             best_ori = float("inf")
             cbf_stats = CbfEpisodeStats() if args.enable_cbf else None
             t0 = time.perf_counter()
+            prev_dq_total: np.ndarray | None = None
 
             for k in range(steps_per_ep):
                 if viewer is not None and not viewer.is_running():
                     break
 
+                q_before = joint_pos(data, ids)
                 tgt, info = stepper.compute_targets(model, data, target_pos, target_quat)
                 if cbf_stats is not None:
                     cbf_stats.update(info)
@@ -347,6 +439,26 @@ def run(args: argparse.Namespace) -> int:
                 set_ctrl(data, ids, tgt)
                 for _ in range(int(DECIMATION)):
                     mujoco.mj_step(model, data)
+                q_after = joint_pos(data, ids)
+                tcp_after, _ = tcp_pose_w(data, ids)
+                if traj_log_path is not None:
+                    rec = _traj_log_record(
+                        ep,
+                        k,
+                        k * ctrl_dt,
+                        idx,
+                        q_before,
+                        q_after,
+                        tgt,
+                        tcp_after,
+                        target_pos,
+                        info,
+                        obs_source,
+                        prev_dq_total,
+                    )
+                    with traj_log_path.open("a", encoding="utf-8") as f:
+                        f.write(json.dumps(rec, ensure_ascii=False) + "\n")
+                prev_dq_total = np.asarray(tgt - q_before, dtype=np.float64)
 
                 dist = float(info["distance"])
                 ori = _ori_deg(float(info["quat_dot"]))
@@ -379,11 +491,17 @@ def run(args: argparse.Namespace) -> int:
                             dbg = getattr(obs_source, "last_debug", None)
                             if dbg is not None:
                                 cbf_msg += (
-                                    f"  vis_pts={dbg.n_roi}"
-                                    f"  vis_det={'Y' if dbg.detected else 'n'}"
+                                    f"  vis_pts={getattr(dbg, 'n_roi', 0)}"
+                                    f"  vis_det={'Y' if getattr(dbg, 'detected', False) else 'n'}"
                                 )
-                                if dbg.center_err_mm is not None:
-                                    cbf_msg += f"  vis_err={dbg.center_err_mm:.1f}mm"
+                                if hasattr(dbg, "n_sdf_points"):
+                                    cbf_msg += (
+                                        f"  sdf_pts={getattr(dbg, 'n_sdf_points', 0)}"
+                                        f"  self_rm={getattr(dbg, 'n_self_filtered', 0)}"
+                                    )
+                                center_err_mm = getattr(dbg, "center_err_mm", None)
+                                if center_err_mm is not None:
+                                    cbf_msg += f"  vis_err={center_err_mm:.1f}mm"
                     print(
                         f"  t={k * ctrl_dt:5.2f}s  dist={dist*1000:.1f}mm  "
                         f"ori={ori:.1f}deg  tcp=({tcp[0]:.3f},{tcp[1]:.3f},{tcp[2]:.3f})"
@@ -427,6 +545,7 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--use-train-npz", action="store_true")
     p.add_argument("--episodes", type=int, default=20)
     p.add_argument("--seed", type=int, default=42)
+    p.add_argument("--target-idx", type=int, default=-1, help=">=0 时固定使用指定 target bank index")
     p.add_argument("--action-scale", type=float, default=ACTION_SCALE)
     p.add_argument("--filter-tau", type=float, default=ACTION_FILTER_TAU)
     p.add_argument("--headless", action="store_true")
@@ -490,11 +609,31 @@ def build_parser() -> argparse.ArgumentParser:
         help="CBF 逐步 JSONL 日志路径（例：logs/mujoco_cbf.jsonl）",
     )
     p.add_argument(
+        "--traj-log",
+        type=str,
+        default="",
+        help="逐步轨迹 JSONL 日志路径，记录 q/tcp/dq_nom/dq_cbf/SDF debug",
+    )
+    p.add_argument(
         "--obstacle-source",
         type=str,
         default="geom",
-        choices=("geom", "vision"),
-        help="障碍来源：geom=MuJoCo GT；vision=scene_depth 深度拟合",
+        choices=(
+            "geom",
+            "geom_sdf",
+            "ideal_sdf",
+            "pointcloud",
+            "ideal_pointcloud",
+            "vision",
+            "sdf",
+            "scene_depth_sdf",
+            "depth_sdf",
+            "vision_sdf",
+        ),
+        help=(
+            "障碍来源：geom=MuJoCo 解析GT；geom_sdf=明确障碍物理想点云SDF；"
+            "vision=scene_depth 圆柱拟合；sdf=scene_depth 整图点云SDF"
+        ),
     )
     p.add_argument(
         "--calib-json",

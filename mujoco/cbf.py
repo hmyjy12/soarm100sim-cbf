@@ -14,9 +14,11 @@ import numpy as np
 
 try:
     from scipy.optimize import minimize
+    from scipy.spatial import cKDTree
 
     _HAS_SCIPY = True
 except ImportError:
+    cKDTree = None  # type: ignore[assignment]
     _HAS_SCIPY = False
 
 
@@ -136,9 +138,15 @@ DEFAULT_MONITOR_SPECS: tuple[tuple[str, float], ...] = (
     ("tcp", 0.015),
 )
 
-# Step A：前臂 ellbow→wrist_pitch 胶囊（半径略大于原 wrist_pitch 点球）
+# 全臂胶囊链：CBF 约束仍用线段采样近似，但避免只监测 body 原点导致漏杆。
 DEFAULT_CAPSULE_SPECS: tuple[tuple[str, str, float], ...] = (
+    ("base", "shoulder_rotation", 0.035),
+    ("shoulder_rotation", "shoulder_pitch", 0.035),
+    ("shoulder_pitch", "ellbow", 0.038),
     ("ellbow", "wrist_pitch", 0.04),
+    ("wrist_pitch", "wrist_jaw", 0.035),
+    ("wrist_jaw", "wrist_roll", 0.032),
+    ("wrist_roll", "gripper", 0.030),
 )
 
 CAPSULE_SEGMENT_SAMPLES = 9
@@ -166,7 +174,29 @@ class CylinderObstacle:
     half_length: float
 
 
-Obstacle = AxisAlignedBoxObstacle | CylinderObstacle
+@dataclass
+class PointCloudSdfObstacle:
+    """由障碍物表面点云构造的 unsigned SDF 查询对象。"""
+
+    name: str
+    points: np.ndarray
+    truncation_distance: float = 0.12
+    voxel_size: float = 0.01
+    inflate: float = 0.0
+    _tree: object | None = field(default=None, init=False, repr=False)
+
+    def __post_init__(self) -> None:
+        pts = np.asarray(self.points, dtype=np.float64).reshape(-1, 3)
+        finite = np.all(np.isfinite(pts), axis=1)
+        pts = pts[finite]
+        if pts.shape[0] > 0 and float(self.voxel_size) > 1e-6:
+            pts = _voxel_downsample_points(pts, float(self.voxel_size))
+        self.points = pts
+        if cKDTree is not None and pts.shape[0] > 0:
+            self._tree = cKDTree(pts)
+
+
+Obstacle = AxisAlignedBoxObstacle | CylinderObstacle | PointCloudSdfObstacle
 
 
 @dataclass
@@ -237,6 +267,52 @@ def _unit(v: np.ndarray) -> np.ndarray:
     return v / n
 
 
+def _voxel_downsample_points(points: np.ndarray, voxel_size: float) -> np.ndarray:
+    pts = np.asarray(points, dtype=np.float64).reshape(-1, 3)
+    if pts.shape[0] == 0:
+        return pts
+    v = max(float(voxel_size), 1e-9)
+    keys = np.floor(pts / v).astype(np.int64)
+    _, first = np.unique(keys, axis=0, return_index=True)
+    return pts[np.sort(first)]
+
+
+def pointcloud_sdf_h_and_grad_p(
+    p: np.ndarray,
+    obs: PointCloudSdfObstacle,
+    d_safe: float,
+    r_link: float,
+) -> tuple[float, np.ndarray]:
+    """点到表面点云 unsigned SDF 的 h 与 ∇_p h。"""
+    p = np.asarray(p, dtype=np.float64).reshape(3)
+    pts = np.asarray(obs.points, dtype=np.float64).reshape(-1, 3)
+    if pts.shape[0] == 0:
+        return float("inf"), np.zeros(3, dtype=np.float64)
+
+    if obs._tree is not None:
+        dist, idx = obs._tree.query(p, k=1, distance_upper_bound=float(obs.truncation_distance))
+        if not np.isfinite(dist) or int(idx) >= pts.shape[0]:
+            return float(obs.truncation_distance), np.zeros(3, dtype=np.float64)
+        nearest = pts[int(idx)]
+    else:
+        delta_all = pts - p.reshape(1, 3)
+        d2 = np.einsum("ij,ij->i", delta_all, delta_all)
+        idx = int(np.argmin(d2))
+        dist = float(np.sqrt(d2[idx]))
+        if dist > float(obs.truncation_distance):
+            return float(obs.truncation_distance), np.zeros(3, dtype=np.float64)
+        nearest = pts[idx]
+
+    delta = p - nearest
+    dist = float(np.linalg.norm(delta))
+    if dist > 1e-9:
+        grad_p = delta / dist
+    else:
+        grad_p = np.array([0.0, 0.0, 1.0], dtype=np.float64)
+    h = dist - float(obs.inflate) - float(d_safe) - float(r_link)
+    return h, grad_p
+
+
 def cylinder_h_and_grad_p(
     p: np.ndarray,
     center: np.ndarray,
@@ -297,6 +373,8 @@ def obstacle_h_and_grad_p(
     d_safe: float,
     r_link: float,
 ) -> tuple[float, np.ndarray]:
+    if isinstance(obs, PointCloudSdfObstacle):
+        return pointcloud_sdf_h_and_grad_p(p, obs, d_safe, r_link)
     if isinstance(obs, CylinderObstacle):
         return cylinder_h_and_grad_p(
             p, obs.center, obs.axis, obs.radius, obs.half_length, d_safe, r_link
