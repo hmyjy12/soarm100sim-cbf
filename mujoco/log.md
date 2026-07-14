@@ -512,3 +512,132 @@ python mujoco/play.py --enable-cbf --verbose --cbf-log logs/mujoco_cbf_v2.jsonl 
    - 加入切向绕行项 / 局部 waypoint，引导 policy 绕过障碍而不是持续正面顶住 CBF；
    - 后续视觉/open-vocab 阶段必须输出“障碍物点云”，不能直接使用整图 ROI 点云。
 
+## 实验 6：视觉 `workspace_sdf` + soft-settle 状态机对比
+
+### 6.1 实验设置
+
+- **日期**：2026-07-14
+- **场景**：`SO-ARM100/Simulation/SO100/mujoco/scene_plus.xml`
+- **challenge idx**：复用 rod challenge-set 前 8 个 baseline 会碰撞目标：
+  - `799, 2472, 2601, 582, 2988, 1788, 3919, 3767`
+- **输出**：`logs/eval/state_softsettle_quick8/`
+- **方法**：
+  - `none`：不开 CBF/避障，完整跑 10s，用作 baseline 碰撞参考；
+  - `ideal_sdf`：明确 obstacle geom 表面点云 SDF + CBF；
+  - `workspace_sdf`：`scene_depth` 深度 + robot segmentation self-mask + workspace crop + voxel persistence SDF + CBF。
+- **状态机**：
+  - 仅对 `ideal_sdf` 和 `workspace_sdf` 启用；
+  - `none` 不启用状态机，避免进圈提前停止而隐藏 baseline 碰撞；
+  - `success_dist=0.04m`, `success_steps=5`, `settle_on_success=1.0s`；
+  - `settle_mode=policy_soft_cbf`：SETTLE 阶段继续执行 policy，但 CBF 临时弱化为 `d_safe=0.005m`, `gamma=0.3`, `activate_margin=0.015m`。
+
+命令：
+
+```bash
+MUJOCO_GL=egl python mujoco/eval_sdf_challenge.py \
+  --indices-file logs/eval/sdf_challenge_rod/challenge_indices.json \
+  --max-challenges 8 \
+  --methods none ideal_sdf workspace_sdf \
+  --settle-methods ideal_sdf workspace_sdf \
+  --success-dist 0.04 \
+  --success-steps 5 \
+  --settle-on-success 1.0 \
+  --settle-mode policy_soft_cbf \
+  --stop-on-success \
+  --use-sim-cam \
+  --out-dir logs/eval/state_softsettle_quick8 \
+  --log-every 1
+```
+
+### 6.2 汇总指标
+
+| 方法 | N | contact rate ↓ | reach@2cm ↑ | success latch@4cm ↑ | mean best_dist ↓ | mean end_dist ↓ | mean h_min | mean max\|dq_cbf\| |
+|------|---:|---------------:|------------:|--------------------:|-----------------:|----------------:|-----------:|------------------:|
+| none | 8 | **100.0%** | **100.0%** | — | **5.6 mm** | **7.3 mm** | — | 0.000 |
+| ideal_sdf + soft-settle | 8 | 37.5% | 12.5% | 25.0% | 75.8 mm | 76.4 mm | −0.47 mm | 0.346 |
+| workspace_sdf + soft-settle | 8 | **0.0%** | 0.0% | 12.5% | 99.3 mm | 102.0 mm | −6.17 mm | 0.354 |
+
+### 6.3 明细观察
+
+| idx | none contact / best | ideal_sdf contact / best / success | workspace_sdf contact / best / success |
+|-----|---------------------|------------------------------------|----------------------------------------|
+| 799 | 3 / 5.6 mm | 0 / 16.8 mm / Y | 0 / 24.9 mm / Y |
+| 2472 | 97 / 5.0 mm | 1 / 192.3 mm / n | 0 / 205.0 mm / n |
+| 2601 | 43 / 5.9 mm | 3 / 88.1 mm / n | 0 / 117.8 mm / n |
+| 582 | 17 / 3.3 mm | 0 / 50.0 mm / n | 0 / 70.1 mm / n |
+| 2988 | 5 / 5.6 mm | 0 / 51.5 mm / n | 0 / 65.2 mm / n |
+| 1788 | 85 / 4.7 mm | 64 / 36.6 mm / Y | 0 / 48.5 mm / n |
+| 3919 | 177 / 10.2 mm | 0 / 122.7 mm / n | 0 / 180.8 mm / n |
+| 3767 | 4 / 4.8 mm | 0 / 48.2 mm / n | 0 / 82.4 mm / n |
+
+### 6.4 解读
+
+1. **baseline 目标不是不可达点**：8/8 baseline 都能到达 2cm 内，但 8/8 与障碍接触。因此这组是有效的“可达但会碰撞”challenge。
+2. **`workspace_sdf` 的安全性最强**：在这 8 个样本中 contact rate 为 0%，优于 `ideal_sdf` 的 37.5%。这说明视觉链路的 robot self-mask、voxel persistence 和 CBF 组合已经能提供强安全约束。
+3. **到达仍然是主要短板**：`workspace_sdf` 的 mean best_dist 为 99.3 mm，success latch@4cm 仅 12.5%。soft-settle 能改善已进圈样本（如 `idx=799`），但不能把未进圈样本伪造成成功。
+4. **`idx=799` 是当前最合适的可视化正例**：baseline 会碰；`workspace_sdf` 无接触并进入 4cm 圈，soft-settle 后能继续 policy 微调并稳定在约 25 mm 以内。
+5. **`idx=2472/2601/3919` 是控制层失败样本**：baseline 可达但会碰；避障后安全但离目标很远。这里不是状态机问题，而是 CBF 兜底缺少绕行/局部规划，policy 持续朝障碍后方目标推进时被安全约束长期改写。
+6. **状态机结论**：`policy_soft_cbf` 比锁关节 `hold_q` 更适合作为后续抓取前的 SETTLE 阶段；它允许 policy 继续收敛，同时降低视觉 SDF 对末端的持续强干扰。但状态机只解决“进圈后驻留/微调”，不解决“未进圈的绕障到达”。
+
+## 实验 7：随机细杆位置下 baseline / ideal_sdf / workspace_sdf 对比
+
+### 7.1 实验设置
+
+- **日期**：2026-07-14
+- **目的**：避免只在固定细杆位置和固定 target 上得出过乐观结论；随机移动细杆位置后，重新筛选 baseline 会碰且可达的目标，再比较三组方法。
+- **场景**：`SO-ARM100/Simulation/SO100/mujoco/scene_plus.xml`
+- **输出**：`logs/eval/random_rod_sdf_5rounds/`
+- **随机种子**：`seed=13`
+- **随机杆底座范围**：
+  - `x ∈ [0.10, 0.22] m`
+  - `y ∈ [0.02, 0.16] m`
+  - `z = 0.02 m`
+- **rounds**：5/5 有效；每轮先扫描 target bank，选出 baseline 满足：
+  - `contact_steps >= 3`
+  - `best_dist <= 0.02m`
+- **方法**：
+  - `none`：不开避障，完整跑 10s；
+  - `ideal_sdf`：明确障碍物 geom 表面点云 SDF + CBF；
+  - `workspace_sdf`：`scene_depth` 深度 + robot segmentation self-mask + workspace crop + voxel persistence SDF + CBF。
+- **状态机**：
+  - 只对 `ideal_sdf` / `workspace_sdf` 启用；
+  - `success_dist=0.04m`, `success_steps=5`, `settle_on_success=1.0s`；
+  - `settle_mode=policy_soft_cbf`。
+
+命令：
+
+```bash
+MUJOCO_GL=egl python mujoco/eval_random_rod_sdf.py \
+  --rounds 5 \
+  --scan-count 256 \
+  --seed 13 \
+  --use-sim-cam \
+  --out-dir logs/eval/random_rod_sdf_5rounds
+```
+
+### 7.2 汇总指标
+
+| 方法 | N | contact rate ↓ | reach@2cm ↑ | success latch@4cm ↑ | mean best_dist ↓ | mean end_dist ↓ | mean contact steps ↓ | mean max\|dq_cbf\| |
+|------|---:|---------------:|------------:|--------------------:|-----------------:|----------------:|---------------------:|------------------:|
+| none | 5 | **100.0%** | **100.0%** | — | **7.2 mm** | **9.9 mm** | 41.2 | 0.000 |
+| ideal_sdf + soft-settle | 5 | 40.0% | 0.0% | 20.0% | 135.9 mm | 142.9 mm | 3.2 | 0.411 |
+| workspace_sdf + soft-settle | 5 | **20.0%** | 0.0% | 20.0% | 156.9 mm | 168.5 mm | 3.8 | 0.473 |
+
+### 7.3 每轮明细
+
+| round | rod mount (x,y,z) m | target idx | none contact / best | ideal_sdf contact / best / success | workspace_sdf contact / best / success |
+|------:|---------------------|-----------:|---------------------|------------------------------------|----------------------------------------|
+| 0 | (0.204, 0.140, 0.020) | 2620 | 95 / 6.2 mm | 13 / 98.5 mm / n | 19 / 110.6 mm / n |
+| 1 | (0.118, 0.090, 0.020) | 2961 | 39 / 14.7 mm | 0 / 113.5 mm / n | 0 / 148.1 mm / n |
+| 2 | (0.143, 0.096, 0.020) | 406 | 25 / 4.9 mm | 3 / 29.0 mm / Y | 0 / 34.2 mm / Y |
+| 3 | (0.109, 0.050, 0.020) | 2606 | 43 / 5.3 mm | 0 / 344.4 mm / n | 0 / 344.4 mm / n |
+| 4 | (0.113, 0.081, 0.020) | 1919 | 4 / 5.1 mm | 0 / 94.4 mm / n | 0 / 147.4 mm / n |
+
+### 7.4 解读
+
+1. **随机杆位姿验证了 baseline 可达性**：5/5 round 中 baseline 都能到 2cm 内，且全部与细杆接触。因此这些样本不是目标不可达，而是“可达但会撞”的有效避障测试。
+2. **`workspace_sdf` 在随机位姿下安全性仍优于 `ideal_sdf`，但不再是 0 接触**：contact rate 为 20%，比 `ideal_sdf` 的 40% 更低，但 round 0 仍出现 19 步接触，说明固定样本 quick8 的 0% contact 不能直接外推到随机杆位姿。
+3. **到达精度仍是主要问题**：两种 SDF 方法 reach@2cm 都是 0%，success latch@4cm 也只有 20%。`workspace_sdf` 平均 best_dist 为 156.9 mm，比 `ideal_sdf` 的 135.9 mm 更保守。
+4. **round 2 是当前随机位姿正例**：baseline 接触 25 步且 best 4.9 mm；`workspace_sdf` 0 接触、best 34.2 mm、进入 4cm success 圈。这适合做随机杆位置下的可视化正例。
+5. **round 3 是强失败样本**：baseline 可达且接触 43 步；两种 SDF 方法都停在约 344 mm，说明该杆位姿对当前 policy+CBF 形成了强阻挡，仅靠局部 safety filter 无法恢复到达。
+6. **阶段性判断**：视觉链路的 self-mask + voxel persistence + soft-settle 已经能在随机障碍位置下显著降低接触，但还不能满足抓取前 1–2 cm 精度要求。后续应把 4cm 判定定义为 `PREGRASP` 近场入口，而不是 `GRASP_READY`；抓取前还需要更严格的 1–2cm 位姿/稳定性判定，或引入局部 pregrasp/insert 规划。

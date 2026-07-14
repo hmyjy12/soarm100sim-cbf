@@ -62,6 +62,9 @@ class RunResult:
     contact_steps: int
     best_dist_m: float
     end_dist_m: float
+    success_latched: bool
+    success_step: int
+    final_state: str
     h_min_m: float
     active_steps: int
     corrected_steps: int
@@ -119,6 +122,31 @@ def _make_stepper(model: mujoco.MjModel, ids, policy, method: str, args) -> _rt.
     return stepper
 
 
+def _method_uses_settle(method: str, args) -> bool:
+    methods = {str(m).strip() for m in getattr(args, "settle_methods", []) if str(m).strip()}
+    return method in methods
+
+
+def _compute_with_soft_cbf(stepper, model, data, target_pos, target_quat, args):
+    cfg = getattr(stepper, "cbf_cfg", None)
+    if cfg is None:
+        return stepper.compute_targets(model, data, target_pos, target_quat)
+    orig = (
+        float(cfg.d_safe),
+        float(cfg.gamma),
+        float(cfg.activate_margin),
+        float(cfg.lambda_cbf),
+    )
+    cfg.d_safe = float(args.settle_cbf_d_safe)
+    cfg.gamma = float(args.settle_cbf_gamma)
+    cfg.activate_margin = float(args.settle_cbf_activate_margin)
+    cfg.lambda_cbf = float(args.settle_cbf_lambda)
+    try:
+        return stepper.compute_targets(model, data, target_pos, target_quat)
+    finally:
+        cfg.d_safe, cfg.gamma, cfg.activate_margin, cfg.lambda_cbf = orig
+
+
 def run_episode(
     model: mujoco.MjModel,
     data: mujoco.MjData,
@@ -130,6 +158,7 @@ def run_episode(
     target_quat: np.ndarray,
     steps_per_ep: int,
     obstacle_gid: int,
+    args,
 ) -> RunResult:
     _rt.reset_home(model, data, ids)
     stepper.reset_filter()
@@ -142,9 +171,32 @@ def run_episode(
     active_steps = 0
     corrected_steps = 0
     max_dq_cbf = 0.0
+    ctrl_dt = float(SIM_DT) * int(DECIMATION)
+    task_state = "APPROACH"
+    success_counter = 0
+    success_latched = False
+    success_step = -1
+    settle_steps = 0
+    max_settle_steps = int(round(max(float(args.settle_on_success), 0.0) / ctrl_dt))
+    hold_target_q: np.ndarray | None = None
+    use_settle = _method_uses_settle(method, args)
 
-    for _ in range(steps_per_ep):
-        tgt, info = stepper.compute_targets(model, data, target_pos, target_quat)
+    for k in range(steps_per_ep):
+        if use_settle and task_state == "SETTLE" and str(args.settle_mode) == "hold_q" and hold_target_q is not None:
+            tgt = hold_target_q.copy()
+            tcp_now, ee_quat_now = _rt.tcp_pose_w(data, ids)
+            ee_quat_now = ee_quat_now / max(float(np.linalg.norm(ee_quat_now)), 1e-12)
+            info = {
+                "distance": float(np.linalg.norm(tcp_now - target_pos)),
+                "quat_dot": float(abs(np.dot(ee_quat_now, target_quat))),
+                "h_min": float("inf"),
+                "cbf_active": False,
+                "dq_cbf_norm": 0.0,
+            }
+        elif use_settle and task_state == "SETTLE" and str(args.settle_mode) == "policy_soft_cbf":
+            tgt, info = _compute_with_soft_cbf(stepper, model, data, target_pos, target_quat, args)
+        else:
+            tgt, info = stepper.compute_targets(model, data, target_pos, target_quat)
         _rt.set_ctrl(data, ids, tgt)
         for _sub in range(int(DECIMATION)):
             mujoco.mj_step(model, data)
@@ -159,6 +211,29 @@ def run_episode(
         if dq_cbf > 1e-6:
             corrected_steps += 1
             max_dq_cbf = max(max_dq_cbf, dq_cbf)
+        if use_settle:
+            if task_state == "APPROACH":
+                if float(info["distance"]) <= float(args.success_dist):
+                    success_counter += 1
+                else:
+                    success_counter = 0
+                if success_counter >= int(args.success_steps):
+                    success_latched = True
+                    success_step = int(k)
+                    if max_settle_steps > 0:
+                        task_state = "SETTLE"
+                        settle_steps = 0
+                        if str(args.settle_mode) == "hold_q":
+                            hold_target_q = _rt.joint_pos(data, ids).copy()
+                    else:
+                        task_state = "SUCCESS"
+                        break
+            elif task_state == "SETTLE":
+                settle_steps += 1
+                if settle_steps >= max_settle_steps:
+                    task_state = "SUCCESS"
+                    if bool(args.stop_on_success):
+                        break
 
     tcp, _ = _rt.tcp_pose_w(data, ids)
     end_dist = float(np.linalg.norm(tcp - target_pos))
@@ -170,6 +245,9 @@ def run_episode(
         contact_steps=int(contact_steps),
         best_dist_m=float(best_dist),
         end_dist_m=end_dist,
+        success_latched=bool(success_latched),
+        success_step=int(success_step),
+        final_state=str(task_state),
         h_min_m=float(h_min),
         active_steps=int(active_steps),
         corrected_steps=int(corrected_steps),
@@ -196,6 +274,7 @@ def _summarize(rows: list[RunResult]) -> dict:
             "n": len(rs),
             "contact_rate": float(np.mean([r.contact_steps > 0 for r in rs])) if rs else float("nan"),
             "reach_2cm_rate": float(np.mean([r.best_dist_m <= 0.02 for r in rs])) if rs else float("nan"),
+            "success_latch_rate": float(np.mean([r.success_latched for r in rs])) if rs else float("nan"),
             "mean_best_dist_m": float(np.mean([r.best_dist_m for r in rs])) if rs else float("nan"),
             "mean_end_dist_m": float(np.mean([r.end_dist_m for r in rs])) if rs else float("nan"),
             "mean_h_min_m": float(np.nanmean([r.h_min_m for r in rs])) if rs else float("nan"),
@@ -229,6 +308,16 @@ def main() -> int:
     p.add_argument("--cbf-gamma", type=float, default=CBF_GAMMA)
     p.add_argument("--cbf-lambda", type=float, default=CBF_LAMBDA)
     p.add_argument("--cbf-activate-margin", type=float, default=CBF_ACTIVATE_MARGIN)
+    p.add_argument("--settle-methods", nargs="+", default=[], help="Methods that use success/settle state machine")
+    p.add_argument("--success-dist", type=float, default=0.03)
+    p.add_argument("--success-steps", type=int, default=10)
+    p.add_argument("--settle-on-success", type=float, default=0.0)
+    p.add_argument("--settle-mode", type=str, default="hold_q", choices=("hold_q", "policy_soft_cbf"))
+    p.add_argument("--settle-cbf-d-safe", type=float, default=0.005)
+    p.add_argument("--settle-cbf-gamma", type=float, default=0.3)
+    p.add_argument("--settle-cbf-activate-margin", type=float, default=0.015)
+    p.add_argument("--settle-cbf-lambda", type=float, default=0.5)
+    p.add_argument("--stop-on-success", action="store_true")
     p.add_argument("--log-every", type=int, default=16)
     args = p.parse_args()
 
@@ -267,6 +356,7 @@ def main() -> int:
                 bank_quat[int(idx)].copy(),
                 steps_per_ep,
                 obstacle_gid,
+                args,
             )
             if res.contact_steps > 0:
                 challenge_indices.append(int(idx))
@@ -302,12 +392,15 @@ def main() -> int:
                 quat,
                 steps_per_ep,
                 obstacle_gid,
+                args,
             )
             rows.append(res)
             if i % max(1, int(args.log_every)) == 0 or i == len(challenge_indices):
                 print(
                     f"[eval][{method}] {i}/{len(challenge_indices)} "
                     f"idx={idx} contact={res.contact_steps} best={res.best_dist_m*1000:.1f}mm "
+                    f"end={res.end_dist_m*1000:.1f}mm "
+                    f"success={'Y' if res.success_latched else 'n'} "
                     f"h={res.h_min_m*1000 if math.isfinite(res.h_min_m) else float('nan'):.1f}mm",
                     flush=True,
                 )
@@ -318,6 +411,11 @@ def main() -> int:
         "seed": int(args.seed),
         "scan_count": int(args.scan_count),
         "challenge_indices": challenge_indices,
+        "settle_methods": [str(m) for m in args.settle_methods],
+        "success_dist": float(args.success_dist),
+        "success_steps": int(args.success_steps),
+        "settle_on_success": float(args.settle_on_success),
+        "settle_mode": str(args.settle_mode),
         "metrics": _summarize(rows),
     }
     (out_dir / "summary.json").write_text(json.dumps(summary, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")

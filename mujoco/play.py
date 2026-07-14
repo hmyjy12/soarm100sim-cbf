@@ -131,6 +131,26 @@ def _draw_target(viewer, target_pos: np.ndarray) -> None:
         pass
 
 
+def _compute_with_soft_cbf(stepper, model, data, target_pos, target_quat, args):
+    cfg = getattr(stepper, "cbf_cfg", None)
+    if cfg is None:
+        return stepper.compute_targets(model, data, target_pos, target_quat)
+    orig = (
+        float(cfg.d_safe),
+        float(cfg.gamma),
+        float(cfg.activate_margin),
+        float(cfg.lambda_cbf),
+    )
+    cfg.d_safe = float(args.settle_cbf_d_safe)
+    cfg.gamma = float(args.settle_cbf_gamma)
+    cfg.activate_margin = float(args.settle_cbf_activate_margin)
+    cfg.lambda_cbf = float(args.settle_cbf_lambda)
+    try:
+        return stepper.compute_targets(model, data, target_pos, target_quat)
+    finally:
+        cfg.d_safe, cfg.gamma, cfg.activate_margin, cfg.lambda_cbf = orig
+
+
 def _arr(x) -> list[float]:
     return np.asarray(x, dtype=np.float64).reshape(-1).tolist()
 
@@ -148,6 +168,9 @@ def _traj_log_record(
     info: dict,
     obs_source,
     prev_dq_total: np.ndarray | None,
+    task_state: str = "APPROACH",
+    success_counter: int = 0,
+    success_latched: bool = False,
 ) -> dict:
     dq_nom = np.asarray(info.get("dq_nom", np.zeros_like(q_before)), dtype=np.float64).reshape(-1)
     dq_cbf = np.asarray(info.get("dq_cbf", np.zeros_like(q_before)), dtype=np.float64).reshape(-1)
@@ -162,6 +185,9 @@ def _traj_log_record(
         "step": int(step),
         "t_s": float(t_s),
         "target_idx": int(idx),
+        "task_state": str(task_state),
+        "success_counter": int(success_counter),
+        "success_latched": bool(success_latched),
         "target_pos": _arr(target_pos),
         "tcp_pos": _arr(tcp_after),
         "q": _arr(q_after),
@@ -434,13 +460,43 @@ def run(args: argparse.Namespace) -> int:
             cbf_stats = CbfEpisodeStats() if args.enable_cbf else None
             t0 = time.perf_counter()
             prev_dq_total: np.ndarray | None = None
+            task_state = "APPROACH"
+            success_counter = 0
+            success_latched = False
+            success_step = -1
+            settle_steps = 0
+            max_settle_steps = int(round(max(float(args.settle_on_success), 0.0) / ctrl_dt))
+            hold_target_q: np.ndarray | None = None
 
             for k in range(steps_per_ep):
                 if viewer is not None and not viewer.is_running():
                     break
 
                 q_before = joint_pos(data, ids)
-                tgt, info = stepper.compute_targets(model, data, target_pos, target_quat)
+                if task_state == "SETTLE" and str(args.settle_mode) == "hold_q" and hold_target_q is not None:
+                    tgt = hold_target_q.copy()
+                    tcp_now, ee_quat_now = tcp_pose_w(data, ids)
+                    dist_now = float(np.linalg.norm(tcp_now - target_pos))
+                    quat_dot_now = float(abs(np.dot(ee_quat_now / max(float(np.linalg.norm(ee_quat_now)), 1e-12), target_quat)))
+                    info = {
+                        "distance": dist_now,
+                        "quat_dot": quat_dot_now,
+                        "dq_nom": np.zeros_like(q_before),
+                        "dq_cbf": np.zeros_like(q_before),
+                        "raw_action": np.zeros_like(q_before),
+                        "h_min": float("inf"),
+                        "cbf_active": False,
+                        "cbf_feasible": True,
+                        "cbf_projected": False,
+                        "n_constraints": 0,
+                        "dq_cbf_norm": 0.0,
+                        "dq_nom_norm": 0.0,
+                        "dq_total_norm": float(np.linalg.norm(tgt - q_before)),
+                    }
+                elif task_state == "SETTLE" and str(args.settle_mode) == "policy_soft_cbf":
+                    tgt, info = _compute_with_soft_cbf(stepper, model, data, target_pos, target_quat, args)
+                else:
+                    tgt, info = stepper.compute_targets(model, data, target_pos, target_quat)
                 if cbf_stats is not None:
                     cbf_stats.update(info)
                     if cbf_log_path is not None:
@@ -466,6 +522,9 @@ def run(args: argparse.Namespace) -> int:
                         info,
                         obs_source,
                         prev_dq_total,
+                        task_state,
+                        success_counter,
+                        success_latched,
                     )
                     with traj_log_path.open("a", encoding="utf-8") as f:
                         f.write(json.dumps(rec, ensure_ascii=False) + "\n")
@@ -475,6 +534,44 @@ def run(args: argparse.Namespace) -> int:
                 ori = _ori_deg(float(info["quat_dot"]))
                 best_dist = min(best_dist, dist)
                 best_ori = min(best_ori, ori)
+
+                if task_state == "APPROACH":
+                    if dist <= float(args.success_dist):
+                        success_counter += 1
+                    else:
+                        success_counter = 0
+                    if success_counter >= int(args.success_steps):
+                        success_latched = True
+                        success_step = k
+                        if max_settle_steps > 0:
+                            task_state = "SETTLE"
+                            settle_steps = 0
+                            if str(args.settle_mode) == "hold_q":
+                                hold_target_q = joint_pos(data, ids).copy()
+                                tgt = hold_target_q.copy()
+                                set_ctrl(data, ids, tgt)
+                            print(
+                                f"[ep {ep:03d}] success latch at t={k * ctrl_dt:.2f}s "
+                                f"dist={dist*1000:.1f}mm → SETTLE {float(args.settle_on_success):.2f}s "
+                                f"mode={args.settle_mode}"
+                            )
+                        elif bool(args.stop_on_success):
+                            task_state = "SUCCESS"
+                            print(
+                                f"[ep {ep:03d}] success at t={k * ctrl_dt:.2f}s "
+                                f"dist={dist*1000:.1f}mm"
+                            )
+                            break
+                elif task_state == "SETTLE":
+                    settle_steps += 1
+                    if settle_steps >= max_settle_steps:
+                        task_state = "SUCCESS"
+                        print(
+                            f"[ep {ep:03d}] settle complete at t={k * ctrl_dt:.2f}s "
+                            f"dist={dist*1000:.1f}mm"
+                        )
+                        if bool(args.stop_on_success):
+                            break
 
                 if viewer is not None:
                     _draw_target(viewer, target_pos)
@@ -515,7 +612,8 @@ def run(args: argparse.Namespace) -> int:
                                     cbf_msg += f"  vis_err={center_err_mm:.1f}mm"
                     print(
                         f"  t={k * ctrl_dt:5.2f}s  dist={dist*1000:.1f}mm  "
-                        f"ori={ori:.1f}deg  tcp=({tcp[0]:.3f},{tcp[1]:.3f},{tcp[2]:.3f})"
+                        f"ori={ori:.1f}deg  state={task_state}  "
+                        f"tcp=({tcp[0]:.3f},{tcp[1]:.3f},{tcp[2]:.3f})"
                         f"{cbf_msg}"
                     )
 
@@ -525,7 +623,7 @@ def run(args: argparse.Namespace) -> int:
                 f"[ep {ep:03d}] idx={idx}  best_dist={best_dist*1000:.2f}mm  "
                 f"best_ori={best_ori:.1f}deg  "
                 f"end_dist={float(np.linalg.norm(tcp - target_pos))*1000:.2f}mm  "
-                f"wall={wall:.1f}s"
+                f"state={task_state}  success_step={success_step}  wall={wall:.1f}s"
             )
             if cbf_stats is not None:
                 print(cbf_stats.summary_line(ep))
@@ -603,6 +701,40 @@ def build_parser() -> argparse.ArgumentParser:
         help="播放倍率，0.5=半速更易看过程",
     )
     p.add_argument("--verbose", action="store_true", help="每秒打印当前误差")
+    p.add_argument(
+        "--success-dist",
+        type=float,
+        default=0.03,
+        help="任务状态机：TCP 连续进入该位置半径 (m) 后判定到达",
+    )
+    p.add_argument(
+        "--success-steps",
+        type=int,
+        default=10,
+        help="任务状态机：连续多少个控制步在 success-dist 内才 latch",
+    )
+    p.add_argument(
+        "--settle-on-success",
+        type=float,
+        default=0.0,
+        help="任务状态机：到达后锁当前关节目标驻留多少秒；0=不驻留",
+    )
+    p.add_argument(
+        "--settle-mode",
+        type=str,
+        default="hold_q",
+        choices=("hold_q", "policy_soft_cbf"),
+        help="SETTLE 阶段控制方式：hold_q=锁关节；policy_soft_cbf=继续 policy 但削弱 CBF",
+    )
+    p.add_argument("--settle-cbf-d-safe", type=float, default=0.005, help="policy_soft_cbf: SETTLE 阶段 CBF d_safe")
+    p.add_argument("--settle-cbf-gamma", type=float, default=0.3, help="policy_soft_cbf: SETTLE 阶段 CBF gamma")
+    p.add_argument("--settle-cbf-activate-margin", type=float, default=0.015, help="policy_soft_cbf: SETTLE 阶段 CBF 激活阈值")
+    p.add_argument("--settle-cbf-lambda", type=float, default=0.5, help="policy_soft_cbf: SETTLE 阶段 CBF lambda")
+    p.add_argument(
+        "--stop-on-success",
+        action="store_true",
+        help="任务状态机：到达/驻留完成后结束当前 episode",
+    )
     p.add_argument("--enable-cbf", action="store_true", help="EMBODISTEER 式全身 CBF-QP 避障")
     p.add_argument("--cbf-d-safe", type=float, default=CBF_D_SAFE, help="到障碍面安全余量 (m)")
     p.add_argument("--cbf-gamma", type=float, default=CBF_GAMMA, help="CBF 增益 γ")
