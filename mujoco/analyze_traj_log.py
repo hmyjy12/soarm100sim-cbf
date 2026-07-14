@@ -47,7 +47,8 @@ def summarize(path: Path) -> None:
     print(f"log={path} rows={len(rows)} episodes={len(by_ep)}")
     print(
         "ep target steps best_dist_mm min_h_mm active% proj% "
-        "mean|dq_cbf| max|dq_cbf| mean_ddq max_ddq mean_sdf mean_self_rm"
+        "mean|dq_cbf| max|dq_cbf| mean_ddq max_ddq "
+        "mean_depth mean_robot_mask mean_ws mean_table_rm mean_self_rm mean_persist mean_mem mean_sdf"
     )
     for ep in sorted(by_ep):
         rs = by_ep[ep]
@@ -56,6 +57,12 @@ def summarize(path: Path) -> None:
         h = [float(r.get("h_min_m", float("nan"))) for r in rs]
         dq_cbf = [float(r.get("dq_cbf_norm", 0.0)) for r in rs]
         ddq = [float(r.get("ddq_total_norm", 0.0)) for r in rs]
+        depth = [float(r.get("depth_valid_points", 0.0)) for r in rs]
+        robot_mask = [float(r.get("robot_masked_points", 0.0)) for r in rs]
+        ws = [float(r.get("workspace_points", 0.0)) for r in rs]
+        table_rm = [float(r.get("table_filtered_points", 0.0)) for r in rs]
+        fused = [float(r.get("fused_points", 0.0)) for r in rs]
+        mem = [float(r.get("voxel_memory", 0.0)) for r in rs]
         sdf = [float(r.get("sdf_points", 0.0)) for r in rs]
         self_rm = [float(r.get("self_filtered_points", 0.0)) for r in rs]
         active = [bool(r.get("cbf_active", False)) for r in rs]
@@ -66,7 +73,8 @@ def summarize(path: Path) -> None:
             f"{100.0*_rate(active):7.1f} {100.0*_rate(projected):6.1f} "
             f"{_mean(dq_cbf):12.4f} {max(dq_cbf) if dq_cbf else float('nan'):12.4f} "
             f"{_mean(ddq):8.4f} {max(ddq) if ddq else float('nan'):8.4f} "
-            f"{_mean(sdf):8.1f} {_mean(self_rm):12.1f}"
+            f"{_mean(depth):10.1f} {_mean(robot_mask):15.1f} {_mean(ws):7.1f} {_mean(table_rm):13.1f} "
+            f"{_mean(self_rm):12.1f} {_mean(fused):12.1f} {_mean(mem):8.1f} {_mean(sdf):8.1f}"
         )
 
 

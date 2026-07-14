@@ -24,7 +24,7 @@ try:
         load_json,
     )
     from .camera import MujocoCameraRig
-    from .constants import SCENE_DEPTH_CAM
+    from .constants import BASE_BODY, SCENE_DEPTH_CAM
     from .vision_obstacle import RodDetectConfig, RodDetectDebug, RodObstacleTracker, unproject_depth_map
 except ImportError:
     from cbf import AxisAlignedBoxObstacle, CylinderObstacle, Obstacle, PointCloudSdfObstacle, load_obstacles  # type: ignore
@@ -38,7 +38,7 @@ except ImportError:
         load_json,
     )
     from camera import MujocoCameraRig  # type: ignore
-    from constants import SCENE_DEPTH_CAM  # type: ignore
+    from constants import BASE_BODY, SCENE_DEPTH_CAM  # type: ignore
     from vision_obstacle import RodDetectConfig, RodDetectDebug, RodObstacleTracker, unproject_depth_map  # type: ignore
 
 
@@ -277,14 +277,28 @@ class SceneDepthVisionObstacleSource(ObstacleSource):
 class SceneDepthSdfConfig:
     min_depth_m: float = 0.12
     max_depth_m: float = 1.1
+    # Reachable workspace crop. Points outside this volume cannot be hit by the
+    # arm in this task, so they should not enter the safety field.
     roi_x: tuple[float, float] = (0.02, 0.36)
     roi_y: tuple[float, float] = (-0.08, 0.26)
-    roi_z: tuple[float, float] = (0.02, 0.42)
+    roi_z: tuple[float, float] = (0.055, 0.42)
+    remove_table_plane: bool = True
+    table_z_max_m: float = 0.055
     voxel_size_m: float = 0.01
     min_points: int = 20
     inflate_m: float = 0.01
     truncation_distance_m: float = 0.12
-    self_filter_margin_m: float = 0.008
+    use_segmentation_self_mask: bool = True
+    robot_root_body: str = BASE_BODY
+    segmentation_dilate_px: int = 2
+    persistence_voxel_size_m: float = 0.012
+    persistence_hits: int = 2
+    persistence_forget_frames: int = 6
+    # Remove the robot's own perceived surface plus the CBF safety shell.
+    # Otherwise residual self points just outside the physical capsule are still
+    # inside h = dist - d_safe - r_link - inflate, causing constant corrections.
+    self_filter_margin_m: float = 0.035
+    use_capsule_self_filter_fallback: bool = False
     self_filter_capsules: tuple[tuple[str, str, float], ...] = (
         ("base", "shoulder_rotation", 0.035),
         ("shoulder_rotation", "shoulder_pitch", 0.035),
@@ -300,8 +314,14 @@ class SceneDepthSdfConfig:
 @dataclass
 class SceneDepthSdfDebug:
     n_depth_valid: int = 0
+    n_robot_masked: int = 0
+    n_workspace: int = 0
+    n_table_filtered: int = 0
     n_roi: int = 0
     n_self_filtered: int = 0
+    n_fused_points: int = 0
+    n_persistent_voxels: int = 0
+    n_voxel_memory: int = 0
     n_sdf_points: int = 0
     detected: bool = False
 
@@ -324,6 +344,86 @@ def _filter_sdf_roi(points: np.ndarray, cfg: SceneDepthSdfConfig) -> np.ndarray:
         & (pts[:, 2] <= z1)
     )
     return pts[keep]
+
+
+def _filter_table_plane(points: np.ndarray, cfg: SceneDepthSdfConfig) -> tuple[np.ndarray, int]:
+    pts = np.asarray(points, dtype=np.float64).reshape(-1, 3)
+    if pts.shape[0] == 0 or not bool(cfg.remove_table_plane):
+        return pts, 0
+    keep = pts[:, 2] > float(cfg.table_z_max_m)
+    return pts[keep], int(np.count_nonzero(~keep))
+
+
+def _body_descendants(model: mujoco.MjModel, root_bid: int) -> set[int]:
+    out = {int(root_bid)}
+    changed = True
+    while changed:
+        changed = False
+        for bid in range(int(model.nbody)):
+            parent = int(model.body_parentid[bid])
+            if bid not in out and parent in out:
+                out.add(int(bid))
+                changed = True
+    return out
+
+
+def _robot_geom_ids(model: mujoco.MjModel, cfg: SceneDepthSdfConfig) -> set[int]:
+    root = mujoco.mj_name2id(model, mujoco.mjtObj.mjOBJ_BODY, str(cfg.robot_root_body))
+    if root < 0:
+        return set()
+    bodies = _body_descendants(model, int(root))
+    return {int(gid) for gid in range(int(model.ngeom)) if int(model.geom_bodyid[gid]) in bodies}
+
+
+def _dilate_mask(mask: np.ndarray, radius_px: int) -> np.ndarray:
+    m = np.asarray(mask, dtype=bool)
+    r = max(int(radius_px), 0)
+    if r == 0 or m.size == 0:
+        return m
+    out = m.copy()
+    h, w = m.shape
+    for dy in range(-r, r + 1):
+        for dx in range(-r, r + 1):
+            if dx == 0 and dy == 0:
+                continue
+            y0 = max(0, dy)
+            y1 = min(h, h + dy)
+            x0 = max(0, dx)
+            x1 = min(w, w + dx)
+            sy0 = max(0, -dy)
+            sy1 = min(h, h - dy)
+            sx0 = max(0, -dx)
+            sx1 = min(w, w - dx)
+            out[y0:y1, x0:x1] |= m[sy0:sy1, sx0:sx1]
+    return out
+
+
+def _robot_segmentation_mask(seg: np.ndarray, robot_geom_ids: set[int], cfg: SceneDepthSdfConfig) -> np.ndarray:
+    s = np.asarray(seg)
+    if s.ndim != 3 or s.shape[2] < 1 or not robot_geom_ids:
+        return np.zeros(s.shape[:2], dtype=bool)
+    geom_ids = s[:, :, 0].astype(np.int32)
+    mask = np.isin(geom_ids, np.fromiter(robot_geom_ids, dtype=np.int32))
+    return _dilate_mask(mask, int(cfg.segmentation_dilate_px))
+
+
+def _voxel_observations(points: np.ndarray, voxel_size: float) -> dict[tuple[int, int, int], tuple[np.ndarray, int]]:
+    pts = np.asarray(points, dtype=np.float64).reshape(-1, 3)
+    if pts.shape[0] == 0:
+        return {}
+    v = max(float(voxel_size), 1e-6)
+    keys = np.floor(pts / v).astype(np.int64)
+    sums: dict[tuple[int, int, int], np.ndarray] = {}
+    counts: dict[tuple[int, int, int], int] = {}
+    for key_arr, p in zip(keys, pts):
+        key = (int(key_arr[0]), int(key_arr[1]), int(key_arr[2]))
+        if key in sums:
+            sums[key] += p
+            counts[key] += 1
+        else:
+            sums[key] = p.copy()
+            counts[key] = 1
+    return {key: (sums[key] / float(counts[key]), counts[key]) for key in sums}
 
 
 def _points_near_segment(points: np.ndarray, a: np.ndarray, b: np.ndarray, radius: float) -> np.ndarray:
@@ -376,6 +476,9 @@ class SceneDepthSdfObstacleSource(ObstacleSource):
     cfg: SceneDepthSdfConfig = field(default_factory=SceneDepthSdfConfig)
     _obstacles: list[Obstacle] = field(default_factory=list)
     last_debug: SceneDepthSdfDebug = field(default_factory=SceneDepthSdfDebug)
+    _voxel_memory: dict[tuple[int, int, int], dict[str, object]] = field(default_factory=dict)
+    _frame_idx: int = 0
+    _robot_geom_ids: set[int] | None = None
 
     @property
     def refresh_every_step(self) -> bool:
@@ -384,6 +487,8 @@ class SceneDepthSdfObstacleSource(ObstacleSource):
     def reset(self) -> None:
         self._obstacles = []
         self.last_debug = SceneDepthSdfDebug()
+        self._voxel_memory.clear()
+        self._frame_idx = 0
 
     def _camera_intrinsics(self, model: mujoco.MjModel) -> CameraIntrinsics:
         if self.use_sim_cam or self.calibration is None:
@@ -398,6 +503,16 @@ class SceneDepthSdfObstacleSource(ObstacleSource):
     def update(self, model: mujoco.MjModel, data: mujoco.MjData) -> None:
         intr = self._camera_intrinsics(model)
         depth_m = self.camera_rig.capture_depth_m(data, self.cam_name)
+        n_robot_masked = 0
+        if bool(self.cfg.use_segmentation_self_mask):
+            if self._robot_geom_ids is None:
+                self._robot_geom_ids = _robot_geom_ids(model, self.cfg)
+            seg = self.camera_rig.capture_segmentation(data, self.cam_name)
+            robot_mask = _robot_segmentation_mask(seg, self._robot_geom_ids, self.cfg)
+            valid_robot = robot_mask & np.isfinite(depth_m) & (depth_m >= self.cfg.min_depth_m) & (depth_m <= self.cfg.max_depth_m)
+            n_robot_masked = int(np.count_nonzero(valid_robot))
+            depth_m = np.asarray(depth_m, dtype=np.float64).copy()
+            depth_m[robot_mask] = np.nan
         T_wc = self._camera_T_world_cam(model, data)
         pts_all = unproject_depth_map(
             intr,
@@ -406,12 +521,49 @@ class SceneDepthSdfObstacleSource(ObstacleSource):
             min_depth_m=self.cfg.min_depth_m,
             max_depth_m=self.cfg.max_depth_m,
         )
-        pts = _filter_sdf_roi(pts_all, self.cfg)
-        pts, n_self_filtered = _filter_robot_self_points(model, data, pts, self.cfg)
-        if pts.shape[0] >= int(self.cfg.min_points):
+        pts_workspace = _filter_sdf_roi(pts_all, self.cfg)
+        pts, n_table_filtered = _filter_table_plane(pts_workspace, self.cfg)
+        if bool(self.cfg.use_capsule_self_filter_fallback) or not bool(self.cfg.use_segmentation_self_mask):
+            pts, n_capsule_filtered = _filter_robot_self_points(model, data, pts, self.cfg)
+        else:
+            n_capsule_filtered = 0
+        self._frame_idx += 1
+        observations = _voxel_observations(pts, self.cfg.persistence_voxel_size_m)
+        for key, (center, count) in observations.items():
+            rec = self._voxel_memory.get(key)
+            if rec is None:
+                self._voxel_memory[key] = {
+                    "hits": 1,
+                    "last_seen": int(self._frame_idx),
+                    "center": center,
+                    "count": int(count),
+                }
+            else:
+                prev_count = int(rec.get("count", 1))
+                total_count = prev_count + int(count)
+                prev_center = np.asarray(rec.get("center", center), dtype=np.float64)
+                rec["center"] = (prev_center * float(prev_count) + center * float(count)) / float(total_count)
+                rec["count"] = total_count
+                rec["hits"] = int(rec.get("hits", 0)) + 1
+                rec["last_seen"] = int(self._frame_idx)
+        forget = max(int(self.cfg.persistence_forget_frames), 1)
+        stale = [
+            key for key, rec in self._voxel_memory.items()
+            if int(self._frame_idx) - int(rec.get("last_seen", -10**9)) > forget
+        ]
+        for key in stale:
+            del self._voxel_memory[key]
+        hit_thresh = max(int(self.cfg.persistence_hits), 1)
+        persistent = [
+            np.asarray(rec["center"], dtype=np.float64)
+            for rec in self._voxel_memory.values()
+            if int(rec.get("hits", 0)) >= hit_thresh
+        ]
+        pts_persistent = np.vstack(persistent) if persistent else np.zeros((0, 3), dtype=np.float64)
+        if pts_persistent.shape[0] >= int(self.cfg.min_points):
             obs = PointCloudSdfObstacle(
                 name=self.cfg.name,
-                points=pts,
+                points=pts_persistent,
                 truncation_distance=float(self.cfg.truncation_distance_m),
                 voxel_size=float(self.cfg.voxel_size_m),
                 inflate=float(self.cfg.inflate_m),
@@ -423,8 +575,14 @@ class SceneDepthSdfObstacleSource(ObstacleSource):
             n_sdf = 0
         self.last_debug = SceneDepthSdfDebug(
             n_depth_valid=int(pts_all.shape[0]),
-            n_roi=int(pts.shape[0] + n_self_filtered),
-            n_self_filtered=n_self_filtered,
+            n_robot_masked=n_robot_masked,
+            n_workspace=int(pts_workspace.shape[0]),
+            n_table_filtered=n_table_filtered,
+            n_roi=int(pts.shape[0] + n_capsule_filtered),
+            n_self_filtered=int(n_robot_masked + n_capsule_filtered),
+            n_fused_points=int(pts_persistent.shape[0]),
+            n_persistent_voxels=int(pts_persistent.shape[0]),
+            n_voxel_memory=int(len(self._voxel_memory)),
             n_sdf_points=n_sdf,
             detected=bool(self._obstacles),
         )
@@ -474,7 +632,7 @@ def make_obstacle_source(
             calibration=cal,
             use_sim_cam=use_sim_cam,
         )
-    if k in ("sdf", "scene_depth_sdf", "depth_sdf", "vision_sdf"):
+    if k in ("sdf", "scene_depth_sdf", "depth_sdf", "vision_sdf", "workspace_sdf", "unknown_sdf"):
         rig = MujocoCameraRig(model)
         cal = None if use_sim_cam else load_json(calib_json or DEFAULT_CALIB_JSON)
         return SceneDepthSdfObstacleSource(
@@ -484,4 +642,4 @@ def make_obstacle_source(
         )
     if k in ("wrist", "wrist_rgb"):
         return WristRgbObstacleSource()
-    raise ValueError(f"unknown obstacle source: {kind!r} (use geom|geom_sdf|vision|sdf)")
+    raise ValueError(f"unknown obstacle source: {kind!r} (use geom|geom_sdf|vision|workspace_sdf)")

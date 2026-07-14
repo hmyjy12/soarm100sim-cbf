@@ -73,10 +73,10 @@ def unproject_depth_map(
     v = v_idx.astype(np.float64)
 
     x = (u - intr.cx) / intr.fx
-    y = (v - intr.cy) / intr.fy
-    rays = np.stack([x, y, -np.ones_like(x)], axis=1)
-    rays /= np.maximum(np.linalg.norm(rays, axis=1, keepdims=True), 1e-12)
-    p_cam = rays * depths[:, None]
+    y = -(v - intr.cy) / intr.fy
+    # MuJoCo's depth renderer returns camera z-depth in meters, not Euclidean
+    # range along a normalized ray.
+    p_cam = np.stack([x * depths, y * depths, -depths], axis=1)
     return camera_to_world(T_wc, p_cam)
 
 

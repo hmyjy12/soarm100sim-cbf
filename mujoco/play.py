@@ -186,7 +186,14 @@ def _traj_log_record(
         "worst_obstacle": str(info.get("cbf_worst_obstacle", "")),
         "nom_violation": float(info.get("nom_violation", 0.0)),
         "vision_detected": bool(getattr(dbg, "detected", False)) if dbg is not None else False,
+        "depth_valid_points": int(getattr(dbg, "n_depth_valid", 0)) if dbg is not None else 0,
+        "robot_masked_points": int(getattr(dbg, "n_robot_masked", 0)) if dbg is not None else 0,
+        "workspace_points": int(getattr(dbg, "n_workspace", 0)) if dbg is not None else 0,
         "vision_roi_points": int(getattr(dbg, "n_roi", 0)) if dbg is not None else 0,
+        "table_filtered_points": int(getattr(dbg, "n_table_filtered", 0)) if dbg is not None else 0,
+        "fused_points": int(getattr(dbg, "n_fused_points", 0)) if dbg is not None else 0,
+        "persistent_voxels": int(getattr(dbg, "n_persistent_voxels", 0)) if dbg is not None else 0,
+        "voxel_memory": int(getattr(dbg, "n_voxel_memory", 0)) if dbg is not None else 0,
         "sdf_points": int(getattr(dbg, "n_sdf_points", 0)) if dbg is not None else 0,
         "self_filtered_points": int(getattr(dbg, "n_self_filtered", 0)) if dbg is not None else 0,
     }
@@ -323,6 +330,8 @@ def run(args: argparse.Namespace) -> int:
             "scene_depth_sdf",
             "depth_sdf",
             "vision_sdf",
+            "workspace_sdf",
+            "unknown_sdf",
         ):
             if obs_kind in ("geom_sdf", "ideal_sdf", "pointcloud", "ideal_pointcloud"):
                 print("[mujoco_play] 理想点云 SDF：指定 obstacle geom → 表面点云 → SDF（不走视觉链路）")
@@ -336,8 +345,10 @@ def run(args: argparse.Namespace) -> int:
                     "[mujoco_play] 视觉障碍 v1：scene_depth 深度→圆柱拟合；"
                     "wrist_rgb 暂不参与（近场补盲留后续）"
                 )
-            elif obs_kind in ("sdf", "scene_depth_sdf", "depth_sdf", "vision_sdf"):
-                print("[mujoco_play] 视觉障碍 SDF：scene_depth 深度→ROI 表面点云 unsigned SDF")
+            elif obs_kind in ("sdf", "scene_depth_sdf", "depth_sdf", "vision_sdf", "workspace_sdf", "unknown_sdf"):
+                print(
+                    "[mujoco_play] 视觉障碍 SDF：scene_depth 深度→workspace裁剪→桌面/自身过滤→未知物体点云SDF"
+                )
 
     bank_pos, bank_quat = load_target_bank(npz)
     rng = np.random.default_rng(int(args.seed))
@@ -629,10 +640,12 @@ def build_parser() -> argparse.ArgumentParser:
             "scene_depth_sdf",
             "depth_sdf",
             "vision_sdf",
+            "workspace_sdf",
+            "unknown_sdf",
         ),
         help=(
             "障碍来源：geom=MuJoCo 解析GT；geom_sdf=明确障碍物理想点云SDF；"
-            "vision=scene_depth 圆柱拟合；sdf=scene_depth 整图点云SDF"
+            "vision=scene_depth 圆柱拟合；workspace_sdf=scene_depth 工作空间未知物体点云SDF"
         ),
     )
     p.add_argument(

@@ -86,7 +86,7 @@ def _count_contacts(data: mujoco.MjData, obstacle_gid: int) -> int:
 
 
 def _make_stepper(model: mujoco.MjModel, ids, policy, method: str, args) -> _rt.ReachStepper:
-    enable_cbf = method in ("geom", "ideal_sdf")
+    enable_cbf = method != "none"
     cfg = None
     obs_source = None
     if enable_cbf:
@@ -107,10 +107,14 @@ def _make_stepper(model: mujoco.MjModel, ids, policy, method: str, args) -> _rt.
         enable_cbf=enable_cbf,
         cbf_cfg=cfg,
     )
-    if method == "ideal_sdf":
-        obs_source = _obs.make_obstacle_source("ideal_sdf", model, geom_names=cfg.obstacle_geom_names)
-    elif method == "geom":
-        obs_source = _obs.make_obstacle_source("geom", model, geom_names=cfg.obstacle_geom_names)
+    if enable_cbf:
+        obs_source = _obs.make_obstacle_source(
+            method,
+            model,
+            geom_names=cfg.obstacle_geom_names,
+            calib_json=str(args.calib_json),
+            use_sim_cam=bool(args.use_sim_cam),
+        )
     stepper.cbf_obstacle_source = obs_source
     return stepper
 
@@ -129,7 +133,7 @@ def run_episode(
 ) -> RunResult:
     _rt.reset_home(model, data, ids)
     stepper.reset_filter()
-    if method in ("geom", "ideal_sdf"):
+    if method != "none":
         stepper.refresh_cbf_obstacles(data)
 
     contact_steps = 0
@@ -211,6 +215,14 @@ def main() -> int:
     p.add_argument("--max-challenges", type=int, default=64)
     p.add_argument("--indices-file", type=str, default="")
     p.add_argument("--obstacle-geom", type=str, default="obstacle_rod")
+    p.add_argument(
+        "--methods",
+        nargs="+",
+        default=["none", "geom", "ideal_sdf"],
+        help="Methods to evaluate, e.g. none geom ideal_sdf workspace_sdf",
+    )
+    p.add_argument("--calib-json", type=str, default=str(_THIS.parent / "logs" / "calib" / "camera_calib.json"))
+    p.add_argument("--use-sim-cam", action="store_true")
     p.add_argument("--action-scale", type=float, default=ACTION_SCALE)
     p.add_argument("--filter-tau", type=float, default=ACTION_FILTER_TAU)
     p.add_argument("--cbf-d-safe", type=float, default=CBF_D_SAFE)
@@ -236,11 +248,13 @@ def main() -> int:
     rng = np.random.default_rng(int(args.seed))
     if args.indices_file:
         challenge_indices = [int(x) for x in json.loads(Path(args.indices_file).read_text(encoding="utf-8"))]
+        if int(args.max_challenges) > 0:
+            challenge_indices = challenge_indices[: int(args.max_challenges)]
     else:
         candidates = rng.choice(bank_pos.shape[0], size=min(int(args.scan_count), bank_pos.shape[0]), replace=False)
         baseline_stepper = _make_stepper(model, ids, policy, "none", args)
         challenge_indices = []
-        print(f"[scan] scanning {len(candidates)} targets for no-CBF contacts")
+        print(f"[scan] scanning {len(candidates)} targets for no-CBF contacts", flush=True)
         for n, idx in enumerate(candidates, 1):
             res = run_episode(
                 model,
@@ -256,19 +270,23 @@ def main() -> int:
             )
             if res.contact_steps > 0:
                 challenge_indices.append(int(idx))
-                print(f"[scan] challenge idx={int(idx)} contact_steps={res.contact_steps} best={res.best_dist_m*1000:.1f}mm")
+                print(
+                    f"[scan] challenge idx={int(idx)} contact_steps={res.contact_steps} "
+                    f"best={res.best_dist_m*1000:.1f}mm",
+                    flush=True,
+                )
                 if len(challenge_indices) >= int(args.max_challenges):
                     break
             elif n % max(1, int(args.log_every)) == 0:
-                print(f"[scan] {n}/{len(candidates)} found={len(challenge_indices)}")
+                print(f"[scan] {n}/{len(candidates)} found={len(challenge_indices)}", flush=True)
         (out_dir / "challenge_indices.json").write_text(
             json.dumps(challenge_indices, indent=2) + "\n",
             encoding="utf-8",
         )
 
-    print(f"[eval] challenge_count={len(challenge_indices)}")
+    print(f"[eval] challenge_count={len(challenge_indices)}", flush=True)
     rows: list[RunResult] = []
-    for method in ("none", "geom", "ideal_sdf"):
+    for method in [str(m).strip() for m in args.methods if str(m).strip()]:
         stepper = _make_stepper(model, ids, policy, method, args)
         for i, idx in enumerate(challenge_indices, 1):
             quat = bank_quat[int(idx)].copy()
@@ -290,7 +308,8 @@ def main() -> int:
                 print(
                     f"[eval][{method}] {i}/{len(challenge_indices)} "
                     f"idx={idx} contact={res.contact_steps} best={res.best_dist_m*1000:.1f}mm "
-                    f"h={res.h_min_m*1000 if math.isfinite(res.h_min_m) else float('nan'):.1f}mm"
+                    f"h={res.h_min_m*1000 if math.isfinite(res.h_min_m) else float('nan'):.1f}mm",
+                    flush=True,
                 )
 
     _write_csv(out_dir / "episodes.csv", rows)

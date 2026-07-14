@@ -1,0 +1,39 @@
+{
+  "mjcf": "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/SO-ARM100/Simulation/SO100/mujoco/scene_plus.xml",
+  "seed": 42,
+  "scan_count": 512,
+  "challenge_indices": [
+    799,
+    2472,
+    2601
+  ],
+  "metrics": {
+    "ideal_sdf": {
+      "n": 3,
+      "contact_rate": 0.6666666666666666,
+      "reach_2cm_rate": 0.0,
+      "mean_best_dist_m": 0.10067919268339927,
+      "mean_end_dist_m": 0.10379582929112469,
+      "mean_h_min_m": -0.0004081594742365568,
+      "mean_max_dq_cbf": 0.3657729871531219
+    },
+    "none": {
+      "n": 3,
+      "contact_rate": 1.0,
+      "reach_2cm_rate": 1.0,
+      "mean_best_dist_m": 0.005515756385806814,
+      "mean_end_dist_m": 0.009326507634019203,
+      "mean_h_min_m": NaN,
+      "mean_max_dq_cbf": 0.0
+    },
+    "workspace_sdf": {
+      "n": 3,
+      "contact_rate": 0.0,
+      "reach_2cm_rate": 0.0,
+      "mean_best_dist_m": 0.11824864911001416,
+      "mean_end_dist_m": 0.13514647594742643,
+      "mean_h_min_m": -0.01060617587026419,
+      "mean_max_dq_cbf": 0.4263818105890631
+    }
+  }
+}

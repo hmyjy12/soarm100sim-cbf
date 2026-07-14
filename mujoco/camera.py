@@ -78,6 +78,15 @@ class MujocoCameraRig:
         self._renderer.disable_depth_rendering()
         return np.asarray(depth, dtype=np.float64)
 
+    def capture_segmentation(self, data: mujoco.MjData, cam_name: str) -> np.ndarray:
+        cid = camera_id(self.model, cam_name)
+        self._renderer.disable_depth_rendering()
+        self._renderer.enable_segmentation_rendering()
+        self._renderer.update_scene(data, camera=cid)
+        seg = self._renderer.render()
+        self._renderer.disable_segmentation_rendering()
+        return np.asarray(seg, dtype=np.int32)
+
     def capture(
         self,
         data: mujoco.MjData,
