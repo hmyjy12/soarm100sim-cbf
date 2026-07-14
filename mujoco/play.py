@@ -236,6 +236,7 @@ def _traj_log_record(
         "n_constraints": int(info.get("n_constraints", 0)),
         "worst_monitor": str(info.get("cbf_worst_monitor", "")),
         "worst_obstacle": str(info.get("cbf_worst_obstacle", "")),
+        "worst_obs_step": float(info.get("cbf_worst_obs_step", 0.0)),
         "nom_violation": float(info.get("nom_violation", 0.0)),
         "vision_detected": bool(getattr(dbg, "detected", False)) if dbg is not None else False,
         "depth_valid_points": int(getattr(dbg, "n_depth_valid", 0)) if dbg is not None else 0,

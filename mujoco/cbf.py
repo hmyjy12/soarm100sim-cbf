@@ -161,6 +161,7 @@ class AxisAlignedBoxObstacle:
     name: str
     center: np.ndarray
     half_extents: np.ndarray
+    velocity: np.ndarray = field(default_factory=lambda: np.zeros(3, dtype=np.float64))
 
 
 @dataclass
@@ -172,6 +173,7 @@ class CylinderObstacle:
     axis: np.ndarray
     radius: float
     half_length: float
+    velocity: np.ndarray = field(default_factory=lambda: np.zeros(3, dtype=np.float64))
 
 
 @dataclass
@@ -183,6 +185,7 @@ class PointCloudSdfObstacle:
     truncation_distance: float = 0.12
     voxel_size: float = 0.01
     inflate: float = 0.0
+    velocity: np.ndarray = field(default_factory=lambda: np.zeros(3, dtype=np.float64))
     _tree: object | None = field(default=None, init=False, repr=False)
 
     def __post_init__(self) -> None:
@@ -192,6 +195,7 @@ class PointCloudSdfObstacle:
         if pts.shape[0] > 0 and float(self.voxel_size) > 1e-6:
             pts = _voxel_downsample_points(pts, float(self.voxel_size))
         self.points = pts
+        self.velocity = np.asarray(self.velocity, dtype=np.float64).reshape(3)
         if cKDTree is not None and pts.shape[0] > 0:
             self._tree = cKDTree(pts)
 
@@ -382,6 +386,10 @@ def obstacle_h_and_grad_p(
     return box_h_and_grad_p(p, obs.center, obs.half_extents, d_safe, r_link)
 
 
+def obstacle_step_velocity(obs: Obstacle) -> np.ndarray:
+    return np.asarray(getattr(obs, "velocity", np.zeros(3, dtype=np.float64)), dtype=np.float64).reshape(3)
+
+
 def segment_obstacle_h_and_grad(
     p0: np.ndarray,
     p1: np.ndarray,
@@ -391,7 +399,7 @@ def segment_obstacle_h_and_grad(
     d_safe: float,
     r_link: float,
     n_samples: int = CAPSULE_SEGMENT_SAMPLES,
-) -> tuple[float, np.ndarray, float]:
+) -> tuple[float, np.ndarray, np.ndarray, float]:
     """线段胶囊到障碍的最紧 h 与 ∇_q h（采样最近点 + Jacobian 线性插值）。"""
     p0 = np.asarray(p0, dtype=np.float64).reshape(3)
     p1 = np.asarray(p1, dtype=np.float64).reshape(3)
@@ -402,6 +410,7 @@ def segment_obstacle_h_and_grad(
 
     h_min = float("inf")
     grad_q_best = np.zeros(ACTION_DIM, dtype=np.float64)
+    grad_p_best = np.zeros(3, dtype=np.float64)
     t_best = 0.0
     for t in ts:
         p = p0 + t * (p1 - p0)
@@ -409,9 +418,10 @@ def segment_obstacle_h_and_grad(
         if float(h) < h_min:
             h_min = float(h)
             t_best = float(t)
+            grad_p_best = np.asarray(grad_p, dtype=np.float64).reshape(3)
             j_interp = (1.0 - t) * j0 + t * j1
             grad_q_best = j_interp.T @ grad_p
-    return h_min, grad_q_best, t_best
+    return h_min, grad_q_best, grad_p_best, t_best
 
 
 def _geom_world_pose(model: mujoco.MjModel, data: mujoco.MjData, gid: int):
@@ -594,14 +604,16 @@ def _worst_barrier(
             p0, j0 = body_pos_and_jacobian(model, data, ids, mon.body_a_id)
             p1, j1 = body_pos_and_jacobian(model, data, ids, mon.body_b_id)
             for obs in obstacles:
-                h, grad_q, t_seg = segment_obstacle_h_and_grad(
+                h, grad_q, grad_p, t_seg = segment_obstacle_h_and_grad(
                     p0, p1, j0, j1, obs, cfg.d_safe, mon.r_link
                 )
+                obs_step = float(grad_p @ obstacle_step_velocity(obs))
                 rec = {
                     "monitor": mon.name,
                     "obstacle": obs.name,
                     "h": float(h),
                     "grad_q": grad_q,
+                    "obs_step": obs_step,
                     "capsule_t": float(t_seg),
                 }
                 records.append(rec)
@@ -617,11 +629,13 @@ def _worst_barrier(
         for obs in obstacles:
             h, grad_p = obstacle_h_and_grad_p(pos, obs, cfg.d_safe, mon.r_link)
             grad_q = j_pos.T @ grad_p
+            obs_step = float(grad_p @ obstacle_step_velocity(obs))
             rec = {
                 "monitor": mon.name,
                 "obstacle": obs.name,
                 "h": float(h),
                 "grad_q": grad_q,
+                "obs_step": obs_step,
             }
             records.append(rec)
             if float(h) < h_min:
@@ -645,7 +659,8 @@ def _build_constraints(
         if h >= cfg.activate_margin:
             continue
         grad_q = np.asarray(rec["grad_q"], dtype=np.float64)
-        b_tot = -cfg.gamma * h
+        obs_step = float(rec.get("obs_step", 0.0))
+        b_tot = obs_step - cfg.gamma * h
         rows.append(grad_q)
         rhs_total.append(b_tot)
         rhs_cbf.append(b_tot - float(grad_q @ dq_nom))
@@ -729,7 +744,9 @@ def solve_cbf_correction(
     if worst is not None:
         info["cbf_worst_monitor"] = str(worst["monitor"])
         info["cbf_worst_obstacle"] = str(worst["obstacle"])
-        info["nom_violation"] = float(-(float(worst["grad_q"] @ dq_nom) + cfg.gamma * float(worst["h"])))
+        info["cbf_worst_obs_step"] = float(worst.get("obs_step", 0.0))
+        rhs_worst = float(worst.get("obs_step", 0.0)) - cfg.gamma * float(worst["h"])
+        info["nom_violation"] = float(rhs_worst - float(worst["grad_q"] @ dq_nom))
 
     need_active = h_min < cfg.activate_margin
     if not need_active:
@@ -737,7 +754,8 @@ def solve_cbf_correction(
             if float(rec["h"]) >= cfg.activate_margin:
                 continue
             g = np.asarray(rec["grad_q"], dtype=np.float64)
-            if float(g @ dq_nom) < -cfg.gamma * float(rec["h"]) - 1e-9:
+            rhs = float(rec.get("obs_step", 0.0)) - cfg.gamma * float(rec["h"])
+            if float(g @ dq_nom) < rhs - 1e-9:
                 need_active = True
                 break
 
@@ -789,4 +807,5 @@ def cbf_step_log_record(ep: int, step: int, t: float, info: dict) -> dict:
         "dq_total_norm": float(info.get("dq_total_norm", info.get("dq_nom_norm", 0.0))),
         "cbf_projected": bool(info.get("cbf_projected", False)),
         "nom_violation": float(info.get("nom_violation", 0.0)),
+        "worst_obs_step": float(info.get("cbf_worst_obs_step", 0.0)),
     }

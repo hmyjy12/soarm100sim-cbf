@@ -66,16 +66,25 @@ class MujocoGeomObstacleSource(ObstacleSource):
     def __init__(self, geom_names: tuple[str, ...]) -> None:
         self.geom_names = tuple(geom_names)
         self._obstacles: list[Obstacle] = []
+        self._prev_centers: dict[str, np.ndarray] = {}
 
     def reset(self) -> None:
         self._obstacles = []
+        self._prev_centers.clear()
 
     @property
     def refresh_every_step(self) -> bool:
         return True
 
     def update(self, model: mujoco.MjModel, data: mujoco.MjData) -> None:
-        self._obstacles = load_obstacles(model, data, self.geom_names)
+        obstacles = load_obstacles(model, data, self.geom_names)
+        for obs in obstacles:
+            center = np.asarray(getattr(obs, "center", np.zeros(3)), dtype=np.float64).reshape(3)
+            prev = self._prev_centers.get(str(obs.name))
+            if prev is not None:
+                obs.velocity = center - prev
+            self._prev_centers[str(obs.name)] = center.copy()
+        self._obstacles = obstacles
 
     def get_obstacles(self) -> list[Obstacle]:
         return list(self._obstacles)
@@ -179,6 +188,7 @@ class MujocoGeomPointCloudSdfObstacleSource(ObstacleSource):
     cfg: IdealPointCloudSdfConfig = field(default_factory=IdealPointCloudSdfConfig)
     _obstacles: list[Obstacle] = field(default_factory=list)
     last_debug: IdealPointCloudSdfDebug = field(default_factory=IdealPointCloudSdfDebug)
+    _prev_centroid: np.ndarray | None = None
 
     @property
     def refresh_every_step(self) -> bool:
@@ -187,6 +197,7 @@ class MujocoGeomPointCloudSdfObstacleSource(ObstacleSource):
     def reset(self) -> None:
         self._obstacles = []
         self.last_debug = IdealPointCloudSdfDebug()
+        self._prev_centroid = None
 
     def update(self, model: mujoco.MjModel, data: mujoco.MjData) -> None:
         geoms = load_obstacles(model, data, self.geom_names)
@@ -194,12 +205,18 @@ class MujocoGeomPointCloudSdfObstacleSource(ObstacleSource):
         clouds = [pts for pts in clouds if pts.shape[0] > 0]
         if clouds:
             points = np.vstack(clouds)
+            centroid = np.mean(points, axis=0)
+            velocity = np.zeros(3, dtype=np.float64)
+            if self._prev_centroid is not None:
+                velocity = centroid - self._prev_centroid
+            self._prev_centroid = centroid.copy()
             obs = PointCloudSdfObstacle(
                 name=self.cfg.name_prefix,
                 points=points,
                 truncation_distance=float(self.cfg.truncation_distance_m),
                 voxel_size=float(self.cfg.voxel_size_m),
                 inflate=float(self.cfg.inflate_m),
+                velocity=velocity,
             )
             self._obstacles = [obs]
             n_sdf = int(obs.points.shape[0])
@@ -231,6 +248,7 @@ class SceneDepthVisionObstacleSource(ObstacleSource):
     _tracker: RodObstacleTracker = field(default_factory=RodObstacleTracker)
     _obstacles: list[Obstacle] = field(default_factory=list)
     compare_gt_geom: str | None = "obstacle_rod"
+    _prev_centers: dict[str, np.ndarray] = field(default_factory=dict)
 
     def __post_init__(self) -> None:
         self._tracker = RodObstacleTracker(cfg=self.rod_cfg)
@@ -246,6 +264,7 @@ class SceneDepthVisionObstacleSource(ObstacleSource):
     def reset(self) -> None:
         self._tracker.reset()
         self._obstacles = []
+        self._prev_centers.clear()
 
     def _camera_intrinsics(self, model: mujoco.MjModel) -> CameraIntrinsics:
         if self.use_sim_cam or self.calibration is None:
@@ -268,7 +287,14 @@ class SceneDepthVisionObstacleSource(ObstacleSource):
             if gt_list:
                 gt = gt_list[0]
 
-        self._obstacles = self._tracker.update(depth_m, intr, T_wc, gt=gt)
+        obstacles = self._tracker.update(depth_m, intr, T_wc, gt=gt)
+        for obs in obstacles:
+            center = np.asarray(getattr(obs, "center", np.zeros(3)), dtype=np.float64).reshape(3)
+            prev = self._prev_centers.get(str(obs.name))
+            if prev is not None:
+                obs.velocity = center - prev
+            self._prev_centers[str(obs.name)] = center.copy()
+        self._obstacles = obstacles
 
     def get_obstacles(self) -> list[Obstacle]:
         return list(self._obstacles)
@@ -483,6 +509,7 @@ class SceneDepthSdfObstacleSource(ObstacleSource):
     _voxel_memory: dict[tuple[int, int, int], dict[str, object]] = field(default_factory=dict)
     _frame_idx: int = 0
     _robot_geom_ids: set[int] | None = None
+    _prev_centroid: np.ndarray | None = None
 
     @property
     def refresh_every_step(self) -> bool:
@@ -493,6 +520,7 @@ class SceneDepthSdfObstacleSource(ObstacleSource):
         self.last_debug = SceneDepthSdfDebug()
         self._voxel_memory.clear()
         self._frame_idx = 0
+        self._prev_centroid = None
 
     def _camera_intrinsics(self, model: mujoco.MjModel) -> CameraIntrinsics:
         if self.use_sim_cam or self.calibration is None:
@@ -565,18 +593,25 @@ class SceneDepthSdfObstacleSource(ObstacleSource):
         ]
         pts_persistent = np.vstack(persistent) if persistent else np.zeros((0, 3), dtype=np.float64)
         if pts_persistent.shape[0] >= int(self.cfg.min_points):
+            centroid = np.mean(pts_persistent, axis=0)
+            velocity = np.zeros(3, dtype=np.float64)
+            if self._prev_centroid is not None:
+                velocity = centroid - self._prev_centroid
+            self._prev_centroid = centroid.copy()
             obs = PointCloudSdfObstacle(
                 name=self.cfg.name,
                 points=pts_persistent,
                 truncation_distance=float(self.cfg.truncation_distance_m),
                 voxel_size=float(self.cfg.voxel_size_m),
                 inflate=float(self.cfg.inflate_m),
+                velocity=velocity,
             )
             self._obstacles = [obs]
             n_sdf = int(obs.points.shape[0])
         else:
             self._obstacles = []
             n_sdf = 0
+            self._prev_centroid = None
         self.last_debug = SceneDepthSdfDebug(
             n_depth_valid=int(pts_all.shape[0]),
             n_robot_masked=n_robot_masked,

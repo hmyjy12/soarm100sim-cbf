@@ -1,0 +1,69 @@
+{
+  "mjcf": "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/SO-ARM100/Simulation/SO100/mujoco/scene_plus.xml",
+  "seed": 42,
+  "scan_count": 512,
+  "challenge_indices": [
+    352,
+    1669,
+    77,
+    1107,
+    2390
+  ],
+  "settle_methods": [],
+  "success_dist": 0.03,
+  "success_steps": 10,
+  "settle_on_success": 0.0,
+  "settle_mode": "hold_q",
+  "target_motion": {
+    "kind": "none",
+    "center": "",
+    "amp": "0.03,0.03,0.00",
+    "period_s": 4.0
+  },
+  "obstacle_motion": {
+    "kind": "line",
+    "body": "obstacle_rod_mount",
+    "center": "0.16,0.09,0.02",
+    "amp": "0.06,0.00,0.00",
+    "period_s": 4.0
+  },
+  "workspace_sdf_preset": "dynamic",
+  "metrics": {
+    "ideal_sdf": {
+      "n": 5,
+      "contact_rate": 0.8,
+      "reach_2cm_rate": 0.4,
+      "success_latch_rate": 0.0,
+      "mean_best_dist_m": 0.027737059661614372,
+      "mean_end_dist_m": 0.04918444716310545,
+      "mean_tracking_dist_m": 0.09684257805157162,
+      "mean_max_tracking_dist_m": 0.26930548776591523,
+      "mean_h_min_m": -0.030123660831493933,
+      "mean_max_dq_cbf": 0.5846136547736794
+    },
+    "none": {
+      "n": 5,
+      "contact_rate": 1.0,
+      "reach_2cm_rate": 1.0,
+      "success_latch_rate": 0.0,
+      "mean_best_dist_m": 0.005647672212408654,
+      "mean_end_dist_m": 0.007163043134499919,
+      "mean_tracking_dist_m": 0.051649702347072425,
+      "mean_max_tracking_dist_m": 0.26930548776591523,
+      "mean_h_min_m": NaN,
+      "mean_max_dq_cbf": 0.0
+    },
+    "workspace_sdf": {
+      "n": 5,
+      "contact_rate": 0.8,
+      "reach_2cm_rate": 0.0,
+      "success_latch_rate": 0.0,
+      "mean_best_dist_m": 0.04897033045533998,
+      "mean_end_dist_m": 0.056588353283272164,
+      "mean_tracking_dist_m": 0.11524812615490403,
+      "mean_max_tracking_dist_m": 0.26930548776591523,
+      "mean_h_min_m": -0.02661852873868692,
+      "mean_max_dq_cbf": 0.46186517517510667
+    }
+  }
+}
