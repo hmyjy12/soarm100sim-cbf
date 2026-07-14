@@ -70,6 +70,10 @@ class MujocoGeomObstacleSource(ObstacleSource):
     def reset(self) -> None:
         self._obstacles = []
 
+    @property
+    def refresh_every_step(self) -> bool:
+        return True
+
     def update(self, model: mujoco.MjModel, data: mujoco.MjData) -> None:
         self._obstacles = load_obstacles(model, data, self.geom_names)
 

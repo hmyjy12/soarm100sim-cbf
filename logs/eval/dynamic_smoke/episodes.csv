@@ -1,0 +1,3 @@
+idx,method,contact_steps,best_dist_m,end_dist_m,mean_dist_m,max_dist_m,success_latched,success_step,final_state,h_min_m,active_steps,corrected_steps,max_dq_cbf,total_steps
+1730,none,7,0.0033987618027714545,0.006167050327057361,0.05351479698634385,0.2759883115449372,False,-1,APPROACH,nan,0,0,0.0,300
+1730,ideal_sdf,1,0.07136468042372265,0.08100283808125112,0.11744023756833104,0.2759883115449372,False,-1,APPROACH,-0.0052563638098084495,300,298,0.34190244563140326,300

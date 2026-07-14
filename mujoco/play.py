@@ -46,6 +46,7 @@ _c = _load_local("so100_mj_constants", _THIS / "constants.py")
 _pol = _load_local("so100_mj_policy", _THIS / "policy.py")
 _rt = _load_local("so100_mj_runtime", _THIS / "runtime.py")
 _cbf = _load_local("so100_mj_cbf", _THIS / "cbf.py")
+_dyn = _load_local("so100_mj_dynamic", _THIS / "dynamic.py")
 
 DEFAULT_CHECKPOINT = _c.DEFAULT_CHECKPOINT
 DEFAULT_MJCF = _c.DEFAULT_MJCF
@@ -65,6 +66,7 @@ SCENE_DEPTH_CAM = _c.SCENE_DEPTH_CAM
 WRIST_RGB_CAM = _c.WRIST_RGB_CAM
 CbfConfig = _cbf.CbfConfig
 cbf_step_log_record = _cbf.cbf_step_log_record
+MotionSpec = _dyn.MotionSpec
 
 
 @dataclass
@@ -153,6 +155,30 @@ def _compute_with_soft_cbf(stepper, model, data, target_pos, target_quat, args):
 
 def _arr(x) -> list[float]:
     return np.asarray(x, dtype=np.float64).reshape(-1).tolist()
+
+
+def _motion_spec(kind: str, center: str, amplitude: str, period_s: float) -> MotionSpec:
+    return MotionSpec(
+        kind=str(kind),
+        center=_dyn.parse_vec3(center, default=(0.0, 0.0, 0.0)),
+        amplitude=_dyn.parse_vec3(amplitude, default=(0.0, 0.0, 0.0)),
+        period_s=float(period_s),
+    )
+
+
+def _apply_workspace_sdf_preset(obs_source, preset: str) -> None:
+    cfg = getattr(obs_source, "cfg", None)
+    if cfg is None:
+        return
+    p = str(preset).lower().strip()
+    if p == "static":
+        return
+    if p == "dynamic":
+        cfg.persistence_hits = 1
+        cfg.persistence_forget_frames = 2
+        cfg.persistence_voxel_size_m = 0.012
+        return
+    raise ValueError(f"unknown workspace SDF preset: {preset!r}")
 
 
 def _traj_log_record(
@@ -341,8 +367,11 @@ def run(args: argparse.Namespace) -> int:
             calib_json=args.calib_json,
             use_sim_cam=bool(args.use_sim_cam),
         )
+        _apply_workspace_sdf_preset(obs_source, str(args.workspace_sdf_preset))
         stepper.cbf_obstacle_source = obs_source
         print(f"[mujoco_play] obstacle source={args.obstacle_source}")
+        if str(args.workspace_sdf_preset) != "static":
+            print(f"[mujoco_play] workspace_sdf preset={args.workspace_sdf_preset}")
         obs_kind = str(args.obstacle_source).lower()
         if obs_kind in (
             "geom_sdf",
@@ -435,6 +464,31 @@ def run(args: argparse.Namespace) -> int:
                 use_realtime = False
                 sleep_s = 0.0
 
+    target_motion = _motion_spec(
+        str(args.target_motion),
+        str(args.target_motion_center),
+        str(args.target_motion_amp),
+        float(args.target_motion_period),
+    )
+    obstacle_motion = _motion_spec(
+        str(args.obstacle_motion),
+        str(args.obstacle_motion_center),
+        str(args.obstacle_motion_amp),
+        float(args.obstacle_motion_period),
+    )
+    dynamic_target = str(args.target_motion).lower().strip() != "none"
+    dynamic_obstacle = str(args.obstacle_motion).lower().strip() != "none"
+    if dynamic_target:
+        print(
+            f"[mujoco_play] dynamic target: {args.target_motion} "
+            f"amp={args.target_motion_amp} period={float(args.target_motion_period):.2f}s"
+        )
+    if dynamic_obstacle:
+        print(
+            f"[mujoco_play] dynamic obstacle body={args.obstacle_body} motion={args.obstacle_motion} "
+            f"amp={args.obstacle_motion_amp} period={float(args.obstacle_motion_period):.2f}s"
+        )
+
     ep = 0
     try:
         while ep < int(args.episodes):
@@ -448,10 +502,15 @@ def run(args: argparse.Namespace) -> int:
             else:
                 idx = int(rng.integers(0, bank_pos.shape[0]))
             target_pos = bank_pos[idx].copy()
+            target_base_pos = target_pos.copy()
             target_quat = bank_quat[idx].copy()
             target_quat /= max(float(np.linalg.norm(target_quat)), 1e-12)
 
             reset_home(model, data, ids)
+            obstacle_base_pos = None
+            obstacle_bid = mujoco.mj_name2id(model, mujoco.mjtObj.mjOBJ_BODY, str(args.obstacle_body))
+            if obstacle_bid >= 0:
+                obstacle_base_pos = np.asarray(model.body_pos[int(obstacle_bid)], dtype=np.float64).copy()
             stepper.reset_filter()
             if args.enable_cbf:
                 stepper.refresh_cbf_obstacles(data)
@@ -471,6 +530,13 @@ def run(args: argparse.Namespace) -> int:
             for k in range(steps_per_ep):
                 if viewer is not None and not viewer.is_running():
                     break
+
+                t_s = k * ctrl_dt
+                if dynamic_target:
+                    target_pos = target_motion.position(t_s, base=target_base_pos)
+                if dynamic_obstacle and obstacle_base_pos is not None:
+                    obs_pos = obstacle_motion.position(t_s, base=obstacle_base_pos)
+                    _dyn.set_body_pos(model, data, str(args.obstacle_body), obs_pos)
 
                 q_before = joint_pos(data, ids)
                 if task_state == "SETTLE" and str(args.settle_mode) == "hold_q" and hold_target_q is not None:
@@ -512,7 +578,7 @@ def run(args: argparse.Namespace) -> int:
                     rec = _traj_log_record(
                         ep,
                         k,
-                        k * ctrl_dt,
+                        t_s,
                         idx,
                         q_before,
                         q_after,
@@ -735,6 +801,47 @@ def build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="任务状态机：到达/驻留完成后结束当前 episode",
     )
+    p.add_argument(
+        "--target-motion",
+        type=str,
+        default="none",
+        choices=("none", "circle", "line"),
+        help="动态目标轨迹：none=静态；circle/line=每步更新 target_pos",
+    )
+    p.add_argument(
+        "--target-motion-center",
+        type=str,
+        default="",
+        help="动态目标中心 x,y,z；留空则以 target bank 点为中心",
+    )
+    p.add_argument(
+        "--target-motion-amp",
+        type=str,
+        default="0.03,0.03,0.00",
+        help="动态目标振幅 x,y,z (m)",
+    )
+    p.add_argument("--target-motion-period", type=float, default=4.0, help="动态目标周期 (s)")
+    p.add_argument(
+        "--obstacle-motion",
+        type=str,
+        default="none",
+        choices=("none", "circle", "line"),
+        help="动态障碍轨迹：移动 obstacle body 的 body_pos",
+    )
+    p.add_argument("--obstacle-body", type=str, default="obstacle_rod_mount", help="动态障碍 body 名")
+    p.add_argument(
+        "--obstacle-motion-center",
+        type=str,
+        default="",
+        help="动态障碍中心 x,y,z；留空则以当前 body_pos 为中心",
+    )
+    p.add_argument(
+        "--obstacle-motion-amp",
+        type=str,
+        default="0.03,0.00,0.00",
+        help="动态障碍振幅 x,y,z (m)",
+    )
+    p.add_argument("--obstacle-motion-period", type=float, default=5.0, help="动态障碍周期 (s)")
     p.add_argument("--enable-cbf", action="store_true", help="EMBODISTEER 式全身 CBF-QP 避障")
     p.add_argument("--cbf-d-safe", type=float, default=CBF_D_SAFE, help="到障碍面安全余量 (m)")
     p.add_argument("--cbf-gamma", type=float, default=CBF_GAMMA, help="CBF 增益 γ")
@@ -790,6 +897,13 @@ def build_parser() -> argparse.ArgumentParser:
         "--use-sim-cam",
         action="store_true",
         help="vision 模式：用 MuJoCo fovy/xpos 代替标定 JSON（仅调试对比）",
+    )
+    p.add_argument(
+        "--workspace-sdf-preset",
+        type=str,
+        default="static",
+        choices=("static", "dynamic"),
+        help="workspace_sdf voxel persistence 参数：dynamic 会缩短记忆以减少移动障碍残影",
     )
     p.add_argument(
         "--vision-debug",

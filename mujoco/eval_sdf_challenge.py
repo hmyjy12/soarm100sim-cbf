@@ -40,6 +40,7 @@ _pol = _load_local("so100_mj_policy", _THIS / "policy.py")
 _rt = _load_local("so100_mj_runtime", _THIS / "runtime.py")
 _cbf = _load_local("so100_mj_cbf", _THIS / "cbf.py")
 _obs = _load_local("so100_mj_obstacle_source", _THIS / "obstacle_source.py")
+_dyn = _load_local("so100_mj_dynamic", _THIS / "dynamic.py")
 
 DEFAULT_CHECKPOINT = _c.DEFAULT_CHECKPOINT
 DEFAULT_MJCF = _c.DEFAULT_MJCF
@@ -62,6 +63,8 @@ class RunResult:
     contact_steps: int
     best_dist_m: float
     end_dist_m: float
+    mean_dist_m: float
+    max_dist_m: float
     success_latched: bool
     success_step: int
     final_state: str
@@ -118,8 +121,22 @@ def _make_stepper(model: mujoco.MjModel, ids, policy, method: str, args) -> _rt.
             calib_json=str(args.calib_json),
             use_sim_cam=bool(args.use_sim_cam),
         )
+        preset = str(getattr(args, "workspace_sdf_preset", "static"))
+        source_cfg = getattr(obs_source, "cfg", None)
+        if source_cfg is not None and preset == "dynamic":
+            source_cfg.persistence_hits = 1
+            source_cfg.persistence_forget_frames = 2
+            source_cfg.persistence_voxel_size_m = 0.012
     stepper.cbf_obstacle_source = obs_source
     return stepper
+
+
+def _motion_spec(args, prefix: str):
+    kind = str(getattr(args, f"{prefix}_motion", "none"))
+    center = _dyn.parse_vec3(str(getattr(args, f"{prefix}_motion_center", "")), default=(0.0, 0.0, 0.0))
+    amp = _dyn.parse_vec3(str(getattr(args, f"{prefix}_motion_amp", "0,0,0")), default=(0.0, 0.0, 0.0))
+    period = float(getattr(args, f"{prefix}_motion_period", 4.0))
+    return _dyn.MotionSpec(kind=kind, center=center, amplitude=amp, period_s=period)
 
 
 def _method_uses_settle(method: str, args) -> bool:
@@ -167,6 +184,8 @@ def run_episode(
 
     contact_steps = 0
     best_dist = float("inf")
+    dist_sum = 0.0
+    max_dist = 0.0
     h_min = float("inf")
     active_steps = 0
     corrected_steps = 0
@@ -180,8 +199,25 @@ def run_episode(
     max_settle_steps = int(round(max(float(args.settle_on_success), 0.0) / ctrl_dt))
     hold_target_q: np.ndarray | None = None
     use_settle = _method_uses_settle(method, args)
+    target_base_pos = np.asarray(target_pos, dtype=np.float64).copy()
+    target_motion = _motion_spec(args, "target")
+    obstacle_motion = _motion_spec(args, "obstacle")
+    dynamic_target = str(getattr(args, "target_motion", "none")).lower().strip() != "none"
+    dynamic_obstacle = str(getattr(args, "obstacle_motion", "none")).lower().strip() != "none"
+    obstacle_body = str(getattr(args, "obstacle_body", "obstacle_rod_mount"))
+    obstacle_base_pos = None
+    if dynamic_obstacle:
+        bid = mujoco.mj_name2id(model, mujoco.mjtObj.mjOBJ_BODY, obstacle_body)
+        if bid >= 0:
+            obstacle_base_pos = np.asarray(model.body_pos[int(bid)], dtype=np.float64).copy()
 
     for k in range(steps_per_ep):
+        t_s = k * ctrl_dt
+        if dynamic_target:
+            target_pos = target_motion.position(t_s, base=target_base_pos)
+        if dynamic_obstacle and obstacle_base_pos is not None:
+            obs_pos = obstacle_motion.position(t_s, base=obstacle_base_pos)
+            _dyn.set_body_pos(model, data, obstacle_body, obs_pos)
         if use_settle and task_state == "SETTLE" and str(args.settle_mode) == "hold_q" and hold_target_q is not None:
             tgt = hold_target_q.copy()
             tcp_now, ee_quat_now = _rt.tcp_pose_w(data, ids)
@@ -202,7 +238,10 @@ def run_episode(
             mujoco.mj_step(model, data)
         if _count_contacts(data, obstacle_gid) > 0:
             contact_steps += 1
-        best_dist = min(best_dist, float(info["distance"]))
+        dist_now = float(info["distance"])
+        best_dist = min(best_dist, dist_now)
+        dist_sum += dist_now
+        max_dist = max(max_dist, dist_now)
         h = float(info.get("h_min", float("inf")))
         h_min = min(h_min, h)
         if info.get("cbf_active"):
@@ -245,6 +284,8 @@ def run_episode(
         contact_steps=int(contact_steps),
         best_dist_m=float(best_dist),
         end_dist_m=end_dist,
+        mean_dist_m=float(dist_sum / max(int(steps_per_ep), 1)),
+        max_dist_m=float(max_dist),
         success_latched=bool(success_latched),
         success_step=int(success_step),
         final_state=str(task_state),
@@ -270,6 +311,8 @@ def _summarize(rows: list[RunResult]) -> dict:
     out = {}
     for method in sorted({r.method for r in rows}):
         rs = [r for r in rows if r.method == method]
+        h_vals = np.asarray([r.h_min_m for r in rs], dtype=np.float64)
+        finite_h = h_vals[np.isfinite(h_vals)]
         out[method] = {
             "n": len(rs),
             "contact_rate": float(np.mean([r.contact_steps > 0 for r in rs])) if rs else float("nan"),
@@ -277,7 +320,9 @@ def _summarize(rows: list[RunResult]) -> dict:
             "success_latch_rate": float(np.mean([r.success_latched for r in rs])) if rs else float("nan"),
             "mean_best_dist_m": float(np.mean([r.best_dist_m for r in rs])) if rs else float("nan"),
             "mean_end_dist_m": float(np.mean([r.end_dist_m for r in rs])) if rs else float("nan"),
-            "mean_h_min_m": float(np.nanmean([r.h_min_m for r in rs])) if rs else float("nan"),
+            "mean_tracking_dist_m": float(np.mean([r.mean_dist_m for r in rs])) if rs else float("nan"),
+            "mean_max_tracking_dist_m": float(np.mean([r.max_dist_m for r in rs])) if rs else float("nan"),
+            "mean_h_min_m": float(np.mean(finite_h)) if finite_h.size else float("nan"),
             "mean_max_dq_cbf": float(np.mean([r.max_dq_cbf for r in rs])) if rs else float("nan"),
         }
     return out
@@ -318,6 +363,16 @@ def main() -> int:
     p.add_argument("--settle-cbf-activate-margin", type=float, default=0.015)
     p.add_argument("--settle-cbf-lambda", type=float, default=0.5)
     p.add_argument("--stop-on-success", action="store_true")
+    p.add_argument("--target-motion", type=str, default="none", choices=("none", "circle", "line"))
+    p.add_argument("--target-motion-center", type=str, default="")
+    p.add_argument("--target-motion-amp", type=str, default="0.03,0.03,0.00")
+    p.add_argument("--target-motion-period", type=float, default=4.0)
+    p.add_argument("--obstacle-motion", type=str, default="none", choices=("none", "circle", "line"))
+    p.add_argument("--obstacle-body", type=str, default="obstacle_rod_mount")
+    p.add_argument("--obstacle-motion-center", type=str, default="")
+    p.add_argument("--obstacle-motion-amp", type=str, default="0.03,0.00,0.00")
+    p.add_argument("--obstacle-motion-period", type=float, default=5.0)
+    p.add_argument("--workspace-sdf-preset", type=str, default="static", choices=("static", "dynamic"))
     p.add_argument("--log-every", type=int, default=16)
     args = p.parse_args()
 
@@ -416,6 +471,20 @@ def main() -> int:
         "success_steps": int(args.success_steps),
         "settle_on_success": float(args.settle_on_success),
         "settle_mode": str(args.settle_mode),
+        "target_motion": {
+            "kind": str(args.target_motion),
+            "center": str(args.target_motion_center),
+            "amp": str(args.target_motion_amp),
+            "period_s": float(args.target_motion_period),
+        },
+        "obstacle_motion": {
+            "kind": str(args.obstacle_motion),
+            "body": str(args.obstacle_body),
+            "center": str(args.obstacle_motion_center),
+            "amp": str(args.obstacle_motion_amp),
+            "period_s": float(args.obstacle_motion_period),
+        },
+        "workspace_sdf_preset": str(args.workspace_sdf_preset),
         "metrics": _summarize(rows),
     }
     (out_dir / "summary.json").write_text(json.dumps(summary, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
