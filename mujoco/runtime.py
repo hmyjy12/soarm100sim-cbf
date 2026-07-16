@@ -278,6 +278,189 @@ def set_ctrl(data: mujoco.MjData, ids: RobotIds, q_tgt: np.ndarray) -> None:
         data.ctrl[aid] = float(q_tgt[i])
 
 
+def cartesian_position_servo_target(
+    model: mujoco.MjModel,
+    data: mujoco.MjData,
+    ids: RobotIds,
+    target_pos_w: np.ndarray,
+    *,
+    max_step: float,
+    damping: float = 1e-3,
+) -> tuple[np.ndarray, dict]:
+    """One-step damped least-squares TCP position servo.
+
+    This intentionally controls only position. Orientation is held indirectly by
+    the current joint posture, which is enough for the first static sphere
+    pregrasp/final-approach smoke test.
+    """
+    curr_q = joint_pos(data, ids)
+    tcp_w, ee_quat = tcp_pose_w(data, ids)
+    err = np.asarray(target_pos_w, dtype=np.float64).reshape(3) - tcp_w
+    dist = float(np.linalg.norm(err))
+    if dist <= 1e-9:
+        return curr_q.copy(), {
+            "distance": 0.0,
+            "quat_dot": 1.0,
+            "dq_nom": np.zeros(ACTION_DIM, dtype=np.float64),
+            "dq_cbf": np.zeros(ACTION_DIM, dtype=np.float64),
+            "raw_action": np.zeros(ACTION_DIM, dtype=np.float64),
+            "h_min": float("inf"),
+            "cbf_active": False,
+            "cbf_feasible": True,
+            "cbf_projected": False,
+            "n_constraints": 0,
+            "dq_nom_norm": 0.0,
+            "dq_total_norm": 0.0,
+            "dq_cbf_norm": 0.0,
+        }
+
+    step = err
+    max_step = max(float(max_step), 1e-6)
+    if dist > max_step:
+        step = err * (max_step / dist)
+
+    n_arm = max(ACTION_DIM - 1, 1)
+    j_arm = np.zeros((3, n_arm), dtype=np.float64)
+    eps = 1e-5
+    q_saved = data.qpos.copy()
+    qvel_saved = data.qvel.copy()
+    for i, qadr in enumerate(ids.qpos_adr[:n_arm]):
+        data.qpos[qadr] = q_saved[qadr] + eps
+        mujoco.mj_forward(model, data)
+        tcp_plus, _ = tcp_pose_w(data, ids)
+        data.qpos[qadr] = q_saved[qadr] - eps
+        mujoco.mj_forward(model, data)
+        tcp_minus, _ = tcp_pose_w(data, ids)
+        j_arm[:, i] = (tcp_plus - tcp_minus) / (2.0 * eps)
+        data.qpos[qadr] = q_saved[qadr]
+    data.qpos[:] = q_saved
+    data.qvel[:] = qvel_saved
+    mujoco.mj_forward(model, data)
+    lhs = j_arm @ j_arm.T + float(damping) * np.eye(3, dtype=np.float64)
+    dq_arm = j_arm.T @ np.linalg.solve(lhs, step)
+    dq_arm = np.clip(dq_arm, -max_step, max_step)
+    dq = np.zeros(ACTION_DIM, dtype=np.float64)
+    dq[:n_arm] = dq_arm
+    tgt = np.clip(curr_q + dq, ids.q_low, ids.q_high)
+    return tgt, {
+        "distance": dist,
+        "quat_dot": 1.0,
+        "dq_nom": dq.copy(),
+        "dq_cbf": np.zeros(ACTION_DIM, dtype=np.float64),
+        "raw_action": np.zeros(ACTION_DIM, dtype=np.float64),
+        "h_min": float("inf"),
+        "cbf_active": False,
+        "cbf_feasible": True,
+        "cbf_projected": False,
+        "n_constraints": 0,
+        "dq_nom_norm": float(np.linalg.norm(dq)),
+        "dq_total_norm": float(np.linalg.norm(tgt - curr_q)),
+        "dq_cbf_norm": 0.0,
+    }
+
+
+def _quat_to_rotvec(q_wxyz: np.ndarray) -> np.ndarray:
+    q = np.asarray(q_wxyz, dtype=np.float64).reshape(4)
+    q = q / max(float(np.linalg.norm(q)), 1e-12)
+    if q[0] < 0.0:
+        q = -q
+    v = q[1:]
+    s = float(np.linalg.norm(v))
+    if s < 1e-10:
+        return 2.0 * v
+    angle = 2.0 * np.arctan2(s, float(q[0]))
+    return v * (angle / s)
+
+
+def cartesian_pose_servo_target(
+    model: mujoco.MjModel,
+    data: mujoco.MjData,
+    ids: RobotIds,
+    target_pos_w: np.ndarray,
+    target_quat_wxyz: np.ndarray,
+    *,
+    max_pos_step: float,
+    max_rot_step: float = 0.02,
+    rot_weight: float = 0.35,
+    damping: float = 2e-3,
+) -> tuple[np.ndarray, dict]:
+    """One-step damped least-squares TCP pose servo for arm joints.
+
+    The gripper joint is intentionally excluded from the Jacobian because grasp
+    phases command it separately as open/close.
+    """
+    curr_q = joint_pos(data, ids)
+    tcp_w, ee_quat = tcp_pose_w(data, ids)
+    pos_err = np.asarray(target_pos_w, dtype=np.float64).reshape(3) - tcp_w
+    pos_dist = float(np.linalg.norm(pos_err))
+    pos_step = pos_err.copy()
+    max_pos_step = max(float(max_pos_step), 1e-6)
+    if pos_dist > max_pos_step:
+        pos_step = pos_err * (max_pos_step / pos_dist)
+
+    target_q = np.asarray(target_quat_wxyz, dtype=np.float64).reshape(4)
+    target_q = target_q / max(float(np.linalg.norm(target_q)), 1e-12)
+    ee_q = np.asarray(ee_quat, dtype=np.float64).reshape(4)
+    ee_q = ee_q / max(float(np.linalg.norm(ee_q)), 1e-12)
+    q_err = quat_multiply(target_q, quat_conjugate(ee_q))
+    rot_err = _quat_to_rotvec(q_err)
+    rot_norm = float(np.linalg.norm(rot_err))
+    rot_step = rot_err.copy()
+    max_rot_step = max(float(max_rot_step), 1e-6)
+    if rot_norm > max_rot_step:
+        rot_step = rot_err * (max_rot_step / rot_norm)
+
+    n_arm = max(ACTION_DIM - 1, 1)
+    j = np.zeros((6, n_arm), dtype=np.float64)
+    eps = 1e-5
+    q_saved = data.qpos.copy()
+    qvel_saved = data.qvel.copy()
+    for i, qadr in enumerate(ids.qpos_adr[:n_arm]):
+        data.qpos[qadr] = q_saved[qadr] + eps
+        mujoco.mj_forward(model, data)
+        tcp_plus, quat_plus = tcp_pose_w(data, ids)
+
+        data.qpos[qadr] = q_saved[qadr] - eps
+        mujoco.mj_forward(model, data)
+        tcp_minus, quat_minus = tcp_pose_w(data, ids)
+
+        j[:3, i] = (tcp_plus - tcp_minus) / (2.0 * eps)
+        q_delta = quat_multiply(quat_plus, quat_conjugate(quat_minus))
+        j[3:, i] = _quat_to_rotvec(q_delta) / (2.0 * eps)
+        data.qpos[qadr] = q_saved[qadr]
+
+    data.qpos[:] = q_saved
+    data.qvel[:] = qvel_saved
+    mujoco.mj_forward(model, data)
+
+    err6 = np.concatenate([pos_step, float(rot_weight) * rot_step])
+    j6 = j.copy()
+    j6[3:, :] *= float(rot_weight)
+    lhs = j6 @ j6.T + float(damping) * np.eye(6, dtype=np.float64)
+    dq_arm = j6.T @ np.linalg.solve(lhs, err6)
+    max_joint_step = max(float(max_pos_step), float(max_rot_step) * 0.5)
+    dq_arm = np.clip(dq_arm, -max_joint_step, max_joint_step)
+    dq = np.zeros(ACTION_DIM, dtype=np.float64)
+    dq[:n_arm] = dq_arm
+    tgt = np.clip(curr_q + dq, ids.q_low, ids.q_high)
+    return tgt, {
+        "distance": pos_dist,
+        "quat_dot": float(abs(np.dot(ee_q, target_q))),
+        "dq_nom": dq.copy(),
+        "dq_cbf": np.zeros(ACTION_DIM, dtype=np.float64),
+        "raw_action": np.zeros(ACTION_DIM, dtype=np.float64),
+        "h_min": float("inf"),
+        "cbf_active": False,
+        "cbf_feasible": True,
+        "cbf_projected": False,
+        "n_constraints": 0,
+        "dq_nom_norm": float(np.linalg.norm(dq)),
+        "dq_total_norm": float(np.linalg.norm(tgt - curr_q)),
+        "dq_cbf_norm": 0.0,
+        "rot_err_norm": rot_norm,
+    }
+
+
 def reset_obstacle_rod(model: mujoco.MjModel, data: mujoco.MjData) -> None:
     """每局将可碰倒细杆复位为直立（无该关节时静默跳过）。"""
     try:

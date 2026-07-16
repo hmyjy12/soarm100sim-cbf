@@ -215,13 +215,13 @@ class LiveCameraPreview:
         if backend == "cv2":
             import cv2
 
-        cv2.namedWindow("scene_depth", cv2.WINDOW_NORMAL)
-        cv2.namedWindow("wrist_rgb", cv2.WINDOW_NORMAL)
-        cv2.resizeWindow("scene_depth", 640, 480)
-        cv2.resizeWindow("wrist_rgb", 640, 480)
-        if self._show_depth:
-            cv2.namedWindow("scene_depth_depth", cv2.WINDOW_NORMAL)
-            cv2.resizeWindow("scene_depth_depth", 640, 480)
+            cv2.namedWindow("scene_depth", cv2.WINDOW_NORMAL)
+            cv2.namedWindow("wrist_rgb", cv2.WINDOW_NORMAL)
+            cv2.resizeWindow("scene_depth", 640, 480)
+            cv2.resizeWindow("wrist_rgb", 640, 480)
+            if self._show_depth:
+                cv2.namedWindow("scene_depth_depth", cv2.WINDOW_NORMAL)
+                cv2.resizeWindow("scene_depth_depth", 640, 480)
             self._cv2 = cv2
             return
         if backend == "mpl":
@@ -269,10 +269,10 @@ class LiveCameraPreview:
 
         if self._cv2 is not None:
             cv2 = self._cv2
-        cv2.imshow("scene_depth", cv2.cvtColor(scene_rgb, cv2.COLOR_RGB2BGR))
-        cv2.imshow("wrist_rgb", cv2.cvtColor(wrist_rgb, cv2.COLOR_RGB2BGR))
-        if depth_vis is not None:
-            cv2.imshow("scene_depth_depth", depth_vis)
+            cv2.imshow("scene_depth", cv2.cvtColor(scene_rgb, cv2.COLOR_RGB2BGR))
+            cv2.imshow("wrist_rgb", cv2.cvtColor(wrist_rgb, cv2.COLOR_RGB2BGR))
+            if depth_vis is not None:
+                cv2.imshow("scene_depth_depth", depth_vis)
             cv2.waitKey(1)
             return
 

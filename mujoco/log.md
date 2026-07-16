@@ -641,3 +641,78 @@ MUJOCO_GL=egl python mujoco/eval_random_rod_sdf.py \
 4. **round 2 是当前随机位姿正例**：baseline 接触 25 步且 best 4.9 mm；`workspace_sdf` 0 接触、best 34.2 mm、进入 4cm success 圈。这适合做随机杆位置下的可视化正例。
 5. **round 3 是强失败样本**：baseline 可达且接触 43 步；两种 SDF 方法都停在约 344 mm，说明该杆位姿对当前 policy+CBF 形成了强阻挡，仅靠局部 safety filter 无法恢复到达。
 6. **阶段性判断**：视觉链路的 self-mask + voxel persistence + soft-settle 已经能在随机障碍位置下显著降低接触，但还不能满足抓取前 1–2 cm 精度要求。后续应把 4cm 判定定义为 `PREGRASP` 近场入口，而不是 `GRASP_READY`；抓取前还需要更严格的 1–2cm 位姿/稳定性判定，或引入局部 pregrasp/insert 规划。
+
+## 实验 8：动态目标 + 动态障碍下 baseline / ideal_sdf / workspace_sdf 对比
+
+### 8.1 实验设置
+
+- **日期**：2026-07-14
+- **目的**：在目标点和障碍物同时运动的情况下，验证当前 policy 追踪动态目标时，SDF+CBF 是否仍能降低接触。
+- **场景**：`SO-ARM100/Simulation/SO100/mujoco/scene_plus.xml`
+- **输出**：`logs/eval/dynamic_target_obstacle_large_v1/`
+- **随机种子**：`seed=42`
+- **target 动态轨迹**：
+  - `target_motion=line`
+  - `target_motion_amp=0.06,0.02,0.00`
+  - `target_motion_period=5.0s`
+  - 轨迹中心默认使用 target bank 中的目标点。
+- **obstacle 动态轨迹**：
+  - `obstacle_body=obstacle_rod_mount`
+  - `obstacle_motion=line`
+  - `obstacle_motion_center=0.16,0.09,0.02`
+  - `obstacle_motion_amp=0.05,0.00,0.00`
+  - `obstacle_motion_period=4.0s`
+- **workspace_sdf**：使用 `--workspace-sdf-preset dynamic`，即缩短 voxel persistence，减少动态障碍残影。
+- **方法**：
+  - `none`：不开避障；
+  - `ideal_sdf`：明确障碍物 geom 表面点云 SDF + CBF；
+  - `workspace_sdf`：`scene_depth` 深度 + robot self-mask + workspace crop + dynamic voxel persistence SDF + CBF。
+- **状态机**：本实验未启用 settle，三组均完整跑 10s，用于观察追踪动态目标过程中的接触与误差。
+
+命令：
+
+```bash
+MUJOCO_GL=egl python mujoco/eval_sdf_challenge.py \
+  --scan-count 256 \
+  --max-challenges 5 \
+  --methods none ideal_sdf workspace_sdf \
+  --use-sim-cam \
+  --workspace-sdf-preset dynamic \
+  --target-motion line \
+  --target-motion-amp 0.06,0.02,0.00 \
+  --target-motion-period 5.0 \
+  --obstacle-motion line \
+  --obstacle-motion-center 0.16,0.09,0.02 \
+  --obstacle-motion-amp 0.05,0.00,0.00 \
+  --obstacle-motion-period 4.0 \
+  --out-dir logs/eval/dynamic_target_obstacle_large_v1 \
+  --log-every 32
+```
+
+### 8.2 汇总指标
+
+| 方法 | N | contact rate ↓ | reach@2cm ↑ | mean best_dist ↓ | mean end_dist ↓ | mean tracking_dist ↓ | mean h_min | mean max\|dq_cbf\| |
+|------|---:|---------------:|------------:|-----------------:|----------------:|---------------------:|-----------:|------------------:|
+| none | 5 | **100.0%** | **100.0%** | **6.0 mm** | **27.8 mm** | **58.9 mm** | — | 0.000 |
+| ideal_sdf | 5 | 60.0% | 60.0% | 14.8 mm | 38.7 mm | 85.5 mm | -24.0 mm | 0.469 |
+| workspace_sdf | 5 | 60.0% | 20.0% | 34.8 mm | 51.9 mm | 102.5 mm | -25.7 mm | 0.464 |
+
+### 8.3 每个 target 明细
+
+| idx | none contact / best / end | ideal_sdf contact / best / end | workspace_sdf contact / best / end |
+|----:|---------------------------|--------------------------------|------------------------------------|
+| 352 | 30 / 7.0 mm / 29.3 mm | 15 / 15.1 mm / 35.7 mm | 12 / 35.6 mm / 36.0 mm |
+| 1669 | 34 / 1.7 mm / 34.0 mm | 0 / 30.7 mm / 71.0 mm | 0 / 49.3 mm / 84.4 mm |
+| 3187 | 8 / 3.8 mm / 23.0 mm | 0 / 1.2 mm / 22.2 mm | 0 / 5.0 mm / 22.3 mm |
+| 77 | 123 / 7.7 mm / 25.4 mm | 118 / 22.6 mm / 36.8 mm | 134 / 50.2 mm / 66.4 mm |
+| 1107 | 103 / 9.8 mm / 27.2 mm | 98 / 4.2 mm / 28.0 mm | 120 / 34.0 mm / 50.5 mm |
+
+### 8.4 解读
+
+1. **这组是有效双动态 challenge**：5/5 baseline 都能追到 2cm 内，同时 5/5 都与动态杆接触。因此目标不是不可达，碰撞来自“动态目标追踪 + 动态障碍扫过路径”的组合。
+2. **SDF+CBF 能降低部分接触，但没有解决强动态场景**：`ideal_sdf` 和 `workspace_sdf` 的 contact rate 都从 baseline 的 100% 降到 60%，但 `idx=77/1107` 仍有大量接触，说明当前局部速度级 CBF 对动态障碍仍然不足。
+3. **`idx=1669` 是当前双动态正例**：baseline 接触 34 步且 best 1.7 mm；`ideal_sdf` 与 `workspace_sdf` 都 0 接触，但分别退到 30.7 mm 和 49.3 mm。这适合做可视化对比：避障有效但更保守。
+4. **`idx=3187` 是较理想的兼顾样本**：baseline 接触 8 步；两种 SDF 都 0 接触，且 best_dist 分别为 1.2 mm 和 5.0 mm。这说明当动态障碍干扰不太强时，原 policy 追动态目标与 SDF-CBF 可以兼容。
+5. **`idx=77/1107` 是强失败样本**：baseline 接触超过 100 步，SDF 后仍接触很多。结合 mean h_min 约 -24~-26 mm，可以判断这是动态障碍主动压入安全距离、CBF 反应不足的问题，不是单纯视觉误读。
+6. **到达/追踪代价明显**：`workspace_sdf` 的 mean tracking_dist 为 102.5 mm，明显高于 baseline 的 58.9 mm；动态视觉 SDF 更保守，减少部分接触的同时牺牲了追踪精度。
+7. **阶段性结论**：当前系统已经支持 target 和 obstacle 同时动态，并且在部分样本上能实现“baseline 会撞、SDF 不撞”。但在强动态障碍下，单靠当前 SDF-CBF 仍不够；后续若要提高动态障碍成功率，需要更准确的局部 obstacle surface velocity，或在 CBF 之外加入短时避让/重规划策略。
