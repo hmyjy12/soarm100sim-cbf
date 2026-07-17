@@ -48,6 +48,7 @@ _rt = _load_local("so100_mj_runtime", _THIS / "runtime.py")
 _cbf = _load_local("so100_mj_cbf", _THIS / "cbf.py")
 _dyn = _load_local("so100_mj_dynamic", _THIS / "dynamic.py")
 _ag = _load_local("so100_mj_anygrasp_bridge", _THIS / "anygrasp_bridge.py")
+_track = _load_local("so100_mj_grasp_tracking", _THIS / "grasp_tracking.py")
 
 DEFAULT_CHECKPOINT = _c.DEFAULT_CHECKPOINT
 DEFAULT_MJCF = _c.DEFAULT_MJCF
@@ -73,6 +74,7 @@ cbf_step_log_record = _cbf.cbf_step_log_record
 MotionSpec = _dyn.MotionSpec
 AnyGraspBridge = _ag.AnyGraspBridge
 AnyGraspConfig = _ag.AnyGraspConfig
+make_grasp_tracker = _track.make_grasp_tracker
 
 
 @dataclass
@@ -1192,6 +1194,8 @@ def _traj_log_record(
     target_contact_count: int = 0,
     target_gripper_contact_count: int = 0,
     target_contact_pairs: list[dict] | None = None,
+    grasp_track_debug: dict | None = None,
+    grasp_replan_debug: dict | None = None,
     model: mujoco.MjModel | None = None,
     ids=None,
 ) -> dict:
@@ -1277,6 +1281,8 @@ def _traj_log_record(
         "target_contacts": int(target_contact_count),
         "target_gripper_contacts": int(target_gripper_contact_count),
         "target_contact_pairs": list(target_contact_pairs or []),
+        "grasp_track": dict(grasp_track_debug or {}),
+        "grasp_replan": dict(grasp_replan_debug or {}),
         "target_pos": _arr(target_pos),
         "control_target_pos": _arr(control_target),
         "pregrasp_pos": _arr(pregrasp_pos if pregrasp_pos is not None else np.full(3, np.nan)),
@@ -1523,6 +1529,20 @@ def run(args: argparse.Namespace) -> int:
             print(f"[ERROR] AnyGrasp bridge unavailable: {exc}", file=sys.stderr)
             return 1
 
+    grasp_tracker = None
+    if bool(args.enable_grasp_chain) and bool(args.grasp_track_object):
+        try:
+            grasp_tracker = make_grasp_tracker(
+                str(args.grasp_track_source),
+                model,
+                target_geom_name=str(args.target_geom),
+            )
+            if grasp_tracker is not None:
+                print(f"[mujoco_play] grasp tracking source={str(args.grasp_track_source).strip().lower()}")
+        except Exception as exc:
+            print(f"[ERROR] grasp tracker unavailable: {exc}", file=sys.stderr)
+            return 1
+
     obs_source = None
     if args.enable_cbf:
         _obs = _load_local("so100_mj_obstacle_source", _THIS / "obstacle_source.py")
@@ -1575,6 +1595,8 @@ def run(args: argparse.Namespace) -> int:
     joint_bank = _load_joint_bank(npz)
     rng = np.random.default_rng(int(args.seed))
     steps_per_ep = int(round(EPISODE_LENGTH_S / (SIM_DT * DECIMATION)))
+    if bool(args.enable_grasp_chain):
+        steps_per_ep = max(steps_per_ep, int(round(steps_per_ep * max(float(args.grasp_episode_time_scale), 1.0))))
     cbf_log_path = Path(args.cbf_log).expanduser().resolve() if args.cbf_log else None
     if cbf_log_path is not None:
         cbf_log_path.parent.mkdir(parents=True, exist_ok=True)
@@ -1712,6 +1734,16 @@ def run(args: argparse.Namespace) -> int:
             close_start_q: np.ndarray | None = None
             selected_grasp = None
             grasp_candidates_viz = []
+            replan_attempts = 0
+            replan_compute_attempts = 0
+            replan_wait_counter = 0
+            replan_wait_steps = max(1, int(round(max(float(args.grasp_replan_settle_time), ctrl_dt) / ctrl_dt)))
+            replan_retry_steps = max(1, int(round(max(float(args.grasp_replan_retry_time), ctrl_dt) / ctrl_dt)))
+            replan_report_steps = max(1, int(round(max(float(args.grasp_replan_report_interval), ctrl_dt) / ctrl_dt)))
+            replan_debug: dict = {}
+            close_track_steps = max(0, int(round(max(float(args.grasp_tracking_close_time), 0.0) / ctrl_dt)))
+            grasp_track_invalid_counter = 0
+            grasp_track_debug: dict = {}
             if bool(args.enable_grasp_chain):
                 target_radius = _geom_radius_or_default(model, str(args.target_geom), float(args.target_radius))
                 if str(args.grasp_target_pos).strip():
@@ -1903,6 +1935,8 @@ def run(args: argparse.Namespace) -> int:
                 target_plan_pos = target_pos.copy()
                 pregrasp_plan_pos = pregrasp_pos.copy()
                 grasp_plan_pos = grasp_pos.copy()
+                if grasp_tracker is not None:
+                    grasp_tracker.reset()
                 final_approach_steps = max(
                     1,
                     int(math.ceil(final_dist / max(float(args.final_approach_speed) * ctrl_dt, 1e-5))),
@@ -1982,6 +2016,78 @@ def run(args: argparse.Namespace) -> int:
                         _set_static_body_pos(model, data, str(args.target_body), target_pos)
                     else:
                         target_pos = _body_pos_or_default(model, data, str(args.target_body), target_pos)
+                    grasp_track_debug = {}
+                    if (
+                        bool(args.grasp_track_object)
+                        and task_state in ("FINAL_APPROACH", "CLOSE")
+                        and not target_released
+                    ):
+                        if grasp_tracker is not None:
+                            track_res = grasp_tracker.update(
+                                model,
+                                data,
+                                target_pos=target_pos,
+                                target_plan_pos=target_plan_pos,
+                            )
+                            target_delta = np.asarray(track_res.delta_world, dtype=np.float64).reshape(3)
+                            grasp_track_debug = {
+                                "source": str(track_res.source),
+                                "valid": bool(track_res.valid),
+                                "reason": str(track_res.reason),
+                                "confidence": float(track_res.confidence),
+                                "n_points": int(track_res.n_points),
+                                "delta_m": _arr(target_delta),
+                                "delta_norm_m": float(np.linalg.norm(target_delta)),
+                            }
+                        else:
+                            target_delta = np.asarray(target_pos - target_plan_pos, dtype=np.float64).reshape(3)
+                            grasp_track_debug = {
+                                "source": "direct_target_pose",
+                                "valid": True,
+                                "reason": "no_tracker",
+                                "confidence": 1.0,
+                                "n_points": 1,
+                                "delta_m": _arr(target_delta),
+                                "delta_norm_m": float(np.linalg.norm(target_delta)),
+                            }
+                        delta_norm = float(np.linalg.norm(target_delta))
+                        tracking_valid = bool(grasp_track_debug.get("valid", True))
+                        if tracking_valid:
+                            grasp_track_invalid_counter = 0
+                        else:
+                            grasp_track_invalid_counter += 1
+                        tracking_allowed = (
+                            tracking_valid
+                            and delta_norm <= float(args.grasp_track_max_delta)
+                            and (task_state != "CLOSE" or close_counter <= close_track_steps)
+                        )
+                        if tracking_allowed:
+                            gain = float(args.grasp_track_gain)
+                            pregrasp_pos = pregrasp_plan_pos + gain * target_delta
+                            grasp_pos = grasp_plan_pos + gain * target_delta
+                        elif (
+                            task_state == "FINAL_APPROACH"
+                            and
+                            (
+                                (tracking_valid and delta_norm >= float(args.grasp_replan_delta))
+                                or (not tracking_valid and grasp_track_invalid_counter >= int(args.grasp_track_max_invalid_frames))
+                            )
+                            and replan_attempts < int(args.grasp_replan_max_attempts)
+                        ):
+                            print(
+                                f"[ep {ep:03d}][grasp_track] replan trigger: "
+                                f"valid={tracking_valid} reason={grasp_track_debug.get('reason', '')} "
+                                f"delta={delta_norm*1000.0:.1f}mm "
+                                f"invalid={grasp_track_invalid_counter}/{int(args.grasp_track_max_invalid_frames)}; "
+                                f"attempt {replan_attempts + 1}/{int(args.grasp_replan_max_attempts)}"
+                            )
+                            task_state = "REPLAN_GRASP"
+                            replan_wait_counter = 0
+                            success_counter = 0
+                            final_approach_counter = 0
+                            close_counter = 0
+                            frozen_grasp_q = None
+                            close_start_q = None
                 if dynamic_obstacle and obstacle_base_pos is not None:
                     obs_pos = obstacle_motion.position(t_s, base=obstacle_base_pos)
                     _dyn.set_body_pos(model, data, str(args.obstacle_body), obs_pos)
@@ -2036,28 +2142,37 @@ def run(args: argparse.Namespace) -> int:
                             frozen_grasp_q = q_before.copy()
                         if close_start_q is None:
                             close_start_q = q_before.copy()
-                        tgt = frozen_grasp_q.copy()
                         progress = min(1.0, close_counter / max(close_steps - 1, 1))
                         alpha = progress * progress * (3.0 - 2.0 * progress)
                         start_grip = float(close_start_q[-1])
+                        if bool(args.grasp_track_object) and close_counter <= close_track_steps:
+                            tgt, info = stepper.compute_targets(model, data, control_target_pos, grasp_quat)
+                        else:
+                            tgt = frozen_grasp_q.copy()
+                            tcp_now, ee_quat_now = tcp_pose_w(data, ids)
+                            info = {
+                                "distance": float(np.linalg.norm(tcp_now - grasp_pos)),
+                                "quat_dot": 1.0,
+                                "dq_nom": tgt - q_before,
+                                "dq_cbf": np.zeros_like(q_before),
+                                "raw_action": np.zeros_like(q_before),
+                                "h_min": float("inf"),
+                                "cbf_active": False,
+                                "cbf_feasible": True,
+                                "cbf_projected": False,
+                                "n_constraints": 0,
+                                "dq_cbf_norm": 0.0,
+                                "dq_nom_norm": float(np.linalg.norm(tgt - q_before)),
+                                "dq_total_norm": float(np.linalg.norm(tgt - q_before)),
+                                "desired_quat": grasp_quat.copy(),
+                            }
                         tgt[-1] = (1.0 - alpha) * start_grip + alpha * float(args.grasp_close_q)
-                        tcp_now, ee_quat_now = tcp_pose_w(data, ids)
-                        info = {
-                            "distance": float(np.linalg.norm(tcp_now - grasp_pos)),
-                            "quat_dot": 1.0,
-                            "dq_nom": tgt - q_before,
-                            "dq_cbf": np.zeros_like(q_before),
-                            "raw_action": np.zeros_like(q_before),
-                            "h_min": float("inf"),
-                            "cbf_active": False,
-                            "cbf_feasible": True,
-                            "cbf_projected": False,
-                            "n_constraints": 0,
-                            "dq_cbf_norm": 0.0,
-                            "dq_nom_norm": float(np.linalg.norm(tgt - q_before)),
-                            "dq_total_norm": float(np.linalg.norm(tgt - q_before)),
-                            "desired_quat": grasp_quat.copy(),
-                        }
+                        info["desired_quat"] = grasp_quat.copy()
+                    elif task_state == "REPLAN_GRASP":
+                        control_target_pos = pregrasp_pos
+                        tgt, info = stepper.compute_targets(model, data, control_target_pos, grasp_quat)
+                        tgt[-1] = float(args.grasp_open_q)
+                        info["desired_quat"] = grasp_quat.copy()
                     elif task_state == "LIFT":
                         control_target_pos = grasp_pos + np.array([0.0, 0.0, float(args.grasp_lift_height)], dtype=np.float64)
                         if str(args.final_approach_controller) in ("cartesian", "position"):
@@ -2168,6 +2283,8 @@ def run(args: argparse.Namespace) -> int:
                         target_contact_count,
                         target_gripper_contact_count,
                         target_contact_pairs,
+                        grasp_track_debug,
+                        replan_debug,
                         model,
                         ids,
                     )
@@ -2287,15 +2404,266 @@ def run(args: argparse.Namespace) -> int:
                                 f"gripper_contacts={gripper_contacts_now} "
                                 f"pairs={[(p.get('other_geom'), p.get('other_body')) for p in contact_pairs_now]} → LIFT"
                             )
+                    elif task_state == "REPLAN_GRASP":
+                        replan_wait_counter += 1
+                        replan_err = float(np.linalg.norm(tcp_after - pregrasp_pos))
+                        replan_ready = replan_err <= float(args.grasp_replan_ready_dist)
+                        replan_timeout = replan_wait_counter >= replan_wait_steps
+                        replan_debug = {
+                            "state": "waiting",
+                            "wait_counter": int(replan_wait_counter),
+                            "wait_steps": int(replan_wait_steps),
+                            "ready": bool(replan_ready),
+                            "timeout": bool(replan_timeout),
+                            "ready_dist_m": float(args.grasp_replan_ready_dist),
+                            "err_m": float(replan_err),
+                            "compute_attempts": int(replan_compute_attempts),
+                            "grasp_attempts": int(replan_attempts),
+                        }
+                        if replan_wait_counter == 1 or (replan_wait_counter % replan_report_steps == 0):
+                            wait_reason = "ready" if replan_ready else (
+                                "timeout" if replan_timeout else "waiting_for_pregrasp_or_settle"
+                            )
+                            print(
+                                f"[ep {ep:03d}][grasp_replan] stage=WAIT "
+                                f"reason={wait_reason} err={replan_err*1000.0:.1f}mm "
+                                f"ready<{float(args.grasp_replan_ready_dist)*1000.0:.1f}mm "
+                                f"wait={replan_wait_counter}/{replan_wait_steps} "
+                                f"compute={replan_compute_attempts}/{int(args.grasp_replan_max_compute_attempts)}; "
+                                "no new grasp yet"
+                            )
+                        if replan_ready or replan_timeout:
+                            replan_compute_attempts += 1
+                            target_pos = _body_pos_or_default(model, data, str(args.target_body), target_pos)
+                            target_plan_pos = target_pos.copy()
+                            mujoco.mj_forward(model, data)
+                            print(
+                                f"[ep {ep:03d}][grasp_replan] stage=COMPUTE "
+                                f"attempt={replan_compute_attempts}/{int(args.grasp_replan_max_compute_attempts)} "
+                                f"target=({target_pos[0]:+.3f},{target_pos[1]:+.3f},{target_pos[2]:+.3f})"
+                            )
+                            replan_debug.update(
+                                {
+                                    "state": "compute",
+                                    "compute_attempts": int(replan_compute_attempts),
+                                    "target_pos": _arr(target_pos),
+                                }
+                            )
+                            if str(args.grasp_source) == "anygrasp":
+                                if anygrasp_bridge is None:
+                                    raise RuntimeError("grasp_source=anygrasp but bridge is not initialized")
+                                try:
+                                    grasp_pos, pregrasp_pos, approach_axis, grasp_quat, cand = _choose_anygrasp_candidate(
+                                        anygrasp_bridge,
+                                        model,
+                                        data,
+                                        ids,
+                                        target_pos,
+                                        target_radius,
+                                        float(args.pregrasp_distance),
+                                        float(args.anygrasp_candidate_center_tolerance),
+                                        approach_local_axis=approach_local_axis,
+                                        roll_mode=str(args.grasp_roll_mode),
+                                        raw_approach_axis=str(args.anygrasp_raw_approach_axis),
+                                        prefer=str(args.anygrasp_prefer),
+                                        enable_ik_filter=bool(args.anygrasp_ik_filter),
+                                        ik_steps=int(args.anygrasp_ik_steps),
+                                        ik_pos_tol=float(args.anygrasp_ik_pos_tol),
+                                        ik_approach_tol_deg=float(args.anygrasp_ik_approach_tol_deg),
+                                        approach_gate_axis=str(args.pregrasp_approach_axis),
+                                        debug_axes=bool(args.debug_anygrasp_axes),
+                                        debug_axes_count=int(args.debug_anygrasp_axes_count),
+                                    )
+                                except Exception as exc:
+                                    max_compute = max(1, int(args.grasp_replan_max_compute_attempts))
+                                    replan_debug.update({"state": "failed", "error": str(exc)})
+                                    used_wrist_fallback = False
+                                    if bool(args.grasp_replan_wrist_fallback) and grasp_tracker is not None:
+                                        obs = grasp_tracker.observe_target(
+                                            model,
+                                            data,
+                                            fallback_pos=target_pos,
+                                        )
+                                        replan_debug.update(
+                                            {
+                                                "wrist_fallback": {
+                                                    "valid": bool(obs.valid),
+                                                    "source": str(obs.source),
+                                                    "reason": str(obs.reason),
+                                                    "confidence": float(obs.confidence),
+                                                    "n_points": int(obs.n_points),
+                                                    "pos_world": _arr(obs.pos_world),
+                                                }
+                                            }
+                                        )
+                                        if bool(obs.valid):
+                                            target_pos = np.asarray(obs.pos_world, dtype=np.float64).reshape(3)
+                                            target_plan_pos = target_pos.copy()
+                                            approach_u = np.asarray(approach_axis, dtype=np.float64).reshape(3)
+                                            approach_u /= max(float(np.linalg.norm(approach_u)), 1e-12)
+                                            # Wrist fallback does not synthesize a new 6D grasp; it reuses the last
+                                            # grasp frame and recenters it on the wrist-observed target.
+                                            grasp_pos = target_pos - float(args.grasp_wrist_fallback_target_clearance) * approach_u
+                                            pregrasp_pos = grasp_pos - float(args.pregrasp_distance) * approach_u
+                                            cand = None
+                                            selected_grasp = None
+                                            grasp_candidates_viz = []
+                                            cand_msg = (
+                                                f"wrist_fallback source={obs.source} pts={int(obs.n_points)} "
+                                                f"conf={float(obs.confidence):.2f} scene_anygrasp_error={exc}"
+                                            )
+                                            used_wrist_fallback = True
+                                            replan_debug.update({"state": "wrist_fallback_success"})
+                                            print(
+                                                f"[ep {ep:03d}][grasp_replan] stage=WRIST_FALLBACK "
+                                                f"target=({target_pos[0]:+.3f},{target_pos[1]:+.3f},{target_pos[2]:+.3f}) "
+                                                f"pts={int(obs.n_points)} conf={float(obs.confidence):.2f}; "
+                                                "reuse previous grasp frame"
+                                            )
+                                    if used_wrist_fallback:
+                                        pass
+                                    elif replan_compute_attempts < max_compute:
+                                        replan_wait_counter = max(0, replan_wait_steps - replan_retry_steps)
+                                        print(
+                                            f"[ep {ep:03d}][grasp_replan] AnyGrasp compute failed "
+                                            f"{replan_compute_attempts}/{max_compute}: {exc}; retry"
+                                        )
+                                        continue
+                                    elif not used_wrist_fallback:
+                                        print(
+                                            f"[ep {ep:03d}][grasp_replan] AnyGrasp compute failed "
+                                            f"{replan_compute_attempts}/{max_compute}: {exc}; ending episode as failed"
+                                        )
+                                        task_state = "VERIFY"
+                                        success_latched = False
+                                        success_step = -1
+                                        if bool(args.stop_on_success):
+                                            break
+                                        continue
+                                else:
+                                    selected_grasp = cand
+                                    grasp_candidates_viz = list(getattr(anygrasp_bridge, "last_candidates", []))
+                                    if str(args.grasp_orientation_source) == "bank":
+                                        grasp_quat = target_quat.copy()
+                                    grasp_tcp_offset = _dyn.parse_vec3(str(args.grasp_tcp_offset), default=(0.0, 0.0, 0.0))
+                                    if float(np.linalg.norm(np.asarray(grasp_tcp_offset, dtype=np.float64))) > 1e-12:
+                                        grasp_pos = _apply_grasp_tcp_offset(grasp_pos, grasp_quat, grasp_tcp_offset)
+                                        pregrasp_pos = grasp_pos - float(args.pregrasp_distance) * approach_axis
+                                    approach_offset = float(args.grasp_approach_offset)
+                                    if abs(approach_offset) > 1e-12:
+                                        approach_u = np.asarray(approach_axis, dtype=np.float64).reshape(3)
+                                        approach_u /= max(float(np.linalg.norm(approach_u)), 1e-12)
+                                        grasp_pos = grasp_pos + approach_offset * approach_u
+                                        pregrasp_pos = grasp_pos - float(args.pregrasp_distance) * approach_u
+                                    final_retreat = float(args.grasp_final_retreat)
+                                    if abs(final_retreat) > 1e-12:
+                                        approach_u = np.asarray(approach_axis, dtype=np.float64).reshape(3)
+                                        approach_u /= max(float(np.linalg.norm(approach_u)), 1e-12)
+                                        grasp_pos = grasp_pos - final_retreat * approach_u
+                                        pregrasp_pos = grasp_pos - float(args.pregrasp_distance) * approach_u
+                                    rec = _anygrasp_debug_record(
+                                        ep=ep,
+                                        target_idx=idx,
+                                        target_pos=target_pos,
+                                        target_radius=target_radius,
+                                        bridge=anygrasp_bridge,
+                                        selected_grasp=selected_grasp,
+                                        pregrasp_pos=pregrasp_pos,
+                                        grasp_pos=grasp_pos,
+                                        grasp_quat=grasp_quat,
+                                        approach_axis=approach_axis,
+                                    )
+                                    _append_jsonl(args.anygrasp_debug_log, rec)
+                                    cand_msg = (
+                                        f"AnyGrasp score={float(cand.score):.3f} width={float(cand.width)*1000:.1f}mm "
+                                        f"cand_dist={float(np.linalg.norm(cand.pos_world - target_pos))*1000:.1f}mm"
+                                    )
+                            else:
+                                grasp_pos = target_pos.copy()
+                                pregrasp_pos, approach_axis = _static_sphere_grasp(
+                                    grasp_pos,
+                                    tcp_after,
+                                    float(args.pregrasp_distance),
+                                )
+                                grasp_quat = target_quat.copy()
+                                cand_msg = "geometry source"
+                            pregrasp_plan_pos = pregrasp_pos.copy()
+                            grasp_plan_pos = grasp_pos.copy()
+                            if grasp_tracker is not None:
+                                grasp_tracker.reset()
+                            grasp_track_invalid_counter = 0
+                            replan_attempts += 1
+                            replan_compute_attempts = 0
+                            replan_debug.update(
+                                {
+                                    "state": "success",
+                                    "grasp_attempts": int(replan_attempts),
+                                    "pregrasp_pos": _arr(pregrasp_pos),
+                                    "grasp_pos": _arr(grasp_pos),
+                                }
+                            )
+                            final_dist = float(np.linalg.norm(grasp_pos - pregrasp_pos))
+                            final_approach_steps = max(
+                                1,
+                                int(math.ceil(final_dist / max(float(args.final_approach_speed) * ctrl_dt, 1e-5))),
+                            )
+                            final_approach_timeout_steps = max(
+                                final_approach_steps,
+                                int(math.ceil(final_approach_steps * max(float(args.grasp_final_timeout_scale), 1.0))),
+                            )
+                            task_state = "MOVE_TO_PREGRASP"
+                            success_counter = 0
+                            final_approach_counter = 0
+                            close_counter = 0
+                            replan_debug = {}
+                            frozen_grasp_q = None
+                            close_start_q = None
+                            print(
+                                f"[ep {ep:03d}][grasp_replan] attempt={replan_attempts} "
+                                f"target=({target_pos[0]:+.3f},{target_pos[1]:+.3f},{target_pos[2]:+.3f}) "
+                                f"pre=({pregrasp_pos[0]:+.3f},{pregrasp_pos[1]:+.3f},{pregrasp_pos[2]:+.3f}) "
+                                f"final=({grasp_pos[0]:+.3f},{grasp_pos[1]:+.3f},{grasp_pos[2]:+.3f}) "
+                                f"approach=({approach_axis[0]:+.2f},{approach_axis[1]:+.2f},{approach_axis[2]:+.2f}) "
+                                f"{cand_msg} → MOVE_TO_PREGRASP"
+                            )
                     elif task_state == "LIFT":
                         lift_counter += 1
                         if lift_counter >= lift_steps:
-                            task_state = "VERIFY"
-                            success_latched = True
-                            success_step = k
-                            print(f"[ep {ep:03d}][grasp] lift/verify at t={k * ctrl_dt:.2f}s")
-                            if bool(args.stop_on_success):
-                                break
+                            target_now = _body_pos_or_default(model, data, str(args.target_body), target_pos)
+                            lift_delta = float(target_now[2] - target_plan_pos[2])
+                            lifted = lift_delta >= float(args.grasp_lift_success_height)
+                            if lifted:
+                                task_state = "VERIFY"
+                                success_latched = True
+                                success_step = k
+                                print(
+                                    f"[ep {ep:03d}][grasp] lift/verify at t={k * ctrl_dt:.2f}s "
+                                    f"target_lift={lift_delta*1000.0:.1f}mm"
+                                )
+                                if bool(args.stop_on_success):
+                                    break
+                            elif replan_attempts < int(args.grasp_replan_max_attempts):
+                                task_state = "REPLAN_GRASP"
+                                replan_wait_counter = 0
+                                replan_debug = {"state": "enter", "reason": "lift_failed"}
+                                target_released = False
+                                success_counter = 0
+                                frozen_grasp_q = None
+                                close_start_q = None
+                                print(
+                                    f"[ep {ep:03d}][grasp] lift failed at t={k * ctrl_dt:.2f}s "
+                                    f"target_lift={lift_delta*1000.0:.1f}mm; replan"
+                                )
+                            else:
+                                task_state = "VERIFY"
+                                success_latched = False
+                                success_step = -1
+                                print(
+                                    f"[ep {ep:03d}][grasp] lift failed at t={k * ctrl_dt:.2f}s "
+                                    f"target_lift={lift_delta*1000.0:.1f}mm; no replan attempts left"
+                                )
+                                if bool(args.stop_on_success):
+                                    break
                 elif task_state == "APPROACH":
                     if dist <= float(args.success_dist):
                         success_counter += 1
@@ -2416,6 +2784,8 @@ def run(args: argparse.Namespace) -> int:
             obs_source.close()
         if anygrasp_bridge is not None:
             anygrasp_bridge.close()
+        if grasp_tracker is not None and hasattr(grasp_tracker, "close"):
+            grasp_tracker.close()
         # 用户已关窗时再 close 容易 segfault，跳过即可
         pass
 
@@ -2605,6 +2975,43 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--grasp-close-time", type=float, default=0.8, help="闭合夹爪持续时间 (s)")
     p.add_argument("--grasp-lift-height", type=float, default=0.035, help="闭合后上抬高度 (m)")
     p.add_argument("--grasp-lift-time", type=float, default=0.8, help="上抬验证最长时间 (s)")
+    p.add_argument("--grasp-lift-success-height", type=float, default=0.015, help="目标物体被抬高至少该高度才判定抓取成功 (m)")
+    p.add_argument("--grasp-episode-time-scale", type=float, default=2.0, help="grasp-chain episode 时长倍率，给二次重规划/抓取留时间")
+    p.add_argument(
+        "--grasp-track-object",
+        action=argparse.BooleanOptionalAction,
+        default=True,
+        help="抓取过程中跟踪目标物体小位移：更新 pregrasp/final 目标；大位移进入重规划",
+    )
+    p.add_argument("--grasp-track-gain", type=float, default=1.0, help="目标小位移跟踪增益")
+    p.add_argument(
+        "--grasp-track-source",
+        choices=("gt", "wrist", "none"),
+        default="gt",
+        help="抓取近场目标追踪来源：gt=MuJoCo目标真值；wrist=腕部相机seg/depth诊断；none=关闭tracker",
+    )
+    p.add_argument("--grasp-track-max-delta", type=float, default=0.020, help="允许继续跟踪的目标最大位移 (m)")
+    p.add_argument(
+        "--grasp-track-max-invalid-frames",
+        type=int,
+        default=3,
+        help="tracker 连续失效超过该控制步数后触发重规划",
+    )
+    p.add_argument("--grasp-tracking-close-time", type=float, default=0.40, help="CLOSE 初期继续让 policy 跟踪目标的时间 (s)")
+    p.add_argument("--grasp-replan-delta", type=float, default=0.030, help="目标位移超过该值后放弃当前 grasp 并重跑 AnyGrasp (m)")
+    p.add_argument("--grasp-replan-max-attempts", type=int, default=1, help="单个 episode 内最多重跑 AnyGrasp 次数")
+    p.add_argument("--grasp-replan-max-compute-attempts", type=int, default=3, help="每次重规划最多重试 AnyGrasp 计算次数")
+    p.add_argument("--grasp-replan-ready-dist", type=float, default=0.018, help="REPLAN_GRASP 回撤到 pregrasp 小于该误差后立即重算 AnyGrasp (m)")
+    p.add_argument("--grasp-replan-retry-time", type=float, default=0.25, help="重规划 AnyGrasp 计算失败后的重试等待时间 (s)")
+    p.add_argument("--grasp-replan-report-interval", type=float, default=0.5, help="REPLAN_GRASP 等待阶段状态提示打印间隔 (s)")
+    p.add_argument(
+        "--grasp-replan-wrist-fallback",
+        action=argparse.BooleanOptionalAction,
+        default=True,
+        help="scene_depth 二次 AnyGrasp 失败时，用腕部相机目标中心 + 上一轮抓取姿态生成 fallback 二轮抓取",
+    )
+    p.add_argument("--grasp-wrist-fallback-target-clearance", type=float, default=0.040, help="腕部 fallback grasp 相对目标中心沿 approach 退让距离 (m)")
+    p.add_argument("--grasp-replan-settle-time", type=float, default=0.75, help="重跑 AnyGrasp 前等待物体稳定的时间 (s)")
     p.add_argument(
         "--grasp-target-on-floor",
         action=argparse.BooleanOptionalAction,
