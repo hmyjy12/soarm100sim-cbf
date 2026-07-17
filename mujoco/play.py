@@ -376,19 +376,46 @@ def _preferred_closing_axis_world(approach: np.ndarray, raw_closing: np.ndarray,
     return pref
 
 
+def _raw_axis_from_rot(R: np.ndarray, spec: str) -> np.ndarray:
+    R = np.asarray(R, dtype=np.float64).reshape(3, 3)
+    s = str(spec).strip().lower()
+    sign = 1.0
+    if s.startswith("-"):
+        sign = -1.0
+        s = s[1:]
+    elif s.startswith("+"):
+        s = s[1:]
+    idx_map = {"x": 0, "y": 1, "z": 2}
+    if s not in idx_map:
+        raise ValueError(f"unknown AnyGrasp raw axis spec: {spec!r}")
+    axis = sign * R[:, idx_map[s]]
+    axis /= max(float(np.linalg.norm(axis)), 1e-12)
+    return axis
+
+
+def _raw_axis_label_for_print(spec: str) -> str:
+    s = str(spec).strip().lower()
+    if s.startswith("+"):
+        s = s[1:]
+    return s
+
+
 def _tcp_rot_from_anygrasp_rot(
     R_any_world: np.ndarray,
     approach_local_axis: np.ndarray | None = None,
     roll_mode: str = "horizontal",
+    raw_approach_axis: str = "x",
 ) -> tuple[np.ndarray, np.ndarray]:
     """Map GraspNet/AnyGrasp gripper frame to this project's pinch TCP frame.
 
-    AnyGrasp/GraspNet visualization uses local x as gripper depth/approach and
-    local y as gripper width. The trained policy TCP uses local x as the closing
-    axis between fingertips and local z as the approach axis.
+    The default AnyGrasp/GraspNet interpretation uses local x as gripper
+    depth/approach and local y as gripper width. Some SDK visualizations expose
+    a different convention, so raw_approach_axis is configurable for diagnosis.
+    The trained policy TCP uses local x as the closing axis between fingertips
+    and local z as the approach axis.
     """
     Rg = np.asarray(R_any_world, dtype=np.float64).reshape(3, 3)
-    approach = Rg[:, 0]
+    approach = _raw_axis_from_rot(Rg, raw_approach_axis)
     closing = _preferred_closing_axis_world(approach, Rg[:, 1], roll_mode)
     if approach_local_axis is None:
         R_tcp = _orthonormalize_axes(closing, approach)
@@ -496,6 +523,47 @@ def _geom_contact_count_with_body(
         if int(model.geom_bodyid[other]) in bodies:
             count += 1
     return count
+
+
+def _mj_name(model: mujoco.MjModel, obj_type, obj_id: int) -> str:
+    if int(obj_id) < 0:
+        return ""
+    name = mujoco.mj_id2name(model, obj_type, int(obj_id))
+    return str(name) if name is not None else ""
+
+
+def _target_contact_pairs(
+    model: mujoco.MjModel,
+    data: mujoco.MjData,
+    target_geom_name: str,
+    max_pairs: int = 12,
+) -> list[dict]:
+    gid = mujoco.mj_name2id(model, mujoco.mjtObj.mjOBJ_GEOM, str(target_geom_name))
+    if gid < 0:
+        return []
+    pairs: list[dict] = []
+    for i in range(int(data.ncon)):
+        con = data.contact[i]
+        g1 = int(con.geom1)
+        g2 = int(con.geom2)
+        if g1 == int(gid):
+            other = g2
+        elif g2 == int(gid):
+            other = g1
+        else:
+            continue
+        other_body = int(model.geom_bodyid[other])
+        pairs.append(
+            {
+                "other_geom": _mj_name(model, mujoco.mjtObj.mjOBJ_GEOM, other),
+                "other_body": _mj_name(model, mujoco.mjtObj.mjOBJ_BODY, other_body),
+                "dist_m": float(con.dist),
+                "normal_world": _arr(np.asarray(con.frame[:3], dtype=np.float64)),
+            }
+        )
+        if len(pairs) >= int(max_pairs):
+            break
+    return pairs
 
 
 def _set_static_body_pos(model: mujoco.MjModel, data: mujoco.MjData, body_name: str, pos: np.ndarray) -> None:
@@ -744,6 +812,7 @@ def _choose_anygrasp_candidate(
     max_center_offset: float,
     approach_local_axis: np.ndarray | None = None,
     roll_mode: str = "horizontal",
+    raw_approach_axis: str = "x",
     prefer: str = "auto",
     enable_ik_filter: bool = True,
     ik_steps: int = 80,
@@ -800,7 +869,7 @@ def _choose_anygrasp_candidate(
             "[anygrasp_axes_header] "
             "x/y/z are raw AnyGrasp rotation-matrix columns after world transform; "
             "center_dir is candidate->target; ang_* is angle(axis, center_dir). "
-            "Current code uses raw x as approach."
+            f"Current code uses raw {_raw_axis_label_for_print(raw_approach_axis)} as approach."
         )
         for i, c in enumerate(candidates[:n_dbg]):
             pos = np.asarray(c.pos_world, dtype=np.float64).reshape(3)
@@ -851,6 +920,7 @@ def _choose_anygrasp_candidate(
             c.rot_world,
             approach_local_axis=approach_local_axis,
             roll_mode=roll_mode,
+            raw_approach_axis=raw_approach_axis,
         )
         approach_i /= max(float(np.linalg.norm(approach_i)), 1e-12)
         grasp_pos_i = np.asarray(c.pos_world, dtype=np.float64).reshape(3)
@@ -955,8 +1025,10 @@ def _choose_anygrasp_candidate(
     raw_rot = np.asarray(cand.rot_world, dtype=np.float64).reshape(3, 3)
     print(
         "[anygrasp_frame_map] "
+        f"raw_app_axis={_raw_axis_label_for_print(raw_approach_axis)} "
         f"raw_x_app=({raw_rot[0,0]:+.2f},{raw_rot[1,0]:+.2f},{raw_rot[2,0]:+.2f}) "
         f"raw_y_width=({raw_rot[0,1]:+.2f},{raw_rot[1,1]:+.2f},{raw_rot[2,1]:+.2f}) "
+        f"raw_z=({raw_rot[0,2]:+.2f},{raw_rot[1,2]:+.2f},{raw_rot[2,2]:+.2f}) "
         f"tcp_x_close=({tcp_rot[0,0]:+.2f},{tcp_rot[1,0]:+.2f},{tcp_rot[2,0]:+.2f}) "
         f"tcp_z=({tcp_rot[0,2]:+.2f},{tcp_rot[1,2]:+.2f},{tcp_rot[2,2]:+.2f}) "
         f"used_app=({approach[0]:+.2f},{approach[1]:+.2f},{approach[2]:+.2f})"
@@ -1119,6 +1191,9 @@ def _traj_log_record(
     approach_local_axis: np.ndarray | None = None,
     target_contact_count: int = 0,
     target_gripper_contact_count: int = 0,
+    target_contact_pairs: list[dict] | None = None,
+    model: mujoco.MjModel | None = None,
+    ids=None,
 ) -> dict:
     dq_nom = np.asarray(info.get("dq_nom", np.zeros_like(q_before)), dtype=np.float64).reshape(-1)
     dq_cbf = np.asarray(info.get("dq_cbf", np.zeros_like(q_before)), dtype=np.float64).reshape(-1)
@@ -1162,6 +1237,35 @@ def _traj_log_record(
         axis_align.items(),
         key=lambda kv: float(kv[1]) if math.isfinite(float(kv[1])) else float("inf"),
     )
+    gripper_axes = {"+x": float("nan"), "+y": float("nan"), "+z": float("nan"), "-x": float("nan"), "-y": float("nan"), "-z": float("nan")}
+    gripper_axis_vecs = {
+        "+x": np.full(3, np.nan),
+        "+y": np.full(3, np.nan),
+        "+z": np.full(3, np.nan),
+        "-x": np.full(3, np.nan),
+        "-y": np.full(3, np.nan),
+        "-z": np.full(3, np.nan),
+    }
+    gripper_best_axis = ""
+    gripper_best_err = float("nan")
+    if model is not None and ids is not None and np.all(np.isfinite(desired_approach)):
+        tmp = mujoco.MjData(model)
+        _set_robot_qpos(model, tmp, ids, q_after)
+        R_gripper = np.asarray(tmp.xmat[int(ids.gripper_body)], dtype=np.float64).reshape(3, 3)
+        axes = {
+            "+x": R_gripper[:, 0],
+            "+y": R_gripper[:, 1],
+            "+z": R_gripper[:, 2],
+            "-x": -R_gripper[:, 0],
+            "-y": -R_gripper[:, 1],
+            "-z": -R_gripper[:, 2],
+        }
+        gripper_axis_vecs = axes
+        gripper_axes = {k: _axis_angle_deg(v, desired_approach) for k, v in axes.items()}
+        gripper_best_axis, gripper_best_err = min(
+            gripper_axes.items(),
+            key=lambda kv: float(kv[1]) if math.isfinite(float(kv[1])) else float("inf"),
+        )
     return {
         "ep": int(ep),
         "step": int(step),
@@ -1172,6 +1276,7 @@ def _traj_log_record(
         "success_latched": bool(success_latched),
         "target_contacts": int(target_contact_count),
         "target_gripper_contacts": int(target_gripper_contact_count),
+        "target_contact_pairs": list(target_contact_pairs or []),
         "target_pos": _arr(target_pos),
         "control_target_pos": _arr(control_target),
         "pregrasp_pos": _arr(pregrasp_pos if pregrasp_pos is not None else np.full(3, np.nan)),
@@ -1189,6 +1294,10 @@ def _traj_log_record(
         "tcp_axis_alignment_deg": {k: float(v) for k, v in axis_align.items()},
         "tcp_axis_alignment_best": str(best_axis),
         "tcp_axis_alignment_best_deg": float(best_axis_err),
+        "gripper_body_axes_world": {k: _arr(v) for k, v in gripper_axis_vecs.items() if not k.startswith("-")},
+        "gripper_body_axis_alignment_deg": {k: float(v) for k, v in gripper_axes.items()},
+        "gripper_body_axis_alignment_best": str(gripper_best_axis),
+        "gripper_body_axis_alignment_best_deg": float(gripper_best_err),
         "q": _arr(q_after),
         "q_before": _arr(q_before),
         "q_target": _arr(q_target),
@@ -1312,6 +1421,8 @@ def run(args: argparse.Namespace) -> int:
             "[mujoco_play] grasp chain=ON  static target object + pregrasp/final/close; "
             "obstacles disabled by using norod scene unless --mjcf is explicit"
         )
+        if bool(args.skip_pregrasp):
+            print("[mujoco_play] skip pregrasp=ON")
         print(
             f"[mujoco_play] grasp TCP offset in policy TCP frame="
             f"({grasp_tcp_offset0[0]:+.3f},{grasp_tcp_offset0[1]:+.3f},{grasp_tcp_offset0[2]:+.3f})m"
@@ -1354,6 +1465,8 @@ def run(args: argparse.Namespace) -> int:
             f"local=({pregrasp_gate_local_axis[0]:+.3f},{pregrasp_gate_local_axis[1]:+.3f},{pregrasp_gate_local_axis[2]:+.3f})"
         )
         print(f"[mujoco_play] grasp roll mode={str(args.grasp_roll_mode).strip().lower()}")
+        print(f"[mujoco_play] AnyGrasp raw approach axis={_raw_axis_label_for_print(args.anygrasp_raw_approach_axis)}")
+        print(f"[mujoco_play] pregrasp controller={str(args.pregrasp_controller).strip().lower()}")
     policy = SkrlGaussianPolicy(ckpt)
     cbf_cfg = None
     if args.enable_cbf:
@@ -1690,10 +1803,11 @@ def run(args: argparse.Namespace) -> int:
                         ids,
                         target_pos,
                         target_radius,
-                        float(args.pregrasp_distance) + target_radius,
+                        float(args.pregrasp_distance),
                         float(args.anygrasp_candidate_center_tolerance),
                         approach_local_axis=approach_local_axis,
                         roll_mode=str(args.grasp_roll_mode),
+                        raw_approach_axis=str(args.anygrasp_raw_approach_axis),
                         prefer=str(args.anygrasp_prefer),
                         enable_ik_filter=bool(args.anygrasp_ik_filter),
                         ik_steps=int(args.anygrasp_ik_steps),
@@ -1728,10 +1842,44 @@ def run(args: argparse.Namespace) -> int:
                         raw_grasp_pos = grasp_pos.copy()
                         raw_pregrasp_pos = pregrasp_pos.copy()
                         grasp_pos = _apply_grasp_tcp_offset(raw_grasp_pos, grasp_quat, grasp_tcp_offset)
-                        pregrasp_pos = grasp_pos - (float(args.pregrasp_distance) + target_radius) * approach_axis
+                        pregrasp_pos = grasp_pos - float(args.pregrasp_distance) * approach_axis
                         world_offset = grasp_pos - raw_grasp_pos
                         print(
                             f"[anygrasp_tcp_offset] local=({grasp_tcp_offset[0]:+.3f},{grasp_tcp_offset[1]:+.3f},{grasp_tcp_offset[2]:+.3f}) "
+                            f"world=({world_offset[0]:+.3f},{world_offset[1]:+.3f},{world_offset[2]:+.3f}) "
+                            f"raw_grasp=({raw_grasp_pos[0]:+.3f},{raw_grasp_pos[1]:+.3f},{raw_grasp_pos[2]:+.3f}) "
+                            f"goal_grasp=({grasp_pos[0]:+.3f},{grasp_pos[1]:+.3f},{grasp_pos[2]:+.3f}) "
+                            f"raw_pre=({raw_pregrasp_pos[0]:+.3f},{raw_pregrasp_pos[1]:+.3f},{raw_pregrasp_pos[2]:+.3f}) "
+                            f"goal_pre=({pregrasp_pos[0]:+.3f},{pregrasp_pos[1]:+.3f},{pregrasp_pos[2]:+.3f})"
+                        )
+                    approach_offset = float(args.grasp_approach_offset)
+                    if abs(approach_offset) > 1e-12:
+                        raw_grasp_pos = grasp_pos.copy()
+                        raw_pregrasp_pos = pregrasp_pos.copy()
+                        approach_u = np.asarray(approach_axis, dtype=np.float64).reshape(3)
+                        approach_u /= max(float(np.linalg.norm(approach_u)), 1e-12)
+                        grasp_pos = raw_grasp_pos + approach_offset * approach_u
+                        pregrasp_pos = grasp_pos - float(args.pregrasp_distance) * approach_u
+                        world_offset = grasp_pos - raw_grasp_pos
+                        print(
+                            f"[grasp_approach_offset] offset={approach_offset*1000.0:.1f}mm "
+                            f"world=({world_offset[0]:+.3f},{world_offset[1]:+.3f},{world_offset[2]:+.3f}) "
+                            f"raw_grasp=({raw_grasp_pos[0]:+.3f},{raw_grasp_pos[1]:+.3f},{raw_grasp_pos[2]:+.3f}) "
+                            f"goal_grasp=({grasp_pos[0]:+.3f},{grasp_pos[1]:+.3f},{grasp_pos[2]:+.3f}) "
+                            f"raw_pre=({raw_pregrasp_pos[0]:+.3f},{raw_pregrasp_pos[1]:+.3f},{raw_pregrasp_pos[2]:+.3f}) "
+                            f"goal_pre=({pregrasp_pos[0]:+.3f},{pregrasp_pos[1]:+.3f},{pregrasp_pos[2]:+.3f})"
+                        )
+                    final_retreat = float(args.grasp_final_retreat)
+                    if abs(final_retreat) > 1e-12:
+                        raw_grasp_pos = grasp_pos.copy()
+                        raw_pregrasp_pos = pregrasp_pos.copy()
+                        approach_u = np.asarray(approach_axis, dtype=np.float64).reshape(3)
+                        approach_u /= max(float(np.linalg.norm(approach_u)), 1e-12)
+                        grasp_pos = raw_grasp_pos - final_retreat * approach_u
+                        pregrasp_pos = grasp_pos - float(args.pregrasp_distance) * approach_u
+                        world_offset = grasp_pos - raw_grasp_pos
+                        print(
+                            f"[grasp_final_retreat] retreat={final_retreat*1000.0:.1f}mm "
                             f"world=({world_offset[0]:+.3f},{world_offset[1]:+.3f},{world_offset[2]:+.3f}) "
                             f"raw_grasp=({raw_grasp_pos[0]:+.3f},{raw_grasp_pos[1]:+.3f},{raw_grasp_pos[2]:+.3f}) "
                             f"goal_grasp=({grasp_pos[0]:+.3f},{grasp_pos[1]:+.3f},{grasp_pos[2]:+.3f}) "
@@ -1742,9 +1890,15 @@ def run(args: argparse.Namespace) -> int:
                     pregrasp_pos, approach_axis = _static_sphere_grasp(
                         grasp_pos,
                         tcp0,
-                        float(args.pregrasp_distance) + target_radius,
+                        float(args.pregrasp_distance),
                     )
                     grasp_quat = target_quat.copy()
+                    final_retreat = float(args.grasp_final_retreat)
+                    if abs(final_retreat) > 1e-12:
+                        approach_u = np.asarray(approach_axis, dtype=np.float64).reshape(3)
+                        approach_u /= max(float(np.linalg.norm(approach_u)), 1e-12)
+                        grasp_pos = grasp_pos - final_retreat * approach_u
+                        pregrasp_pos = grasp_pos - float(args.pregrasp_distance) * approach_u
                 final_dist = float(np.linalg.norm(grasp_pos - pregrasp_pos))
                 target_plan_pos = target_pos.copy()
                 pregrasp_plan_pos = pregrasp_pos.copy()
@@ -1757,6 +1911,22 @@ def run(args: argparse.Namespace) -> int:
                     final_approach_steps,
                     int(math.ceil(final_approach_steps * max(float(args.grasp_final_timeout_scale), 1.0))),
                 )
+                if bool(args.skip_pregrasp):
+                    task_state = "FINAL_APPROACH"
+                    final_approach_counter = 0
+                    pregrasp_pos = grasp_pos.copy()
+                    pregrasp_plan_pos = pregrasp_pos.copy()
+                    tcp_now_for_skip, _ = tcp_pose_w(data, ids)
+                    direct_dist = float(np.linalg.norm(np.asarray(grasp_pos, dtype=np.float64).reshape(3) - tcp_now_for_skip))
+                    final_approach_steps = max(
+                        1,
+                        int(math.ceil(direct_dist / max(float(args.final_approach_speed) * ctrl_dt, 1e-5))),
+                    )
+                    final_approach_timeout_steps = max(
+                        final_approach_steps,
+                        int(math.ceil(final_approach_steps * max(float(args.grasp_final_timeout_scale), 1.0))),
+                    )
+                    print("[grasp_skip_pregrasp] start directly at FINAL_APPROACH; control target is final grasp pose")
                 print(
                     f"[ep {ep:03d}][grasp] target={idx} radius={target_radius*1000:.1f}mm "
                     f"pre=({pregrasp_pos[0]:.3f},{pregrasp_pos[1]:.3f},{pregrasp_pos[2]:.3f}) "
@@ -1821,12 +1991,22 @@ def run(args: argparse.Namespace) -> int:
                 if bool(args.enable_grasp_chain):
                     if task_state == "MOVE_TO_PREGRASP":
                         control_target_pos = pregrasp_pos
-                        tgt, info = stepper.compute_targets(model, data, pregrasp_pos, grasp_quat)
+                        if str(args.pregrasp_controller) == "cartesian":
+                            tgt, info = cartesian_pose_servo_target(
+                                model,
+                                data,
+                                ids,
+                                pregrasp_pos,
+                                grasp_quat,
+                                max_pos_step=float(args.pregrasp_cartesian_speed) * ctrl_dt,
+                                max_rot_step=float(args.pregrasp_cartesian_rot_speed) * ctrl_dt,
+                            )
+                        else:
+                            tgt, info = stepper.compute_targets(model, data, pregrasp_pos, grasp_quat)
                         tgt[-1] = float(args.grasp_open_q)
                         info["desired_quat"] = grasp_quat.copy()
                     elif task_state == "FINAL_APPROACH":
-                        s = min(1.0, final_approach_counter / max(final_approach_steps - 1, 1))
-                        control_target_pos = pregrasp_pos + s * (grasp_pos - pregrasp_pos)
+                        control_target_pos = grasp_pos
                         if str(args.final_approach_controller) == "cartesian":
                             tgt, info = cartesian_pose_servo_target(
                                 model,
@@ -1837,8 +2017,17 @@ def run(args: argparse.Namespace) -> int:
                                 max_pos_step=float(args.final_approach_speed) * ctrl_dt,
                                 max_rot_step=float(args.final_approach_rot_speed) * ctrl_dt,
                             )
+                        elif str(args.final_approach_controller) == "position":
+                            tgt, info = cartesian_position_servo_target(
+                                model,
+                                data,
+                                ids,
+                                control_target_pos,
+                                max_step=float(args.final_approach_speed) * ctrl_dt,
+                            )
                         else:
                             tgt, info = stepper.compute_targets(model, data, control_target_pos, grasp_quat)
+                        # tar&ori semantics: final keeps the pregrasp-open jaw; closing starts only after arm freeze.
                         tgt[-1] = float(args.grasp_open_q)
                         info["desired_quat"] = grasp_quat.copy()
                     elif task_state == "CLOSE":
@@ -1871,7 +2060,7 @@ def run(args: argparse.Namespace) -> int:
                         }
                     elif task_state == "LIFT":
                         control_target_pos = grasp_pos + np.array([0.0, 0.0, float(args.grasp_lift_height)], dtype=np.float64)
-                        if str(args.final_approach_controller) == "cartesian":
+                        if str(args.final_approach_controller) in ("cartesian", "position"):
                             tgt, info = cartesian_position_servo_target(
                                 model,
                                 data,
@@ -1949,6 +2138,9 @@ def run(args: argparse.Namespace) -> int:
                     if bool(args.enable_grasp_chain)
                     else 0
                 )
+                target_contact_pairs = (
+                    _target_contact_pairs(model, data, str(args.target_geom)) if bool(args.enable_grasp_chain) else []
+                )
                 if traj_log_path is not None:
                     rec = _traj_log_record(
                         ep,
@@ -1975,6 +2167,9 @@ def run(args: argparse.Namespace) -> int:
                         pregrasp_gate_local_axis if bool(args.enable_grasp_chain) else None,
                         target_contact_count,
                         target_gripper_contact_count,
+                        target_contact_pairs,
+                        model,
+                        ids,
                     )
                     with traj_log_path.open("a", encoding="utf-8") as f:
                         f.write(json.dumps(rec, ensure_ascii=False) + "\n")
@@ -1995,7 +2190,8 @@ def run(args: argparse.Namespace) -> int:
                             success_counter += 1
                         else:
                             success_counter = 0
-                        if success_counter >= int(args.success_steps):
+                        pregrasp_stable_steps = max(1, int(round(max(float(args.pregrasp_stable_time), ctrl_dt) / ctrl_dt)))
+                        if success_counter >= pregrasp_stable_steps:
                             task_state = "FINAL_APPROACH"
                             success_counter = 0
                             final_approach_counter = 0
@@ -2016,7 +2212,6 @@ def run(args: argparse.Namespace) -> int:
                             )
                     elif task_state == "FINAL_APPROACH":
                         final_approach_counter += 1
-                        line_complete = final_approach_counter >= final_approach_steps
                         final_err = float(np.linalg.norm(tcp_after - grasp_pos))
                         contact_ready = (
                             bool(args.grasp_close_on_contact)
@@ -2030,7 +2225,11 @@ def run(args: argparse.Namespace) -> int:
                         force_close = False
                         if bool(args.grasp_close_on_timeout) and final_approach_counter >= final_approach_timeout_steps:
                             force_close = True
-                        if success_counter >= int(args.grasp_final_stable_steps) or force_close:
+                        final_stable_steps = max(
+                            int(args.grasp_final_stable_steps),
+                            int(round(max(float(args.grasp_final_stable_time), ctrl_dt) / ctrl_dt)),
+                        )
+                        if success_counter >= final_stable_steps or force_close:
                             task_state = "CLOSE"
                             success_counter = 0
                             close_counter = 0
@@ -2076,6 +2275,7 @@ def run(args: argparse.Namespace) -> int:
                             tcp_now, _ = tcp_pose_w(data, ids)
                             contacts_now = _geom_contact_count(model, data, str(args.target_geom))
                             gripper_contacts_now = _geom_contact_count_with_body(model, data, str(args.target_geom), GRIPPER_BODY)
+                            contact_pairs_now = _target_contact_pairs(model, data, str(args.target_geom), max_pairs=6)
                             target_now = _body_pos_or_default(model, data, str(args.target_body), target_pos)
                             print(
                                 f"[ep {ep:03d}][grasp] close complete at t={k * ctrl_dt:.2f}s "
@@ -2084,7 +2284,8 @@ def run(args: argparse.Namespace) -> int:
                                 f"target=({target_now[0]:+.3f},{target_now[1]:+.3f},{target_now[2]:+.3f}) "
                                 f"tcp_vs_target[{_pos_compare_text(tcp_now, target_now)}] "
                                 f"gripper_q={q_after[-1]:.3f} target_contacts={contacts_now} "
-                                f"gripper_contacts={gripper_contacts_now} → LIFT"
+                                f"gripper_contacts={gripper_contacts_now} "
+                                f"pairs={[(p.get('other_geom'), p.get('other_body')) for p in contact_pairs_now]} → LIFT"
                             )
                     elif task_state == "LIFT":
                         lift_counter += 1
@@ -2316,14 +2517,23 @@ def build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="启用静态目标球的到达+pregrasp+final approach+close+lift 抓取链路",
     )
+    p.add_argument(
+        "--skip-pregrasp",
+        action="store_true",
+        help="抓取链路调试：跳过 MOVE_TO_PREGRASP，直接追 AnyGrasp final pose 并闭合",
+    )
     p.add_argument("--target-body", type=str, default="target_object", help="实体目标 body 名")
     p.add_argument("--target-geom", type=str, default="target_object_geom", help="实体目标 geom 名")
     p.add_argument("--target-radius", type=float, default=0.018, help="目标球半径 fallback (m)")
-    p.add_argument("--pregrasp-distance", type=float, default=0.055, help="pregrasp 到目标表面外的距离 (m)")
-    p.add_argument("--pregrasp-success-dist", type=float, default=0.025, help="pregrasp 到达阈值 (m)")
-    p.add_argument("--pregrasp-approach-success-deg", type=float, default=25.0, help="pregrasp 进入 final 前允许的进刀轴角度误差 (deg)")
-    p.add_argument("--final-grasp-dist", type=float, default=0.012, help="final grasp 到达阈值 (m)")
-    p.add_argument("--grasp-final-stable-steps", type=int, default=3, help="final grasp 误差达标后连续多少个控制步才闭合")
+    p.add_argument("--pregrasp-distance", type=float, default=0.040, help="tar&ori 风格 pregrasp：从 final grasp 沿 approach 后退的距离 (m)")
+    p.add_argument("--pregrasp-success-dist", type=float, default=0.035, help="pregrasp 到达阈值 (m)")
+    p.add_argument("--pregrasp-approach-success-deg", type=float, default=50.0, help="pregrasp 进入 final 前允许的进刀轴角度误差 (deg)")
+    p.add_argument("--pregrasp-stable-time", type=float, default=0.05, help="pregrasp 连续稳定多久后进入 final (s)")
+    p.add_argument("--final-grasp-dist", type=float, default=0.010, help="final grasp 到达阈值 (m)")
+    p.add_argument("--grasp-approach-offset", type=float, default=-0.040, help="沿最终 approach_axis 平移 grasp/final 目标的距离 (m)；负值表示从物体向 pregrasp 方向退让")
+    p.add_argument("--grasp-final-retreat", type=float, default=0.0, help="将 AnyGrasp final pose 沿 -approach_axis 后退的距离 (m)，用于补偿夹爪深度/碰撞余量")
+    p.add_argument("--grasp-final-stable-time", type=float, default=0.25, help="final grasp 连续稳定多久后冻结手臂并闭合 (s)")
+    p.add_argument("--grasp-final-stable-steps", type=int, default=0, help="final grasp 额外稳定步数下限；0 表示只使用 --grasp-final-stable-time")
     p.add_argument(
         "--grasp-final-timeout-scale",
         type=float,
@@ -2347,9 +2557,16 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument(
         "--final-approach-controller",
         type=str,
-        default="cartesian",
+        default="policy",
+        choices=("policy", "cartesian", "position"),
+        help="final approach 控制器：policy=沿用到达策略；cartesian=位姿伺服；position=只追位置，用于隔离姿态/frame 问题",
+    )
+    p.add_argument(
+        "--pregrasp-controller",
+        type=str,
+        default="policy",
         choices=("policy", "cartesian"),
-        help="final approach 控制器：policy=沿用到达策略追 final；cartesian=数值 Jacobian 低速伺服",
+        help="pregrasp 控制器：policy=沿用训练策略；cartesian=数值 Jacobian 位姿伺服，用于诊断 AnyGrasp 姿态映射",
     )
     p.add_argument(
         "--grasp-approach-axis",
@@ -2372,8 +2589,17 @@ def build_parser() -> argparse.ArgumentParser:
         choices=("horizontal", "vertical", "anygrasp"),
         help="绕 approach 轴的抓取姿态：horizontal=闭合轴尽量水平；vertical=闭合轴尽量竖直；anygrasp=沿用 AnyGrasp 原始 roll",
     )
+    p.add_argument(
+        "--anygrasp-raw-approach-axis",
+        type=str,
+        default="x",
+        choices=("x", "+x", "-x", "y", "+y", "-y", "z", "+z", "-z"),
+        help="诊断 AnyGrasp frame 约定：用 raw x/y/z 或其反向作为本项目进刀轴；默认 x",
+    )
     p.add_argument("--final-approach-speed", type=float, default=0.025, help="final/lift Cartesian servo 速度上限 (m/s)")
     p.add_argument("--final-approach-rot-speed", type=float, default=0.45, help="final Cartesian pose servo 姿态角速度上限 (rad/s)")
+    p.add_argument("--pregrasp-cartesian-speed", type=float, default=0.08, help="pregrasp Cartesian servo 速度上限 (m/s)")
+    p.add_argument("--pregrasp-cartesian-rot-speed", type=float, default=0.8, help="pregrasp Cartesian pose servo 姿态角速度上限 (rad/s)")
     p.add_argument("--grasp-open-q", type=float, default=1.2, help="抓取链路中夹爪打开关节目标")
     p.add_argument("--grasp-close-q", type=float, default=-0.2, help="抓取链路中夹爪闭合关节目标")
     p.add_argument("--grasp-close-time", type=float, default=0.8, help="闭合夹爪持续时间 (s)")
@@ -2411,7 +2637,7 @@ def build_parser() -> argparse.ArgumentParser:
         "--grasp-tcp-offset",
         type=str,
         default="0,0,0",
-        help="policy TCP frame 下的诊断位置补偿 xyz(m)，默认 0,0,0",
+        help="policy TCP frame 下的诊断位置补偿 xyz(m)，默认 0,0,0；优先使用 --grasp-approach-offset 表达进刀深度补偿",
     )
     p.add_argument(
         "--grasp-pin-target-until-close",
