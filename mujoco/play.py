@@ -3172,7 +3172,7 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--final-grasp-dist", type=float, default=0.010, help="final grasp 到达阈值 (m)")
     p.add_argument("--grasp-approach-offset", type=float, default=-0.040, help="沿最终 approach_axis 平移 grasp/final 目标的距离 (m)；负值表示从物体向 pregrasp 方向退让")
     p.add_argument("--grasp-final-retreat", type=float, default=0.0, help="将 AnyGrasp final pose 沿 -approach_axis 后退的距离 (m)，用于补偿夹爪深度/碰撞余量")
-    p.add_argument("--grasp-final-stable-time", type=float, default=0.25, help="final grasp 连续稳定多久后冻结手臂并闭合 (s)")
+    p.add_argument("--grasp-final-stable-time", type=float, default=0.10, help="final grasp 连续稳定多久后冻结手臂并闭合 (s)")
     p.add_argument("--grasp-final-stable-steps", type=int, default=0, help="final grasp 额外稳定步数下限；0 表示只使用 --grasp-final-stable-time")
     p.add_argument(
         "--grasp-final-timeout-scale",
