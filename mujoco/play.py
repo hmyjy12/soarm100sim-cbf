@@ -175,6 +175,84 @@ def _format_axis_alignment(errors: dict[str, float]) -> str:
     return " ".join(parts) + f" best={best_name}:{float(best_val):.1f}"
 
 
+def _axis_text(v: np.ndarray) -> str:
+    a = np.asarray(v, dtype=np.float64).reshape(3)
+    return f"({a[0]:+.2f},{a[1]:+.2f},{a[2]:+.2f})"
+
+
+def _grasp_pose_axis_debug(
+    tcp_quat: np.ndarray,
+    desired_quat: np.ndarray,
+    desired_approach: np.ndarray,
+    approach_local_axis: np.ndarray,
+    *,
+    model: mujoco.MjModel | None = None,
+    ids=None,
+    q: np.ndarray | None = None,
+) -> dict:
+    local_app = np.asarray(approach_local_axis, dtype=np.float64).reshape(3)
+    local_app /= max(float(np.linalg.norm(local_app)), 1e-12)
+    desired_app = np.asarray(desired_approach, dtype=np.float64).reshape(3)
+    if np.all(np.isfinite(desired_app)):
+        desired_app /= max(float(np.linalg.norm(desired_app)), 1e-12)
+
+    tcp_q = np.asarray(tcp_quat, dtype=np.float64).reshape(4)
+    des_q = np.asarray(desired_quat, dtype=np.float64).reshape(4)
+    R_tcp = _quat_to_rotmat_wxyz(tcp_q) if np.all(np.isfinite(tcp_q)) else np.full((3, 3), np.nan)
+    R_des = _quat_to_rotmat_wxyz(des_q) if np.all(np.isfinite(des_q)) else np.full((3, 3), np.nan)
+
+    tcp_app = R_tcp @ local_app if np.all(np.isfinite(R_tcp)) else np.full(3, np.nan)
+    desired_closing = R_des[:, 0] if np.all(np.isfinite(R_des)) else np.full(3, np.nan)
+    tcp_closing = R_tcp[:, 0] if np.all(np.isfinite(R_tcp)) else np.full(3, np.nan)
+    desired_palm = R_des[:, 1] if np.all(np.isfinite(R_des)) else np.full(3, np.nan)
+    tcp_palm = R_tcp[:, 1] if np.all(np.isfinite(R_tcp)) else np.full(3, np.nan)
+
+    gripper_closing = np.full(3, np.nan)
+    gripper_palm = np.full(3, np.nan)
+    if model is not None and ids is not None and q is not None:
+        tmp = mujoco.MjData(model)
+        _set_robot_qpos(model, tmp, ids, q)
+        R_gripper = np.asarray(tmp.xmat[int(ids.gripper_body)], dtype=np.float64).reshape(3, 3)
+        gripper_closing = R_gripper[:, 0]
+        gripper_palm = R_gripper[:, 1]
+
+    return {
+        "desired_approach_axis": _arr(desired_app),
+        "actual_approach_axis": _arr(tcp_app),
+        "approach_err_deg": float(_axis_angle_deg(tcp_app, desired_app))
+        if np.all(np.isfinite(tcp_app)) and np.all(np.isfinite(desired_app))
+        else float("nan"),
+        "desired_closing_axis": _arr(desired_closing),
+        "tcp_closing_axis": _arr(tcp_closing),
+        "closing_axis_err_deg": float(_axis_angle_deg(tcp_closing, desired_closing))
+        if np.all(np.isfinite(tcp_closing)) and np.all(np.isfinite(desired_closing))
+        else float("nan"),
+        "desired_palm_axis": _arr(desired_palm),
+        "tcp_palm_axis": _arr(tcp_palm),
+        "palm_axis_err_deg": float(_axis_angle_deg(tcp_palm, desired_palm))
+        if np.all(np.isfinite(tcp_palm)) and np.all(np.isfinite(desired_palm))
+        else float("nan"),
+        "gripper_body_closing_axis": _arr(gripper_closing),
+        "gripper_body_closing_err_deg": float(_axis_angle_deg(gripper_closing, desired_closing))
+        if np.all(np.isfinite(gripper_closing)) and np.all(np.isfinite(desired_closing))
+        else float("nan"),
+        "gripper_body_palm_axis": _arr(gripper_palm),
+        "gripper_body_palm_err_deg": float(_axis_angle_deg(gripper_palm, desired_palm))
+        if np.all(np.isfinite(gripper_palm)) and np.all(np.isfinite(desired_palm))
+        else float("nan"),
+    }
+
+
+def _format_grasp_axis_debug(dbg: dict) -> str:
+    return (
+        f"closing_err={float(dbg.get('closing_axis_err_deg', float('nan'))):.1f}deg "
+        f"palm_err={float(dbg.get('palm_axis_err_deg', float('nan'))):.1f}deg "
+        f"tcp_close={_axis_text(np.asarray(dbg.get('tcp_closing_axis', [float('nan')] * 3), dtype=np.float64))} "
+        f"desired_close={_axis_text(np.asarray(dbg.get('desired_closing_axis', [float('nan')] * 3), dtype=np.float64))} "
+        f"gripper_close_err={float(dbg.get('gripper_body_closing_err_deg', float('nan'))):.1f}deg"
+    )
+
+
 def _scene_add_sphere(scn, pos: np.ndarray, radius: float, rgba: np.ndarray) -> None:
     if scn.ngeom >= len(scn.geoms):
         return
@@ -467,6 +545,63 @@ def _geom_radius_or_default(model: mujoco.MjModel, name: str, default: float) ->
     if gid < 0:
         return float(default)
     return float(model.geom_size[int(gid)][0])
+
+
+def _geom_floor_center_z_or_default(model: mujoco.MjModel, name: str, default: float) -> float:
+    gid = mujoco.mj_name2id(model, mujoco.mjtObj.mjOBJ_GEOM, name)
+    if gid < 0:
+        return float(default)
+    gtype = int(model.geom_type[int(gid)])
+    size = np.asarray(model.geom_size[int(gid)], dtype=np.float64)
+    if gtype == int(mujoco.mjtGeom.mjGEOM_SPHERE):
+        return float(size[0])
+    if gtype == int(mujoco.mjtGeom.mjGEOM_BOX):
+        return float(size[2])
+    if gtype in (int(mujoco.mjtGeom.mjGEOM_CYLINDER), int(mujoco.mjtGeom.mjGEOM_CAPSULE)):
+        return float(size[1] + (size[0] if gtype == int(mujoco.mjtGeom.mjGEOM_CAPSULE) else 0.0))
+    return float(default)
+
+
+_GRASP_TARGET_OBJECTS = {
+    "cube": ("target_object", "target_object_geom"),
+    "bottle": ("target_bottle", "target_bottle_geom"),
+    "sphere": ("target_sphere", "target_sphere_geom"),
+}
+
+
+def _select_grasp_target_object(args) -> None:
+    obj = str(args.grasp_target_object).strip().lower()
+    if obj == "custom":
+        return
+    if obj not in _GRASP_TARGET_OBJECTS:
+        raise ValueError(f"unknown grasp target object: {args.grasp_target_object!r}")
+    body, geom = _GRASP_TARGET_OBJECTS[obj]
+    args.target_body = body
+    args.target_geom = geom
+
+
+def _configure_grasp_target_visibility(model: mujoco.MjModel, selected_geom_name: str) -> None:
+    selected = str(selected_geom_name)
+    for _, geom_name in _GRASP_TARGET_OBJECTS.values():
+        gid = mujoco.mj_name2id(model, mujoco.mjtObj.mjOBJ_GEOM, geom_name)
+        if gid < 0:
+            continue
+        if geom_name == selected:
+            model.geom_contype[int(gid)] = 1
+            model.geom_conaffinity[int(gid)] = 1
+            model.geom_rgba[int(gid)] = np.array([1.0, 0.05, 0.05, 1.0], dtype=np.float32)
+        else:
+            model.geom_contype[int(gid)] = 0
+            model.geom_conaffinity[int(gid)] = 0
+            model.geom_rgba[int(gid)] = np.array([1.0, 0.05, 0.05, 0.0], dtype=np.float32)
+
+
+def _park_inactive_grasp_targets(model: mujoco.MjModel, data: mujoco.MjData, selected_body_name: str) -> None:
+    selected = str(selected_body_name)
+    for body_name, _ in _GRASP_TARGET_OBJECTS.values():
+        if body_name == selected:
+            continue
+        _set_static_body_pos(model, data, body_name, np.array([0.0, 0.0, -1.0], dtype=np.float64))
 
 
 def _geom_contact_count(model: mujoco.MjModel, data: mujoco.MjData, geom_name: str) -> int:
@@ -1236,6 +1371,15 @@ def _traj_log_record(
         if np.all(np.isfinite(actual_approach)) and np.all(np.isfinite(desired_approach))
         else float("nan")
     )
+    grasp_axis_debug = _grasp_pose_axis_debug(
+        tcp_quat,
+        desired_quat,
+        desired_approach,
+        local_app,
+        model=model,
+        ids=ids,
+        q=q_after,
+    )
     axis_align = _axis_alignment_errors_deg(tcp_quat, desired_approach)
     best_axis, best_axis_err = min(
         axis_align.items(),
@@ -1295,6 +1439,12 @@ def _traj_log_record(
         "desired_quat_wxyz": _arr(desired_quat),
         "quat_err_deg": float(quat_err_deg),
         "approach_err_deg": float(approach_err_deg),
+        "grasp_pose_axes": grasp_axis_debug,
+        "closing_axis_err_deg": float(grasp_axis_debug.get("closing_axis_err_deg", float("nan"))),
+        "palm_axis_err_deg": float(grasp_axis_debug.get("palm_axis_err_deg", float("nan"))),
+        "gripper_body_closing_err_deg": float(
+            grasp_axis_debug.get("gripper_body_closing_err_deg", float("nan"))
+        ),
         "control_err_m": float(control_err),
         "final_err_m": float(final_err),
         "tcp_axis_alignment_deg": {k: float(v) for k, v in axis_align.items()},
@@ -1437,6 +1587,14 @@ def run(args: argparse.Namespace) -> int:
     model = mujoco.MjModel.from_xml_path(str(mjcf))
     model.opt.timestep = float(SIM_DT)
     data = mujoco.MjData(model)
+    if bool(args.enable_grasp_chain):
+        _select_grasp_target_object(args)
+        _configure_grasp_target_visibility(model, str(args.target_geom))
+        _park_inactive_grasp_targets(model, data, str(args.target_body))
+        print(
+            f"[mujoco_play] grasp target object={str(args.grasp_target_object).strip().lower()} "
+            f"body={args.target_body} geom={args.target_geom}"
+        )
     if bool(args.enable_grasp_chain) and _body_id_or_none(model, str(args.target_body)) is None:
         print(
             f"[ERROR] grasp chain requires body {args.target_body!r}; "
@@ -1536,9 +1694,16 @@ def run(args: argparse.Namespace) -> int:
                 str(args.grasp_track_source),
                 model,
                 target_geom_name=str(args.target_geom),
+                wrist_flip_image_y=bool(args.grasp_wrist_flip_image_y),
             )
             if grasp_tracker is not None:
                 print(f"[mujoco_play] grasp tracking source={str(args.grasp_track_source).strip().lower()}")
+                if str(args.grasp_track_source).strip().lower() == "wrist":
+                    print(
+                        "[mujoco_play] wrist tracking camera-frame y "
+                        f"{'flipped' if bool(args.grasp_wrist_flip_image_y) else 'not flipped'} "
+                        "(diagnostic: compare wrist_pos vs target_pos in traj log)"
+                    )
         except Exception as exc:
             print(f"[ERROR] grasp tracker unavailable: {exc}", file=sys.stderr)
             return 1
@@ -1732,6 +1897,7 @@ def run(args: argparse.Namespace) -> int:
             target_released = False
             frozen_grasp_q: np.ndarray | None = None
             close_start_q: np.ndarray | None = None
+            verify_hold_q: np.ndarray | None = None
             selected_grasp = None
             grasp_candidates_viz = []
             replan_attempts = 0
@@ -1743,9 +1909,11 @@ def run(args: argparse.Namespace) -> int:
             replan_debug: dict = {}
             close_track_steps = max(0, int(round(max(float(args.grasp_tracking_close_time), 0.0) / ctrl_dt)))
             grasp_track_invalid_counter = 0
+            grasp_track_ever_valid = False
             grasp_track_debug: dict = {}
             if bool(args.enable_grasp_chain):
                 target_radius = _geom_radius_or_default(model, str(args.target_geom), float(args.target_radius))
+                target_floor_center_z = _geom_floor_center_z_or_default(model, str(args.target_geom), target_radius)
                 if str(args.grasp_target_pos).strip():
                     target_pos = np.asarray(
                         _dyn.parse_vec3(str(args.grasp_target_pos), default=tuple(target_pos)),
@@ -1754,7 +1922,7 @@ def run(args: argparse.Namespace) -> int:
                     target_base_pos = target_pos.copy()
                 elif bool(args.grasp_target_on_floor):
                     target_pos[0] = max(float(target_pos[0]), float(args.grasp_target_min_x))
-                    target_pos[2] = target_radius + float(args.grasp_target_floor_clearance)
+                    target_pos[2] = target_floor_center_z + float(args.grasp_target_floor_clearance)
                     target_base_pos = target_pos.copy()
                 start_mode = str(args.grasp_start_mode).lower().strip()
                 start_idx = -1
@@ -2038,6 +2206,14 @@ def run(args: argparse.Namespace) -> int:
                                 "n_points": int(track_res.n_points),
                                 "delta_m": _arr(target_delta),
                                 "delta_norm_m": float(np.linalg.norm(target_delta)),
+                                "wrist_pos_world": _arr(track_res.pos_world)
+                                if getattr(track_res, "pos_world", None) is not None
+                                else None,
+                                "wrist_pos_err_m": _arr(track_res.pos_err_world)
+                                if getattr(track_res, "pos_err_world", None) is not None
+                                else None,
+                                "wrist_pos_err_norm_m": float(getattr(track_res, "pos_err_norm", float("nan"))),
+                                "wrist_flip_image_y": bool(args.grasp_wrist_flip_image_y),
                             }
                         else:
                             target_delta = np.asarray(target_pos - target_plan_pos, dtype=np.float64).reshape(3)
@@ -2052,11 +2228,31 @@ def run(args: argparse.Namespace) -> int:
                             }
                         delta_norm = float(np.linalg.norm(target_delta))
                         tracking_valid = bool(grasp_track_debug.get("valid", True))
+                        track_activation_err = float(np.linalg.norm(np.asarray(tcp_pose_w(data, ids)[0], dtype=np.float64).reshape(3) - grasp_pos))
+                        tracking_active = track_activation_err <= float(args.grasp_track_activate_dist)
+                        if not tracking_active:
+                            grasp_track_debug["active"] = False
+                            grasp_track_debug["inactive_reason"] = "too_far_from_grasp"
+                            grasp_track_debug["activate_dist_m"] = float(args.grasp_track_activate_dist)
+                            grasp_track_debug["activation_err_m"] = float(track_activation_err)
+                        else:
+                            grasp_track_debug["active"] = True
+                            grasp_track_debug["activate_dist_m"] = float(args.grasp_track_activate_dist)
+                            grasp_track_debug["activation_err_m"] = float(track_activation_err)
                         if tracking_valid:
                             grasp_track_invalid_counter = 0
+                            if tracking_active:
+                                grasp_track_ever_valid = True
                         else:
-                            grasp_track_invalid_counter += 1
+                            if tracking_active:
+                                grasp_track_invalid_counter += 1
+                        invalid_replan_ready = (
+                            grasp_track_ever_valid
+                            and grasp_track_invalid_counter >= int(args.grasp_track_max_invalid_frames)
+                        )
                         tracking_allowed = (
+                            tracking_active
+                            and
                             tracking_valid
                             and delta_norm <= float(args.grasp_track_max_delta)
                             and (task_state != "CLOSE" or close_counter <= close_track_steps)
@@ -2067,10 +2263,11 @@ def run(args: argparse.Namespace) -> int:
                             grasp_pos = grasp_plan_pos + gain * target_delta
                         elif (
                             task_state == "FINAL_APPROACH"
+                            and tracking_active
                             and
                             (
                                 (tracking_valid and delta_norm >= float(args.grasp_replan_delta))
-                                or (not tracking_valid and grasp_track_invalid_counter >= int(args.grasp_track_max_invalid_frames))
+                                or (not tracking_valid and invalid_replan_ready)
                             )
                             and replan_attempts < int(args.grasp_replan_max_attempts)
                         ):
@@ -2079,6 +2276,7 @@ def run(args: argparse.Namespace) -> int:
                                 f"valid={tracking_valid} reason={grasp_track_debug.get('reason', '')} "
                                 f"delta={delta_norm*1000.0:.1f}mm "
                                 f"invalid={grasp_track_invalid_counter}/{int(args.grasp_track_max_invalid_frames)}; "
+                                f"ever_valid={grasp_track_ever_valid}; "
                                 f"attempt {replan_attempts + 1}/{int(args.grasp_replan_max_attempts)}"
                             )
                             task_state = "REPLAN_GRASP"
@@ -2088,6 +2286,7 @@ def run(args: argparse.Namespace) -> int:
                             close_counter = 0
                             frozen_grasp_q = None
                             close_start_q = None
+                            verify_hold_q = None
                 if dynamic_obstacle and obstacle_base_pos is not None:
                     obs_pos = obstacle_motion.position(t_s, base=obstacle_base_pos)
                     _dyn.set_body_pos(model, data, str(args.obstacle_body), obs_pos)
@@ -2187,6 +2386,29 @@ def run(args: argparse.Namespace) -> int:
                             tgt, info = stepper.compute_targets(model, data, control_target_pos, grasp_quat)
                         tgt[-1] = float(args.grasp_close_q)
                         info["desired_quat"] = grasp_quat.copy()
+                    elif task_state == "VERIFY":
+                        if verify_hold_q is None:
+                            verify_hold_q = q_before.copy()
+                        tgt = verify_hold_q.copy()
+                        tgt[-1] = float(args.grasp_close_q)
+                        tcp_now, _ = tcp_pose_w(data, ids)
+                        control_target_pos = tcp_now.copy()
+                        info = {
+                            "distance": float(np.linalg.norm(tcp_now - target_pos)),
+                            "quat_dot": 1.0,
+                            "dq_nom": tgt - q_before,
+                            "dq_cbf": np.zeros_like(q_before),
+                            "raw_action": np.zeros_like(q_before),
+                            "h_min": float("inf"),
+                            "cbf_active": False,
+                            "cbf_feasible": True,
+                            "cbf_projected": False,
+                            "n_constraints": 0,
+                            "dq_cbf_norm": 0.0,
+                            "dq_nom_norm": float(np.linalg.norm(tgt - q_before)),
+                            "dq_total_norm": float(np.linalg.norm(tgt - q_before)),
+                            "desired_quat": grasp_quat.copy(),
+                        }
                     else:
                         tgt = q_before.copy()
                         tgt[-1] = float(args.grasp_close_q)
@@ -2316,6 +2538,15 @@ def run(args: argparse.Namespace) -> int:
                             tcp_app = tcp_rot @ np.asarray(pregrasp_gate_local_axis, dtype=np.float64).reshape(3)
                             tcp_app /= max(float(np.linalg.norm(tcp_app)), 1e-12)
                             axis_align = _axis_alignment_errors_deg(tcp_quat_after, approach_axis)
+                            pose_axes = _grasp_pose_axis_debug(
+                                tcp_quat_after,
+                                grasp_quat,
+                                approach_axis,
+                                pregrasp_gate_local_axis,
+                                model=model,
+                                ids=ids,
+                                q=q_after,
+                            )
                             print(
                                 f"[ep {ep:03d}][grasp] pregrasp reached at t={k * ctrl_dt:.2f}s "
                                 f"dist={dist*1000:.1f}mm "
@@ -2325,7 +2556,8 @@ def run(args: argparse.Namespace) -> int:
                                 f"desired_quat=({grasp_quat[0]:+.3f},{grasp_quat[1]:+.3f},{grasp_quat[2]:+.3f},{grasp_quat[3]:+.3f}) "
                                 f"tcp_app=({tcp_app[0]:+.2f},{tcp_app[1]:+.2f},{tcp_app[2]:+.2f}) "
                                 f"desired_app=({approach_axis[0]:+.2f},{approach_axis[1]:+.2f},{approach_axis[2]:+.2f}) "
-                                f"axis_align[{_format_axis_alignment(axis_align)}] → FINAL_APPROACH"
+                                f"axis_align[{_format_axis_alignment(axis_align)}] "
+                                f"{_format_grasp_axis_debug(pose_axes)} → FINAL_APPROACH"
                             )
                     elif task_state == "FINAL_APPROACH":
                         final_approach_counter += 1
@@ -2365,6 +2597,15 @@ def run(args: argparse.Namespace) -> int:
                             tcp_app = tcp_rot @ np.asarray(pregrasp_gate_local_axis, dtype=np.float64).reshape(3)
                             tcp_app /= max(float(np.linalg.norm(tcp_app)), 1e-12)
                             axis_align = _axis_alignment_errors_deg(tcp_quat_after, approach_axis)
+                            pose_axes = _grasp_pose_axis_debug(
+                                tcp_quat_after,
+                                grasp_quat,
+                                approach_axis,
+                                pregrasp_gate_local_axis,
+                                model=model,
+                                ids=ids,
+                                q=q_after,
+                            )
                             print(
                                 f"[ep {ep:03d}][grasp] final reached at t={k * ctrl_dt:.2f}s "
                                 f"dist={final_err*1000:.1f}mm reason={reason} "
@@ -2380,6 +2621,7 @@ def run(args: argparse.Namespace) -> int:
                                 f"tcp_app=({tcp_app[0]:+.2f},{tcp_app[1]:+.2f},{tcp_app[2]:+.2f}) "
                                 f"desired_app=({approach_axis[0]:+.2f},{approach_axis[1]:+.2f},{approach_axis[2]:+.2f}) "
                                 f"axis_align[{_format_axis_alignment(axis_align)}] "
+                                f"{_format_grasp_axis_debug(pose_axes)} "
                                 f"tcp_vs_target[{tcp_vs_target}] grasp_vs_target[{grasp_vs_target}] "
                                 f"hold_q={np.array2string(frozen_grasp_q, precision=3, separator=',')} → CLOSE"
                             )
@@ -2394,12 +2636,23 @@ def run(args: argparse.Namespace) -> int:
                             gripper_contacts_now = _geom_contact_count_with_body(model, data, str(args.target_geom), GRIPPER_BODY)
                             contact_pairs_now = _target_contact_pairs(model, data, str(args.target_geom), max_pairs=6)
                             target_now = _body_pos_or_default(model, data, str(args.target_body), target_pos)
+                            _, tcp_quat_now = tcp_pose_w(data, ids)
+                            pose_axes = _grasp_pose_axis_debug(
+                                tcp_quat_now,
+                                grasp_quat,
+                                approach_axis,
+                                pregrasp_gate_local_axis,
+                                model=model,
+                                ids=ids,
+                                q=q_after,
+                            )
                             print(
                                 f"[ep {ep:03d}][grasp] close complete at t={k * ctrl_dt:.2f}s "
                                 f"tcp_err={float(np.linalg.norm(tcp_now - grasp_pos))*1000:.1f}mm "
                                 f"tcp=({tcp_now[0]:+.3f},{tcp_now[1]:+.3f},{tcp_now[2]:+.3f}) "
                                 f"target=({target_now[0]:+.3f},{target_now[1]:+.3f},{target_now[2]:+.3f}) "
                                 f"tcp_vs_target[{_pos_compare_text(tcp_now, target_now)}] "
+                                f"{_format_grasp_axis_debug(pose_axes)} "
                                 f"gripper_q={q_after[-1]:.3f} target_contacts={contacts_now} "
                                 f"gripper_contacts={gripper_contacts_now} "
                                 f"pairs={[(p.get('other_geom'), p.get('other_body')) for p in contact_pairs_now]} → LIFT"
@@ -2592,6 +2845,7 @@ def run(args: argparse.Namespace) -> int:
                             if grasp_tracker is not None:
                                 grasp_tracker.reset()
                             grasp_track_invalid_counter = 0
+                            grasp_track_ever_valid = False
                             replan_attempts += 1
                             replan_compute_attempts = 0
                             replan_debug.update(
@@ -2634,6 +2888,7 @@ def run(args: argparse.Namespace) -> int:
                             lifted = lift_delta >= float(args.grasp_lift_success_height)
                             if lifted:
                                 task_state = "VERIFY"
+                                verify_hold_q = q_after.copy()
                                 success_latched = True
                                 success_step = k
                                 print(
@@ -2650,12 +2905,14 @@ def run(args: argparse.Namespace) -> int:
                                 success_counter = 0
                                 frozen_grasp_q = None
                                 close_start_q = None
+                                verify_hold_q = None
                                 print(
                                     f"[ep {ep:03d}][grasp] lift failed at t={k * ctrl_dt:.2f}s "
                                     f"target_lift={lift_delta*1000.0:.1f}mm; replan"
                                 )
                             else:
                                 task_state = "VERIFY"
+                                verify_hold_q = q_after.copy()
                                 success_latched = False
                                 success_step = -1
                                 print(
@@ -2756,7 +3013,14 @@ def run(args: argparse.Namespace) -> int:
                         f"final_err={float(np.linalg.norm(tcp_after - grasp_pos))*1000.0 if bool(args.enable_grasp_chain) else float('nan'):.1f}mm  "
                         f"contacts={target_contact_count}/{target_gripper_contact_count}  "
                         f"|dq|={float(info.get('dq_total_norm', 0.0)):.4f}"
-                        f"{cbf_msg}"
+                        + (
+                            f"  wrist_err={float(grasp_track_debug.get('wrist_pos_err_norm_m', float('nan'))) * 1000.0:.1f}mm"
+                            if bool(args.enable_grasp_chain)
+                            and isinstance(grasp_track_debug, dict)
+                            and grasp_track_debug.get("wrist_pos_err_norm_m") is not None
+                            else ""
+                        )
+                        + f"{cbf_msg}"
                     )
 
             wall = time.perf_counter() - t0
@@ -2892,9 +3156,15 @@ def build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="抓取链路调试：跳过 MOVE_TO_PREGRASP，直接追 AnyGrasp final pose 并闭合",
     )
+    p.add_argument(
+        "--grasp-target-object",
+        choices=("cube", "bottle", "sphere", "custom"),
+        default="cube",
+        help="抓取目标物体选择：cube=默认方块；bottle=红色圆柱水瓶；sphere=红色圆球；custom=使用 --target-body/--target-geom",
+    )
     p.add_argument("--target-body", type=str, default="target_object", help="实体目标 body 名")
     p.add_argument("--target-geom", type=str, default="target_object_geom", help="实体目标 geom 名")
-    p.add_argument("--target-radius", type=float, default=0.018, help="目标球半径 fallback (m)")
+    p.add_argument("--target-radius", type=float, default=0.018, help="目标半径 fallback (m)，主要用于候选中心距离阈值")
     p.add_argument("--pregrasp-distance", type=float, default=0.040, help="tar&ori 风格 pregrasp：从 final grasp 沿 approach 后退的距离 (m)")
     p.add_argument("--pregrasp-success-dist", type=float, default=0.035, help="pregrasp 到达阈值 (m)")
     p.add_argument("--pregrasp-approach-success-deg", type=float, default=50.0, help="pregrasp 进入 final 前允许的进刀轴角度误差 (deg)")
@@ -2990,7 +3260,19 @@ def build_parser() -> argparse.ArgumentParser:
         default="gt",
         help="抓取近场目标追踪来源：gt=MuJoCo目标真值；wrist=腕部相机seg/depth诊断；none=关闭tracker",
     )
+    p.add_argument(
+        "--grasp-wrist-flip-image-y",
+        action=argparse.BooleanOptionalAction,
+        default=True,
+        help="腕部相机seg/depth反投影时是否翻转图像y轴；用于诊断相机画面上下反导致的世界坐标偏差",
+    )
     p.add_argument("--grasp-track-max-delta", type=float, default=0.020, help="允许继续跟踪的目标最大位移 (m)")
+    p.add_argument(
+        "--grasp-track-activate-dist",
+        type=float,
+        default=0.080,
+        help="TCP 距 final grasp 小于该距离后才允许腕部/目标 tracking 更新 grasp 或触发重规划 (m)",
+    )
     p.add_argument(
         "--grasp-track-max-invalid-frames",
         type=int,

@@ -28,6 +28,9 @@ class GraspTrackResult:
     reason: str
     source: str
     n_points: int = 0
+    pos_world: np.ndarray | None = None
+    pos_err_world: np.ndarray | None = None
+    pos_err_norm: float = float("nan")
 
 
 @dataclass
@@ -122,12 +125,14 @@ class WristSegmentationGraspTracker(GraspTracker):
         target_geom_name: str,
         cam_name: str = WRIST_RGB_CAM,
         min_points: int = 24,
+        flip_image_y: bool = True,
     ) -> None:
         self._rig = MujocoCameraRig(model)
         self._cam_name = str(cam_name)
         self._target_geom_name = str(target_geom_name)
         self._target_geom_id = mujoco.mj_name2id(model, mujoco.mjtObj.mjOBJ_GEOM, self._target_geom_name)
         self._min_points = int(min_points)
+        self._flip_image_y = bool(flip_image_y)
         self._ref_centroid: np.ndarray | None = None
 
     def close(self) -> None:
@@ -159,7 +164,8 @@ class WristSegmentationGraspTracker(GraspTracker):
         x = (us.astype(np.float64) - cx) * z / fx
         y = (vs.astype(np.float64) - cy) * z / fy
         # MuJoCo camera looks down local -Z; renderer depth is positive along view.
-        pts_cam = np.column_stack([x, -y, -z])
+        pts_cam_y = -y if self._flip_image_y else y
+        pts_cam = np.column_stack([x, pts_cam_y, -z])
         cam_pos = np.asarray(data.cam_xpos[int(cid)], dtype=np.float64).reshape(3)
         cam_R = np.asarray(data.cam_xmat[int(cid)], dtype=np.float64).reshape(3, 3)
         pts_world = cam_pos.reshape(1, 3) + pts_cam @ cam_R.T
@@ -182,10 +188,14 @@ class WristSegmentationGraspTracker(GraspTracker):
                 reason=reason,
                 source="wrist",
                 n_points=n,
+                pos_world=None,
+                pos_err_world=None,
             )
         if self._ref_centroid is None:
             self._ref_centroid = np.asarray(centroid, dtype=np.float64).reshape(3).copy()
         delta = np.asarray(centroid, dtype=np.float64).reshape(3) - self._ref_centroid
+        target = np.asarray(target_pos, dtype=np.float64).reshape(3)
+        pos_err = np.asarray(centroid, dtype=np.float64).reshape(3) - target
         confidence = min(1.0, float(n) / max(float(self._min_points * 4), 1.0))
         return GraspTrackResult(
             valid=True,
@@ -194,6 +204,9 @@ class WristSegmentationGraspTracker(GraspTracker):
             reason=reason,
             source="wrist",
             n_points=n,
+            pos_world=np.asarray(centroid, dtype=np.float64).reshape(3),
+            pos_err_world=pos_err,
+            pos_err_norm=float(np.linalg.norm(pos_err)),
         )
 
     def observe_target(
@@ -224,12 +237,22 @@ class WristSegmentationGraspTracker(GraspTracker):
         )
 
 
-def make_grasp_tracker(source: str, model: mujoco.MjModel, *, target_geom_name: str) -> GraspTracker | None:
+def make_grasp_tracker(
+    source: str,
+    model: mujoco.MjModel,
+    *,
+    target_geom_name: str,
+    wrist_flip_image_y: bool = True,
+) -> GraspTracker | None:
     s = str(source).strip().lower()
     if s in ("none", "off", "false", "0"):
         return None
     if s in ("gt", "truth", "mujoco"):
         return GroundTruthGraspTracker()
     if s in ("wrist", "wrist_rgb", "wrist_seg"):
-        return WristSegmentationGraspTracker(model, target_geom_name=target_geom_name)
+        return WristSegmentationGraspTracker(
+            model,
+            target_geom_name=target_geom_name,
+            flip_image_y=bool(wrist_flip_image_y),
+        )
     raise ValueError(f"unknown grasp tracking source: {source!r}")
