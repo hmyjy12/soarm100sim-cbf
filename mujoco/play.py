@@ -2539,6 +2539,32 @@ def run(args: argparse.Namespace) -> int:
                                         f"{replan_compute_attempts}/{max_compute}: {exc}; retry"
                                     )
                                     continue
+                                replan_final_err = float(np.linalg.norm(tcp_after - grasp_pos))
+                                close_after_replan_fail = (
+                                    replan_final_err <= float(args.grasp_track_activate_dist)
+                                    or target_gripper_contact_count > 0
+                                )
+                                if close_after_replan_fail:
+                                    task_state = "CLOSE"
+                                    success_counter = 0
+                                    close_counter = 0
+                                    frozen_grasp_q = joint_pos(data, ids).copy()
+                                    close_start_q = frozen_grasp_q.copy()
+                                    replan_debug.update(
+                                        {
+                                            "state": "close_after_compute_failed",
+                                            "final_err_m": float(replan_final_err),
+                                            "target_gripper_contacts": int(target_gripper_contact_count),
+                                            "reason": "near_grasp_or_contact",
+                                        }
+                                    )
+                                    print(
+                                        f"[ep {ep:03d}][grasp_replan] AnyGrasp compute failed "
+                                        f"{replan_compute_attempts}/{max_compute}: {exc}; "
+                                        f"near current grasp ({replan_final_err*1000.0:.1f}mm) "
+                                        f"or contacts={target_gripper_contact_count}, forcing CLOSE"
+                                    )
+                                    continue
                                 print(
                                     f"[ep {ep:03d}][grasp_replan] AnyGrasp compute failed "
                                     f"{replan_compute_attempts}/{max_compute}: {exc}; ending episode as failed"
