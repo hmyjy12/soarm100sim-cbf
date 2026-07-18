@@ -88,6 +88,9 @@ class RobotIds:
     gripper_body: int
     q_low: np.ndarray
     q_high: np.ndarray
+    tcp_offset_local: np.ndarray = field(
+        default_factory=lambda: np.zeros(3, dtype=np.float64)
+    )
 
 
 def resolve_robot_ids(model: mujoco.MjModel) -> RobotIds:
@@ -129,7 +132,13 @@ def tcp_pose_w(data: mujoco.MjData, ids: RobotIds):
     wr_quat = np.asarray(data.xquat[ids.wrist_roll_body], dtype=np.float64).copy()
     gr_pos = np.asarray(data.xpos[ids.gripper_body], dtype=np.float64).copy()
     gr_quat = np.asarray(data.xquat[ids.gripper_body], dtype=np.float64).copy()
-    return compute_pinch_tcp_pose_numpy(wr_pos, wr_quat, gr_pos, gr_quat)
+    tcp_pos, tcp_quat = compute_pinch_tcp_pose_numpy(wr_pos, wr_quat, gr_pos, gr_quat)
+    offset = np.asarray(getattr(ids, "tcp_offset_local", np.zeros(3)), dtype=np.float64).reshape(3)
+    if float(np.linalg.norm(offset)) > 1e-12:
+        rot = np.zeros(9, dtype=np.float64)
+        mujoco.mju_quat2Mat(rot, np.asarray(tcp_quat, dtype=np.float64))
+        tcp_pos = np.asarray(tcp_pos, dtype=np.float64).reshape(3) + rot.reshape(3, 3) @ offset
+    return tcp_pos, tcp_quat
 
 
 def make_obs(data: mujoco.MjData, ids: RobotIds, target_pos_w, target_quat_wxyz):
