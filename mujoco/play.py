@@ -53,6 +53,7 @@ _track = _load_local("so100_mj_grasp_tracking", _THIS / "grasp_tracking.py")
 DEFAULT_CHECKPOINT = _c.DEFAULT_CHECKPOINT
 DEFAULT_MJCF = _c.DEFAULT_MJCF
 DEFAULT_MJCF_NOROD = _c.DEFAULT_MJCF_NOROD
+DEFAULT_MJCF_GRASP_OBSTACLE = DEFAULT_MJCF_NOROD.with_name("scene_plus_grasp_obstacle.xml")
 DEFAULT_NPZ_TEST = _c.DEFAULT_NPZ_TEST
 DEFAULT_NPZ_TRAIN = _c.DEFAULT_NPZ_TRAIN
 SIM_DT = _c.SIM_DT
@@ -128,6 +129,33 @@ def _quat_angle_deg(q_a: np.ndarray, q_b: np.ndarray) -> float:
     a /= max(float(np.linalg.norm(a)), 1e-12)
     b /= max(float(np.linalg.norm(b)), 1e-12)
     return _ori_deg(float(np.dot(a, b)))
+
+
+def _quat_conjugate_wxyz(q: np.ndarray) -> np.ndarray:
+    quat = np.asarray(q, dtype=np.float64).reshape(4)
+    return np.array([quat[0], -quat[1], -quat[2], -quat[3]], dtype=np.float64)
+
+
+def _quat_multiply_wxyz(q_a: np.ndarray, q_b: np.ndarray) -> np.ndarray:
+    a = np.asarray(q_a, dtype=np.float64).reshape(4)
+    b = np.asarray(q_b, dtype=np.float64).reshape(4)
+    out = np.zeros(4, dtype=np.float64)
+    mujoco.mju_mulQuat(out, a, b)
+    out /= max(float(np.linalg.norm(out)), 1e-12)
+    return out
+
+
+def _quat_to_rotvec_wxyz(q: np.ndarray) -> np.ndarray:
+    quat = np.asarray(q, dtype=np.float64).reshape(4)
+    quat /= max(float(np.linalg.norm(quat)), 1e-12)
+    if quat[0] < 0.0:
+        quat = -quat
+    v = quat[1:]
+    s = float(np.linalg.norm(v))
+    if s < 1e-10:
+        return 2.0 * v
+    angle = 2.0 * math.atan2(s, float(quat[0]))
+    return v * (angle / s)
 
 
 def _quat_to_rotmat_wxyz(q: np.ndarray) -> np.ndarray:
@@ -839,7 +867,38 @@ def _copy_data_state(model: mujoco.MjModel, src: mujoco.MjData) -> mujoco.MjData
     return tmp
 
 
-def _candidate_reachability_check(
+def _tcp_pose_jacobian_fd(
+    model: mujoco.MjModel,
+    data: mujoco.MjData,
+    ids,
+    *,
+    n_arm: int,
+    eps: float = 1e-5,
+) -> np.ndarray:
+    j = np.zeros((6, n_arm), dtype=np.float64)
+    q_saved = data.qpos.copy()
+    qvel_saved = data.qvel.copy()
+    for i, qadr in enumerate(ids.qpos_adr[:n_arm]):
+        data.qpos[qadr] = q_saved[qadr] + float(eps)
+        mujoco.mj_forward(model, data)
+        tcp_plus, quat_plus = tcp_pose_w(data, ids)
+
+        data.qpos[qadr] = q_saved[qadr] - float(eps)
+        mujoco.mj_forward(model, data)
+        tcp_minus, quat_minus = tcp_pose_w(data, ids)
+
+        j[:3, i] = (tcp_plus - tcp_minus) / (2.0 * float(eps))
+        q_delta = _quat_multiply_wxyz(quat_plus, _quat_conjugate_wxyz(quat_minus))
+        j[3:, i] = _quat_to_rotvec_wxyz(q_delta) / (2.0 * float(eps))
+        data.qpos[qadr] = q_saved[qadr]
+
+    data.qpos[:] = q_saved
+    data.qvel[:] = qvel_saved
+    mujoco.mj_forward(model, data)
+    return j
+
+
+def _candidate_ik_check(
     model: mujoco.MjModel,
     data: mujoco.MjData,
     ids,
@@ -850,41 +909,138 @@ def _candidate_reachability_check(
     steps: int,
     max_pos_step: float,
     max_rot_step: float,
+    pos_tol: float,
+    approach_tol_deg: float,
     approach_gate_axis: str,
     mapped_local_axis: np.ndarray | None,
 ) -> dict:
-    tmp = _copy_data_state(model, data)
-    steps = max(0, int(steps))
-    for _ in range(steps):
-        q_tgt, _info = cartesian_pose_servo_target(
-            model,
-            tmp,
-            ids,
-            pregrasp_pos,
-            grasp_quat,
-            max_pos_step=float(max_pos_step),
-            max_rot_step=float(max_rot_step),
-        )
-        _set_robot_qpos(model, tmp, ids, q_tgt)
-    tcp, quat = tcp_pose_w(tmp, ids)
-    pos_err = float(np.linalg.norm(np.asarray(pregrasp_pos, dtype=np.float64).reshape(3) - tcp))
-    quat_err = _quat_angle_deg(quat, grasp_quat)
-    R = _quat_to_rotmat_wxyz(quat)
+    target_pos = np.asarray(pregrasp_pos, dtype=np.float64).reshape(3)
+    target_quat = np.asarray(grasp_quat, dtype=np.float64).reshape(4)
+    target_quat /= max(float(np.linalg.norm(target_quat)), 1e-12)
+    desired_app = np.asarray(approach_axis, dtype=np.float64).reshape(3)
+    desired_app /= max(float(np.linalg.norm(desired_app)), 1e-12)
     if str(approach_gate_axis).lower().strip() == "mapped" and mapped_local_axis is not None:
         local = np.asarray(mapped_local_axis, dtype=np.float64).reshape(3)
     else:
         local = np.array([0.0, 0.0, 1.0], dtype=np.float64)
     local /= max(float(np.linalg.norm(local)), 1e-12)
-    app = R @ local
-    app /= max(float(np.linalg.norm(app)), 1e-12)
-    app_err = _axis_angle_deg(app, approach_axis)
+
+    steps = max(0, int(steps))
+    n_arm = max(ACTION_DIM - 1, 1)
+    q_curr = joint_pos(data, ids)
+    q_low = np.asarray(ids.q_low, dtype=np.float64)
+    q_high = np.asarray(ids.q_high, dtype=np.float64)
+    q_mid = 0.5 * (q_low + q_high)
+    q_mid[-1] = q_curr[-1]
+    seeds = [q_curr.copy(), np.clip(q_mid, q_low, q_high)]
+    if n_arm >= 6:
+        for delta in (-0.5 * math.pi, 0.5 * math.pi):
+            q_seed = q_curr.copy()
+            q_seed[5] = np.clip(q_seed[5] + delta, q_low[5], q_high[5])
+            seeds.append(q_seed)
+
+    def evaluate(tmp_data: mujoco.MjData) -> dict:
+        tcp, quat = tcp_pose_w(tmp_data, ids)
+        pos_err = float(np.linalg.norm(target_pos - tcp))
+        quat_err = _quat_angle_deg(quat, target_quat)
+        R = _quat_to_rotmat_wxyz(quat)
+        app = R @ local
+        app /= max(float(np.linalg.norm(app)), 1e-12)
+        app_err = _axis_angle_deg(app, desired_app)
+        q_now = joint_pos(tmp_data, ids)
+        margins = np.minimum(q_now[:n_arm] - q_low[:n_arm], q_high[:n_arm] - q_now[:n_arm])
+        limit_margin = float(np.min(margins)) if len(margins) else float("nan")
+        return {
+            "pos_err_m": pos_err,
+            "quat_err_deg": quat_err,
+            "approach_err_deg": app_err,
+            "reachable": bool(pos_err <= float(pos_tol) and app_err <= float(approach_tol_deg)),
+            "end_tcp": tcp.copy(),
+            "end_quat": quat.copy(),
+            "q_solution": q_now.copy(),
+            "limit_margin_rad": limit_margin,
+            "hit_limit": bool(math.isfinite(limit_margin) and limit_margin < 1e-4),
+        }
+
+    best: dict | None = None
+    for seed in seeds:
+        tmp = _copy_data_state(model, data)
+        _set_robot_qpos(model, tmp, ids, np.clip(seed, q_low, q_high))
+        for _ in range(steps):
+            tcp, quat = tcp_pose_w(tmp, ids)
+            pos_err_vec = target_pos - tcp
+            pos_norm = float(np.linalg.norm(pos_err_vec))
+            q_err = _quat_multiply_wxyz(target_quat, _quat_conjugate_wxyz(quat))
+            rot_err = _quat_to_rotvec_wxyz(q_err)
+            rot_norm = float(np.linalg.norm(rot_err))
+            if pos_norm <= float(pos_tol) and _axis_angle_deg((_quat_to_rotmat_wxyz(quat) @ local), desired_app) <= float(approach_tol_deg):
+                break
+
+            pos_step = pos_err_vec.copy()
+            if pos_norm > float(max_pos_step):
+                pos_step *= float(max_pos_step) / max(pos_norm, 1e-12)
+            rot_step = rot_err.copy()
+            if rot_norm > float(max_rot_step):
+                rot_step *= float(max_rot_step) / max(rot_norm, 1e-12)
+
+            j = _tcp_pose_jacobian_fd(model, tmp, ids, n_arm=n_arm)
+            rot_weight = 0.7
+            err6 = np.concatenate([pos_step, rot_weight * rot_step])
+            j6 = j.copy()
+            j6[3:, :] *= rot_weight
+            lhs = j6 @ j6.T + 2e-3 * np.eye(6, dtype=np.float64)
+            try:
+                dq_arm = j6.T @ np.linalg.solve(lhs, err6)
+            except np.linalg.LinAlgError:
+                dq_arm = j6.T @ np.linalg.pinv(lhs) @ err6
+            max_joint_step = max(float(max_pos_step), 0.5 * float(max_rot_step))
+            dq_arm = np.clip(dq_arm, -max_joint_step, max_joint_step)
+            q_next = joint_pos(tmp, ids)
+            q_next[:n_arm] = np.clip(q_next[:n_arm] + dq_arm, q_low[:n_arm], q_high[:n_arm])
+            _set_robot_qpos(model, tmp, ids, q_next)
+            if float(np.linalg.norm(dq_arm)) < 1e-7:
+                break
+        res = evaluate(tmp)
+        if best is None:
+            best = res
+        else:
+            old_key = (
+                0 if bool(best["reachable"]) else 1,
+                float(best["pos_err_m"]),
+                float(best["approach_err_deg"]),
+                float(best["quat_err_deg"]),
+            )
+            new_key = (
+                0 if bool(res["reachable"]) else 1,
+                float(res["pos_err_m"]),
+                float(res["approach_err_deg"]),
+                float(res["quat_err_deg"]),
+            )
+            if new_key < old_key:
+                best = res
+
+    if best is None:
+        best = {
+            "pos_err_m": float("inf"),
+            "quat_err_deg": float("inf"),
+            "approach_err_deg": float("inf"),
+            "reachable": False,
+            "end_tcp": np.full(3, float("nan")),
+            "end_quat": np.full(4, float("nan")),
+            "q_solution": np.full(ACTION_DIM, float("nan")),
+            "limit_margin_rad": float("nan"),
+            "hit_limit": False,
+        }
+    best.update(
+        {
+            "solver": "bounded_dls_ik",
+            "pos_tol_m": float(pos_tol),
+            "approach_tol_deg": float(approach_tol_deg),
+        }
+    )
     return {
-        "pos_err_m": pos_err,
-        "quat_err_deg": quat_err,
-        "approach_err_deg": app_err,
-        "reachable": bool(pos_err <= 0.035 and app_err <= 45.0),
-        "end_tcp": tcp,
-        "end_quat": quat,
+        k: (v.tolist() if isinstance(v, np.ndarray) else v)
+        for k, v in best.items()
     }
 
 
@@ -901,8 +1057,8 @@ def _choose_anygrasp_candidate(
     raw_approach_axis: str = "x",
     enable_ik_filter: bool = True,
     ik_steps: int = 80,
-    ik_pos_tol: float = 0.035,
-    ik_approach_tol_deg: float = 45.0,
+    ik_pos_tol: float = 0.005,
+    ik_approach_tol_deg: float = 3.0,
     approach_gate_axis: str = "tcp_z",
     debug_axes: bool = False,
     debug_axes_count: int = 12,
@@ -1016,7 +1172,7 @@ def _choose_anygrasp_candidate(
             "reachable": True,
         }
         if bool(enable_ik_filter):
-            ik = _candidate_reachability_check(
+            ik = _candidate_ik_check(
                 model,
                 data,
                 ids,
@@ -1026,12 +1182,10 @@ def _choose_anygrasp_candidate(
                 steps=int(ik_steps),
                 max_pos_step=0.018,
                 max_rot_step=0.18,
+                pos_tol=float(ik_pos_tol),
+                approach_tol_deg=float(ik_approach_tol_deg),
                 approach_gate_axis=approach_gate_axis,
                 mapped_local_axis=approach_local_axis,
-            )
-            ik["reachable"] = bool(
-                float(ik["pos_err_m"]) <= float(ik_pos_tol)
-                and float(ik["approach_err_deg"]) <= float(ik_approach_tol_deg)
             )
         scored.append(
             {
@@ -1051,12 +1205,17 @@ def _choose_anygrasp_candidate(
         scored,
         key=lambda s: (
             0 if bool(s["ik"].get("reachable", True)) else 1,
-            -float(s["cand"].score),
+            -float(s["cand"].score)
+            if bool(s["ik"].get("reachable", True))
+            else float(s["ik"].get("pos_err_m", float("inf"))),
+            float(s["dist"])
+            if bool(s["ik"].get("reachable", True))
+            else float(s["ik"].get("approach_err_deg", float("inf"))),
             float(s["dist"]),
         ),
     )
     if bool(enable_ik_filter) and not bool(scored[0]["ik"].get("reachable", False)):
-        print("[anygrasp_ik] no candidate passed reachability thresholds; falling back to best scored candidate")
+        print("[anygrasp_ik] no candidate passed IK thresholds; falling back to smallest IK residual candidate")
     for i, s in enumerate(scored[: min(8, len(scored))]):
         c = s["cand"]
         ik = s["ik"]
@@ -1066,6 +1225,8 @@ def _choose_anygrasp_candidate(
             f"dist={float(s['dist'])*1000:.1f}mm "
             f"ik_pos={float(ik.get('pos_err_m', float('nan')))*1000:.1f}mm "
             f"ik_app={float(ik.get('approach_err_deg', float('nan'))):.1f}deg "
+            f"limit_margin={float(ik.get('limit_margin_rad', float('nan'))):.3f}rad "
+            f"hit_limit={bool(ik.get('hit_limit', False))} "
             f"reachable={bool(ik.get('reachable', True))}"
         )
     chosen = scored[0]
@@ -1486,8 +1647,12 @@ class _CameraPreview:
 
 
 def run(args: argparse.Namespace) -> int:
+    if bool(args.enable_sdf_cbf_qp):
+        args.enable_cbf = True
+        if str(args.obstacle_source).strip().lower() == "geom":
+            args.obstacle_source = "geom_sdf"
     if bool(args.enable_grasp_chain) and str(args.mjcf) == str(DEFAULT_MJCF):
-        args.mjcf = str(DEFAULT_MJCF_NOROD)
+        args.mjcf = str(DEFAULT_MJCF_GRASP_OBSTACLE if bool(args.enable_obstacle) else DEFAULT_MJCF_NOROD)
     ckpt = Path(args.checkpoint).expanduser().resolve()
     mjcf = Path(args.mjcf).expanduser().resolve()
     npz = Path(args.npz).expanduser().resolve()
@@ -1517,8 +1682,11 @@ def run(args: argparse.Namespace) -> int:
     if bool(args.enable_grasp_chain):
         print(
             "[mujoco_play] grasp chain=ON  static target object + pregrasp/final/close; "
-            "obstacles disabled by using norod scene unless --mjcf is explicit"
+            "obstacles disabled unless --enable-obstacle or --mjcf is explicit"
         )
+        print(f"[mujoco_play] obstacle scene={'ON' if bool(args.enable_obstacle) else 'OFF'}")
+        if bool(args.enable_sdf_cbf_qp):
+            print(f"[mujoco_play] SDF-CBF-QP avoidance=ON source={args.obstacle_source}")
 
     model = mujoco.MjModel.from_xml_path(str(mjcf))
     model.opt.timestep = float(SIM_DT)
@@ -2906,6 +3074,16 @@ def build_parser() -> argparse.ArgumentParser:
         help="启用静态目标物体的到达+pregrasp+final approach+close+lift 抓取链路",
     )
     p.add_argument(
+        "--enable-obstacle",
+        action="store_true",
+        help="grasp-chain 下加载带障碍物场景；默认抓取用 norod 场景，避免障碍支线干扰抓取调试",
+    )
+    p.add_argument(
+        "--enable-sdf-cbf-qp",
+        action="store_true",
+        help="便捷开启 SDF + CBF-QP 避障；会自动 enable-cbf，且默认 obstacle-source 从 geom 切到 geom_sdf",
+    )
+    p.add_argument(
         "--grasp-target-object",
         choices=("cube", "bottle", "sphere", "custom"),
         default="cube",
@@ -2943,7 +3121,7 @@ def build_parser() -> argparse.ArgumentParser:
     )
     p.add_argument("--final-approach-speed", type=float, default=0.025, help="final/lift Cartesian servo 速度上限 (m/s)")
     p.add_argument("--grasp-open-q", type=float, default=1.2, help="抓取链路中夹爪打开关节目标")
-    p.add_argument("--grasp-close-q", type=float, default=-0.2, help="抓取链路中夹爪闭合关节目标")
+    p.add_argument("--grasp-close-q", type=float, default=0.4, help="抓取链路中夹爪闭合关节目标")
     p.add_argument("--grasp-close-time", type=float, default=0.8, help="闭合夹爪持续时间 (s)")
     p.add_argument("--grasp-lift-height", type=float, default=0.035, help="闭合后上抬高度 (m)")
     p.add_argument("--grasp-lift-time", type=float, default=0.8, help="上抬验证最长时间 (s)")
@@ -2959,7 +3137,7 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument(
         "--grasp-track-source",
         choices=("gt", "wrist", "none"),
-        default="gt",
+        default="wrist",
         help="抓取近场目标追踪来源：gt=MuJoCo目标真值；wrist=腕部相机seg/depth诊断；none=关闭tracker",
     )
     p.add_argument(
@@ -3030,7 +3208,7 @@ def build_parser() -> argparse.ArgumentParser:
         default=str(Path("anygrasp_sdk/grasp_detection/log/checkpoint_detection.tar")),
         help="AnyGrasp detection checkpoint",
     )
-    p.add_argument("--anygrasp-top-k", type=int, default=20, help="AnyGrasp 候选保留数量")
+    p.add_argument("--anygrasp-top-k", type=int, default=45, help="AnyGrasp 候选保留数量")
     p.add_argument("--anygrasp-conda-env", type=str, default="graspnet_gpu", help="运行 AnyGrasp worker 的 conda 环境名")
     p.add_argument("--anygrasp-min-score", type=float, default=0.01, help="AnyGrasp 最低 score")
     p.add_argument("--anygrasp-max-width", type=float, default=0.10, help="AnyGrasp 最大夹爪宽度 (m)")
@@ -3038,11 +3216,11 @@ def build_parser() -> argparse.ArgumentParser:
         "--anygrasp-ik-filter",
         action=argparse.BooleanOptionalAction,
         default=True,
-        help="对 AnyGrasp 候选做轻量 Cartesian IK/reachability 筛选",
+        help="对 AnyGrasp 候选做数值 IK + 关节限位筛选",
     )
-    p.add_argument("--anygrasp-ik-steps", type=int, default=80, help="每个 AnyGrasp 候选用于 IK 筛选的伺服迭代步数")
-    p.add_argument("--anygrasp-ik-pos-tol", type=float, default=0.035, help="AnyGrasp IK 筛选 pregrasp 位置误差阈值 (m)")
-    p.add_argument("--anygrasp-ik-approach-tol-deg", type=float, default=45.0, help="AnyGrasp IK 筛选 approach 角误差阈值 (deg)")
+    p.add_argument("--anygrasp-ik-steps", type=int, default=80, help="每个 AnyGrasp 候选用于数值 IK 筛选的迭代步数")
+    p.add_argument("--anygrasp-ik-pos-tol", type=float, default=0.005, help="AnyGrasp IK 筛选 pregrasp 位置误差阈值 (m)")
+    p.add_argument("--anygrasp-ik-approach-tol-deg", type=float, default=3.0, help="AnyGrasp IK 筛选 approach 角误差阈值 (deg)")
     p.add_argument(
         "--anygrasp-mask-source",
         type=str,

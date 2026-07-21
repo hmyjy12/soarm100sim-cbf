@@ -84,9 +84,9 @@ class AnyGraspConfig:
     target_mask_expand_ratio: float = 0.0
     target_mask_min_points: int = 20
     camera_warmup_frames: int = 2
-    roi_x: tuple[float, float] = (0.02, 0.42)
-    roi_y: tuple[float, float] = (-0.20, 0.24)
-    roi_z: tuple[float, float] = (0.02, 0.46)
+    roi_x: tuple[float, float] = (0.02, 0.65)
+    roi_y: tuple[float, float] = (-0.30, 0.30)
+    roi_z: tuple[float, float] = (0.00, 0.50)
     target_roi_radius_m: float = 0.10
     conda_env: str = "graspnet_gpu"
     subprocess_timeout_s: float = 60.0
