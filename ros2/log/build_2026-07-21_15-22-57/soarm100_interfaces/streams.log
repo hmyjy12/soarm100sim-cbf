@@ -1,0 +1,43 @@
+[30.007s] Invoking command in '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble CONDA_PROMPT_MODIFIER=(base) /usr/bin/cmake /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/soarm100_interfaces -DPython3_EXECUTABLE=/usr/bin/python3 -DPYTHON_EXECUTABLE=/usr/bin/python3 -DCMAKE_INSTALL_PREFIX=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces
+[30.089s] -- The C compiler identification is GNU 14.3.0
+[30.177s] -- The CXX compiler identification is GNU 14.3.0
+[30.183s] -- Detecting C compiler ABI info
+[30.271s] -- Detecting C compiler ABI info - done
+[30.282s] -- Check for working C compiler: /home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-cc - skipped
+[30.282s] -- Detecting C compile features
+[30.282s] -- Detecting C compile features - done
+[30.284s] -- Detecting CXX compiler ABI info
+[30.355s] -- Detecting CXX compiler ABI info - done
+[30.362s] -- Check for working CXX compiler: /home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-c++ - skipped
+[30.362s] -- Detecting CXX compile features
+[30.362s] -- Detecting CXX compile features - done
+[30.364s] -- Found ament_cmake: 1.3.14 (/opt/ros/humble/share/ament_cmake/cmake)
+[30.510s] -- Found Python3: /usr/bin/python3 (found version "3.10.12") found components: Interpreter 
+[30.580s] -- Found rosidl_default_generators: 1.2.1 (/opt/ros/humble/share/rosidl_default_generators/cmake)
+[30.582s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[30.588s] -- Found rosidl_adapter: 3.1.8 (/opt/ros/humble/share/rosidl_adapter/cmake)
+[30.613s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[30.640s] -- Found builtin_interfaces: 1.2.2 (/opt/ros/humble/share/builtin_interfaces/cmake)
+[30.648s] -- Found geometry_msgs: 4.9.1 (/opt/ros/humble/share/geometry_msgs/cmake)
+[30.667s] -- Found sensor_msgs: 4.9.1 (/opt/ros/humble/share/sensor_msgs/cmake)
+[30.969s] -- Found ament_cmake_ros: 0.10.0 (/opt/ros/humble/share/ament_cmake_ros/cmake)
+[31.194s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[31.493s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[31.517s] -- Found PythonInterp: /usr/bin/python3 (found suitable version "3.10.12", minimum required is "3.6") 
+[31.519s] -- Found python_cmake_module: 0.10.0 (/opt/ros/humble/share/python_cmake_module/cmake)
+[31.560s] CMake Error at /usr/share/cmake-3.22/Modules/FindPackageHandleStandardArgs.cmake:230 (message):
+[31.560s]   Could NOT find PythonLibs (missing: PYTHON_LIBRARIES PYTHON_INCLUDE_DIRS)
+[31.560s]   (Required is at least version "3.5")
+[31.560s] Call Stack (most recent call first):
+[31.561s]   /usr/share/cmake-3.22/Modules/FindPackageHandleStandardArgs.cmake:594 (_FPHSA_FAILURE_MESSAGE)
+[31.561s]   /usr/share/cmake-3.22/Modules/FindPythonLibs.cmake:310 (FIND_PACKAGE_HANDLE_STANDARD_ARGS)
+[31.561s]   /opt/ros/humble/share/python_cmake_module/cmake/Modules/FindPythonExtra.cmake:140 (find_package)
+[31.561s]   /opt/ros/humble/share/rosidl_generator_py/cmake/rosidl_generator_py_generate_interfaces.cmake:23 (find_package)
+[31.561s]   /opt/ros/humble/share/ament_cmake_core/cmake/core/ament_execute_extensions.cmake:48 (include)
+[31.561s]   /opt/ros/humble/share/rosidl_cmake/cmake/rosidl_generate_interfaces.cmake:286 (ament_execute_extensions)
+[31.561s]   CMakeLists.txt:11 (rosidl_generate_interfaces)
+[31.561s] 
+[31.561s] 
+[31.561s] -- Configuring incomplete, errors occurred!
+[31.561s] See also "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/CMakeFiles/CMakeOutput.log".
+[31.571s] Invoked command in '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces' returned '1': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble CONDA_PROMPT_MODIFIER=(base) /usr/bin/cmake /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/soarm100_interfaces -DPython3_EXECUTABLE=/usr/bin/python3 -DPYTHON_EXECUTABLE=/usr/bin/python3 -DCMAKE_INSTALL_PREFIX=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces

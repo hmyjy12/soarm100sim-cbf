@@ -1,0 +1,6 @@
+[console_scripts]
+debug_viewer_node = soarm100_vision.debug_viewer_node:main
+grasp_orchestrator_node = soarm100_vision.grasp_orchestrator_node:main
+target_segmenter_node = soarm100_vision.target_segmenter_node:main
+wrist_tracker_node = soarm100_vision.wrist_tracker_node:main
+

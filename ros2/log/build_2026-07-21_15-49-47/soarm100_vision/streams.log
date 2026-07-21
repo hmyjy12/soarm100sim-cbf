@@ -1,0 +1,50 @@
+[30.034s] Invoking command in '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/soarm100_vision': AMENT_PREFIX_PATH=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces LD_LIBRARY_PATH=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_vision/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/python3.10/site-packages:/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../build/soarm100_vision build --build-base /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_vision/build install --record /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_vision/install.log --single-version-externally-managed install_data
+[30.200s] running egg_info
+[30.200s] creating ../build/soarm100_vision/soarm100_vision.egg-info
+[30.200s] writing ../build/soarm100_vision/soarm100_vision.egg-info/PKG-INFO
+[30.200s] writing dependency_links to ../build/soarm100_vision/soarm100_vision.egg-info/dependency_links.txt
+[30.200s] writing entry points to ../build/soarm100_vision/soarm100_vision.egg-info/entry_points.txt
+[30.200s] writing requirements to ../build/soarm100_vision/soarm100_vision.egg-info/requires.txt
+[30.200s] writing top-level names to ../build/soarm100_vision/soarm100_vision.egg-info/top_level.txt
+[30.200s] writing manifest file '../build/soarm100_vision/soarm100_vision.egg-info/SOURCES.txt'
+[30.201s] reading manifest file '../build/soarm100_vision/soarm100_vision.egg-info/SOURCES.txt'
+[30.202s] writing manifest file '../build/soarm100_vision/soarm100_vision.egg-info/SOURCES.txt'
+[30.202s] running build
+[30.202s] running build_py
+[30.202s] creating /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_vision/build
+[30.202s] creating /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_vision/build/lib
+[30.202s] creating /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_vision/build/lib/soarm100_vision
+[30.202s] copying soarm100_vision/wrist_tracker_node.py -> /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_vision/build/lib/soarm100_vision
+[30.202s] copying soarm100_vision/__init__.py -> /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_vision/build/lib/soarm100_vision
+[30.202s] copying soarm100_vision/grasp_orchestrator_node.py -> /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_vision/build/lib/soarm100_vision
+[30.202s] copying soarm100_vision/target_segmenter_node.py -> /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_vision/build/lib/soarm100_vision
+[30.202s] copying soarm100_vision/vision_utils.py -> /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_vision/build/lib/soarm100_vision
+[30.203s] running install
+[30.203s] running install_lib
+[30.203s] creating /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/python3.10/site-packages/soarm100_vision
+[30.203s] copying /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_vision/build/lib/soarm100_vision/wrist_tracker_node.py -> /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/python3.10/site-packages/soarm100_vision
+[30.203s] copying /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_vision/build/lib/soarm100_vision/__init__.py -> /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/python3.10/site-packages/soarm100_vision
+[30.204s] copying /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_vision/build/lib/soarm100_vision/grasp_orchestrator_node.py -> /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/python3.10/site-packages/soarm100_vision
+[30.204s] copying /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_vision/build/lib/soarm100_vision/target_segmenter_node.py -> /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/python3.10/site-packages/soarm100_vision
+[30.204s] copying /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_vision/build/lib/soarm100_vision/vision_utils.py -> /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/python3.10/site-packages/soarm100_vision
+[30.204s] byte-compiling /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/python3.10/site-packages/soarm100_vision/wrist_tracker_node.py to wrist_tracker_node.cpython-310.pyc
+[30.205s] byte-compiling /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/python3.10/site-packages/soarm100_vision/__init__.py to __init__.cpython-310.pyc
+[30.205s] byte-compiling /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/python3.10/site-packages/soarm100_vision/grasp_orchestrator_node.py to grasp_orchestrator_node.cpython-310.pyc
+[30.205s] byte-compiling /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/python3.10/site-packages/soarm100_vision/target_segmenter_node.py to target_segmenter_node.cpython-310.pyc
+[30.206s] byte-compiling /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/python3.10/site-packages/soarm100_vision/vision_utils.py to vision_utils.cpython-310.pyc
+[30.207s] running install_data
+[30.207s] creating /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/share/ament_index
+[30.207s] creating /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/share/ament_index/resource_index
+[30.207s] creating /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/share/ament_index/resource_index/packages
+[30.207s] copying resource/soarm100_vision -> /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/share/ament_index/resource_index/packages
+[30.208s] copying package.xml -> /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/share/soarm100_vision
+[30.208s] creating /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/share/soarm100_vision/launch
+[30.208s] copying launch/vision_grasp.launch.py -> /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/share/soarm100_vision/launch
+[30.208s] running install_egg_info
+[30.209s] Copying ../build/soarm100_vision/soarm100_vision.egg-info to /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/python3.10/site-packages/soarm100_vision-0.1.0-py3.10.egg-info
+[30.209s] running install_scripts
+[30.222s] Installing grasp_orchestrator_node script to /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/soarm100_vision
+[30.222s] Installing target_segmenter_node script to /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/soarm100_vision
+[30.222s] Installing wrist_tracker_node script to /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/soarm100_vision
+[30.222s] writing list of installed files to '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_vision/install.log'
+[60.061s] Invoked command in '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/soarm100_vision' returned '0': AMENT_PREFIX_PATH=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces LD_LIBRARY_PATH=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_vision/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/python3.10/site-packages:/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../build/soarm100_vision build --build-base /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_vision/build install --record /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_vision/install.log --single-version-externally-managed install_data

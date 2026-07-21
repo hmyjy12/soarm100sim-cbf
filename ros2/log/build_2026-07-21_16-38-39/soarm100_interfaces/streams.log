@@ -1,0 +1,301 @@
+[0.007s] Invoking command in '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/soarm100_interfaces -DPython3_EXECUTABLE=/usr/bin/python3 -DPYTHON_EXECUTABLE=/usr/bin/python3 -DPYTHON_INCLUDE_DIR=/usr/include/python3.10;/usr/include/x86_64-linux-gnu/python3.10 -DPYTHON_LIBRARY=/usr/lib/x86_64-linux-gnu/libpython3.10.so -DCMAKE_INSTALL_PREFIX=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces
+[0.052s] -- The C compiler identification is GNU 11.4.0
+[0.116s] -- The CXX compiler identification is GNU 11.4.0
+[0.126s] -- Detecting C compiler ABI info
+[0.217s] -- Detecting C compiler ABI info - done
+[0.225s] -- Check for working C compiler: /usr/bin/cc - skipped
+[0.225s] -- Detecting C compile features
+[0.225s] -- Detecting C compile features - done
+[0.229s] -- Detecting CXX compiler ABI info
+[0.311s] -- Detecting CXX compiler ABI info - done
+[0.317s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[0.317s] -- Detecting CXX compile features
+[0.318s] -- Detecting CXX compile features - done
+[0.319s] -- Found ament_cmake: 1.3.14 (/opt/ros/humble/share/ament_cmake/cmake)
+[0.465s] -- Found Python3: /usr/bin/python3 (found version "3.10.12") found components: Interpreter 
+[0.529s] -- Found rosidl_default_generators: 1.2.1 (/opt/ros/humble/share/rosidl_default_generators/cmake)
+[0.531s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[0.537s] -- Found rosidl_adapter: 3.1.8 (/opt/ros/humble/share/rosidl_adapter/cmake)
+[0.563s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[0.587s] -- Found builtin_interfaces: 1.2.2 (/opt/ros/humble/share/builtin_interfaces/cmake)
+[0.595s] -- Found geometry_msgs: 4.9.1 (/opt/ros/humble/share/geometry_msgs/cmake)
+[0.614s] -- Found sensor_msgs: 4.9.1 (/opt/ros/humble/share/sensor_msgs/cmake)
+[0.928s] -- Found ament_cmake_ros: 0.10.0 (/opt/ros/humble/share/ament_cmake_ros/cmake)
+[1.169s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[1.468s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[1.499s] -- Found PythonInterp: /usr/bin/python3 (found suitable version "3.10.12", minimum required is "3.6") 
+[1.500s] -- Found python_cmake_module: 0.10.0 (/opt/ros/humble/share/python_cmake_module/cmake)
+[1.530s] -- Found PythonLibs: /usr/lib/x86_64-linux-gnu/libpython3.10.so (Required is at least version "3.5") 
+[1.530s] -- Using PYTHON_EXECUTABLE: /usr/bin/python3
+[1.531s] -- Using PYTHON_INCLUDE_DIRS: /usr/include/python3.10;/usr/include/x86_64-linux-gnu/python3.10
+[1.531s] -- Using PYTHON_LIBRARIES: /usr/lib/x86_64-linux-gnu/libpython3.10.so
+[1.551s] -- Found PythonExtra: .so  
+[1.691s] -- Configuring done
+[1.724s] -- Generating done
+[1.734s] -- Build files have been written to: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces
+[1.741s] Invoked command in '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/soarm100_interfaces -DPython3_EXECUTABLE=/usr/bin/python3 -DPYTHON_EXECUTABLE=/usr/bin/python3 -DPYTHON_INCLUDE_DIR=/usr/include/python3.10;/usr/include/x86_64-linux-gnu/python3.10 -DPYTHON_LIBRARY=/usr/lib/x86_64-linux-gnu/libpython3.10.so -DCMAKE_INSTALL_PREFIX=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces
+[1.743s] Invoking command in '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces -- -j32 -l32
+[1.785s] [35m[1mConsolidate compiler generated dependencies of target soarm100_interfaces__rosidl_generator_c[0m
+[1.797s] [  1%] Built target soarm100_interfaces__cpp
+[1.799s] [  3%] Built target soarm100_interfaces__rs
+[1.801s] [ 14%] Built target soarm100_interfaces__rosidl_generator_c
+[1.806s] [35m[1mConsolidate compiler generated dependencies of target soarm100_interfaces__rosidl_typesupport_cpp[0m
+[1.807s] [35m[1mConsolidate compiler generated dependencies of target soarm100_interfaces__rosidl_typesupport_fastrtps_cpp[0m
+[1.808s] [35m[1mConsolidate compiler generated dependencies of target soarm100_interfaces__rosidl_typesupport_introspection_cpp[0m
+[1.808s] [ 14%] Built target ament_cmake_python_copy_soarm100_interfaces
+[1.810s] [35m[1mConsolidate compiler generated dependencies of target soarm100_interfaces__rosidl_typesupport_introspection_c[0m
+[1.811s] [35m[1mConsolidate compiler generated dependencies of target soarm100_interfaces__rosidl_typesupport_c[0m
+[1.812s] [35m[1mConsolidate compiler generated dependencies of target soarm100_interfaces__rosidl_typesupport_fastrtps_c[0m
+[1.818s] [ 25%] Built target soarm100_interfaces__rosidl_typesupport_cpp
+[1.819s] [ 35%] Built target soarm100_interfaces__rosidl_typesupport_introspection_c
+[1.820s] [ 46%] Built target soarm100_interfaces__rosidl_typesupport_fastrtps_cpp
+[1.822s] [ 57%] Built target soarm100_interfaces__rosidl_typesupport_c
+[1.823s] [ 67%] Built target soarm100_interfaces__rosidl_typesupport_introspection_cpp
+[1.825s] [ 78%] Built target soarm100_interfaces__rosidl_typesupport_fastrtps_c
+[1.843s] [ 78%] Built target soarm100_interfaces
+[1.860s] [ 80%] Built target soarm100_interfaces__py
+[1.868s] [35m[1mConsolidate compiler generated dependencies of target soarm100_interfaces__rosidl_generator_py[0m
+[1.880s] [ 89%] Built target soarm100_interfaces__rosidl_generator_py
+[1.889s] [35m[1mConsolidate compiler generated dependencies of target soarm100_interfaces__rosidl_typesupport_fastrtps_c__pyext[0m
+[1.889s] [35m[1mConsolidate compiler generated dependencies of target soarm100_interfaces__rosidl_typesupport_c__pyext[0m
+[1.889s] [35m[1mConsolidate compiler generated dependencies of target soarm100_interfaces__rosidl_typesupport_introspection_c__pyext[0m
+[1.900s] [ 96%] Built target soarm100_interfaces__rosidl_typesupport_introspection_c__pyext
+[1.900s] [ 96%] Built target soarm100_interfaces__rosidl_typesupport_fastrtps_c__pyext
+[1.901s] [100%] Built target soarm100_interfaces__rosidl_typesupport_c__pyext
+[1.987s] running egg_info
+[1.988s] writing soarm100_interfaces.egg-info/PKG-INFO
+[1.988s] writing dependency_links to soarm100_interfaces.egg-info/dependency_links.txt
+[1.988s] writing top-level names to soarm100_interfaces.egg-info/top_level.txt
+[1.989s] reading manifest file 'soarm100_interfaces.egg-info/SOURCES.txt'
+[1.990s] writing manifest file 'soarm100_interfaces.egg-info/SOURCES.txt'
+[2.009s] [100%] Built target ament_cmake_python_build_soarm100_interfaces_egg
+[2.020s] Invoked command in '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces -- -j32 -l32
+[2.027s] Invoking command in '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces
+[2.032s] -- Install configuration: ""
+[2.033s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/ament_index/resource_index/rosidl_interfaces/soarm100_interfaces
+[2.033s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces
+[2.033s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action
+[2.033s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/detail
+[2.033s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/detail/plan_grasp__functions.c
+[2.033s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/detail/execute_grasp__functions.c
+[2.033s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/detail/plan_grasp__struct.h
+[2.033s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/detail/execute_grasp__type_support.h
+[2.033s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/detail/plan_grasp__functions.h
+[2.033s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/detail/execute_grasp__struct.h
+[2.033s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/detail/execute_grasp__functions.h
+[2.033s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/detail/plan_grasp__type_support.h
+[2.033s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/plan_grasp.h
+[2.033s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/execute_grasp.h
+[2.033s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv
+[2.033s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail
+[2.033s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/segment_target__type_support.h
+[2.033s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/set_avoidance__struct.h
+[2.033s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/segment_target__functions.c
+[2.033s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/segment_target__struct.h
+[2.033s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/segment_target__functions.h
+[2.033s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/set_avoidance__functions.c
+[2.034s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/set_avoidance__type_support.h
+[2.034s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/set_avoidance__functions.h
+[2.034s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/segment_target.h
+[2.034s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/set_avoidance.h
+[2.034s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/msg
+[2.034s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/msg/rosidl_generator_c__visibility_control.h
+[2.034s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/environment/library_path.sh
+[2.034s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/environment/library_path.dsv
+[2.034s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/lib/libsoarm100_interfaces__rosidl_generator_c.so
+[2.034s] -- Set runtime path of "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/lib/libsoarm100_interfaces__rosidl_generator_c.so" to ""
+[2.034s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces
+[2.034s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action
+[2.034s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/detail
+[2.034s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/detail/execute_grasp__rosidl_typesupport_fastrtps_c.h
+[2.034s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/detail/plan_grasp__rosidl_typesupport_fastrtps_c.h
+[2.034s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv
+[2.034s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail
+[2.034s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/set_avoidance__rosidl_typesupport_fastrtps_c.h
+[2.034s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/segment_target__rosidl_typesupport_fastrtps_c.h
+[2.034s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/msg
+[2.034s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/msg/rosidl_typesupport_fastrtps_c__visibility_control.h
+[2.034s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/lib/libsoarm100_interfaces__rosidl_typesupport_fastrtps_c.so
+[2.034s] -- Set runtime path of "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/lib/libsoarm100_interfaces__rosidl_typesupport_fastrtps_c.so" to ""
+[2.034s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces
+[2.034s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action
+[2.034s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/detail
+[2.035s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/detail/execute_grasp__type_support.c
+[2.035s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/detail/plan_grasp__rosidl_typesupport_introspection_c.h
+[2.035s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/detail/plan_grasp__type_support.c
+[2.035s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/detail/execute_grasp__rosidl_typesupport_introspection_c.h
+[2.035s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv
+[2.035s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail
+[2.035s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/segment_target__rosidl_typesupport_introspection_c.h
+[2.035s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/segment_target__type_support.c
+[2.035s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/set_avoidance__rosidl_typesupport_introspection_c.h
+[2.035s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/set_avoidance__type_support.c
+[2.035s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/msg
+[2.035s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/msg/rosidl_typesupport_introspection_c__visibility_control.h
+[2.035s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/lib/libsoarm100_interfaces__rosidl_typesupport_introspection_c.so
+[2.035s] -- Set runtime path of "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/lib/libsoarm100_interfaces__rosidl_typesupport_introspection_c.so" to ""
+[2.035s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/lib/libsoarm100_interfaces__rosidl_typesupport_c.so
+[2.035s] -- Set runtime path of "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/lib/libsoarm100_interfaces__rosidl_typesupport_c.so" to ""
+[2.035s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces
+[2.035s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action
+[2.035s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/detail
+[2.035s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/detail/execute_grasp__type_support.hpp
+[2.035s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/detail/plan_grasp__builder.hpp
+[2.035s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/detail/plan_grasp__traits.hpp
+[2.035s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/detail/execute_grasp__builder.hpp
+[2.035s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/detail/plan_grasp__struct.hpp
+[2.035s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/detail/execute_grasp__struct.hpp
+[2.035s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/detail/plan_grasp__type_support.hpp
+[2.035s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/detail/execute_grasp__traits.hpp
+[2.035s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/execute_grasp.hpp
+[2.036s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/plan_grasp.hpp
+[2.036s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv
+[2.036s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail
+[2.036s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/set_avoidance__builder.hpp
+[2.036s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/segment_target__builder.hpp
+[2.036s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/segment_target__traits.hpp
+[2.036s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/segment_target__struct.hpp
+[2.036s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/set_avoidance__struct.hpp
+[2.036s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/set_avoidance__traits.hpp
+[2.036s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/segment_target__type_support.hpp
+[2.036s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/set_avoidance__type_support.hpp
+[2.036s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/segment_target.hpp
+[2.036s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/set_avoidance.hpp
+[2.036s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/msg
+[2.036s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/msg/rosidl_generator_cpp__visibility_control.hpp
+[2.036s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces
+[2.036s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action
+[2.036s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/detail
+[2.036s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/detail/plan_grasp__rosidl_typesupport_fastrtps_cpp.hpp
+[2.036s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/detail/execute_grasp__rosidl_typesupport_fastrtps_cpp.hpp
+[2.036s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/detail/dds_fastrtps
+[2.036s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv
+[2.036s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail
+[2.036s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/segment_target__rosidl_typesupport_fastrtps_cpp.hpp
+[2.036s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/set_avoidance__rosidl_typesupport_fastrtps_cpp.hpp
+[2.036s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/dds_fastrtps
+[2.036s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/msg
+[2.036s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/msg/rosidl_typesupport_fastrtps_cpp__visibility_control.h
+[2.036s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/lib/libsoarm100_interfaces__rosidl_typesupport_fastrtps_cpp.so
+[2.037s] -- Set runtime path of "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/lib/libsoarm100_interfaces__rosidl_typesupport_fastrtps_cpp.so" to ""
+[2.037s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces
+[2.037s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action
+[2.037s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/detail
+[2.037s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/detail/execute_grasp__type_support.cpp
+[2.037s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/detail/execute_grasp__rosidl_typesupport_introspection_cpp.hpp
+[2.037s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/detail/plan_grasp__rosidl_typesupport_introspection_cpp.hpp
+[2.037s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/detail/plan_grasp__type_support.cpp
+[2.037s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv
+[2.037s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail
+[2.037s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/segment_target__type_support.cpp
+[2.037s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/segment_target__rosidl_typesupport_introspection_cpp.hpp
+[2.037s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/set_avoidance__rosidl_typesupport_introspection_cpp.hpp
+[2.037s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/set_avoidance__type_support.cpp
+[2.037s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/lib/libsoarm100_interfaces__rosidl_typesupport_introspection_cpp.so
+[2.037s] -- Set runtime path of "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/lib/libsoarm100_interfaces__rosidl_typesupport_introspection_cpp.so" to ""
+[2.037s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/lib/libsoarm100_interfaces__rosidl_typesupport_cpp.so
+[2.037s] -- Set runtime path of "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/lib/libsoarm100_interfaces__rosidl_typesupport_cpp.so" to ""
+[2.037s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/environment/pythonpath.sh
+[2.037s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/environment/pythonpath.dsv
+[2.037s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces-0.1.0-py3.10.egg-info
+[2.037s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces-0.1.0-py3.10.egg-info/top_level.txt
+[2.037s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces-0.1.0-py3.10.egg-info/dependency_links.txt
+[2.037s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces-0.1.0-py3.10.egg-info/SOURCES.txt
+[2.037s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces-0.1.0-py3.10.egg-info/PKG-INFO
+[2.037s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces
+[2.037s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces/action
+[2.037s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces/action/_plan_grasp.py
+[2.037s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces/action/__init__.py
+[2.037s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces/action/_plan_grasp_s.c
+[2.037s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces/action/_execute_grasp_s.c
+[2.037s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces/action/_execute_grasp.py
+[2.037s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces/_soarm100_interfaces_s.ep.rosidl_typesupport_introspection_c.c
+[2.037s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces/__init__.py
+[2.037s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces/soarm100_interfaces_s__rosidl_typesupport_introspection_c.cpython-310-x86_64-linux-gnu.so
+[2.038s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces/soarm100_interfaces_s__rosidl_typesupport_fastrtps_c.cpython-310-x86_64-linux-gnu.so
+[2.038s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces/_soarm100_interfaces_s.ep.rosidl_typesupport_c.c
+[2.038s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces/srv
+[2.038s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces/srv/_set_avoidance_s.c
+[2.038s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces/srv/__init__.py
+[2.038s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces/srv/_segment_target_s.c
+[2.038s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces/srv/_set_avoidance.py
+[2.038s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces/srv/_segment_target.py
+[2.038s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces/libsoarm100_interfaces__rosidl_generator_py.so
+[2.038s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces/soarm100_interfaces_s__rosidl_typesupport_c.cpython-310-x86_64-linux-gnu.so
+[2.038s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces/_soarm100_interfaces_s.ep.rosidl_typesupport_fastrtps_c.c
+[2.058s] Listing '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces'...
+[2.058s] Compiling '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces/__init__.py'...
+[2.058s] Listing '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces/action'...
+[2.058s] Listing '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces/srv'...
+[2.062s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces/soarm100_interfaces_s__rosidl_typesupport_fastrtps_c.cpython-310-x86_64-linux-gnu.so
+[2.062s] -- Set runtime path of "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces/soarm100_interfaces_s__rosidl_typesupport_fastrtps_c.cpython-310-x86_64-linux-gnu.so" to ""
+[2.062s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces/soarm100_interfaces_s__rosidl_typesupport_introspection_c.cpython-310-x86_64-linux-gnu.so
+[2.062s] -- Set runtime path of "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces/soarm100_interfaces_s__rosidl_typesupport_introspection_c.cpython-310-x86_64-linux-gnu.so" to ""
+[2.062s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces/soarm100_interfaces_s__rosidl_typesupport_c.cpython-310-x86_64-linux-gnu.so
+[2.062s] -- Set runtime path of "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces/soarm100_interfaces_s__rosidl_typesupport_c.cpython-310-x86_64-linux-gnu.so" to ""
+[2.062s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/lib/libsoarm100_interfaces__rosidl_generator_py.so
+[2.063s] -- Set runtime path of "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/lib/libsoarm100_interfaces__rosidl_generator_py.so" to ""
+[2.063s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/ament_index/resource_index/rust_packages/soarm100_interfaces
+[2.063s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/rust
+[2.063s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/rust/Cargo.toml
+[2.063s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/rust/src
+[2.063s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/rust/src/action
+[2.063s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/rust/src/action/rmw.rs
+[2.063s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/rust/src/action.rs
+[2.063s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/rust/src/srv
+[2.063s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/rust/src/srv/rmw.rs
+[2.063s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/rust/src/lib.rs
+[2.063s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/rust/src/srv.rs
+[2.063s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/rust/build.rs
+[2.063s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/action/ExecuteGrasp.idl
+[2.063s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/action/PlanGrasp.idl
+[2.063s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/srv/SegmentTarget.idl
+[2.063s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/srv/SetAvoidance.idl
+[2.063s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/action/ExecuteGrasp.action
+[2.063s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/action/PlanGrasp.action
+[2.063s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/srv/SegmentTarget.srv
+[2.063s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/srv/SegmentTarget_Request.msg
+[2.063s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/srv/SegmentTarget_Response.msg
+[2.063s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/srv/SetAvoidance.srv
+[2.064s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/srv/SetAvoidance_Request.msg
+[2.064s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/srv/SetAvoidance_Response.msg
+[2.064s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/ament_index/resource_index/package_run_dependencies/soarm100_interfaces
+[2.064s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/ament_index/resource_index/parent_prefix_path/soarm100_interfaces
+[2.064s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/environment/ament_prefix_path.sh
+[2.064s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/environment/ament_prefix_path.dsv
+[2.064s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/environment/path.sh
+[2.064s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/environment/path.dsv
+[2.064s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/local_setup.bash
+[2.064s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/local_setup.sh
+[2.064s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/local_setup.zsh
+[2.064s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/local_setup.dsv
+[2.064s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/package.dsv
+[2.064s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/ament_index/resource_index/packages/soarm100_interfaces
+[2.064s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/cmake/export_soarm100_interfaces__rosidl_generator_cExport.cmake
+[2.064s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/cmake/export_soarm100_interfaces__rosidl_generator_cExport-noconfig.cmake
+[2.064s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/cmake/export_soarm100_interfaces__rosidl_typesupport_fastrtps_cExport.cmake
+[2.064s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/cmake/export_soarm100_interfaces__rosidl_typesupport_fastrtps_cExport-noconfig.cmake
+[2.064s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/cmake/soarm100_interfaces__rosidl_typesupport_introspection_cExport.cmake
+[2.064s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/cmake/soarm100_interfaces__rosidl_typesupport_introspection_cExport-noconfig.cmake
+[2.064s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/cmake/soarm100_interfaces__rosidl_typesupport_cExport.cmake
+[2.064s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/cmake/soarm100_interfaces__rosidl_typesupport_cExport-noconfig.cmake
+[2.064s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/cmake/export_soarm100_interfaces__rosidl_generator_cppExport.cmake
+[2.064s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/cmake/export_soarm100_interfaces__rosidl_typesupport_fastrtps_cppExport.cmake
+[2.064s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/cmake/export_soarm100_interfaces__rosidl_typesupport_fastrtps_cppExport-noconfig.cmake
+[2.064s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/cmake/soarm100_interfaces__rosidl_typesupport_introspection_cppExport.cmake
+[2.064s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/cmake/soarm100_interfaces__rosidl_typesupport_introspection_cppExport-noconfig.cmake
+[2.064s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/cmake/soarm100_interfaces__rosidl_typesupport_cppExport.cmake
+[2.064s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/cmake/soarm100_interfaces__rosidl_typesupport_cppExport-noconfig.cmake
+[2.064s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/cmake/export_soarm100_interfaces__rosidl_generator_pyExport.cmake
+[2.064s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/cmake/export_soarm100_interfaces__rosidl_generator_pyExport-noconfig.cmake
+[2.065s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/cmake/rosidl_cmake-extras.cmake
+[2.065s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/cmake/ament_cmake_export_dependencies-extras.cmake
+[2.065s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/cmake/ament_cmake_export_include_directories-extras.cmake
+[2.065s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/cmake/ament_cmake_export_libraries-extras.cmake
+[2.065s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/cmake/ament_cmake_export_targets-extras.cmake
+[2.065s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/cmake/rosidl_cmake_export_typesupport_targets-extras.cmake
+[2.065s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/cmake/rosidl_cmake_export_typesupport_libraries-extras.cmake
+[2.065s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/cmake/soarm100_interfacesConfig.cmake
+[2.065s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/cmake/soarm100_interfacesConfig-version.cmake
+[2.065s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/package.xml
+[2.066s] Invoked command in '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces

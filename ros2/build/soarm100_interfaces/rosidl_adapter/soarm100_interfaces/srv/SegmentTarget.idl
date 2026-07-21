@@ -1,0 +1,31 @@
+// generated from rosidl_adapter/resource/srv.idl.em
+// with input from soarm100_interfaces/srv/SegmentTarget.srv
+// generated code does not contain a copyright notice
+
+#include "geometry_msgs/msg/PoseStamped.idl"
+
+module soarm100_interfaces {
+  module srv {
+    struct SegmentTarget_Request {
+      string target_prompt;
+
+      boolean force_yolo;
+    };
+    typedef float float__4[4];
+    struct SegmentTarget_Response {
+      boolean success;
+
+      string reason;
+
+      geometry_msgs::msg::PoseStamped target_center;
+
+      float score;
+
+      float__4 bbox_xyxy;
+
+      string mask_topic;
+
+      string debug_json;
+    };
+  };
+};

@@ -1,0 +1,8 @@
+file(REMOVE_RECURSE
+  "CMakeFiles/soarm100_interfaces"
+)
+
+# Per-language clean rules from dependency scanning.
+foreach(lang )
+  include(CMakeFiles/soarm100_interfaces.dir/cmake_clean_${lang}.cmake OPTIONAL)
+endforeach()

@@ -1,0 +1,139 @@
+[30.033s] Invoking command in '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble CONDA_PROMPT_MODIFIER=(base) /usr/bin/cmake /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/soarm100_interfaces -DPython3_EXECUTABLE=/usr/bin/python3 -DPYTHON_EXECUTABLE=/usr/bin/python3 -DPYTHON_INCLUDE_DIR=/usr/include/python3.10;/usr/include/x86_64-linux-gnu/python3.10;/usr/include -DPYTHON_LIBRARY=/usr/lib/x86_64-linux-gnu/libpython3.10.so -DCMAKE_INSTALL_PREFIX=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces
+[30.111s] -- The C compiler identification is GNU 14.3.0
+[30.195s] -- The CXX compiler identification is GNU 14.3.0
+[30.202s] -- Detecting C compiler ABI info
+[30.289s] -- Detecting C compiler ABI info - done
+[30.297s] -- Check for working C compiler: /home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-cc - skipped
+[30.298s] -- Detecting C compile features
+[30.298s] -- Detecting C compile features - done
+[30.302s] -- Detecting CXX compiler ABI info
+[30.398s] -- Detecting CXX compiler ABI info - done
+[30.407s] -- Check for working CXX compiler: /home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-c++ - skipped
+[30.407s] -- Detecting CXX compile features
+[30.407s] -- Detecting CXX compile features - done
+[30.409s] -- Found ament_cmake: 1.3.14 (/opt/ros/humble/share/ament_cmake/cmake)
+[30.570s] -- Found Python3: /usr/bin/python3 (found version "3.10.12") found components: Interpreter 
+[30.644s] -- Found rosidl_default_generators: 1.2.1 (/opt/ros/humble/share/rosidl_default_generators/cmake)
+[30.648s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[30.653s] -- Found rosidl_adapter: 3.1.8 (/opt/ros/humble/share/rosidl_adapter/cmake)
+[30.679s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[30.706s] -- Found builtin_interfaces: 1.2.2 (/opt/ros/humble/share/builtin_interfaces/cmake)
+[30.715s] -- Found geometry_msgs: 4.9.1 (/opt/ros/humble/share/geometry_msgs/cmake)
+[30.733s] -- Found sensor_msgs: 4.9.1 (/opt/ros/humble/share/sensor_msgs/cmake)
+[31.031s] -- Found ament_cmake_ros: 0.10.0 (/opt/ros/humble/share/ament_cmake_ros/cmake)
+[31.277s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[31.593s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[31.618s] -- Found PythonInterp: /usr/bin/python3 (found suitable version "3.10.12", minimum required is "3.6") 
+[31.619s] -- Found python_cmake_module: 0.10.0 (/opt/ros/humble/share/python_cmake_module/cmake)
+[31.644s] -- Found PythonLibs: /usr/lib/x86_64-linux-gnu/libpython3.10.so (Required is at least version "3.5") 
+[31.644s] -- Using PYTHON_EXECUTABLE: /usr/bin/python3
+[31.644s] -- Using PYTHON_INCLUDE_DIRS: /usr/include/python3.10;/usr/include/x86_64-linux-gnu/python3.10;/usr/include
+[31.644s] -- Using PYTHON_LIBRARIES: /usr/lib/x86_64-linux-gnu/libpython3.10.so
+[31.666s] -- Found PythonExtra: .so  
+[31.796s] -- Configuring done
+[31.825s] -- Generating done
+[31.834s] -- Build files have been written to: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces
+[60.050s] Invoked command in '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble CONDA_PROMPT_MODIFIER=(base) /usr/bin/cmake /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/soarm100_interfaces -DPython3_EXECUTABLE=/usr/bin/python3 -DPYTHON_EXECUTABLE=/usr/bin/python3 -DPYTHON_INCLUDE_DIR=/usr/include/python3.10;/usr/include/x86_64-linux-gnu/python3.10;/usr/include -DPYTHON_LIBRARY=/usr/lib/x86_64-linux-gnu/libpython3.10.so -DCMAKE_INSTALL_PREFIX=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces
+[60.051s] Invoking command in '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble CONDA_PROMPT_MODIFIER=(base) /usr/bin/cmake --build /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces -- -j32 -l32
+[60.089s] [  1%] Generating C code for ROS interfaces
+[60.099s] [  3%] Generating C++ code for ROS interfaces
+[60.101s] [  5%] Generating Rust code for ROS interfaces
+[60.107s] [  5%] Built target ament_cmake_python_copy_soarm100_interfaces
+[60.269s] running egg_info
+[60.269s] creating soarm100_interfaces.egg-info
+[60.269s] writing soarm100_interfaces.egg-info/PKG-INFO
+[60.269s] writing dependency_links to soarm100_interfaces.egg-info/dependency_links.txt
+[60.269s] writing top-level names to soarm100_interfaces.egg-info/top_level.txt
+[60.269s] writing manifest file 'soarm100_interfaces.egg-info/SOURCES.txt'
+[60.271s] reading manifest file 'soarm100_interfaces.egg-info/SOURCES.txt'
+[60.271s] writing manifest file 'soarm100_interfaces.egg-info/SOURCES.txt'
+[60.290s] [  5%] Built target ament_cmake_python_build_soarm100_interfaces_egg
+[60.346s] [  5%] Built target soarm100_interfaces__rs
+[60.594s] [  5%] Built target soarm100_interfaces__cpp
+[60.595s] [  7%] Building C object CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/action/detail/execute_grasp__functions.c.o
+[60.597s] [  8%] Building C object CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/action/detail/plan_grasp__functions.c.o
+[60.597s] [ 10%] Building C object CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/segment_target__functions.c.o
+[60.597s] [ 12%] Building C object CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/set_avoidance__functions.c.o
+[60.603s] [ 16%] Generating C++ introspection for ROS interfaces
+[60.603s] [ 16%] Generating C++ type support for eProsima Fast-RTPS
+[60.603s] [ 17%] Generating C++ type support dispatch for ROS interfaces
+[60.928s] [ 19%] Building CXX object CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/action/execute_grasp__type_support.cpp.o
+[60.930s] [ 23%] Building CXX object CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/action/plan_grasp__type_support.cpp.o
+[60.930s] [ 25%] Building CXX object CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/segment_target__type_support.cpp.o
+[60.930s] [ 25%] Building CXX object CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/set_avoidance__type_support.cpp.o
+[60.969s] [ 26%] Building CXX object CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/soarm100_interfaces/action/detail/execute_grasp__type_support.cpp.o
+[60.971s] [ 28%] Building CXX object CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/segment_target__type_support.cpp.o
+[60.971s] [ 32%] Building CXX object CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/set_avoidance__type_support.cpp.o
+[60.972s] [ 32%] Building CXX object CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/soarm100_interfaces/action/detail/plan_grasp__type_support.cpp.o
+[60.976s] [ 33%] Linking C shared library libsoarm100_interfaces__rosidl_generator_c.so
+[61.008s] [ 33%] Built target soarm100_interfaces__rosidl_generator_c
+[61.019s] [ 39%] Generating C type support dispatch for ROS interfaces
+[61.019s] [ 39%] Generating C introspection for ROS interfaces
+[61.019s] [ 39%] Generating C type support for eProsima Fast-RTPS
+[61.046s] [ 41%] Building CXX object CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/action/detail/dds_fastrtps/plan_grasp__type_support.cpp.o
+[61.048s] [ 44%] Building CXX object CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/segment_target__type_support.cpp.o
+[61.048s] [ 44%] Building CXX object CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/action/detail/dds_fastrtps/execute_grasp__type_support.cpp.o
+[61.048s] [ 46%] Building CXX object CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/set_avoidance__type_support.cpp.o
+[61.293s] [ 48%] Linking CXX shared library libsoarm100_interfaces__rosidl_typesupport_cpp.so
+[61.309s] [ 51%] Building CXX object CMakeFiles/soarm100_interfaces__rosidl_typesupport_c.dir/rosidl_typesupport_c/soarm100_interfaces/srv/segment_target__type_support.cpp.o
+[61.309s] [ 51%] Building CXX object CMakeFiles/soarm100_interfaces__rosidl_typesupport_c.dir/rosidl_typesupport_c/soarm100_interfaces/srv/set_avoidance__type_support.cpp.o
+[61.310s] [ 53%] Building CXX object CMakeFiles/soarm100_interfaces__rosidl_typesupport_c.dir/rosidl_typesupport_c/soarm100_interfaces/action/execute_grasp__type_support.cpp.o
+[61.310s] [ 55%] Building CXX object CMakeFiles/soarm100_interfaces__rosidl_typesupport_c.dir/rosidl_typesupport_c/soarm100_interfaces/action/plan_grasp__type_support.cpp.o
+[61.335s] [ 55%] Built target soarm100_interfaces__rosidl_typesupport_cpp
+[61.356s] [ 57%] Linking CXX shared library libsoarm100_interfaces__rosidl_typesupport_c.so
+[61.393s] [ 57%] Built target soarm100_interfaces__rosidl_typesupport_c
+[61.418s] [ 58%] Building C object CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/set_avoidance__type_support.c.o
+[61.419s] [ 64%] Building C object CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/segment_target__type_support.c.o
+[61.419s] [ 64%] Building C object CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/soarm100_interfaces/action/detail/execute_grasp__type_support.c.o
+[61.419s] [ 62%] Building C object CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/soarm100_interfaces/action/detail/plan_grasp__type_support.c.o
+[61.471s] [ 66%] Building CXX object CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/segment_target__type_support_c.cpp.o
+[61.471s] [ 71%] Building CXX object CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/soarm100_interfaces/action/detail/plan_grasp__type_support_c.cpp.o
+[61.471s] [ 71%] Building CXX object CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/set_avoidance__type_support_c.cpp.o
+[61.471s] [ 71%] Building CXX object CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/soarm100_interfaces/action/detail/execute_grasp__type_support_c.cpp.o
+[61.501s] [ 73%] Linking C shared library libsoarm100_interfaces__rosidl_typesupport_introspection_c.so
+[61.535s] [ 73%] Built target soarm100_interfaces__rosidl_typesupport_introspection_c
+[61.660s] [ 75%] Linking CXX shared library libsoarm100_interfaces__rosidl_typesupport_introspection_cpp.so
+[61.681s] [ 76%] Linking CXX shared library libsoarm100_interfaces__rosidl_typesupport_fastrtps_cpp.so
+[61.713s] [ 76%] Built target soarm100_interfaces__rosidl_typesupport_introspection_cpp
+[61.739s] [ 76%] Built target soarm100_interfaces__rosidl_typesupport_fastrtps_cpp
+[61.876s] [ 78%] Linking CXX shared library libsoarm100_interfaces__rosidl_typesupport_fastrtps_c.so
+[61.944s] [ 78%] Built target soarm100_interfaces__rosidl_typesupport_fastrtps_c
+[61.961s] [ 78%] Built target soarm100_interfaces
+[61.979s] [ 80%] Generating Python code for ROS interfaces
+[62.926s] [ 80%] Built target soarm100_interfaces__py
+[62.946s] [ 82%] Building C object CMakeFiles/soarm100_interfaces__rosidl_generator_py.dir/rosidl_generator_py/soarm100_interfaces/action/_plan_grasp_s.c.o
+[62.946s] [ 83%] Building C object CMakeFiles/soarm100_interfaces__rosidl_generator_py.dir/rosidl_generator_py/soarm100_interfaces/srv/_set_avoidance_s.c.o
+[62.947s] [ 85%] Building C object CMakeFiles/soarm100_interfaces__rosidl_generator_py.dir/rosidl_generator_py/soarm100_interfaces/action/_execute_grasp_s.c.o
+[62.947s] [ 87%] Building C object CMakeFiles/soarm100_interfaces__rosidl_generator_py.dir/rosidl_generator_py/soarm100_interfaces/srv/_segment_target_s.c.o
+[62.954s] In file included from /usr/include/python3.10/Python.h:8,
+[62.954s]                  from /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_generator_py/soarm100_interfaces/srv/_segment_target_s.c:5:
+[62.955s] /usr/include/python3.10/pyconfig.h:3:12: fatal error: x86_64-linux-gnu/python3.10/pyconfig.h: No such file or directory
+[62.955s]     3 | #  include <x86_64-linux-gnu/python3.10/pyconfig.h>
+[62.955s]       |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[62.955s] compilation terminated.
+[62.955s] In file included from /usr/include/python3.10/Python.h:8,
+[62.955s]                  from /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_generator_py/soarm100_interfaces/action/_plan_grasp_s.c:5:
+[62.955s] /usr/include/python3.10/pyconfig.h:3:12: fatal error: x86_64-linux-gnu/python3.10/pyconfig.h: No such file or directory
+[62.956s]     3 | #  include <x86_64-linux-gnu/python3.10/pyconfig.h>
+[62.956s]       |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[62.956s] compilation terminated.
+[62.956s] gmake[2]: *** [CMakeFiles/soarm100_interfaces__rosidl_generator_py.dir/build.make:104：CMakeFiles/soarm100_interfaces__rosidl_generator_py.dir/rosidl_generator_py/soarm100_interfaces/srv/_segment_target_s.c.o] 错误 1
+[62.956s] gmake[2]: *** 正在等待未完成的任务....
+[62.956s] In file included from /usr/include/python3.10/Python.h:8,
+[62.956s]                  from /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_generator_py/soarm100_interfaces/srv/_set_avoidance_s.c:5:
+[62.956s] /usr/include/python3.10/pyconfig.h:3:12: fatal error: x86_64-linux-gnu/python3.10/pyconfig.h: No such file or directory
+[62.956s]     3 | #  include <x86_64-linux-gnu/python3.10/pyconfig.h>
+[62.957s]       |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[62.957s] compilation terminated.
+[62.957s] In file included from /usr/include/python3.10/Python.h:8,
+[62.957s]                  from /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_generator_py/soarm100_interfaces/action/_execute_grasp_s.c:5:
+[62.957s] /usr/include/python3.10/pyconfig.h:3:12: fatal error: x86_64-linux-gnu/python3.10/pyconfig.h: No such file or directory
+[62.957s]     3 | #  include <x86_64-linux-gnu/python3.10/pyconfig.h>
+[62.957s]       |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[62.957s] compilation terminated.
+[62.958s] gmake[2]: *** [CMakeFiles/soarm100_interfaces__rosidl_generator_py.dir/build.make:90：CMakeFiles/soarm100_interfaces__rosidl_generator_py.dir/rosidl_generator_py/soarm100_interfaces/action/_plan_grasp_s.c.o] 错误 1
+[62.958s] gmake[2]: *** [CMakeFiles/soarm100_interfaces__rosidl_generator_py.dir/build.make:118：CMakeFiles/soarm100_interfaces__rosidl_generator_py.dir/rosidl_generator_py/soarm100_interfaces/srv/_set_avoidance_s.c.o] 错误 1
+[62.958s] gmake[2]: *** [CMakeFiles/soarm100_interfaces__rosidl_generator_py.dir/build.make:76：CMakeFiles/soarm100_interfaces__rosidl_generator_py.dir/rosidl_generator_py/soarm100_interfaces/action/_execute_grasp_s.c.o] 错误 1
+[62.958s] gmake[1]: *** [CMakeFiles/Makefile2:494：CMakeFiles/soarm100_interfaces__rosidl_generator_py.dir/all] 错误 2
+[62.958s] gmake: *** [Makefile:146：all] 错误 2
+[90.061s] Invoked command in '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces' returned '2': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble CONDA_PROMPT_MODIFIER=(base) /usr/bin/cmake --build /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces -- -j32 -l32
