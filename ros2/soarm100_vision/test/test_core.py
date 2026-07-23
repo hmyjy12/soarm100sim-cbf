@@ -42,6 +42,34 @@ def test_grasp_state_machine_tracks_position_only():
     assert np.allclose(intent.target_quat_wxyz, plan.grasp_quat_wxyz)
 
 
+def test_final_approach_timeout_uses_independent_seconds():
+    plan = GraspPlan(
+        pregrasp_pos=np.array([0.30, 0.00, 0.10]),
+        grasp_pos=np.array([0.34, 0.00, 0.07]),
+        grasp_quat_wxyz=np.array([1.0, 0.0, 0.0, 0.0]),
+        approach_axis_world=np.array([1.0, 0.0, 0.0]),
+    )
+    # 0.10s @ 50Hz => 5 steps; still far from grasp so must time out, not final_stable.
+    sm = GraspStateMachine(
+        GraspThresholds(final_approach_timeout=0.10, final_stable_time=0.10, final_grasp_dist=0.01),
+        ctrl_dt=0.02,
+    )
+    sm.reset(plan)
+    sm.phase = GraspPhase.FINAL_APPROACH
+    last = None
+    for _ in range(5):
+        last = sm.step(
+            GraspObservation(
+                tcp_pos=np.array([0.30, 0.0, 0.12]),
+                dist_to_control=0.06,
+                final_err=0.06,
+            )
+        )
+    assert last is not None
+    assert last.phase == GraspPhase.CLOSE
+    assert sm.last_reason == "final_timeout"
+
+
 def test_workspace_table_persistence_pipeline():
     points = np.array(
         [

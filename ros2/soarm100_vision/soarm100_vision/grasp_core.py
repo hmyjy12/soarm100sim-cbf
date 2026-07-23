@@ -23,7 +23,8 @@ class GraspThresholds:
     pregrasp_stable_time: float = 0.05
     final_grasp_dist: float = 0.010
     final_stable_time: float = 0.10
-    final_timeout_scale: float = 2.0
+    # FINAL_APPROACH 最长等待时间（秒）；与 final_stable_time 解耦，不再用倍率相乘。
+    final_approach_timeout: float = 5.0
     close_time: float = 0.80
     lift_time: float = 0.80
     lift_height: float = 0.035
@@ -160,7 +161,7 @@ class GraspStateMachine:
         if self.phase == GraspPhase.FINAL_APPROACH:
             self.final_counter += 1
             stable_steps = self._steps(th.final_stable_time, min_steps=1)
-            timeout_steps = max(stable_steps, int(np.ceil(stable_steps * max(th.final_timeout_scale, 1.0))))
+            timeout_steps = max(stable_steps, self._steps(th.final_approach_timeout, min_steps=1))
             if obs.final_err <= th.final_grasp_dist:
                 self.success_counter += 1
             else:
@@ -170,11 +171,13 @@ class GraspStateMachine:
                 self.replan_wait_counter = 0
                 self.last_reason = "tracking_replan"
                 return self._intent(plan.pregrasp_pos, plan.grasp_quat_wxyz, "open", should_plan_grasp=True, reason=self.last_reason)
-            if self.success_counter >= stable_steps or self.final_counter >= timeout_steps:
+            reached = self.success_counter >= stable_steps
+            timed_out = self.final_counter >= timeout_steps
+            if reached or timed_out:
                 self.phase = GraspPhase.CLOSE
+                self.last_reason = "final_stable" if reached else "final_timeout"
                 self.success_counter = 0
                 self.close_counter = 0
-                self.last_reason = "final_stable" if self.success_counter >= stable_steps else "final_timeout"
             return self._intent(plan.grasp_pos, plan.grasp_quat_wxyz, "open", reason=self.last_reason)
 
         if self.phase == GraspPhase.CLOSE:
