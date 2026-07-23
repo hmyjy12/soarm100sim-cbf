@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/home/sophie/miniconda3/envs/vision_seg/bin/python
 # EASY-INSTALL-ENTRY-SCRIPT: 'soarm100-vision==0.1.0','console_scripts','grasp_orchestrator_node'
 import re
 import sys

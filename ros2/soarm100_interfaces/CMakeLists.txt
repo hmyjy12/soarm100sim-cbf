@@ -10,6 +10,7 @@ find_package(std_msgs REQUIRED)
 
 rosidl_generate_interfaces(${PROJECT_NAME}
   "action/ExecuteGrasp.action"
+  "action/ExecutePlannedGrasp.action"
   "action/PlanGrasp.action"
   "srv/SegmentTarget.srv"
   "srv/SetAvoidance.srv"

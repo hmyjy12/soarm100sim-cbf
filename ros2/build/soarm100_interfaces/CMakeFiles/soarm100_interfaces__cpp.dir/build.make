@@ -71,6 +71,11 @@ CMakeFiles/soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/ac
 CMakeFiles/soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/action/detail/execute_grasp__struct.hpp
 CMakeFiles/soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/action/detail/execute_grasp__traits.hpp
 CMakeFiles/soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/action/detail/execute_grasp__type_support.hpp
+CMakeFiles/soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/action/execute_planned_grasp.hpp
+CMakeFiles/soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/action/detail/execute_planned_grasp__builder.hpp
+CMakeFiles/soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/action/detail/execute_planned_grasp__struct.hpp
+CMakeFiles/soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/action/detail/execute_planned_grasp__traits.hpp
+CMakeFiles/soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/action/detail/execute_planned_grasp__type_support.hpp
 CMakeFiles/soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/action/plan_grasp.hpp
 CMakeFiles/soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/action/detail/plan_grasp__builder.hpp
 CMakeFiles/soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/action/detail/plan_grasp__struct.hpp
@@ -104,6 +109,7 @@ rosidl_generator_cpp/soarm100_interfaces/action/execute_grasp.hpp: /opt/ros/humb
 rosidl_generator_cpp/soarm100_interfaces/action/execute_grasp.hpp: /opt/ros/humble/share/rosidl_generator_cpp/resource/srv__struct.hpp.em
 rosidl_generator_cpp/soarm100_interfaces/action/execute_grasp.hpp: /opt/ros/humble/share/rosidl_generator_cpp/resource/srv__traits.hpp.em
 rosidl_generator_cpp/soarm100_interfaces/action/execute_grasp.hpp: rosidl_adapter/soarm100_interfaces/action/ExecuteGrasp.idl
+rosidl_generator_cpp/soarm100_interfaces/action/execute_grasp.hpp: rosidl_adapter/soarm100_interfaces/action/ExecutePlannedGrasp.idl
 rosidl_generator_cpp/soarm100_interfaces/action/execute_grasp.hpp: rosidl_adapter/soarm100_interfaces/action/PlanGrasp.idl
 rosidl_generator_cpp/soarm100_interfaces/action/execute_grasp.hpp: rosidl_adapter/soarm100_interfaces/srv/SegmentTarget.idl
 rosidl_generator_cpp/soarm100_interfaces/action/execute_grasp.hpp: rosidl_adapter/soarm100_interfaces/srv/SetAvoidance.idl
@@ -219,6 +225,21 @@ rosidl_generator_cpp/soarm100_interfaces/action/detail/execute_grasp__traits.hpp
 rosidl_generator_cpp/soarm100_interfaces/action/detail/execute_grasp__type_support.hpp: rosidl_generator_cpp/soarm100_interfaces/action/execute_grasp.hpp
 	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_cpp/soarm100_interfaces/action/detail/execute_grasp__type_support.hpp
 
+rosidl_generator_cpp/soarm100_interfaces/action/execute_planned_grasp.hpp: rosidl_generator_cpp/soarm100_interfaces/action/execute_grasp.hpp
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_cpp/soarm100_interfaces/action/execute_planned_grasp.hpp
+
+rosidl_generator_cpp/soarm100_interfaces/action/detail/execute_planned_grasp__builder.hpp: rosidl_generator_cpp/soarm100_interfaces/action/execute_grasp.hpp
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_cpp/soarm100_interfaces/action/detail/execute_planned_grasp__builder.hpp
+
+rosidl_generator_cpp/soarm100_interfaces/action/detail/execute_planned_grasp__struct.hpp: rosidl_generator_cpp/soarm100_interfaces/action/execute_grasp.hpp
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_cpp/soarm100_interfaces/action/detail/execute_planned_grasp__struct.hpp
+
+rosidl_generator_cpp/soarm100_interfaces/action/detail/execute_planned_grasp__traits.hpp: rosidl_generator_cpp/soarm100_interfaces/action/execute_grasp.hpp
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_cpp/soarm100_interfaces/action/detail/execute_planned_grasp__traits.hpp
+
+rosidl_generator_cpp/soarm100_interfaces/action/detail/execute_planned_grasp__type_support.hpp: rosidl_generator_cpp/soarm100_interfaces/action/execute_grasp.hpp
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_cpp/soarm100_interfaces/action/detail/execute_planned_grasp__type_support.hpp
+
 rosidl_generator_cpp/soarm100_interfaces/action/plan_grasp.hpp: rosidl_generator_cpp/soarm100_interfaces/action/execute_grasp.hpp
 	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_cpp/soarm100_interfaces/action/plan_grasp.hpp
 
@@ -269,11 +290,16 @@ soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/action/detail
 soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/action/detail/execute_grasp__struct.hpp
 soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/action/detail/execute_grasp__traits.hpp
 soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/action/detail/execute_grasp__type_support.hpp
+soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/action/detail/execute_planned_grasp__builder.hpp
+soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/action/detail/execute_planned_grasp__struct.hpp
+soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/action/detail/execute_planned_grasp__traits.hpp
+soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/action/detail/execute_planned_grasp__type_support.hpp
 soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/action/detail/plan_grasp__builder.hpp
 soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/action/detail/plan_grasp__struct.hpp
 soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/action/detail/plan_grasp__traits.hpp
 soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/action/detail/plan_grasp__type_support.hpp
 soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/action/execute_grasp.hpp
+soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/action/execute_planned_grasp.hpp
 soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/action/plan_grasp.hpp
 soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/srv/detail/segment_target__builder.hpp
 soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/srv/detail/segment_target__struct.hpp

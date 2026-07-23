@@ -18,6 +18,7 @@ ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 ROS2_WS="$ROOT_DIR/ros2"
 CONDA_ENV="${CONDA_ENV:-vision_seg}"
 ROS_SETUP="${ROS_SETUP:-/opt/ros/humble/setup.bash}"
+ROS_LOG_DIR="${ROS_LOG_DIR:-$ROOT_DIR/logs/ros2}"
 
 TARGET_PROMPT="red cube"
 ENABLE_AVOIDANCE="false"
@@ -25,14 +26,31 @@ BUILD_FIRST="false"
 ENABLE_VISUALIZER="true"
 SHOW_WINDOW="true"
 ENABLE_MUJOCO="true"
+ENABLE_MUJOCO_BACKEND="false"
+ENABLE_MUJOCO_CAMERA="false"
+ENABLE_SDF_BACKEND="false"
+ENABLE_ANYGRASP_PLANNER="false"
 MUJOCO_OBSTACLE="auto"
 MUJOCO_SDF_CBF="auto"
 MUJOCO_OBSTACLE_BODY="obstacle_rod_mount"
 MUJOCO_OBSTACLE_POS="0.16,0.09,0.02"
+MUJOCO_MJCF=""
 MUJOCO_TARGET_OBJECT="cube"
 MUJOCO_TARGET_POS="0.42,0.08,0.021"
 MUJOCO_TRAJ_LOG="$ROOT_DIR/logs/ros2_mujoco_grasp.jsonl"
 MUJOCO_SPEED="0.5"
+MUJOCO_PYTHON="${MUJOCO_PYTHON:-/home/sophie/miniconda3/bin/python}"
+MUJOCO_BACKEND_MODE="subprocess"
+MUJOCO_INPROCESS_VIEWER="false"
+MUJOCO_INTERNAL_TRACKING="true"
+MUJOCO_TRACK_SOURCE="wrist"
+AUTO_PLANNED_GRASP="false"
+AUTO_PREGRASP_POS="0.35,0.08,0.09"
+AUTO_GRASP_POS="0.39,0.08,0.06"
+AUTO_GRASP_QUAT="1,0,0,0"
+AUTO_GRIPPER_WIDTH="0.05"
+AUTO_GOAL_DELAY="4.0"
+AUTO_EXECUTE_GRASP="false"
 
 RGB_TOPIC="/camera/color/image_raw"
 DEPTH_TOPIC="/camera/depth/image_rect_raw"
@@ -41,6 +59,8 @@ WRIST_DEPTH_TOPIC="/wrist/depth/image_rect_raw"
 WRIST_CAMERA_INFO_TOPIC="/wrist/depth/camera_info"
 YOLO_MODEL="$ROOT_DIR/models/vision/yolov8s-world.pt"
 SAM_MODEL="$ROOT_DIR/models/vision/mobile_sam.pt"
+ANYGRASP_SDK_ROOT="$ROOT_DIR/anygrasp_sdk"
+ANYGRASP_CHECKPOINT="$ROOT_DIR/anygrasp_sdk/grasp_detection/log/checkpoint_detection.tar"
 
 source_relaxed() {
   set +u
@@ -61,6 +81,10 @@ Options:
   --visualizer on|off             Start debug overlay viewer. Default: on.
   --show-window on|off            Open local OpenCV preview window. Default: on.
   --mujoco on|off                 Start MuJoCo GUI play.py in parallel. Default: on.
+  --mujoco-backend on|off         Start ROS2 MuJoCo policy backend action server. Default: off.
+  --mujoco-camera on|off          Publish MuJoCo RGB-D camera topics. Default: off.
+  --sdf-backend on|off            Start ROS2 SDF-CBF backend status node. Default: off.
+  --anygrasp-planner on|off       Start ROS2 AnyGrasp planner action server. Default: off.
   --mujoco-obstacle on|off|auto   Show/load MuJoCo obstacle scene. Default: auto follows --avoidance.
   --mujoco-sdf-cbf on|off|auto    Enable MuJoCo SDF-CBF-QP. Default: auto follows --avoidance.
   --mujoco-obstacle-body NAME     MuJoCo obstacle body to reposition. Default: obstacle_rod_mount.
@@ -69,6 +93,22 @@ Options:
   --mujoco-target-pos X,Y,Z       MuJoCo target world position. Default: 0.42,0.08,0.021.
   --mujoco-traj-log PATH          MuJoCo trajectory log path.
   --mujoco-speed SPEED            MuJoCo playback speed. Default: 0.5.
+  --mujoco-python PATH            Python executable for MuJoCo backend subprocess. Default: /home/sophie/miniconda3/bin/python.
+  --mujoco-backend-mode subprocess|inprocess
+                                  Policy backend implementation. Default: subprocess.
+  --mujoco-inprocess-viewer on|off
+                                  Open MuJoCo viewer from ROS2 inprocess backend. Default: off.
+  --mujoco-internal-tracking on|off
+                                  Let play.py perform near-field target tracking inside its policy loop. Default: on.
+  --mujoco-track-source wrist|gt|none
+                                  Tracking source passed to play.py. Default: wrist.
+  --auto-planned-grasp on|off     Send one ExecutePlannedGrasp goal after launch. Default: off.
+  --auto-pregrasp-pos X,Y,Z       Planned pregrasp pose position for auto goal.
+  --auto-grasp-pos X,Y,Z          Planned final grasp pose position for auto goal.
+  --auto-grasp-quat W,X,Y,Z       Planned grasp orientation for auto goal.
+  --auto-gripper-width M          Planned gripper width for auto goal. Default: 0.05.
+  --auto-goal-delay SEC           Delay before sending auto goal. Default: 4.0.
+  --auto-execute-grasp on|off     Send one full ExecuteGrasp goal through segment+AnyGrasp+policy. Default: off.
   --rgb-topic TOPIC               Main RGB topic.
   --depth-topic TOPIC             Main depth topic.
   --camera-info-topic TOPIC       Main camera_info topic.
@@ -76,6 +116,8 @@ Options:
   --wrist-camera-info-topic TOPIC Wrist camera_info topic.
   --yolo-model PATH               YOLO-World model path.
   --sam-model PATH                MobileSAM model path.
+  --anygrasp-sdk-root PATH        AnyGrasp SDK root. Default: ./anygrasp_sdk.
+  --anygrasp-checkpoint PATH      AnyGrasp checkpoint tar.
   --conda-env NAME                Conda environment. Default: vision_seg.
   --ros-setup PATH                ROS setup.bash. Default: /opt/ros/humble/setup.bash.
   -h, --help                      Show this help.
@@ -129,6 +171,38 @@ while [[ $# -gt 0 ]]; do
       esac
       shift 2
       ;;
+    --mujoco-backend)
+      case "$2" in
+        on|true|1) ENABLE_MUJOCO_BACKEND="true" ;;
+        off|false|0) ENABLE_MUJOCO_BACKEND="false" ;;
+        *) echo "[ERROR] --mujoco-backend must be on/off" >&2; exit 2 ;;
+      esac
+      shift 2
+      ;;
+    --mujoco-camera)
+      case "$2" in
+        on|true|1) ENABLE_MUJOCO_CAMERA="true" ;;
+        off|false|0) ENABLE_MUJOCO_CAMERA="false" ;;
+        *) echo "[ERROR] --mujoco-camera must be on/off" >&2; exit 2 ;;
+      esac
+      shift 2
+      ;;
+    --sdf-backend)
+      case "$2" in
+        on|true|1) ENABLE_SDF_BACKEND="true" ;;
+        off|false|0) ENABLE_SDF_BACKEND="false" ;;
+        *) echo "[ERROR] --sdf-backend must be on/off" >&2; exit 2 ;;
+      esac
+      shift 2
+      ;;
+    --anygrasp-planner)
+      case "$2" in
+        on|true|1) ENABLE_ANYGRASP_PLANNER="true" ;;
+        off|false|0) ENABLE_ANYGRASP_PLANNER="false" ;;
+        *) echo "[ERROR] --anygrasp-planner must be on/off" >&2; exit 2 ;;
+      esac
+      shift 2
+      ;;
     --mujoco-obstacle)
       case "$2" in
         on|true|1) MUJOCO_OBSTACLE="true" ;;
@@ -171,6 +245,76 @@ while [[ $# -gt 0 ]]; do
       MUJOCO_SPEED="$2"
       shift 2
       ;;
+    --mujoco-python)
+      MUJOCO_PYTHON="$2"
+      shift 2
+      ;;
+    --mujoco-backend-mode)
+      case "$2" in
+        subprocess|inprocess) MUJOCO_BACKEND_MODE="$2" ;;
+        *) echo "[ERROR] --mujoco-backend-mode must be subprocess/inprocess" >&2; exit 2 ;;
+      esac
+      shift 2
+      ;;
+    --mujoco-inprocess-viewer)
+      case "$2" in
+        on|true|1) MUJOCO_INPROCESS_VIEWER="true" ;;
+        off|false|0) MUJOCO_INPROCESS_VIEWER="false" ;;
+        *) echo "[ERROR] --mujoco-inprocess-viewer must be on/off" >&2; exit 2 ;;
+      esac
+      shift 2
+      ;;
+    --mujoco-internal-tracking)
+      case "$2" in
+        on|true|1) MUJOCO_INTERNAL_TRACKING="true" ;;
+        off|false|0) MUJOCO_INTERNAL_TRACKING="false" ;;
+        *) echo "[ERROR] --mujoco-internal-tracking must be on/off" >&2; exit 2 ;;
+      esac
+      shift 2
+      ;;
+    --mujoco-track-source)
+      case "$2" in
+        wrist|gt|none) MUJOCO_TRACK_SOURCE="$2" ;;
+        *) echo "[ERROR] --mujoco-track-source must be wrist/gt/none" >&2; exit 2 ;;
+      esac
+      shift 2
+      ;;
+    --auto-planned-grasp)
+      case "$2" in
+        on|true|1) AUTO_PLANNED_GRASP="true" ;;
+        off|false|0) AUTO_PLANNED_GRASP="false" ;;
+        *) echo "[ERROR] --auto-planned-grasp must be on/off" >&2; exit 2 ;;
+      esac
+      shift 2
+      ;;
+    --auto-pregrasp-pos)
+      AUTO_PREGRASP_POS="$2"
+      shift 2
+      ;;
+    --auto-grasp-pos)
+      AUTO_GRASP_POS="$2"
+      shift 2
+      ;;
+    --auto-grasp-quat)
+      AUTO_GRASP_QUAT="$2"
+      shift 2
+      ;;
+    --auto-gripper-width)
+      AUTO_GRIPPER_WIDTH="$2"
+      shift 2
+      ;;
+    --auto-goal-delay)
+      AUTO_GOAL_DELAY="$2"
+      shift 2
+      ;;
+    --auto-execute-grasp)
+      case "$2" in
+        on|true|1) AUTO_EXECUTE_GRASP="true" ;;
+        off|false|0) AUTO_EXECUTE_GRASP="false" ;;
+        *) echo "[ERROR] --auto-execute-grasp must be on/off" >&2; exit 2 ;;
+      esac
+      shift 2
+      ;;
     --rgb-topic)
       RGB_TOPIC="$2"
       shift 2
@@ -199,6 +343,14 @@ while [[ $# -gt 0 ]]; do
       SAM_MODEL="$2"
       shift 2
       ;;
+    --anygrasp-sdk-root)
+      ANYGRASP_SDK_ROOT="$2"
+      shift 2
+      ;;
+    --anygrasp-checkpoint)
+      ANYGRASP_CHECKPOINT="$2"
+      shift 2
+      ;;
     --conda-env)
       CONDA_ENV="$2"
       shift 2
@@ -225,6 +377,17 @@ fi
 if [[ "$MUJOCO_SDF_CBF" == "auto" ]]; then
   MUJOCO_SDF_CBF="$ENABLE_AVOIDANCE"
 fi
+if [[ -z "$MUJOCO_MJCF" ]]; then
+  if [[ "$MUJOCO_OBSTACLE" == "true" ]]; then
+    MUJOCO_MJCF="SO-ARM100/Simulation/SO100/mujoco/scene_plus_grasp_obstacle.xml"
+  else
+    MUJOCO_MJCF="SO-ARM100/Simulation/SO100/mujoco/scene_plus_norod.xml"
+  fi
+fi
+if [[ "$AUTO_PLANNED_GRASP" == "true" && "$AUTO_EXECUTE_GRASP" == "true" ]]; then
+  echo "[ERROR] choose only one of --auto-planned-grasp or --auto-execute-grasp" >&2
+  exit 2
+fi
 
 if [[ ! -f "$ROS_SETUP" ]]; then
   echo "[ERROR] ROS setup not found: $ROS_SETUP" >&2
@@ -233,6 +396,10 @@ if [[ ! -f "$ROS_SETUP" ]]; then
 fi
 
 source_relaxed "$ROS_SETUP"
+mkdir -p "$ROS_LOG_DIR"
+export ROS_LOG_DIR
+export MPLCONFIGDIR="${MPLCONFIGDIR:-/tmp/matplotlib-soarm100-ros2}"
+mkdir -p "$MPLCONFIGDIR"
 
 cd "$ROS2_WS"
 
@@ -271,6 +438,8 @@ else
 fi
 
 MUJOCO_PID=""
+MUJOCO_CAMERA_PID=""
+AUTO_GOAL_PID=""
 if [[ "$ENABLE_MUJOCO" == "true" ]]; then
   echo "[soarm100_ros2] starting MuJoCo GUI in base/current env"
   MUJOCO_EXTRA_ARGS=()
@@ -301,7 +470,7 @@ if [[ "$ENABLE_MUJOCO" == "true" ]]; then
       "${MUJOCO_EXTRA_ARGS[@]}"
   ) &
   MUJOCO_PID="$!"
-  trap 'if [[ -n "${MUJOCO_PID:-}" ]]; then kill "$MUJOCO_PID" 2>/dev/null || true; fi' EXIT INT TERM
+  trap 'if [[ -n "${MUJOCO_PID:-}" ]]; then kill "$MUJOCO_PID" 2>/dev/null || true; fi; if [[ -n "${AUTO_GOAL_PID:-}" ]]; then kill "$AUTO_GOAL_PID" 2>/dev/null || true; fi' EXIT INT TERM
 fi
 
 if command -v conda >/dev/null 2>&1; then
@@ -313,12 +482,94 @@ else
   echo "[WARN] conda command not found; assuming current shell already has vision deps."
 fi
 
+if [[ -n "${CONDA_PREFIX:-}" && -d "$ROS2_WS/install/soarm100_vision/lib/soarm100_vision" ]]; then
+  CONDA_PYTHON="$CONDA_PREFIX/bin/python"
+  for entry in "$ROS2_WS"/install/soarm100_vision/lib/soarm100_vision/*; do
+    if [[ -f "$entry" && -x "$entry" ]]; then
+      sed -i "1s|^#!.*python.*$|#!$CONDA_PYTHON|" "$entry"
+    fi
+  done
+fi
+
+if [[ "$ENABLE_MUJOCO_CAMERA" == "true" ]]; then
+  echo "[soarm100_ros2] starting MuJoCo camera publisher in $CONDA_ENV"
+  (
+    cd "$ROOT_DIR"
+    export MUJOCO_GL="${MUJOCO_GL:-egl}"
+    python -m soarm100_vision.mujoco_camera_publisher_node --ros-args \
+      -p repo_root:="$ROOT_DIR" \
+      -p mjcf:="$MUJOCO_MJCF" \
+      -p target_object:="$MUJOCO_TARGET_OBJECT" \
+      -p target_pos:="$MUJOCO_TARGET_POS" \
+      -p enable_obstacle:="$MUJOCO_OBSTACLE" \
+      -p obstacle_body:="$MUJOCO_OBSTACLE_BODY" \
+      -p obstacle_pos:="$MUJOCO_OBSTACLE_POS"
+  ) &
+  MUJOCO_CAMERA_PID="$!"
+  trap 'if [[ -n "${MUJOCO_PID:-}" ]]; then kill "$MUJOCO_PID" 2>/dev/null || true; fi; if [[ -n "${MUJOCO_CAMERA_PID:-}" ]]; then kill "$MUJOCO_CAMERA_PID" 2>/dev/null || true; fi; if [[ -n "${AUTO_GOAL_PID:-}" ]]; then kill "$AUTO_GOAL_PID" 2>/dev/null || true; fi' EXIT INT TERM
+fi
+
 echo "[soarm100_ros2] conda_env=$CONDA_ENV"
 echo "[soarm100_ros2] target=$TARGET_PROMPT avoidance=$ENABLE_AVOIDANCE"
 echo "[soarm100_ros2] visualizer=$ENABLE_VISUALIZER show_window=$SHOW_WINDOW"
-echo "[soarm100_ros2] mujoco=$ENABLE_MUJOCO obstacle=$MUJOCO_OBSTACLE sdf_cbf=$MUJOCO_SDF_CBF target_object=$MUJOCO_TARGET_OBJECT target_pos=$MUJOCO_TARGET_POS obstacle_body=$MUJOCO_OBSTACLE_BODY obstacle_pos=$MUJOCO_OBSTACLE_POS speed=$MUJOCO_SPEED"
+echo "[soarm100_ros2] mujoco=$ENABLE_MUJOCO mujoco_backend=$ENABLE_MUJOCO_BACKEND backend_mode=$MUJOCO_BACKEND_MODE inprocess_viewer=$MUJOCO_INPROCESS_VIEWER mujoco_camera=$ENABLE_MUJOCO_CAMERA sdf_backend=$ENABLE_SDF_BACKEND anygrasp_planner=$ENABLE_ANYGRASP_PLANNER obstacle=$MUJOCO_OBSTACLE sdf_cbf=$MUJOCO_SDF_CBF mjcf=$MUJOCO_MJCF target_object=$MUJOCO_TARGET_OBJECT target_pos=$MUJOCO_TARGET_POS obstacle_body=$MUJOCO_OBSTACLE_BODY obstacle_pos=$MUJOCO_OBSTACLE_POS speed=$MUJOCO_SPEED internal_tracking=$MUJOCO_INTERNAL_TRACKING track_source=$MUJOCO_TRACK_SOURCE"
+echo "[soarm100_ros2] auto_planned_grasp=$AUTO_PLANNED_GRASP auto_execute_grasp=$AUTO_EXECUTE_GRASP pregrasp=$AUTO_PREGRASP_POS grasp=$AUTO_GRASP_POS quat=$AUTO_GRASP_QUAT width=$AUTO_GRIPPER_WIDTH delay=$AUTO_GOAL_DELAY"
+echo "[soarm100_ros2] mujoco_python=$MUJOCO_PYTHON"
 echo "[soarm100_ros2] yolo=$YOLO_MODEL"
 echo "[soarm100_ros2] sam=$SAM_MODEL"
+echo "[soarm100_ros2] anygrasp_sdk=$ANYGRASP_SDK_ROOT"
+echo "[soarm100_ros2] anygrasp_checkpoint=$ANYGRASP_CHECKPOINT"
+
+if [[ "$AUTO_PLANNED_GRASP" == "true" ]]; then
+  if [[ "$ENABLE_MUJOCO_BACKEND" != "true" ]]; then
+    echo "[ERROR] --auto-planned-grasp requires --mujoco-backend on" >&2
+    exit 2
+  fi
+  (
+    sleep "$AUTO_GOAL_DELAY"
+    AUTO_ARGS=(
+      --pregrasp-pos "$AUTO_PREGRASP_POS"
+      --grasp-pos "$AUTO_GRASP_POS"
+      --grasp-quat "$AUTO_GRASP_QUAT"
+      --gripper-width "$AUTO_GRIPPER_WIDTH"
+      --target-object "$MUJOCO_TARGET_OBJECT"
+      --target-pos "$MUJOCO_TARGET_POS"
+      --traj-log "$MUJOCO_TRAJ_LOG"
+    )
+    if [[ "$ENABLE_AVOIDANCE" == "true" ]]; then
+      AUTO_ARGS+=(--enable-avoidance)
+    fi
+    ros2 run soarm100_vision send_planned_grasp "${AUTO_ARGS[@]}"
+  ) &
+  AUTO_GOAL_PID="$!"
+fi
+
+if [[ "$AUTO_EXECUTE_GRASP" == "true" ]]; then
+  if [[ "$ENABLE_MUJOCO_BACKEND" != "true" ]]; then
+    echo "[ERROR] --auto-execute-grasp requires --mujoco-backend on" >&2
+    exit 2
+  fi
+  if [[ "$ENABLE_MUJOCO_CAMERA" != "true" ]]; then
+    echo "[ERROR] --auto-execute-grasp requires --mujoco-camera on" >&2
+    exit 2
+  fi
+  if [[ "$ENABLE_ANYGRASP_PLANNER" != "true" ]]; then
+    echo "[ERROR] --auto-execute-grasp requires --anygrasp-planner on" >&2
+    exit 2
+  fi
+  (
+    sleep "$AUTO_GOAL_DELAY"
+    AUTO_ARGS=(
+      --target "$TARGET_PROMPT"
+      --approx-target-pos "$MUJOCO_TARGET_POS"
+    )
+    if [[ "$ENABLE_AVOIDANCE" == "true" ]]; then
+      AUTO_ARGS+=(--enable-avoidance)
+    fi
+    ros2 run soarm100_vision send_execute_grasp "${AUTO_ARGS[@]}"
+  ) &
+  AUTO_GOAL_PID="$!"
+fi
 
 ros2 launch soarm100_vision vision_grasp.launch.py \
   target_prompt:="$TARGET_PROMPT" \
@@ -330,5 +581,25 @@ ros2 launch soarm100_vision vision_grasp.launch.py \
   wrist_camera_info_topic:="$WRIST_CAMERA_INFO_TOPIC" \
   yolo_model:="$YOLO_MODEL" \
   sam_model:="$SAM_MODEL" \
+  enable_mujoco_backend:="$ENABLE_MUJOCO_BACKEND" \
+  enable_mujoco_camera:="false" \
+  enable_anygrasp_planner:="$ENABLE_ANYGRASP_PLANNER" \
+  anygrasp_sdk_root:="$ANYGRASP_SDK_ROOT" \
+  anygrasp_checkpoint:="$ANYGRASP_CHECKPOINT" \
+  enable_sdf_backend:="$ENABLE_SDF_BACKEND" \
+  repo_root:="$ROOT_DIR" \
+  mujoco_mjcf:="$MUJOCO_MJCF" \
+  mujoco_target_object:="$MUJOCO_TARGET_OBJECT" \
+  mujoco_target_pos:="$MUJOCO_TARGET_POS" \
+  mujoco_enable_obstacle:="$MUJOCO_OBSTACLE" \
+  mujoco_obstacle_body:="$MUJOCO_OBSTACLE_BODY" \
+  mujoco_obstacle_pos:="$MUJOCO_OBSTACLE_POS" \
+  mujoco_traj_log:="$MUJOCO_TRAJ_LOG" \
+  mujoco_python:="$MUJOCO_PYTHON" \
+  mujoco_speed:="$MUJOCO_SPEED" \
+  mujoco_backend_mode:="$MUJOCO_BACKEND_MODE" \
+  mujoco_inprocess_viewer:="$MUJOCO_INPROCESS_VIEWER" \
+  mujoco_internal_tracking:="$MUJOCO_INTERNAL_TRACKING" \
+  mujoco_track_source:="$MUJOCO_TRACK_SOURCE" \
   enable_visualizer:="$ENABLE_VISUALIZER" \
   show_window:="$SHOW_WINDOW"

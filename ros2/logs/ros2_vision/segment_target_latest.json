@@ -1,0 +1,24 @@
+{
+  "ok": true,
+  "target_prompt": "red cube",
+  "bbox_xyxy": [
+    362.0,
+    239.0,
+    385.0,
+    262.0
+  ],
+  "score": 0.5,
+  "fallback_red_mask": true,
+  "mask_pixels": 576,
+  "expanded_mask_pixels": 676,
+  "mask_expand_ratio": 0.05,
+  "use_expanded_mask_for_target_cloud": false,
+  "n_points": 576,
+  "n_roi_points": 676,
+  "center_camera": [
+    0.0994916707277298,
+    0.02026682160794735,
+    0.5762669444084167
+  ],
+  "stamp_s": 1784771195.945394
+}

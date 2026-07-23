@@ -1760,8 +1760,9 @@ def run(args: argparse.Namespace) -> int:
         cbf_cfg=cbf_cfg,
     )
 
+    grasp_source_mode = str(args.grasp_source).strip().lower()
     anygrasp_bridge = None
-    if bool(args.enable_grasp_chain):
+    if bool(args.enable_grasp_chain) and grasp_source_mode == "anygrasp":
         try:
             anygrasp_bridge = AnyGraspBridge(
                 model,
@@ -1788,6 +1789,8 @@ def run(args: argparse.Namespace) -> int:
         except Exception as exc:
             print(f"[ERROR] AnyGrasp bridge unavailable: {exc}", file=sys.stderr)
             return 1
+    elif bool(args.enable_grasp_chain):
+        print(f"[mujoco_play] grasp source={grasp_source_mode}")
 
     grasp_tracker = None
     if bool(args.enable_grasp_chain) and bool(args.grasp_track_object):
@@ -2093,42 +2096,67 @@ def run(args: argparse.Namespace) -> int:
                         "debug-anygrasp-frame + show-cam 模式下跳过 AnyGrasp 执行。"
                     )
                     return 0
-                if anygrasp_bridge is None:
-                    raise RuntimeError("grasp chain requires AnyGrasp bridge")
-                grasp_pos, pregrasp_pos, approach_axis, grasp_quat, cand = _choose_anygrasp_candidate(
-                    anygrasp_bridge,
-                    model,
-                    data,
-                    ids,
-                    target_pos,
-                    target_radius,
-                    float(args.pregrasp_distance),
-                    float(args.anygrasp_candidate_center_tolerance),
-                    approach_local_axis=approach_local_axis,
-                    enable_ik_filter=bool(args.anygrasp_ik_filter),
-                    ik_steps=int(args.anygrasp_ik_steps),
-                    ik_pos_tol=float(args.anygrasp_ik_pos_tol),
-                    ik_approach_tol_deg=float(args.anygrasp_ik_approach_tol_deg),
-                    approach_gate_axis="tcp_z",
-                    debug_axes=bool(args.debug_anygrasp_axes),
-                    debug_axes_count=int(args.debug_anygrasp_axes_count),
-                )
-                selected_grasp = cand
-                grasp_candidates_viz = list(getattr(anygrasp_bridge, "last_candidates", []))
-                dbg = getattr(anygrasp_bridge, "last_debug", None)
-                if dbg is not None:
-                    print(
-                        f"[anygrasp_selected_compare] target=({target_pos[0]:+.3f},{target_pos[1]:+.3f},{target_pos[2]:+.3f}) "
-                        f"mask_centroid={tuple(round(float(x), 3) for x in getattr(dbg, 'mask_centroid_world', [])[:3])} "
-                        f"mask_bbox_min={tuple(round(float(x), 3) for x in getattr(dbg, 'mask_bbox_min_world', [])[:3])} "
-                        f"mask_bbox_max={tuple(round(float(x), 3) for x in getattr(dbg, 'mask_bbox_max_world', [])[:3])}"
+                if grasp_source_mode == "external":
+                    if not str(args.external_grasp_pos).strip() or not str(args.external_pregrasp_pos).strip():
+                        raise RuntimeError("--grasp-source external requires --external-grasp-pos and --external-pregrasp-pos")
+                    grasp_pos = np.asarray(_dyn.parse_vec3(str(args.external_grasp_pos), default=tuple(target_pos)), dtype=np.float64)
+                    pregrasp_pos = np.asarray(_dyn.parse_vec3(str(args.external_pregrasp_pos), default=tuple(target_pos)), dtype=np.float64)
+                    q_raw = [float(x) for x in str(args.external_grasp_quat).replace(",", " ").split()]
+                    if len(q_raw) != 4:
+                        raise RuntimeError("--external-grasp-quat must be w,x,y,z")
+                    grasp_quat = np.asarray(q_raw, dtype=np.float64)
+                    grasp_quat /= max(float(np.linalg.norm(grasp_quat)), 1e-12)
+                    delta = grasp_pos - pregrasp_pos
+                    approach_axis = delta / max(float(np.linalg.norm(delta)), 1e-12)
+                    selected_grasp = None
+                    grasp_candidates_viz = []
+                    cand_msg = (
+                        f"External grasp width={float(args.external_gripper_width)*1000:.1f}mm "
+                        f"quat=({grasp_quat[0]:+.2f},{grasp_quat[1]:+.2f},{grasp_quat[2]:+.2f},{grasp_quat[3]:+.2f}) "
+                        "orientation=external"
                     )
-                cand_msg = (
-                    f"AnyGrasp score={float(cand.score):.3f} width={float(cand.width)*1000:.1f}mm "
-                    f"cand_dist={float(np.linalg.norm(cand.pos_world - target_pos))*1000:.1f}mm "
-                    f"quat=({grasp_quat[0]:+.2f},{grasp_quat[1]:+.2f},{grasp_quat[2]:+.2f},{grasp_quat[3]:+.2f}) "
-                    "orientation=anygrasp"
-                )
+                    print(
+                        f"[external_grasp] pre=({pregrasp_pos[0]:+.3f},{pregrasp_pos[1]:+.3f},{pregrasp_pos[2]:+.3f}) "
+                        f"final=({grasp_pos[0]:+.3f},{grasp_pos[1]:+.3f},{grasp_pos[2]:+.3f}) "
+                        f"approach=({approach_axis[0]:+.2f},{approach_axis[1]:+.2f},{approach_axis[2]:+.2f})"
+                    )
+                else:
+                    if anygrasp_bridge is None:
+                        raise RuntimeError("grasp chain requires AnyGrasp bridge")
+                    grasp_pos, pregrasp_pos, approach_axis, grasp_quat, cand = _choose_anygrasp_candidate(
+                        anygrasp_bridge,
+                        model,
+                        data,
+                        ids,
+                        target_pos,
+                        target_radius,
+                        float(args.pregrasp_distance),
+                        float(args.anygrasp_candidate_center_tolerance),
+                        approach_local_axis=approach_local_axis,
+                        enable_ik_filter=bool(args.anygrasp_ik_filter),
+                        ik_steps=int(args.anygrasp_ik_steps),
+                        ik_pos_tol=float(args.anygrasp_ik_pos_tol),
+                        ik_approach_tol_deg=float(args.anygrasp_ik_approach_tol_deg),
+                        approach_gate_axis="tcp_z",
+                        debug_axes=bool(args.debug_anygrasp_axes),
+                        debug_axes_count=int(args.debug_anygrasp_axes_count),
+                    )
+                    selected_grasp = cand
+                    grasp_candidates_viz = list(getattr(anygrasp_bridge, "last_candidates", []))
+                    dbg = getattr(anygrasp_bridge, "last_debug", None)
+                    if dbg is not None:
+                        print(
+                            f"[anygrasp_selected_compare] target=({target_pos[0]:+.3f},{target_pos[1]:+.3f},{target_pos[2]:+.3f}) "
+                            f"mask_centroid={tuple(round(float(x), 3) for x in getattr(dbg, 'mask_centroid_world', [])[:3])} "
+                            f"mask_bbox_min={tuple(round(float(x), 3) for x in getattr(dbg, 'mask_bbox_min_world', [])[:3])} "
+                            f"mask_bbox_max={tuple(round(float(x), 3) for x in getattr(dbg, 'mask_bbox_max_world', [])[:3])}"
+                        )
+                    cand_msg = (
+                        f"AnyGrasp score={float(cand.score):.3f} width={float(cand.width)*1000:.1f}mm "
+                        f"cand_dist={float(np.linalg.norm(cand.pos_world - target_pos))*1000:.1f}mm "
+                        f"quat=({grasp_quat[0]:+.2f},{grasp_quat[1]:+.2f},{grasp_quat[2]:+.2f},{grasp_quat[3]:+.2f}) "
+                        "orientation=anygrasp"
+                    )
                 final_dist = float(np.linalg.norm(grasp_pos - pregrasp_pos))
                 target_plan_pos = target_pos.copy()
                 pregrasp_plan_pos = pregrasp_pos.copy()
@@ -2151,19 +2179,20 @@ def run(args: argparse.Namespace) -> int:
                     f"final_steps={final_approach_steps} timeout_steps={final_approach_timeout_steps} "
                     f"{cand_msg}"
                 )
-                rec = _anygrasp_debug_record(
-                    ep=ep,
-                    target_idx=idx,
-                    target_pos=target_pos,
-                    target_radius=target_radius,
-                    bridge=anygrasp_bridge,
-                    selected_grasp=selected_grasp,
-                    pregrasp_pos=pregrasp_pos,
-                    grasp_pos=grasp_pos,
-                    grasp_quat=grasp_quat,
-                    approach_axis=approach_axis,
-                )
-                _append_jsonl(args.anygrasp_debug_log, rec)
+                if anygrasp_bridge is not None:
+                    rec = _anygrasp_debug_record(
+                        ep=ep,
+                        target_idx=idx,
+                        target_pos=target_pos,
+                        target_radius=target_radius,
+                        bridge=anygrasp_bridge,
+                        selected_grasp=selected_grasp,
+                        pregrasp_pos=pregrasp_pos,
+                        grasp_pos=grasp_pos,
+                        grasp_quat=grasp_quat,
+                        approach_axis=approach_axis,
+                    )
+                    _append_jsonl(args.anygrasp_debug_log, rec)
                 if bool(args.debug_anygrasp_frame):
                     print(f"[mujoco_play] AnyGrasp debug only; log={Path(args.anygrasp_debug_log).expanduser().resolve()}")
                     if viewer is not None:
@@ -3092,6 +3121,17 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--target-body", type=str, default="target_object", help="实体目标 body 名")
     p.add_argument("--target-geom", type=str, default="target_object_geom", help="实体目标 geom 名")
     p.add_argument("--target-radius", type=float, default=0.018, help="目标半径 fallback (m)，主要用于候选中心距离阈值")
+    p.add_argument(
+        "--grasp-source",
+        type=str,
+        default="anygrasp",
+        choices=("anygrasp", "external"),
+        help="抓取位姿来源：anygrasp=play.py 内部计算；external=使用外部传入 pre/final/quaternion",
+    )
+    p.add_argument("--external-pregrasp-pos", type=str, default="", help="external grasp pregrasp 世界坐标 x,y,z")
+    p.add_argument("--external-grasp-pos", type=str, default="", help="external grasp final 世界坐标 x,y,z")
+    p.add_argument("--external-grasp-quat", type=str, default="1,0,0,0", help="external grasp TCP 目标姿态 w,x,y,z")
+    p.add_argument("--external-gripper-width", type=float, default=0.0, help="external grasp 候选夹爪宽度，仅用于日志 (m)")
     p.add_argument("--pregrasp-distance", type=float, default=0.040, help="tar&ori 风格 pregrasp：从 final grasp 沿 approach 后退的距离 (m)")
     p.add_argument("--pregrasp-success-dist", type=float, default=0.035, help="pregrasp 到达阈值 (m)")
     p.add_argument("--pregrasp-approach-success-deg", type=float, default=60.0, help="pregrasp 进入 final 前允许的进刀轴角度误差 (deg)")

@@ -87,10 +87,12 @@ rosidl_generator_rs/soarm100_interfaces/rust/src/lib.rs: /opt/ros/humble/share/r
 rosidl_generator_rs/soarm100_interfaces/rust/src/lib.rs: /opt/ros/humble/share/rosidl_generator_rs/resource/templates/srv_idiomatic.rs.em
 rosidl_generator_rs/soarm100_interfaces/rust/src/lib.rs: /opt/ros/humble/share/rosidl_generator_rs/resource/templates/srv_rmw.rs.em
 rosidl_generator_rs/soarm100_interfaces/rust/src/lib.rs: rosidl_adapter/soarm100_interfaces/action/ExecuteGrasp.idl
+rosidl_generator_rs/soarm100_interfaces/rust/src/lib.rs: rosidl_adapter/soarm100_interfaces/action/ExecutePlannedGrasp.idl
 rosidl_generator_rs/soarm100_interfaces/rust/src/lib.rs: rosidl_adapter/soarm100_interfaces/action/PlanGrasp.idl
 rosidl_generator_rs/soarm100_interfaces/rust/src/lib.rs: rosidl_adapter/soarm100_interfaces/srv/SegmentTarget.idl
 rosidl_generator_rs/soarm100_interfaces/rust/src/lib.rs: rosidl_adapter/soarm100_interfaces/srv/SetAvoidance.idl
 rosidl_generator_rs/soarm100_interfaces/rust/src/lib.rs: rosidl_adapter/soarm100_interfaces/action/ExecuteGrasp.idl
+rosidl_generator_rs/soarm100_interfaces/rust/src/lib.rs: rosidl_adapter/soarm100_interfaces/action/ExecutePlannedGrasp.idl
 rosidl_generator_rs/soarm100_interfaces/rust/src/lib.rs: rosidl_adapter/soarm100_interfaces/action/PlanGrasp.idl
 rosidl_generator_rs/soarm100_interfaces/rust/src/lib.rs: rosidl_adapter/soarm100_interfaces/srv/SegmentTarget.idl
 rosidl_generator_rs/soarm100_interfaces/rust/src/lib.rs: rosidl_adapter/soarm100_interfaces/srv/SetAvoidance.idl

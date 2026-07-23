@@ -1,0 +1,1 @@
+[INFO] [1784720182.160135267] [soarm100_mujoco_camera_publisher]: MuJoCo camera publisher ready: mjcf=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/SO-ARM100/Simulation/SO100/mujoco/scene_plus_norod.xml scene=scene_depth wrist=wrist_rgb target=target_object pos=0.42,0.08,0.022

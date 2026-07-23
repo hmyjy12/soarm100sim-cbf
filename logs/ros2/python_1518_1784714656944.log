@@ -1,0 +1,31 @@
+[INFO] [1784714656.990836170] [soarm100_send_execute_grasp]: execute grasp goal accepted
+[INFO] [1784714656.991409847] [soarm100_send_execute_grasp]: feedback stage=SEGMENTING grasp=0.000 replan=False cbf=False reason=attempt=1
+[INFO] [1784714659.295552474] [soarm100_send_execute_grasp]: feedback stage=SEGMENTING grasp=0.000 replan=False cbf=False reason=attempt=1
+[INFO] [1784714659.296049732] [soarm100_send_execute_grasp]: feedback stage=PLANNING_GRASP grasp=0.000 replan=False cbf=False reason=attempt=1 cloud_points=576
+[INFO] [1784714662.979700316] [soarm100_send_execute_grasp]: feedback stage=PLANNING_FAILED grasp=0.000 replan=False cbf=False reason=plan_failed:plan_failed:worker_failed:1: message=Attempting to deserialize object on a CUDA device but torch.cuda.is_available() is False. If you are running on a CPU-only machine, please use torch.load with map_location=torch.device('cpu') to map your storages to the CPU. traceback=RuntimeError: Attempting to deserialize object on a CUDA device but torch.cuda.is_available() is False. If you are running on a CPU-only machine, please use torch.load with map_location=torch.device('cpu') to map your storages to the CPU.
+ stdout=checking license on /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/anygrasp_sdk/grasp_detection/gsnet.so
+License passed: True, state: PASSED
+ stderr=/home/sophie/miniconda3/envs/graspnet_gpu/lib/python3.10/site-packages/MinkowskiEngine/__init__.py:36: UserWarning: The environment variable `OMP_NUM_THREADS` not set. MinkowskiEngine will automatically set `OMP_NUM_THREADS=16`. If you want to set `OMP_NUM_THREADS` manually, please export it on the command line before running a python script. e.g. `export OMP_NUM_THREADS=12; python your_program.py`. It is recommended to set it below 24.
+  warnings.warn(
+WARNING:root:Failed to import ros dependencies in rigid_transforms.py
+WARNING:root:autolab_core not installed as catkin package, RigidTransform ros methods will be unavailable
+
+[INFO] [1784714662.980179536] [soarm100_send_execute_grasp]: feedback stage=SEGMENTING grasp=0.000 replan=True cbf=False reason=attempt=2
+[INFO] [1784714663.149940884] [soarm100_send_execute_grasp]: feedback stage=SEGMENTING grasp=0.000 replan=True cbf=False reason=attempt=2
+[INFO] [1784714663.150381064] [soarm100_send_execute_grasp]: feedback stage=PLANNING_GRASP grasp=0.000 replan=True cbf=False reason=attempt=2 cloud_points=576
+[INFO] [1784714666.243661937] [soarm100_send_execute_grasp]: feedback stage=PLANNING_FAILED grasp=0.000 replan=True cbf=False reason=plan_failed:plan_failed:worker_failed:1: message=Attempting to deserialize object on a CUDA device but torch.cuda.is_available() is False. If you are running on a CPU-only machine, please use torch.load with map_location=torch.device('cpu') to map your storages to the CPU. traceback=RuntimeError: Attempting to deserialize object on a CUDA device but torch.cuda.is_available() is False. If you are running on a CPU-only machine, please use torch.load with map_location=torch.device('cpu') to map your storages to the CPU.
+ stdout=checking license on /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/anygrasp_sdk/grasp_detection/gsnet.so
+License passed: True, state: PASSED
+ stderr=/home/sophie/miniconda3/envs/graspnet_gpu/lib/python3.10/site-packages/MinkowskiEngine/__init__.py:36: UserWarning: The environment variable `OMP_NUM_THREADS` not set. MinkowskiEngine will automatically set `OMP_NUM_THREADS=16`. If you want to set `OMP_NUM_THREADS` manually, please export it on the command line before running a python script. e.g. `export OMP_NUM_THREADS=12; python your_program.py`. It is recommended to set it below 24.
+  warnings.warn(
+WARNING:root:Failed to import ros dependencies in rigid_transforms.py
+WARNING:root:autolab_core not installed as catkin package, RigidTransform ros methods will be unavailable
+
+[INFO] [1784714666.244243424] [soarm100_send_execute_grasp]: result success=False attempts=2 lift=0.0000 reason=plan_failed:plan_failed:worker_failed:1: message=Attempting to deserialize object on a CUDA device but torch.cuda.is_available() is False. If you are running on a CPU-only machine, please use torch.load with map_location=torch.device('cpu') to map your storages to the CPU. traceback=RuntimeError: Attempting to deserialize object on a CUDA device but torch.cuda.is_available() is False. If you are running on a CPU-only machine, please use torch.load with map_location=torch.device('cpu') to map your storages to the CPU.
+ stdout=checking license on /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/anygrasp_sdk/grasp_detection/gsnet.so
+License passed: True, state: PASSED
+ stderr=/home/sophie/miniconda3/envs/graspnet_gpu/lib/python3.10/site-packages/MinkowskiEngine/__init__.py:36: UserWarning: The environment variable `OMP_NUM_THREADS` not set. MinkowskiEngine will automatically set `OMP_NUM_THREADS=16`. If you want to set `OMP_NUM_THREADS` manually, please export it on the command line before running a python script. e.g. `export OMP_NUM_THREADS=12; python your_program.py`. It is recommended to set it below 24.
+  warnings.warn(
+WARNING:root:Failed to import ros dependencies in rigid_transforms.py
+WARNING:root:autolab_core not installed as catkin package, RigidTransform ros methods will be unavailable
+ final=(+0.420,+0.080,+0.022) quat=(+1.000,+0.000,+0.000,+0.000)

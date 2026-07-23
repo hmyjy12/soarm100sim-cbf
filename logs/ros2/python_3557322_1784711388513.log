@@ -1,0 +1,21 @@
+[INFO] [1784711388.578103637] [soarm100_send_planned_grasp]: planned grasp goal accepted
+[INFO] [1784711388.580106298] [soarm100_send_planned_grasp]: feedback stage=STARTING_MUJOCO_INPROCESS lift=0.0000 reason=using GraspStateMachine + MuJoCo runner in current process
+[INFO] [1784711390.034996432] [soarm100_send_planned_grasp]: feedback stage=MOVE_TO_PREGRASP lift=0.0000 reason=reset
+[INFO] [1784711390.102304750] [soarm100_send_planned_grasp]: feedback stage=MOVE_TO_PREGRASP lift=0.1551 reason=reset
+[INFO] [1784711390.148058757] [soarm100_send_planned_grasp]: feedback stage=MOVE_TO_PREGRASP lift=0.1761 reason=reset
+[INFO] [1784711390.189794278] [soarm100_send_planned_grasp]: feedback stage=FINAL_APPROACH lift=0.1761 reason=pregrasp_reached
+[INFO] [1784711390.217431671] [soarm100_send_planned_grasp]: feedback stage=CLOSE lift=0.1761 reason=final_timeout
+[INFO] [1784711390.253367898] [soarm100_send_planned_grasp]: feedback stage=LIFT lift=0.1761 reason=close_complete
+[INFO] [1784711390.294902371] [soarm100_send_planned_grasp]: feedback stage=LIFT lift=0.1761 reason=close_complete
+[INFO] [1784711390.362889026] [soarm100_send_planned_grasp]: feedback stage=REPLAN_GRASP lift=0.1761 reason=replan_wait
+[INFO] [1784711390.408007299] [soarm100_send_planned_grasp]: feedback stage=REPLAN_GRASP lift=0.1761 reason=replan_wait
+[INFO] [1784711390.451241394] [soarm100_send_planned_grasp]: feedback stage=REPLAN_GRASP lift=0.1761 reason=replan_wait
+[INFO] [1784711390.501290956] [soarm100_send_planned_grasp]: feedback stage=REPLAN_GRASP lift=0.1761 reason=replan_wait
+[INFO] [1784711390.576065650] [soarm100_send_planned_grasp]: feedback stage=REPLAN_GRASP lift=0.1761 reason=replan_wait
+[INFO] [1784711390.624541350] [soarm100_send_planned_grasp]: feedback stage=REPLAN_GRASP lift=0.1761 reason=replan_wait
+[INFO] [1784711390.671701691] [soarm100_send_planned_grasp]: feedback stage=REPLAN_GRASP lift=0.1761 reason=replan_wait
+[INFO] [1784711390.714338817] [soarm100_send_planned_grasp]: feedback stage=REPLAN_GRASP lift=0.1761 reason=replan_wait
+[INFO] [1784711390.759584168] [soarm100_send_planned_grasp]: feedback stage=REPLAN_GRASP lift=0.1761 reason=replan_wait
+[INFO] [1784711390.801565142] [soarm100_send_planned_grasp]: feedback stage=REPLAN_GRASP lift=0.1761 reason=replan_wait
+[INFO] [1784711390.843285896] [soarm100_send_planned_grasp]: feedback stage=REPLAN_GRASP lift=0.1761 reason=replan_wait
+[INFO] [1784711390.889243934] [soarm100_send_planned_grasp]: result success=False return_code=1 lift=0.1761 reason=timeout:replan_wait

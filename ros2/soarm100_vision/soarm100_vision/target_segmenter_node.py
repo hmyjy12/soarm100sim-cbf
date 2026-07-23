@@ -13,6 +13,7 @@ from std_msgs.msg import String
 from soarm100_interfaces.srv import SegmentTarget
 from soarm100_vision.vision_utils import (
     dump_json,
+    expand_mask_bbox,
     image_to_numpy,
     masked_depth_to_points,
     numpy_to_mask_msg,
@@ -35,14 +36,18 @@ class TargetSegmenterNode(Node):
         self.declare_parameter("depth_topic", "/camera/depth/image_rect_raw")
         self.declare_parameter("camera_info_topic", "/camera/color/camera_info")
         self.declare_parameter("mask_topic", "/target/mask")
+        self.declare_parameter("expanded_mask_topic", "/target/mask_expanded")
         self.declare_parameter("target_cloud_topic", "/target/cloud")
+        self.declare_parameter("target_roi_cloud_topic", "/target/cloud_roi")
         self.declare_parameter("target_center_topic", "/target/center")
         self.declare_parameter("status_topic", "/target/segmentation_status")
         self.declare_parameter("yolo_model", "models/vision/yolov8s-world.pt")
         self.declare_parameter("sam_model", "models/vision/mobile_sam.pt")
         self.declare_parameter("debug_dir", "logs/ros2_vision")
         self.declare_parameter("min_points", 30)
-        self.declare_parameter("bbox_expand_ratio", 0.10)
+        self.declare_parameter("mask_expand_ratio", 0.05)
+        self.declare_parameter("use_expanded_mask_for_target_cloud", False)
+        self.declare_parameter("fallback_red_mask", True)
 
         self._rgb: Image | None = None
         self._depth: Image | None = None
@@ -53,7 +58,9 @@ class TargetSegmenterNode(Node):
         self._load_models()
 
         self._mask_pub = self.create_publisher(Image, self._param("mask_topic"), 1)
+        self._expanded_mask_pub = self.create_publisher(Image, self._param("expanded_mask_topic"), 1)
         self._cloud_pub = self.create_publisher(PointCloud2, self._param("target_cloud_topic"), 1)
+        self._roi_cloud_pub = self.create_publisher(PointCloud2, self._param("target_roi_cloud_topic"), 1)
         self._center_pub = self.create_publisher(PoseStamped, self._param("target_center_topic"), 1)
         self._status_pub = self.create_publisher(String, self._param("status_topic"), 1)
         self.create_subscription(Image, self._param("rgb_topic"), self._on_rgb, 1)
@@ -103,9 +110,19 @@ class TargetSegmenterNode(Node):
         try:
             rgb = image_to_numpy(self._rgb)
             depth = image_to_numpy(self._depth)
-            bbox, score = self._detect_bbox(rgb, request.target_prompt)
-            mask = self._segment_mask(rgb, bbox)
-            points = masked_depth_to_points(depth, mask, self._info)
+            used_fallback = False
+            try:
+                bbox, score = self._detect_bbox(rgb, request.target_prompt)
+                mask = self._segment_mask(rgb, bbox)
+            except RuntimeError as exc:
+                if not bool(self._param("fallback_red_mask")) or "no_yolo_detection" not in str(exc):
+                    raise
+                mask, bbox, score = self._fallback_red_mask(rgb)
+                used_fallback = True
+            expanded_mask = expand_mask_bbox(mask, float(self._param("mask_expand_ratio")))
+            cloud_mask = expanded_mask if bool(self._param("use_expanded_mask_for_target_cloud")) else mask
+            points = masked_depth_to_points(depth, cloud_mask, self._info)
+            roi_points = masked_depth_to_points(depth, expanded_mask, self._info)
             if points.shape[0] < int(self._param("min_points")):
                 response.success = False
                 response.reason = f"target_points_too_few:{points.shape[0]}"
@@ -114,10 +131,14 @@ class TargetSegmenterNode(Node):
             stamp = self._rgb.header.stamp
             frame_id = self._rgb.header.frame_id
             mask_msg = numpy_to_mask_msg(mask, stamp=stamp, frame_id=frame_id)
+            expanded_mask_msg = numpy_to_mask_msg(expanded_mask, stamp=stamp, frame_id=frame_id)
             cloud_msg = pointcloud2_xyz(points, stamp=stamp, frame_id=frame_id)
+            roi_cloud_msg = pointcloud2_xyz(roi_points, stamp=stamp, frame_id=frame_id)
             center_msg = pose_from_xyz(center, stamp=stamp, frame_id=frame_id)
             self._mask_pub.publish(mask_msg)
+            self._expanded_mask_pub.publish(expanded_mask_msg)
             self._cloud_pub.publish(cloud_msg)
+            self._roi_cloud_pub.publish(roi_cloud_msg)
             self._center_pub.publish(center_msg)
 
             debug_path = Path(str(self._param("debug_dir"))) / "segment_target_latest.json"
@@ -128,7 +149,13 @@ class TargetSegmenterNode(Node):
                     "target_prompt": request.target_prompt,
                     "bbox_xyxy": [float(x) for x in bbox],
                     "score": float(score),
+                    "fallback_red_mask": bool(used_fallback),
+                    "mask_pixels": int(np.count_nonzero(mask)),
+                    "expanded_mask_pixels": int(np.count_nonzero(expanded_mask)),
+                    "mask_expand_ratio": float(self._param("mask_expand_ratio")),
+                    "use_expanded_mask_for_target_cloud": bool(self._param("use_expanded_mask_for_target_cloud")),
                     "n_points": int(points.shape[0]),
+                    "n_roi_points": int(roi_points.shape[0]),
                     "center_camera": [float(x) for x in center],
                     "stamp_s": float(time.time()),
                 },
@@ -140,7 +167,16 @@ class TargetSegmenterNode(Node):
             response.bbox_xyxy = [float(x) for x in bbox]
             response.mask_topic = str(self._param("mask_topic"))
             response.debug_json = debug_json
-            self._status_pub.publish(String(data=f"ok prompt={request.target_prompt} points={points.shape[0]} score={score:.3f}"))
+            self._status_pub.publish(
+                String(
+                    data=(
+                        f"ok prompt={request.target_prompt} points={points.shape[0]} "
+                        f"roi_points={roi_points.shape[0]} mask_px={int(np.count_nonzero(mask))} "
+                        f"expanded_px={int(np.count_nonzero(expanded_mask))} score={score:.3f} "
+                        f"fallback_red={used_fallback}"
+                    )
+                )
+            )
         except Exception as exc:
             response.success = False
             response.reason = f"segment_failed:{exc}"
@@ -165,6 +201,24 @@ class TargetSegmenterNode(Node):
             raise RuntimeError("no_sam_mask")
         mask = masks.data[0].detach().cpu().numpy() > 0.5
         return np.asarray(mask, dtype=bool)
+
+    def _fallback_red_mask(self, rgb: np.ndarray) -> tuple[np.ndarray, np.ndarray, float]:
+        arr = np.asarray(rgb, dtype=np.uint8)
+        r = arr[..., 0].astype(np.int16)
+        g = arr[..., 1].astype(np.int16)
+        b = arr[..., 2].astype(np.int16)
+        mask = (r > 120) & (r > g + 45) & (r > b + 45)
+        ys, xs = np.nonzero(mask)
+        if xs.size == 0:
+            raise RuntimeError("no_yolo_detection_and_no_red_mask")
+        x0 = int(xs.min())
+        x1 = int(xs.max())
+        y0 = int(ys.min())
+        y1 = int(ys.max())
+        if (x1 - x0 + 1) * (y1 - y0 + 1) < int(self._param("min_points")):
+            raise RuntimeError(f"red_mask_too_small:{xs.size}")
+        bbox = np.array([x0, y0, x1, y1], dtype=np.float32)
+        return np.asarray(mask, dtype=bool), bbox, 0.50
 
 
 def main() -> None:

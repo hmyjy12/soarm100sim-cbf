@@ -2,6 +2,7 @@
   "package_name": "soarm100_interfaces",
   "non_idl_tuples": [
     "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/soarm100_interfaces:action/ExecuteGrasp.action",
+    "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/soarm100_interfaces:action/ExecutePlannedGrasp.action",
     "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/soarm100_interfaces:action/PlanGrasp.action",
     "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/soarm100_interfaces:srv/SegmentTarget.srv",
     "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/soarm100_interfaces:srv/SetAvoidance.srv"

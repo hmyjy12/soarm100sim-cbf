@@ -1,0 +1,6 @@
+1784691850.4798002 [INFO] [launch]: All log files can be found below /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/logs/ros2/2026-07-22-11-44-10-479164-sophie-Legion-Y7000P-IRX10-1127
+1784691850.4798899 [INFO] [launch]: Default logging verbosity is set to INFO
+1784691850.5174098 [INFO] [target_segmenter_node-1]: process started with pid [1128]
+1784691850.5175130 [INFO] [obstacle_cloud_node-2]: process started with pid [1130]
+1784691850.5175657 [INFO] [wrist_tracker_node-3]: process started with pid [1132]
+1784691850.5176072 [INFO] [grasp_orchestrator_node-4]: process started with pid [1134]

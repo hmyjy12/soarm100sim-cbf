@@ -84,9 +84,9 @@ WRIST_RGB_CAM = "wrist_rgb"
 SCENE_CAM_LOOKAT_BODY = "scene_cam_lookat"
 SCENE_DEPTH_CAM_MOUNT_POS_M = (0.05, -0.15, 0.50)
 SCENE_CAM_LOOKAT_POS_M = (0.20, 0.05, 0.18)
-# 腕部 RGB：与定爪指尖 wrist_roll 局部对齐（= TCP_FIXED_FINGER_TIP + z 外壳抬高）
+# 腕部 RGB：相对原安装位沿 wrist_roll 局部 y=0 镜像到 +y 侧，z 外壳抬高
 WRIST_RGB_CAM_PARENT = "wrist_roll"
-WRIST_RGB_CAM_POS_LOCAL_WRIST_ROLL = (0.0, -0.031, 0.036)
+WRIST_RGB_CAM_POS_LOCAL_WRIST_ROLL = (0.0, 0.031, 0.036)
 WRIST_RGB_CAM_QUAT_LOCAL_WRIST_ROLL = (0.0, 0.0, 0.9809, 0.1946)
 # home 位 gripper 局部近似（定爪指尖同高）：(-0.0204, 0.0052, -0.0322)
 WRIST_RGB_CAM_POS_GRIPPER_HINT = (-0.0204, 0.0052, -0.0322)

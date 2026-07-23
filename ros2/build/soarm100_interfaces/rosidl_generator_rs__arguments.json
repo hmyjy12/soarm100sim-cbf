@@ -4,12 +4,14 @@
   "template_dir": "/opt/ros/humble/share/rosidl_generator_rs/cmake/../resource",
   "idl_tuples": [
     "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_adapter/soarm100_interfaces:action/ExecuteGrasp.idl",
+    "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_adapter/soarm100_interfaces:action/ExecutePlannedGrasp.idl",
     "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_adapter/soarm100_interfaces:action/PlanGrasp.idl",
     "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_adapter/soarm100_interfaces:srv/SegmentTarget.idl",
     "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_adapter/soarm100_interfaces:srv/SetAvoidance.idl"
   ],
   "ros_interface_files": [
     "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_adapter/soarm100_interfaces/action/ExecuteGrasp.idl",
+    "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_adapter/soarm100_interfaces/action/ExecutePlannedGrasp.idl",
     "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_adapter/soarm100_interfaces/action/PlanGrasp.idl",
     "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_adapter/soarm100_interfaces/srv/SegmentTarget.idl",
     "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_adapter/soarm100_interfaces/srv/SetAvoidance.idl"
@@ -127,10 +129,12 @@
     "/opt/ros/humble/share/rosidl_generator_rs/cmake/../resource/templates/srv_idiomatic.rs.em",
     "/opt/ros/humble/share/rosidl_generator_rs/cmake/../resource/templates/srv_rmw.rs.em",
     "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_adapter/soarm100_interfaces/action/ExecuteGrasp.idl",
+    "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_adapter/soarm100_interfaces/action/ExecutePlannedGrasp.idl",
     "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_adapter/soarm100_interfaces/action/PlanGrasp.idl",
     "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_adapter/soarm100_interfaces/srv/SegmentTarget.idl",
     "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_adapter/soarm100_interfaces/srv/SetAvoidance.idl",
     "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_adapter/soarm100_interfaces/action/ExecuteGrasp.idl",
+    "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_adapter/soarm100_interfaces/action/ExecutePlannedGrasp.idl",
     "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_adapter/soarm100_interfaces/action/PlanGrasp.idl",
     "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_adapter/soarm100_interfaces/srv/SegmentTarget.idl",
     "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_adapter/soarm100_interfaces/srv/SetAvoidance.idl",

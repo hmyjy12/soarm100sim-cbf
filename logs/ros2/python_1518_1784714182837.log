@@ -1,0 +1,10 @@
+[INFO] [1784714183.550690435] [soarm100_send_execute_grasp]: execute grasp goal accepted
+[INFO] [1784714183.551504597] [soarm100_send_execute_grasp]: feedback stage=SEGMENTING grasp=0.000 replan=False cbf=False reason=attempt=1
+[INFO] [1784714185.861670377] [soarm100_send_execute_grasp]: feedback stage=SEGMENTING grasp=0.000 replan=False cbf=False reason=attempt=1
+[INFO] [1784714185.862096352] [soarm100_send_execute_grasp]: feedback stage=PLANNING_GRASP grasp=0.000 replan=False cbf=False reason=attempt=1 cloud_points=576
+[INFO] [1784714185.864089561] [soarm100_send_execute_grasp]: feedback stage=PLANNING_FAILED grasp=0.000 replan=False cbf=False reason=plan_failed:plan_failed:AnyGrasp worker not found: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/anygrasp_sdk/grasp_detection/predict_npz.py
+[INFO] [1784714185.864459251] [soarm100_send_execute_grasp]: feedback stage=SEGMENTING grasp=0.000 replan=True cbf=False reason=attempt=2
+[INFO] [1784714186.046655175] [soarm100_send_execute_grasp]: feedback stage=SEGMENTING grasp=0.000 replan=True cbf=False reason=attempt=2
+[INFO] [1784714186.047116768] [soarm100_send_execute_grasp]: feedback stage=PLANNING_GRASP grasp=0.000 replan=True cbf=False reason=attempt=2 cloud_points=576
+[INFO] [1784714186.048893366] [soarm100_send_execute_grasp]: feedback stage=PLANNING_FAILED grasp=0.000 replan=True cbf=False reason=plan_failed:plan_failed:AnyGrasp worker not found: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/anygrasp_sdk/grasp_detection/predict_npz.py
+[INFO] [1784714186.049455796] [soarm100_send_execute_grasp]: result success=False attempts=2 lift=0.0000 reason=plan_failed:plan_failed:AnyGrasp worker not found: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/anygrasp_sdk/grasp_detection/predict_npz.py final=(+0.420,+0.080,+0.022) quat=(+1.000,+0.000,+0.000,+0.000)

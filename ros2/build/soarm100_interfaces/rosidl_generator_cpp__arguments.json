@@ -4,6 +4,7 @@
   "template_dir": "/opt/ros/humble/share/rosidl_generator_cpp/cmake/../resource",
   "idl_tuples": [
     "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_adapter/soarm100_interfaces:action/ExecuteGrasp.idl",
+    "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_adapter/soarm100_interfaces:action/ExecutePlannedGrasp.idl",
     "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_adapter/soarm100_interfaces:action/PlanGrasp.idl",
     "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_adapter/soarm100_interfaces:srv/SegmentTarget.idl",
     "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_adapter/soarm100_interfaces:srv/SetAvoidance.idl"
@@ -124,6 +125,7 @@
     "/opt/ros/humble/share/rosidl_generator_cpp/cmake/../resource/srv__struct.hpp.em",
     "/opt/ros/humble/share/rosidl_generator_cpp/cmake/../resource/srv__traits.hpp.em",
     "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_adapter/soarm100_interfaces/action/ExecuteGrasp.idl",
+    "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_adapter/soarm100_interfaces/action/ExecutePlannedGrasp.idl",
     "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_adapter/soarm100_interfaces/action/PlanGrasp.idl",
     "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_adapter/soarm100_interfaces/srv/SegmentTarget.idl",
     "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_adapter/soarm100_interfaces/srv/SetAvoidance.idl",

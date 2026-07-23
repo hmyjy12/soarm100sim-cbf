@@ -316,6 +316,286 @@ impl rosidl_runtime_rs::Message for ExecuteGrasp_FeedbackMessage {
 }
 
 
+// Corresponds to soarm100_interfaces__action__ExecutePlannedGrasp_Goal
+
+// This struct is not documented.
+#[allow(missing_docs)]
+
+#[allow(non_camel_case_types)]
+#[cfg_attr(feature = "serde", derive(Deserialize, Serialize))]
+#[derive(Clone, Debug, PartialEq, PartialOrd)]
+pub struct ExecutePlannedGrasp_Goal {
+
+    // This member is not documented.
+    #[allow(missing_docs)]
+    pub pregrasp_pose: geometry_msgs::msg::PoseStamped,
+
+
+    // This member is not documented.
+    #[allow(missing_docs)]
+    pub grasp_pose: geometry_msgs::msg::PoseStamped,
+
+
+    // This member is not documented.
+    #[allow(missing_docs)]
+    pub gripper_width: f32,
+
+
+    // This member is not documented.
+    #[allow(missing_docs)]
+    pub enable_avoidance: bool,
+
+
+    // This member is not documented.
+    #[allow(missing_docs)]
+    pub target_object: std::string::String,
+
+
+    // This member is not documented.
+    #[allow(missing_docs)]
+    pub target_pos: std::string::String,
+
+
+    // This member is not documented.
+    #[allow(missing_docs)]
+    pub traj_log: std::string::String,
+
+}
+
+
+
+impl Default for ExecutePlannedGrasp_Goal {
+  fn default() -> Self {
+    <Self as rosidl_runtime_rs::Message>::from_rmw_message(super::action::rmw::ExecutePlannedGrasp_Goal::default())
+  }
+}
+
+impl rosidl_runtime_rs::Message for ExecutePlannedGrasp_Goal {
+  type RmwMsg = super::action::rmw::ExecutePlannedGrasp_Goal;
+
+  fn into_rmw_message(msg_cow: std::borrow::Cow<'_, Self>) -> std::borrow::Cow<'_, Self::RmwMsg> {
+    match msg_cow {
+      std::borrow::Cow::Owned(msg) => std::borrow::Cow::Owned(Self::RmwMsg {
+        pregrasp_pose: geometry_msgs::msg::PoseStamped::into_rmw_message(std::borrow::Cow::Owned(msg.pregrasp_pose)).into_owned(),
+        grasp_pose: geometry_msgs::msg::PoseStamped::into_rmw_message(std::borrow::Cow::Owned(msg.grasp_pose)).into_owned(),
+        gripper_width: msg.gripper_width,
+        enable_avoidance: msg.enable_avoidance,
+        target_object: msg.target_object.as_str().into(),
+        target_pos: msg.target_pos.as_str().into(),
+        traj_log: msg.traj_log.as_str().into(),
+      }),
+      std::borrow::Cow::Borrowed(msg) => std::borrow::Cow::Owned(Self::RmwMsg {
+        pregrasp_pose: geometry_msgs::msg::PoseStamped::into_rmw_message(std::borrow::Cow::Borrowed(&msg.pregrasp_pose)).into_owned(),
+        grasp_pose: geometry_msgs::msg::PoseStamped::into_rmw_message(std::borrow::Cow::Borrowed(&msg.grasp_pose)).into_owned(),
+      gripper_width: msg.gripper_width,
+      enable_avoidance: msg.enable_avoidance,
+        target_object: msg.target_object.as_str().into(),
+        target_pos: msg.target_pos.as_str().into(),
+        traj_log: msg.traj_log.as_str().into(),
+      })
+    }
+  }
+
+  fn from_rmw_message(msg: Self::RmwMsg) -> Self {
+    Self {
+      pregrasp_pose: geometry_msgs::msg::PoseStamped::from_rmw_message(msg.pregrasp_pose),
+      grasp_pose: geometry_msgs::msg::PoseStamped::from_rmw_message(msg.grasp_pose),
+      gripper_width: msg.gripper_width,
+      enable_avoidance: msg.enable_avoidance,
+      target_object: msg.target_object.to_string(),
+      target_pos: msg.target_pos.to_string(),
+      traj_log: msg.traj_log.to_string(),
+    }
+  }
+}
+
+
+// Corresponds to soarm100_interfaces__action__ExecutePlannedGrasp_Result
+
+// This struct is not documented.
+#[allow(missing_docs)]
+
+#[allow(non_camel_case_types)]
+#[cfg_attr(feature = "serde", derive(Deserialize, Serialize))]
+#[derive(Clone, Debug, PartialEq, PartialOrd)]
+pub struct ExecutePlannedGrasp_Result {
+
+    // This member is not documented.
+    #[allow(missing_docs)]
+    pub success: bool,
+
+
+    // This member is not documented.
+    #[allow(missing_docs)]
+    pub reason: std::string::String,
+
+
+    // This member is not documented.
+    #[allow(missing_docs)]
+    pub lift_height: f32,
+
+
+    // This member is not documented.
+    #[allow(missing_docs)]
+    pub return_code: u8,
+
+}
+
+
+
+impl Default for ExecutePlannedGrasp_Result {
+  fn default() -> Self {
+    <Self as rosidl_runtime_rs::Message>::from_rmw_message(super::action::rmw::ExecutePlannedGrasp_Result::default())
+  }
+}
+
+impl rosidl_runtime_rs::Message for ExecutePlannedGrasp_Result {
+  type RmwMsg = super::action::rmw::ExecutePlannedGrasp_Result;
+
+  fn into_rmw_message(msg_cow: std::borrow::Cow<'_, Self>) -> std::borrow::Cow<'_, Self::RmwMsg> {
+    match msg_cow {
+      std::borrow::Cow::Owned(msg) => std::borrow::Cow::Owned(Self::RmwMsg {
+        success: msg.success,
+        reason: msg.reason.as_str().into(),
+        lift_height: msg.lift_height,
+        return_code: msg.return_code,
+      }),
+      std::borrow::Cow::Borrowed(msg) => std::borrow::Cow::Owned(Self::RmwMsg {
+      success: msg.success,
+        reason: msg.reason.as_str().into(),
+      lift_height: msg.lift_height,
+      return_code: msg.return_code,
+      })
+    }
+  }
+
+  fn from_rmw_message(msg: Self::RmwMsg) -> Self {
+    Self {
+      success: msg.success,
+      reason: msg.reason.to_string(),
+      lift_height: msg.lift_height,
+      return_code: msg.return_code,
+    }
+  }
+}
+
+
+// Corresponds to soarm100_interfaces__action__ExecutePlannedGrasp_Feedback
+
+// This struct is not documented.
+#[allow(missing_docs)]
+
+#[allow(non_camel_case_types)]
+#[cfg_attr(feature = "serde", derive(Deserialize, Serialize))]
+#[derive(Clone, Debug, PartialEq, PartialOrd)]
+pub struct ExecutePlannedGrasp_Feedback {
+
+    // This member is not documented.
+    #[allow(missing_docs)]
+    pub stage: std::string::String,
+
+
+    // This member is not documented.
+    #[allow(missing_docs)]
+    pub reason: std::string::String,
+
+
+    // This member is not documented.
+    #[allow(missing_docs)]
+    pub lift_height: f32,
+
+}
+
+
+
+impl Default for ExecutePlannedGrasp_Feedback {
+  fn default() -> Self {
+    <Self as rosidl_runtime_rs::Message>::from_rmw_message(super::action::rmw::ExecutePlannedGrasp_Feedback::default())
+  }
+}
+
+impl rosidl_runtime_rs::Message for ExecutePlannedGrasp_Feedback {
+  type RmwMsg = super::action::rmw::ExecutePlannedGrasp_Feedback;
+
+  fn into_rmw_message(msg_cow: std::borrow::Cow<'_, Self>) -> std::borrow::Cow<'_, Self::RmwMsg> {
+    match msg_cow {
+      std::borrow::Cow::Owned(msg) => std::borrow::Cow::Owned(Self::RmwMsg {
+        stage: msg.stage.as_str().into(),
+        reason: msg.reason.as_str().into(),
+        lift_height: msg.lift_height,
+      }),
+      std::borrow::Cow::Borrowed(msg) => std::borrow::Cow::Owned(Self::RmwMsg {
+        stage: msg.stage.as_str().into(),
+        reason: msg.reason.as_str().into(),
+      lift_height: msg.lift_height,
+      })
+    }
+  }
+
+  fn from_rmw_message(msg: Self::RmwMsg) -> Self {
+    Self {
+      stage: msg.stage.to_string(),
+      reason: msg.reason.to_string(),
+      lift_height: msg.lift_height,
+    }
+  }
+}
+
+
+// Corresponds to soarm100_interfaces__action__ExecutePlannedGrasp_FeedbackMessage
+
+// This struct is not documented.
+#[allow(missing_docs)]
+
+#[allow(non_camel_case_types)]
+#[cfg_attr(feature = "serde", derive(Deserialize, Serialize))]
+#[derive(Clone, Debug, PartialEq, PartialOrd)]
+pub struct ExecutePlannedGrasp_FeedbackMessage {
+
+    // This member is not documented.
+    #[allow(missing_docs)]
+    pub goal_id: unique_identifier_msgs::msg::UUID,
+
+
+    // This member is not documented.
+    #[allow(missing_docs)]
+    pub feedback: super::action::ExecutePlannedGrasp_Feedback,
+
+}
+
+
+
+impl Default for ExecutePlannedGrasp_FeedbackMessage {
+  fn default() -> Self {
+    <Self as rosidl_runtime_rs::Message>::from_rmw_message(super::action::rmw::ExecutePlannedGrasp_FeedbackMessage::default())
+  }
+}
+
+impl rosidl_runtime_rs::Message for ExecutePlannedGrasp_FeedbackMessage {
+  type RmwMsg = super::action::rmw::ExecutePlannedGrasp_FeedbackMessage;
+
+  fn into_rmw_message(msg_cow: std::borrow::Cow<'_, Self>) -> std::borrow::Cow<'_, Self::RmwMsg> {
+    match msg_cow {
+      std::borrow::Cow::Owned(msg) => std::borrow::Cow::Owned(Self::RmwMsg {
+        goal_id: unique_identifier_msgs::msg::UUID::into_rmw_message(std::borrow::Cow::Owned(msg.goal_id)).into_owned(),
+        feedback: super::action::ExecutePlannedGrasp_Feedback::into_rmw_message(std::borrow::Cow::Owned(msg.feedback)).into_owned(),
+      }),
+      std::borrow::Cow::Borrowed(msg) => std::borrow::Cow::Owned(Self::RmwMsg {
+        goal_id: unique_identifier_msgs::msg::UUID::into_rmw_message(std::borrow::Cow::Borrowed(&msg.goal_id)).into_owned(),
+        feedback: super::action::ExecutePlannedGrasp_Feedback::into_rmw_message(std::borrow::Cow::Borrowed(&msg.feedback)).into_owned(),
+      })
+    }
+  }
+
+  fn from_rmw_message(msg: Self::RmwMsg) -> Self {
+    Self {
+      goal_id: unique_identifier_msgs::msg::UUID::from_rmw_message(msg.goal_id),
+      feedback: super::action::ExecutePlannedGrasp_Feedback::from_rmw_message(msg.feedback),
+    }
+  }
+}
+
+
 // Corresponds to soarm100_interfaces__action__PlanGrasp_Goal
 
 // This struct is not documented.
@@ -816,6 +1096,214 @@ impl rosidl_runtime_rs::Message for ExecuteGrasp_GetResult_Response {
 }
 
 
+// Corresponds to soarm100_interfaces__action__ExecutePlannedGrasp_SendGoal_Request
+
+// This struct is not documented.
+#[allow(missing_docs)]
+
+#[allow(non_camel_case_types)]
+#[cfg_attr(feature = "serde", derive(Deserialize, Serialize))]
+#[derive(Clone, Debug, PartialEq, PartialOrd)]
+pub struct ExecutePlannedGrasp_SendGoal_Request {
+
+    // This member is not documented.
+    #[allow(missing_docs)]
+    pub goal_id: unique_identifier_msgs::msg::UUID,
+
+
+    // This member is not documented.
+    #[allow(missing_docs)]
+    pub goal: super::action::ExecutePlannedGrasp_Goal,
+
+}
+
+
+
+impl Default for ExecutePlannedGrasp_SendGoal_Request {
+  fn default() -> Self {
+    <Self as rosidl_runtime_rs::Message>::from_rmw_message(super::action::rmw::ExecutePlannedGrasp_SendGoal_Request::default())
+  }
+}
+
+impl rosidl_runtime_rs::Message for ExecutePlannedGrasp_SendGoal_Request {
+  type RmwMsg = super::action::rmw::ExecutePlannedGrasp_SendGoal_Request;
+
+  fn into_rmw_message(msg_cow: std::borrow::Cow<'_, Self>) -> std::borrow::Cow<'_, Self::RmwMsg> {
+    match msg_cow {
+      std::borrow::Cow::Owned(msg) => std::borrow::Cow::Owned(Self::RmwMsg {
+        goal_id: unique_identifier_msgs::msg::UUID::into_rmw_message(std::borrow::Cow::Owned(msg.goal_id)).into_owned(),
+        goal: super::action::ExecutePlannedGrasp_Goal::into_rmw_message(std::borrow::Cow::Owned(msg.goal)).into_owned(),
+      }),
+      std::borrow::Cow::Borrowed(msg) => std::borrow::Cow::Owned(Self::RmwMsg {
+        goal_id: unique_identifier_msgs::msg::UUID::into_rmw_message(std::borrow::Cow::Borrowed(&msg.goal_id)).into_owned(),
+        goal: super::action::ExecutePlannedGrasp_Goal::into_rmw_message(std::borrow::Cow::Borrowed(&msg.goal)).into_owned(),
+      })
+    }
+  }
+
+  fn from_rmw_message(msg: Self::RmwMsg) -> Self {
+    Self {
+      goal_id: unique_identifier_msgs::msg::UUID::from_rmw_message(msg.goal_id),
+      goal: super::action::ExecutePlannedGrasp_Goal::from_rmw_message(msg.goal),
+    }
+  }
+}
+
+
+// Corresponds to soarm100_interfaces__action__ExecutePlannedGrasp_SendGoal_Response
+
+// This struct is not documented.
+#[allow(missing_docs)]
+
+#[allow(non_camel_case_types)]
+#[cfg_attr(feature = "serde", derive(Deserialize, Serialize))]
+#[derive(Clone, Debug, PartialEq, PartialOrd)]
+pub struct ExecutePlannedGrasp_SendGoal_Response {
+
+    // This member is not documented.
+    #[allow(missing_docs)]
+    pub accepted: bool,
+
+
+    // This member is not documented.
+    #[allow(missing_docs)]
+    pub stamp: builtin_interfaces::msg::Time,
+
+}
+
+
+
+impl Default for ExecutePlannedGrasp_SendGoal_Response {
+  fn default() -> Self {
+    <Self as rosidl_runtime_rs::Message>::from_rmw_message(super::action::rmw::ExecutePlannedGrasp_SendGoal_Response::default())
+  }
+}
+
+impl rosidl_runtime_rs::Message for ExecutePlannedGrasp_SendGoal_Response {
+  type RmwMsg = super::action::rmw::ExecutePlannedGrasp_SendGoal_Response;
+
+  fn into_rmw_message(msg_cow: std::borrow::Cow<'_, Self>) -> std::borrow::Cow<'_, Self::RmwMsg> {
+    match msg_cow {
+      std::borrow::Cow::Owned(msg) => std::borrow::Cow::Owned(Self::RmwMsg {
+        accepted: msg.accepted,
+        stamp: builtin_interfaces::msg::Time::into_rmw_message(std::borrow::Cow::Owned(msg.stamp)).into_owned(),
+      }),
+      std::borrow::Cow::Borrowed(msg) => std::borrow::Cow::Owned(Self::RmwMsg {
+      accepted: msg.accepted,
+        stamp: builtin_interfaces::msg::Time::into_rmw_message(std::borrow::Cow::Borrowed(&msg.stamp)).into_owned(),
+      })
+    }
+  }
+
+  fn from_rmw_message(msg: Self::RmwMsg) -> Self {
+    Self {
+      accepted: msg.accepted,
+      stamp: builtin_interfaces::msg::Time::from_rmw_message(msg.stamp),
+    }
+  }
+}
+
+
+// Corresponds to soarm100_interfaces__action__ExecutePlannedGrasp_GetResult_Request
+
+// This struct is not documented.
+#[allow(missing_docs)]
+
+#[allow(non_camel_case_types)]
+#[cfg_attr(feature = "serde", derive(Deserialize, Serialize))]
+#[derive(Clone, Debug, PartialEq, PartialOrd)]
+pub struct ExecutePlannedGrasp_GetResult_Request {
+
+    // This member is not documented.
+    #[allow(missing_docs)]
+    pub goal_id: unique_identifier_msgs::msg::UUID,
+
+}
+
+
+
+impl Default for ExecutePlannedGrasp_GetResult_Request {
+  fn default() -> Self {
+    <Self as rosidl_runtime_rs::Message>::from_rmw_message(super::action::rmw::ExecutePlannedGrasp_GetResult_Request::default())
+  }
+}
+
+impl rosidl_runtime_rs::Message for ExecutePlannedGrasp_GetResult_Request {
+  type RmwMsg = super::action::rmw::ExecutePlannedGrasp_GetResult_Request;
+
+  fn into_rmw_message(msg_cow: std::borrow::Cow<'_, Self>) -> std::borrow::Cow<'_, Self::RmwMsg> {
+    match msg_cow {
+      std::borrow::Cow::Owned(msg) => std::borrow::Cow::Owned(Self::RmwMsg {
+        goal_id: unique_identifier_msgs::msg::UUID::into_rmw_message(std::borrow::Cow::Owned(msg.goal_id)).into_owned(),
+      }),
+      std::borrow::Cow::Borrowed(msg) => std::borrow::Cow::Owned(Self::RmwMsg {
+        goal_id: unique_identifier_msgs::msg::UUID::into_rmw_message(std::borrow::Cow::Borrowed(&msg.goal_id)).into_owned(),
+      })
+    }
+  }
+
+  fn from_rmw_message(msg: Self::RmwMsg) -> Self {
+    Self {
+      goal_id: unique_identifier_msgs::msg::UUID::from_rmw_message(msg.goal_id),
+    }
+  }
+}
+
+
+// Corresponds to soarm100_interfaces__action__ExecutePlannedGrasp_GetResult_Response
+
+// This struct is not documented.
+#[allow(missing_docs)]
+
+#[allow(non_camel_case_types)]
+#[cfg_attr(feature = "serde", derive(Deserialize, Serialize))]
+#[derive(Clone, Debug, PartialEq, PartialOrd)]
+pub struct ExecutePlannedGrasp_GetResult_Response {
+
+    // This member is not documented.
+    #[allow(missing_docs)]
+    pub status: i8,
+
+
+    // This member is not documented.
+    #[allow(missing_docs)]
+    pub result: super::action::ExecutePlannedGrasp_Result,
+
+}
+
+
+
+impl Default for ExecutePlannedGrasp_GetResult_Response {
+  fn default() -> Self {
+    <Self as rosidl_runtime_rs::Message>::from_rmw_message(super::action::rmw::ExecutePlannedGrasp_GetResult_Response::default())
+  }
+}
+
+impl rosidl_runtime_rs::Message for ExecutePlannedGrasp_GetResult_Response {
+  type RmwMsg = super::action::rmw::ExecutePlannedGrasp_GetResult_Response;
+
+  fn into_rmw_message(msg_cow: std::borrow::Cow<'_, Self>) -> std::borrow::Cow<'_, Self::RmwMsg> {
+    match msg_cow {
+      std::borrow::Cow::Owned(msg) => std::borrow::Cow::Owned(Self::RmwMsg {
+        status: msg.status,
+        result: super::action::ExecutePlannedGrasp_Result::into_rmw_message(std::borrow::Cow::Owned(msg.result)).into_owned(),
+      }),
+      std::borrow::Cow::Borrowed(msg) => std::borrow::Cow::Owned(Self::RmwMsg {
+      status: msg.status,
+        result: super::action::ExecutePlannedGrasp_Result::into_rmw_message(std::borrow::Cow::Borrowed(&msg.result)).into_owned(),
+      })
+    }
+  }
+
+  fn from_rmw_message(msg: Self::RmwMsg) -> Self {
+    Self {
+      status: msg.status,
+      result: super::action::ExecutePlannedGrasp_Result::from_rmw_message(msg.result),
+    }
+  }
+}
+
+
 // Corresponds to soarm100_interfaces__action__PlanGrasp_SendGoal_Request
 
 // This struct is not documented.
@@ -1074,6 +1562,50 @@ impl rosidl_runtime_rs::Service for ExecuteGrasp_GetResult {
 
 #[link(name = "soarm100_interfaces__rosidl_typesupport_c")]
 extern "C" {
+    fn rosidl_typesupport_c__get_service_type_support_handle__soarm100_interfaces__action__ExecutePlannedGrasp_SendGoal() -> *const std::ffi::c_void;
+}
+
+// Corresponds to soarm100_interfaces__action__ExecutePlannedGrasp_SendGoal
+#[allow(missing_docs, non_camel_case_types)]
+pub struct ExecutePlannedGrasp_SendGoal;
+
+impl rosidl_runtime_rs::Service for ExecutePlannedGrasp_SendGoal {
+    type Request = ExecutePlannedGrasp_SendGoal_Request;
+    type Response = ExecutePlannedGrasp_SendGoal_Response;
+
+    fn get_type_support() -> *const std::ffi::c_void {
+        // SAFETY: No preconditions for this function.
+        unsafe { rosidl_typesupport_c__get_service_type_support_handle__soarm100_interfaces__action__ExecutePlannedGrasp_SendGoal() }
+    }
+}
+
+
+
+
+#[link(name = "soarm100_interfaces__rosidl_typesupport_c")]
+extern "C" {
+    fn rosidl_typesupport_c__get_service_type_support_handle__soarm100_interfaces__action__ExecutePlannedGrasp_GetResult() -> *const std::ffi::c_void;
+}
+
+// Corresponds to soarm100_interfaces__action__ExecutePlannedGrasp_GetResult
+#[allow(missing_docs, non_camel_case_types)]
+pub struct ExecutePlannedGrasp_GetResult;
+
+impl rosidl_runtime_rs::Service for ExecutePlannedGrasp_GetResult {
+    type Request = ExecutePlannedGrasp_GetResult_Request;
+    type Response = ExecutePlannedGrasp_GetResult_Response;
+
+    fn get_type_support() -> *const std::ffi::c_void {
+        // SAFETY: No preconditions for this function.
+        unsafe { rosidl_typesupport_c__get_service_type_support_handle__soarm100_interfaces__action__ExecutePlannedGrasp_GetResult() }
+    }
+}
+
+
+
+
+#[link(name = "soarm100_interfaces__rosidl_typesupport_c")]
+extern "C" {
     fn rosidl_typesupport_c__get_service_type_support_handle__soarm100_interfaces__action__PlanGrasp_SendGoal() -> *const std::ffi::c_void;
 }
 
@@ -1249,6 +1781,145 @@ impl rosidl_runtime_rs::Action for ExecuteGrasp {
   ) -> (
     i8,
    super::action::rmw::ExecuteGrasp_Result,
+  ) {
+    (response.status, response.result)
+  }
+}
+
+
+
+
+#[link(name = "soarm100_interfaces__rosidl_typesupport_c")]
+extern "C" {
+    fn rosidl_typesupport_c__get_action_type_support_handle__soarm100_interfaces__action__ExecutePlannedGrasp() -> *const std::ffi::c_void;
+}
+
+// Corresponds to soarm100_interfaces__action__ExecutePlannedGrasp
+#[allow(missing_docs, non_camel_case_types)]
+pub struct ExecutePlannedGrasp;
+
+impl rosidl_runtime_rs::Action for ExecutePlannedGrasp {
+  // --- Associated types for client library users ---
+  /// The goal message defined in the action definition.
+  type Goal = ExecutePlannedGrasp_Goal;
+
+  /// The result message defined in the action definition.
+  type Result = ExecutePlannedGrasp_Result;
+
+  /// The feedback message defined in the action definition.
+  type Feedback = ExecutePlannedGrasp_Feedback;
+
+  // --- Associated types for client library implementation ---
+  /// The feedback message with generic fields which wraps the feedback message.
+  type FeedbackMessage = super::action::ExecutePlannedGrasp_FeedbackMessage;
+
+  /// The send_goal service using a wrapped version of the goal message as a request.
+  type SendGoalService = super::action::ExecutePlannedGrasp_SendGoal;
+
+  /// The generic service to cancel a goal.
+  type CancelGoalService = action_msgs::srv::rmw::CancelGoal;
+
+  /// The get_result service using a wrapped version of the result message as a response.
+  type GetResultService = super::action::ExecutePlannedGrasp_GetResult;
+
+  // --- Methods for client library implementation ---
+  fn get_type_support() -> *const std::ffi::c_void {
+    // SAFETY: No preconditions for this function.
+    unsafe { rosidl_typesupport_c__get_action_type_support_handle__soarm100_interfaces__action__ExecutePlannedGrasp() }
+  }
+
+  fn create_goal_request(
+    goal_id: &[u8; 16],
+    goal: super::action::rmw::ExecutePlannedGrasp_Goal,
+  ) -> super::action::rmw::ExecutePlannedGrasp_SendGoal_Request {
+   super::action::rmw::ExecutePlannedGrasp_SendGoal_Request {
+      goal_id: unique_identifier_msgs::msg::rmw::UUID { uuid: *goal_id },
+      goal,
+    }
+  }
+
+  fn split_goal_request(
+    request: super::action::rmw::ExecutePlannedGrasp_SendGoal_Request,
+  ) -> (
+    [u8; 16],
+   super::action::rmw::ExecutePlannedGrasp_Goal,
+  ) {
+    (request.goal_id.uuid, request.goal)
+  }
+
+  fn create_goal_response(
+    accepted: bool,
+    stamp: (i32, u32),
+  ) -> super::action::rmw::ExecutePlannedGrasp_SendGoal_Response {
+   super::action::rmw::ExecutePlannedGrasp_SendGoal_Response {
+      accepted,
+      stamp: builtin_interfaces::msg::rmw::Time {
+        sec: stamp.0,
+        nanosec: stamp.1,
+      },
+    }
+  }
+
+  fn get_goal_response_accepted(
+    response: &super::action::rmw::ExecutePlannedGrasp_SendGoal_Response,
+  ) -> bool {
+    response.accepted
+  }
+
+  fn get_goal_response_stamp(
+    response: &super::action::rmw::ExecutePlannedGrasp_SendGoal_Response,
+  ) -> (i32, u32) {
+    (response.stamp.sec, response.stamp.nanosec)
+  }
+
+  fn create_feedback_message(
+    goal_id: &[u8; 16],
+    feedback: super::action::rmw::ExecutePlannedGrasp_Feedback,
+  ) -> super::action::rmw::ExecutePlannedGrasp_FeedbackMessage {
+    let mut message = super::action::rmw::ExecutePlannedGrasp_FeedbackMessage::default();
+    message.goal_id.uuid = *goal_id;
+    message.feedback = feedback;
+    message
+  }
+
+  fn split_feedback_message(
+    feedback: super::action::rmw::ExecutePlannedGrasp_FeedbackMessage,
+  ) -> (
+    [u8; 16],
+   super::action::rmw::ExecutePlannedGrasp_Feedback,
+  ) {
+    (feedback.goal_id.uuid, feedback.feedback)
+  }
+
+  fn create_result_request(
+    goal_id: &[u8; 16],
+  ) -> super::action::rmw::ExecutePlannedGrasp_GetResult_Request {
+   super::action::rmw::ExecutePlannedGrasp_GetResult_Request {
+      goal_id: unique_identifier_msgs::msg::rmw::UUID { uuid: *goal_id },
+    }
+  }
+
+  fn get_result_request_uuid(
+    request: &super::action::rmw::ExecutePlannedGrasp_GetResult_Request,
+  ) -> &[u8; 16] {
+    &request.goal_id.uuid
+  }
+
+  fn create_result_response(
+    status: i8,
+    result: super::action::rmw::ExecutePlannedGrasp_Result,
+  ) -> super::action::rmw::ExecutePlannedGrasp_GetResult_Response {
+   super::action::rmw::ExecutePlannedGrasp_GetResult_Response {
+      status,
+      result,
+    }
+  }
+
+  fn split_result_response(
+    response: super::action::rmw::ExecutePlannedGrasp_GetResult_Response
+  ) -> (
+    i8,
+   super::action::rmw::ExecutePlannedGrasp_Result,
   ) {
     (response.status, response.result)
   }

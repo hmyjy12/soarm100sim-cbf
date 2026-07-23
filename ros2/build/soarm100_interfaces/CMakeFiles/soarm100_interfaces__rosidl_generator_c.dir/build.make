@@ -83,6 +83,7 @@ rosidl_generator_c/soarm100_interfaces/action/execute_grasp.h: /opt/ros/humble/s
 rosidl_generator_c/soarm100_interfaces/action/execute_grasp.h: /opt/ros/humble/share/rosidl_generator_c/resource/msg__type_support.h.em
 rosidl_generator_c/soarm100_interfaces/action/execute_grasp.h: /opt/ros/humble/share/rosidl_generator_c/resource/srv__type_support.h.em
 rosidl_generator_c/soarm100_interfaces/action/execute_grasp.h: rosidl_adapter/soarm100_interfaces/action/ExecuteGrasp.idl
+rosidl_generator_c/soarm100_interfaces/action/execute_grasp.h: rosidl_adapter/soarm100_interfaces/action/ExecutePlannedGrasp.idl
 rosidl_generator_c/soarm100_interfaces/action/execute_grasp.h: rosidl_adapter/soarm100_interfaces/action/PlanGrasp.idl
 rosidl_generator_c/soarm100_interfaces/action/execute_grasp.h: rosidl_adapter/soarm100_interfaces/srv/SegmentTarget.idl
 rosidl_generator_c/soarm100_interfaces/action/execute_grasp.h: rosidl_adapter/soarm100_interfaces/srv/SetAvoidance.idl
@@ -195,6 +196,18 @@ rosidl_generator_c/soarm100_interfaces/action/detail/execute_grasp__struct.h: ro
 rosidl_generator_c/soarm100_interfaces/action/detail/execute_grasp__type_support.h: rosidl_generator_c/soarm100_interfaces/action/execute_grasp.h
 	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/soarm100_interfaces/action/detail/execute_grasp__type_support.h
 
+rosidl_generator_c/soarm100_interfaces/action/execute_planned_grasp.h: rosidl_generator_c/soarm100_interfaces/action/execute_grasp.h
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/soarm100_interfaces/action/execute_planned_grasp.h
+
+rosidl_generator_c/soarm100_interfaces/action/detail/execute_planned_grasp__functions.h: rosidl_generator_c/soarm100_interfaces/action/execute_grasp.h
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/soarm100_interfaces/action/detail/execute_planned_grasp__functions.h
+
+rosidl_generator_c/soarm100_interfaces/action/detail/execute_planned_grasp__struct.h: rosidl_generator_c/soarm100_interfaces/action/execute_grasp.h
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/soarm100_interfaces/action/detail/execute_planned_grasp__struct.h
+
+rosidl_generator_c/soarm100_interfaces/action/detail/execute_planned_grasp__type_support.h: rosidl_generator_c/soarm100_interfaces/action/execute_grasp.h
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/soarm100_interfaces/action/detail/execute_planned_grasp__type_support.h
+
 rosidl_generator_c/soarm100_interfaces/action/plan_grasp.h: rosidl_generator_c/soarm100_interfaces/action/execute_grasp.h
 	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/soarm100_interfaces/action/plan_grasp.h
 
@@ -234,6 +247,9 @@ rosidl_generator_c/soarm100_interfaces/srv/detail/set_avoidance__type_support.h:
 rosidl_generator_c/soarm100_interfaces/action/detail/execute_grasp__functions.c: rosidl_generator_c/soarm100_interfaces/action/execute_grasp.h
 	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/soarm100_interfaces/action/detail/execute_grasp__functions.c
 
+rosidl_generator_c/soarm100_interfaces/action/detail/execute_planned_grasp__functions.c: rosidl_generator_c/soarm100_interfaces/action/execute_grasp.h
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/soarm100_interfaces/action/detail/execute_planned_grasp__functions.c
+
 rosidl_generator_c/soarm100_interfaces/action/detail/plan_grasp__functions.c: rosidl_generator_c/soarm100_interfaces/action/execute_grasp.h
 	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/soarm100_interfaces/action/detail/plan_grasp__functions.c
 
@@ -257,10 +273,24 @@ CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm1
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/action/detail/execute_grasp__functions.c.s"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_generator_c/soarm100_interfaces/action/detail/execute_grasp__functions.c -o CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/action/detail/execute_grasp__functions.c.s
 
+CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/action/detail/execute_planned_grasp__functions.c.o: CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/flags.make
+CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/action/detail/execute_planned_grasp__functions.c.o: rosidl_generator_c/soarm100_interfaces/action/detail/execute_planned_grasp__functions.c
+CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/action/detail/execute_planned_grasp__functions.c.o: CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/action/detail/execute_planned_grasp__functions.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/action/detail/execute_planned_grasp__functions.c.o -MF CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/action/detail/execute_planned_grasp__functions.c.o.d -o CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/action/detail/execute_planned_grasp__functions.c.o -c /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_generator_c/soarm100_interfaces/action/detail/execute_planned_grasp__functions.c
+
+CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/action/detail/execute_planned_grasp__functions.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/action/detail/execute_planned_grasp__functions.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_generator_c/soarm100_interfaces/action/detail/execute_planned_grasp__functions.c > CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/action/detail/execute_planned_grasp__functions.c.i
+
+CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/action/detail/execute_planned_grasp__functions.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/action/detail/execute_planned_grasp__functions.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_generator_c/soarm100_interfaces/action/detail/execute_planned_grasp__functions.c -o CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/action/detail/execute_planned_grasp__functions.c.s
+
 CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/action/detail/plan_grasp__functions.c.o: CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/flags.make
 CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/action/detail/plan_grasp__functions.c.o: rosidl_generator_c/soarm100_interfaces/action/detail/plan_grasp__functions.c
 CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/action/detail/plan_grasp__functions.c.o: CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/action/detail/plan_grasp__functions.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building C object CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/action/detail/plan_grasp__functions.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/action/detail/plan_grasp__functions.c.o -MF CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/action/detail/plan_grasp__functions.c.o.d -o CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/action/detail/plan_grasp__functions.c.o -c /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_generator_c/soarm100_interfaces/action/detail/plan_grasp__functions.c
 
 CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/action/detail/plan_grasp__functions.c.i: cmake_force
@@ -274,7 +304,7 @@ CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm1
 CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/segment_target__functions.c.o: CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/flags.make
 CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/segment_target__functions.c.o: rosidl_generator_c/soarm100_interfaces/srv/detail/segment_target__functions.c
 CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/segment_target__functions.c.o: CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building C object CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/segment_target__functions.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building C object CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/segment_target__functions.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/segment_target__functions.c.o -MF CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/segment_target__functions.c.o.d -o CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/segment_target__functions.c.o -c /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_generator_c/soarm100_interfaces/srv/detail/segment_target__functions.c
 
 CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/segment_target__functions.c.i: cmake_force
@@ -288,7 +318,7 @@ CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm1
 CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/set_avoidance__functions.c.o: CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/flags.make
 CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/set_avoidance__functions.c.o: rosidl_generator_c/soarm100_interfaces/srv/detail/set_avoidance__functions.c
 CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/set_avoidance__functions.c.o: CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building C object CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/set_avoidance__functions.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building C object CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/set_avoidance__functions.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/set_avoidance__functions.c.o -MF CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/set_avoidance__functions.c.o.d -o CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/set_avoidance__functions.c.o -c /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_generator_c/soarm100_interfaces/srv/detail/set_avoidance__functions.c
 
 CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/set_avoidance__functions.c.i: cmake_force
@@ -302,6 +332,7 @@ CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm1
 # Object files for target soarm100_interfaces__rosidl_generator_c
 soarm100_interfaces__rosidl_generator_c_OBJECTS = \
 "CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/action/detail/execute_grasp__functions.c.o" \
+"CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/action/detail/execute_planned_grasp__functions.c.o" \
 "CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/action/detail/plan_grasp__functions.c.o" \
 "CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/segment_target__functions.c.o" \
 "CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/set_avoidance__functions.c.o"
@@ -310,6 +341,7 @@ soarm100_interfaces__rosidl_generator_c_OBJECTS = \
 soarm100_interfaces__rosidl_generator_c_EXTERNAL_OBJECTS =
 
 libsoarm100_interfaces__rosidl_generator_c.so: CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/action/detail/execute_grasp__functions.c.o
+libsoarm100_interfaces__rosidl_generator_c.so: CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/action/detail/execute_planned_grasp__functions.c.o
 libsoarm100_interfaces__rosidl_generator_c.so: CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/action/detail/plan_grasp__functions.c.o
 libsoarm100_interfaces__rosidl_generator_c.so: CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/segment_target__functions.c.o
 libsoarm100_interfaces__rosidl_generator_c.so: CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/set_avoidance__functions.c.o
@@ -323,7 +355,7 @@ libsoarm100_interfaces__rosidl_generator_c.so: /opt/ros/humble/lib/libbuiltin_in
 libsoarm100_interfaces__rosidl_generator_c.so: /opt/ros/humble/lib/librosidl_runtime_c.so
 libsoarm100_interfaces__rosidl_generator_c.so: /opt/ros/humble/lib/librcutils.so
 libsoarm100_interfaces__rosidl_generator_c.so: CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking C shared library libsoarm100_interfaces__rosidl_generator_c.so"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Linking C shared library libsoarm100_interfaces__rosidl_generator_c.so"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -338,11 +370,16 @@ CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_
 CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/soarm100_interfaces/action/detail/execute_grasp__functions.h
 CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/soarm100_interfaces/action/detail/execute_grasp__struct.h
 CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/soarm100_interfaces/action/detail/execute_grasp__type_support.h
+CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/soarm100_interfaces/action/detail/execute_planned_grasp__functions.c
+CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/soarm100_interfaces/action/detail/execute_planned_grasp__functions.h
+CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/soarm100_interfaces/action/detail/execute_planned_grasp__struct.h
+CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/soarm100_interfaces/action/detail/execute_planned_grasp__type_support.h
 CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/soarm100_interfaces/action/detail/plan_grasp__functions.c
 CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/soarm100_interfaces/action/detail/plan_grasp__functions.h
 CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/soarm100_interfaces/action/detail/plan_grasp__struct.h
 CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/soarm100_interfaces/action/detail/plan_grasp__type_support.h
 CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/soarm100_interfaces/action/execute_grasp.h
+CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/soarm100_interfaces/action/execute_planned_grasp.h
 CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/soarm100_interfaces/action/plan_grasp.h
 CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/soarm100_interfaces/srv/detail/segment_target__functions.c
 CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/soarm100_interfaces/srv/detail/segment_target__functions.h

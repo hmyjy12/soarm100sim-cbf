@@ -1,0 +1,196 @@
+[0.072s] colcon DEBUG Command line arguments: ['/usr/bin/colcon', 'build', '--packages-select', 'soarm100_interfaces', 'soarm100_vision', '--cmake-args', '-DPython3_EXECUTABLE=/usr/bin/python3', '-DPYTHON_EXECUTABLE=/usr/bin/python3', '-DPYTHON_INCLUDE_DIR=/usr/include/python3.10;/usr/include/x86_64-linux-gnu/python3.10', '-DPYTHON_LIBRARY=/usr/lib/x86_64-linux-gnu/libpython3.10.so']
+[0.072s] colcon DEBUG Parsed command line arguments: Namespace(log_base=None, log_level=None, verb_name='build', build_base='build', install_base='install', merge_install=False, symlink_install=False, test_result_base=None, continue_on_error=False, executor='parallel', parallel_workers=32, event_handlers=None, ignore_user_meta=False, metas=['./colcon.meta'], base_paths=['.'], packages_ignore=None, packages_ignore_regex=None, paths=None, packages_up_to=None, packages_up_to_regex=None, packages_above=None, packages_above_and_dependencies=None, packages_above_depth=None, packages_select_by_dep=None, packages_skip_by_dep=None, packages_skip_up_to=None, packages_select_build_failed=False, packages_skip_build_finished=False, packages_select_test_failures=False, packages_skip_test_passed=False, packages_select=['soarm100_interfaces', 'soarm100_vision'], packages_skip=None, packages_select_regex=None, packages_skip_regex=None, packages_start=None, packages_end=None, allow_overriding=[], cmake_args=['-DPython3_EXECUTABLE=/usr/bin/python3', '-DPYTHON_EXECUTABLE=/usr/bin/python3', '-DPYTHON_INCLUDE_DIR=/usr/include/python3.10;/usr/include/x86_64-linux-gnu/python3.10', '-DPYTHON_LIBRARY=/usr/lib/x86_64-linux-gnu/libpython3.10.so'], cmake_target=None, cmake_target_skip_unavailable=False, cmake_clean_cache=False, cmake_clean_first=False, cmake_force_configure=False, ament_cmake_args=None, catkin_cmake_args=None, catkin_skip_building_tests=False, verb_parser=<colcon_defaults.argument_parser.defaults.DefaultArgumentsDecorator object at 0x7a0be9439fc0>, verb_extension=<colcon_core.verb.build.BuildVerb object at 0x7a0be9439b40>, main=<bound method BuildVerb.main of <colcon_core.verb.build.BuildVerb object at 0x7a0be9439b40>>)
+[0.182s] colcon.colcon_core.package_discovery Level 1 discover_packages(colcon_meta) check parameters
+[0.182s] colcon.colcon_core.package_discovery Level 1 discover_packages(recursive) check parameters
+[0.182s] colcon.colcon_core.package_discovery Level 1 discover_packages(ignore) check parameters
+[0.182s] colcon.colcon_core.package_discovery Level 1 discover_packages(path) check parameters
+[0.182s] colcon.colcon_core.package_discovery Level 1 discover_packages(colcon_meta) discover
+[0.182s] colcon.colcon_core.package_discovery Level 1 discover_packages(recursive) discover
+[0.182s] colcon.colcon_core.package_discovery INFO Crawling recursively for packages in '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2'
+[0.182s] colcon.colcon_core.package_identification Level 1 _identify(.) by extensions ['ignore', 'ignore_ament_install']
+[0.182s] colcon.colcon_core.package_identification Level 1 _identify(.) by extension 'ignore'
+[0.182s] colcon.colcon_core.package_identification Level 1 _identify(.) by extension 'ignore_ament_install'
+[0.182s] colcon.colcon_core.package_identification Level 1 _identify(.) by extensions ['colcon_pkg']
+[0.182s] colcon.colcon_core.package_identification Level 1 _identify(.) by extension 'colcon_pkg'
+[0.182s] colcon.colcon_core.package_identification Level 1 _identify(.) by extensions ['colcon_meta']
+[0.182s] colcon.colcon_core.package_identification Level 1 _identify(.) by extension 'colcon_meta'
+[0.182s] colcon.colcon_core.package_identification Level 1 _identify(.) by extensions ['ros']
+[0.182s] colcon.colcon_core.package_identification Level 1 _identify(.) by extension 'ros'
+[0.206s] colcon.colcon_core.package_identification Level 1 _identify(.) by extensions ['cmake', 'python']
+[0.206s] colcon.colcon_core.package_identification Level 1 _identify(.) by extension 'cmake'
+[0.206s] colcon.colcon_core.package_identification Level 1 _identify(.) by extension 'python'
+[0.206s] colcon.colcon_core.package_identification Level 1 _identify(.) by extensions ['python_setup_py']
+[0.206s] colcon.colcon_core.package_identification Level 1 _identify(.) by extension 'python_setup_py'
+[0.206s] colcon.colcon_core.package_identification Level 1 _identify(build) by extensions ['ignore', 'ignore_ament_install']
+[0.207s] colcon.colcon_core.package_identification Level 1 _identify(build) by extension 'ignore'
+[0.207s] colcon.colcon_core.package_identification Level 1 _identify(build) ignored
+[0.207s] colcon.colcon_core.package_identification Level 1 _identify(install) by extensions ['ignore', 'ignore_ament_install']
+[0.207s] colcon.colcon_core.package_identification Level 1 _identify(install) by extension 'ignore'
+[0.207s] colcon.colcon_core.package_identification Level 1 _identify(install) ignored
+[0.207s] colcon.colcon_core.package_identification Level 1 _identify(log) by extensions ['ignore', 'ignore_ament_install']
+[0.207s] colcon.colcon_core.package_identification Level 1 _identify(log) by extension 'ignore'
+[0.207s] colcon.colcon_core.package_identification Level 1 _identify(log) ignored
+[0.207s] colcon.colcon_core.package_identification Level 1 _identify(so100_plus_description) by extensions ['ignore', 'ignore_ament_install']
+[0.207s] colcon.colcon_core.package_identification Level 1 _identify(so100_plus_description) by extension 'ignore'
+[0.207s] colcon.colcon_core.package_identification Level 1 _identify(so100_plus_description) by extension 'ignore_ament_install'
+[0.207s] colcon.colcon_core.package_identification Level 1 _identify(so100_plus_description) by extensions ['colcon_pkg']
+[0.207s] colcon.colcon_core.package_identification Level 1 _identify(so100_plus_description) by extension 'colcon_pkg'
+[0.207s] colcon.colcon_core.package_identification Level 1 _identify(so100_plus_description) by extensions ['colcon_meta']
+[0.207s] colcon.colcon_core.package_identification Level 1 _identify(so100_plus_description) by extension 'colcon_meta'
+[0.207s] colcon.colcon_core.package_identification Level 1 _identify(so100_plus_description) by extensions ['ros']
+[0.207s] colcon.colcon_core.package_identification Level 1 _identify(so100_plus_description) by extension 'ros'
+[0.209s] colcon.colcon_core.package_identification DEBUG Package 'so100_plus_description' with type 'ros.ament_cmake' and name 'so100_plus_description'
+[0.209s] colcon.colcon_core.package_identification Level 1 _identify(soarm100_interfaces) by extensions ['ignore', 'ignore_ament_install']
+[0.209s] colcon.colcon_core.package_identification Level 1 _identify(soarm100_interfaces) by extension 'ignore'
+[0.209s] colcon.colcon_core.package_identification Level 1 _identify(soarm100_interfaces) by extension 'ignore_ament_install'
+[0.209s] colcon.colcon_core.package_identification Level 1 _identify(soarm100_interfaces) by extensions ['colcon_pkg']
+[0.209s] colcon.colcon_core.package_identification Level 1 _identify(soarm100_interfaces) by extension 'colcon_pkg'
+[0.209s] colcon.colcon_core.package_identification Level 1 _identify(soarm100_interfaces) by extensions ['colcon_meta']
+[0.209s] colcon.colcon_core.package_identification Level 1 _identify(soarm100_interfaces) by extension 'colcon_meta'
+[0.209s] colcon.colcon_core.package_identification Level 1 _identify(soarm100_interfaces) by extensions ['ros']
+[0.209s] colcon.colcon_core.package_identification Level 1 _identify(soarm100_interfaces) by extension 'ros'
+[0.210s] colcon.colcon_core.package_identification DEBUG Package 'soarm100_interfaces' with type 'ros.ament_cmake' and name 'soarm100_interfaces'
+[0.210s] colcon.colcon_core.package_identification Level 1 _identify(soarm100_vision) by extensions ['ignore', 'ignore_ament_install']
+[0.210s] colcon.colcon_core.package_identification Level 1 _identify(soarm100_vision) by extension 'ignore'
+[0.210s] colcon.colcon_core.package_identification Level 1 _identify(soarm100_vision) by extension 'ignore_ament_install'
+[0.210s] colcon.colcon_core.package_identification Level 1 _identify(soarm100_vision) by extensions ['colcon_pkg']
+[0.210s] colcon.colcon_core.package_identification Level 1 _identify(soarm100_vision) by extension 'colcon_pkg'
+[0.210s] colcon.colcon_core.package_identification Level 1 _identify(soarm100_vision) by extensions ['colcon_meta']
+[0.210s] colcon.colcon_core.package_identification Level 1 _identify(soarm100_vision) by extension 'colcon_meta'
+[0.210s] colcon.colcon_core.package_identification Level 1 _identify(soarm100_vision) by extensions ['ros']
+[0.210s] colcon.colcon_core.package_identification Level 1 _identify(soarm100_vision) by extension 'ros'
+[0.210s] colcon.colcon_core.package_identification DEBUG Package 'soarm100_vision' with type 'ros.ament_python' and name 'soarm100_vision'
+[0.210s] colcon.colcon_core.package_discovery Level 1 discover_packages(recursive) using defaults
+[0.210s] colcon.colcon_core.package_discovery Level 1 discover_packages(ignore) discover
+[0.210s] colcon.colcon_core.package_discovery Level 1 discover_packages(ignore) using defaults
+[0.210s] colcon.colcon_core.package_discovery Level 1 discover_packages(path) discover
+[0.210s] colcon.colcon_core.package_discovery Level 1 discover_packages(path) using defaults
+[0.220s] colcon.colcon_core.package_selection INFO Skipping not selected package 'so100_plus_description' in 'so100_plus_description'
+[0.221s] colcon.colcon_core.package_discovery Level 1 discover_packages(prefix_path) check parameters
+[0.221s] colcon.colcon_core.package_discovery Level 1 discover_packages(prefix_path) discover
+[0.222s] colcon.colcon_installed_package_information.package_discovery DEBUG Found 375 installed packages in /opt/ros/humble
+[0.223s] colcon.colcon_core.package_discovery Level 1 discover_packages(prefix_path) using defaults
+[0.250s] colcon.colcon_core.verb Level 5 set package 'soarm100_interfaces' build argument 'cmake_args' from command line to '['-DPython3_EXECUTABLE=/usr/bin/python3', '-DPYTHON_EXECUTABLE=/usr/bin/python3', '-DPYTHON_INCLUDE_DIR=/usr/include/python3.10;/usr/include/x86_64-linux-gnu/python3.10', '-DPYTHON_LIBRARY=/usr/lib/x86_64-linux-gnu/libpython3.10.so']'
+[0.250s] colcon.colcon_core.verb Level 5 set package 'soarm100_interfaces' build argument 'cmake_target' from command line to 'None'
+[0.250s] colcon.colcon_core.verb Level 5 set package 'soarm100_interfaces' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.250s] colcon.colcon_core.verb Level 5 set package 'soarm100_interfaces' build argument 'cmake_clean_cache' from command line to 'False'
+[0.250s] colcon.colcon_core.verb Level 5 set package 'soarm100_interfaces' build argument 'cmake_clean_first' from command line to 'False'
+[0.250s] colcon.colcon_core.verb Level 5 set package 'soarm100_interfaces' build argument 'cmake_force_configure' from command line to 'False'
+[0.250s] colcon.colcon_core.verb Level 5 set package 'soarm100_interfaces' build argument 'ament_cmake_args' from command line to 'None'
+[0.250s] colcon.colcon_core.verb Level 5 set package 'soarm100_interfaces' build argument 'catkin_cmake_args' from command line to 'None'
+[0.250s] colcon.colcon_core.verb Level 5 set package 'soarm100_interfaces' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.250s] colcon.colcon_core.verb DEBUG Building package 'soarm100_interfaces' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': ['-DPython3_EXECUTABLE=/usr/bin/python3', '-DPYTHON_EXECUTABLE=/usr/bin/python3', '-DPYTHON_INCLUDE_DIR=/usr/include/python3.10;/usr/include/x86_64-linux-gnu/python3.10', '-DPYTHON_LIBRARY=/usr/lib/x86_64-linux-gnu/libpython3.10.so'], 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces', 'merge_install': False, 'path': '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/soarm100_interfaces', 'symlink_install': False, 'test_result_base': None}
+[0.250s] colcon.colcon_core.verb Level 5 set package 'soarm100_vision' build argument 'cmake_args' from command line to '['-DPython3_EXECUTABLE=/usr/bin/python3', '-DPYTHON_EXECUTABLE=/usr/bin/python3', '-DPYTHON_INCLUDE_DIR=/usr/include/python3.10;/usr/include/x86_64-linux-gnu/python3.10', '-DPYTHON_LIBRARY=/usr/lib/x86_64-linux-gnu/libpython3.10.so']'
+[0.250s] colcon.colcon_core.verb Level 5 set package 'soarm100_vision' build argument 'cmake_target' from command line to 'None'
+[0.250s] colcon.colcon_core.verb Level 5 set package 'soarm100_vision' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.250s] colcon.colcon_core.verb Level 5 set package 'soarm100_vision' build argument 'cmake_clean_cache' from command line to 'False'
+[0.250s] colcon.colcon_core.verb Level 5 set package 'soarm100_vision' build argument 'cmake_clean_first' from command line to 'False'
+[0.250s] colcon.colcon_core.verb Level 5 set package 'soarm100_vision' build argument 'cmake_force_configure' from command line to 'False'
+[0.250s] colcon.colcon_core.verb Level 5 set package 'soarm100_vision' build argument 'ament_cmake_args' from command line to 'None'
+[0.250s] colcon.colcon_core.verb Level 5 set package 'soarm100_vision' build argument 'catkin_cmake_args' from command line to 'None'
+[0.250s] colcon.colcon_core.verb Level 5 set package 'soarm100_vision' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.250s] colcon.colcon_core.verb DEBUG Building package 'soarm100_vision' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_vision', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': ['-DPython3_EXECUTABLE=/usr/bin/python3', '-DPYTHON_EXECUTABLE=/usr/bin/python3', '-DPYTHON_INCLUDE_DIR=/usr/include/python3.10;/usr/include/x86_64-linux-gnu/python3.10', '-DPYTHON_LIBRARY=/usr/lib/x86_64-linux-gnu/libpython3.10.so'], 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision', 'merge_install': False, 'path': '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/soarm100_vision', 'symlink_install': False, 'test_result_base': None}
+[0.250s] colcon.colcon_core.executor INFO Executing jobs using 'parallel' executor
+[0.251s] colcon.colcon_parallel_executor.executor.parallel DEBUG run_until_complete
+[0.251s] colcon.colcon_ros.task.ament_cmake.build INFO Building ROS package in '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/soarm100_interfaces' with build type 'ament_cmake'
+[0.251s] colcon.colcon_cmake.task.cmake.build INFO Building CMake package in '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/soarm100_interfaces'
+[0.253s] colcon.colcon_core.plugin_system INFO Skipping extension 'colcon_core.shell.bat': Not used on non-Windows systems
+[0.253s] colcon.colcon_core.shell INFO Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[0.253s] colcon.colcon_core.shell DEBUG Skip shell extension 'dsv' for command environment
+[29.739s] colcon.colcon_core.event_handler.log_command DEBUG Invoking command in '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces -- -j32 -l32
+[59.763s] colcon.colcon_core.event_handler.log_command DEBUG Invoked command in '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces -- -j32 -l32
+[59.778s] colcon.colcon_core.event_handler.log_command DEBUG Invoking command in '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces
+[89.792s] colcon.colcon_core.environment Level 1 create_environment_scripts_only(soarm100_interfaces)
+[89.793s] colcon.colcon_core.event_handler.log_command DEBUG Invoked command in '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces
+[89.796s] colcon.colcon_core.environment Level 1 checking '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces' for CMake module files
+[89.797s] colcon.colcon_core.environment Level 1 checking '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces' for CMake config files
+[89.798s] colcon.colcon_core.shell Level 1 create_environment_hook('soarm100_interfaces', 'cmake_prefix_path')
+[89.798s] colcon.colcon_core.shell INFO Creating environment hook '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/hook/cmake_prefix_path.ps1'
+[89.799s] colcon.colcon_core.shell INFO Creating environment descriptor '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/hook/cmake_prefix_path.dsv'
+[89.799s] colcon.colcon_core.shell INFO Creating environment hook '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/hook/cmake_prefix_path.sh'
+[89.800s] colcon.colcon_core.environment Level 1 checking '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/lib'
+[89.801s] colcon.colcon_core.shell Level 1 create_environment_hook('soarm100_interfaces', 'ld_library_path_lib')
+[89.801s] colcon.colcon_core.shell INFO Creating environment hook '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/hook/ld_library_path_lib.ps1'
+[89.802s] colcon.colcon_core.shell INFO Creating environment descriptor '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/hook/ld_library_path_lib.dsv'
+[89.802s] colcon.colcon_core.shell INFO Creating environment hook '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/hook/ld_library_path_lib.sh'
+[89.802s] colcon.colcon_core.environment Level 1 checking '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/bin'
+[89.802s] colcon.colcon_core.environment Level 1 checking '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/lib/pkgconfig/soarm100_interfaces.pc'
+[89.803s] colcon.colcon_core.environment Level 1 checking '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/lib/python3.10/site-packages'
+[89.803s] colcon.colcon_core.environment Level 1 checking '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/bin'
+[89.804s] colcon.colcon_core.shell INFO Creating package script '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/package.ps1'
+[89.805s] colcon.colcon_core.shell INFO Creating package descriptor '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/package.dsv'
+[89.806s] colcon.colcon_core.shell INFO Creating package script '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/package.sh'
+[89.807s] colcon.colcon_core.shell INFO Creating package script '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/package.bash'
+[89.807s] colcon.colcon_core.shell INFO Creating package script '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/package.zsh'
+[89.808s] colcon.colcon_core.environment Level 1 create_file_with_runtime_dependencies(/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/colcon-core/packages/soarm100_interfaces)
+[89.808s] colcon.colcon_core.environment Level 1 create_environment_scripts_only(soarm100_interfaces)
+[89.809s] colcon.colcon_core.environment Level 1 checking '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces' for CMake module files
+[89.809s] colcon.colcon_core.environment Level 1 checking '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces' for CMake config files
+[89.810s] colcon.colcon_core.shell Level 1 create_environment_hook('soarm100_interfaces', 'cmake_prefix_path')
+[89.810s] colcon.colcon_core.shell INFO Creating environment hook '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/hook/cmake_prefix_path.ps1'
+[89.810s] colcon.colcon_core.shell INFO Creating environment descriptor '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/hook/cmake_prefix_path.dsv'
+[89.810s] colcon.colcon_core.shell INFO Creating environment hook '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/hook/cmake_prefix_path.sh'
+[89.811s] colcon.colcon_core.environment Level 1 checking '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/lib'
+[89.811s] colcon.colcon_core.shell Level 1 create_environment_hook('soarm100_interfaces', 'ld_library_path_lib')
+[89.811s] colcon.colcon_core.shell INFO Creating environment hook '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/hook/ld_library_path_lib.ps1'
+[89.811s] colcon.colcon_core.shell INFO Creating environment descriptor '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/hook/ld_library_path_lib.dsv'
+[89.811s] colcon.colcon_core.shell INFO Creating environment hook '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/hook/ld_library_path_lib.sh'
+[89.812s] colcon.colcon_core.environment Level 1 checking '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/bin'
+[89.812s] colcon.colcon_core.environment Level 1 checking '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/lib/pkgconfig/soarm100_interfaces.pc'
+[89.812s] colcon.colcon_core.environment Level 1 checking '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/lib/python3.10/site-packages'
+[89.812s] colcon.colcon_core.environment Level 1 checking '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/bin'
+[89.812s] colcon.colcon_core.shell INFO Creating package script '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/package.ps1'
+[89.813s] colcon.colcon_core.shell INFO Creating package descriptor '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/package.dsv'
+[89.813s] colcon.colcon_core.shell INFO Creating package script '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/package.sh'
+[89.813s] colcon.colcon_core.shell INFO Creating package script '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/package.bash'
+[89.813s] colcon.colcon_core.shell INFO Creating package script '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/package.zsh'
+[89.814s] colcon.colcon_core.environment Level 1 create_file_with_runtime_dependencies(/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/colcon-core/packages/soarm100_interfaces)
+[89.814s] colcon.colcon_ros.task.ament_python.build INFO Building ROS package in '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/soarm100_vision' with build type 'ament_python'
+[89.814s] colcon.colcon_core.shell Level 1 create_environment_hook('soarm100_vision', 'ament_prefix_path')
+[89.814s] colcon.colcon_core.shell INFO Creating environment hook '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/share/soarm100_vision/hook/ament_prefix_path.ps1'
+[89.814s] colcon.colcon_core.shell INFO Creating environment descriptor '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/share/soarm100_vision/hook/ament_prefix_path.dsv'
+[89.815s] colcon.colcon_core.shell INFO Creating environment hook '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/share/soarm100_vision/hook/ament_prefix_path.sh'
+[89.815s] colcon.colcon_core.shell INFO Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[89.815s] colcon.colcon_core.shell DEBUG Skip shell extension 'dsv' for command environment
+[89.997s] colcon.colcon_core.task.python.build INFO Building Python package in '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/soarm100_vision'
+[89.997s] colcon.colcon_core.shell INFO Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[89.997s] colcon.colcon_core.shell DEBUG Skip shell extension 'dsv' for command environment
+[119.832s] colcon.colcon_core.event_handler.log_command DEBUG Invoking command in '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/soarm100_vision': AMENT_PREFIX_PATH=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces LD_LIBRARY_PATH=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_vision/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/python3.10/site-packages:/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../build/soarm100_vision build --build-base /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_vision/build install --record /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_vision/install.log --single-version-externally-managed install_data
+[120.031s] colcon.colcon_core.environment Level 1 checking '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision' for CMake module files
+[120.031s] colcon.colcon_core.event_handler.log_command DEBUG Invoked command in '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/soarm100_vision' returned '0': AMENT_PREFIX_PATH=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces LD_LIBRARY_PATH=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_vision/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/python3.10/site-packages:/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../build/soarm100_vision build --build-base /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_vision/build install --record /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_vision/install.log --single-version-externally-managed install_data
+[120.031s] colcon.colcon_core.environment Level 1 checking '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision' for CMake config files
+[120.032s] colcon.colcon_core.environment Level 1 checking '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib'
+[120.032s] colcon.colcon_core.environment Level 1 checking '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/bin'
+[120.032s] colcon.colcon_core.environment Level 1 checking '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/pkgconfig/soarm100_vision.pc'
+[120.032s] colcon.colcon_core.environment Level 1 checking '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/python3.10/site-packages'
+[120.033s] colcon.colcon_core.shell Level 1 create_environment_hook('soarm100_vision', 'pythonpath')
+[120.033s] colcon.colcon_core.shell INFO Creating environment hook '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/share/soarm100_vision/hook/pythonpath.ps1'
+[120.033s] colcon.colcon_core.shell INFO Creating environment descriptor '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/share/soarm100_vision/hook/pythonpath.dsv'
+[120.034s] colcon.colcon_core.shell INFO Creating environment hook '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/share/soarm100_vision/hook/pythonpath.sh'
+[120.034s] colcon.colcon_core.environment Level 1 checking '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/bin'
+[120.034s] colcon.colcon_core.environment Level 1 create_environment_scripts_only(soarm100_vision)
+[120.035s] colcon.colcon_core.shell INFO Creating package script '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/share/soarm100_vision/package.ps1'
+[120.035s] colcon.colcon_core.shell INFO Creating package descriptor '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/share/soarm100_vision/package.dsv'
+[120.035s] colcon.colcon_core.shell INFO Creating package script '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/share/soarm100_vision/package.sh'
+[120.036s] colcon.colcon_core.shell INFO Creating package script '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/share/soarm100_vision/package.bash'
+[120.036s] colcon.colcon_core.shell INFO Creating package script '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/share/soarm100_vision/package.zsh'
+[120.036s] colcon.colcon_core.environment Level 1 create_file_with_runtime_dependencies(/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/share/colcon-core/packages/soarm100_vision)
+[120.036s] colcon.colcon_parallel_executor.executor.parallel DEBUG closing loop
+[120.036s] colcon.colcon_parallel_executor.executor.parallel DEBUG loop closed
+[120.036s] colcon.colcon_parallel_executor.executor.parallel DEBUG run_until_complete finished with '0'
+[120.036s] colcon.colcon_core.event_reactor DEBUG joining thread
+[120.039s] colcon.colcon_core.plugin_system INFO Skipping extension 'colcon_notification.desktop_notification.terminal_notifier': Not used on non-Darwin systems
+[120.039s] colcon.colcon_core.plugin_system INFO Skipping extension 'colcon_notification.desktop_notification.win32': Not used on non-Windows systems
+[120.040s] colcon.colcon_notification.desktop_notification INFO Sending desktop notification using 'notify2'
+[120.040s] colcon.colcon_notification.desktop_notification.notify2 DEBUG Failed to initialize notify2: org.freedesktop.DBus.Error.AccessDenied: Failed to connect to socket /run/user/1000/bus: Operation not permitted
+[120.040s] colcon.colcon_core.event_reactor DEBUG joined thread
+[120.040s] colcon.colcon_core.shell INFO Creating prefix script '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/local_setup.ps1'
+[120.040s] colcon.colcon_core.shell INFO Creating prefix util module '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/_local_setup_util_ps1.py'
+[120.041s] colcon.colcon_core.shell INFO Creating prefix chain script '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/setup.ps1'
+[120.042s] colcon.colcon_core.shell INFO Creating prefix script '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/local_setup.sh'
+[120.042s] colcon.colcon_core.shell INFO Creating prefix util module '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/_local_setup_util_sh.py'
+[120.042s] colcon.colcon_core.shell INFO Creating prefix chain script '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/setup.sh'
+[120.043s] colcon.colcon_core.shell INFO Creating prefix script '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/local_setup.bash'
+[120.043s] colcon.colcon_core.shell INFO Creating prefix chain script '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/setup.bash'
+[120.044s] colcon.colcon_core.shell INFO Creating prefix script '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/local_setup.zsh'
+[120.044s] colcon.colcon_core.shell INFO Creating prefix chain script '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/setup.zsh'

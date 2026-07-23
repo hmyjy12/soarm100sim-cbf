@@ -1,0 +1,99 @@
+from __future__ import annotations
+
+import argparse
+import sys
+
+import rclpy
+from geometry_msgs.msg import PoseStamped
+from rclpy.action import ActionClient
+from rclpy.node import Node
+
+from soarm100_interfaces.action import ExecutePlannedGrasp
+
+
+def _pose(pos_csv: str, quat_csv: str, frame_id: str) -> PoseStamped:
+    pos = [float(x) for x in str(pos_csv).replace(",", " ").split()]
+    quat = [float(x) for x in str(quat_csv).replace(",", " ").split()]
+    if len(pos) != 3:
+        raise ValueError("--pregrasp-pos/--grasp-pos must be x,y,z")
+    if len(quat) != 4:
+        raise ValueError("--grasp-quat must be w,x,y,z")
+    msg = PoseStamped()
+    msg.header.frame_id = str(frame_id)
+    msg.pose.position.x = float(pos[0])
+    msg.pose.position.y = float(pos[1])
+    msg.pose.position.z = float(pos[2])
+    msg.pose.orientation.w = float(quat[0])
+    msg.pose.orientation.x = float(quat[1])
+    msg.pose.orientation.y = float(quat[2])
+    msg.pose.orientation.z = float(quat[3])
+    return msg
+
+
+class PlannedGraspClient(Node):
+    def __init__(self, args: argparse.Namespace) -> None:
+        super().__init__("soarm100_send_planned_grasp")
+        self.args = args
+        self.client = ActionClient(self, ExecutePlannedGrasp, str(args.action))
+
+    def send(self) -> int:
+        if not self.client.wait_for_server(timeout_sec=float(self.args.wait_timeout)):
+            self.get_logger().error(f"action server unavailable: {self.args.action}")
+            return 2
+        goal = ExecutePlannedGrasp.Goal()
+        goal.pregrasp_pose = _pose(self.args.pregrasp_pos, self.args.grasp_quat, self.args.frame)
+        goal.grasp_pose = _pose(self.args.grasp_pos, self.args.grasp_quat, self.args.frame)
+        goal.gripper_width = float(self.args.gripper_width)
+        goal.enable_avoidance = bool(self.args.enable_avoidance)
+        goal.target_object = str(self.args.target_object)
+        goal.target_pos = str(self.args.target_pos)
+        goal.traj_log = str(self.args.traj_log)
+        fut = self.client.send_goal_async(goal, feedback_callback=self._feedback)
+        rclpy.spin_until_future_complete(self, fut)
+        handle = fut.result()
+        if handle is None or not handle.accepted:
+            self.get_logger().error("planned grasp goal rejected")
+            return 3
+        self.get_logger().info("planned grasp goal accepted")
+        res_fut = handle.get_result_async()
+        rclpy.spin_until_future_complete(self, res_fut)
+        wrapped = res_fut.result()
+        res = wrapped.result
+        self.get_logger().info(
+            f"result success={res.success} return_code={res.return_code} "
+            f"lift={res.lift_height:.4f} reason={res.reason}"
+        )
+        return 0 if res.success else 1
+
+    def _feedback(self, msg) -> None:
+        fb = msg.feedback
+        self.get_logger().info(f"feedback stage={fb.stage} lift={fb.lift_height:.4f} reason={fb.reason}")
+
+
+def main(argv: list[str] | None = None) -> None:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--action", default="execute_planned_grasp")
+    parser.add_argument("--frame", default="base")
+    parser.add_argument("--pregrasp-pos", default="0.35,0.08,0.09")
+    parser.add_argument("--grasp-pos", default="0.39,0.08,0.06")
+    parser.add_argument("--grasp-quat", default="1,0,0,0")
+    parser.add_argument("--gripper-width", type=float, default=0.05)
+    parser.add_argument("--target-object", default="cube")
+    parser.add_argument("--target-pos", default="0.42,0.08,0.021")
+    parser.add_argument("--traj-log", default="logs/ros2_inprocess_grasp.jsonl")
+    parser.add_argument("--enable-avoidance", action="store_true")
+    parser.add_argument("--wait-timeout", type=float, default=20.0)
+    args = parser.parse_args(argv)
+    rclpy.init()
+    node = PlannedGraspClient(args)
+    try:
+        code = node.send()
+    finally:
+        node.destroy_node()
+        if rclpy.ok():
+            rclpy.shutdown()
+    raise SystemExit(code)
+
+
+if __name__ == "__main__":
+    main(sys.argv[1:])

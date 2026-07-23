@@ -1,0 +1,10 @@
+[INFO] [1784712684.322977732] [soarm100_send_planned_grasp]: planned grasp goal accepted
+[INFO] [1784712684.323715597] [soarm100_send_planned_grasp]: feedback stage=STARTING_MUJOCO_INPROCESS lift=0.0000 reason=using GraspStateMachine + MuJoCo runner in current process
+[INFO] [1784712685.736468521] [soarm100_send_planned_grasp]: feedback stage=MOVE_TO_PREGRASP lift=0.0000 reason=reset
+[INFO] [1784712686.868474333] [soarm100_send_planned_grasp]: feedback stage=MOVE_TO_PREGRASP lift=0.0000 reason=reset
+[INFO] [1784712687.978208150] [soarm100_send_planned_grasp]: feedback stage=FINAL_APPROACH lift=0.0000 reason=pregrasp_reached
+[INFO] [1784712689.057708695] [soarm100_send_planned_grasp]: feedback stage=CLOSE lift=0.0000 reason=final_timeout
+[INFO] [1784712690.141915980] [soarm100_send_planned_grasp]: feedback stage=LIFT lift=0.0000 reason=close_complete
+[INFO] [1784712691.276066777] [soarm100_send_planned_grasp]: feedback stage=LIFT lift=0.0000 reason=close_complete
+[INFO] [1784712692.426093937] [soarm100_send_planned_grasp]: feedback stage=REPLAN_GRASP lift=0.0000 reason=replan_wait
+[INFO] [1784712693.576196645] [soarm100_send_planned_grasp]: feedback stage=REPLAN_GRASP lift=0.0000 reason=replan_wait

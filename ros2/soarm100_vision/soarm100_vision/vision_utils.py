@@ -81,6 +81,90 @@ def masked_depth_to_points(depth_m: np.ndarray, mask: np.ndarray, info: CameraIn
     return np.stack([x, y, z], axis=1).astype(np.float32)
 
 
+def expand_mask_bbox(mask: np.ndarray, ratio: float) -> np.ndarray:
+    """Return a bbox-expanded mask.
+
+    The original mask is kept exactly; the expanded result fills the enlarged
+    bounding box. This is useful as a permissive ROI for grasp planning while
+    keeping the raw SAM mask available for target-only point clouds.
+    """
+    m = np.asarray(mask, dtype=bool)
+    if m.size == 0 or not np.any(m):
+        return m.copy()
+    r = max(float(ratio), 0.0)
+    if r <= 0.0:
+        return m.copy()
+    ys, xs = np.nonzero(m)
+    h, w = m.shape[:2]
+    y0, y1 = int(ys.min()), int(ys.max())
+    x0, x1 = int(xs.min()), int(xs.max())
+    pad_y = max(1, int(round((y1 - y0 + 1) * r)))
+    pad_x = max(1, int(round((x1 - x0 + 1) * r)))
+    out = np.zeros_like(m, dtype=bool)
+    out[
+        max(0, y0 - pad_y) : min(h, y1 + pad_y + 1),
+        max(0, x0 - pad_x) : min(w, x1 + pad_x + 1),
+    ] = True
+    return out
+
+
+def dilate_mask(mask: np.ndarray, radius_px: int) -> np.ndarray:
+    m = np.asarray(mask, dtype=bool)
+    r = max(int(radius_px), 0)
+    if r == 0 or m.size == 0:
+        return m.copy()
+    out = m.copy()
+    h, w = m.shape[:2]
+    for dy in range(-r, r + 1):
+        for dx in range(-r, r + 1):
+            if dx == 0 and dy == 0:
+                continue
+            y0 = max(0, dy)
+            y1 = min(h, h + dy)
+            x0 = max(0, dx)
+            x1 = min(w, w + dx)
+            sy0 = max(0, -dy)
+            sy1 = min(h, h - dy)
+            sx0 = max(0, -dx)
+            sx1 = min(w, w - dx)
+            out[y0:y1, x0:x1] |= m[sy0:sy1, sx0:sx1]
+    return out
+
+
+def depth_to_points(depth_m: np.ndarray, info: CameraInfo) -> np.ndarray:
+    d = np.asarray(depth_m, dtype=np.float32)
+    return masked_depth_to_points(d, np.isfinite(d) & (d > 1e-4), info)
+
+
+def crop_points_xyz(
+    points: np.ndarray,
+    *,
+    xlim: tuple[float, float],
+    ylim: tuple[float, float],
+    zlim: tuple[float, float],
+) -> np.ndarray:
+    pts = np.asarray(points, dtype=np.float32).reshape(-1, 3)
+    if pts.shape[0] == 0:
+        return pts
+    m = (
+        (pts[:, 0] >= float(xlim[0]))
+        & (pts[:, 0] <= float(xlim[1]))
+        & (pts[:, 1] >= float(ylim[0]))
+        & (pts[:, 1] <= float(ylim[1]))
+        & (pts[:, 2] >= float(zlim[0]))
+        & (pts[:, 2] <= float(zlim[1]))
+    )
+    return pts[m]
+
+
+def filter_table_plane(points: np.ndarray, table_z_max: float, *, enabled: bool = True) -> tuple[np.ndarray, int]:
+    pts = np.asarray(points, dtype=np.float32).reshape(-1, 3)
+    if pts.shape[0] == 0 or not bool(enabled):
+        return pts, 0
+    keep = pts[:, 2] > float(table_z_max)
+    return pts[keep], int(np.count_nonzero(~keep))
+
+
 def pointcloud2_xyz(points: np.ndarray, *, stamp, frame_id: str) -> PointCloud2:
     pts = np.asarray(points, dtype=np.float32).reshape(-1, 3)
     msg = PointCloud2()
@@ -99,6 +183,30 @@ def pointcloud2_xyz(points: np.ndarray, *, stamp, frame_id: str) -> PointCloud2:
     msg.is_dense = False
     msg.data = pts.tobytes()
     return msg
+
+
+def pointcloud2_to_xyz(msg: PointCloud2) -> np.ndarray:
+    if msg.point_step < 12:
+        raise ValueError(f"PointCloud2 point_step too small: {msg.point_step}")
+    offsets = {field.name: int(field.offset) for field in msg.fields}
+    if not {"x", "y", "z"}.issubset(offsets):
+        raise ValueError("PointCloud2 requires x/y/z fields")
+    n = int(msg.width) * int(msg.height)
+    if n <= 0:
+        return np.zeros((0, 3), dtype=np.float32)
+    raw = np.frombuffer(msg.data, dtype=np.uint8)
+    pts = np.empty((n, 3), dtype=np.float32)
+    for i, name in enumerate(("x", "y", "z")):
+        off = offsets[name]
+        vals = np.ndarray(
+            shape=(n,),
+            dtype="<f4" if not msg.is_bigendian else ">f4",
+            buffer=raw,
+            offset=off,
+            strides=(int(msg.point_step),),
+        )
+        pts[:, i] = vals
+    return pts[np.all(np.isfinite(pts), axis=1)]
 
 
 def pose_from_xyz(xyz: np.ndarray, *, stamp, frame_id: str) -> PoseStamped:

@@ -1,5 +1,7 @@
 action/ExecuteGrasp.action
 action/ExecuteGrasp.idl
+action/ExecutePlannedGrasp.action
+action/ExecutePlannedGrasp.idl
 action/PlanGrasp.action
 action/PlanGrasp.idl
 srv/SegmentTarget.idl

@@ -1,0 +1,2 @@
+[INFO] [1784711734.933747599] [mujoco_policy_backend]: MuJoCo policy backend ready: action=execute_planned_grasp
+[ERROR] [1784711767.710732922] [mujoco_policy_backend]: Error raised in execute callback: Failed to update goal state: goal_handle attempted invalid transition from state ABORTED with event ABORT, at ./src/rcl_action/goal_handle.c:95

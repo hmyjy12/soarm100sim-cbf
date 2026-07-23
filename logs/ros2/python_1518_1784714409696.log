@@ -1,0 +1,22 @@
+[INFO] [1784714409.742203830] [soarm100_send_execute_grasp]: execute grasp goal accepted
+[INFO] [1784714409.743259563] [soarm100_send_execute_grasp]: feedback stage=SEGMENTING grasp=0.000 replan=False cbf=False reason=attempt=1
+[INFO] [1784714412.000458882] [soarm100_send_execute_grasp]: feedback stage=SEGMENTING grasp=0.000 replan=False cbf=False reason=attempt=1
+[INFO] [1784714412.001232710] [soarm100_send_execute_grasp]: feedback stage=PLANNING_GRASP grasp=0.000 replan=False cbf=False reason=attempt=1 cloud_points=576
+[INFO] [1784714415.573082117] [soarm100_send_execute_grasp]: feedback stage=PLANNING_FAILED grasp=0.000 replan=False cbf=False reason=plan_failed:plan_failed:worker_failed:1: /home/sophie/miniconda3/envs/graspnet_gpu/lib/python3.10/site-packages/MinkowskiEngine/__init__.py:36: UserWarning: The environment variable `OMP_NUM_THREADS` not set. MinkowskiEngine will automatically set `OMP_NUM_THREADS=16`. If you want to set `OMP_NUM_THREADS` manually, please export it on the command line before running a python script. e.g. `export OMP_NUM_THREADS=12; python your_program.py`. It is recommended to set it below 24.
+  warnings.warn(
+WARNING:root:Failed to import ros dependencies in rigid_transforms.py
+WARNING:root:autolab_core not installed as catkin package, RigidTransform ros methods will be unavailable
+
+[INFO] [1784714415.573516026] [soarm100_send_execute_grasp]: feedback stage=SEGMENTING grasp=0.000 replan=True cbf=False reason=attempt=2
+[INFO] [1784714415.755349830] [soarm100_send_execute_grasp]: feedback stage=SEGMENTING grasp=0.000 replan=True cbf=False reason=attempt=2
+[INFO] [1784714415.756019042] [soarm100_send_execute_grasp]: feedback stage=PLANNING_GRASP grasp=0.000 replan=True cbf=False reason=attempt=2 cloud_points=576
+[INFO] [1784714418.831259636] [soarm100_send_execute_grasp]: feedback stage=PLANNING_FAILED grasp=0.000 replan=True cbf=False reason=plan_failed:plan_failed:worker_failed:1: /home/sophie/miniconda3/envs/graspnet_gpu/lib/python3.10/site-packages/MinkowskiEngine/__init__.py:36: UserWarning: The environment variable `OMP_NUM_THREADS` not set. MinkowskiEngine will automatically set `OMP_NUM_THREADS=16`. If you want to set `OMP_NUM_THREADS` manually, please export it on the command line before running a python script. e.g. `export OMP_NUM_THREADS=12; python your_program.py`. It is recommended to set it below 24.
+  warnings.warn(
+WARNING:root:Failed to import ros dependencies in rigid_transforms.py
+WARNING:root:autolab_core not installed as catkin package, RigidTransform ros methods will be unavailable
+
+[INFO] [1784714418.832173873] [soarm100_send_execute_grasp]: result success=False attempts=2 lift=0.0000 reason=plan_failed:plan_failed:worker_failed:1: /home/sophie/miniconda3/envs/graspnet_gpu/lib/python3.10/site-packages/MinkowskiEngine/__init__.py:36: UserWarning: The environment variable `OMP_NUM_THREADS` not set. MinkowskiEngine will automatically set `OMP_NUM_THREADS=16`. If you want to set `OMP_NUM_THREADS` manually, please export it on the command line before running a python script. e.g. `export OMP_NUM_THREADS=12; python your_program.py`. It is recommended to set it below 24.
+  warnings.warn(
+WARNING:root:Failed to import ros dependencies in rigid_transforms.py
+WARNING:root:autolab_core not installed as catkin package, RigidTransform ros methods will be unavailable
+ final=(+0.420,+0.080,+0.022) quat=(+1.000,+0.000,+0.000,+0.000)

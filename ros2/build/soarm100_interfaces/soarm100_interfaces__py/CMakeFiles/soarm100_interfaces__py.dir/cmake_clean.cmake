@@ -5,6 +5,8 @@ file(REMOVE_RECURSE
   "../rosidl_generator_py/soarm100_interfaces/action/__init__.py"
   "../rosidl_generator_py/soarm100_interfaces/action/_execute_grasp.py"
   "../rosidl_generator_py/soarm100_interfaces/action/_execute_grasp_s.c"
+  "../rosidl_generator_py/soarm100_interfaces/action/_execute_planned_grasp.py"
+  "../rosidl_generator_py/soarm100_interfaces/action/_execute_planned_grasp_s.c"
   "../rosidl_generator_py/soarm100_interfaces/action/_plan_grasp.py"
   "../rosidl_generator_py/soarm100_interfaces/action/_plan_grasp_s.c"
   "../rosidl_generator_py/soarm100_interfaces/srv/__init__.py"

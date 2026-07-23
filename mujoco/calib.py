@@ -197,6 +197,37 @@ def T_world_cam_calibrated(
     return T_world_cam_from_mount(model, data, mount.parent_body, mount.T_parent_cam)
 
 
+def T_target_cam_source_cam(
+    model: mujoco.MjModel,
+    data: mujoco.MjData,
+    cal: CameraCalibration,
+    source_cam: str,
+    target_cam: str,
+) -> np.ndarray:
+    """相机间实时外参：``p_target_cam = T @ p_source_cam``。
+
+    固定相机使用标定 JSON 中的静态 ``T_parent_cam``；腕部相机使用当前
+    FK 的父 link 位姿乘静态手眼 ``T_wrist_roll_cam``，因此该矩阵会随关节角变化。
+    """
+    T_world_source = T_world_cam_calibrated(model, data, cal, source_cam)
+    T_world_target = T_world_cam_calibrated(model, data, cal, target_cam)
+    return invert_T(T_world_target) @ T_world_source
+
+
+def transform_points_between_cameras(
+    model: mujoco.MjModel,
+    data: mujoco.MjData,
+    cal: CameraCalibration,
+    points_source_cam: np.ndarray,
+    source_cam: str,
+    target_cam: str,
+) -> np.ndarray:
+    """N×3 点从 ``source_cam`` 相机系转换到 ``target_cam`` 相机系。"""
+    pts = np.asarray(points_source_cam, dtype=np.float64).reshape(-1, 3)
+    T_target_source = T_target_cam_source_cam(model, data, cal, source_cam, target_cam)
+    return camera_to_world(T_target_source, pts)
+
+
 def make_T(R: np.ndarray, t: np.ndarray) -> np.ndarray:
     T = np.eye(4, dtype=np.float64)
     T[:3, :3] = np.asarray(R, dtype=np.float64).reshape(3, 3)
