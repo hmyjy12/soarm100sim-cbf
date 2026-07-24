@@ -24,7 +24,7 @@ class GraspThresholds:
     final_grasp_dist: float = 0.010
     final_stable_time: float = 0.10
     # FINAL_APPROACH 最长等待时间（秒）；与 final_stable_time 解耦，不再用倍率相乘。
-    final_approach_timeout: float = 5.0
+    final_approach_timeout: float = 10.0
     close_time: float = 0.80
     lift_time: float = 0.80
     lift_height: float = 0.035

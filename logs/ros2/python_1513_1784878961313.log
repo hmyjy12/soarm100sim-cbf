@@ -1,0 +1,18 @@
+[INFO] [1784878961.360303824] [soarm100_send_planned_grasp]: planned grasp goal accepted
+[INFO] [1784878961.360939378] [soarm100_send_planned_grasp]: feedback stage=STARTING_MUJOCO_INPROCESS lift=0.0000 reason=using converted AnyGrasp pose in GraspStateMachine + MuJoCo runner; pre=0.350000,0.080000,0.090000 grasp=0.390000,0.080000,0.060000 quat=1.00000000,0.00000000,0.00000000,0.00000000 traj_log=logs/ros2_return_home_failure_smoke.jsonl
+[INFO] [1784878963.529833656] [soarm100_send_planned_grasp]: feedback stage=MOVE_TO_PREGRASP lift=0.0000 reason=reset
+[INFO] [1784878964.056645752] [soarm100_send_planned_grasp]: feedback stage=MOVE_TO_PREGRASP lift=0.0000 reason=reset
+[INFO] [1784878964.563334017] [soarm100_send_planned_grasp]: feedback stage=FINAL_APPROACH lift=0.0000 reason=pregrasp_reached
+[INFO] [1784878965.035501286] [soarm100_send_planned_grasp]: feedback stage=FINAL_APPROACH lift=0.0000 reason=pregrasp_reached
+[INFO] [1784878965.514698220] [soarm100_send_planned_grasp]: feedback stage=FINAL_APPROACH lift=0.0000 reason=pregrasp_reached
+[INFO] [1784878966.015519089] [soarm100_send_planned_grasp]: feedback stage=FINAL_APPROACH lift=0.0000 reason=track_update source=ros2_wrist_rgb
+[INFO] [1784878966.508348809] [soarm100_send_planned_grasp]: feedback stage=FINAL_APPROACH lift=0.0000 reason=track_update source=ros2_wrist_rgb
+[INFO] [1784878966.992486152] [soarm100_send_planned_grasp]: feedback stage=FINAL_APPROACH lift=0.0000 reason=track_update source=ros2_wrist_rgb
+[INFO] [1784878967.496182965] [soarm100_send_planned_grasp]: feedback stage=FINAL_APPROACH lift=0.0000 reason=track_update source=ros2_wrist_rgb
+[INFO] [1784878967.996576550] [soarm100_send_planned_grasp]: feedback stage=CLOSE lift=0.0000 reason=track_update source=ros2_wrist_rgb
+[INFO] [1784878968.463377583] [soarm100_send_planned_grasp]: feedback stage=CLOSE lift=0.0000 reason=track_update source=ros2_wrist_rgb
+[INFO] [1784878968.922148942] [soarm100_send_planned_grasp]: feedback stage=LIFT lift=0.0000 reason=close_complete
+[INFO] [1784878969.415990114] [soarm100_send_planned_grasp]: feedback stage=LIFT lift=0.0000 reason=close_complete
+[INFO] [1784878969.422098219] [soarm100_send_planned_grasp]: feedback stage=RETURN_HOME lift=0.0000 reason=grasp_failed:lift_failed_replan_exhausted attempts=0; returning cbf=False
+[INFO] [1784878969.486754551] [soarm100_send_planned_grasp]: feedback stage=RETURN_HOME lift=0.0000 reason=return_home=reached err=9.6mm cbf=False
+[INFO] [1784878969.496593737] [soarm100_send_planned_grasp]: result success=False return_code=1 lift=0.0000 reason=lift_failed_replan_exhausted attempts=0; return_home=reached err=9.6mm cbf=False

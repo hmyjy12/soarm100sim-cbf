@@ -1,0 +1,14 @@
+[INFO] [1784878920.561552576] [soarm100_send_planned_grasp]: planned grasp goal accepted
+[INFO] [1784878920.562167255] [soarm100_send_planned_grasp]: feedback stage=STARTING_MUJOCO_INPROCESS lift=0.0000 reason=using converted AnyGrasp pose in GraspStateMachine + MuJoCo runner; pre=0.350000,0.080000,0.090000 grasp=0.390000,0.080000,0.060000 quat=1.00000000,0.00000000,0.00000000,0.00000000 traj_log=logs/ros2_return_home_smoke.jsonl
+[INFO] [1784878922.741758726] [soarm100_send_planned_grasp]: feedback stage=MOVE_TO_PREGRASP lift=0.0000 reason=reset
+[INFO] [1784878923.270784803] [soarm100_send_planned_grasp]: feedback stage=MOVE_TO_PREGRASP lift=0.0000 reason=reset
+[INFO] [1784878923.746910169] [soarm100_send_planned_grasp]: feedback stage=FINAL_APPROACH lift=0.0000 reason=track_update source=ros2_wrist_rgb
+[INFO] [1784878924.232529077] [soarm100_send_planned_grasp]: feedback stage=FINAL_APPROACH lift=0.0000 reason=track_update source=ros2_wrist_rgb
+[INFO] [1784878924.732767506] [soarm100_send_planned_grasp]: feedback stage=FINAL_APPROACH lift=0.0000 reason=track_update source=ros2_wrist_rgb
+[INFO] [1784878925.248818389] [soarm100_send_planned_grasp]: feedback stage=FINAL_APPROACH lift=0.0000 reason=track_update source=ros2_wrist_rgb
+[INFO] [1784878925.737118268] [soarm100_send_planned_grasp]: feedback stage=FINAL_APPROACH lift=0.0000 reason=track_update source=ros2_wrist_rgb
+[INFO] [1784878926.252593317] [soarm100_send_planned_grasp]: feedback stage=FINAL_APPROACH lift=0.0006 reason=track_update source=ros2_wrist_rgb
+[INFO] [1784878926.743846533] [soarm100_send_planned_grasp]: feedback stage=CLOSE lift=0.0040 reason=final_stable
+[INFO] [1784878927.214099922] [soarm100_send_planned_grasp]: feedback stage=CLOSE lift=0.0045 reason=track_update source=ros2_wrist_rgb
+[INFO] [1784878927.739670053] [soarm100_send_planned_grasp]: feedback stage=LIFT lift=0.0106 reason=close_complete
+[INFO] [1784878927.753261151] [soarm100_send_planned_grasp]: result success=True return_code=0 lift=0.0150 reason=lift_success

@@ -24,6 +24,7 @@ setup(
             "obstacle_cloud_node = soarm100_vision.obstacle_cloud_node:main",
             "anygrasp_planner_node = soarm100_vision.anygrasp_planner_node:main",
             "mujoco_policy_backend_node = soarm100_vision.mujoco_policy_backend_node:main",
+            "mujoco_mirror_viewer_node = soarm100_vision.mujoco_mirror_viewer_node:main",
             "mujoco_camera_publisher_node = soarm100_vision.mujoco_camera_publisher_node:main",
             "sdf_cbf_backend_node = soarm100_vision.sdf_cbf_backend_node:main",
             "debug_viewer_node = soarm100_vision.debug_viewer_node:main",

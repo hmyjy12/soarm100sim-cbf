@@ -1,0 +1,5 @@
+[INFO] [1784876651.353464671] [obstacle_cloud]: obstacle cloud ready: depth=/camera/depth/image_rect_raw robot_mask=/robot/mask cloud=/obstacle/cloud
+[INFO] [1784876653.601310061] [obstacle_cloud]: stamp=1784876653.178171104 depth=296770 robot_mask_received=True self_rm=10430 workspace=0 table_rm=0 raw_obstacle=0 persistent=0 voxels=0 mode=static frame=1/5 bbox=empty
+[INFO] [1784876653.706029651] [obstacle_cloud]: stamp=1784876653.470908636 depth=296770 robot_mask_received=True self_rm=10430 workspace=0 table_rm=0 raw_obstacle=0 persistent=0 voxels=0 mode=static frame=2/5 bbox=empty
+[INFO] [1784876653.989838468] [obstacle_cloud]: stamp=1784876653.630079387 depth=296770 robot_mask_received=True self_rm=10430 workspace=0 table_rm=0 raw_obstacle=0 persistent=0 voxels=0 mode=static frame=3/5 bbox=empty
+[INFO] [1784876654.102958043] [obstacle_cloud]: stamp=1784876653.843952761 depth=296770 robot_mask_received=True self_rm=10430 workspace=0 table_rm=0 raw_obstacle=0 persistent=0 voxels=0 mode=static frame=4/5 bbox=empty

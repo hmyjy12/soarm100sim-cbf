@@ -16,7 +16,7 @@ from rclpy.executors import MultiThreadedExecutor
 from rclpy.node import Node
 from geometry_msgs.msg import PoseStamped
 from sensor_msgs.msg import CameraInfo, Image, PointCloud2, RegionOfInterest
-from std_msgs.msg import Bool, String
+from std_msgs.msg import Bool, Float64MultiArray, String
 
 from soarm100_interfaces.action import ExecutePlannedGrasp, PlanGrasp
 from soarm100_interfaces.msg import TrackedTarget2D
@@ -67,6 +67,7 @@ class MujocoPolicyBackendNode(Node):
         self.declare_parameter("obstacle_pos", "0.16,0.09,0.02")
         self.declare_parameter("backend_mode", "subprocess")
         self.declare_parameter("inprocess_viewer", False)
+        self.declare_parameter("sim_state_topic", "/mujoco/sim_state")
         self.declare_parameter("mjcf", "SO-ARM100/Simulation/SO100/mujoco/scene_plus_norod.xml")
         self.declare_parameter("checkpoint", "rl/checkpoints/2026-07-06_14-44-29/PPO/checkpoints/best_agent.pt")
         self.declare_parameter("calib_json", "logs/calib/camera_calib.json")
@@ -86,6 +87,7 @@ class MujocoPolicyBackendNode(Node):
         self.declare_parameter("grasp_track_source", "wrist")
         self.declare_parameter("grasp_track_max_delta", 0.020)
         self.declare_parameter("grasp_replan_max_attempts", 2)
+        self.declare_parameter("grasp_final_approach_timeout", 10.0)
         self.declare_parameter("replan_timeout_s", 70.0)
         self.declare_parameter("replan_top_k", 45)
         self.declare_parameter("segment_service", "segment_target")
@@ -124,6 +126,9 @@ class MujocoPolicyBackendNode(Node):
             Bool,
             str(self._param("backend_camera_active_topic")),
             1,
+        )
+        self._sim_state_pub = self.create_publisher(
+            Float64MultiArray, str(self._param("sim_state_topic")), 1
         )
         self.create_subscription(
             Bool,
@@ -422,8 +427,11 @@ class MujocoPolicyBackendNode(Node):
                     obstacle_pos=str(self._param("obstacle_pos")),
                     enable_cbf=bool(cfg.enable_avoidance),
                     replan_max_attempts=int(cfg.grasp_replan_max_attempts),
+                    final_approach_timeout=float(
+                        self._param("grasp_final_approach_timeout")
+                    ),
                     speed=float(cfg.speed),
-                    show_viewer=bool(self._param("inprocess_viewer")),
+                    show_viewer=False,
                     traj_log=str(cfg.traj_log),
                 )
             )
@@ -434,6 +442,7 @@ class MujocoPolicyBackendNode(Node):
                 obstacle_provider=self._latest_obstacle_points,
                 replan_provider=lambda attempt: self._request_replan(target_prompt, attempt),
                 camera_frame_cb=self._publish_sim_camera_frame,
+                sim_state_cb=self._publish_sim_state,
             )
             result.success = bool(run_res.success)
             result.reason = str(run_res.reason)
@@ -661,6 +670,11 @@ class MujocoPolicyBackendNode(Node):
         with self._lock:
             return None if self._tracked_2d is None else dict(self._tracked_2d)
 
+    def _publish_sim_state(self, sim_time: float, qpos: np.ndarray) -> None:
+        msg = Float64MultiArray()
+        msg.data = [float(sim_time), *np.asarray(qpos, dtype=np.float64).tolist()]
+        self._sim_state_pub.publish(msg)
+
     def _latest_obstacle_points(self):
         with self._lock:
             return {
@@ -687,6 +701,7 @@ class MujocoPolicyBackendNode(Node):
 
 
 def main() -> None:
+    os.environ.setdefault("MUJOCO_GL", "egl")
     faulthandler.enable(all_threads=True)
     rclpy.init()
     node = MujocoPolicyBackendNode()

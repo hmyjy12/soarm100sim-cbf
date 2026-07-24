@@ -42,6 +42,11 @@ class MujocoRunnerConfig:
     sdf_voxel_size: float = 0.010
     sdf_inflate: float = 0.015
     replan_max_attempts: int = 2
+    final_approach_timeout: float = 10.0
+    return_home_on_failure: bool = True
+    return_home_timeout: float = 8.0
+    return_home_tolerance: float = 0.020
+    return_home_stable_time: float = 0.20
     camera_publish_interval_steps: int = 5
     replan_camera_settle_s: float = 0.15
     max_steps: int = 900
@@ -87,6 +92,7 @@ class MujocoInProcessRunner:
         obstacle_provider=None,
         replan_provider=None,
         camera_frame_cb=None,
+        sim_state_cb=None,
     ) -> MujocoRunResult:
         modules = self._load_mujoco_modules()
         mujoco = modules["mujoco"]
@@ -145,6 +151,13 @@ class MujocoInProcessRunner:
         mujoco.mj_forward(model, data)
         self._settle_object(mujoco, model, data)
         mujoco.mj_forward(model, data)
+        home_tcp_pos, home_tcp_quat = runtime.tcp_pose_w(data, ids)
+        home_tcp_pos = np.asarray(home_tcp_pos, dtype=np.float64).copy()
+        home_tcp_quat = np.asarray(home_tcp_quat, dtype=np.float64).copy()
+        if sim_state_cb is not None:
+            sim_state_cb(
+                float(data.time), np.asarray(data.qpos, dtype=np.float64).copy()
+            )
         if camera_frame_cb is not None:
             assert camera_rig is not None
             self._publish_camera_frame(camera_rig, data, model, constants, camera_frame_cb)
@@ -156,7 +169,12 @@ class MujocoInProcessRunner:
             approach_axis_world=np.array([1.0, 0.0, 0.0], dtype=np.float64),
             gripper_width=float(cmd.gripper_width),
         )
-        thresholds = GraspThresholds(replan_max_attempts=max(int(self.cfg.replan_max_attempts), 0))
+        thresholds = GraspThresholds(
+            replan_max_attempts=max(int(self.cfg.replan_max_attempts), 0),
+            final_approach_timeout=max(
+                float(self.cfg.final_approach_timeout), float(self.cfg.ctrl_dt)
+            ),
+        )
         sm = GraspStateMachine(thresholds, ctrl_dt=float(self.cfg.ctrl_dt))
         sm.reset(plan)
         tracking_reference_world = np.asarray(
@@ -360,9 +378,59 @@ class MujocoInProcessRunner:
                 if feedback_cb is not None and step % max(int(round(0.5 / self.cfg.ctrl_dt)), 1) == 0:
                     feedback_cb(intent.phase.value, intent.reason, best_lift)
                 if intent.done:
+                    return_suffix = ""
+                    if (
+                        not intent.success
+                        and bool(self.cfg.return_home_on_failure)
+                        and "replan" in str(intent.reason)
+                    ):
+                        if feedback_cb is not None:
+                            feedback_cb(
+                                "RETURN_HOME",
+                                f"grasp_failed:{intent.reason}; "
+                                f"returning cbf={bool(self.cfg.enable_cbf)}",
+                                best_lift,
+                            )
+                        returned, return_err = self._return_home(
+                            mujoco=mujoco,
+                            model=model,
+                            data=data,
+                            runtime=runtime,
+                            constants=constants,
+                            cbf_mod=cbf_mod,
+                            stepper=stepper,
+                            ids=ids,
+                            target_pos=home_tcp_pos,
+                            target_quat=home_tcp_quat,
+                            obstacle_provider=obstacle_provider,
+                            camera_rig=camera_rig,
+                            camera_frame_cb=camera_frame_cb,
+                            sim_state_cb=sim_state_cb,
+                        )
+                        return_suffix = (
+                            f"; return_home={'reached' if returned else 'timeout'}"
+                            f" err={return_err * 1000.0:.1f}mm"
+                            f" cbf={bool(self.cfg.enable_cbf)}"
+                        )
+                        self._append_event_log(
+                            log_path,
+                            step=step,
+                            event="return_home",
+                            attempt=int(sm.replan_attempts),
+                            success=returned,
+                            error_m=return_err,
+                            cbf_enabled=bool(self.cfg.enable_cbf),
+                            reason=intent.reason,
+                        )
+                        if feedback_cb is not None:
+                            feedback_cb(
+                                "RETURN_HOME",
+                                return_suffix.lstrip("; "),
+                                best_lift,
+                            )
                     return MujocoRunResult(
                         success=bool(intent.success),
-                        reason=str(intent.reason),
+                        reason=f"{intent.reason}{return_suffix}",
                         lift_height=float(best_lift),
                         final_phase=sm.phase.value,
                         steps=step,
@@ -414,6 +482,11 @@ class MujocoInProcessRunner:
                 for _ in range(int(constants.DECIMATION)):
                     mujoco.mj_step(model, data)
                 native_stage(step, "after_mj_step")
+                if sim_state_cb is not None:
+                    sim_state_cb(
+                        float(data.time),
+                        np.asarray(data.qpos, dtype=np.float64).copy(),
+                    )
                 if viewer is not None and step % max(int(self.cfg.viewer_sync_interval), 1) == 0:
                     native_stage(step, "before_overlay")
                     self._draw_grasp_overlay(
@@ -453,6 +526,104 @@ class MujocoInProcessRunner:
             final_phase=sm.phase.value,
             steps=int(total_step_budget),
         )
+
+    def _return_home(
+        self,
+        *,
+        mujoco,
+        model,
+        data,
+        runtime,
+        constants,
+        cbf_mod,
+        stepper,
+        ids,
+        target_pos,
+        target_quat,
+        obstacle_provider,
+        camera_rig,
+        camera_frame_cb,
+        sim_state_cb,
+    ) -> tuple[bool, float]:
+        max_steps = max(
+            int(np.ceil(float(self.cfg.return_home_timeout) / self.cfg.ctrl_dt)), 1
+        )
+        stable_required = max(
+            int(np.ceil(float(self.cfg.return_home_stable_time) / self.cfg.ctrl_dt)), 1
+        )
+        stable = 0
+        error = float("inf")
+        obstacle_seq = -1
+        dynamic = (
+            bool(self.cfg.enable_cbf)
+            and str(self.cfg.obstacle_mode).strip().lower() == "dynamic"
+        )
+
+        for step in range(max_steps):
+            if (
+                dynamic
+                and camera_rig is not None
+                and camera_frame_cb is not None
+                and step % max(int(self.cfg.camera_publish_interval_steps), 1) == 0
+            ):
+                self._publish_camera_frame(
+                    camera_rig,
+                    data,
+                    model,
+                    constants,
+                    camera_frame_cb,
+                    include_scene=True,
+                    include_scene_rgb=False,
+                    include_wrist=False,
+                )
+            if bool(self.cfg.enable_cbf) and obstacle_provider is not None:
+                payload = obstacle_provider()
+                seq = int(payload.get("seq", 0)) if isinstance(payload, dict) else step
+                if seq != obstacle_seq:
+                    points = np.asarray(
+                        payload.get("points", np.zeros((0, 3)))
+                        if isinstance(payload, dict)
+                        else payload,
+                        dtype=np.float64,
+                    ).reshape(-1, 3)
+                    obstacle_seq = seq
+                    stepper.cbf_obstacles = (
+                        [
+                            cbf_mod.PointCloudSdfObstacle(
+                                name="ros2_return_home_obstacle_cloud",
+                                points=points,
+                                voxel_size=float(self.cfg.sdf_voxel_size),
+                                inflate=float(self.cfg.sdf_inflate),
+                            )
+                        ]
+                        if points.shape[0] > 0
+                        else []
+                    )
+
+            tcp_pos, _ = runtime.tcp_pose_w(data, ids)
+            error = float(
+                np.linalg.norm(
+                    np.asarray(tcp_pos, dtype=np.float64)
+                    - np.asarray(target_pos, dtype=np.float64)
+                )
+            )
+            stable = stable + 1 if error <= float(self.cfg.return_home_tolerance) else 0
+            if stable >= stable_required:
+                return True, error
+
+            q_target, _ = stepper.compute_targets(
+                model, data, target_pos, target_quat
+            )
+            q_target[-1] = float(self.cfg.open_q)
+            runtime.set_ctrl(data, ids, q_target)
+            for _ in range(int(constants.DECIMATION)):
+                mujoco.mj_step(model, data)
+            if sim_state_cb is not None:
+                sim_state_cb(
+                    float(data.time),
+                    np.asarray(data.qpos, dtype=np.float64).copy(),
+                )
+        return False, error
 
     def _load_mujoco_modules(self) -> dict:
         old_path = list(sys.path)

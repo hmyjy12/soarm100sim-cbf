@@ -45,6 +45,7 @@ MUJOCO_INPROCESS_VIEWER="false"
 MUJOCO_INTERNAL_TRACKING="true"
 MUJOCO_TRACK_SOURCE="wrist"
 MUJOCO_REPLAN_ATTEMPTS="2"
+MUJOCO_FINAL_APPROACH_TIMEOUT="10.0"
 AUTO_PLANNED_GRASP="false"
 AUTO_PREGRASP_POS="0.35,0.08,0.09"
 AUTO_GRASP_POS="0.39,0.08,0.06"
@@ -104,6 +105,7 @@ Options:
   --mujoco-track-source wrist|gt|none
                                   Tracking source passed to play.py. Default: wrist.
   --mujoco-replan-attempts N      Maximum in-place SAM+AnyGrasp replans. Default: 2.
+  --final-approach-timeout SEC    Maximum FINAL_APPROACH time before CLOSE. Default: 10.0.
   --auto-planned-grasp on|off     Send one ExecutePlannedGrasp goal after launch. Default: off.
   --auto-pregrasp-pos X,Y,Z       Planned pregrasp pose position for auto goal.
   --auto-grasp-pos X,Y,Z          Planned final grasp pose position for auto goal.
@@ -289,6 +291,10 @@ while [[ $# -gt 0 ]]; do
       ;;
     --mujoco-replan-attempts)
       MUJOCO_REPLAN_ATTEMPTS="$2"
+      shift 2
+      ;;
+    --final-approach-timeout)
+      MUJOCO_FINAL_APPROACH_TIMEOUT="$2"
       shift 2
       ;;
     --auto-planned-grasp)
@@ -520,7 +526,7 @@ fi
 echo "[soarm100_ros2] conda_env=$CONDA_ENV"
 echo "[soarm100_ros2] target=$TARGET_PROMPT avoidance=$ENABLE_AVOIDANCE"
 echo "[soarm100_ros2] visualizer=$ENABLE_VISUALIZER show_window=$SHOW_WINDOW"
-echo "[soarm100_ros2] mujoco=$ENABLE_MUJOCO mujoco_backend=$ENABLE_MUJOCO_BACKEND backend_mode=$MUJOCO_BACKEND_MODE inprocess_viewer=$MUJOCO_INPROCESS_VIEWER mujoco_camera=$ENABLE_MUJOCO_CAMERA sdf_backend=$ENABLE_SDF_BACKEND anygrasp_planner=$ENABLE_ANYGRASP_PLANNER obstacle=$MUJOCO_OBSTACLE obstacle_mode=$OBSTACLE_MODE sdf_cbf=$MUJOCO_SDF_CBF mjcf=$MUJOCO_MJCF target_object=$MUJOCO_TARGET_OBJECT target_pos=$MUJOCO_TARGET_POS obstacle_body=$MUJOCO_OBSTACLE_BODY obstacle_pos=$MUJOCO_OBSTACLE_POS speed=$MUJOCO_SPEED internal_tracking=$MUJOCO_INTERNAL_TRACKING track_source=$MUJOCO_TRACK_SOURCE replan_attempts=$MUJOCO_REPLAN_ATTEMPTS"
+echo "[soarm100_ros2] mujoco=$ENABLE_MUJOCO mujoco_backend=$ENABLE_MUJOCO_BACKEND backend_mode=$MUJOCO_BACKEND_MODE inprocess_viewer=$MUJOCO_INPROCESS_VIEWER mujoco_camera=$ENABLE_MUJOCO_CAMERA sdf_backend=$ENABLE_SDF_BACKEND anygrasp_planner=$ENABLE_ANYGRASP_PLANNER obstacle=$MUJOCO_OBSTACLE obstacle_mode=$OBSTACLE_MODE sdf_cbf=$MUJOCO_SDF_CBF mjcf=$MUJOCO_MJCF target_object=$MUJOCO_TARGET_OBJECT target_pos=$MUJOCO_TARGET_POS obstacle_body=$MUJOCO_OBSTACLE_BODY obstacle_pos=$MUJOCO_OBSTACLE_POS speed=$MUJOCO_SPEED internal_tracking=$MUJOCO_INTERNAL_TRACKING track_source=$MUJOCO_TRACK_SOURCE replan_attempts=$MUJOCO_REPLAN_ATTEMPTS final_approach_timeout=$MUJOCO_FINAL_APPROACH_TIMEOUT"
 echo "[soarm100_ros2] auto_planned_grasp=$AUTO_PLANNED_GRASP auto_execute_grasp=$AUTO_EXECUTE_GRASP pregrasp=$AUTO_PREGRASP_POS grasp=$AUTO_GRASP_POS quat=$AUTO_GRASP_QUAT width=$AUTO_GRIPPER_WIDTH delay=$AUTO_GOAL_DELAY"
 echo "[soarm100_ros2] mujoco_python=$MUJOCO_PYTHON"
 echo "[soarm100_ros2] yolo=$YOLO_MODEL"
@@ -609,6 +615,7 @@ ros2 launch soarm100_vision vision_grasp.launch.py \
   mujoco_internal_tracking:="$MUJOCO_INTERNAL_TRACKING" \
   mujoco_track_source:="$MUJOCO_TRACK_SOURCE" \
   mujoco_replan_attempts:="$MUJOCO_REPLAN_ATTEMPTS" \
+  mujoco_final_approach_timeout:="$MUJOCO_FINAL_APPROACH_TIMEOUT" \
   obstacle_mode:="$OBSTACLE_MODE" \
   enable_visualizer:="$ENABLE_VISUALIZER" \
   show_window:="$SHOW_WINDOW"

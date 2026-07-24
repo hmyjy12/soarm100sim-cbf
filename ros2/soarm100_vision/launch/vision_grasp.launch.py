@@ -38,6 +38,9 @@ def generate_launch_description():
     mujoco_internal_tracking = LaunchConfiguration("mujoco_internal_tracking")
     mujoco_track_source = LaunchConfiguration("mujoco_track_source")
     mujoco_replan_attempts = LaunchConfiguration("mujoco_replan_attempts")
+    mujoco_final_approach_timeout = LaunchConfiguration(
+        "mujoco_final_approach_timeout"
+    )
     tracking_topic = LaunchConfiguration("tracking_topic")
     obstacle_cloud_topic = LaunchConfiguration("obstacle_cloud_topic")
     obstacle_mode = LaunchConfiguration("obstacle_mode")
@@ -78,6 +81,9 @@ def generate_launch_description():
             DeclareLaunchArgument("mujoco_internal_tracking", default_value="true"),
             DeclareLaunchArgument("mujoco_track_source", default_value="wrist"),
             DeclareLaunchArgument("mujoco_replan_attempts", default_value="2"),
+            DeclareLaunchArgument(
+                "mujoco_final_approach_timeout", default_value="10.0"
+            ),
             DeclareLaunchArgument("tracking_topic", default_value="/target/tracked_2d"),
             DeclareLaunchArgument("obstacle_cloud_topic", default_value="/obstacle/cloud"),
             DeclareLaunchArgument("obstacle_mode", default_value="static"),
@@ -187,7 +193,7 @@ def generate_launch_description():
                         "python_executable": mujoco_python,
                         "speed": mujoco_speed,
                         "backend_mode": mujoco_backend_mode,
-                        "inprocess_viewer": mujoco_inprocess_viewer,
+                        "inprocess_viewer": False,
                         "use_sim_camera_extrinsics": use_sim_camera_extrinsics,
                         "default_target_object": mujoco_target_object,
                         "default_target_pos": mujoco_target_pos,
@@ -199,8 +205,23 @@ def generate_launch_description():
                         "enable_internal_tracking": mujoco_internal_tracking,
                         "grasp_track_source": mujoco_track_source,
                         "grasp_replan_max_attempts": mujoco_replan_attempts,
+                        "grasp_final_approach_timeout": mujoco_final_approach_timeout,
                         "tracking_topic": tracking_topic,
                         "obstacle_cloud_topic": obstacle_cloud_topic,
+                    }
+                ],
+            ),
+            Node(
+                package="soarm100_vision",
+                executable="mujoco_mirror_viewer_node",
+                name="mujoco_mirror_viewer",
+                output="screen",
+                condition=IfCondition(mujoco_inprocess_viewer),
+                parameters=[
+                    {
+                        "repo_root": repo_root,
+                        "mjcf": mujoco_mjcf,
+                        "sim_state_topic": "/mujoco/sim_state",
                     }
                 ],
             ),

@@ -11,6 +11,7 @@ soarm100_vision/grasp_orchestrator_node.py
 soarm100_vision/mujoco_camera_publisher_node.py
 soarm100_vision/mujoco_ik_filter.py
 soarm100_vision/mujoco_inprocess_runner.py
+soarm100_vision/mujoco_mirror_viewer_node.py
 soarm100_vision/mujoco_policy_backend_node.py
 soarm100_vision/obstacle_cloud_node.py
 soarm100_vision/policy_backend_core.py
