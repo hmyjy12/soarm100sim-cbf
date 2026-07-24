@@ -1,0 +1,7 @@
+[INFO] [1784883689.742082240] [soarm100_send_execute_grasp]: execute grasp goal accepted
+[INFO] [1784883689.742619634] [soarm100_send_execute_grasp]: feedback stage=SEGMENTING grasp=0.000 replan=False cbf=True reason=attempt=1
+[INFO] [1784883692.455123641] [soarm100_send_execute_grasp]: feedback stage=SEGMENTING grasp=0.000 replan=False cbf=True reason=attempt=1
+[INFO] [1784883692.455685741] [soarm100_send_execute_grasp]: feedback stage=PLANNING_GRASP grasp=0.000 replan=False cbf=True reason=attempt=1 cloud_points=1135
+[INFO] [1784883701.750940977] [soarm100_send_execute_grasp]: feedback stage=READY_TO_EXECUTE_POLICY grasp=0.220 replan=False cbf=True reason=planned score=0.220 width=89.9mm candidates=6 grasp[frame=scene_depth_optical pos=(+0.093,+0.020,+0.574) quat=(+0.459,+0.117,+0.037,+0.880)]
+[INFO] [1784883701.751351512] [soarm100_send_execute_grasp]: feedback stage=EXECUTING_POLICY grasp=0.220 replan=False cbf=True reason=sending planned grasp to MuJoCo/policy backend
+[INFO] [1784883774.288985325] [soarm100_send_execute_grasp]: result success=False attempts=1 lift=0.0000 reason=replan_attempts_exhausted attempts=2; return_home=reached err=14.0mm cbf=True final=(+0.093,+0.020,+0.574) quat=(+0.459,+0.117,+0.037,+0.880)

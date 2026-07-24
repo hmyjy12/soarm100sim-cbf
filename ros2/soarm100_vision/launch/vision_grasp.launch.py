@@ -3,6 +3,7 @@ from launch.actions import DeclareLaunchArgument
 from launch.conditions import IfCondition
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
+from launch_ros.parameter_descriptions import ParameterValue
 
 
 def generate_launch_description():
@@ -213,7 +214,9 @@ def generate_launch_description():
                         "obstacle_pos": mujoco_obstacle_pos,
                         "obstacle_motion": mujoco_obstacle_motion,
                         "obstacle_motion_amp": mujoco_obstacle_motion_amp,
-                        "obstacle_motion_period": mujoco_obstacle_motion_period,
+                        "obstacle_motion_period": ParameterValue(
+                            mujoco_obstacle_motion_period, value_type=float
+                        ),
                         "obstacle_mode": obstacle_mode,
                         "enable_internal_tracking": mujoco_internal_tracking,
                         "grasp_track_source": mujoco_track_source,
@@ -239,7 +242,9 @@ def generate_launch_description():
                         "obstacle_pos": mujoco_obstacle_pos,
                         "obstacle_motion": mujoco_obstacle_motion,
                         "obstacle_motion_amp": mujoco_obstacle_motion_amp,
-                        "obstacle_motion_period": mujoco_obstacle_motion_period,
+                        "obstacle_motion_period": ParameterValue(
+                            mujoco_obstacle_motion_period, value_type=float
+                        ),
                     }
                 ],
             ),
