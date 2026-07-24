@@ -133,8 +133,9 @@ class GraspStateMachine:
         self.last_reason = "reset"
 
     def accept_replan(self, plan: GraspPlan) -> None:
-        self.replan_attempts += 1
+        next_attempt = self.replan_attempts + 1
         self.reset(plan)
+        self.replan_attempts = next_attempt
         self.last_reason = f"replan_accept attempt={self.replan_attempts}"
 
     def reject_replan(self, reason: str) -> None:

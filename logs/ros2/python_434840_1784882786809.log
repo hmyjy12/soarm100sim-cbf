@@ -1,0 +1,13 @@
+[INFO] [1784882787.266985776] [soarm100_mujoco_camera_publisher]: MuJoCo camera publisher ready: mjcf=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/SO-ARM100/Simulation/SO100/mujoco/scene_plus_grasp_obstacle.xml scene=scene_depth wrist=wrist_rgb target=target_object pos=0.42,0.08,0.021 obstacle=True obstacle_rod_mount@0.17,0.09,0.02
+[INFO] [1784882789.608816557] [soarm100_mujoco_camera_publisher]: scene initialization frame=1/5 sim_time=0.752s robot_mask_pixels=10430
+[INFO] [1784882789.753486539] [soarm100_mujoco_camera_publisher]: scene initialization frame=2/5 sim_time=0.754s robot_mask_pixels=10430
+[INFO] [1784882789.982502187] [soarm100_mujoco_camera_publisher]: scene initialization frame=3/5 sim_time=0.756s robot_mask_pixels=10430
+[INFO] [1784882790.174155181] [soarm100_mujoco_camera_publisher]: scene initialization frame=4/5 sim_time=0.758s robot_mask_pixels=10430
+[INFO] [1784882790.357383678] [soarm100_mujoco_camera_publisher]: scene initialization frame=5/5 sim_time=0.760s robot_mask_pixels=10430
+[INFO] [1784882804.514782718] [soarm100_mujoco_camera_publisher]: standalone camera publishing paused
+[INFO] [1784882870.109829303] [soarm100_mujoco_camera_publisher]: standalone camera publishing resumed
+[INFO] [1784882870.254916102] [soarm100_mujoco_camera_publisher]: scene initialization frame=1/5 sim_time=0.762s robot_mask_pixels=10430
+[INFO] [1784882870.396321595] [soarm100_mujoco_camera_publisher]: scene initialization frame=2/5 sim_time=0.764s robot_mask_pixels=10430
+[INFO] [1784882870.537856306] [soarm100_mujoco_camera_publisher]: scene initialization frame=3/5 sim_time=0.766s robot_mask_pixels=10430
+[INFO] [1784882870.679907734] [soarm100_mujoco_camera_publisher]: scene initialization frame=4/5 sim_time=0.768s robot_mask_pixels=10431
+[INFO] [1784882870.821615851] [soarm100_mujoco_camera_publisher]: scene initialization frame=5/5 sim_time=0.770s robot_mask_pixels=10431

@@ -29,6 +29,11 @@ def generate_launch_description():
     mujoco_enable_obstacle = LaunchConfiguration("mujoco_enable_obstacle")
     mujoco_obstacle_body = LaunchConfiguration("mujoco_obstacle_body")
     mujoco_obstacle_pos = LaunchConfiguration("mujoco_obstacle_pos")
+    mujoco_obstacle_motion = LaunchConfiguration("mujoco_obstacle_motion")
+    mujoco_obstacle_motion_amp = LaunchConfiguration("mujoco_obstacle_motion_amp")
+    mujoco_obstacle_motion_period = LaunchConfiguration(
+        "mujoco_obstacle_motion_period"
+    )
     mujoco_traj_log = LaunchConfiguration("mujoco_traj_log")
     mujoco_python = LaunchConfiguration("mujoco_python")
     mujoco_speed = LaunchConfiguration("mujoco_speed")
@@ -72,6 +77,11 @@ def generate_launch_description():
             DeclareLaunchArgument("mujoco_enable_obstacle", default_value="false"),
             DeclareLaunchArgument("mujoco_obstacle_body", default_value="obstacle_rod_mount"),
             DeclareLaunchArgument("mujoco_obstacle_pos", default_value="0.16,0.09,0.02"),
+            DeclareLaunchArgument("mujoco_obstacle_motion", default_value="none"),
+            DeclareLaunchArgument(
+                "mujoco_obstacle_motion_amp", default_value="0.03,0.00,0.00"
+            ),
+            DeclareLaunchArgument("mujoco_obstacle_motion_period", default_value="5.0"),
             DeclareLaunchArgument("mujoco_traj_log", default_value="logs/ros2_execute_grasp.jsonl"),
             DeclareLaunchArgument("mujoco_python", default_value="python"),
             DeclareLaunchArgument("mujoco_speed", default_value="1.0"),
@@ -201,6 +211,9 @@ def generate_launch_description():
                         "enable_obstacle": mujoco_enable_obstacle,
                         "obstacle_body": mujoco_obstacle_body,
                         "obstacle_pos": mujoco_obstacle_pos,
+                        "obstacle_motion": mujoco_obstacle_motion,
+                        "obstacle_motion_amp": mujoco_obstacle_motion_amp,
+                        "obstacle_motion_period": mujoco_obstacle_motion_period,
                         "obstacle_mode": obstacle_mode,
                         "enable_internal_tracking": mujoco_internal_tracking,
                         "grasp_track_source": mujoco_track_source,
@@ -222,6 +235,11 @@ def generate_launch_description():
                         "repo_root": repo_root,
                         "mjcf": mujoco_mjcf,
                         "sim_state_topic": "/mujoco/sim_state",
+                        "obstacle_body": mujoco_obstacle_body,
+                        "obstacle_pos": mujoco_obstacle_pos,
+                        "obstacle_motion": mujoco_obstacle_motion,
+                        "obstacle_motion_amp": mujoco_obstacle_motion_amp,
+                        "obstacle_motion_period": mujoco_obstacle_motion_period,
                     }
                 ],
             ),

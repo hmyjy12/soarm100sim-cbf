@@ -151,8 +151,15 @@ class ObstacleCloudNode(Node):
             z_max=float(self._param("table_z_max")),
         ).apply(pts_workspace)
         self._persistence.voxel_size = float(self._param("persistence_voxel_size"))
-        self._persistence.min_hits = int(self._param("persistence_hits"))
-        self._persistence.forget_frames = int(self._param("persistence_forget_frames"))
+        if mode == "dynamic":
+            # A moving obstacle must not leave a union of historical occupied
+            # voxels behind it. Keep only the current frame; CBF receives the
+            # obstacle velocity separately from the simulation backend.
+            self._persistence.min_hits = 1
+            self._persistence.forget_frames = 0
+        else:
+            self._persistence.min_hits = int(self._param("persistence_hits"))
+            self._persistence.forget_frames = int(self._param("persistence_forget_frames"))
         persistent = self._persistence.update(pts)
         if mode == "static" and persistent.shape[0] >= int(self._param("min_points")):
             self._frozen_cloud = persistent.copy()

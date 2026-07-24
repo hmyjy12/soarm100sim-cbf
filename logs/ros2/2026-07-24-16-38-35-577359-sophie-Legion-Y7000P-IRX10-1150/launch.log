@@ -1,0 +1,8 @@
+1784882315.5780141 [INFO] [launch]: All log files can be found below /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/logs/ros2/2026-07-24-16-38-35-577359-sophie-Legion-Y7000P-IRX10-1150
+1784882315.5781043 [INFO] [launch]: Default logging verbosity is set to INFO
+1784882315.6222420 [INFO] [target_segmenter_node-1]: process started with pid [1192]
+1784882315.6223543 [INFO] [obstacle_cloud_node-2]: process started with pid [1194]
+1784882315.6224027 [INFO] [wrist_tracker_node-3]: process started with pid [1196]
+1784882315.6224411 [INFO] [mujoco_policy_backend_node-4]: process started with pid [1198]
+1784882315.6224740 [INFO] [grasp_orchestrator_node-5]: process started with pid [1200]
+1784882316.1218152 [ERROR] [mujoco_policy_backend_node-4]: process has died [pid 1198, exit code 1, cmd '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/soarm100_vision/mujoco_policy_backend_node --ros-args -r __node:=mujoco_policy_backend --params-file /tmp/launch_params_h1j1d1e_'].

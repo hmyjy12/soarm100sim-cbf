@@ -20,6 +20,11 @@ class MujocoMirrorViewerNode(Node):
             "mjcf", "SO-ARM100/Simulation/SO100/mujoco/scene_plus_norod.xml"
         )
         self.declare_parameter("sim_state_topic", "/mujoco/sim_state")
+        self.declare_parameter("obstacle_body", "obstacle_rod_mount")
+        self.declare_parameter("obstacle_pos", "0.16,0.09,0.02")
+        self.declare_parameter("obstacle_motion", "none")
+        self.declare_parameter("obstacle_motion_amp", "0.03,0.00,0.00")
+        self.declare_parameter("obstacle_motion_period", 5.0)
 
         repo = Path(str(self.get_parameter("repo_root").value)).expanduser().resolve()
         mjcf = Path(str(self.get_parameter("mjcf").value))
@@ -35,6 +40,17 @@ class MujocoMirrorViewerNode(Node):
         self._mujoco = mujoco
         self._model = mujoco.MjModel.from_xml_path(str(mjcf))
         self._data = mujoco.MjData(self._model)
+        self._obstacle_body_id = mujoco.mj_name2id(
+            self._model,
+            mujoco.mjtObj.mjOBJ_BODY,
+            str(self.get_parameter("obstacle_body").value),
+        )
+        self._obstacle_pos = self._vec3(
+            str(self.get_parameter("obstacle_pos").value)
+        )
+        self._obstacle_amp = self._vec3(
+            str(self.get_parameter("obstacle_motion_amp").value)
+        )
         self._pending: np.ndarray | None = None
         self._pending_time = 0.0
         self._lock = threading.Lock()
@@ -73,8 +89,37 @@ class MujocoMirrorViewerNode(Node):
         if qpos is not None:
             self._data.qpos[:] = qpos
             self._data.time = sim_time
+            self._update_obstacle(sim_time)
             self._mujoco.mj_forward(self._model, self._data)
         self._viewer.sync()
+
+    @staticmethod
+    def _vec3(value: str) -> np.ndarray:
+        values = [float(item) for item in value.replace(",", " ").split()]
+        if len(values) != 3:
+            raise ValueError(f"expected x,y,z, got {value!r}")
+        return np.asarray(values, dtype=np.float64)
+
+    def _update_obstacle(self, sim_time: float) -> None:
+        if self._obstacle_body_id < 0:
+            return
+        kind = str(self.get_parameter("obstacle_motion").value).strip().lower()
+        period = max(float(self.get_parameter("obstacle_motion_period").value), 1.0e-6)
+        theta = 2.0 * np.pi * float(sim_time) / period
+        if kind == "line":
+            pos = self._obstacle_pos + self._obstacle_amp * np.sin(theta)
+        elif kind == "circle":
+            pos = self._obstacle_pos + np.array(
+                [
+                    self._obstacle_amp[0] * np.cos(theta),
+                    self._obstacle_amp[1] * np.sin(theta),
+                    self._obstacle_amp[2] * np.sin(theta),
+                ],
+                dtype=np.float64,
+            )
+        else:
+            pos = self._obstacle_pos
+        self._model.body_pos[self._obstacle_body_id] = pos
 
     def close(self) -> None:
         self._viewer.close()

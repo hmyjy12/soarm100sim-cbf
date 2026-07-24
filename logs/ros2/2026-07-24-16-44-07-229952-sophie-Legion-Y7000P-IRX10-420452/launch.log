@@ -1,0 +1,17 @@
+1784882647.2306001 [INFO] [launch]: All log files can be found below /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/logs/ros2/2026-07-24-16-44-07-229952-sophie-Legion-Y7000P-IRX10-420452
+1784882647.2306895 [INFO] [launch]: Default logging verbosity is set to INFO
+1784882647.2792988 [INFO] [target_segmenter_node-1]: process started with pid [420510]
+1784882647.2794783 [INFO] [obstacle_cloud_node-2]: process started with pid [420512]
+1784882647.2795672 [INFO] [anygrasp_planner_node-3]: process started with pid [420514]
+1784882647.2796464 [INFO] [wrist_tracker_node-4]: process started with pid [420516]
+1784882647.2797208 [INFO] [mujoco_policy_backend_node-5]: process started with pid [420518]
+1784882647.2797937 [INFO] [mujoco_mirror_viewer_node-6]: process started with pid [420520]
+1784882647.2798631 [INFO] [grasp_orchestrator_node-7]: process started with pid [420522]
+1784882698.6359386 [WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
+1784882698.6800361 [ERROR] [wrist_tracker_node-4]: process has died [pid 420516, exit code -2, cmd '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/soarm100_vision/wrist_tracker_node --ros-args -r __node:=wrist_tracker --params-file /tmp/launch_params_c9hxdmoa'].
+1784882698.7585077 [ERROR] [mujoco_mirror_viewer_node-6]: process has died [pid 420520, exit code -2, cmd '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/soarm100_vision/mujoco_mirror_viewer_node --ros-args -r __node:=mujoco_mirror_viewer --params-file /tmp/launch_params_40klwgc3'].
+1784882698.7896354 [ERROR] [grasp_orchestrator_node-7]: process has died [pid 420522, exit code 1, cmd '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/soarm100_vision/grasp_orchestrator_node --ros-args -r __node:=grasp_orchestrator --params-file /tmp/launch_params_gvt_x6z9'].
+1784882698.8036449 [ERROR] [obstacle_cloud_node-2]: process has died [pid 420512, exit code 1, cmd '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/soarm100_vision/obstacle_cloud_node --ros-args -r __node:=obstacle_cloud --params-file /tmp/launch_params_3qn_e3l5'].
+1784882698.8058510 [ERROR] [anygrasp_planner_node-3]: process has died [pid 420514, exit code 1, cmd '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/soarm100_vision/anygrasp_planner_node --ros-args -r __node:=anygrasp_planner --params-file /tmp/launch_params_yw98yeco'].
+1784882698.9000971 [ERROR] [mujoco_policy_backend_node-5]: process has died [pid 420518, exit code -2, cmd '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/soarm100_vision/mujoco_policy_backend_node --ros-args -r __node:=mujoco_policy_backend --params-file /tmp/launch_params_gv4a4cfp'].
+1784882699.3343763 [ERROR] [target_segmenter_node-1]: process has died [pid 420510, exit code 1, cmd '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/soarm100_vision/target_segmenter_node --ros-args -r __node:=target_segmenter --params-file /tmp/launch_params_smoq9skj'].

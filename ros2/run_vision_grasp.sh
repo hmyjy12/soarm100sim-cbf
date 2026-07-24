@@ -34,6 +34,9 @@ MUJOCO_SDF_CBF="auto"
 OBSTACLE_MODE="static"
 MUJOCO_OBSTACLE_BODY="obstacle_rod_mount"
 MUJOCO_OBSTACLE_POS="0.16,0.09,0.02"
+MUJOCO_OBSTACLE_MOTION="line"
+MUJOCO_OBSTACLE_MOTION_AMP="0.03,0.00,0.00"
+MUJOCO_OBSTACLE_MOTION_PERIOD="5.0"
 MUJOCO_MJCF=""
 MUJOCO_TARGET_OBJECT="cube"
 MUJOCO_TARGET_POS="0.42,0.08,0.021"
@@ -91,6 +94,11 @@ Options:
   --obstacle-mode static|dynamic  Static snapshot SDF or continuously updated depth SDF. Default: static.
   --mujoco-obstacle-body NAME     MuJoCo obstacle body to reposition. Default: obstacle_rod_mount.
   --mujoco-obstacle-pos X,Y,Z     Static obstacle body position when obstacle is on. Default: 0.16,0.09,0.02.
+  --mujoco-obstacle-motion TYPE   Dynamic trajectory: line/circle. Default: line.
+  --mujoco-obstacle-motion-amp X,Y,Z
+                                  Dynamic obstacle amplitude. Default: 0.03,0,0 m.
+  --mujoco-obstacle-motion-period SEC
+                                  Dynamic obstacle period. Default: 5.0 s.
   --mujoco-target-object NAME     MuJoCo grasp target: cube/bottle/sphere/custom. Default: cube.
   --mujoco-target-pos X,Y,Z       MuJoCo target world position. Default: 0.42,0.08,0.021.
   --mujoco-traj-log PATH          MuJoCo trajectory log path.
@@ -237,6 +245,21 @@ while [[ $# -gt 0 ]]; do
       ;;
     --mujoco-obstacle-pos)
       MUJOCO_OBSTACLE_POS="$2"
+      shift 2
+      ;;
+    --mujoco-obstacle-motion)
+      case "$2" in
+        line|circle) MUJOCO_OBSTACLE_MOTION="$2" ;;
+        *) echo "[ERROR] --mujoco-obstacle-motion must be line/circle" >&2; exit 2 ;;
+      esac
+      shift 2
+      ;;
+    --mujoco-obstacle-motion-amp)
+      MUJOCO_OBSTACLE_MOTION_AMP="$2"
+      shift 2
+      ;;
+    --mujoco-obstacle-motion-period)
+      MUJOCO_OBSTACLE_MOTION_PERIOD="$2"
       shift 2
       ;;
     --mujoco-target-object)
@@ -463,7 +486,12 @@ if [[ "$ENABLE_MUJOCO" == "true" ]]; then
       --obstacle-body "$MUJOCO_OBSTACLE_BODY"
       --obstacle-motion line
       --obstacle-motion-center "$MUJOCO_OBSTACLE_POS"
-      --obstacle-motion-amp "0,0,0"
+      --obstacle-motion-amp "$(
+        [[ "$OBSTACLE_MODE" == "dynamic" ]] &&
+          printf '%s' "$MUJOCO_OBSTACLE_MOTION_AMP" ||
+          printf '0,0,0'
+      )"
+      --obstacle-motion-period "$MUJOCO_OBSTACLE_MOTION_PERIOD"
     )
   fi
   if [[ "$MUJOCO_SDF_CBF" == "true" ]]; then
@@ -526,7 +554,7 @@ fi
 echo "[soarm100_ros2] conda_env=$CONDA_ENV"
 echo "[soarm100_ros2] target=$TARGET_PROMPT avoidance=$ENABLE_AVOIDANCE"
 echo "[soarm100_ros2] visualizer=$ENABLE_VISUALIZER show_window=$SHOW_WINDOW"
-echo "[soarm100_ros2] mujoco=$ENABLE_MUJOCO mujoco_backend=$ENABLE_MUJOCO_BACKEND backend_mode=$MUJOCO_BACKEND_MODE inprocess_viewer=$MUJOCO_INPROCESS_VIEWER mujoco_camera=$ENABLE_MUJOCO_CAMERA sdf_backend=$ENABLE_SDF_BACKEND anygrasp_planner=$ENABLE_ANYGRASP_PLANNER obstacle=$MUJOCO_OBSTACLE obstacle_mode=$OBSTACLE_MODE sdf_cbf=$MUJOCO_SDF_CBF mjcf=$MUJOCO_MJCF target_object=$MUJOCO_TARGET_OBJECT target_pos=$MUJOCO_TARGET_POS obstacle_body=$MUJOCO_OBSTACLE_BODY obstacle_pos=$MUJOCO_OBSTACLE_POS speed=$MUJOCO_SPEED internal_tracking=$MUJOCO_INTERNAL_TRACKING track_source=$MUJOCO_TRACK_SOURCE replan_attempts=$MUJOCO_REPLAN_ATTEMPTS final_approach_timeout=$MUJOCO_FINAL_APPROACH_TIMEOUT"
+echo "[soarm100_ros2] mujoco=$ENABLE_MUJOCO mujoco_backend=$ENABLE_MUJOCO_BACKEND backend_mode=$MUJOCO_BACKEND_MODE inprocess_viewer=$MUJOCO_INPROCESS_VIEWER mujoco_camera=$ENABLE_MUJOCO_CAMERA sdf_backend=$ENABLE_SDF_BACKEND anygrasp_planner=$ENABLE_ANYGRASP_PLANNER obstacle=$MUJOCO_OBSTACLE obstacle_mode=$OBSTACLE_MODE obstacle_motion=$MUJOCO_OBSTACLE_MOTION amp=$MUJOCO_OBSTACLE_MOTION_AMP period=$MUJOCO_OBSTACLE_MOTION_PERIOD sdf_cbf=$MUJOCO_SDF_CBF mjcf=$MUJOCO_MJCF target_object=$MUJOCO_TARGET_OBJECT target_pos=$MUJOCO_TARGET_POS obstacle_body=$MUJOCO_OBSTACLE_BODY obstacle_pos=$MUJOCO_OBSTACLE_POS speed=$MUJOCO_SPEED internal_tracking=$MUJOCO_INTERNAL_TRACKING track_source=$MUJOCO_TRACK_SOURCE replan_attempts=$MUJOCO_REPLAN_ATTEMPTS final_approach_timeout=$MUJOCO_FINAL_APPROACH_TIMEOUT"
 echo "[soarm100_ros2] auto_planned_grasp=$AUTO_PLANNED_GRASP auto_execute_grasp=$AUTO_EXECUTE_GRASP pregrasp=$AUTO_PREGRASP_POS grasp=$AUTO_GRASP_POS quat=$AUTO_GRASP_QUAT width=$AUTO_GRIPPER_WIDTH delay=$AUTO_GOAL_DELAY"
 echo "[soarm100_ros2] mujoco_python=$MUJOCO_PYTHON"
 echo "[soarm100_ros2] yolo=$YOLO_MODEL"
@@ -607,6 +635,13 @@ ros2 launch soarm100_vision vision_grasp.launch.py \
   mujoco_enable_obstacle:="$MUJOCO_OBSTACLE" \
   mujoco_obstacle_body:="$MUJOCO_OBSTACLE_BODY" \
   mujoco_obstacle_pos:="$MUJOCO_OBSTACLE_POS" \
+  mujoco_obstacle_motion:="$(
+    [[ "$OBSTACLE_MODE" == "dynamic" ]] &&
+      printf '%s' "$MUJOCO_OBSTACLE_MOTION" ||
+      printf 'none'
+  )" \
+  mujoco_obstacle_motion_amp:="$MUJOCO_OBSTACLE_MOTION_AMP" \
+  mujoco_obstacle_motion_period:="$MUJOCO_OBSTACLE_MOTION_PERIOD" \
   mujoco_traj_log:="$MUJOCO_TRAJ_LOG" \
   mujoco_python:="$MUJOCO_PYTHON" \
   mujoco_speed:="$MUJOCO_SPEED" \

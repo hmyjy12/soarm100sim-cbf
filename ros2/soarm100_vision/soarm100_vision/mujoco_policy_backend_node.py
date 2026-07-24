@@ -65,6 +65,9 @@ class MujocoPolicyBackendNode(Node):
         self.declare_parameter("enable_obstacle", False)
         self.declare_parameter("obstacle_body", "obstacle_rod_mount")
         self.declare_parameter("obstacle_pos", "0.16,0.09,0.02")
+        self.declare_parameter("obstacle_motion", "none")
+        self.declare_parameter("obstacle_motion_amp", "0.03,0.00,0.00")
+        self.declare_parameter("obstacle_motion_period", 5.0)
         self.declare_parameter("backend_mode", "subprocess")
         self.declare_parameter("inprocess_viewer", False)
         self.declare_parameter("sim_state_topic", "/mujoco/sim_state")
@@ -425,6 +428,11 @@ class MujocoPolicyBackendNode(Node):
                     obstacle_mode=str(self._param("obstacle_mode")),
                     obstacle_body=str(self._param("obstacle_body")),
                     obstacle_pos=str(self._param("obstacle_pos")),
+                    obstacle_motion=str(self._param("obstacle_motion")),
+                    obstacle_motion_amp=str(self._param("obstacle_motion_amp")),
+                    obstacle_motion_period=float(
+                        self._param("obstacle_motion_period")
+                    ),
                     enable_cbf=bool(cfg.enable_avoidance),
                     replan_max_attempts=int(cfg.grasp_replan_max_attempts),
                     final_approach_timeout=float(

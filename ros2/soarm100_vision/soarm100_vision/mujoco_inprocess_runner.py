@@ -34,6 +34,9 @@ class MujocoRunnerConfig:
     obstacle_mode: str = "static"
     obstacle_body: str = "obstacle_rod_mount"
     obstacle_pos: str = "0.16,0.09,0.02"
+    obstacle_motion: str = "none"
+    obstacle_motion_amp: str = "0.03,0.00,0.00"
+    obstacle_motion_period: float = 5.0
     enable_cbf: bool = False
     cbf_d_safe: float = 0.020
     cbf_gamma: float = 0.8
@@ -189,6 +192,10 @@ class MujocoInProcessRunner:
         best_lift = 0.0
         obstacle_points = np.zeros((0, 3), dtype=np.float64)
         obstacle_seq = -1
+        obstacle_base_pos = self._parse_vec3(self.cfg.obstacle_pos)
+        obstacle_motion_amp = self._parse_vec3(self.cfg.obstacle_motion_amp)
+        current_obstacle_pos = obstacle_base_pos.copy()
+        obstacle_step_velocity = np.zeros(3, dtype=np.float64)
         log_path = self._log_path()
         native_log_stream = None
         if log_path is not None:
@@ -221,6 +228,23 @@ class MujocoInProcessRunner:
                         final_phase=sm.phase.value,
                         steps=step,
                     )
+                if (
+                    bool(self.cfg.enable_obstacle)
+                    and str(self.cfg.obstacle_motion).strip().lower() != "none"
+                ):
+                    current_obstacle_pos, obstacle_step_velocity = self._obstacle_motion_state(
+                        float(data.time),
+                        obstacle_base_pos,
+                        obstacle_motion_amp,
+                    )
+                    self._set_target_body(
+                        mujoco,
+                        model,
+                        data,
+                        str(self.cfg.obstacle_body),
+                        current_obstacle_pos,
+                        reset_velocity=False,
+                    )
                 if bool(self.cfg.enable_cbf) and obstacle_provider is not None and cbf_cfg is not None:
                     payload = obstacle_provider()
                     next_seq = (
@@ -245,6 +269,7 @@ class MujocoInProcessRunner:
                                     points=obstacle_points,
                                     voxel_size=float(self.cfg.sdf_voxel_size),
                                     inflate=float(self.cfg.sdf_inflate),
+                                    velocity=obstacle_step_velocity,
                                 )
                             ]
                         else:
@@ -474,6 +499,8 @@ class MujocoInProcessRunner:
                     gripper_mode=intent.gripper_mode,
                     tracking_obs=tracking_obs,
                     obstacle_points=obstacle_points,
+                    obstacle_pos=current_obstacle_pos,
+                    obstacle_velocity=obstacle_step_velocity,
                     info=step_info,
                     enable_cbf=bool(self.cfg.enable_cbf),
                 )
@@ -486,6 +513,48 @@ class MujocoInProcessRunner:
                     sim_state_cb(
                         float(data.time),
                         np.asarray(data.qpos, dtype=np.float64).copy(),
+                    )
+                if step + 1 >= total_step_budget:
+                    returned, return_err = self._return_home(
+                        mujoco=mujoco,
+                        model=model,
+                        data=data,
+                        runtime=runtime,
+                        constants=constants,
+                        cbf_mod=cbf_mod,
+                        stepper=stepper,
+                        ids=ids,
+                        target_pos=home_tcp_pos,
+                        target_quat=home_tcp_quat,
+                        obstacle_provider=obstacle_provider,
+                        camera_rig=camera_rig,
+                        camera_frame_cb=camera_frame_cb,
+                        sim_state_cb=sim_state_cb,
+                    )
+                    reason = (
+                        f"runner_step_budget_exhausted steps={total_step_budget}; "
+                        f"return_home={'reached' if returned else 'timeout'} "
+                        f"err={return_err * 1000.0:.1f}mm "
+                        f"cbf={bool(self.cfg.enable_cbf)}"
+                    )
+                    self._append_event_log(
+                        log_path,
+                        step=step,
+                        event="return_home",
+                        attempt=int(sm.replan_attempts),
+                        success=returned,
+                        error_m=return_err,
+                        cbf_enabled=bool(self.cfg.enable_cbf),
+                        reason="runner_step_budget_exhausted",
+                    )
+                    if feedback_cb is not None:
+                        feedback_cb("RETURN_HOME", reason, best_lift)
+                    return MujocoRunResult(
+                        success=False,
+                        reason=reason,
+                        lift_height=float(best_lift),
+                        final_phase=sm.phase.value,
+                        steps=step + 1,
                     )
                 if viewer is not None and step % max(int(self.cfg.viewer_sync_interval), 1) == 0:
                     native_stage(step, "before_overlay")
@@ -527,6 +596,38 @@ class MujocoInProcessRunner:
             steps=int(total_step_budget),
         )
 
+    def _obstacle_motion_state(
+        self,
+        sim_time: float,
+        base_pos: np.ndarray,
+        amplitude: np.ndarray,
+    ) -> tuple[np.ndarray, np.ndarray]:
+        kind = str(self.cfg.obstacle_motion).strip().lower()
+        period = max(float(self.cfg.obstacle_motion_period), 1.0e-6)
+        omega = 2.0 * np.pi / period
+        theta = omega * float(sim_time)
+        amp = np.asarray(amplitude, dtype=np.float64).reshape(3)
+        base = np.asarray(base_pos, dtype=np.float64).reshape(3)
+        if kind == "line":
+            pos = base + amp * np.sin(theta)
+            velocity = amp * omega * np.cos(theta) * float(self.cfg.ctrl_dt)
+        elif kind == "circle":
+            pos = base + np.array(
+                [amp[0] * np.cos(theta), amp[1] * np.sin(theta), amp[2] * np.sin(theta)],
+                dtype=np.float64,
+            )
+            velocity = np.array(
+                [
+                    -amp[0] * omega * np.sin(theta),
+                    amp[1] * omega * np.cos(theta),
+                    amp[2] * omega * np.cos(theta),
+                ],
+                dtype=np.float64,
+            ) * float(self.cfg.ctrl_dt)
+        else:
+            return base.copy(), np.zeros(3, dtype=np.float64)
+        return pos, velocity
+
     def _return_home(
         self,
         *,
@@ -558,8 +659,26 @@ class MujocoInProcessRunner:
             bool(self.cfg.enable_cbf)
             and str(self.cfg.obstacle_mode).strip().lower() == "dynamic"
         )
+        obstacle_base_pos = self._parse_vec3(self.cfg.obstacle_pos)
+        obstacle_amp = self._parse_vec3(self.cfg.obstacle_motion_amp)
 
         for step in range(max_steps):
+            obstacle_velocity = np.zeros(3, dtype=np.float64)
+            if (
+                bool(self.cfg.enable_obstacle)
+                and str(self.cfg.obstacle_motion).strip().lower() != "none"
+            ):
+                obstacle_pos, obstacle_velocity = self._obstacle_motion_state(
+                    float(data.time), obstacle_base_pos, obstacle_amp
+                )
+                self._set_target_body(
+                    mujoco,
+                    model,
+                    data,
+                    str(self.cfg.obstacle_body),
+                    obstacle_pos,
+                    reset_velocity=False,
+                )
             if (
                 dynamic
                 and camera_rig is not None
@@ -594,6 +713,7 @@ class MujocoInProcessRunner:
                                 points=points,
                                 voxel_size=float(self.cfg.sdf_voxel_size),
                                 inflate=float(self.cfg.sdf_inflate),
+                                velocity=obstacle_velocity,
                             )
                         ]
                         if points.shape[0] > 0
@@ -852,7 +972,16 @@ class MujocoInProcessRunner:
             # of camera/control range so no stray contacts affect the baseline.
             self._set_target_body(mujoco, model, data, body_name, np.array([0.0, 0.0, -1.0], dtype=np.float64))
 
-    def _set_target_body(self, mujoco, model, data, body_name: str, pos: np.ndarray) -> None:
+    def _set_target_body(
+        self,
+        mujoco,
+        model,
+        data,
+        body_name: str,
+        pos: np.ndarray,
+        *,
+        reset_velocity: bool = True,
+    ) -> None:
         bid = mujoco.mj_name2id(model, mujoco.mjtObj.mjOBJ_BODY, str(body_name))
         if bid < 0:
             return
@@ -867,10 +996,12 @@ class MujocoInProcessRunner:
             dadr = int(model.jnt_dofadr[free_jid])
             data.qpos[qadr : qadr + 3] = target
             data.qpos[qadr + 3 : qadr + 7] = np.array([1.0, 0.0, 0.0, 0.0], dtype=np.float64)
-            data.qvel[dadr : dadr + 6] = 0.0
+            if reset_velocity:
+                data.qvel[dadr : dadr + 6] = 0.0
         else:
             model.body_pos[int(bid)] = target
-        data.qvel[:] = 0.0
+        if reset_velocity:
+            data.qvel[:] = 0.0
         mujoco.mj_forward(model, data)
 
     def _settle_object(self, mujoco, model, data) -> None:
@@ -1020,6 +1151,8 @@ class MujocoInProcessRunner:
         gripper_mode: str,
         tracking_obs: TrackingObservation | None,
         obstacle_points: np.ndarray,
+        obstacle_pos: np.ndarray,
+        obstacle_velocity: np.ndarray,
         info: dict,
         enable_cbf: bool,
     ) -> None:
@@ -1055,6 +1188,8 @@ class MujocoInProcessRunner:
             "tracking_confidence": float(tracking_obs.confidence) if tracking_obs is not None else 0.0,
             "tracking_reason": str(tracking_obs.reason) if tracking_obs is not None else "",
             "obstacle_points": int(obs_pts.shape[0]),
+            "obstacle_pos": self._arr(obstacle_pos),
+            "obstacle_step_velocity": self._arr(obstacle_velocity),
             "cbf_enabled": bool(enable_cbf),
             "cbf_active": bool(info.get("cbf_active", False)),
             "h_min": float(info.get("h_min", float("inf"))),

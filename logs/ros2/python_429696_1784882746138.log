@@ -1,0 +1,12 @@
+[INFO] [1784882746.165101535] [wrist_tracker]: RGB wrist tracker ready: rgb=/wrist/color/image_raw hint=/wrist/tracking_roi tracked=/target/tracked_2d
+[WARN] [1784882770.673743063] [wrist_tracker]: saved low-confidence wrist diagnostics: frame=30 confidence=0.384 dir=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/logs/ros2_tracking_failures
+[WARN] [1784882770.928528252] [wrist_tracker]: saved low-confidence wrist diagnostics: frame=31 confidence=0.000 dir=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/logs/ros2_tracking_failures
+[WARN] [1784882771.164014615] [wrist_tracker]: saved low-confidence wrist diagnostics: frame=32 confidence=0.324 dir=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/logs/ros2_tracking_failures
+[WARN] [1784882771.463849872] [wrist_tracker]: saved low-confidence wrist diagnostics: frame=33 confidence=0.434 dir=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/logs/ros2_tracking_failures
+[WARN] [1784882772.667843501] [wrist_tracker]: saved low-confidence wrist diagnostics: frame=38 confidence=0.023 dir=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/logs/ros2_tracking_failures
+[WARN] [1784882772.928184430] [wrist_tracker]: saved low-confidence wrist diagnostics: frame=39 confidence=0.000 dir=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/logs/ros2_tracking_failures
+[WARN] [1784882773.168606908] [wrist_tracker]: saved low-confidence wrist diagnostics: frame=40 confidence=0.000 dir=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/logs/ros2_tracking_failures
+[WARN] [1784882773.428617889] [wrist_tracker]: saved low-confidence wrist diagnostics: frame=41 confidence=0.000 dir=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/logs/ros2_tracking_failures
+[WARN] [1784882773.702643634] [wrist_tracker]: saved low-confidence wrist diagnostics: frame=42 confidence=0.000 dir=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/logs/ros2_tracking_failures
+[WARN] [1784882775.728766942] [wrist_tracker]: saved low-confidence wrist diagnostics: frame=50 confidence=0.275 dir=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/logs/ros2_tracking_failures
+[WARN] [1784882775.969906086] [wrist_tracker]: saved low-confidence wrist diagnostics: frame=51 confidence=0.268 dir=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/logs/ros2_tracking_failures
