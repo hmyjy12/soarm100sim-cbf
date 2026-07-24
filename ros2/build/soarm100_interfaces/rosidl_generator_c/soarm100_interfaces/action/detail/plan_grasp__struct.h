@@ -53,6 +53,7 @@ typedef struct soarm100_interfaces__action__PlanGrasp_Goal__Sequence
 // #include "rosidl_runtime_c/string.h"
 // Member 'selected_grasp_pose'
 // Member 'selected_pregrasp_pose'
+// Member 'target_center_pose'
 // already included above
 // #include "geometry_msgs/msg/detail/pose_stamped__struct.h"
 
@@ -63,6 +64,7 @@ typedef struct soarm100_interfaces__action__PlanGrasp_Result
   rosidl_runtime_c__String reason;
   geometry_msgs__msg__PoseStamped selected_grasp_pose;
   geometry_msgs__msg__PoseStamped selected_pregrasp_pose;
+  geometry_msgs__msg__PoseStamped target_center_pose;
   float grasp_score;
   float gripper_width;
   uint16_t candidate_count;

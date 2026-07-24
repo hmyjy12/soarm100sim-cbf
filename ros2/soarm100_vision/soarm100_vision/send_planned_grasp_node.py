@@ -43,8 +43,12 @@ class PlannedGraspClient(Node):
         goal = ExecutePlannedGrasp.Goal()
         goal.pregrasp_pose = _pose(self.args.pregrasp_pos, self.args.grasp_quat, self.args.frame)
         goal.grasp_pose = _pose(self.args.grasp_pos, self.args.grasp_quat, self.args.frame)
+        goal.tracking_reference_pose = _pose(
+            self.args.target_pos, "1,0,0,0", self.args.frame
+        )
         goal.gripper_width = float(self.args.gripper_width)
         goal.enable_avoidance = bool(self.args.enable_avoidance)
+        goal.target_prompt = str(self.args.target_prompt)
         goal.target_object = str(self.args.target_object)
         goal.target_pos = str(self.args.target_pos)
         goal.traj_log = str(self.args.traj_log)
@@ -78,6 +82,7 @@ def main(argv: list[str] | None = None) -> None:
     parser.add_argument("--grasp-pos", default="0.39,0.08,0.06")
     parser.add_argument("--grasp-quat", default="1,0,0,0")
     parser.add_argument("--gripper-width", type=float, default=0.05)
+    parser.add_argument("--target-prompt", default="red cube")
     parser.add_argument("--target-object", default="cube")
     parser.add_argument("--target-pos", default="0.42,0.08,0.021")
     parser.add_argument("--traj-log", default="logs/ros2_inprocess_grasp.jsonl")

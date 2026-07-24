@@ -1,2 +1,1 @@
-from soarm100_interfaces.srv._segment_target import SegmentTarget  # noqa: F401
-from soarm100_interfaces.srv._set_avoidance import SetAvoidance  # noqa: F401
+/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_generator_py/soarm100_interfaces/srv/__init__.py

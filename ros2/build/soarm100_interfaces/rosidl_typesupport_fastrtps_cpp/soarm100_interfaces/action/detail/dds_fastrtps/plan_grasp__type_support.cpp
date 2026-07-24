@@ -366,6 +366,8 @@ ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_fastrtps_cp
 
 // functions for geometry_msgs::msg::PoseStamped already declared above
 
+// functions for geometry_msgs::msg::PoseStamped already declared above
+
 
 namespace soarm100_interfaces
 {
@@ -393,6 +395,10 @@ cdr_serialize(
   // Member: selected_pregrasp_pose
   geometry_msgs::msg::typesupport_fastrtps_cpp::cdr_serialize(
     ros_message.selected_pregrasp_pose,
+    cdr);
+  // Member: target_center_pose
+  geometry_msgs::msg::typesupport_fastrtps_cpp::cdr_serialize(
+    ros_message.target_center_pose,
     cdr);
   // Member: grasp_score
   cdr << ros_message.grasp_score;
@@ -426,6 +432,10 @@ cdr_deserialize(
   // Member: selected_pregrasp_pose
   geometry_msgs::msg::typesupport_fastrtps_cpp::cdr_deserialize(
     cdr, ros_message.selected_pregrasp_pose);
+
+  // Member: target_center_pose
+  geometry_msgs::msg::typesupport_fastrtps_cpp::cdr_deserialize(
+    cdr, ros_message.target_center_pose);
 
   // Member: grasp_score
   cdr >> ros_message.grasp_score;
@@ -472,6 +482,11 @@ get_serialized_size(
   current_alignment +=
     geometry_msgs::msg::typesupport_fastrtps_cpp::get_serialized_size(
     ros_message.selected_pregrasp_pose, current_alignment);
+  // Member: target_center_pose
+
+  current_alignment +=
+    geometry_msgs::msg::typesupport_fastrtps_cpp::get_serialized_size(
+    ros_message.target_center_pose, current_alignment);
   // Member: grasp_score
   {
     size_t item_size = sizeof(ros_message.grasp_score);
@@ -555,6 +570,25 @@ max_serialized_size_PlanGrasp_Result(
   }
 
   // Member: selected_pregrasp_pose
+  {
+    size_t array_size = 1;
+
+
+    last_member_size = 0;
+    for (size_t index = 0; index < array_size; ++index) {
+      bool inner_full_bounded;
+      bool inner_is_plain;
+      size_t inner_size =
+        geometry_msgs::msg::typesupport_fastrtps_cpp::max_serialized_size_PoseStamped(
+        inner_full_bounded, inner_is_plain, current_alignment);
+      last_member_size += inner_size;
+      current_alignment += inner_size;
+      full_bounded &= inner_full_bounded;
+      is_plain &= inner_is_plain;
+    }
+  }
+
+  // Member: target_center_pose
   {
     size_t array_size = 1;
 

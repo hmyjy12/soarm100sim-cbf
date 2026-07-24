@@ -420,12 +420,22 @@ pub struct ExecutePlannedGrasp_Goal {
 
     // This member is not documented.
     #[allow(missing_docs)]
+    pub tracking_reference_pose: geometry_msgs::msg::rmw::PoseStamped,
+
+
+    // This member is not documented.
+    #[allow(missing_docs)]
     pub gripper_width: f32,
 
 
     // This member is not documented.
     #[allow(missing_docs)]
     pub enable_avoidance: bool,
+
+
+    // This member is not documented.
+    #[allow(missing_docs)]
+    pub target_prompt: rosidl_runtime_rs::String,
 
 
     // This member is not documented.
@@ -876,6 +886,11 @@ pub struct PlanGrasp_Result {
     // This member is not documented.
     #[allow(missing_docs)]
     pub selected_pregrasp_pose: geometry_msgs::msg::rmw::PoseStamped,
+
+
+    // This member is not documented.
+    #[allow(missing_docs)]
+    pub target_center_pose: geometry_msgs::msg::rmw::PoseStamped,
 
 
     // This member is not documented.

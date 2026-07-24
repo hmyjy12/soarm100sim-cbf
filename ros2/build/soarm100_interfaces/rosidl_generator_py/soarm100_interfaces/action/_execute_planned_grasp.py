@@ -63,8 +63,10 @@ class ExecutePlannedGrasp_Goal(metaclass=Metaclass_ExecutePlannedGrasp_Goal):
     __slots__ = [
         '_pregrasp_pose',
         '_grasp_pose',
+        '_tracking_reference_pose',
         '_gripper_width',
         '_enable_avoidance',
+        '_target_prompt',
         '_target_object',
         '_target_pos',
         '_traj_log',
@@ -73,8 +75,10 @@ class ExecutePlannedGrasp_Goal(metaclass=Metaclass_ExecutePlannedGrasp_Goal):
     _fields_and_field_types = {
         'pregrasp_pose': 'geometry_msgs/PoseStamped',
         'grasp_pose': 'geometry_msgs/PoseStamped',
+        'tracking_reference_pose': 'geometry_msgs/PoseStamped',
         'gripper_width': 'float',
         'enable_avoidance': 'boolean',
+        'target_prompt': 'string',
         'target_object': 'string',
         'target_pos': 'string',
         'traj_log': 'string',
@@ -83,8 +87,10 @@ class ExecutePlannedGrasp_Goal(metaclass=Metaclass_ExecutePlannedGrasp_Goal):
     SLOT_TYPES = (
         rosidl_parser.definition.NamespacedType(['geometry_msgs', 'msg'], 'PoseStamped'),  # noqa: E501
         rosidl_parser.definition.NamespacedType(['geometry_msgs', 'msg'], 'PoseStamped'),  # noqa: E501
+        rosidl_parser.definition.NamespacedType(['geometry_msgs', 'msg'], 'PoseStamped'),  # noqa: E501
         rosidl_parser.definition.BasicType('float'),  # noqa: E501
         rosidl_parser.definition.BasicType('boolean'),  # noqa: E501
+        rosidl_parser.definition.UnboundedString(),  # noqa: E501
         rosidl_parser.definition.UnboundedString(),  # noqa: E501
         rosidl_parser.definition.UnboundedString(),  # noqa: E501
         rosidl_parser.definition.UnboundedString(),  # noqa: E501
@@ -98,8 +104,11 @@ class ExecutePlannedGrasp_Goal(metaclass=Metaclass_ExecutePlannedGrasp_Goal):
         self.pregrasp_pose = kwargs.get('pregrasp_pose', PoseStamped())
         from geometry_msgs.msg import PoseStamped
         self.grasp_pose = kwargs.get('grasp_pose', PoseStamped())
+        from geometry_msgs.msg import PoseStamped
+        self.tracking_reference_pose = kwargs.get('tracking_reference_pose', PoseStamped())
         self.gripper_width = kwargs.get('gripper_width', float())
         self.enable_avoidance = kwargs.get('enable_avoidance', bool())
+        self.target_prompt = kwargs.get('target_prompt', str())
         self.target_object = kwargs.get('target_object', str())
         self.target_pos = kwargs.get('target_pos', str())
         self.traj_log = kwargs.get('traj_log', str())
@@ -137,9 +146,13 @@ class ExecutePlannedGrasp_Goal(metaclass=Metaclass_ExecutePlannedGrasp_Goal):
             return False
         if self.grasp_pose != other.grasp_pose:
             return False
+        if self.tracking_reference_pose != other.tracking_reference_pose:
+            return False
         if self.gripper_width != other.gripper_width:
             return False
         if self.enable_avoidance != other.enable_avoidance:
+            return False
+        if self.target_prompt != other.target_prompt:
             return False
         if self.target_object != other.target_object:
             return False
@@ -183,6 +196,20 @@ class ExecutePlannedGrasp_Goal(metaclass=Metaclass_ExecutePlannedGrasp_Goal):
         self._grasp_pose = value
 
     @builtins.property
+    def tracking_reference_pose(self):
+        """Message field 'tracking_reference_pose'."""
+        return self._tracking_reference_pose
+
+    @tracking_reference_pose.setter
+    def tracking_reference_pose(self, value):
+        if __debug__:
+            from geometry_msgs.msg import PoseStamped
+            assert \
+                isinstance(value, PoseStamped), \
+                "The 'tracking_reference_pose' field must be a sub message of type 'PoseStamped'"
+        self._tracking_reference_pose = value
+
+    @builtins.property
     def gripper_width(self):
         """Message field 'gripper_width'."""
         return self._gripper_width
@@ -209,6 +236,19 @@ class ExecutePlannedGrasp_Goal(metaclass=Metaclass_ExecutePlannedGrasp_Goal):
                 isinstance(value, bool), \
                 "The 'enable_avoidance' field must be of type 'bool'"
         self._enable_avoidance = value
+
+    @builtins.property
+    def target_prompt(self):
+        """Message field 'target_prompt'."""
+        return self._target_prompt
+
+    @target_prompt.setter
+    def target_prompt(self, value):
+        if __debug__:
+            assert \
+                isinstance(value, str), \
+                "The 'target_prompt' field must be of type 'str'"
+        self._target_prompt = value
 
     @builtins.property
     def target_object(self):

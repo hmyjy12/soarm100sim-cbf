@@ -80,6 +80,7 @@ class GraspOrchestratorNode(Node):
 
     async def _execute(self, goal_handle):
         goal = goal_handle.request
+        self._active_target_prompt = str(goal.target_prompt)
         self._avoidance_enabled = bool(goal.enable_avoidance)
         feedback = ExecuteGrasp.Feedback()
         result = ExecuteGrasp.Result()
@@ -214,8 +215,10 @@ class GraspOrchestratorNode(Node):
         goal = ExecutePlannedGrasp.Goal()
         goal.pregrasp_pose = plan.selected_pregrasp_pose
         goal.grasp_pose = plan.selected_grasp_pose
+        goal.tracking_reference_pose = plan.target_center_pose
         goal.gripper_width = float(plan.gripper_width)
         goal.enable_avoidance = bool(enable_avoidance)
+        goal.target_prompt = str(self._active_target_prompt)
         goal.target_object = str(self.get_parameter("target_object").value)
         goal.target_pos = str(self.get_parameter("target_pos").value)
         goal.traj_log = str(self.get_parameter("traj_log").value)

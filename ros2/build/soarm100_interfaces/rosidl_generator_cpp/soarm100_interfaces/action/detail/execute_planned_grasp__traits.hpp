@@ -17,6 +17,7 @@
 // Include directives for member types
 // Member 'pregrasp_pose'
 // Member 'grasp_pose'
+// Member 'tracking_reference_pose'
 #include "geometry_msgs/msg/detail/pose_stamped__traits.hpp"
 
 namespace soarm100_interfaces
@@ -44,6 +45,13 @@ inline void to_flow_style_yaml(
     out << ", ";
   }
 
+  // member: tracking_reference_pose
+  {
+    out << "tracking_reference_pose: ";
+    to_flow_style_yaml(msg.tracking_reference_pose, out);
+    out << ", ";
+  }
+
   // member: gripper_width
   {
     out << "gripper_width: ";
@@ -55,6 +63,13 @@ inline void to_flow_style_yaml(
   {
     out << "enable_avoidance: ";
     rosidl_generator_traits::value_to_yaml(msg.enable_avoidance, out);
+    out << ", ";
+  }
+
+  // member: target_prompt
+  {
+    out << "target_prompt: ";
+    rosidl_generator_traits::value_to_yaml(msg.target_prompt, out);
     out << ", ";
   }
 
@@ -102,6 +117,15 @@ inline void to_block_style_yaml(
     to_block_style_yaml(msg.grasp_pose, out, indentation + 2);
   }
 
+  // member: tracking_reference_pose
+  {
+    if (indentation > 0) {
+      out << std::string(indentation, ' ');
+    }
+    out << "tracking_reference_pose:\n";
+    to_block_style_yaml(msg.tracking_reference_pose, out, indentation + 2);
+  }
+
   // member: gripper_width
   {
     if (indentation > 0) {
@@ -119,6 +143,16 @@ inline void to_block_style_yaml(
     }
     out << "enable_avoidance: ";
     rosidl_generator_traits::value_to_yaml(msg.enable_avoidance, out);
+    out << "\n";
+  }
+
+  // member: target_prompt
+  {
+    if (indentation > 0) {
+      out << std::string(indentation, ' ');
+    }
+    out << "target_prompt: ";
+    rosidl_generator_traits::value_to_yaml(msg.target_prompt, out);
     out << "\n";
   }
 

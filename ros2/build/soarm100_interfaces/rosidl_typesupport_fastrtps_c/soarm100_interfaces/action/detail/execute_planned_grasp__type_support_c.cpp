@@ -34,9 +34,9 @@ extern "C"
 {
 #endif
 
-#include "geometry_msgs/msg/detail/pose_stamped__functions.h"  // grasp_pose, pregrasp_pose
-#include "rosidl_runtime_c/string.h"  // target_object, target_pos, traj_log
-#include "rosidl_runtime_c/string_functions.h"  // target_object, target_pos, traj_log
+#include "geometry_msgs/msg/detail/pose_stamped__functions.h"  // grasp_pose, pregrasp_pose, tracking_reference_pose
+#include "rosidl_runtime_c/string.h"  // target_object, target_pos, target_prompt, traj_log
+#include "rosidl_runtime_c/string_functions.h"  // target_object, target_pos, target_prompt, traj_log
 
 // forward declare type support functions
 ROSIDL_TYPESUPPORT_FASTRTPS_C_IMPORT_soarm100_interfaces
@@ -94,6 +94,20 @@ static bool _ExecutePlannedGrasp_Goal__cdr_serialize(
     }
   }
 
+  // Field name: tracking_reference_pose
+  {
+    const message_type_support_callbacks_t * callbacks =
+      static_cast<const message_type_support_callbacks_t *>(
+      ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(
+        rosidl_typesupport_fastrtps_c, geometry_msgs, msg, PoseStamped
+      )()->data);
+    if (!callbacks->cdr_serialize(
+        &ros_message->tracking_reference_pose, cdr))
+    {
+      return false;
+    }
+  }
+
   // Field name: gripper_width
   {
     cdr << ros_message->gripper_width;
@@ -102,6 +116,20 @@ static bool _ExecutePlannedGrasp_Goal__cdr_serialize(
   // Field name: enable_avoidance
   {
     cdr << (ros_message->enable_avoidance ? true : false);
+  }
+
+  // Field name: target_prompt
+  {
+    const rosidl_runtime_c__String * str = &ros_message->target_prompt;
+    if (str->capacity == 0 || str->capacity <= str->size) {
+      fprintf(stderr, "string capacity not greater than size\n");
+      return false;
+    }
+    if (str->data[str->size] != '\0') {
+      fprintf(stderr, "string not null-terminated\n");
+      return false;
+    }
+    cdr << str->data;
   }
 
   // Field name: target_object
@@ -186,6 +214,20 @@ static bool _ExecutePlannedGrasp_Goal__cdr_deserialize(
     }
   }
 
+  // Field name: tracking_reference_pose
+  {
+    const message_type_support_callbacks_t * callbacks =
+      static_cast<const message_type_support_callbacks_t *>(
+      ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(
+        rosidl_typesupport_fastrtps_c, geometry_msgs, msg, PoseStamped
+      )()->data);
+    if (!callbacks->cdr_deserialize(
+        cdr, &ros_message->tracking_reference_pose))
+    {
+      return false;
+    }
+  }
+
   // Field name: gripper_width
   {
     cdr >> ros_message->gripper_width;
@@ -196,6 +238,22 @@ static bool _ExecutePlannedGrasp_Goal__cdr_deserialize(
     uint8_t tmp;
     cdr >> tmp;
     ros_message->enable_avoidance = tmp ? true : false;
+  }
+
+  // Field name: target_prompt
+  {
+    std::string tmp;
+    cdr >> tmp;
+    if (!ros_message->target_prompt.data) {
+      rosidl_runtime_c__String__init(&ros_message->target_prompt);
+    }
+    bool succeeded = rosidl_runtime_c__String__assign(
+      &ros_message->target_prompt,
+      tmp.c_str());
+    if (!succeeded) {
+      fprintf(stderr, "failed to assign string into field 'target_prompt'\n");
+      return false;
+    }
   }
 
   // Field name: target_object
@@ -271,6 +329,10 @@ size_t get_serialized_size_soarm100_interfaces__action__ExecutePlannedGrasp_Goal
 
   current_alignment += get_serialized_size_geometry_msgs__msg__PoseStamped(
     &(ros_message->grasp_pose), current_alignment);
+  // field.name tracking_reference_pose
+
+  current_alignment += get_serialized_size_geometry_msgs__msg__PoseStamped(
+    &(ros_message->tracking_reference_pose), current_alignment);
   // field.name gripper_width
   {
     size_t item_size = sizeof(ros_message->gripper_width);
@@ -283,6 +345,10 @@ size_t get_serialized_size_soarm100_interfaces__action__ExecutePlannedGrasp_Goal
     current_alignment += item_size +
       eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
   }
+  // field.name target_prompt
+  current_alignment += padding +
+    eprosima::fastcdr::Cdr::alignment(current_alignment, padding) +
+    (ros_message->target_prompt.size + 1);
   // field.name target_object
   current_alignment += padding +
     eprosima::fastcdr::Cdr::alignment(current_alignment, padding) +
@@ -362,6 +428,25 @@ size_t max_serialized_size_soarm100_interfaces__action__ExecutePlannedGrasp_Goal
       is_plain &= inner_is_plain;
     }
   }
+  // member: tracking_reference_pose
+  {
+    size_t array_size = 1;
+
+
+    last_member_size = 0;
+    for (size_t index = 0; index < array_size; ++index) {
+      bool inner_full_bounded;
+      bool inner_is_plain;
+      size_t inner_size;
+      inner_size =
+        max_serialized_size_geometry_msgs__msg__PoseStamped(
+        inner_full_bounded, inner_is_plain, current_alignment);
+      last_member_size += inner_size;
+      current_alignment += inner_size;
+      full_bounded &= inner_full_bounded;
+      is_plain &= inner_is_plain;
+    }
+  }
   // member: gripper_width
   {
     size_t array_size = 1;
@@ -376,6 +461,18 @@ size_t max_serialized_size_soarm100_interfaces__action__ExecutePlannedGrasp_Goal
 
     last_member_size = array_size * sizeof(uint8_t);
     current_alignment += array_size * sizeof(uint8_t);
+  }
+  // member: target_prompt
+  {
+    size_t array_size = 1;
+
+    full_bounded = false;
+    is_plain = false;
+    for (size_t index = 0; index < array_size; ++index) {
+      current_alignment += padding +
+        eprosima::fastcdr::Cdr::alignment(current_alignment, padding) +
+        1;
+    }
   }
   // member: target_object
   {

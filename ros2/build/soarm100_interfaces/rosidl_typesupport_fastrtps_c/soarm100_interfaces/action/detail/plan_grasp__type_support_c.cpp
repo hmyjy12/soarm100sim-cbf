@@ -409,7 +409,7 @@ extern "C"
 #endif
 
 // already included above
-// #include "geometry_msgs/msg/detail/pose_stamped__functions.h"  // selected_grasp_pose, selected_pregrasp_pose
+// #include "geometry_msgs/msg/detail/pose_stamped__functions.h"  // selected_grasp_pose, selected_pregrasp_pose, target_center_pose
 // already included above
 // #include "rosidl_runtime_c/string.h"  // reason
 // already included above
@@ -485,6 +485,20 @@ static bool _PlanGrasp_Result__cdr_serialize(
       )()->data);
     if (!callbacks->cdr_serialize(
         &ros_message->selected_pregrasp_pose, cdr))
+    {
+      return false;
+    }
+  }
+
+  // Field name: target_center_pose
+  {
+    const message_type_support_callbacks_t * callbacks =
+      static_cast<const message_type_support_callbacks_t *>(
+      ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(
+        rosidl_typesupport_fastrtps_c, geometry_msgs, msg, PoseStamped
+      )()->data);
+    if (!callbacks->cdr_serialize(
+        &ros_message->target_center_pose, cdr))
     {
       return false;
     }
@@ -568,6 +582,20 @@ static bool _PlanGrasp_Result__cdr_deserialize(
     }
   }
 
+  // Field name: target_center_pose
+  {
+    const message_type_support_callbacks_t * callbacks =
+      static_cast<const message_type_support_callbacks_t *>(
+      ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(
+        rosidl_typesupport_fastrtps_c, geometry_msgs, msg, PoseStamped
+      )()->data);
+    if (!callbacks->cdr_deserialize(
+        cdr, &ros_message->target_center_pose))
+    {
+      return false;
+    }
+  }
+
   // Field name: grasp_score
   {
     cdr >> ros_message->grasp_score;
@@ -618,6 +646,10 @@ size_t get_serialized_size_soarm100_interfaces__action__PlanGrasp_Result(
 
   current_alignment += get_serialized_size_geometry_msgs__msg__PoseStamped(
     &(ros_message->selected_pregrasp_pose), current_alignment);
+  // field.name target_center_pose
+
+  current_alignment += get_serialized_size_geometry_msgs__msg__PoseStamped(
+    &(ros_message->target_center_pose), current_alignment);
   // field.name grasp_score
   {
     size_t item_size = sizeof(ros_message->grasp_score);
@@ -704,6 +736,25 @@ size_t max_serialized_size_soarm100_interfaces__action__PlanGrasp_Result(
     }
   }
   // member: selected_pregrasp_pose
+  {
+    size_t array_size = 1;
+
+
+    last_member_size = 0;
+    for (size_t index = 0; index < array_size; ++index) {
+      bool inner_full_bounded;
+      bool inner_is_plain;
+      size_t inner_size;
+      inner_size =
+        max_serialized_size_geometry_msgs__msg__PoseStamped(
+        inner_full_bounded, inner_is_plain, current_alignment);
+      last_member_size += inner_size;
+      current_alignment += inner_size;
+      full_bounded &= inner_full_bounded;
+      is_plain &= inner_is_plain;
+    }
+  }
+  // member: target_center_pose
   {
     size_t array_size = 1;
 

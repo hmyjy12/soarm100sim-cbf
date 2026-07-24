@@ -42,6 +42,8 @@ max_serialized_size_PoseStamped(
 
 // functions for geometry_msgs::msg::PoseStamped already declared above
 
+// functions for geometry_msgs::msg::PoseStamped already declared above
+
 
 namespace soarm100_interfaces
 {
@@ -66,10 +68,16 @@ cdr_serialize(
   geometry_msgs::msg::typesupport_fastrtps_cpp::cdr_serialize(
     ros_message.grasp_pose,
     cdr);
+  // Member: tracking_reference_pose
+  geometry_msgs::msg::typesupport_fastrtps_cpp::cdr_serialize(
+    ros_message.tracking_reference_pose,
+    cdr);
   // Member: gripper_width
   cdr << ros_message.gripper_width;
   // Member: enable_avoidance
   cdr << (ros_message.enable_avoidance ? true : false);
+  // Member: target_prompt
+  cdr << ros_message.target_prompt;
   // Member: target_object
   cdr << ros_message.target_object;
   // Member: target_pos
@@ -93,6 +101,10 @@ cdr_deserialize(
   geometry_msgs::msg::typesupport_fastrtps_cpp::cdr_deserialize(
     cdr, ros_message.grasp_pose);
 
+  // Member: tracking_reference_pose
+  geometry_msgs::msg::typesupport_fastrtps_cpp::cdr_deserialize(
+    cdr, ros_message.tracking_reference_pose);
+
   // Member: gripper_width
   cdr >> ros_message.gripper_width;
 
@@ -102,6 +114,9 @@ cdr_deserialize(
     cdr >> tmp;
     ros_message.enable_avoidance = tmp ? true : false;
   }
+
+  // Member: target_prompt
+  cdr >> ros_message.target_prompt;
 
   // Member: target_object
   cdr >> ros_message.target_object;
@@ -138,6 +153,11 @@ get_serialized_size(
   current_alignment +=
     geometry_msgs::msg::typesupport_fastrtps_cpp::get_serialized_size(
     ros_message.grasp_pose, current_alignment);
+  // Member: tracking_reference_pose
+
+  current_alignment +=
+    geometry_msgs::msg::typesupport_fastrtps_cpp::get_serialized_size(
+    ros_message.tracking_reference_pose, current_alignment);
   // Member: gripper_width
   {
     size_t item_size = sizeof(ros_message.gripper_width);
@@ -150,6 +170,10 @@ get_serialized_size(
     current_alignment += item_size +
       eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
   }
+  // Member: target_prompt
+  current_alignment += padding +
+    eprosima::fastcdr::Cdr::alignment(current_alignment, padding) +
+    (ros_message.target_prompt.size() + 1);
   // Member: target_object
   current_alignment += padding +
     eprosima::fastcdr::Cdr::alignment(current_alignment, padding) +
@@ -224,6 +248,25 @@ max_serialized_size_ExecutePlannedGrasp_Goal(
     }
   }
 
+  // Member: tracking_reference_pose
+  {
+    size_t array_size = 1;
+
+
+    last_member_size = 0;
+    for (size_t index = 0; index < array_size; ++index) {
+      bool inner_full_bounded;
+      bool inner_is_plain;
+      size_t inner_size =
+        geometry_msgs::msg::typesupport_fastrtps_cpp::max_serialized_size_PoseStamped(
+        inner_full_bounded, inner_is_plain, current_alignment);
+      last_member_size += inner_size;
+      current_alignment += inner_size;
+      full_bounded &= inner_full_bounded;
+      is_plain &= inner_is_plain;
+    }
+  }
+
   // Member: gripper_width
   {
     size_t array_size = 1;
@@ -239,6 +282,19 @@ max_serialized_size_ExecutePlannedGrasp_Goal(
 
     last_member_size = array_size * sizeof(uint8_t);
     current_alignment += array_size * sizeof(uint8_t);
+  }
+
+  // Member: target_prompt
+  {
+    size_t array_size = 1;
+
+    full_bounded = false;
+    is_plain = false;
+    for (size_t index = 0; index < array_size; ++index) {
+      current_alignment += padding +
+        eprosima::fastcdr::Cdr::alignment(current_alignment, padding) +
+        1;
+    }
   }
 
   // Member: target_object

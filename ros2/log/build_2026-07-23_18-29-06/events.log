@@ -1,0 +1,356 @@
+[0.000000] (-) TimerEvent: {}
+[0.000334] (-) JobUnselected: {'identifier': 'so100_plus_description'}
+[0.000401] (-) JobUnselected: {'identifier': 'soarm100_interfaces'}
+[0.000468] (soarm100_vision) JobQueued: {'identifier': 'soarm100_vision', 'dependencies': OrderedDict([('soarm100_interfaces', '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces')])}
+[0.000500] (soarm100_vision) JobStarted: {'identifier': 'soarm100_vision'}
+[0.099729] (-) TimerEvent: {}
+[0.199948] (-) TimerEvent: {}
+[0.300271] (-) TimerEvent: {}
+[0.400535] (-) TimerEvent: {}
+[0.500787] (-) TimerEvent: {}
+[0.601058] (-) TimerEvent: {}
+[0.701320] (-) TimerEvent: {}
+[0.801752] (-) TimerEvent: {}
+[0.901992] (-) TimerEvent: {}
+[1.002211] (-) TimerEvent: {}
+[1.102411] (-) TimerEvent: {}
+[1.202610] (-) TimerEvent: {}
+[1.302900] (-) TimerEvent: {}
+[1.403118] (-) TimerEvent: {}
+[1.503380] (-) TimerEvent: {}
+[1.603607] (-) TimerEvent: {}
+[1.703801] (-) TimerEvent: {}
+[1.803995] (-) TimerEvent: {}
+[1.904186] (-) TimerEvent: {}
+[2.004455] (-) TimerEvent: {}
+[2.104710] (-) TimerEvent: {}
+[2.204932] (-) TimerEvent: {}
+[2.305171] (-) TimerEvent: {}
+[2.405358] (-) TimerEvent: {}
+[2.505578] (-) TimerEvent: {}
+[2.605834] (-) TimerEvent: {}
+[2.706088] (-) TimerEvent: {}
+[2.806300] (-) TimerEvent: {}
+[2.906486] (-) TimerEvent: {}
+[3.006705] (-) TimerEvent: {}
+[3.106913] (-) TimerEvent: {}
+[3.207124] (-) TimerEvent: {}
+[3.307345] (-) TimerEvent: {}
+[3.407546] (-) TimerEvent: {}
+[3.507761] (-) TimerEvent: {}
+[3.607971] (-) TimerEvent: {}
+[3.708227] (-) TimerEvent: {}
+[3.808518] (-) TimerEvent: {}
+[3.908755] (-) TimerEvent: {}
+[4.009048] (-) TimerEvent: {}
+[4.109263] (-) TimerEvent: {}
+[4.209471] (-) TimerEvent: {}
+[4.309731] (-) TimerEvent: {}
+[4.409962] (-) TimerEvent: {}
+[4.510190] (-) TimerEvent: {}
+[4.610449] (-) TimerEvent: {}
+[4.710716] (-) TimerEvent: {}
+[4.810937] (-) TimerEvent: {}
+[4.911152] (-) TimerEvent: {}
+[5.011377] (-) TimerEvent: {}
+[5.111611] (-) TimerEvent: {}
+[5.211833] (-) TimerEvent: {}
+[5.312046] (-) TimerEvent: {}
+[5.412269] (-) TimerEvent: {}
+[5.512510] (-) TimerEvent: {}
+[5.612762] (-) TimerEvent: {}
+[5.713026] (-) TimerEvent: {}
+[5.813266] (-) TimerEvent: {}
+[5.913491] (-) TimerEvent: {}
+[6.013733] (-) TimerEvent: {}
+[6.113953] (-) TimerEvent: {}
+[6.214204] (-) TimerEvent: {}
+[6.314459] (-) TimerEvent: {}
+[6.414673] (-) TimerEvent: {}
+[6.514898] (-) TimerEvent: {}
+[6.615142] (-) TimerEvent: {}
+[6.715384] (-) TimerEvent: {}
+[6.815598] (-) TimerEvent: {}
+[6.915820] (-) TimerEvent: {}
+[7.016106] (-) TimerEvent: {}
+[7.116336] (-) TimerEvent: {}
+[7.216559] (-) TimerEvent: {}
+[7.316824] (-) TimerEvent: {}
+[7.417042] (-) TimerEvent: {}
+[7.517292] (-) TimerEvent: {}
+[7.617539] (-) TimerEvent: {}
+[7.717836] (-) TimerEvent: {}
+[7.818124] (-) TimerEvent: {}
+[7.918412] (-) TimerEvent: {}
+[8.018626] (-) TimerEvent: {}
+[8.118829] (-) TimerEvent: {}
+[8.219093] (-) TimerEvent: {}
+[8.319361] (-) TimerEvent: {}
+[8.419594] (-) TimerEvent: {}
+[8.519823] (-) TimerEvent: {}
+[8.620066] (-) TimerEvent: {}
+[8.720465] (-) TimerEvent: {}
+[8.820727] (-) TimerEvent: {}
+[8.920937] (-) TimerEvent: {}
+[9.021186] (-) TimerEvent: {}
+[9.121483] (-) TimerEvent: {}
+[9.221749] (-) TimerEvent: {}
+[9.322013] (-) TimerEvent: {}
+[9.422250] (-) TimerEvent: {}
+[9.522470] (-) TimerEvent: {}
+[9.622729] (-) TimerEvent: {}
+[9.723048] (-) TimerEvent: {}
+[9.823367] (-) TimerEvent: {}
+[9.923589] (-) TimerEvent: {}
+[10.023839] (-) TimerEvent: {}
+[10.124122] (-) TimerEvent: {}
+[10.224371] (-) TimerEvent: {}
+[10.324626] (-) TimerEvent: {}
+[10.424943] (-) TimerEvent: {}
+[10.525183] (-) TimerEvent: {}
+[10.625443] (-) TimerEvent: {}
+[10.725796] (-) TimerEvent: {}
+[10.826042] (-) TimerEvent: {}
+[10.926313] (-) TimerEvent: {}
+[11.026545] (-) TimerEvent: {}
+[11.126771] (-) TimerEvent: {}
+[11.227096] (-) TimerEvent: {}
+[11.327391] (-) TimerEvent: {}
+[11.427670] (-) TimerEvent: {}
+[11.527926] (-) TimerEvent: {}
+[11.628174] (-) TimerEvent: {}
+[11.728475] (-) TimerEvent: {}
+[11.828748] (-) TimerEvent: {}
+[11.928994] (-) TimerEvent: {}
+[12.029239] (-) TimerEvent: {}
+[12.129491] (-) TimerEvent: {}
+[12.229769] (-) TimerEvent: {}
+[12.330019] (-) TimerEvent: {}
+[12.430255] (-) TimerEvent: {}
+[12.530501] (-) TimerEvent: {}
+[12.630780] (-) TimerEvent: {}
+[12.731121] (-) TimerEvent: {}
+[12.831423] (-) TimerEvent: {}
+[12.931648] (-) TimerEvent: {}
+[13.031909] (-) TimerEvent: {}
+[13.132177] (-) TimerEvent: {}
+[13.232417] (-) TimerEvent: {}
+[13.332637] (-) TimerEvent: {}
+[13.432941] (-) TimerEvent: {}
+[13.533203] (-) TimerEvent: {}
+[13.633473] (-) TimerEvent: {}
+[13.733736] (-) TimerEvent: {}
+[13.833953] (-) TimerEvent: {}
+[13.934180] (-) TimerEvent: {}
+[14.034438] (-) TimerEvent: {}
+[14.134639] (-) TimerEvent: {}
+[14.234872] (-) TimerEvent: {}
+[14.335112] (-) TimerEvent: {}
+[14.435372] (-) TimerEvent: {}
+[14.535592] (-) TimerEvent: {}
+[14.635891] (-) TimerEvent: {}
+[14.736152] (-) TimerEvent: {}
+[14.836442] (-) TimerEvent: {}
+[14.936657] (-) TimerEvent: {}
+[15.036899] (-) TimerEvent: {}
+[15.137206] (-) TimerEvent: {}
+[15.237619] (-) TimerEvent: {}
+[15.337843] (-) TimerEvent: {}
+[15.438056] (-) TimerEvent: {}
+[15.538288] (-) TimerEvent: {}
+[15.638538] (-) TimerEvent: {}
+[15.738801] (-) TimerEvent: {}
+[15.839054] (-) TimerEvent: {}
+[15.939376] (-) TimerEvent: {}
+[16.039637] (-) TimerEvent: {}
+[16.139886] (-) TimerEvent: {}
+[16.240168] (-) TimerEvent: {}
+[16.340417] (-) TimerEvent: {}
+[16.440651] (-) TimerEvent: {}
+[16.540894] (-) TimerEvent: {}
+[16.641163] (-) TimerEvent: {}
+[16.741439] (-) TimerEvent: {}
+[16.841705] (-) TimerEvent: {}
+[16.941934] (-) TimerEvent: {}
+[17.042199] (-) TimerEvent: {}
+[17.142454] (-) TimerEvent: {}
+[17.242688] (-) TimerEvent: {}
+[17.342928] (-) TimerEvent: {}
+[17.443200] (-) TimerEvent: {}
+[17.543462] (-) TimerEvent: {}
+[17.643698] (-) TimerEvent: {}
+[17.743952] (-) TimerEvent: {}
+[17.844261] (-) TimerEvent: {}
+[17.944527] (-) TimerEvent: {}
+[18.044766] (-) TimerEvent: {}
+[18.144991] (-) TimerEvent: {}
+[18.245315] (-) TimerEvent: {}
+[18.345565] (-) TimerEvent: {}
+[18.445812] (-) TimerEvent: {}
+[18.546054] (-) TimerEvent: {}
+[18.646233] (-) TimerEvent: {}
+[18.746461] (-) TimerEvent: {}
+[18.846713] (-) TimerEvent: {}
+[18.946963] (-) TimerEvent: {}
+[19.047200] (-) TimerEvent: {}
+[19.147419] (-) TimerEvent: {}
+[19.247616] (-) TimerEvent: {}
+[19.347846] (-) TimerEvent: {}
+[19.448131] (-) TimerEvent: {}
+[19.548369] (-) TimerEvent: {}
+[19.648586] (-) TimerEvent: {}
+[19.748864] (-) TimerEvent: {}
+[19.849137] (-) TimerEvent: {}
+[19.949446] (-) TimerEvent: {}
+[20.049649] (-) TimerEvent: {}
+[20.149869] (-) TimerEvent: {}
+[20.250053] (-) TimerEvent: {}
+[20.350302] (-) TimerEvent: {}
+[20.450535] (-) TimerEvent: {}
+[20.550752] (-) TimerEvent: {}
+[20.650992] (-) TimerEvent: {}
+[20.751261] (-) TimerEvent: {}
+[20.851504] (-) TimerEvent: {}
+[20.951744] (-) TimerEvent: {}
+[21.051954] (-) TimerEvent: {}
+[21.152220] (-) TimerEvent: {}
+[21.252424] (-) TimerEvent: {}
+[21.352632] (-) TimerEvent: {}
+[21.452892] (-) TimerEvent: {}
+[21.553114] (-) TimerEvent: {}
+[21.653351] (-) TimerEvent: {}
+[21.753530] (-) TimerEvent: {}
+[21.853759] (-) TimerEvent: {}
+[21.953999] (-) TimerEvent: {}
+[22.054341] (-) TimerEvent: {}
+[22.154554] (-) TimerEvent: {}
+[22.254746] (-) TimerEvent: {}
+[22.355002] (-) TimerEvent: {}
+[22.455249] (-) TimerEvent: {}
+[22.555478] (-) TimerEvent: {}
+[22.655676] (-) TimerEvent: {}
+[22.755865] (-) TimerEvent: {}
+[22.856118] (-) TimerEvent: {}
+[22.956384] (-) TimerEvent: {}
+[23.056665] (-) TimerEvent: {}
+[23.156896] (-) TimerEvent: {}
+[23.257110] (-) TimerEvent: {}
+[23.357430] (-) TimerEvent: {}
+[23.457729] (-) TimerEvent: {}
+[23.558055] (-) TimerEvent: {}
+[23.658398] (-) TimerEvent: {}
+[23.758576] (-) TimerEvent: {}
+[23.858807] (-) TimerEvent: {}
+[23.959018] (-) TimerEvent: {}
+[24.059339] (-) TimerEvent: {}
+[24.159594] (-) TimerEvent: {}
+[24.259821] (-) TimerEvent: {}
+[24.360060] (-) TimerEvent: {}
+[24.460379] (-) TimerEvent: {}
+[24.560606] (-) TimerEvent: {}
+[24.660795] (-) TimerEvent: {}
+[24.761007] (-) TimerEvent: {}
+[24.861271] (-) TimerEvent: {}
+[24.961520] (-) TimerEvent: {}
+[25.061763] (-) TimerEvent: {}
+[25.162010] (-) TimerEvent: {}
+[25.262209] (-) TimerEvent: {}
+[25.362418] (-) TimerEvent: {}
+[25.462658] (-) TimerEvent: {}
+[25.562890] (-) TimerEvent: {}
+[25.663108] (-) TimerEvent: {}
+[25.763330] (-) TimerEvent: {}
+[25.863592] (-) TimerEvent: {}
+[25.963826] (-) TimerEvent: {}
+[26.064095] (-) TimerEvent: {}
+[26.164413] (-) TimerEvent: {}
+[26.264678] (-) TimerEvent: {}
+[26.364883] (-) TimerEvent: {}
+[26.465077] (-) TimerEvent: {}
+[26.565292] (-) TimerEvent: {}
+[26.665470] (-) TimerEvent: {}
+[26.765638] (-) TimerEvent: {}
+[26.865866] (-) TimerEvent: {}
+[26.966162] (-) TimerEvent: {}
+[27.066388] (-) TimerEvent: {}
+[27.166591] (-) TimerEvent: {}
+[27.266845] (-) TimerEvent: {}
+[27.367108] (-) TimerEvent: {}
+[27.467339] (-) TimerEvent: {}
+[27.567542] (-) TimerEvent: {}
+[27.667757] (-) TimerEvent: {}
+[27.767974] (-) TimerEvent: {}
+[27.868225] (-) TimerEvent: {}
+[27.968468] (-) TimerEvent: {}
+[28.068733] (-) TimerEvent: {}
+[28.168996] (-) TimerEvent: {}
+[28.269292] (-) TimerEvent: {}
+[28.369726] (-) TimerEvent: {}
+[28.469976] (-) TimerEvent: {}
+[28.570177] (-) TimerEvent: {}
+[28.670425] (-) TimerEvent: {}
+[28.770595] (-) TimerEvent: {}
+[28.870812] (-) TimerEvent: {}
+[28.971074] (-) TimerEvent: {}
+[29.071312] (-) TimerEvent: {}
+[29.171526] (-) TimerEvent: {}
+[29.271772] (-) TimerEvent: {}
+[29.372000] (-) TimerEvent: {}
+[29.472320] (-) TimerEvent: {}
+[29.572634] (-) TimerEvent: {}
+[29.672915] (-) TimerEvent: {}
+[29.773174] (-) TimerEvent: {}
+[29.873396] (-) TimerEvent: {}
+[29.973617] (-) TimerEvent: {}
+[30.073814] (-) TimerEvent: {}
+[30.173941] (-) TimerEvent: {}
+[30.274072] (-) TimerEvent: {}
+[30.374190] (-) TimerEvent: {}
+[30.447764] (soarm100_vision) Command: {'cmd': ['/usr/bin/python3', '-W', 'ignore:setup.py install is deprecated', '-W', 'ignore:easy_install command is deprecated', 'setup.py', 'egg_info', '--egg-base', '../build/soarm100_vision', 'build', '--build-base', '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_vision/build', 'install', '--record', '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_vision/install.log', '--single-version-externally-managed', 'install_data'], 'cwd': '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/soarm100_vision', 'env': {'GJS_DEBUG_TOPICS': 'JS ERROR;JS LOG', 'LESSOPEN': '| /usr/bin/lesspipe %s', 'VSCODE_CWD': '/home/sophie', 'CURSOR_EXTENSION_HOST_ROLE': 'user', 'VSCODE_ESM_ENTRYPOINT': 'vs/workbench/api/node/extensionHostProcess', 'CODEX_CI': '1', 'LANGUAGE': 'zh_CN:zh:en_US:en', 'USER': 'sophie', 'LC_TIME': 'zh_CN.UTF-8', 'CODEX_INTERNAL_ORIGINATOR_OVERRIDE': 'codex_vscode', 'VSCODE_NLS_CONFIG': '{"userLocale":"zh-cn","osLocale":"zh-cn","resolvedLanguage":"en","defaultMessagesFile":"/usr/share/cursor/resources/app/out/nls.messages.json","locale":"zh-cn","availableLanguages":{}}', 'CXXFLAGS': '-fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/sophie/miniconda3/include  -I/home/sophie/miniconda3/targets/x86_64-linux/include  -L/home/sophie/miniconda3/targets/x86_64-linux/lib -L/home/sophie/miniconda3/targets/x86_64-linux/lib/stubs', 'VSCODE_HANDLES_UNCAUGHT_ERRORS': 'true', 'GCC_RANLIB': '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-gcc-ranlib', 'XDG_SESSION_TYPE': 'x11', 'OBJCOPY': '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-objcopy', 'DEBUG': 'release', 'DEBUG_CXXFLAGS': '-fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-all -fno-plt -Og -g -Wall -Wextra -fvar-tracking-assignments -ffunction-sections -pipe -isystem /home/sophie/miniconda3/include', 'SIZE': '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-size', 'SHLVL': '0', 'LD_LIBRARY_PATH': '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/lib:/usr/local/cuda-11.0/lib64:/usr/lib/x86_64-linux-gnu/gazebo-11/plugins:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib:/home/sophie/.mujoco/mujoco-3.3.4/bin', 'HOME': '/home/sophie', 'CHROME_DESKTOP': 'cursor.desktop', 'CC_FOR_BUILD': '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-cc', 'DESKTOP_SESSION': 'ubuntu', 'VSCODE_IPC_HOOK': '/run/user/1000/vscode-b77d059a-3.2.-main.sock', 'GIO_LAUNCHED_DESKTOP_FILE': '/usr/share/applications/cursor.desktop', 'ROS_DOMAINID': '7', 'ROS_PYTHON_VERSION': '3', 'GNOME_SHELL_SESSION_MODE': 'ubuntu', 'GTK_MODULES': 'gail:atk-bridge', 'LDFLAGS': '-Wl,-O2 -Wl,--sort-common -Wl,--as-needed -Wl,-z,relro -Wl,-z,now -Wl,--disable-new-dtags -Wl,--gc-sections -Wl,-rpath,/home/sophie/miniconda3/lib -Wl,-rpath-link,/home/sophie/miniconda3/lib -L/home/sophie/miniconda3/lib  -L/home/sophie/miniconda3/targets/x86_64-linux/lib -L/home/sophie/miniconda3/targets/x86_64-linux/lib/stubs', 'PAGER': 'cat', 'STRINGS': '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-strings', 'LC_MONETARY': 'zh_CN.UTF-8', 'CURSOR_WORKSPACE_LABEL': 'soarm100sim', 'MANAGERPID': '1432', 'LC_CTYPE': 'C.UTF-8', 'SYSTEMD_EXEC_PID': '1798', 'NO_COLOR': '1', 'DBUS_SESSION_BUS_ADDRESS': 'unix:path=/run/user/1000/bus', 'COLORTERM': '', 'CPP': '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-cpp', '_CONDA_ROOT': '/home/sophie/miniconda3', 'GIO_LAUNCHED_DESKTOP_FILE_PID': '5788', 'VSCODE_CRASH_REPORTER_PROCESS_TYPE': 'extensionHost', 'IM_CONFIG_PHASE': '1', 'NVCC_PREPEND_FLAGS': ' -ccbin=/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-c++', 'ELFEDIT': '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-elfedit', 'CODEX_PERMISSION_PROFILE': ':workspace', 'STRIP': '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-strip', 'ROS_DISTRO': 'humble', 'GTK_IM_MODULE': 'fcitx', 'LOGNAME': 'sophie', 'JOURNAL_STREAM': '8:18575', '_': '/usr/bin/env', 'ROS_VERSION': '2', 'CURSOR_LAYOUT': 'unifiedAgent', 'READELF': '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-readelf', 'XDG_SESSION_CLASS': 'user', 'AR': '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-ar', 'RUST_LOG': 'warn', 'USERNAME': 'sophie', 'GXX': '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-g++', 'TERM': 'dumb', 'AS': '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-as', 'GNOME_DESKTOP_SESSION_ID': 'this-is-deprecated', 'FC_FONTATIONS': '1', 'ROS_LOCALHOST_ONLY': '0', 'CXXFILT': '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-c++filt', 'WINDOWPATH': '2', 'BUILD': 'x86_64-conda-linux-gnu', 'PATH': '/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin', 'SESSION_MANAGER': 'local/sophie-Legion-Y7000P-IRX10:@/tmp/.ICE-unix/1756,unix/sophie-Legion-Y7000P-IRX10:/tmp/.ICE-unix/1756', 'INVOCATION_ID': '138704fa5fd6490c96a73575c5398d44', 'XDG_MENU_PREFIX': 'gnome-', 'build_alias': 'x86_64-conda-linux-gnu', 'LC_ADDRESS': 'zh_CN.UTF-8', 'VSCODE_PROCESS_TITLE': 'extension-host (user) soarm100sim [1-2]', 'XDG_RUNTIME_DIR': '/run/user/1000', 'GDK_BACKEND': 'x11', 'MUJOCO_PY_MUJOCO_PATH': '/home/sophie/.mujoco/mujoco-3.3.4', 'GCC_AR': '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-gcc-ar', 'DISPLAY': ':0', 'CODEX_SANDBOX_NETWORK_DISABLED': '1', 'LANG': 'C.UTF-8', 'DEBUG_CFLAGS': '-march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-all -fno-plt -Og -g -Wall -Wextra -fvar-tracking-assignments -ffunction-sections -pipe -isystem /home/sophie/miniconda3/include', 'XDG_CURRENT_DESKTOP': 'ubuntu:GNOME', 'LC_TELEPHONE': 'zh_CN.UTF-8', 'XMODIFIERS': '@im=fcitx', 'GH_PAGER': 'cat', 'XDG_SESSION_DESKTOP': 'ubuntu', 'XAUTHORITY': '/run/user/1000/gdm/Xauthority', 'MESON_ARGS': '-Dbuildtype=release', 'CURSOR_SPAWNED_BY_EXTENSION_ID': 'openai.chatgpt', 'SSH_AGENT_LAUNCHER': 'gnome-keyring', 'SSH_AUTH_SOCK': '/run/user/1000/keyring/ssh', 'AMENT_PREFIX_PATH': '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces:/opt/ros/humble', 'CONDA_PYTHON_EXE': '/home/sophie/miniconda3/bin/python', 'SHELL': '/bin/bash', 'CMAKE_ARGS': '-DCMAKE_AR=/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-ar -DCMAKE_CXX_COMPILER_AR=/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-gcc-ar -DCMAKE_C_COMPILER_AR=/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-gcc-ar -DCMAKE_RANLIB=/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-ranlib -DCMAKE_CXX_COMPILER_RANLIB=/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-gcc-ranlib -DCMAKE_C_COMPILER_RANLIB=/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-gcc-ranlib -DCMAKE_LINKER=/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-ld -DCMAKE_STRIP=/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-strip -DCMAKE_BUILD_TYPE=Release', 'LC_NAME': 'zh_CN.UTF-8', 'HOST': 'x86_64-conda-linux-gnu', 'QT_ACCESSIBILITY': '1', 'ELECTRON_RUN_AS_NODE': '1', 'DEBUG_CPPFLAGS': '-D_DEBUG -D_FORTIFY_SOURCE=2 -Og -isystem /home/sophie/miniconda3/include', 'GDMSESSION': 'ubuntu', 'LESSCLOSE': '/usr/bin/lesspipe %s %s', 'CODEX_THREAD_ID': '019f5a48-96e5-7af0-8a1e-65bfcfd09744', 'LC_MEASUREMENT': 'zh_CN.UTF-8', 'CURSOR_SPAWN_CHAIN': 'openai.chatgpt', 'GPG_AGENT_INFO': '/run/user/1000/gnupg/S.gpg-agent:0:1', 'GJS_DEBUG_OUTPUT': 'stderr', '_CONDA_EXE': '/home/sophie/miniconda3/bin/conda', 'ADDR2LINE': '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-addr2line', 'LC_IDENTIFICATION': 'zh_CN.UTF-8', 'GCC_NM': '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-gcc-nm', 'GIT_PAGER': 'cat', 'QT_IM_MODULE': 'fcitx', 'PWD': '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_vision', 'LC_ALL': 'C.UTF-8', 'XDG_CONFIG_DIRS': '/etc/xdg/xdg-ubuntu:/etc/xdg', 'CONDA_EXE': '/home/sophie/miniconda3/bin/conda', 'VSCODE_CODE_CACHE_PATH': '/home/sophie/.config/Cursor/CachedData/3e548838cf824b70851dd3ef27d0c6aae371b3f0', 'LD': '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-ld', 'CLUTTER_IM_MODULE': 'fcitx', 'XDG_DATA_DIRS': '/usr/share/ubuntu:/usr/share/gnome:/home/sophie/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop', 'PYTHONPATH': '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_vision/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/python3.10/site-packages:/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages:/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages', 'LC_NUMERIC': 'zh_CN.UTF-8', 'GPROF': '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-gprof', 'LC_PAPER': 'zh_CN.UTF-8', 'host_alias': 'x86_64-conda-linux-gnu', 'RANLIB': '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-ranlib', 'COLCON': '1', 'CXX_FOR_BUILD': '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-c++', 'VSCODE_PID': '5788', 'NM': '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-nm', 'OBJDUMP': '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-objdump', 'CMAKE_PREFIX_PATH': '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces'}, 'shell': False}
+[30.474263] (-) TimerEvent: {}
+[30.574393] (-) TimerEvent: {}
+[30.603255] (soarm100_vision) StdoutLine: {'line': b'running egg_info\n'}
+[30.603698] (soarm100_vision) StdoutLine: {'line': b'writing ../build/soarm100_vision/soarm100_vision.egg-info/PKG-INFO\n'}
+[30.603898] (soarm100_vision) StdoutLine: {'line': b'writing dependency_links to ../build/soarm100_vision/soarm100_vision.egg-info/dependency_links.txt\n'}
+[30.603970] (soarm100_vision) StdoutLine: {'line': b'writing entry points to ../build/soarm100_vision/soarm100_vision.egg-info/entry_points.txt\n'}
+[30.604099] (soarm100_vision) StdoutLine: {'line': b'writing requirements to ../build/soarm100_vision/soarm100_vision.egg-info/requires.txt\n'}
+[30.604153] (soarm100_vision) StdoutLine: {'line': b'writing top-level names to ../build/soarm100_vision/soarm100_vision.egg-info/top_level.txt\n'}
+[30.605396] (soarm100_vision) StdoutLine: {'line': b"reading manifest file '../build/soarm100_vision/soarm100_vision.egg-info/SOURCES.txt'\n"}
+[30.606060] (soarm100_vision) StdoutLine: {'line': b"writing manifest file '../build/soarm100_vision/soarm100_vision.egg-info/SOURCES.txt'\n"}
+[30.606144] (soarm100_vision) StdoutLine: {'line': b'running build\n'}
+[30.606208] (soarm100_vision) StdoutLine: {'line': b'running build_py\n'}
+[30.606306] (soarm100_vision) StdoutLine: {'line': b'copying soarm100_vision/policy_backend_core.py -> /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_vision/build/lib/soarm100_vision\n'}
+[30.606699] (soarm100_vision) StdoutLine: {'line': b'copying soarm100_vision/mujoco_policy_backend_node.py -> /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_vision/build/lib/soarm100_vision\n'}
+[30.606779] (soarm100_vision) StdoutLine: {'line': b'copying soarm100_vision/anygrasp_planner_node.py -> /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_vision/build/lib/soarm100_vision\n'}
+[30.606814] (soarm100_vision) StdoutLine: {'line': b'copying soarm100_vision/mujoco_ik_filter.py -> /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_vision/build/lib/soarm100_vision\n'}
+[30.607128] (soarm100_vision) StdoutLine: {'line': b'running install\n'}
+[30.607268] (soarm100_vision) StdoutLine: {'line': b'running install_lib\n'}
+[30.607937] (soarm100_vision) StdoutLine: {'line': b'copying /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_vision/build/lib/soarm100_vision/policy_backend_core.py -> /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/python3.10/site-packages/soarm100_vision\n'}
+[30.607984] (soarm100_vision) StdoutLine: {'line': b'copying /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_vision/build/lib/soarm100_vision/mujoco_policy_backend_node.py -> /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/python3.10/site-packages/soarm100_vision\n'}
+[30.608107] (soarm100_vision) StdoutLine: {'line': b'copying /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_vision/build/lib/soarm100_vision/anygrasp_planner_node.py -> /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/python3.10/site-packages/soarm100_vision\n'}
+[30.608138] (soarm100_vision) StdoutLine: {'line': b'copying /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_vision/build/lib/soarm100_vision/mujoco_ik_filter.py -> /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/python3.10/site-packages/soarm100_vision\n'}
+[30.608546] (soarm100_vision) StdoutLine: {'line': b'byte-compiling /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/python3.10/site-packages/soarm100_vision/policy_backend_core.py to policy_backend_core.cpython-310.pyc\n'}
+[30.610517] (soarm100_vision) StdoutLine: {'line': b'byte-compiling /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/python3.10/site-packages/soarm100_vision/mujoco_policy_backend_node.py to mujoco_policy_backend_node.cpython-310.pyc\n'}
+[30.612976] (soarm100_vision) StdoutLine: {'line': b'byte-compiling /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/python3.10/site-packages/soarm100_vision/anygrasp_planner_node.py to anygrasp_planner_node.cpython-310.pyc\n'}
+[30.614751] (soarm100_vision) StdoutLine: {'line': b'byte-compiling /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/python3.10/site-packages/soarm100_vision/mujoco_ik_filter.py to mujoco_ik_filter.cpython-310.pyc\n'}
+[30.616032] (soarm100_vision) StdoutLine: {'line': b'running install_data\n'}
+[30.616067] (soarm100_vision) StdoutLine: {'line': b'copying launch/vision_grasp.launch.py -> /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/share/soarm100_vision/launch\n'}
+[30.616222] (soarm100_vision) StdoutLine: {'line': b'running install_egg_info\n'}
+[30.617392] (soarm100_vision) StdoutLine: {'line': b"removing '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/python3.10/site-packages/soarm100_vision-0.1.0-py3.10.egg-info' (and everything under it)\n"}
+[30.617476] (soarm100_vision) StdoutLine: {'line': b'Copying ../build/soarm100_vision/soarm100_vision.egg-info to /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/python3.10/site-packages/soarm100_vision-0.1.0-py3.10.egg-info\n'}
+[30.617881] (soarm100_vision) StdoutLine: {'line': b'running install_scripts\n'}
+[30.630731] (soarm100_vision) StdoutLine: {'line': b'Installing anygrasp_planner_node script to /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/soarm100_vision\n'}
+[30.630816] (soarm100_vision) StdoutLine: {'line': b'Installing debug_viewer_node script to /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/soarm100_vision\n'}
+[30.630862] (soarm100_vision) StdoutLine: {'line': b'Installing grasp_orchestrator_node script to /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/soarm100_vision\n'}
+[30.631074] (soarm100_vision) StdoutLine: {'line': b'Installing mujoco_camera_publisher_node script to /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/soarm100_vision\n'}
+[30.631116] (soarm100_vision) StdoutLine: {'line': b'Installing mujoco_policy_backend_node script to /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/soarm100_vision\n'}
+[30.631147] (soarm100_vision) StdoutLine: {'line': b'Installing obstacle_cloud_node script to /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/soarm100_vision\n'}
+[30.631178] (soarm100_vision) StdoutLine: {'line': b'Installing sdf_cbf_backend_node script to /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/soarm100_vision\n'}
+[30.631240] (soarm100_vision) StdoutLine: {'line': b'Installing send_execute_grasp script to /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/soarm100_vision\n'}
+[30.631268] (soarm100_vision) StdoutLine: {'line': b'Installing send_planned_grasp script to /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/soarm100_vision\n'}
+[30.631305] (soarm100_vision) StdoutLine: {'line': b'Installing target_segmenter_node script to /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/soarm100_vision\n'}
+[30.631334] (soarm100_vision) StdoutLine: {'line': b'Installing wrist_tracker_node script to /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/soarm100_vision\n'}
+[30.631363] (soarm100_vision) StdoutLine: {'line': b"writing list of installed files to '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_vision/install.log'\n"}
+[30.644467] (soarm100_vision) CommandEnded: {'returncode': 0}
+[30.650651] (soarm100_vision) JobEnded: {'identifier': 'soarm100_vision', 'rc': 0}
+[30.650924] (-) EventReactorShutdown: {}

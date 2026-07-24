@@ -136,6 +136,11 @@ class GraspStateMachine:
         self.reset(plan)
         self.last_reason = f"replan_accept attempt={self.replan_attempts}"
 
+    def reject_replan(self, reason: str) -> None:
+        self.replan_attempts += 1
+        self.replan_wait_counter = 0
+        self.last_reason = f"replan_reject attempt={self.replan_attempts} reason={reason}"
+
     def step(self, obs: GraspObservation) -> ControlIntent:
         if self.plan is None or self.plan0 is None:
             self.phase = GraspPhase.FAILED
@@ -198,6 +203,17 @@ class GraspStateMachine:
                 self.last_reason = "lift_success"
                 return self._intent(lift_target, plan.grasp_quat_wxyz, "close", done=True, success=True, reason=self.last_reason)
             if self.lift_counter >= self._steps(th.lift_time, min_steps=1):
+                if self.replan_attempts >= th.replan_max_attempts:
+                    self.phase = GraspPhase.FAILED
+                    self.last_reason = f"lift_failed_replan_exhausted attempts={self.replan_attempts}"
+                    return self._intent(
+                        lift_target,
+                        plan.grasp_quat_wxyz,
+                        "close",
+                        done=True,
+                        success=False,
+                        reason=self.last_reason,
+                    )
                 self.phase = GraspPhase.REPLAN_GRASP
                 self.replan_wait_counter = 0
                 self.last_reason = "lift_failed"
@@ -208,7 +224,7 @@ class GraspStateMachine:
             self.replan_wait_counter += 1
             if self.replan_attempts >= th.replan_max_attempts:
                 self.phase = GraspPhase.FAILED
-                self.last_reason = "replan_attempts_exhausted"
+                self.last_reason = f"replan_attempts_exhausted attempts={self.replan_attempts}"
                 return self._intent(plan.grasp_pos, plan.grasp_quat_wxyz, "close", done=True, success=False, reason=self.last_reason)
             ready = obs.dist_to_control <= th.replan_ready_dist
             settled = self.replan_wait_counter >= self._steps(th.replan_settle_time, min_steps=1)

@@ -54,6 +54,7 @@ class TargetSegmenterNode(Node):
         self._info: CameraInfo | None = None
         self._detector = None
         self._sam = None
+        self._detector_prompt = ""
         self._model_error = ""
         self._load_models()
 
@@ -183,8 +184,10 @@ class TargetSegmenterNode(Node):
         return response
 
     def _detect_bbox(self, rgb: np.ndarray, prompt: str) -> tuple[np.ndarray, float]:
-        if hasattr(self._detector, "set_classes"):
-            self._detector.set_classes([str(prompt)])
+        normalized_prompt = str(prompt).strip()
+        if hasattr(self._detector, "set_classes") and normalized_prompt != self._detector_prompt:
+            self._detector.set_classes([normalized_prompt])
+            self._detector_prompt = normalized_prompt
         result = self._detector.predict(rgb, verbose=False)[0]
         boxes = getattr(result, "boxes", None)
         if boxes is None or len(boxes) == 0:

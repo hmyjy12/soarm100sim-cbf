@@ -69,13 +69,16 @@ include soarm100_interfaces__py/CMakeFiles/soarm100_interfaces__py.dir/progress.
 soarm100_interfaces__py/CMakeFiles/soarm100_interfaces__py: rosidl_generator_py/soarm100_interfaces/_soarm100_interfaces_s.ep.rosidl_typesupport_fastrtps_c.c
 soarm100_interfaces__py/CMakeFiles/soarm100_interfaces__py: rosidl_generator_py/soarm100_interfaces/_soarm100_interfaces_s.ep.rosidl_typesupport_introspection_c.c
 soarm100_interfaces__py/CMakeFiles/soarm100_interfaces__py: rosidl_generator_py/soarm100_interfaces/_soarm100_interfaces_s.ep.rosidl_typesupport_c.c
+soarm100_interfaces__py/CMakeFiles/soarm100_interfaces__py: rosidl_generator_py/soarm100_interfaces/msg/_tracked_target2_d.py
 soarm100_interfaces__py/CMakeFiles/soarm100_interfaces__py: rosidl_generator_py/soarm100_interfaces/action/_execute_grasp.py
 soarm100_interfaces__py/CMakeFiles/soarm100_interfaces__py: rosidl_generator_py/soarm100_interfaces/action/_execute_planned_grasp.py
 soarm100_interfaces__py/CMakeFiles/soarm100_interfaces__py: rosidl_generator_py/soarm100_interfaces/action/_plan_grasp.py
 soarm100_interfaces__py/CMakeFiles/soarm100_interfaces__py: rosidl_generator_py/soarm100_interfaces/srv/_segment_target.py
 soarm100_interfaces__py/CMakeFiles/soarm100_interfaces__py: rosidl_generator_py/soarm100_interfaces/srv/_set_avoidance.py
+soarm100_interfaces__py/CMakeFiles/soarm100_interfaces__py: rosidl_generator_py/soarm100_interfaces/msg/__init__.py
 soarm100_interfaces__py/CMakeFiles/soarm100_interfaces__py: rosidl_generator_py/soarm100_interfaces/action/__init__.py
 soarm100_interfaces__py/CMakeFiles/soarm100_interfaces__py: rosidl_generator_py/soarm100_interfaces/srv/__init__.py
+soarm100_interfaces__py/CMakeFiles/soarm100_interfaces__py: rosidl_generator_py/soarm100_interfaces/msg/_tracked_target2_d_s.c
 soarm100_interfaces__py/CMakeFiles/soarm100_interfaces__py: rosidl_generator_py/soarm100_interfaces/action/_execute_grasp_s.c
 soarm100_interfaces__py/CMakeFiles/soarm100_interfaces__py: rosidl_generator_py/soarm100_interfaces/action/_execute_planned_grasp_s.c
 soarm100_interfaces__py/CMakeFiles/soarm100_interfaces__py: rosidl_generator_py/soarm100_interfaces/action/_plan_grasp_s.c
@@ -95,6 +98,7 @@ rosidl_generator_py/soarm100_interfaces/_soarm100_interfaces_s.ep.rosidl_typesup
 rosidl_generator_py/soarm100_interfaces/_soarm100_interfaces_s.ep.rosidl_typesupport_fastrtps_c.c: /opt/ros/humble/share/rosidl_generator_py/resource/_msg.py.em
 rosidl_generator_py/soarm100_interfaces/_soarm100_interfaces_s.ep.rosidl_typesupport_fastrtps_c.c: /opt/ros/humble/share/rosidl_generator_py/resource/_srv_pkg_typesupport_entry_point.c.em
 rosidl_generator_py/soarm100_interfaces/_soarm100_interfaces_s.ep.rosidl_typesupport_fastrtps_c.c: /opt/ros/humble/share/rosidl_generator_py/resource/_srv.py.em
+rosidl_generator_py/soarm100_interfaces/_soarm100_interfaces_s.ep.rosidl_typesupport_fastrtps_c.c: rosidl_adapter/soarm100_interfaces/msg/TrackedTarget2D.idl
 rosidl_generator_py/soarm100_interfaces/_soarm100_interfaces_s.ep.rosidl_typesupport_fastrtps_c.c: rosidl_adapter/soarm100_interfaces/action/ExecuteGrasp.idl
 rosidl_generator_py/soarm100_interfaces/_soarm100_interfaces_s.ep.rosidl_typesupport_fastrtps_c.c: rosidl_adapter/soarm100_interfaces/action/ExecutePlannedGrasp.idl
 rosidl_generator_py/soarm100_interfaces/_soarm100_interfaces_s.ep.rosidl_typesupport_fastrtps_c.c: rosidl_adapter/soarm100_interfaces/action/PlanGrasp.idl
@@ -206,6 +210,9 @@ rosidl_generator_py/soarm100_interfaces/_soarm100_interfaces_s.ep.rosidl_typesup
 rosidl_generator_py/soarm100_interfaces/_soarm100_interfaces_s.ep.rosidl_typesupport_c.c: rosidl_generator_py/soarm100_interfaces/_soarm100_interfaces_s.ep.rosidl_typesupport_fastrtps_c.c
 	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_py/soarm100_interfaces/_soarm100_interfaces_s.ep.rosidl_typesupport_c.c
 
+rosidl_generator_py/soarm100_interfaces/msg/_tracked_target2_d.py: rosidl_generator_py/soarm100_interfaces/_soarm100_interfaces_s.ep.rosidl_typesupport_fastrtps_c.c
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_py/soarm100_interfaces/msg/_tracked_target2_d.py
+
 rosidl_generator_py/soarm100_interfaces/action/_execute_grasp.py: rosidl_generator_py/soarm100_interfaces/_soarm100_interfaces_s.ep.rosidl_typesupport_fastrtps_c.c
 	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_py/soarm100_interfaces/action/_execute_grasp.py
 
@@ -221,11 +228,17 @@ rosidl_generator_py/soarm100_interfaces/srv/_segment_target.py: rosidl_generator
 rosidl_generator_py/soarm100_interfaces/srv/_set_avoidance.py: rosidl_generator_py/soarm100_interfaces/_soarm100_interfaces_s.ep.rosidl_typesupport_fastrtps_c.c
 	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_py/soarm100_interfaces/srv/_set_avoidance.py
 
+rosidl_generator_py/soarm100_interfaces/msg/__init__.py: rosidl_generator_py/soarm100_interfaces/_soarm100_interfaces_s.ep.rosidl_typesupport_fastrtps_c.c
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_py/soarm100_interfaces/msg/__init__.py
+
 rosidl_generator_py/soarm100_interfaces/action/__init__.py: rosidl_generator_py/soarm100_interfaces/_soarm100_interfaces_s.ep.rosidl_typesupport_fastrtps_c.c
 	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_py/soarm100_interfaces/action/__init__.py
 
 rosidl_generator_py/soarm100_interfaces/srv/__init__.py: rosidl_generator_py/soarm100_interfaces/_soarm100_interfaces_s.ep.rosidl_typesupport_fastrtps_c.c
 	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_py/soarm100_interfaces/srv/__init__.py
+
+rosidl_generator_py/soarm100_interfaces/msg/_tracked_target2_d_s.c: rosidl_generator_py/soarm100_interfaces/_soarm100_interfaces_s.ep.rosidl_typesupport_fastrtps_c.c
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_py/soarm100_interfaces/msg/_tracked_target2_d_s.c
 
 rosidl_generator_py/soarm100_interfaces/action/_execute_grasp_s.c: rosidl_generator_py/soarm100_interfaces/_soarm100_interfaces_s.ep.rosidl_typesupport_fastrtps_c.c
 	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_py/soarm100_interfaces/action/_execute_grasp_s.c
@@ -252,6 +265,9 @@ soarm100_interfaces__py: rosidl_generator_py/soarm100_interfaces/action/_execute
 soarm100_interfaces__py: rosidl_generator_py/soarm100_interfaces/action/_execute_planned_grasp_s.c
 soarm100_interfaces__py: rosidl_generator_py/soarm100_interfaces/action/_plan_grasp.py
 soarm100_interfaces__py: rosidl_generator_py/soarm100_interfaces/action/_plan_grasp_s.c
+soarm100_interfaces__py: rosidl_generator_py/soarm100_interfaces/msg/__init__.py
+soarm100_interfaces__py: rosidl_generator_py/soarm100_interfaces/msg/_tracked_target2_d.py
+soarm100_interfaces__py: rosidl_generator_py/soarm100_interfaces/msg/_tracked_target2_d_s.c
 soarm100_interfaces__py: rosidl_generator_py/soarm100_interfaces/srv/__init__.py
 soarm100_interfaces__py: rosidl_generator_py/soarm100_interfaces/srv/_segment_target.py
 soarm100_interfaces__py: rosidl_generator_py/soarm100_interfaces/srv/_segment_target_s.c

@@ -69,16 +69,32 @@ private:
   ::soarm100_interfaces::action::ExecutePlannedGrasp_Goal msg_;
 };
 
+class Init_ExecutePlannedGrasp_Goal_target_prompt
+{
+public:
+  explicit Init_ExecutePlannedGrasp_Goal_target_prompt(::soarm100_interfaces::action::ExecutePlannedGrasp_Goal & msg)
+  : msg_(msg)
+  {}
+  Init_ExecutePlannedGrasp_Goal_target_object target_prompt(::soarm100_interfaces::action::ExecutePlannedGrasp_Goal::_target_prompt_type arg)
+  {
+    msg_.target_prompt = std::move(arg);
+    return Init_ExecutePlannedGrasp_Goal_target_object(msg_);
+  }
+
+private:
+  ::soarm100_interfaces::action::ExecutePlannedGrasp_Goal msg_;
+};
+
 class Init_ExecutePlannedGrasp_Goal_enable_avoidance
 {
 public:
   explicit Init_ExecutePlannedGrasp_Goal_enable_avoidance(::soarm100_interfaces::action::ExecutePlannedGrasp_Goal & msg)
   : msg_(msg)
   {}
-  Init_ExecutePlannedGrasp_Goal_target_object enable_avoidance(::soarm100_interfaces::action::ExecutePlannedGrasp_Goal::_enable_avoidance_type arg)
+  Init_ExecutePlannedGrasp_Goal_target_prompt enable_avoidance(::soarm100_interfaces::action::ExecutePlannedGrasp_Goal::_enable_avoidance_type arg)
   {
     msg_.enable_avoidance = std::move(arg);
-    return Init_ExecutePlannedGrasp_Goal_target_object(msg_);
+    return Init_ExecutePlannedGrasp_Goal_target_prompt(msg_);
   }
 
 private:
@@ -101,16 +117,32 @@ private:
   ::soarm100_interfaces::action::ExecutePlannedGrasp_Goal msg_;
 };
 
+class Init_ExecutePlannedGrasp_Goal_tracking_reference_pose
+{
+public:
+  explicit Init_ExecutePlannedGrasp_Goal_tracking_reference_pose(::soarm100_interfaces::action::ExecutePlannedGrasp_Goal & msg)
+  : msg_(msg)
+  {}
+  Init_ExecutePlannedGrasp_Goal_gripper_width tracking_reference_pose(::soarm100_interfaces::action::ExecutePlannedGrasp_Goal::_tracking_reference_pose_type arg)
+  {
+    msg_.tracking_reference_pose = std::move(arg);
+    return Init_ExecutePlannedGrasp_Goal_gripper_width(msg_);
+  }
+
+private:
+  ::soarm100_interfaces::action::ExecutePlannedGrasp_Goal msg_;
+};
+
 class Init_ExecutePlannedGrasp_Goal_grasp_pose
 {
 public:
   explicit Init_ExecutePlannedGrasp_Goal_grasp_pose(::soarm100_interfaces::action::ExecutePlannedGrasp_Goal & msg)
   : msg_(msg)
   {}
-  Init_ExecutePlannedGrasp_Goal_gripper_width grasp_pose(::soarm100_interfaces::action::ExecutePlannedGrasp_Goal::_grasp_pose_type arg)
+  Init_ExecutePlannedGrasp_Goal_tracking_reference_pose grasp_pose(::soarm100_interfaces::action::ExecutePlannedGrasp_Goal::_grasp_pose_type arg)
   {
     msg_.grasp_pose = std::move(arg);
-    return Init_ExecutePlannedGrasp_Goal_gripper_width(msg_);
+    return Init_ExecutePlannedGrasp_Goal_tracking_reference_pose(msg_);
   }
 
 private:

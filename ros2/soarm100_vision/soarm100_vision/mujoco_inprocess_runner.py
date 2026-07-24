@@ -1,7 +1,9 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+import importlib.util
 import json
+import os
 from pathlib import Path
 import sys
 import time
@@ -29,6 +31,7 @@ class MujocoRunnerConfig:
     target_pos: str = "0.42,0.08,0.021"
     object_settle_s: float = 0.75
     enable_obstacle: bool = False
+    obstacle_mode: str = "static"
     obstacle_body: str = "obstacle_rod_mount"
     obstacle_pos: str = "0.16,0.09,0.02"
     enable_cbf: bool = False
@@ -38,8 +41,10 @@ class MujocoRunnerConfig:
     cbf_activate_margin: float = 0.040
     sdf_voxel_size: float = 0.010
     sdf_inflate: float = 0.015
-    replan_max_attempts: int = 0
-    max_steps: int = 450
+    replan_max_attempts: int = 2
+    camera_publish_interval_steps: int = 5
+    replan_camera_settle_s: float = 0.15
+    max_steps: int = 900
     open_q: float = 1.2
     close_q: float = 0.4
     ctrl_dt: float = 0.02
@@ -71,14 +76,25 @@ class MujocoInProcessRunner:
     def __init__(self, cfg: MujocoRunnerConfig) -> None:
         self.cfg = cfg
         self.repo = Path(cfg.repo_root).expanduser().resolve()
+        self._log_stream = None
 
-    def run(self, cmd: PlannedGraspCommand, *, feedback_cb=None, tracking_provider=None, obstacle_provider=None) -> MujocoRunResult:
+    def run(
+        self,
+        cmd: PlannedGraspCommand,
+        *,
+        feedback_cb=None,
+        tracking_provider=None,
+        obstacle_provider=None,
+        replan_provider=None,
+        camera_frame_cb=None,
+    ) -> MujocoRunResult:
         modules = self._load_mujoco_modules()
         mujoco = modules["mujoco"]
         runtime = modules["runtime"]
         policy_mod = modules["policy"]
         constants = modules["constants"]
         cbf_mod = modules["cbf"]
+        camera_mod = modules["camera"]
 
         mjcf = Path(self.cfg.mjcf)
         if not mjcf.is_absolute():
@@ -90,6 +106,14 @@ class MujocoInProcessRunner:
         model = mujoco.MjModel.from_xml_path(str(mjcf))
         data = mujoco.MjData(model)
         viewer = None
+        camera_rig = None
+        # Create the offscreen GLFW context before the passive viewer context.
+        # Creating it after launch_passive() makes the first camera render race
+        # with the viewer context and has caused intermittent native crashes.
+        if camera_frame_cb is not None:
+            camera_rig = camera_mod.MujocoCameraRig(
+                model, width=640, height=480
+            )
         if bool(self.cfg.show_viewer):
             import mujoco.viewer  # type: ignore
 
@@ -121,6 +145,9 @@ class MujocoInProcessRunner:
         mujoco.mj_forward(model, data)
         self._settle_object(mujoco, model, data)
         mujoco.mj_forward(model, data)
+        if camera_frame_cb is not None:
+            assert camera_rig is not None
+            self._publish_camera_frame(camera_rig, data, model, constants, camera_frame_cb)
 
         plan = GraspPlan(
             pregrasp_pos=np.asarray(cmd.pregrasp.pos, dtype=np.float64).reshape(3),
@@ -132,20 +159,42 @@ class MujocoInProcessRunner:
         thresholds = GraspThresholds(replan_max_attempts=max(int(self.cfg.replan_max_attempts), 0))
         sm = GraspStateMachine(thresholds, ctrl_dt=float(self.cfg.ctrl_dt))
         sm.reset(plan)
+        tracking_reference_world = np.asarray(
+            cmd.tracking_reference.pos if cmd.tracking_reference is not None else cmd.grasp.pos,
+            dtype=np.float64,
+        ).reshape(3)
 
         target_initial_z = self._target_z(mujoco, model, data)
         frozen_q = None
         close_start_q = None
         last_intent = None
         best_lift = 0.0
-        tracking_ref = None
+        obstacle_points = np.zeros((0, 3), dtype=np.float64)
+        obstacle_seq = -1
         log_path = self._log_path()
+        native_log_stream = None
         if log_path is not None:
             log_path.parent.mkdir(parents=True, exist_ok=True)
-            log_path.write_text("", encoding="utf-8")
+            self._log_stream = log_path.open("w", encoding="utf-8", buffering=65536)
+            native_path = log_path.with_suffix(log_path.suffix + ".native.log")
+            native_log_stream = native_path.open("w", encoding="utf-8", buffering=1)
+            print(f"[mujoco_runner] native stage log -> {native_path}", flush=True)
+
+        def native_stage(step_index: int, stage: str) -> None:
+            if native_log_stream is None:
+                return
+            native_log_stream.write(
+                f"{time.time():.9f} step={int(step_index)} stage={stage}\n"
+            )
+            native_log_stream.flush()
+            if int(step_index) < 3:
+                os.fsync(native_log_stream.fileno())
 
         try:
-            for step in range(int(self.cfg.max_steps)):
+            total_step_budget = int(self.cfg.max_steps) * (1 + max(int(self.cfg.replan_max_attempts), 0))
+            for step in range(total_step_budget):
+                native_stage(step, "loop_begin")
+                step_started = time.perf_counter()
                 if viewer is not None and not viewer.is_running():
                     return MujocoRunResult(
                         success=False,
@@ -155,36 +204,72 @@ class MujocoInProcessRunner:
                         steps=step,
                     )
                 if bool(self.cfg.enable_cbf) and obstacle_provider is not None and cbf_cfg is not None:
-                    obstacle_points = np.asarray(obstacle_provider(), dtype=np.float64).reshape(-1, 3)
-                    if obstacle_points.shape[0] > 0:
-                        stepper.cbf_obstacles = [
-                            cbf_mod.PointCloudSdfObstacle(
-                                name="ros2_obstacle_cloud",
-                                points=obstacle_points,
-                                voxel_size=float(self.cfg.sdf_voxel_size),
-                                inflate=float(self.cfg.sdf_inflate),
-                            )
-                        ]
-                    else:
-                        stepper.cbf_obstacles = []
+                    payload = obstacle_provider()
+                    next_seq = (
+                        int(payload.get("seq", 0))
+                        if isinstance(payload, dict)
+                        else obstacle_seq + 1
+                    )
+                    if next_seq != obstacle_seq:
+                        raw_points = (
+                            payload.get("points", np.zeros((0, 3)))
+                            if isinstance(payload, dict)
+                            else payload
+                        )
+                        obstacle_points = np.asarray(
+                            raw_points, dtype=np.float64
+                        ).reshape(-1, 3)
+                        obstacle_seq = next_seq
+                        if obstacle_points.shape[0] > 0:
+                            stepper.cbf_obstacles = [
+                                cbf_mod.PointCloudSdfObstacle(
+                                    name="ros2_obstacle_cloud",
+                                    points=obstacle_points,
+                                    voxel_size=float(self.cfg.sdf_voxel_size),
+                                    inflate=float(self.cfg.sdf_inflate),
+                                )
+                            ]
+                        else:
+                            stepper.cbf_obstacles = []
 
+                if (
+                    camera_rig is not None
+                    and step % max(int(self.cfg.camera_publish_interval_steps), 1) == 0
+                ):
+                    native_stage(step, "before_camera_render")
+                    self._publish_camera_frame(
+                        camera_rig,
+                        data,
+                        model,
+                        constants,
+                        camera_frame_cb,
+                        include_scene=bool(
+                            self.cfg.enable_cbf
+                            and str(self.cfg.obstacle_mode).strip().lower() == "dynamic"
+                        ),
+                        include_scene_rgb=False,
+                        include_wrist=True,
+                        tracking_reference_world=tracking_reference_world,
+                    )
+                    native_stage(step, "after_camera_render")
+
+                if sm.plan is not None:
+                    plan = sm.plan
                 tcp_pos, _tcp_quat = runtime.tcp_pose_w(data, ids)
                 current_target = plan.pregrasp_pos if sm.phase == GraspPhase.MOVE_TO_PREGRASP else plan.grasp_pos
-                target_lift = self._target_z(mujoco, model, data) - target_initial_z
+                target_object_pos = self._target_pos(mujoco, model, data)
+                target_lift = float(target_object_pos[2]) - target_initial_z
                 best_lift = max(best_lift, float(target_lift))
                 tracking_obs = None
                 if tracking_provider is not None:
                     tracked = tracking_provider()
                     if tracked is not None:
-                        tracked = np.asarray(tracked, dtype=np.float64).reshape(3)
-                        if tracking_ref is None:
-                            tracking_ref = tracked.copy()
-                        tracking_obs = TrackingObservation(
-                            valid=True,
-                            delta_world=tracked - tracking_ref,
-                            source="ros2_wrist",
-                            confidence=1.0,
-                            n_points=1,
+                        tracking_obs = self._rgb_tracking_observation(
+                            tracked,
+                            model,
+                            data,
+                            constants,
+                            tracking_reference_world,
                         )
                 obs = GraspObservation(
                     tcp_pos=np.asarray(tcp_pos, dtype=np.float64),
@@ -197,6 +282,81 @@ class MujocoInProcessRunner:
                 )
                 intent = sm.step(obs)
                 last_intent = intent
+                if intent.should_plan_grasp and replan_provider is not None:
+                    attempt = int(sm.replan_attempts) + 1
+                    if feedback_cb is not None:
+                        feedback_cb(
+                            GraspPhase.REPLAN_GRASP.value,
+                            f"replan_request attempt={attempt}",
+                            best_lift,
+                        )
+                    if camera_rig is not None:
+                        self._publish_camera_frame(
+                            camera_rig,
+                            data,
+                            model,
+                            constants,
+                            camera_frame_cb,
+                            include_scene=True,
+                            include_scene_rgb=True,
+                            include_wrist=True,
+                            tracking_reference_world=tracking_reference_world,
+                        )
+                        time.sleep(max(float(self.cfg.replan_camera_settle_s), 0.0))
+                    try:
+                        new_cmd, replan_reason = replan_provider(attempt)
+                    except Exception as exc:
+                        new_cmd, replan_reason = None, f"provider_exception:{exc}"
+                    if new_cmd is None:
+                        sm.reject_replan(str(replan_reason))
+                        self._append_event_log(
+                            log_path,
+                            step=step,
+                            event="replan_reject",
+                            attempt=attempt,
+                            reason=str(replan_reason),
+                        )
+                        if feedback_cb is not None:
+                            feedback_cb(
+                                GraspPhase.REPLAN_GRASP.value,
+                                sm.last_reason,
+                                best_lift,
+                            )
+                        continue
+                    plan = GraspPlan(
+                        pregrasp_pos=np.asarray(new_cmd.pregrasp.pos, dtype=np.float64).reshape(3),
+                        grasp_pos=np.asarray(new_cmd.grasp.pos, dtype=np.float64).reshape(3),
+                        grasp_quat_wxyz=np.asarray(new_cmd.grasp.quat_wxyz, dtype=np.float64).reshape(4),
+                        approach_axis_world=np.array([1.0, 0.0, 0.0], dtype=np.float64),
+                        gripper_width=float(new_cmd.gripper_width),
+                    )
+                    sm.accept_replan(plan)
+                    tracking_reference_world = np.asarray(
+                        new_cmd.tracking_reference.pos
+                        if new_cmd.tracking_reference is not None
+                        else new_cmd.grasp.pos,
+                        dtype=np.float64,
+                    ).reshape(3)
+                    frozen_q = None
+                    close_start_q = None
+                    self._append_event_log(
+                        log_path,
+                        step=step,
+                        event="replan_accept",
+                        attempt=attempt,
+                        reason=str(replan_reason),
+                        pregrasp=plan.pregrasp_pos,
+                        grasp=plan.grasp_pos,
+                        grasp_quat=plan.grasp_quat_wxyz,
+                        gripper_width=plan.gripper_width,
+                    )
+                    if feedback_cb is not None:
+                        feedback_cb(
+                            sm.phase.value,
+                            f"{sm.last_reason} {replan_reason}",
+                            best_lift,
+                        )
+                    continue
                 if feedback_cb is not None and step % max(int(round(0.5 / self.cfg.ctrl_dt)), 1) == 0:
                     feedback_cb(intent.phase.value, intent.reason, best_lift)
                 if intent.done:
@@ -226,6 +386,7 @@ class MujocoInProcessRunner:
                         q_tgt[-1] = float(self.cfg.close_q)
 
                 runtime.set_ctrl(data, ids, q_tgt)
+                native_stage(step, "after_set_ctrl")
                 self._append_step_log(
                     log_path,
                     step=step,
@@ -237,22 +398,45 @@ class MujocoInProcessRunner:
                     control_target=intent.target_pos,
                     pregrasp=sm.plan.pregrasp_pos if sm.plan is not None else plan.pregrasp_pos,
                     grasp=sm.plan.grasp_pos if sm.plan is not None else plan.grasp_pos,
+                    target_object_pos=target_object_pos,
                     dist_to_control=obs.dist_to_control,
                     final_err=obs.final_err,
                     target_lift=target_lift,
                     best_lift=best_lift,
                     gripper_mode=intent.gripper_mode,
                     tracking_obs=tracking_obs,
-                    obstacle_points=obstacle_points if "obstacle_points" in locals() else np.zeros((0, 3)),
+                    obstacle_points=obstacle_points,
                     info=step_info,
                     enable_cbf=bool(self.cfg.enable_cbf),
                 )
+                native_stage(step, "after_step_log")
+                native_stage(step, "before_mj_step")
                 for _ in range(int(constants.DECIMATION)):
                     mujoco.mj_step(model, data)
+                native_stage(step, "after_mj_step")
                 if viewer is not None and step % max(int(self.cfg.viewer_sync_interval), 1) == 0:
+                    native_stage(step, "before_overlay")
+                    self._draw_grasp_overlay(
+                        mujoco, viewer, model, data, runtime, ids, sm.plan or plan
+                    )
+                    native_stage(step, "after_overlay")
+                    native_stage(step, "before_viewer_sync")
                     viewer.sync()
-                    time.sleep(float(self.cfg.ctrl_dt) / max(float(self.cfg.speed), 1.0e-6))
+                    native_stage(step, "after_viewer_sync")
+                    target_wall_dt = float(self.cfg.ctrl_dt) / max(float(self.cfg.speed), 1.0e-6)
+                    remaining = target_wall_dt - (time.perf_counter() - step_started)
+                    if remaining > 0.0:
+                        time.sleep(remaining)
         finally:
+            if self._log_stream is not None:
+                self._log_stream.flush()
+                self._log_stream.close()
+                self._log_stream = None
+            if native_log_stream is not None:
+                native_log_stream.flush()
+                native_log_stream.close()
+            if camera_rig is not None:
+                camera_rig.close()
             if viewer is not None and float(self.cfg.viewer_hold_s) > 0.0:
                 hold_until = time.time() + float(self.cfg.viewer_hold_s)
                 while viewer.is_running() and time.time() < hold_until:
@@ -267,7 +451,7 @@ class MujocoInProcessRunner:
             reason=f"timeout:{reason}",
             lift_height=float(best_lift),
             final_phase=sm.phase.value,
-            steps=int(self.cfg.max_steps),
+            steps=int(total_step_budget),
         )
 
     def _load_mujoco_modules(self) -> dict:
@@ -277,14 +461,174 @@ class MujocoInProcessRunner:
 
         sys.path = old_path
         mujoco_dir = str(self.repo / "mujoco")
-        if mujoco_dir not in sys.path:
-            sys.path.insert(0, mujoco_dir)
-        import constants  # type: ignore
-        import policy  # type: ignore
-        import runtime  # type: ignore
-        import cbf  # type: ignore
 
-        return {"mujoco": mujoco, "constants": constants, "policy": policy, "runtime": runtime, "cbf": cbf}
+        def load_local(name: str):
+            module_name = f"_soarm100_mujoco_{name}"
+            cached = sys.modules.get(module_name)
+            if cached is not None:
+                return cached
+            spec = importlib.util.spec_from_file_location(
+                module_name, str(Path(mujoco_dir) / f"{name}.py")
+            )
+            if spec is None or spec.loader is None:
+                raise ImportError(f"cannot load MuJoCo module: {name}")
+            module = importlib.util.module_from_spec(spec)
+            sys.modules[module_name] = module
+            # Local modules retain fallback imports such as ``from constants``.
+            sys.modules.setdefault(name, module)
+            spec.loader.exec_module(module)
+            return module
+
+        constants = load_local("constants")
+        policy = load_local("policy")
+        runtime = load_local("runtime")
+        cbf = load_local("cbf")
+        camera = load_local("camera")
+
+        return {
+            "mujoco": mujoco,
+            "constants": constants,
+            "policy": policy,
+            "runtime": runtime,
+            "cbf": cbf,
+            "camera": camera,
+        }
+
+    def _publish_camera_frame(
+        self,
+        rig,
+        data,
+        model,
+        constants,
+        callback,
+        *,
+        include_scene: bool = False,
+        include_scene_rgb: bool = False,
+        include_wrist: bool = True,
+        tracking_reference_world=None,
+    ) -> None:
+        if callback is None:
+            return
+        scene_name = str(constants.SCENE_DEPTH_CAM)
+        wrist_name = str(constants.WRIST_RGB_CAM)
+        scene_id = model.camera(scene_name).id
+        wrist_id = model.camera(wrist_name).id
+        frame = {}
+        if include_scene:
+            if include_scene_rgb:
+                frame["scene_rgb"] = rig.capture_rgb(data, scene_name)
+            frame["scene_depth"] = rig.capture_depth_m(data, scene_name)
+            scene_seg = rig.capture_segmentation(data, scene_name)
+            robot_geom_ids = self._robot_geom_ids_for_model(model, constants)
+            frame["scene_robot_mask"] = self._robot_mask_from_segmentation(
+                scene_seg, robot_geom_ids
+            )
+            frame["scene_sim_time"] = float(data.time)
+            frame["scene_fovy"] = float(model.cam_fovy[scene_id])
+        if include_wrist:
+            frame["wrist_rgb"] = rig.capture_rgb(data, wrist_name)
+            frame["wrist_fovy"] = float(model.cam_fovy[wrist_id])
+            frame["wrist_camera_pos_world"] = np.asarray(
+                data.cam_xpos[wrist_id], dtype=np.float64
+            ).copy()
+            frame["wrist_camera_rot_world"] = np.asarray(
+                data.cam_xmat[wrist_id], dtype=np.float64
+            ).reshape(3, 3).copy()
+            if tracking_reference_world is not None:
+                frame["tracking_reference_world"] = np.asarray(
+                    tracking_reference_world, dtype=np.float64
+                ).reshape(3).copy()
+        if frame:
+            callback(frame)
+
+    @staticmethod
+    def _robot_geom_ids_for_model(model, constants) -> set[int]:
+        import mujoco
+
+        root_name = str(getattr(constants, "ROBOT_ROOT_BODY", "base"))
+        root = mujoco.mj_name2id(model, mujoco.mjtObj.mjOBJ_BODY, root_name)
+        if root < 0:
+            root = mujoco.mj_name2id(model, mujoco.mjtObj.mjOBJ_BODY, "base")
+        if root < 0:
+            return set()
+        bodies = {int(root)}
+        changed = True
+        while changed:
+            changed = False
+            for body_id in range(int(model.nbody)):
+                if body_id not in bodies and int(model.body_parentid[body_id]) in bodies:
+                    bodies.add(body_id)
+                    changed = True
+        return {
+            int(geom_id)
+            for geom_id in range(int(model.ngeom))
+            if int(model.geom_bodyid[geom_id]) in bodies
+        }
+
+    @staticmethod
+    def _robot_mask_from_segmentation(
+        segmentation: np.ndarray, robot_geom_ids: set[int]
+    ) -> np.ndarray:
+        seg = np.asarray(segmentation)
+        if seg.ndim != 3 or seg.shape[2] < 1 or not robot_geom_ids:
+            return np.zeros(seg.shape[:2], dtype=np.uint8)
+        geom_ids = seg[:, :, 0].astype(np.int32)
+        return (
+            np.isin(geom_ids, np.fromiter(robot_geom_ids, dtype=np.int32)) * 255
+        ).astype(np.uint8)
+
+    @staticmethod
+    def _rgb_tracking_observation(
+        tracked, model, data, constants, tracking_reference_world
+    ):
+        if not isinstance(tracked, dict):
+            return TrackingObservation(
+                valid=False, source="ros2_wrist_rgb", reason="invalid_tracking_payload"
+            )
+        if not bool(tracked.get("valid", False)):
+            return TrackingObservation(
+                valid=False,
+                source="ros2_wrist_rgb",
+                reason=str(tracked.get("reason", "track_invalid")),
+                confidence=float(tracked.get("confidence", 0.0)),
+                replan_required=bool(tracked.get("replan_required", False)),
+            )
+        wrist_id = model.camera(str(constants.WRIST_RGB_CAM)).id
+        cam_pos = np.asarray(data.cam_xpos[wrist_id], dtype=np.float64)
+        cam_rot = np.asarray(data.cam_xmat[wrist_id], dtype=np.float64).reshape(3, 3)
+        reference = np.asarray(tracking_reference_world, dtype=np.float64).reshape(3)
+        p_mj = cam_rot.T @ (reference - cam_pos)
+        p_opt = np.array([p_mj[0], -p_mj[1], -p_mj[2]], dtype=np.float64)
+        if p_opt[2] <= 1.0e-4:
+            return TrackingObservation(
+                valid=False,
+                source="ros2_wrist_rgb",
+                reason="reference_behind_wrist_camera",
+            )
+        width = float(tracked.get("image_width", 640.0))
+        height = float(tracked.get("image_height", 480.0))
+        fy = height / (2.0 * np.tan(np.deg2rad(float(model.cam_fovy[wrist_id])) / 2.0))
+        fx = fy
+        du = float(tracked.get("delta_u", 0.0))
+        dv = float(tracked.get("delta_v", 0.0))
+        delta_opt = np.array(
+            [du * p_opt[2] / fx, dv * p_opt[2] / fy, 0.0], dtype=np.float64
+        )
+        delta_mj = np.array(
+            [delta_opt[0], -delta_opt[1], -delta_opt[2]], dtype=np.float64
+        )
+        return TrackingObservation(
+            valid=True,
+            delta_world=cam_rot @ delta_mj,
+            source="ros2_wrist_rgb",
+            reason=(
+                f"{tracked.get('reason', 'track_ok')} "
+                f"du={du:+.1f}px dv={dv:+.1f}px depth={p_opt[2]:.3f}m"
+            ),
+            confidence=float(tracked.get("confidence", 0.0)),
+            n_points=1,
+            replan_required=bool(tracked.get("replan_required", False)),
+        )
 
     @staticmethod
     def _grasp_target_objects() -> dict[str, tuple[str, str]]:
@@ -366,10 +710,110 @@ class MujocoInProcessRunner:
         mujoco.mj_forward(model, data)
 
     def _target_z(self, mujoco, model, data) -> float:
+        return float(self._target_pos(mujoco, model, data)[2])
+
+    def _target_pos(self, mujoco, model, data) -> np.ndarray:
         bid = mujoco.mj_name2id(model, mujoco.mjtObj.mjOBJ_BODY, str(self.cfg.target_body))
         if bid < 0:
-            return 0.0
-        return float(data.xpos[int(bid)][2])
+            return self._parse_vec3(self.cfg.target_pos)
+        return np.asarray(data.xpos[int(bid)], dtype=np.float64).copy()
+
+    @staticmethod
+    def _scene_add_sphere(mujoco, scene, pos, radius, rgba) -> None:
+        if scene.ngeom >= len(scene.geoms):
+            return
+        mujoco.mjv_initGeom(
+            scene.geoms[scene.ngeom],
+            mujoco.mjtGeom.mjGEOM_SPHERE,
+            np.array([float(radius), 0.0, 0.0], dtype=np.float64),
+            np.asarray(pos, dtype=np.float64).reshape(3),
+            np.eye(3, dtype=np.float64).reshape(9),
+            np.asarray(rgba, dtype=np.float32),
+        )
+        scene.ngeom += 1
+
+    @staticmethod
+    def _scene_add_connector(mujoco, scene, geom_type, start, end, width, rgba) -> None:
+        if scene.ngeom >= len(scene.geoms):
+            return
+        geom = scene.geoms[scene.ngeom]
+        mujoco.mjv_connector(
+            geom,
+            geom_type,
+            float(width),
+            np.asarray(start, dtype=np.float64).reshape(3),
+            np.asarray(end, dtype=np.float64).reshape(3),
+        )
+        geom.rgba[:] = np.asarray(rgba, dtype=np.float32)
+        scene.ngeom += 1
+
+    @staticmethod
+    def _rot_from_quat_wxyz(quat) -> np.ndarray:
+        w, x, y, z = np.asarray(quat, dtype=np.float64).reshape(4)
+        norm = max(float(np.linalg.norm([w, x, y, z])), 1.0e-12)
+        w, x, y, z = w / norm, x / norm, y / norm, z / norm
+        return np.array(
+            [
+                [1 - 2 * (y * y + z * z), 2 * (x * y - z * w), 2 * (x * z + y * w)],
+                [2 * (x * y + z * w), 1 - 2 * (x * x + z * z), 2 * (y * z - x * w)],
+                [2 * (x * z - y * w), 2 * (y * z + x * w), 1 - 2 * (x * x + y * y)],
+            ],
+            dtype=np.float64,
+        )
+
+    def _draw_grasp_overlay(self, mujoco, viewer, model, data, runtime, ids, plan) -> None:
+        try:
+            tcp_pos, _ = runtime.tcp_pose_w(data, ids)
+            target_bid = mujoco.mj_name2id(
+                model, mujoco.mjtObj.mjOBJ_BODY, str(self.cfg.target_body)
+            )
+            target_pos = (
+                np.asarray(data.xpos[int(target_bid)], dtype=np.float64)
+                if target_bid >= 0
+                else np.asarray(self._parse_vec3(self.cfg.target_pos), dtype=np.float64)
+            )
+            grasp = np.asarray(plan.grasp_pos, dtype=np.float64).reshape(3)
+            pregrasp = np.asarray(plan.pregrasp_pos, dtype=np.float64).reshape(3)
+            rotation = self._rot_from_quat_wxyz(plan.grasp_quat_wxyz)
+            with viewer.lock():
+                scene = viewer.user_scn
+                scene.ngeom = 0
+                self._scene_add_sphere(
+                    mujoco, scene, pregrasp, 0.007, [0.0, 0.75, 1.0, 0.95]
+                )
+                self._scene_add_sphere(
+                    mujoco, scene, grasp, 0.008, [0.0, 1.0, 0.1, 1.0]
+                )
+                self._scene_add_sphere(
+                    mujoco, scene, tcp_pos, 0.006, [1.0, 0.0, 1.0, 0.95]
+                )
+                self._scene_add_connector(
+                    mujoco,
+                    scene,
+                    mujoco.mjtGeom.mjGEOM_CAPSULE,
+                    grasp,
+                    target_pos,
+                    0.0015,
+                    [1.0, 1.0, 1.0, 0.75],
+                )
+                axis_colors = (
+                    [1.0, 0.1, 0.1, 0.95],
+                    [0.1, 1.0, 0.1, 0.95],
+                    [0.1, 0.35, 1.0, 0.95],
+                )
+                for axis, color in zip(rotation.T, axis_colors):
+                    self._scene_add_connector(
+                        mujoco,
+                        scene,
+                        mujoco.mjtGeom.mjGEOM_ARROW,
+                        grasp,
+                        grasp + 0.05 * axis,
+                        0.003,
+                        color,
+                    )
+        except Exception:
+            # Overlay diagnostics must never interrupt the control loop.
+            return
 
     def _log_path(self) -> Path | None:
         raw = str(self.cfg.traj_log).strip()
@@ -397,6 +841,7 @@ class MujocoInProcessRunner:
         control_target: np.ndarray,
         pregrasp: np.ndarray,
         grasp: np.ndarray,
+        target_object_pos: np.ndarray,
         dist_to_control: float,
         final_err: float,
         target_lift: float,
@@ -410,6 +855,9 @@ class MujocoInProcessRunner:
         if path is None:
             return
         obs_pts = np.asarray(obstacle_points, dtype=np.float64).reshape(-1, 3)
+        grasp_target_offset = np.asarray(grasp, dtype=np.float64).reshape(3) - np.asarray(
+            target_object_pos, dtype=np.float64
+        ).reshape(3)
         rec = {
             "time_wall": time.time(),
             "step": int(step),
@@ -422,6 +870,9 @@ class MujocoInProcessRunner:
             "control_target": self._arr(control_target),
             "pregrasp": self._arr(pregrasp),
             "grasp": self._arr(grasp),
+            "target_object_pos": self._arr(target_object_pos),
+            "grasp_target_offset": self._arr(grasp_target_offset),
+            "grasp_target_dist": float(np.linalg.norm(grasp_target_offset)),
             "dist_to_control": float(dist_to_control),
             "final_err": float(final_err),
             "target_lift": float(target_lift),
@@ -430,6 +881,8 @@ class MujocoInProcessRunner:
             "tracking_valid": bool(tracking_obs.valid) if tracking_obs is not None else False,
             "tracking_delta": self._arr(tracking_obs.delta_world) if tracking_obs is not None else [0.0, 0.0, 0.0],
             "tracking_source": str(tracking_obs.source) if tracking_obs is not None else "",
+            "tracking_confidence": float(tracking_obs.confidence) if tracking_obs is not None else 0.0,
+            "tracking_reason": str(tracking_obs.reason) if tracking_obs is not None else "",
             "obstacle_points": int(obs_pts.shape[0]),
             "cbf_enabled": bool(enable_cbf),
             "cbf_active": bool(info.get("cbf_active", False)),
@@ -438,5 +891,36 @@ class MujocoInProcessRunner:
             "dq_cbf_norm": float(info.get("dq_cbf_norm", 0.0)),
             "dq_total_norm": float(info.get("dq_total_norm", 0.0)),
         }
-        with path.open("a", encoding="utf-8") as f:
-            f.write(json.dumps(rec, ensure_ascii=False) + "\n")
+        line = json.dumps(rec, ensure_ascii=False) + "\n"
+        if self._log_stream is not None:
+            self._log_stream.write(line)
+            if int(step) % 25 == 0:
+                self._log_stream.flush()
+        else:
+            with path.open("a", encoding="utf-8") as f:
+                f.write(line)
+
+    def _append_event_log(self, path: Path | None, *, step: int, event: str, attempt: int, reason: str, **values) -> None:
+        if path is None:
+            return
+        rec = {
+            "time_wall": time.time(),
+            "step": int(step),
+            "t": float(step) * float(self.cfg.ctrl_dt),
+            "event": str(event),
+            "phase": GraspPhase.REPLAN_GRASP.value,
+            "attempt": int(attempt),
+            "reason": str(reason),
+        }
+        for key, value in values.items():
+            if isinstance(value, np.ndarray):
+                rec[key] = self._arr(value)
+            else:
+                rec[key] = float(value) if isinstance(value, (np.floating, float)) else value
+        line = json.dumps(rec, ensure_ascii=False) + "\n"
+        if self._log_stream is not None:
+            self._log_stream.write(line)
+            self._log_stream.flush()
+        else:
+            with path.open("a", encoding="utf-8") as f:
+                f.write(line)

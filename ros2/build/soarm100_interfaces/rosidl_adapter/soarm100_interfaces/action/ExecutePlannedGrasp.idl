@@ -11,9 +11,13 @@ module soarm100_interfaces {
 
       geometry_msgs::msg::PoseStamped grasp_pose;
 
+      geometry_msgs::msg::PoseStamped tracking_reference_pose;
+
       float gripper_width;
 
       boolean enable_avoidance;
+
+      string target_prompt;
 
       string target_object;
 

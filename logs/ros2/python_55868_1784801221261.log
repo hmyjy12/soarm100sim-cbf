@@ -1,0 +1,3 @@
+[INFO] [1784801221.716407297] [soarm100_mujoco_camera_publisher]: MuJoCo camera publisher ready: mjcf=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/SO-ARM100/Simulation/SO100/mujoco/scene_plus_norod.xml scene=scene_depth wrist=wrist_rgb target=target_object pos=0.42,0.08,0.021 obstacle=False obstacle_rod_mount@0.16,0.09,0.02
+[INFO] [1784801232.408757924] [soarm100_mujoco_camera_publisher]: standalone camera publishing paused
+[INFO] [1784801283.176595319] [soarm100_mujoco_camera_publisher]: standalone camera publishing resumed

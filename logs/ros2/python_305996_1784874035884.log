@@ -1,0 +1,7 @@
+[INFO] [1784874035.932533566] [soarm100_send_planned_grasp]: planned grasp goal accepted
+[INFO] [1784874035.933097507] [soarm100_send_planned_grasp]: feedback stage=STARTING_MUJOCO_INPROCESS lift=0.0000 reason=using converted AnyGrasp pose in GraspStateMachine + MuJoCo runner; pre=0.396291,0.077529,0.113929 grasp=0.413048,0.080493,0.046029 quat=1.00000000,0.00000000,0.00000000,0.00000000 traj_log=logs/ros2_noavoid_renderer_handoff.jsonl
+[INFO] [1784874037.965943960] [soarm100_send_planned_grasp]: feedback stage=MOVE_TO_PREGRASP lift=0.0000 reason=reset
+[INFO] [1784874038.672535089] [soarm100_send_planned_grasp]: feedback stage=MOVE_TO_PREGRASP lift=0.0000 reason=reset
+[INFO] [1784874039.353286239] [soarm100_send_planned_grasp]: feedback stage=MOVE_TO_PREGRASP lift=0.0000 reason=reset
+[INFO] [1784874040.036367688] [soarm100_send_planned_grasp]: feedback stage=FINAL_APPROACH lift=0.0000 reason=track_update source=ros2_wrist_rgb
+[INFO] [1784874040.642807186] [soarm100_send_planned_grasp]: feedback stage=REPLAN_GRASP lift=0.0000 reason=replan_request attempt=1

@@ -1,0 +1,16 @@
+std_msgs/Header header
+bool valid
+float32 u
+float32 v
+float32 reference_u
+float32 reference_v
+float32 delta_u
+float32 delta_v
+float32 width
+float32 height
+uint32 image_width
+uint32 image_height
+float32 confidence
+uint32 lost_frames
+bool replan_required
+string reason

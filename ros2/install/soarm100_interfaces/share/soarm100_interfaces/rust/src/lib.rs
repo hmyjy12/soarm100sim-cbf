@@ -1,18 +1,1 @@
-#![allow(non_camel_case_types)]
-#![allow(clippy::derive_partial_eq_without_eq)]
-#![allow(clippy::upper_case_acronyms)]
-
-
-#[path = "srv.rs"]
-mod srv_idiomatic;
-pub mod srv {
-    pub use super::srv_idiomatic::*;
-    pub mod rmw;
-}
-
-#[path = "action.rs"]
-mod action_idiomatic;
-pub mod action {
-    pub use super::action_idiomatic::*;
-    pub mod rmw;
-}
+/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_generator_rs/soarm100_interfaces/rust/src/lib.rs

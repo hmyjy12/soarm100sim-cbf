@@ -338,12 +338,22 @@ pub struct ExecutePlannedGrasp_Goal {
 
     // This member is not documented.
     #[allow(missing_docs)]
+    pub tracking_reference_pose: geometry_msgs::msg::PoseStamped,
+
+
+    // This member is not documented.
+    #[allow(missing_docs)]
     pub gripper_width: f32,
 
 
     // This member is not documented.
     #[allow(missing_docs)]
     pub enable_avoidance: bool,
+
+
+    // This member is not documented.
+    #[allow(missing_docs)]
+    pub target_prompt: std::string::String,
 
 
     // This member is not documented.
@@ -378,8 +388,10 @@ impl rosidl_runtime_rs::Message for ExecutePlannedGrasp_Goal {
       std::borrow::Cow::Owned(msg) => std::borrow::Cow::Owned(Self::RmwMsg {
         pregrasp_pose: geometry_msgs::msg::PoseStamped::into_rmw_message(std::borrow::Cow::Owned(msg.pregrasp_pose)).into_owned(),
         grasp_pose: geometry_msgs::msg::PoseStamped::into_rmw_message(std::borrow::Cow::Owned(msg.grasp_pose)).into_owned(),
+        tracking_reference_pose: geometry_msgs::msg::PoseStamped::into_rmw_message(std::borrow::Cow::Owned(msg.tracking_reference_pose)).into_owned(),
         gripper_width: msg.gripper_width,
         enable_avoidance: msg.enable_avoidance,
+        target_prompt: msg.target_prompt.as_str().into(),
         target_object: msg.target_object.as_str().into(),
         target_pos: msg.target_pos.as_str().into(),
         traj_log: msg.traj_log.as_str().into(),
@@ -387,8 +399,10 @@ impl rosidl_runtime_rs::Message for ExecutePlannedGrasp_Goal {
       std::borrow::Cow::Borrowed(msg) => std::borrow::Cow::Owned(Self::RmwMsg {
         pregrasp_pose: geometry_msgs::msg::PoseStamped::into_rmw_message(std::borrow::Cow::Borrowed(&msg.pregrasp_pose)).into_owned(),
         grasp_pose: geometry_msgs::msg::PoseStamped::into_rmw_message(std::borrow::Cow::Borrowed(&msg.grasp_pose)).into_owned(),
+        tracking_reference_pose: geometry_msgs::msg::PoseStamped::into_rmw_message(std::borrow::Cow::Borrowed(&msg.tracking_reference_pose)).into_owned(),
       gripper_width: msg.gripper_width,
       enable_avoidance: msg.enable_avoidance,
+        target_prompt: msg.target_prompt.as_str().into(),
         target_object: msg.target_object.as_str().into(),
         target_pos: msg.target_pos.as_str().into(),
         traj_log: msg.traj_log.as_str().into(),
@@ -400,8 +414,10 @@ impl rosidl_runtime_rs::Message for ExecutePlannedGrasp_Goal {
     Self {
       pregrasp_pose: geometry_msgs::msg::PoseStamped::from_rmw_message(msg.pregrasp_pose),
       grasp_pose: geometry_msgs::msg::PoseStamped::from_rmw_message(msg.grasp_pose),
+      tracking_reference_pose: geometry_msgs::msg::PoseStamped::from_rmw_message(msg.tracking_reference_pose),
       gripper_width: msg.gripper_width,
       enable_avoidance: msg.enable_avoidance,
+      target_prompt: msg.target_prompt.to_string(),
       target_object: msg.target_object.to_string(),
       target_pos: msg.target_pos.to_string(),
       traj_log: msg.traj_log.to_string(),
@@ -698,6 +714,11 @@ pub struct PlanGrasp_Result {
 
     // This member is not documented.
     #[allow(missing_docs)]
+    pub target_center_pose: geometry_msgs::msg::PoseStamped,
+
+
+    // This member is not documented.
+    #[allow(missing_docs)]
     pub grasp_score: f32,
 
 
@@ -730,6 +751,7 @@ impl rosidl_runtime_rs::Message for PlanGrasp_Result {
         reason: msg.reason.as_str().into(),
         selected_grasp_pose: geometry_msgs::msg::PoseStamped::into_rmw_message(std::borrow::Cow::Owned(msg.selected_grasp_pose)).into_owned(),
         selected_pregrasp_pose: geometry_msgs::msg::PoseStamped::into_rmw_message(std::borrow::Cow::Owned(msg.selected_pregrasp_pose)).into_owned(),
+        target_center_pose: geometry_msgs::msg::PoseStamped::into_rmw_message(std::borrow::Cow::Owned(msg.target_center_pose)).into_owned(),
         grasp_score: msg.grasp_score,
         gripper_width: msg.gripper_width,
         candidate_count: msg.candidate_count,
@@ -739,6 +761,7 @@ impl rosidl_runtime_rs::Message for PlanGrasp_Result {
         reason: msg.reason.as_str().into(),
         selected_grasp_pose: geometry_msgs::msg::PoseStamped::into_rmw_message(std::borrow::Cow::Borrowed(&msg.selected_grasp_pose)).into_owned(),
         selected_pregrasp_pose: geometry_msgs::msg::PoseStamped::into_rmw_message(std::borrow::Cow::Borrowed(&msg.selected_pregrasp_pose)).into_owned(),
+        target_center_pose: geometry_msgs::msg::PoseStamped::into_rmw_message(std::borrow::Cow::Borrowed(&msg.target_center_pose)).into_owned(),
       grasp_score: msg.grasp_score,
       gripper_width: msg.gripper_width,
       candidate_count: msg.candidate_count,
@@ -752,6 +775,7 @@ impl rosidl_runtime_rs::Message for PlanGrasp_Result {
       reason: msg.reason.to_string(),
       selected_grasp_pose: geometry_msgs::msg::PoseStamped::from_rmw_message(msg.selected_grasp_pose),
       selected_pregrasp_pose: geometry_msgs::msg::PoseStamped::from_rmw_message(msg.selected_pregrasp_pose),
+      target_center_pose: geometry_msgs::msg::PoseStamped::from_rmw_message(msg.target_center_pose),
       grasp_score: msg.grasp_score,
       gripper_width: msg.gripper_width,
       candidate_count: msg.candidate_count,

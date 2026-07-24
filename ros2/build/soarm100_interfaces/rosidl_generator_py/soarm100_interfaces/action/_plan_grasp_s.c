@@ -217,6 +217,10 @@ ROSIDL_GENERATOR_C_IMPORT
 bool geometry_msgs__msg__pose_stamped__convert_from_py(PyObject * _pymsg, void * _ros_message);
 ROSIDL_GENERATOR_C_IMPORT
 PyObject * geometry_msgs__msg__pose_stamped__convert_to_py(void * raw_ros_message);
+ROSIDL_GENERATOR_C_IMPORT
+bool geometry_msgs__msg__pose_stamped__convert_from_py(PyObject * _pymsg, void * _ros_message);
+ROSIDL_GENERATOR_C_IMPORT
+PyObject * geometry_msgs__msg__pose_stamped__convert_to_py(void * raw_ros_message);
 
 ROSIDL_GENERATOR_C_EXPORT
 bool soarm100_interfaces__action__plan_grasp__result__convert_from_py(PyObject * _pymsg, void * _ros_message)
@@ -292,6 +296,17 @@ bool soarm100_interfaces__action__plan_grasp__result__convert_from_py(PyObject *
       return false;
     }
     if (!geometry_msgs__msg__pose_stamped__convert_from_py(field, &ros_message->selected_pregrasp_pose)) {
+      Py_DECREF(field);
+      return false;
+    }
+    Py_DECREF(field);
+  }
+  {  // target_center_pose
+    PyObject * field = PyObject_GetAttrString(_pymsg, "target_center_pose");
+    if (!field) {
+      return false;
+    }
+    if (!geometry_msgs__msg__pose_stamped__convert_from_py(field, &ros_message->target_center_pose)) {
       Py_DECREF(field);
       return false;
     }
@@ -396,6 +411,20 @@ PyObject * soarm100_interfaces__action__plan_grasp__result__convert_to_py(void *
     }
     {
       int rc = PyObject_SetAttrString(_pymessage, "selected_pregrasp_pose", field);
+      Py_DECREF(field);
+      if (rc) {
+        return NULL;
+      }
+    }
+  }
+  {  // target_center_pose
+    PyObject * field = NULL;
+    field = geometry_msgs__msg__pose_stamped__convert_to_py(&ros_message->target_center_pose);
+    if (!field) {
+      return NULL;
+    }
+    {
+      int rc = PyObject_SetAttrString(_pymessage, "target_center_pose", field);
       Py_DECREF(field);
       if (rc) {
         return NULL;

@@ -66,6 +66,7 @@ include CMakeFiles/soarm100_interfaces.dir/compiler_depend.make
 # Include the progress variables for this target.
 include CMakeFiles/soarm100_interfaces.dir/progress.make
 
+CMakeFiles/soarm100_interfaces: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/soarm100_interfaces/msg/TrackedTarget2D.msg
 CMakeFiles/soarm100_interfaces: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/soarm100_interfaces/action/ExecuteGrasp.action
 CMakeFiles/soarm100_interfaces: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/soarm100_interfaces/action/ExecutePlannedGrasp.action
 CMakeFiles/soarm100_interfaces: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/soarm100_interfaces/action/PlanGrasp.action

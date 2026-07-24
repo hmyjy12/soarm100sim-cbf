@@ -25,6 +25,8 @@ module soarm100_interfaces {
 
       geometry_msgs::msg::PoseStamped selected_pregrasp_pose;
 
+      geometry_msgs::msg::PoseStamped target_center_pose;
+
       float grasp_score;
 
       float gripper_width;

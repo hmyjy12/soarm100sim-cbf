@@ -7,6 +7,7 @@ bool success
 string reason
 geometry_msgs/PoseStamped selected_grasp_pose
 geometry_msgs/PoseStamped selected_pregrasp_pose
+geometry_msgs/PoseStamped target_center_pose
 float32 grasp_score
 float32 gripper_width
 uint16 candidate_count

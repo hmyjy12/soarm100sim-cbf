@@ -1,8 +1,1 @@
-
-bool success
-string reason
-geometry_msgs/PoseStamped target_center
-float32 score
-float32[4] bbox_xyxy
-string mask_topic
-string debug_json
+/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_cmake/srv/SegmentTarget_Response.msg

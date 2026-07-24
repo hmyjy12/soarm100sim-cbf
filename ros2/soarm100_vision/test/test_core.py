@@ -70,6 +70,78 @@ def test_final_approach_timeout_uses_independent_seconds():
     assert sm.last_reason == "final_timeout"
 
 
+def test_replan_accept_replaces_plan_and_counts_attempt():
+    initial = GraspPlan(
+        pregrasp_pos=np.array([0.30, 0.00, 0.10]),
+        grasp_pos=np.array([0.34, 0.00, 0.07]),
+        grasp_quat_wxyz=np.array([1.0, 0.0, 0.0, 0.0]),
+        approach_axis_world=np.array([1.0, 0.0, 0.0]),
+    )
+    updated = GraspPlan(
+        pregrasp_pos=np.array([0.32, 0.03, 0.11]),
+        grasp_pos=np.array([0.36, 0.03, 0.08]),
+        grasp_quat_wxyz=np.array([0.7, 0.0, 0.7, 0.0]),
+        approach_axis_world=np.array([1.0, 0.0, 0.0]),
+    )
+    sm = GraspStateMachine(GraspThresholds(replan_max_attempts=2), ctrl_dt=0.02)
+    sm.reset(initial)
+    sm.phase = GraspPhase.REPLAN_GRASP
+    sm.accept_replan(updated)
+    assert sm.phase == GraspPhase.MOVE_TO_PREGRASP
+    assert sm.replan_attempts == 1
+    assert np.allclose(sm.plan.grasp_pos, updated.grasp_pos)
+
+
+def test_replan_rejection_exhausts_attempt_budget():
+    plan = GraspPlan(
+        pregrasp_pos=np.array([0.30, 0.00, 0.10]),
+        grasp_pos=np.array([0.34, 0.00, 0.07]),
+        grasp_quat_wxyz=np.array([1.0, 0.0, 0.0, 0.0]),
+        approach_axis_world=np.array([1.0, 0.0, 0.0]),
+    )
+    sm = GraspStateMachine(GraspThresholds(replan_max_attempts=1), ctrl_dt=0.02)
+    sm.reset(plan)
+    sm.phase = GraspPhase.REPLAN_GRASP
+    sm.reject_replan("no_points")
+    intent = sm.step(
+        GraspObservation(
+            tcp_pos=plan.pregrasp_pos.copy(),
+            dist_to_control=0.0,
+            final_err=0.0,
+        )
+    )
+    assert intent.done
+    assert not intent.success
+    assert "replan_attempts_exhausted" in intent.reason
+
+
+def test_second_lift_failure_does_not_exceed_replan_budget():
+    plan = GraspPlan(
+        pregrasp_pos=np.array([0.30, 0.00, 0.10]),
+        grasp_pos=np.array([0.34, 0.00, 0.07]),
+        grasp_quat_wxyz=np.array([1.0, 0.0, 0.0, 0.0]),
+        approach_axis_world=np.array([1.0, 0.0, 0.0]),
+    )
+    sm = GraspStateMachine(
+        GraspThresholds(replan_max_attempts=1, lift_time=0.02),
+        ctrl_dt=0.02,
+    )
+    sm.reset(plan)
+    sm.accept_replan(plan)
+    sm.phase = GraspPhase.LIFT
+    intent = sm.step(
+        GraspObservation(
+            tcp_pos=plan.grasp_pos.copy(),
+            dist_to_control=0.0,
+            final_err=0.0,
+            target_lift=0.0,
+        )
+    )
+    assert intent.done
+    assert not intent.should_plan_grasp
+    assert "lift_failed_replan_exhausted" in intent.reason
+
+
 def test_workspace_table_persistence_pipeline():
     points = np.array(
         [

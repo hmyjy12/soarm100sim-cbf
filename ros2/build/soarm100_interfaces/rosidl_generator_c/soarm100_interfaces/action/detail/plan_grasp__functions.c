@@ -307,6 +307,7 @@ soarm100_interfaces__action__PlanGrasp_Goal__Sequence__copy(
 // #include "rosidl_runtime_c/string_functions.h"
 // Member `selected_grasp_pose`
 // Member `selected_pregrasp_pose`
+// Member `target_center_pose`
 // already included above
 // #include "geometry_msgs/msg/detail/pose_stamped__functions.h"
 
@@ -332,6 +333,11 @@ soarm100_interfaces__action__PlanGrasp_Result__init(soarm100_interfaces__action_
     soarm100_interfaces__action__PlanGrasp_Result__fini(msg);
     return false;
   }
+  // target_center_pose
+  if (!geometry_msgs__msg__PoseStamped__init(&msg->target_center_pose)) {
+    soarm100_interfaces__action__PlanGrasp_Result__fini(msg);
+    return false;
+  }
   // grasp_score
   // gripper_width
   // candidate_count
@@ -351,6 +357,8 @@ soarm100_interfaces__action__PlanGrasp_Result__fini(soarm100_interfaces__action_
   geometry_msgs__msg__PoseStamped__fini(&msg->selected_grasp_pose);
   // selected_pregrasp_pose
   geometry_msgs__msg__PoseStamped__fini(&msg->selected_pregrasp_pose);
+  // target_center_pose
+  geometry_msgs__msg__PoseStamped__fini(&msg->target_center_pose);
   // grasp_score
   // gripper_width
   // candidate_count
@@ -381,6 +389,12 @@ soarm100_interfaces__action__PlanGrasp_Result__are_equal(const soarm100_interfac
   // selected_pregrasp_pose
   if (!geometry_msgs__msg__PoseStamped__are_equal(
       &(lhs->selected_pregrasp_pose), &(rhs->selected_pregrasp_pose)))
+  {
+    return false;
+  }
+  // target_center_pose
+  if (!geometry_msgs__msg__PoseStamped__are_equal(
+      &(lhs->target_center_pose), &(rhs->target_center_pose)))
   {
     return false;
   }
@@ -424,6 +438,12 @@ soarm100_interfaces__action__PlanGrasp_Result__copy(
   // selected_pregrasp_pose
   if (!geometry_msgs__msg__PoseStamped__copy(
       &(input->selected_pregrasp_pose), &(output->selected_pregrasp_pose)))
+  {
+    return false;
+  }
+  // target_center_pose
+  if (!geometry_msgs__msg__PoseStamped__copy(
+      &(input->target_center_pose), &(output->target_center_pose)))
   {
     return false;
   }

@@ -7,6 +7,7 @@ import numpy as np
 import rclpy
 from rclpy.node import Node
 from sensor_msgs.msg import CameraInfo, Image
+from std_msgs.msg import Bool
 
 
 def _rgb_msg(rgb: np.ndarray, *, stamp, frame_id: str) -> Image:
@@ -77,6 +78,8 @@ class MujocoCameraPublisherNode(Node):
         self.declare_parameter("wrist_rgb_topic", "/wrist/color/image_raw")
         self.declare_parameter("wrist_depth_topic", "/wrist/depth/image_rect_raw")
         self.declare_parameter("wrist_info_topic", "/wrist/depth/camera_info")
+        self.declare_parameter("backend_camera_active_topic", "/mujoco/backend_camera_active")
+        self._backend_camera_active = False
 
         repo = Path(str(self.get_parameter("repo_root").value)).expanduser().resolve()
         old_path = list(sys.path)
@@ -112,6 +115,12 @@ class MujocoCameraPublisherNode(Node):
         self._wrist_rgb_pub = self.create_publisher(Image, str(self.get_parameter("wrist_rgb_topic").value), 1)
         self._wrist_depth_pub = self.create_publisher(Image, str(self.get_parameter("wrist_depth_topic").value), 1)
         self._wrist_info_pub = self.create_publisher(CameraInfo, str(self.get_parameter("wrist_info_topic").value), 1)
+        self.create_subscription(
+            Bool,
+            str(self.get_parameter("backend_camera_active_topic").value),
+            self._on_backend_camera_active,
+            1,
+        )
         period = 1.0 / max(float(self.get_parameter("publish_rate_hz").value), 1e-3)
         self.create_timer(period, self._tick)
         self.get_logger().info(
@@ -122,6 +131,8 @@ class MujocoCameraPublisherNode(Node):
         )
 
     def _tick(self) -> None:
+        if self._backend_camera_active:
+            return
         if bool(self.get_parameter("step_sim").value):
             self._mujoco.mj_step(self._model, self._data)
         stamp = self.get_clock().now().to_msg()
@@ -147,6 +158,12 @@ class MujocoCameraPublisherNode(Node):
         self._wrist_info_pub.publish(
             _camera_info(stamp=stamp, frame_id=wrist_frame, width=w, height=h, fovy_deg=float(self._model.cam_fovy[wrist_id]))
         )
+
+    def _on_backend_camera_active(self, msg: Bool) -> None:
+        active = bool(msg.data)
+        if active != self._backend_camera_active:
+            self._backend_camera_active = active
+            self.get_logger().info(f"standalone camera publishing {'paused' if active else 'resumed'}")
 
     def destroy_node(self) -> bool:
         self._rig.close()

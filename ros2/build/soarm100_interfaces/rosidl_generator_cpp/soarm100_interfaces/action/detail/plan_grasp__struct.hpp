@@ -181,6 +181,7 @@ using PlanGrasp_Goal =
 // Include directives for member types
 // Member 'selected_grasp_pose'
 // Member 'selected_pregrasp_pose'
+// Member 'target_center_pose'
 // already included above
 // #include "geometry_msgs/msg/detail/pose_stamped__struct.hpp"
 
@@ -204,7 +205,8 @@ struct PlanGrasp_Result_
 
   explicit PlanGrasp_Result_(rosidl_runtime_cpp::MessageInitialization _init = rosidl_runtime_cpp::MessageInitialization::ALL)
   : selected_grasp_pose(_init),
-    selected_pregrasp_pose(_init)
+    selected_pregrasp_pose(_init),
+    target_center_pose(_init)
   {
     if (rosidl_runtime_cpp::MessageInitialization::ALL == _init ||
       rosidl_runtime_cpp::MessageInitialization::ZERO == _init)
@@ -220,7 +222,8 @@ struct PlanGrasp_Result_
   explicit PlanGrasp_Result_(const ContainerAllocator & _alloc, rosidl_runtime_cpp::MessageInitialization _init = rosidl_runtime_cpp::MessageInitialization::ALL)
   : reason(_alloc),
     selected_grasp_pose(_alloc, _init),
-    selected_pregrasp_pose(_alloc, _init)
+    selected_pregrasp_pose(_alloc, _init),
+    target_center_pose(_alloc, _init)
   {
     if (rosidl_runtime_cpp::MessageInitialization::ALL == _init ||
       rosidl_runtime_cpp::MessageInitialization::ZERO == _init)
@@ -246,6 +249,9 @@ struct PlanGrasp_Result_
   using _selected_pregrasp_pose_type =
     geometry_msgs::msg::PoseStamped_<ContainerAllocator>;
   _selected_pregrasp_pose_type selected_pregrasp_pose;
+  using _target_center_pose_type =
+    geometry_msgs::msg::PoseStamped_<ContainerAllocator>;
+  _target_center_pose_type target_center_pose;
   using _grasp_score_type =
     float;
   _grasp_score_type grasp_score;
@@ -279,6 +285,12 @@ struct PlanGrasp_Result_
     const geometry_msgs::msg::PoseStamped_<ContainerAllocator> & _arg)
   {
     this->selected_pregrasp_pose = _arg;
+    return *this;
+  }
+  Type & set__target_center_pose(
+    const geometry_msgs::msg::PoseStamped_<ContainerAllocator> & _arg)
+  {
+    this->target_center_pose = _arg;
     return *this;
   }
   Type & set__grasp_score(
@@ -352,6 +364,9 @@ struct PlanGrasp_Result_
       return false;
     }
     if (this->selected_pregrasp_pose != other.selected_pregrasp_pose) {
+      return false;
+    }
+    if (this->target_center_pose != other.target_center_pose) {
       return false;
     }
     if (this->grasp_score != other.grasp_score) {

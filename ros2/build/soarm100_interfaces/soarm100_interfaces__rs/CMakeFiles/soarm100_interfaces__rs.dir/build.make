@@ -69,6 +69,8 @@ include soarm100_interfaces__rs/CMakeFiles/soarm100_interfaces__rs.dir/progress.
 soarm100_interfaces__rs/CMakeFiles/soarm100_interfaces__rs: rosidl_generator_rs/soarm100_interfaces/rust/src/lib.rs
 soarm100_interfaces__rs/CMakeFiles/soarm100_interfaces__rs: rosidl_generator_rs/soarm100_interfaces/rust/build.rs
 soarm100_interfaces__rs/CMakeFiles/soarm100_interfaces__rs: rosidl_generator_rs/soarm100_interfaces/rust/Cargo.toml
+soarm100_interfaces__rs/CMakeFiles/soarm100_interfaces__rs: rosidl_generator_rs/soarm100_interfaces/rust/src/msg.rs
+soarm100_interfaces__rs/CMakeFiles/soarm100_interfaces__rs: rosidl_generator_rs/soarm100_interfaces/rust/src/msg/rmw.rs
 soarm100_interfaces__rs/CMakeFiles/soarm100_interfaces__rs: rosidl_generator_rs/soarm100_interfaces/rust/src/srv.rs
 soarm100_interfaces__rs/CMakeFiles/soarm100_interfaces__rs: rosidl_generator_rs/soarm100_interfaces/rust/src/srv/rmw.rs
 soarm100_interfaces__rs/CMakeFiles/soarm100_interfaces__rs: rosidl_generator_rs/soarm100_interfaces/rust/src/action.rs
@@ -86,11 +88,13 @@ rosidl_generator_rs/soarm100_interfaces/rust/src/lib.rs: /opt/ros/humble/share/r
 rosidl_generator_rs/soarm100_interfaces/rust/src/lib.rs: /opt/ros/humble/share/rosidl_generator_rs/resource/templates/msg_rmw.rs.em
 rosidl_generator_rs/soarm100_interfaces/rust/src/lib.rs: /opt/ros/humble/share/rosidl_generator_rs/resource/templates/srv_idiomatic.rs.em
 rosidl_generator_rs/soarm100_interfaces/rust/src/lib.rs: /opt/ros/humble/share/rosidl_generator_rs/resource/templates/srv_rmw.rs.em
+rosidl_generator_rs/soarm100_interfaces/rust/src/lib.rs: rosidl_adapter/soarm100_interfaces/msg/TrackedTarget2D.idl
 rosidl_generator_rs/soarm100_interfaces/rust/src/lib.rs: rosidl_adapter/soarm100_interfaces/action/ExecuteGrasp.idl
 rosidl_generator_rs/soarm100_interfaces/rust/src/lib.rs: rosidl_adapter/soarm100_interfaces/action/ExecutePlannedGrasp.idl
 rosidl_generator_rs/soarm100_interfaces/rust/src/lib.rs: rosidl_adapter/soarm100_interfaces/action/PlanGrasp.idl
 rosidl_generator_rs/soarm100_interfaces/rust/src/lib.rs: rosidl_adapter/soarm100_interfaces/srv/SegmentTarget.idl
 rosidl_generator_rs/soarm100_interfaces/rust/src/lib.rs: rosidl_adapter/soarm100_interfaces/srv/SetAvoidance.idl
+rosidl_generator_rs/soarm100_interfaces/rust/src/lib.rs: rosidl_adapter/soarm100_interfaces/msg/TrackedTarget2D.idl
 rosidl_generator_rs/soarm100_interfaces/rust/src/lib.rs: rosidl_adapter/soarm100_interfaces/action/ExecuteGrasp.idl
 rosidl_generator_rs/soarm100_interfaces/rust/src/lib.rs: rosidl_adapter/soarm100_interfaces/action/ExecutePlannedGrasp.idl
 rosidl_generator_rs/soarm100_interfaces/rust/src/lib.rs: rosidl_adapter/soarm100_interfaces/action/PlanGrasp.idl
@@ -202,6 +206,12 @@ rosidl_generator_rs/soarm100_interfaces/rust/build.rs: rosidl_generator_rs/soarm
 rosidl_generator_rs/soarm100_interfaces/rust/Cargo.toml: rosidl_generator_rs/soarm100_interfaces/rust/src/lib.rs
 	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_rs/soarm100_interfaces/rust/Cargo.toml
 
+rosidl_generator_rs/soarm100_interfaces/rust/src/msg.rs: rosidl_generator_rs/soarm100_interfaces/rust/src/lib.rs
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_rs/soarm100_interfaces/rust/src/msg.rs
+
+rosidl_generator_rs/soarm100_interfaces/rust/src/msg/rmw.rs: rosidl_generator_rs/soarm100_interfaces/rust/src/lib.rs
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_rs/soarm100_interfaces/rust/src/msg/rmw.rs
+
 rosidl_generator_rs/soarm100_interfaces/rust/src/srv.rs: rosidl_generator_rs/soarm100_interfaces/rust/src/lib.rs
 	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_rs/soarm100_interfaces/rust/src/srv.rs
 
@@ -219,6 +229,8 @@ soarm100_interfaces__rs: rosidl_generator_rs/soarm100_interfaces/rust/build.rs
 soarm100_interfaces__rs: rosidl_generator_rs/soarm100_interfaces/rust/src/action.rs
 soarm100_interfaces__rs: rosidl_generator_rs/soarm100_interfaces/rust/src/action/rmw.rs
 soarm100_interfaces__rs: rosidl_generator_rs/soarm100_interfaces/rust/src/lib.rs
+soarm100_interfaces__rs: rosidl_generator_rs/soarm100_interfaces/rust/src/msg.rs
+soarm100_interfaces__rs: rosidl_generator_rs/soarm100_interfaces/rust/src/msg/rmw.rs
 soarm100_interfaces__rs: rosidl_generator_rs/soarm100_interfaces/rust/src/srv.rs
 soarm100_interfaces__rs: rosidl_generator_rs/soarm100_interfaces/rust/src/srv/rmw.rs
 soarm100_interfaces__rs: soarm100_interfaces__rs/CMakeFiles/soarm100_interfaces__rs

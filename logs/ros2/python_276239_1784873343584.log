@@ -1,0 +1,17 @@
+[INFO] [1784873343.632745506] [soarm100_send_planned_grasp]: planned grasp goal accepted
+[INFO] [1784873343.633275789] [soarm100_send_planned_grasp]: feedback stage=STARTING_MUJOCO_INPROCESS lift=0.0000 reason=using converted AnyGrasp pose in GraspStateMachine + MuJoCo runner; pre=0.350000,0.080000,0.090000 grasp=0.390000,0.080000,0.060000 quat=1.00000000,0.00000000,0.00000000,0.00000000 traj_log=logs/ros2_static_diagnostic_basecrop.jsonl
+[INFO] [1784873345.099358587] [soarm100_send_planned_grasp]: feedback stage=MOVE_TO_PREGRASP lift=0.0000 reason=reset
+[INFO] [1784873345.587483074] [soarm100_send_planned_grasp]: feedback stage=MOVE_TO_PREGRASP lift=0.0000 reason=reset
+[INFO] [1784873346.007127499] [soarm100_send_planned_grasp]: feedback stage=MOVE_TO_PREGRASP lift=0.0000 reason=reset
+[INFO] [1784873346.457682498] [soarm100_send_planned_grasp]: feedback stage=MOVE_TO_PREGRASP lift=0.0000 reason=reset
+[INFO] [1784873346.888592158] [soarm100_send_planned_grasp]: feedback stage=MOVE_TO_PREGRASP lift=0.0000 reason=reset
+[INFO] [1784873347.311906737] [soarm100_send_planned_grasp]: feedback stage=MOVE_TO_PREGRASP lift=0.0000 reason=reset
+[INFO] [1784873347.739018520] [soarm100_send_planned_grasp]: feedback stage=MOVE_TO_PREGRASP lift=0.0000 reason=reset
+[INFO] [1784873348.178857729] [soarm100_send_planned_grasp]: feedback stage=MOVE_TO_PREGRASP lift=0.0000 reason=reset
+[INFO] [1784873348.617152903] [soarm100_send_planned_grasp]: feedback stage=MOVE_TO_PREGRASP lift=0.0000 reason=reset
+[INFO] [1784873349.065538556] [soarm100_send_planned_grasp]: feedback stage=FINAL_APPROACH lift=0.0000 reason=track_update source=ros2_wrist_rgb
+[INFO] [1784873349.483078995] [soarm100_send_planned_grasp]: feedback stage=FINAL_APPROACH lift=0.0000 reason=track_update source=ros2_wrist_rgb
+[INFO] [1784873349.901794890] [soarm100_send_planned_grasp]: feedback stage=FINAL_APPROACH lift=0.0000 reason=track_update source=ros2_wrist_rgb
+[INFO] [1784873350.316860965] [soarm100_send_planned_grasp]: feedback stage=FINAL_APPROACH lift=0.0000 reason=track_update source=ros2_wrist_rgb
+[INFO] [1784873350.669556885] [soarm100_send_planned_grasp]: feedback stage=REPLAN_GRASP lift=0.0000 reason=replan_request attempt=1
+[INFO] [1784873350.682930202] [soarm100_send_planned_grasp]: result success=False return_code=1 lift=0.0000 reason=inprocess_backend_failed:name 'self' is not defined

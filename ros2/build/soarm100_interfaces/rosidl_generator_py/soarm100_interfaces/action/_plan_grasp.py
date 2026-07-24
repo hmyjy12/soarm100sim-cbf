@@ -259,6 +259,7 @@ class PlanGrasp_Result(metaclass=Metaclass_PlanGrasp_Result):
         '_reason',
         '_selected_grasp_pose',
         '_selected_pregrasp_pose',
+        '_target_center_pose',
         '_grasp_score',
         '_gripper_width',
         '_candidate_count',
@@ -269,6 +270,7 @@ class PlanGrasp_Result(metaclass=Metaclass_PlanGrasp_Result):
         'reason': 'string',
         'selected_grasp_pose': 'geometry_msgs/PoseStamped',
         'selected_pregrasp_pose': 'geometry_msgs/PoseStamped',
+        'target_center_pose': 'geometry_msgs/PoseStamped',
         'grasp_score': 'float',
         'gripper_width': 'float',
         'candidate_count': 'uint16',
@@ -277,6 +279,7 @@ class PlanGrasp_Result(metaclass=Metaclass_PlanGrasp_Result):
     SLOT_TYPES = (
         rosidl_parser.definition.BasicType('boolean'),  # noqa: E501
         rosidl_parser.definition.UnboundedString(),  # noqa: E501
+        rosidl_parser.definition.NamespacedType(['geometry_msgs', 'msg'], 'PoseStamped'),  # noqa: E501
         rosidl_parser.definition.NamespacedType(['geometry_msgs', 'msg'], 'PoseStamped'),  # noqa: E501
         rosidl_parser.definition.NamespacedType(['geometry_msgs', 'msg'], 'PoseStamped'),  # noqa: E501
         rosidl_parser.definition.BasicType('float'),  # noqa: E501
@@ -294,6 +297,8 @@ class PlanGrasp_Result(metaclass=Metaclass_PlanGrasp_Result):
         self.selected_grasp_pose = kwargs.get('selected_grasp_pose', PoseStamped())
         from geometry_msgs.msg import PoseStamped
         self.selected_pregrasp_pose = kwargs.get('selected_pregrasp_pose', PoseStamped())
+        from geometry_msgs.msg import PoseStamped
+        self.target_center_pose = kwargs.get('target_center_pose', PoseStamped())
         self.grasp_score = kwargs.get('grasp_score', float())
         self.gripper_width = kwargs.get('gripper_width', float())
         self.candidate_count = kwargs.get('candidate_count', int())
@@ -334,6 +339,8 @@ class PlanGrasp_Result(metaclass=Metaclass_PlanGrasp_Result):
         if self.selected_grasp_pose != other.selected_grasp_pose:
             return False
         if self.selected_pregrasp_pose != other.selected_pregrasp_pose:
+            return False
+        if self.target_center_pose != other.target_center_pose:
             return False
         if self.grasp_score != other.grasp_score:
             return False
@@ -401,6 +408,20 @@ class PlanGrasp_Result(metaclass=Metaclass_PlanGrasp_Result):
                 isinstance(value, PoseStamped), \
                 "The 'selected_pregrasp_pose' field must be a sub message of type 'PoseStamped'"
         self._selected_pregrasp_pose = value
+
+    @builtins.property
+    def target_center_pose(self):
+        """Message field 'target_center_pose'."""
+        return self._target_center_pose
+
+    @target_center_pose.setter
+    def target_center_pose(self, value):
+        if __debug__:
+            from geometry_msgs.msg import PoseStamped
+            assert \
+                isinstance(value, PoseStamped), \
+                "The 'target_center_pose' field must be a sub message of type 'PoseStamped'"
+        self._target_center_pose = value
 
     @builtins.property
     def grasp_score(self):

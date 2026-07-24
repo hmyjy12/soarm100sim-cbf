@@ -159,16 +159,32 @@ private:
   ::soarm100_interfaces::action::PlanGrasp_Result msg_;
 };
 
+class Init_PlanGrasp_Result_target_center_pose
+{
+public:
+  explicit Init_PlanGrasp_Result_target_center_pose(::soarm100_interfaces::action::PlanGrasp_Result & msg)
+  : msg_(msg)
+  {}
+  Init_PlanGrasp_Result_grasp_score target_center_pose(::soarm100_interfaces::action::PlanGrasp_Result::_target_center_pose_type arg)
+  {
+    msg_.target_center_pose = std::move(arg);
+    return Init_PlanGrasp_Result_grasp_score(msg_);
+  }
+
+private:
+  ::soarm100_interfaces::action::PlanGrasp_Result msg_;
+};
+
 class Init_PlanGrasp_Result_selected_pregrasp_pose
 {
 public:
   explicit Init_PlanGrasp_Result_selected_pregrasp_pose(::soarm100_interfaces::action::PlanGrasp_Result & msg)
   : msg_(msg)
   {}
-  Init_PlanGrasp_Result_grasp_score selected_pregrasp_pose(::soarm100_interfaces::action::PlanGrasp_Result::_selected_pregrasp_pose_type arg)
+  Init_PlanGrasp_Result_target_center_pose selected_pregrasp_pose(::soarm100_interfaces::action::PlanGrasp_Result::_selected_pregrasp_pose_type arg)
   {
     msg_.selected_pregrasp_pose = std::move(arg);
-    return Init_PlanGrasp_Result_grasp_score(msg_);
+    return Init_PlanGrasp_Result_target_center_pose(msg_);
   }
 
 private:

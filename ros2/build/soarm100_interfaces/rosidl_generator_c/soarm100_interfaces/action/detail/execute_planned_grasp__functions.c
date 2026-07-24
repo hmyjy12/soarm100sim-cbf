@@ -14,7 +14,9 @@
 // Include directives for member types
 // Member `pregrasp_pose`
 // Member `grasp_pose`
+// Member `tracking_reference_pose`
 #include "geometry_msgs/msg/detail/pose_stamped__functions.h"
+// Member `target_prompt`
 // Member `target_object`
 // Member `target_pos`
 // Member `traj_log`
@@ -36,8 +38,18 @@ soarm100_interfaces__action__ExecutePlannedGrasp_Goal__init(soarm100_interfaces_
     soarm100_interfaces__action__ExecutePlannedGrasp_Goal__fini(msg);
     return false;
   }
+  // tracking_reference_pose
+  if (!geometry_msgs__msg__PoseStamped__init(&msg->tracking_reference_pose)) {
+    soarm100_interfaces__action__ExecutePlannedGrasp_Goal__fini(msg);
+    return false;
+  }
   // gripper_width
   // enable_avoidance
+  // target_prompt
+  if (!rosidl_runtime_c__String__init(&msg->target_prompt)) {
+    soarm100_interfaces__action__ExecutePlannedGrasp_Goal__fini(msg);
+    return false;
+  }
   // target_object
   if (!rosidl_runtime_c__String__init(&msg->target_object)) {
     soarm100_interfaces__action__ExecutePlannedGrasp_Goal__fini(msg);
@@ -66,8 +78,12 @@ soarm100_interfaces__action__ExecutePlannedGrasp_Goal__fini(soarm100_interfaces_
   geometry_msgs__msg__PoseStamped__fini(&msg->pregrasp_pose);
   // grasp_pose
   geometry_msgs__msg__PoseStamped__fini(&msg->grasp_pose);
+  // tracking_reference_pose
+  geometry_msgs__msg__PoseStamped__fini(&msg->tracking_reference_pose);
   // gripper_width
   // enable_avoidance
+  // target_prompt
+  rosidl_runtime_c__String__fini(&msg->target_prompt);
   // target_object
   rosidl_runtime_c__String__fini(&msg->target_object);
   // target_pos
@@ -94,12 +110,24 @@ soarm100_interfaces__action__ExecutePlannedGrasp_Goal__are_equal(const soarm100_
   {
     return false;
   }
+  // tracking_reference_pose
+  if (!geometry_msgs__msg__PoseStamped__are_equal(
+      &(lhs->tracking_reference_pose), &(rhs->tracking_reference_pose)))
+  {
+    return false;
+  }
   // gripper_width
   if (lhs->gripper_width != rhs->gripper_width) {
     return false;
   }
   // enable_avoidance
   if (lhs->enable_avoidance != rhs->enable_avoidance) {
+    return false;
+  }
+  // target_prompt
+  if (!rosidl_runtime_c__String__are_equal(
+      &(lhs->target_prompt), &(rhs->target_prompt)))
+  {
     return false;
   }
   // target_object
@@ -143,10 +171,22 @@ soarm100_interfaces__action__ExecutePlannedGrasp_Goal__copy(
   {
     return false;
   }
+  // tracking_reference_pose
+  if (!geometry_msgs__msg__PoseStamped__copy(
+      &(input->tracking_reference_pose), &(output->tracking_reference_pose)))
+  {
+    return false;
+  }
   // gripper_width
   output->gripper_width = input->gripper_width;
   // enable_avoidance
   output->enable_avoidance = input->enable_avoidance;
+  // target_prompt
+  if (!rosidl_runtime_c__String__copy(
+      &(input->target_prompt), &(output->target_prompt)))
+  {
+    return false;
+  }
   // target_object
   if (!rosidl_runtime_c__String__copy(
       &(input->target_object), &(output->target_object)))

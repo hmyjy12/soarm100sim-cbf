@@ -1,7 +1,9 @@
 geometry_msgs/PoseStamped pregrasp_pose
 geometry_msgs/PoseStamped grasp_pose
+geometry_msgs/PoseStamped tracking_reference_pose
 float32 gripper_width
 bool enable_avoidance
+string target_prompt
 string target_object
 string target_pos
 string traj_log

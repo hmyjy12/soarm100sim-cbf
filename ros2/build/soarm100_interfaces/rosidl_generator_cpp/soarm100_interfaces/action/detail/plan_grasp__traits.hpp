@@ -164,6 +164,7 @@ struct is_message<soarm100_interfaces::action::PlanGrasp_Goal>
 // Include directives for member types
 // Member 'selected_grasp_pose'
 // Member 'selected_pregrasp_pose'
+// Member 'target_center_pose'
 // already included above
 // #include "geometry_msgs/msg/detail/pose_stamped__traits.hpp"
 
@@ -203,6 +204,13 @@ inline void to_flow_style_yaml(
   {
     out << "selected_pregrasp_pose: ";
     to_flow_style_yaml(msg.selected_pregrasp_pose, out);
+    out << ", ";
+  }
+
+  // member: target_center_pose
+  {
+    out << "target_center_pose: ";
+    to_flow_style_yaml(msg.target_center_pose, out);
     out << ", ";
   }
 
@@ -268,6 +276,15 @@ inline void to_block_style_yaml(
     }
     out << "selected_pregrasp_pose:\n";
     to_block_style_yaml(msg.selected_pregrasp_pose, out, indentation + 2);
+  }
+
+  // member: target_center_pose
+  {
+    if (indentation > 0) {
+      out << std::string(indentation, ' ');
+    }
+    out << "target_center_pose:\n";
+    to_block_style_yaml(msg.target_center_pose, out, indentation + 2);
   }
 
   // member: grasp_score

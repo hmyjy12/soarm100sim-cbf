@@ -4,6 +4,8 @@ action/ExecutePlannedGrasp.action
 action/ExecutePlannedGrasp.idl
 action/PlanGrasp.action
 action/PlanGrasp.idl
+msg/TrackedTarget2D.idl
+msg/TrackedTarget2D.msg
 srv/SegmentTarget.idl
 srv/SegmentTarget.srv
 srv/SegmentTarget_Request.msg

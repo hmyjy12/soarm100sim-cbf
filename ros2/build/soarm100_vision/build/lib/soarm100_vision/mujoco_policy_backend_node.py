@@ -4,16 +4,22 @@ import asyncio
 import os
 from pathlib import Path
 import threading
+import time
 
 import numpy as np
 
 import rclpy
-from rclpy.action import ActionServer, CancelResponse, GoalResponse
+from rclpy.action import ActionClient, ActionServer, CancelResponse, GoalResponse
+from rclpy.callback_groups import ReentrantCallbackGroup
+from rclpy.executors import MultiThreadedExecutor
 from rclpy.node import Node
 from geometry_msgs.msg import PoseStamped
-from sensor_msgs.msg import PointCloud2
+from sensor_msgs.msg import CameraInfo, Image, PointCloud2
+from std_msgs.msg import Bool
 
-from soarm100_interfaces.action import ExecutePlannedGrasp
+from soarm100_interfaces.action import ExecutePlannedGrasp, PlanGrasp
+from soarm100_interfaces.srv import SegmentTarget
+from soarm100_vision.mujoco_camera_publisher_node import _camera_info, _depth_msg, _rgb_msg
 from soarm100_vision.vision_utils import pointcloud2_to_xyz
 from soarm100_vision.policy_backend_core import (
     ExecutionParseState,
@@ -64,19 +70,70 @@ class MujocoPolicyBackendNode(Node):
         self.declare_parameter("obstacle_cloud_topic", "/obstacle/cloud")
         self.declare_parameter("obstacle_camera_name", "scene_depth")
         self.declare_parameter("base_frame", "base")
-        self.declare_parameter("speed", 0.5)
+        self.declare_parameter("speed", 1.0)
         self.declare_parameter("headless", False)
         self.declare_parameter("timeout_s", 90.0)
         self.declare_parameter("enable_internal_tracking", True)
         self.declare_parameter("grasp_track_source", "wrist")
         self.declare_parameter("grasp_track_max_delta", 0.020)
-        self.declare_parameter("grasp_replan_max_attempts", 0)
+        self.declare_parameter("grasp_replan_max_attempts", 2)
+        self.declare_parameter("replan_timeout_s", 70.0)
+        self.declare_parameter("replan_top_k", 45)
+        self.declare_parameter("segment_service", "segment_target")
+        self.declare_parameter("plan_action", "plan_grasp")
+        self.declare_parameter("target_cloud_topic", "/target/cloud")
+        self.declare_parameter("backend_camera_active_topic", "/mujoco/backend_camera_active")
         self.declare_parameter("extra_args", "")
         self._lock = threading.Lock()
+        self._cloud_condition = threading.Condition()
         self._tracked_pos_base: np.ndarray | None = None
         self._obstacle_points_base = np.zeros((0, 3), dtype=np.float32)
-        self.create_subscription(PoseStamped, str(self.get_parameter("tracking_topic").value), self._on_tracking, 1)
-        self.create_subscription(PointCloud2, str(self.get_parameter("obstacle_cloud_topic").value), self._on_obstacle_cloud, 1)
+        self._target_cloud: PointCloud2 | None = None
+        self._target_cloud_seq = 0
+        self._callback_group = ReentrantCallbackGroup()
+        self._segment_client = self.create_client(
+            SegmentTarget,
+            str(self._param("segment_service")),
+            callback_group=self._callback_group,
+        )
+        self._plan_client = ActionClient(
+            self,
+            PlanGrasp,
+            str(self._param("plan_action")),
+            callback_group=self._callback_group,
+        )
+        self._camera_active_pub = self.create_publisher(
+            Bool,
+            str(self._param("backend_camera_active_topic")),
+            1,
+        )
+        self._scene_rgb_pub = self.create_publisher(Image, "/camera/color/image_raw", 1)
+        self._scene_depth_pub = self.create_publisher(Image, "/camera/depth/image_rect_raw", 1)
+        self._scene_info_pub = self.create_publisher(CameraInfo, "/camera/color/camera_info", 1)
+        self._wrist_rgb_pub = self.create_publisher(Image, "/wrist/color/image_raw", 1)
+        self._wrist_depth_pub = self.create_publisher(Image, "/wrist/depth/image_rect_raw", 1)
+        self._wrist_info_pub = self.create_publisher(CameraInfo, "/wrist/depth/camera_info", 1)
+        self.create_subscription(
+            PoseStamped,
+            str(self.get_parameter("tracking_topic").value),
+            self._on_tracking,
+            1,
+            callback_group=self._callback_group,
+        )
+        self.create_subscription(
+            PointCloud2,
+            str(self.get_parameter("obstacle_cloud_topic").value),
+            self._on_obstacle_cloud,
+            1,
+            callback_group=self._callback_group,
+        )
+        self.create_subscription(
+            PointCloud2,
+            str(self._param("target_cloud_topic")),
+            self._on_target_cloud,
+            1,
+            callback_group=self._callback_group,
+        )
         self._server = ActionServer(
             self,
             ExecutePlannedGrasp,
@@ -84,6 +141,7 @@ class MujocoPolicyBackendNode(Node):
             execute_callback=self._execute,
             goal_callback=self._goal,
             cancel_callback=self._cancel,
+            callback_group=self._callback_group,
         )
         self.get_logger().info("MuJoCo policy backend ready: action=execute_planned_grasp")
 
@@ -137,6 +195,12 @@ class MujocoPolicyBackendNode(Node):
         except Exception as exc:
             self.get_logger().warn(f"obstacle cloud conversion failed: {exc}")
 
+    def _on_target_cloud(self, msg: PointCloud2) -> None:
+        with self._cloud_condition:
+            self._target_cloud = msg
+            self._target_cloud_seq += 1
+            self._cloud_condition.notify_all()
+
     async def _execute(self, goal_handle):
         goal = goal_handle.request
         result = ExecutePlannedGrasp.Result()
@@ -181,7 +245,12 @@ class MujocoPolicyBackendNode(Node):
         )
         mode = str(self._param("backend_mode")).strip().lower()
         if mode == "inprocess":
-            return self._execute_inprocess(goal_handle, planned, cfg)
+            return self._execute_inprocess(
+                goal_handle,
+                planned,
+                cfg,
+                str(goal.target_prompt).strip() or target_object,
+            )
         cmd = build_mujoco_external_grasp_cmd(cfg, planned)
 
         feedback.stage = "STARTING_MUJOCO"
@@ -246,7 +315,13 @@ class MujocoPolicyBackendNode(Node):
             goal_handle.abort()
         return result
 
-    def _execute_inprocess(self, goal_handle, planned: PlannedGraspCommand, cfg: MujocoExternalGraspConfig):
+    def _execute_inprocess(
+        self,
+        goal_handle,
+        planned: PlannedGraspCommand,
+        cfg: MujocoExternalGraspConfig,
+        target_prompt: str,
+    ):
         result = ExecutePlannedGrasp.Result()
         feedback = ExecutePlannedGrasp.Feedback()
         feedback.stage = "STARTING_MUJOCO_INPROCESS"
@@ -264,6 +339,7 @@ class MujocoPolicyBackendNode(Node):
             feedback.lift_height = float(lift)
             goal_handle.publish_feedback(feedback)
 
+        self._camera_active_pub.publish(Bool(data=True))
         try:
             runner = MujocoInProcessRunner(
                 MujocoRunnerConfig(
@@ -287,6 +363,8 @@ class MujocoPolicyBackendNode(Node):
                 feedback_cb=publish,
                 tracking_provider=self._latest_tracking_pos,
                 obstacle_provider=self._latest_obstacle_points,
+                replan_provider=lambda attempt: self._request_replan(target_prompt, attempt),
+                camera_frame_cb=self._publish_sim_camera_frame,
             )
             result.success = bool(run_res.success)
             result.reason = str(run_res.reason)
@@ -302,7 +380,141 @@ class MujocoPolicyBackendNode(Node):
             result.lift_height = 0.0
             result.return_code = 1
             goal_handle.abort()
+        finally:
+            self._camera_active_pub.publish(Bool(data=False))
         return result
+
+    def _request_replan(self, target_prompt: str, attempt: int):
+        timeout_s = float(self._param("replan_timeout_s"))
+        started = time.monotonic()
+        with self._cloud_condition:
+            cloud_seq_before = self._target_cloud_seq
+        self.get_logger().info(
+            f"replan[{attempt}] start prompt={target_prompt!r} cloud_seq_before={cloud_seq_before}"
+        )
+
+        if not self._segment_client.wait_for_service(timeout_sec=min(timeout_s, 10.0)):
+            return None, "segment_service_unavailable"
+        req = SegmentTarget.Request()
+        req.target_prompt = str(target_prompt)
+        req.force_yolo = True
+        seg = self._wait_ros_future(
+            self._segment_client.call_async(req),
+            timeout_s=timeout_s,
+            label="segment_target",
+        )
+        if seg is None:
+            return None, "segment_timeout"
+        if not bool(seg.success):
+            return None, f"segment_failed:{seg.reason}"
+
+        remaining = max(0.1, timeout_s - (time.monotonic() - started))
+        cloud = self._wait_for_fresh_target_cloud(cloud_seq_before, remaining)
+        if cloud is None:
+            return None, f"fresh_target_cloud_timeout after_seq={cloud_seq_before}"
+        n_points = int(cloud.width) * int(cloud.height)
+        if n_points <= 0:
+            return None, "fresh_target_cloud_empty"
+
+        if not self._plan_client.wait_for_server(timeout_sec=min(remaining, 10.0)):
+            return None, "plan_action_unavailable"
+        plan_goal = PlanGrasp.Goal()
+        plan_goal.target_prompt = str(target_prompt)
+        plan_goal.target_cloud = cloud
+        plan_goal.top_k = int(self._param("replan_top_k"))
+        send = self._wait_ros_future(
+            self._plan_client.send_goal_async(plan_goal),
+            timeout_s=remaining,
+            label="plan_grasp_send",
+        )
+        if send is None:
+            return None, "plan_goal_timeout"
+        if not send.accepted:
+            return None, "plan_goal_rejected"
+        remaining = max(0.1, timeout_s - (time.monotonic() - started))
+        wrapped = self._wait_ros_future(
+            send.get_result_async(),
+            timeout_s=remaining,
+            label="plan_grasp_result",
+        )
+        if wrapped is None:
+            return None, "plan_result_timeout"
+        plan = wrapped.result
+        if not bool(plan.success):
+            return None, f"plan_failed:{plan.reason}"
+
+        repo = Path(str(self._param("repo_root"))).expanduser().resolve()
+        raw_pre = plan.selected_pregrasp_pose
+        raw_grasp = plan.selected_grasp_pose
+        base_pre = self._pose_to_base(raw_pre, repo)
+        base_grasp = self._pose_to_base(raw_grasp, repo)
+        command = PlannedGraspCommand(
+            pregrasp=PoseWxyz.from_ros_pose(base_pre),
+            grasp=PoseWxyz.from_ros_pose(base_grasp),
+            gripper_width=float(plan.gripper_width),
+        )
+        elapsed = time.monotonic() - started
+        reason = (
+            f"replan_ok points={n_points} candidates={int(plan.candidate_count)} "
+            f"score={float(plan.grasp_score):.3f} elapsed={elapsed:.2f}s "
+            f"{_pose_summary('raw_grasp', raw_grasp)} {_pose_summary('base_grasp', base_grasp)}"
+        )
+        self.get_logger().info(f"replan[{attempt}] {reason}")
+        return command, reason
+
+    @staticmethod
+    def _wait_ros_future(future, *, timeout_s: float, label: str):
+        event = threading.Event()
+        future.add_done_callback(lambda _future: event.set())
+        if not event.wait(max(float(timeout_s), 0.1)):
+            return None
+        try:
+            return future.result()
+        except Exception as exc:
+            raise RuntimeError(f"{label}_failed:{exc}") from exc
+
+    def _wait_for_fresh_target_cloud(self, previous_seq: int, timeout_s: float):
+        deadline = time.monotonic() + max(float(timeout_s), 0.1)
+        with self._cloud_condition:
+            while self._target_cloud_seq <= int(previous_seq):
+                remaining = deadline - time.monotonic()
+                if remaining <= 0.0:
+                    return None
+                self._cloud_condition.wait(timeout=remaining)
+            return self._target_cloud
+
+    def _publish_sim_camera_frame(self, frame: dict) -> None:
+        stamp = self.get_clock().now().to_msg()
+        scene_frame = "scene_depth_optical"
+        wrist_frame = "wrist_rgb_optical"
+        scene_rgb = np.asarray(frame["scene_rgb"])
+        scene_depth = np.asarray(frame["scene_depth"])
+        wrist_rgb = np.asarray(frame["wrist_rgb"])
+        wrist_depth = np.asarray(frame["wrist_depth"])
+        h, w = scene_depth.shape[:2]
+        wh, ww = wrist_depth.shape[:2]
+        self._scene_rgb_pub.publish(_rgb_msg(scene_rgb, stamp=stamp, frame_id=scene_frame))
+        self._scene_depth_pub.publish(_depth_msg(scene_depth, stamp=stamp, frame_id=scene_frame))
+        self._scene_info_pub.publish(
+            _camera_info(
+                stamp=stamp,
+                frame_id=scene_frame,
+                width=w,
+                height=h,
+                fovy_deg=float(frame["scene_fovy"]),
+            )
+        )
+        self._wrist_rgb_pub.publish(_rgb_msg(wrist_rgb, stamp=stamp, frame_id=wrist_frame))
+        self._wrist_depth_pub.publish(_depth_msg(wrist_depth, stamp=stamp, frame_id=wrist_frame))
+        self._wrist_info_pub.publish(
+            _camera_info(
+                stamp=stamp,
+                frame_id=wrist_frame,
+                width=ww,
+                height=wh,
+                fovy_deg=float(frame["wrist_fovy"]),
+            )
+        )
 
     def _latest_tracking_pos(self):
         with self._lock:
@@ -333,11 +545,15 @@ class MujocoPolicyBackendNode(Node):
 def main() -> None:
     rclpy.init()
     node = MujocoPolicyBackendNode()
+    executor = MultiThreadedExecutor(num_threads=4)
+    executor.add_node(node)
     try:
-        rclpy.spin(node)
+        executor.spin()
     finally:
+        executor.shutdown()
         node.destroy_node()
-        rclpy.shutdown()
+        if rclpy.ok():
+            rclpy.shutdown()
 
 
 if __name__ == "__main__":

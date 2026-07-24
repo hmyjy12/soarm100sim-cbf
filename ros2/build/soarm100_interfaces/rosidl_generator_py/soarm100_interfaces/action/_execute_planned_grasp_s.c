@@ -27,6 +27,10 @@ ROSIDL_GENERATOR_C_IMPORT
 bool geometry_msgs__msg__pose_stamped__convert_from_py(PyObject * _pymsg, void * _ros_message);
 ROSIDL_GENERATOR_C_IMPORT
 PyObject * geometry_msgs__msg__pose_stamped__convert_to_py(void * raw_ros_message);
+ROSIDL_GENERATOR_C_IMPORT
+bool geometry_msgs__msg__pose_stamped__convert_from_py(PyObject * _pymsg, void * _ros_message);
+ROSIDL_GENERATOR_C_IMPORT
+PyObject * geometry_msgs__msg__pose_stamped__convert_to_py(void * raw_ros_message);
 
 ROSIDL_GENERATOR_C_EXPORT
 bool soarm100_interfaces__action__execute_planned_grasp__goal__convert_from_py(PyObject * _pymsg, void * _ros_message)
@@ -83,6 +87,17 @@ bool soarm100_interfaces__action__execute_planned_grasp__goal__convert_from_py(P
     }
     Py_DECREF(field);
   }
+  {  // tracking_reference_pose
+    PyObject * field = PyObject_GetAttrString(_pymsg, "tracking_reference_pose");
+    if (!field) {
+      return false;
+    }
+    if (!geometry_msgs__msg__pose_stamped__convert_from_py(field, &ros_message->tracking_reference_pose)) {
+      Py_DECREF(field);
+      return false;
+    }
+    Py_DECREF(field);
+  }
   {  // gripper_width
     PyObject * field = PyObject_GetAttrString(_pymsg, "gripper_width");
     if (!field) {
@@ -99,6 +114,21 @@ bool soarm100_interfaces__action__execute_planned_grasp__goal__convert_from_py(P
     }
     assert(PyBool_Check(field));
     ros_message->enable_avoidance = (Py_True == field);
+    Py_DECREF(field);
+  }
+  {  // target_prompt
+    PyObject * field = PyObject_GetAttrString(_pymsg, "target_prompt");
+    if (!field) {
+      return false;
+    }
+    assert(PyUnicode_Check(field));
+    PyObject * encoded_field = PyUnicode_AsUTF8String(field);
+    if (!encoded_field) {
+      Py_DECREF(field);
+      return false;
+    }
+    rosidl_runtime_c__String__assign(&ros_message->target_prompt, PyBytes_AS_STRING(encoded_field));
+    Py_DECREF(encoded_field);
     Py_DECREF(field);
   }
   {  // target_object
@@ -196,6 +226,20 @@ PyObject * soarm100_interfaces__action__execute_planned_grasp__goal__convert_to_
       }
     }
   }
+  {  // tracking_reference_pose
+    PyObject * field = NULL;
+    field = geometry_msgs__msg__pose_stamped__convert_to_py(&ros_message->tracking_reference_pose);
+    if (!field) {
+      return NULL;
+    }
+    {
+      int rc = PyObject_SetAttrString(_pymessage, "tracking_reference_pose", field);
+      Py_DECREF(field);
+      if (rc) {
+        return NULL;
+      }
+    }
+  }
   {  // gripper_width
     PyObject * field = NULL;
     field = PyFloat_FromDouble(ros_message->gripper_width);
@@ -212,6 +256,23 @@ PyObject * soarm100_interfaces__action__execute_planned_grasp__goal__convert_to_
     field = PyBool_FromLong(ros_message->enable_avoidance ? 1 : 0);
     {
       int rc = PyObject_SetAttrString(_pymessage, "enable_avoidance", field);
+      Py_DECREF(field);
+      if (rc) {
+        return NULL;
+      }
+    }
+  }
+  {  // target_prompt
+    PyObject * field = NULL;
+    field = PyUnicode_DecodeUTF8(
+      ros_message->target_prompt.data,
+      strlen(ros_message->target_prompt.data),
+      "replace");
+    if (!field) {
+      return NULL;
+    }
+    {
+      int rc = PyObject_SetAttrString(_pymessage, "target_prompt", field);
       Py_DECREF(field);
       if (rc) {
         return NULL;

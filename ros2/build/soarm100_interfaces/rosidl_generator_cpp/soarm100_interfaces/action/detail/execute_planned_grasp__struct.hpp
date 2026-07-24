@@ -19,6 +19,7 @@
 // Include directives for member types
 // Member 'pregrasp_pose'
 // Member 'grasp_pose'
+// Member 'tracking_reference_pose'
 #include "geometry_msgs/msg/detail/pose_stamped__struct.hpp"
 
 #ifndef _WIN32
@@ -41,13 +42,15 @@ struct ExecutePlannedGrasp_Goal_
 
   explicit ExecutePlannedGrasp_Goal_(rosidl_runtime_cpp::MessageInitialization _init = rosidl_runtime_cpp::MessageInitialization::ALL)
   : pregrasp_pose(_init),
-    grasp_pose(_init)
+    grasp_pose(_init),
+    tracking_reference_pose(_init)
   {
     if (rosidl_runtime_cpp::MessageInitialization::ALL == _init ||
       rosidl_runtime_cpp::MessageInitialization::ZERO == _init)
     {
       this->gripper_width = 0.0f;
       this->enable_avoidance = false;
+      this->target_prompt = "";
       this->target_object = "";
       this->target_pos = "";
       this->traj_log = "";
@@ -57,6 +60,8 @@ struct ExecutePlannedGrasp_Goal_
   explicit ExecutePlannedGrasp_Goal_(const ContainerAllocator & _alloc, rosidl_runtime_cpp::MessageInitialization _init = rosidl_runtime_cpp::MessageInitialization::ALL)
   : pregrasp_pose(_alloc, _init),
     grasp_pose(_alloc, _init),
+    tracking_reference_pose(_alloc, _init),
+    target_prompt(_alloc),
     target_object(_alloc),
     target_pos(_alloc),
     traj_log(_alloc)
@@ -66,6 +71,7 @@ struct ExecutePlannedGrasp_Goal_
     {
       this->gripper_width = 0.0f;
       this->enable_avoidance = false;
+      this->target_prompt = "";
       this->target_object = "";
       this->target_pos = "";
       this->traj_log = "";
@@ -79,12 +85,18 @@ struct ExecutePlannedGrasp_Goal_
   using _grasp_pose_type =
     geometry_msgs::msg::PoseStamped_<ContainerAllocator>;
   _grasp_pose_type grasp_pose;
+  using _tracking_reference_pose_type =
+    geometry_msgs::msg::PoseStamped_<ContainerAllocator>;
+  _tracking_reference_pose_type tracking_reference_pose;
   using _gripper_width_type =
     float;
   _gripper_width_type gripper_width;
   using _enable_avoidance_type =
     bool;
   _enable_avoidance_type enable_avoidance;
+  using _target_prompt_type =
+    std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>;
+  _target_prompt_type target_prompt;
   using _target_object_type =
     std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>;
   _target_object_type target_object;
@@ -108,6 +120,12 @@ struct ExecutePlannedGrasp_Goal_
     this->grasp_pose = _arg;
     return *this;
   }
+  Type & set__tracking_reference_pose(
+    const geometry_msgs::msg::PoseStamped_<ContainerAllocator> & _arg)
+  {
+    this->tracking_reference_pose = _arg;
+    return *this;
+  }
   Type & set__gripper_width(
     const float & _arg)
   {
@@ -118,6 +136,12 @@ struct ExecutePlannedGrasp_Goal_
     const bool & _arg)
   {
     this->enable_avoidance = _arg;
+    return *this;
+  }
+  Type & set__target_prompt(
+    const std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>> & _arg)
+  {
+    this->target_prompt = _arg;
     return *this;
   }
   Type & set__target_object(
@@ -187,10 +211,16 @@ struct ExecutePlannedGrasp_Goal_
     if (this->grasp_pose != other.grasp_pose) {
       return false;
     }
+    if (this->tracking_reference_pose != other.tracking_reference_pose) {
+      return false;
+    }
     if (this->gripper_width != other.gripper_width) {
       return false;
     }
     if (this->enable_avoidance != other.enable_avoidance) {
+      return false;
+    }
+    if (this->target_prompt != other.target_prompt) {
       return false;
     }
     if (this->target_object != other.target_object) {

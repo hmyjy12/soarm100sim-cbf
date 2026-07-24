@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+import importlib.util
 import json
 from pathlib import Path
 import sys
@@ -38,8 +39,9 @@ class MujocoRunnerConfig:
     cbf_activate_margin: float = 0.040
     sdf_voxel_size: float = 0.010
     sdf_inflate: float = 0.015
-    replan_max_attempts: int = 0
-    max_steps: int = 450
+    replan_max_attempts: int = 2
+    camera_publish_interval_steps: int = 5
+    max_steps: int = 900
     open_q: float = 1.2
     close_q: float = 0.4
     ctrl_dt: float = 0.02
@@ -71,14 +73,25 @@ class MujocoInProcessRunner:
     def __init__(self, cfg: MujocoRunnerConfig) -> None:
         self.cfg = cfg
         self.repo = Path(cfg.repo_root).expanduser().resolve()
+        self._log_stream = None
 
-    def run(self, cmd: PlannedGraspCommand, *, feedback_cb=None, tracking_provider=None, obstacle_provider=None) -> MujocoRunResult:
+    def run(
+        self,
+        cmd: PlannedGraspCommand,
+        *,
+        feedback_cb=None,
+        tracking_provider=None,
+        obstacle_provider=None,
+        replan_provider=None,
+        camera_frame_cb=None,
+    ) -> MujocoRunResult:
         modules = self._load_mujoco_modules()
         mujoco = modules["mujoco"]
         runtime = modules["runtime"]
         policy_mod = modules["policy"]
         constants = modules["constants"]
         cbf_mod = modules["cbf"]
+        camera_mod = modules["camera"]
 
         mjcf = Path(self.cfg.mjcf)
         if not mjcf.is_absolute():
@@ -90,6 +103,7 @@ class MujocoInProcessRunner:
         model = mujoco.MjModel.from_xml_path(str(mjcf))
         data = mujoco.MjData(model)
         viewer = None
+        camera_rig = None
         if bool(self.cfg.show_viewer):
             import mujoco.viewer  # type: ignore
 
@@ -121,6 +135,9 @@ class MujocoInProcessRunner:
         mujoco.mj_forward(model, data)
         self._settle_object(mujoco, model, data)
         mujoco.mj_forward(model, data)
+        if camera_frame_cb is not None:
+            camera_rig = camera_mod.MujocoCameraRig(model, width=640, height=480)
+            self._publish_camera_frame(camera_rig, data, model, constants, camera_frame_cb)
 
         plan = GraspPlan(
             pregrasp_pos=np.asarray(cmd.pregrasp.pos, dtype=np.float64).reshape(3),
@@ -142,10 +159,12 @@ class MujocoInProcessRunner:
         log_path = self._log_path()
         if log_path is not None:
             log_path.parent.mkdir(parents=True, exist_ok=True)
-            log_path.write_text("", encoding="utf-8")
+            self._log_stream = log_path.open("w", encoding="utf-8", buffering=65536)
 
         try:
-            for step in range(int(self.cfg.max_steps)):
+            total_step_budget = int(self.cfg.max_steps) * (1 + max(int(self.cfg.replan_max_attempts), 0))
+            for step in range(total_step_budget):
+                step_started = time.perf_counter()
                 if viewer is not None and not viewer.is_running():
                     return MujocoRunResult(
                         success=False,
@@ -168,6 +187,14 @@ class MujocoInProcessRunner:
                     else:
                         stepper.cbf_obstacles = []
 
+                if (
+                    camera_rig is not None
+                    and step % max(int(self.cfg.camera_publish_interval_steps), 1) == 0
+                ):
+                    self._publish_camera_frame(camera_rig, data, model, constants, camera_frame_cb)
+
+                if sm.plan is not None:
+                    plan = sm.plan
                 tcp_pos, _tcp_quat = runtime.tcp_pose_w(data, ids)
                 current_target = plan.pregrasp_pos if sm.phase == GraspPhase.MOVE_TO_PREGRASP else plan.grasp_pos
                 target_lift = self._target_z(mujoco, model, data) - target_initial_z
@@ -197,6 +224,65 @@ class MujocoInProcessRunner:
                 )
                 intent = sm.step(obs)
                 last_intent = intent
+                if intent.should_plan_grasp and replan_provider is not None:
+                    attempt = int(sm.replan_attempts) + 1
+                    if feedback_cb is not None:
+                        feedback_cb(
+                            GraspPhase.REPLAN_GRASP.value,
+                            f"replan_request attempt={attempt}",
+                            best_lift,
+                        )
+                    if camera_rig is not None:
+                        self._publish_camera_frame(camera_rig, data, model, constants, camera_frame_cb)
+                    try:
+                        new_cmd, replan_reason = replan_provider(attempt)
+                    except Exception as exc:
+                        new_cmd, replan_reason = None, f"provider_exception:{exc}"
+                    if new_cmd is None:
+                        sm.reject_replan(str(replan_reason))
+                        self._append_event_log(
+                            log_path,
+                            step=step,
+                            event="replan_reject",
+                            attempt=attempt,
+                            reason=str(replan_reason),
+                        )
+                        if feedback_cb is not None:
+                            feedback_cb(
+                                GraspPhase.REPLAN_GRASP.value,
+                                sm.last_reason,
+                                best_lift,
+                            )
+                        continue
+                    plan = GraspPlan(
+                        pregrasp_pos=np.asarray(new_cmd.pregrasp.pos, dtype=np.float64).reshape(3),
+                        grasp_pos=np.asarray(new_cmd.grasp.pos, dtype=np.float64).reshape(3),
+                        grasp_quat_wxyz=np.asarray(new_cmd.grasp.quat_wxyz, dtype=np.float64).reshape(4),
+                        approach_axis_world=np.array([1.0, 0.0, 0.0], dtype=np.float64),
+                        gripper_width=float(new_cmd.gripper_width),
+                    )
+                    sm.accept_replan(plan)
+                    tracking_ref = None
+                    frozen_q = None
+                    close_start_q = None
+                    self._append_event_log(
+                        log_path,
+                        step=step,
+                        event="replan_accept",
+                        attempt=attempt,
+                        reason=str(replan_reason),
+                        pregrasp=plan.pregrasp_pos,
+                        grasp=plan.grasp_pos,
+                        grasp_quat=plan.grasp_quat_wxyz,
+                        gripper_width=plan.gripper_width,
+                    )
+                    if feedback_cb is not None:
+                        feedback_cb(
+                            sm.phase.value,
+                            f"{sm.last_reason} {replan_reason}",
+                            best_lift,
+                        )
+                    continue
                 if feedback_cb is not None and step % max(int(round(0.5 / self.cfg.ctrl_dt)), 1) == 0:
                     feedback_cb(intent.phase.value, intent.reason, best_lift)
                 if intent.done:
@@ -251,8 +337,17 @@ class MujocoInProcessRunner:
                     mujoco.mj_step(model, data)
                 if viewer is not None and step % max(int(self.cfg.viewer_sync_interval), 1) == 0:
                     viewer.sync()
-                    time.sleep(float(self.cfg.ctrl_dt) / max(float(self.cfg.speed), 1.0e-6))
+                    target_wall_dt = float(self.cfg.ctrl_dt) / max(float(self.cfg.speed), 1.0e-6)
+                    remaining = target_wall_dt - (time.perf_counter() - step_started)
+                    if remaining > 0.0:
+                        time.sleep(remaining)
         finally:
+            if self._log_stream is not None:
+                self._log_stream.flush()
+                self._log_stream.close()
+                self._log_stream = None
+            if camera_rig is not None:
+                camera_rig.close()
             if viewer is not None and float(self.cfg.viewer_hold_s) > 0.0:
                 hold_until = time.time() + float(self.cfg.viewer_hold_s)
                 while viewer.is_running() and time.time() < hold_until:
@@ -267,7 +362,7 @@ class MujocoInProcessRunner:
             reason=f"timeout:{reason}",
             lift_height=float(best_lift),
             final_phase=sm.phase.value,
-            steps=int(self.cfg.max_steps),
+            steps=int(total_step_budget),
         )
 
     def _load_mujoco_modules(self) -> dict:
@@ -277,14 +372,57 @@ class MujocoInProcessRunner:
 
         sys.path = old_path
         mujoco_dir = str(self.repo / "mujoco")
-        if mujoco_dir not in sys.path:
-            sys.path.insert(0, mujoco_dir)
-        import constants  # type: ignore
-        import policy  # type: ignore
-        import runtime  # type: ignore
-        import cbf  # type: ignore
 
-        return {"mujoco": mujoco, "constants": constants, "policy": policy, "runtime": runtime, "cbf": cbf}
+        def load_local(name: str):
+            module_name = f"_soarm100_mujoco_{name}"
+            cached = sys.modules.get(module_name)
+            if cached is not None:
+                return cached
+            spec = importlib.util.spec_from_file_location(
+                module_name, str(Path(mujoco_dir) / f"{name}.py")
+            )
+            if spec is None or spec.loader is None:
+                raise ImportError(f"cannot load MuJoCo module: {name}")
+            module = importlib.util.module_from_spec(spec)
+            sys.modules[module_name] = module
+            # Local modules retain fallback imports such as ``from constants``.
+            sys.modules.setdefault(name, module)
+            spec.loader.exec_module(module)
+            return module
+
+        constants = load_local("constants")
+        policy = load_local("policy")
+        runtime = load_local("runtime")
+        cbf = load_local("cbf")
+        camera = load_local("camera")
+
+        return {
+            "mujoco": mujoco,
+            "constants": constants,
+            "policy": policy,
+            "runtime": runtime,
+            "cbf": cbf,
+            "camera": camera,
+        }
+
+    @staticmethod
+    def _publish_camera_frame(rig, data, model, constants, callback) -> None:
+        if callback is None:
+            return
+        scene_name = str(constants.SCENE_DEPTH_CAM)
+        wrist_name = str(constants.WRIST_RGB_CAM)
+        scene_id = model.camera(scene_name).id
+        wrist_id = model.camera(wrist_name).id
+        callback(
+            {
+                "scene_rgb": rig.capture_rgb(data, scene_name),
+                "scene_depth": rig.capture_depth_m(data, scene_name),
+                "scene_fovy": float(model.cam_fovy[scene_id]),
+                "wrist_rgb": rig.capture_rgb(data, wrist_name),
+                "wrist_depth": rig.capture_depth_m(data, wrist_name),
+                "wrist_fovy": float(model.cam_fovy[wrist_id]),
+            }
+        )
 
     @staticmethod
     def _grasp_target_objects() -> dict[str, tuple[str, str]]:
@@ -438,5 +576,36 @@ class MujocoInProcessRunner:
             "dq_cbf_norm": float(info.get("dq_cbf_norm", 0.0)),
             "dq_total_norm": float(info.get("dq_total_norm", 0.0)),
         }
-        with path.open("a", encoding="utf-8") as f:
-            f.write(json.dumps(rec, ensure_ascii=False) + "\n")
+        line = json.dumps(rec, ensure_ascii=False) + "\n"
+        if self._log_stream is not None:
+            self._log_stream.write(line)
+            if int(step) % 25 == 0:
+                self._log_stream.flush()
+        else:
+            with path.open("a", encoding="utf-8") as f:
+                f.write(line)
+
+    def _append_event_log(self, path: Path | None, *, step: int, event: str, attempt: int, reason: str, **values) -> None:
+        if path is None:
+            return
+        rec = {
+            "time_wall": time.time(),
+            "step": int(step),
+            "t": float(step) * float(self.cfg.ctrl_dt),
+            "event": str(event),
+            "phase": GraspPhase.REPLAN_GRASP.value,
+            "attempt": int(attempt),
+            "reason": str(reason),
+        }
+        for key, value in values.items():
+            if isinstance(value, np.ndarray):
+                rec[key] = self._arr(value)
+            else:
+                rec[key] = float(value) if isinstance(value, (np.floating, float)) else value
+        line = json.dumps(rec, ensure_ascii=False) + "\n"
+        if self._log_stream is not None:
+            self._log_stream.write(line)
+            self._log_stream.flush()
+        else:
+            with path.open("a", encoding="utf-8") as f:
+                f.write(line)

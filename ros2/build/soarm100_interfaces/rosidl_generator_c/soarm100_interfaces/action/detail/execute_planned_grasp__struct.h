@@ -20,7 +20,9 @@ extern "C"
 // Include directives for member types
 // Member 'pregrasp_pose'
 // Member 'grasp_pose'
+// Member 'tracking_reference_pose'
 #include "geometry_msgs/msg/detail/pose_stamped__struct.h"
+// Member 'target_prompt'
 // Member 'target_object'
 // Member 'target_pos'
 // Member 'traj_log'
@@ -31,8 +33,10 @@ typedef struct soarm100_interfaces__action__ExecutePlannedGrasp_Goal
 {
   geometry_msgs__msg__PoseStamped pregrasp_pose;
   geometry_msgs__msg__PoseStamped grasp_pose;
+  geometry_msgs__msg__PoseStamped tracking_reference_pose;
   float gripper_width;
   bool enable_avoidance;
+  rosidl_runtime_c__String target_prompt;
   rosidl_runtime_c__String target_object;
   rosidl_runtime_c__String target_pos;
   rosidl_runtime_c__String traj_log;

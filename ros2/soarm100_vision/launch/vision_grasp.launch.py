@@ -11,8 +11,7 @@ def generate_launch_description():
     rgb_topic = LaunchConfiguration("rgb_topic")
     depth_topic = LaunchConfiguration("depth_topic")
     camera_info_topic = LaunchConfiguration("camera_info_topic")
-    wrist_depth_topic = LaunchConfiguration("wrist_depth_topic")
-    wrist_camera_info_topic = LaunchConfiguration("wrist_camera_info_topic")
+    wrist_rgb_topic = LaunchConfiguration("wrist_rgb_topic")
     yolo_model = LaunchConfiguration("yolo_model")
     sam_model = LaunchConfiguration("sam_model")
     anygrasp_sdk_root = LaunchConfiguration("anygrasp_sdk_root")
@@ -38,8 +37,10 @@ def generate_launch_description():
     use_sim_camera_extrinsics = LaunchConfiguration("use_sim_camera_extrinsics")
     mujoco_internal_tracking = LaunchConfiguration("mujoco_internal_tracking")
     mujoco_track_source = LaunchConfiguration("mujoco_track_source")
+    mujoco_replan_attempts = LaunchConfiguration("mujoco_replan_attempts")
     tracking_topic = LaunchConfiguration("tracking_topic")
     obstacle_cloud_topic = LaunchConfiguration("obstacle_cloud_topic")
+    obstacle_mode = LaunchConfiguration("obstacle_mode")
     enable_visualizer = LaunchConfiguration("enable_visualizer")
     show_window = LaunchConfiguration("show_window")
 
@@ -50,8 +51,7 @@ def generate_launch_description():
             DeclareLaunchArgument("rgb_topic", default_value="/camera/color/image_raw"),
             DeclareLaunchArgument("depth_topic", default_value="/camera/depth/image_rect_raw"),
             DeclareLaunchArgument("camera_info_topic", default_value="/camera/color/camera_info"),
-            DeclareLaunchArgument("wrist_depth_topic", default_value="/wrist/depth/image_rect_raw"),
-            DeclareLaunchArgument("wrist_camera_info_topic", default_value="/wrist/depth/camera_info"),
+            DeclareLaunchArgument("wrist_rgb_topic", default_value="/wrist/color/image_raw"),
             DeclareLaunchArgument("yolo_model", default_value="models/vision/yolov8s-world.pt"),
             DeclareLaunchArgument("sam_model", default_value="models/vision/mobile_sam.pt"),
             DeclareLaunchArgument("anygrasp_sdk_root", default_value="anygrasp_sdk"),
@@ -71,16 +71,18 @@ def generate_launch_description():
             DeclareLaunchArgument("mujoco_obstacle_pos", default_value="0.16,0.09,0.02"),
             DeclareLaunchArgument("mujoco_traj_log", default_value="logs/ros2_execute_grasp.jsonl"),
             DeclareLaunchArgument("mujoco_python", default_value="python"),
-            DeclareLaunchArgument("mujoco_speed", default_value="0.5"),
+            DeclareLaunchArgument("mujoco_speed", default_value="1.0"),
             DeclareLaunchArgument("mujoco_backend_mode", default_value="subprocess"),
             DeclareLaunchArgument("mujoco_inprocess_viewer", default_value="false"),
             DeclareLaunchArgument("use_sim_camera_extrinsics", default_value="true"),
             DeclareLaunchArgument("mujoco_internal_tracking", default_value="true"),
             DeclareLaunchArgument("mujoco_track_source", default_value="wrist"),
-            DeclareLaunchArgument("tracking_topic", default_value="/target/tracked_center"),
+            DeclareLaunchArgument("mujoco_replan_attempts", default_value="2"),
+            DeclareLaunchArgument("tracking_topic", default_value="/target/tracked_2d"),
             DeclareLaunchArgument("obstacle_cloud_topic", default_value="/obstacle/cloud"),
-            DeclareLaunchArgument("enable_visualizer", default_value="true"),
-            DeclareLaunchArgument("show_window", default_value="true"),
+            DeclareLaunchArgument("obstacle_mode", default_value="static"),
+            DeclareLaunchArgument("enable_visualizer", default_value="false"),
+            DeclareLaunchArgument("show_window", default_value="false"),
             Node(
                 package="soarm100_vision",
                 executable="target_segmenter_node",
@@ -107,6 +109,10 @@ def generate_launch_description():
                     {
                         "depth_topic": depth_topic,
                         "camera_info_topic": camera_info_topic,
+                        "obstacle_mode": obstacle_mode,
+                        "repo_root": repo_root,
+                        "mjcf": mujoco_mjcf,
+                        "use_sim_camera_extrinsics": use_sim_camera_extrinsics,
                     }
                 ],
             ),
@@ -132,7 +138,8 @@ def generate_launch_description():
                         "enable_obstacle": mujoco_enable_obstacle,
                         "obstacle_body": mujoco_obstacle_body,
                         "obstacle_pos": mujoco_obstacle_pos,
-                        "traj_log": mujoco_traj_log,
+                        "publish_wrist_rgb": False,
+                        "scene_burst_frames": 5,
                     }
                 ],
             ),
@@ -147,6 +154,12 @@ def generate_launch_description():
                         "sdk_root": anygrasp_sdk_root,
                         "checkpoint_path": anygrasp_checkpoint,
                         "conda_env": anygrasp_conda_env,
+                        "repo_root": repo_root,
+                        "mjcf": mujoco_mjcf,
+                        "use_sim_camera_extrinsics": use_sim_camera_extrinsics,
+                        "enable_ik_filter": True,
+                        "ik_position_tolerance_m": 0.005,
+                        "ik_rotation_tolerance_deg": 3.0,
                     }
                 ],
             ),
@@ -157,8 +170,7 @@ def generate_launch_description():
                 output="screen",
                 parameters=[
                     {
-                        "depth_topic": wrist_depth_topic,
-                        "camera_info_topic": wrist_camera_info_topic,
+                        "rgb_topic": wrist_rgb_topic,
                     }
                 ],
             ),
@@ -183,8 +195,10 @@ def generate_launch_description():
                         "enable_obstacle": mujoco_enable_obstacle,
                         "obstacle_body": mujoco_obstacle_body,
                         "obstacle_pos": mujoco_obstacle_pos,
+                        "obstacle_mode": obstacle_mode,
                         "enable_internal_tracking": mujoco_internal_tracking,
                         "grasp_track_source": mujoco_track_source,
+                        "grasp_replan_max_attempts": mujoco_replan_attempts,
                         "tracking_topic": tracking_topic,
                         "obstacle_cloud_topic": obstacle_cloud_topic,
                     }

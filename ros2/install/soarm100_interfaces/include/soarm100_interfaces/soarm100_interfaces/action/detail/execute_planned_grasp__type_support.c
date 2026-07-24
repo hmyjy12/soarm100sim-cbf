@@ -19,6 +19,7 @@
 // Member `pregrasp_pose`
 // Member `grasp_pose`
 #include "geometry_msgs/msg/detail/pose_stamped__rosidl_typesupport_introspection_c.h"
+// Member `target_prompt`
 // Member `target_object`
 // Member `target_pos`
 // Member `traj_log`
@@ -43,7 +44,7 @@ void soarm100_interfaces__action__ExecutePlannedGrasp_Goal__rosidl_typesupport_i
   soarm100_interfaces__action__ExecutePlannedGrasp_Goal__fini(message_memory);
 }
 
-static rosidl_typesupport_introspection_c__MessageMember soarm100_interfaces__action__ExecutePlannedGrasp_Goal__rosidl_typesupport_introspection_c__ExecutePlannedGrasp_Goal_message_member_array[7] = {
+static rosidl_typesupport_introspection_c__MessageMember soarm100_interfaces__action__ExecutePlannedGrasp_Goal__rosidl_typesupport_introspection_c__ExecutePlannedGrasp_Goal_message_member_array[8] = {
   {
     "pregrasp_pose",  // name
     rosidl_typesupport_introspection_c__ROS_TYPE_MESSAGE,  // type
@@ -113,6 +114,23 @@ static rosidl_typesupport_introspection_c__MessageMember soarm100_interfaces__ac
     NULL  // resize(index) function pointer
   },
   {
+    "target_prompt",  // name
+    rosidl_typesupport_introspection_c__ROS_TYPE_STRING,  // type
+    0,  // upper bound of string
+    NULL,  // members of sub message
+    false,  // is array
+    0,  // array size
+    false,  // is upper bound
+    offsetof(soarm100_interfaces__action__ExecutePlannedGrasp_Goal, target_prompt),  // bytes offset in struct
+    NULL,  // default value
+    NULL,  // size() function pointer
+    NULL,  // get_const(index) function pointer
+    NULL,  // get(index) function pointer
+    NULL,  // fetch(index, &value) function pointer
+    NULL,  // assign(index, value) function pointer
+    NULL  // resize(index) function pointer
+  },
+  {
     "target_object",  // name
     rosidl_typesupport_introspection_c__ROS_TYPE_STRING,  // type
     0,  // upper bound of string
@@ -168,7 +186,7 @@ static rosidl_typesupport_introspection_c__MessageMember soarm100_interfaces__ac
 static const rosidl_typesupport_introspection_c__MessageMembers soarm100_interfaces__action__ExecutePlannedGrasp_Goal__rosidl_typesupport_introspection_c__ExecutePlannedGrasp_Goal_message_members = {
   "soarm100_interfaces__action",  // message namespace
   "ExecutePlannedGrasp_Goal",  // message name
-  7,  // number of fields
+  8,  // number of fields
   sizeof(soarm100_interfaces__action__ExecutePlannedGrasp_Goal),
   soarm100_interfaces__action__ExecutePlannedGrasp_Goal__rosidl_typesupport_introspection_c__ExecutePlannedGrasp_Goal_message_member_array,  // message members
   soarm100_interfaces__action__ExecutePlannedGrasp_Goal__rosidl_typesupport_introspection_c__ExecutePlannedGrasp_Goal_init_function,  // function to initialize message memory (memory has to be allocated)

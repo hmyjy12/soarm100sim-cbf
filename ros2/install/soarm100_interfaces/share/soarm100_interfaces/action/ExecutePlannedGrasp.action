@@ -1,16 +1,1 @@
-geometry_msgs/PoseStamped pregrasp_pose
-geometry_msgs/PoseStamped grasp_pose
-float32 gripper_width
-bool enable_avoidance
-string target_object
-string target_pos
-string traj_log
----
-bool success
-string reason
-float32 lift_height
-uint8 return_code
----
-string stage
-string reason
-float32 lift_height
+/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/soarm100_interfaces/action/ExecutePlannedGrasp.action
