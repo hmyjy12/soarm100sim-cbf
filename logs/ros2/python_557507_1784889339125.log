@@ -1,0 +1,19 @@
+[INFO] [1784889339.175608131] [mujoco_policy_backend]: MuJoCo policy backend ready: action=execute_planned_grasp
+[INFO] [1784889341.277950190] [mujoco_policy_backend]: obstacle_init stamp=1784889340.945105133 depth=296774 robot_mask_received=True self_rm=10426 workspace=0 table_rm=0 raw_obstacle=0 persistent=0 voxels=0 mode=static frame=1/5 bbox=empty
+[INFO] [1784889341.387507141] [mujoco_policy_backend]: obstacle_init stamp=1784889341.091716587 depth=296774 robot_mask_received=True self_rm=10426 workspace=0 table_rm=0 raw_obstacle=0 persistent=0 voxels=0 mode=static frame=2/5 bbox=empty
+[INFO] [1784889341.560464362] [mujoco_policy_backend]: obstacle_init stamp=1784889341.233522934 depth=296774 robot_mask_received=True self_rm=10426 workspace=0 table_rm=0 raw_obstacle=0 persistent=0 voxels=0 mode=static frame=3/5 bbox=empty
+[INFO] [1784889341.754565256] [mujoco_policy_backend]: obstacle_init stamp=1784889341.456379009 depth=296774 robot_mask_received=True self_rm=10426 workspace=0 table_rm=0 raw_obstacle=0 persistent=0 voxels=0 mode=static frame=4/5 bbox=empty
+[INFO] [1784889341.966890241] [mujoco_policy_backend]: obstacle_init stamp=1784889341.649619598 depth=296774 robot_mask_received=True self_rm=10426 workspace=0 table_rm=0 raw_obstacle=0 persistent=0 voxels=0 mode=static frame=5/5 bbox=empty
+[INFO] [1784889350.529427979] [mujoco_policy_backend]: planned grasp pose conversion: source=sim_mjcf raw_pregrasp[frame=scene_depth_optical pos=(+0.076,+0.035,+0.516) quat=(+0.513,+0.135,-0.082,+0.844)] raw_grasp[frame=scene_depth_optical pos=(+0.086,+0.016,+0.582) quat=(+0.513,+0.135,-0.082,+0.844)] base_pregrasp[frame=base pos=(+0.396,+0.065,+0.104) quat=(+0.135,-0.513,+0.844,+0.082)] base_grasp[frame=base pos=(+0.406,+0.084,+0.038) quat=(+0.135,-0.513,+0.844,+0.082)] tracking_reference[frame=base pos=(+0.420,+0.080,+0.036) quat=(+0.000,+1.000,+0.000,+0.000)] width=64.9mm target=cube@0.42,0.08,0.021 traj_log=logs/ros2_grasp_no_avoidance.jsonl
+[INFO] [1784889351.715684612] [mujoco_policy_backend]: wrist_roi_diag frame=1 projected_uv=(-2798.8,-889.6) red_uv=not_visible depth=0.027m
+[INFO] [1784889352.403664810] [mujoco_policy_backend]: wrist_roi_diag frame=11 projected_uv=(181.8,322.8) red_uv=(81.1,262.1) offset=117.6px depth=0.118m
+[INFO] [1784889353.006488029] [mujoco_policy_backend]: wrist_roi_diag frame=21 projected_uv=(116.6,221.9) red_uv=(76.7,166.6) offset=68.2px depth=0.088m
+[INFO] [1784889353.623904143] [mujoco_policy_backend]: wrist_roi_diag frame=31 projected_uv=(251.8,-68.5) red_uv=(193.9,10.1) offset=97.6px depth=0.060m
+[INFO] [1784889354.236213002] [mujoco_policy_backend]: wrist_roi_diag frame=41 projected_uv=(316.2,314.1) red_uv=(365.4,181.9) offset=141.1px depth=0.071m
+[INFO] [1784889354.831263097] [mujoco_policy_backend]: wrist_roi_diag frame=51 projected_uv=(562.5,283.2) red_uv=(531.2,169.3) offset=118.1px depth=0.047m
+[INFO] [1784889355.654234149] [mujoco_policy_backend]: replan[1] start prompt='red cube' cloud_seq_before=1
+[INFO] [1784889366.745988577] [mujoco_policy_backend]: wrist_roi_diag frame=61 projected_uv=(760.3,305.2) red_uv=(605.1,222.2) offset=176.0px depth=0.052m
+[INFO] [1784889367.461504652] [mujoco_policy_backend]: replan[2] start prompt='red cube' cloud_seq_before=2
+[INFO] [1784889383.004098395] [mujoco_policy_backend]: wrist_roi_diag frame=71 projected_uv=(801.4,436.1) red_uv=not_visible depth=0.076m
+[INFO] [1784889383.572019441] [mujoco_policy_backend]: wrist_roi_diag frame=81 projected_uv=(791.9,437.1) red_uv=(637.8,409.2) offset=156.6px depth=0.072m
+[INFO] [1784889384.163038293] [mujoco_policy_backend]: wrist_roi_diag frame=91 projected_uv=(524.5,444.9) red_uv=(517.2,403.7) offset=41.8px depth=0.086m

@@ -2,23 +2,23 @@
   "ok": true,
   "target_prompt": "red cube",
   "bbox_xyxy": [
-    141.0,
-    237.0,
     385.0,
-    262.0
+    240.0,
+    396.0,
+    254.0
   ],
   "score": 0.5,
   "fallback_red_mask": true,
-  "mask_pixels": 1135,
-  "expanded_mask_pixels": 7532,
+  "mask_pixels": 80,
+  "expanded_mask_pixels": 238,
   "mask_expand_ratio": 0.05,
   "use_expanded_mask_for_target_cloud": false,
-  "n_points": 1135,
-  "n_roi_points": 7532,
+  "n_points": 80,
+  "n_roi_points": 238,
   "center_camera": [
-    0.07830362766981125,
-    0.012948645278811455,
-    0.5762669444084167
+    0.12982800602912903,
+    0.014010220766067505,
+    0.5842710137367249
   ],
-  "stamp_s": 1784884754.6888793
+  "stamp_s": 1785146984.7052035
 }
