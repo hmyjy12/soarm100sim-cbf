@@ -1,0 +1,11 @@
+[INFO] [1785147671.339177268] [wrist_tracker]: RGB wrist tracker ready: rgb=/wrist/color/image_raw hint=/wrist/tracking_roi tracked=/target/tracked_2d
+[WARN] [1785147686.036612116] [wrist_tracker]: saved low-confidence wrist diagnostics: frame=33 confidence=0.294 dir=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/logs/ros2_tracking_failures
+[WARN] [1785147686.099956395] [wrist_tracker]: saved low-confidence wrist diagnostics: frame=34 confidence=0.000 dir=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/logs/ros2_tracking_failures
+[WARN] [1785147686.166914610] [wrist_tracker]: saved low-confidence wrist diagnostics: frame=35 confidence=0.027 dir=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/logs/ros2_tracking_failures
+[WARN] [1785147687.101114091] [wrist_tracker]: saved low-confidence wrist diagnostics: frame=50 confidence=0.344 dir=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/logs/ros2_tracking_failures
+[WARN] [1785147687.134774376] [wrist_tracker]: saved low-confidence wrist diagnostics: frame=51 confidence=0.131 dir=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/logs/ros2_tracking_failures
+[WARN] [1785147687.336427021] [wrist_tracker]: saved low-confidence wrist diagnostics: frame=54 confidence=0.123 dir=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/logs/ros2_tracking_failures
+[WARN] [1785147687.400327659] [wrist_tracker]: saved low-confidence wrist diagnostics: frame=55 confidence=0.358 dir=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/logs/ros2_tracking_failures
+[WARN] [1785147687.434271046] [wrist_tracker]: saved low-confidence wrist diagnostics: frame=56 confidence=0.000 dir=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/logs/ros2_tracking_failures
+[WARN] [1785147687.500115824] [wrist_tracker]: saved low-confidence wrist diagnostics: frame=57 confidence=0.089 dir=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/logs/ros2_tracking_failures
+[WARN] [1785147687.566797229] [wrist_tracker]: saved low-confidence wrist diagnostics: frame=58 confidence=0.048 dir=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/logs/ros2_tracking_failures

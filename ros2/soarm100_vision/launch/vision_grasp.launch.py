@@ -8,6 +8,9 @@ from launch_ros.parameter_descriptions import ParameterValue
 
 def generate_launch_description():
     target_prompt = LaunchConfiguration("target_prompt")
+    target_segmentation_mode = LaunchConfiguration("target_segmentation_mode")
+    target_color_rgb = LaunchConfiguration("target_color_rgb")
+    color_hue_tolerance_deg = LaunchConfiguration("color_hue_tolerance_deg")
     enable_avoidance = LaunchConfiguration("enable_avoidance")
     rgb_topic = LaunchConfiguration("rgb_topic")
     depth_topic = LaunchConfiguration("depth_topic")
@@ -27,6 +30,17 @@ def generate_launch_description():
     mujoco_mjcf = LaunchConfiguration("mujoco_mjcf")
     mujoco_target_object = LaunchConfiguration("mujoco_target_object")
     mujoco_target_pos = LaunchConfiguration("mujoco_target_pos")
+    mujoco_target_motion = LaunchConfiguration("mujoco_target_motion")
+    mujoco_target_motion_amplitude = LaunchConfiguration(
+        "mujoco_target_motion_amplitude"
+    )
+    mujoco_target_motion_travel_time = LaunchConfiguration(
+        "mujoco_target_motion_travel_time"
+    )
+    mujoco_target_motion_dwell_time = LaunchConfiguration(
+        "mujoco_target_motion_dwell_time"
+    )
+    mujoco_target_motion_delay = LaunchConfiguration("mujoco_target_motion_delay")
     mujoco_enable_obstacle = LaunchConfiguration("mujoco_enable_obstacle")
     mujoco_obstacle_body = LaunchConfiguration("mujoco_obstacle_body")
     mujoco_obstacle_pos = LaunchConfiguration("mujoco_obstacle_pos")
@@ -47,6 +61,15 @@ def generate_launch_description():
     mujoco_final_approach_timeout = LaunchConfiguration(
         "mujoco_final_approach_timeout"
     )
+    grasp_final_dist = LaunchConfiguration("grasp_final_dist")
+    grasp_final_timeout_close_dist = LaunchConfiguration(
+        "grasp_final_timeout_close_dist"
+    )
+    grasp_final_stable_time = LaunchConfiguration("grasp_final_stable_time")
+    grasp_close_tracking_confidence = LaunchConfiguration(
+        "grasp_close_tracking_confidence"
+    )
+    grasp_close_target_speed = LaunchConfiguration("grasp_close_target_speed")
     tracking_topic = LaunchConfiguration("tracking_topic")
     obstacle_cloud_topic = LaunchConfiguration("obstacle_cloud_topic")
     obstacle_mode = LaunchConfiguration("obstacle_mode")
@@ -56,6 +79,9 @@ def generate_launch_description():
     return LaunchDescription(
         [
             DeclareLaunchArgument("target_prompt", default_value="red cube"),
+            DeclareLaunchArgument("target_segmentation_mode", default_value="color"),
+            DeclareLaunchArgument("target_color_rgb", default_value="255,0,0"),
+            DeclareLaunchArgument("color_hue_tolerance_deg", default_value="18.0"),
             DeclareLaunchArgument("enable_avoidance", default_value="false"),
             DeclareLaunchArgument("rgb_topic", default_value="/camera/color/image_raw"),
             DeclareLaunchArgument("depth_topic", default_value="/camera/depth/image_rect_raw"),
@@ -75,6 +101,17 @@ def generate_launch_description():
             DeclareLaunchArgument("mujoco_mjcf", default_value="SO-ARM100/Simulation/SO100/mujoco/scene_plus_norod.xml"),
             DeclareLaunchArgument("mujoco_target_object", default_value="cube"),
             DeclareLaunchArgument("mujoco_target_pos", default_value="0.42,0.08,0.021"),
+            DeclareLaunchArgument("mujoco_target_motion", default_value="none"),
+            DeclareLaunchArgument(
+                "mujoco_target_motion_amplitude", default_value="0.05"
+            ),
+            DeclareLaunchArgument(
+                "mujoco_target_motion_travel_time", default_value="2.0"
+            ),
+            DeclareLaunchArgument(
+                "mujoco_target_motion_dwell_time", default_value="1.0"
+            ),
+            DeclareLaunchArgument("mujoco_target_motion_delay", default_value="0.5"),
             DeclareLaunchArgument("mujoco_enable_obstacle", default_value="false"),
             DeclareLaunchArgument("mujoco_obstacle_body", default_value="obstacle_rod_mount"),
             DeclareLaunchArgument("mujoco_obstacle_pos", default_value="0.16,0.09,0.02"),
@@ -95,6 +132,17 @@ def generate_launch_description():
             DeclareLaunchArgument(
                 "mujoco_final_approach_timeout", default_value="10.0"
             ),
+            DeclareLaunchArgument("grasp_final_dist", default_value="0.035"),
+            DeclareLaunchArgument(
+                "grasp_final_timeout_close_dist", default_value="0.040"
+            ),
+            DeclareLaunchArgument("grasp_final_stable_time", default_value="0.20"),
+            DeclareLaunchArgument(
+                "grasp_close_tracking_confidence", default_value="0.45"
+            ),
+            DeclareLaunchArgument(
+                "grasp_close_target_speed", default_value="0.005"
+            ),
             DeclareLaunchArgument("tracking_topic", default_value="/target/tracked_2d"),
             DeclareLaunchArgument("obstacle_cloud_topic", default_value="/obstacle/cloud"),
             DeclareLaunchArgument("obstacle_mode", default_value="static"),
@@ -112,6 +160,11 @@ def generate_launch_description():
                         "camera_info_topic": camera_info_topic,
                         "yolo_model": yolo_model,
                         "sam_model": sam_model,
+                        "segmentation_mode": target_segmentation_mode,
+                        "target_color_rgb": target_color_rgb,
+                        "color_hue_tolerance_deg": ParameterValue(
+                            color_hue_tolerance_deg, value_type=float
+                        ),
                         "mask_expand_ratio": 0.05,
                     }
                 ],
@@ -188,6 +241,11 @@ def generate_launch_description():
                 parameters=[
                     {
                         "rgb_topic": wrist_rgb_topic,
+                        "tracking_mode": target_segmentation_mode,
+                        "target_color_rgb": target_color_rgb,
+                        "color_hue_tolerance_deg": ParameterValue(
+                            color_hue_tolerance_deg, value_type=float
+                        ),
                     }
                 ],
             ),
@@ -208,6 +266,19 @@ def generate_launch_description():
                         "use_sim_camera_extrinsics": use_sim_camera_extrinsics,
                         "default_target_object": mujoco_target_object,
                         "default_target_pos": mujoco_target_pos,
+                        "target_motion": mujoco_target_motion,
+                        "target_motion_amplitude": ParameterValue(
+                            mujoco_target_motion_amplitude, value_type=float
+                        ),
+                        "target_motion_travel_time": ParameterValue(
+                            mujoco_target_motion_travel_time, value_type=float
+                        ),
+                        "target_motion_dwell_time": ParameterValue(
+                            mujoco_target_motion_dwell_time, value_type=float
+                        ),
+                        "target_motion_delay": ParameterValue(
+                            mujoco_target_motion_delay, value_type=float
+                        ),
                         "default_traj_log": mujoco_traj_log,
                         "enable_obstacle": mujoco_enable_obstacle,
                         "obstacle_body": mujoco_obstacle_body,
@@ -222,6 +293,21 @@ def generate_launch_description():
                         "grasp_track_source": mujoco_track_source,
                         "grasp_replan_max_attempts": mujoco_replan_attempts,
                         "grasp_final_approach_timeout": mujoco_final_approach_timeout,
+                        "grasp_final_dist": ParameterValue(
+                            grasp_final_dist, value_type=float
+                        ),
+                        "grasp_final_timeout_close_dist": ParameterValue(
+                            grasp_final_timeout_close_dist, value_type=float
+                        ),
+                        "grasp_final_stable_time": ParameterValue(
+                            grasp_final_stable_time, value_type=float
+                        ),
+                        "grasp_close_tracking_confidence": ParameterValue(
+                            grasp_close_tracking_confidence, value_type=float
+                        ),
+                        "grasp_close_target_speed": ParameterValue(
+                            grasp_close_target_speed, value_type=float
+                        ),
                         "tracking_topic": tracking_topic,
                         "obstacle_cloud_topic": obstacle_cloud_topic,
                     }

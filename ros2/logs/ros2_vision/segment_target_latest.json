@@ -1,24 +1,26 @@
 {
   "ok": true,
   "target_prompt": "red cube",
+  "segmentation_mode": "color",
+  "target_color_rgb": "255,0,0",
   "bbox_xyxy": [
-    385.0,
-    240.0,
-    396.0,
-    254.0
+    364.0,
+    214.0,
+    382.0,
+    233.0
   ],
-  "score": 0.5,
-  "fallback_red_mask": true,
-  "mask_pixels": 80,
-  "expanded_mask_pixels": 238,
+  "score": 1.0,
+  "fallback_red_mask": false,
+  "mask_pixels": 380,
+  "expanded_mask_pixels": 462,
   "mask_expand_ratio": 0.05,
   "use_expanded_mask_for_target_cloud": false,
-  "n_points": 80,
-  "n_roi_points": 238,
+  "n_points": 380,
+  "n_roi_points": 462,
   "center_camera": [
-    0.12982800602912903,
-    0.014010220766067505,
-    0.5842710137367249
+    0.09993884712457657,
+    -0.029888251796364784,
+    0.5842669010162354
   ],
-  "stamp_s": 1785146984.7052035
+  "stamp_s": 1785234079.6761446
 }

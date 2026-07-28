@@ -207,7 +207,7 @@ void PlanGrasp_Result_fini_function(void * message_memory)
   typed_message->~PlanGrasp_Result();
 }
 
-static const ::rosidl_typesupport_introspection_cpp::MessageMember PlanGrasp_Result_message_member_array[7] = {
+static const ::rosidl_typesupport_introspection_cpp::MessageMember PlanGrasp_Result_message_member_array[8] = {
   {
     "success",  // name
     ::rosidl_typesupport_introspection_cpp::ROS_TYPE_BOOLEAN,  // type
@@ -277,6 +277,23 @@ static const ::rosidl_typesupport_introspection_cpp::MessageMember PlanGrasp_Res
     nullptr  // resize(index) function pointer
   },
   {
+    "target_center_pose",  // name
+    ::rosidl_typesupport_introspection_cpp::ROS_TYPE_MESSAGE,  // type
+    0,  // upper bound of string
+    ::rosidl_typesupport_introspection_cpp::get_message_type_support_handle<geometry_msgs::msg::PoseStamped>(),  // members of sub message
+    false,  // is array
+    0,  // array size
+    false,  // is upper bound
+    offsetof(soarm100_interfaces::action::PlanGrasp_Result, target_center_pose),  // bytes offset in struct
+    nullptr,  // default value
+    nullptr,  // size() function pointer
+    nullptr,  // get_const(index) function pointer
+    nullptr,  // get(index) function pointer
+    nullptr,  // fetch(index, &value) function pointer
+    nullptr,  // assign(index, value) function pointer
+    nullptr  // resize(index) function pointer
+  },
+  {
     "grasp_score",  // name
     ::rosidl_typesupport_introspection_cpp::ROS_TYPE_FLOAT,  // type
     0,  // upper bound of string
@@ -332,7 +349,7 @@ static const ::rosidl_typesupport_introspection_cpp::MessageMember PlanGrasp_Res
 static const ::rosidl_typesupport_introspection_cpp::MessageMembers PlanGrasp_Result_message_members = {
   "soarm100_interfaces::action",  // message namespace
   "PlanGrasp_Result",  // message name
-  7,  // number of fields
+  8,  // number of fields
   sizeof(soarm100_interfaces::action::PlanGrasp_Result),
   PlanGrasp_Result_message_member_array,  // message members
   PlanGrasp_Result_init_function,  // function to initialize message memory (memory has to be allocated)

@@ -230,6 +230,12 @@ class AnyGraspPlannerNode(Node):
             result.reason = f"ok selected_index={selected_index} ik_filter={bool(self._param('enable_ik_filter'))}"
             result.selected_grasp_pose = _pose_from_grasp(pos, tcp_rot, stamp=stamp, frame_id=frame_id)
             result.selected_pregrasp_pose = _pose_from_grasp(pre, tcp_rot, stamp=stamp, frame_id=frame_id)
+            result.target_center_pose = _pose_from_grasp(
+                np.nanmedian(pts, axis=0),
+                np.eye(3, dtype=np.float64),
+                stamp=stamp,
+                frame_id=frame_id,
+            )
             result.grasp_score = float(selected.get("score", 0.0))
             result.gripper_width = float(selected.get("width", 0.0))
             result.candidate_count = len(candidates)

@@ -37,7 +37,7 @@ void ExecutePlannedGrasp_Goal_fini_function(void * message_memory)
   typed_message->~ExecutePlannedGrasp_Goal();
 }
 
-static const ::rosidl_typesupport_introspection_cpp::MessageMember ExecutePlannedGrasp_Goal_message_member_array[8] = {
+static const ::rosidl_typesupport_introspection_cpp::MessageMember ExecutePlannedGrasp_Goal_message_member_array[9] = {
   {
     "pregrasp_pose",  // name
     ::rosidl_typesupport_introspection_cpp::ROS_TYPE_MESSAGE,  // type
@@ -64,6 +64,23 @@ static const ::rosidl_typesupport_introspection_cpp::MessageMember ExecutePlanne
     0,  // array size
     false,  // is upper bound
     offsetof(soarm100_interfaces::action::ExecutePlannedGrasp_Goal, grasp_pose),  // bytes offset in struct
+    nullptr,  // default value
+    nullptr,  // size() function pointer
+    nullptr,  // get_const(index) function pointer
+    nullptr,  // get(index) function pointer
+    nullptr,  // fetch(index, &value) function pointer
+    nullptr,  // assign(index, value) function pointer
+    nullptr  // resize(index) function pointer
+  },
+  {
+    "tracking_reference_pose",  // name
+    ::rosidl_typesupport_introspection_cpp::ROS_TYPE_MESSAGE,  // type
+    0,  // upper bound of string
+    ::rosidl_typesupport_introspection_cpp::get_message_type_support_handle<geometry_msgs::msg::PoseStamped>(),  // members of sub message
+    false,  // is array
+    0,  // array size
+    false,  // is upper bound
+    offsetof(soarm100_interfaces::action::ExecutePlannedGrasp_Goal, tracking_reference_pose),  // bytes offset in struct
     nullptr,  // default value
     nullptr,  // size() function pointer
     nullptr,  // get_const(index) function pointer
@@ -179,7 +196,7 @@ static const ::rosidl_typesupport_introspection_cpp::MessageMember ExecutePlanne
 static const ::rosidl_typesupport_introspection_cpp::MessageMembers ExecutePlannedGrasp_Goal_message_members = {
   "soarm100_interfaces::action",  // message namespace
   "ExecutePlannedGrasp_Goal",  // message name
-  8,  // number of fields
+  9,  // number of fields
   sizeof(soarm100_interfaces::action::ExecutePlannedGrasp_Goal),
   ExecutePlannedGrasp_Goal_message_member_array,  // message members
   ExecutePlannedGrasp_Goal_init_function,  // function to initialize message memory (memory has to be allocated)

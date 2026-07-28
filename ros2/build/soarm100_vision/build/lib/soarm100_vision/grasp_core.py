@@ -9,6 +9,7 @@ import numpy as np
 class GraspPhase(str, Enum):
     MOVE_TO_PREGRASP = "MOVE_TO_PREGRASP"
     FINAL_APPROACH = "FINAL_APPROACH"
+    COMMIT_GRASP = "COMMIT_GRASP"
     CLOSE = "CLOSE"
     LIFT = "LIFT"
     VERIFY = "VERIFY"
@@ -21,10 +22,14 @@ class GraspThresholds:
     pregrasp_success_dist: float = 0.035
     pregrasp_approach_success_deg: float = 60.0
     pregrasp_stable_time: float = 0.05
-    final_grasp_dist: float = 0.010
-    final_stable_time: float = 0.10
+    final_grasp_dist: float = 0.015
+    final_stable_time: float = 0.20
     # FINAL_APPROACH 最长等待时间（秒）；与 final_stable_time 解耦，不再用倍率相乘。
-    final_approach_timeout: float = 5.0
+    final_approach_timeout: float = 10.0
+    final_total_timeout: float = 20.0
+    final_timeout_close_dist: float = 0.030
+    close_tracking_confidence: float = 0.45
+    close_target_speed: float = 0.005
     close_time: float = 0.80
     lift_time: float = 0.80
     lift_height: float = 0.035
@@ -67,6 +72,7 @@ class TrackingObservation:
     reason: str = ""
     confidence: float = 0.0
     n_points: int = 0
+    replan_required: bool = False
 
 
 @dataclass
@@ -77,6 +83,7 @@ class GraspObservation:
     final_err: float = 0.0
     target_lift: float = 0.0
     target_gripper_contacts: int = 0
+    target_speed: float = 0.0
     tracking: TrackingObservation | None = None
 
 
@@ -116,6 +123,8 @@ class GraspStateMachine:
         self.replan_wait_counter = 0
         self.tracking_invalid_counter = 0
         self.tracking_ever_valid = False
+        self.tracking_frozen = False
+        self.close_gate: dict[str, float | bool | str | int] = {}
         self.last_reason = ""
 
     def reset(self, plan: GraspPlan) -> None:
@@ -129,11 +138,14 @@ class GraspStateMachine:
         self.replan_wait_counter = 0
         self.tracking_invalid_counter = 0
         self.tracking_ever_valid = False
+        self.tracking_frozen = False
+        self.close_gate = {}
         self.last_reason = "reset"
 
     def accept_replan(self, plan: GraspPlan) -> None:
-        self.replan_attempts += 1
+        next_attempt = self.replan_attempts + 1
         self.reset(plan)
+        self.replan_attempts = next_attempt
         self.last_reason = f"replan_accept attempt={self.replan_attempts}"
 
     def reject_replan(self, reason: str) -> None:
@@ -167,23 +179,77 @@ class GraspStateMachine:
             self.final_counter += 1
             stable_steps = self._steps(th.final_stable_time, min_steps=1)
             timeout_steps = max(stable_steps, self._steps(th.final_approach_timeout, min_steps=1))
-            if obs.final_err <= th.final_grasp_dist:
+            total_timeout_steps = max(
+                timeout_steps,
+                self._steps(th.final_total_timeout, min_steps=1),
+            )
+            tracking_ok = (
+                obs.tracking is None
+                or (
+                    obs.tracking.valid
+                    and obs.tracking.confidence >= th.close_tracking_confidence
+                )
+            )
+            target_stable = obs.target_speed <= th.close_target_speed
+            position_ok = obs.final_err <= th.final_grasp_dist
+            if position_ok and tracking_ok and target_stable:
                 self.success_counter += 1
             else:
                 self.success_counter = 0
-            if self._should_replan(obs):
-                self.phase = GraspPhase.REPLAN_GRASP
-                self.replan_wait_counter = 0
-                self.last_reason = "tracking_replan"
-                return self._intent(plan.pregrasp_pos, plan.grasp_quat_wxyz, "open", should_plan_grasp=True, reason=self.last_reason)
             reached = self.success_counter >= stable_steps
             timed_out = self.final_counter >= timeout_steps
-            if reached or timed_out:
-                self.phase = GraspPhase.CLOSE
-                self.last_reason = "final_stable" if reached else "final_timeout"
+            timeout_close = (
+                timed_out
+                and tracking_ok
+                and target_stable
+                and obs.final_err <= th.final_timeout_close_dist
+            )
+            self.close_gate = {
+                "position_ok": bool(position_ok),
+                "tracking_ok": bool(tracking_ok),
+                "target_stable": bool(target_stable),
+                "final_err_m": float(obs.final_err),
+                "target_speed_mps": float(obs.target_speed),
+                "tracking_confidence": (
+                    float(obs.tracking.confidence) if obs.tracking is not None else 1.0
+                ),
+                "stable_counter": int(self.success_counter),
+                "stable_required": int(stable_steps),
+                "timed_out": bool(timed_out),
+            }
+            if reached or timeout_close:
+                self.phase = GraspPhase.COMMIT_GRASP
+                self.tracking_frozen = True
+                self.last_reason = (
+                    "close_gate_stable" if reached else "close_gate_timeout_near"
+                )
                 self.success_counter = 0
                 self.close_counter = 0
+            elif self.final_counter >= total_timeout_steps:
+                self.phase = GraspPhase.FAILED
+                self.last_reason = "final_total_timeout"
+                return self._intent(
+                    plan.grasp_pos,
+                    plan.grasp_quat_wxyz,
+                    "open",
+                    done=True,
+                    success=False,
+                    reason=self.last_reason,
+                )
             return self._intent(plan.grasp_pos, plan.grasp_quat_wxyz, "open", reason=self.last_reason)
+
+        if self.phase == GraspPhase.COMMIT_GRASP:
+            self.phase = GraspPhase.CLOSE
+            self.close_counter = 0
+            self.tracking_frozen = True
+            self.last_reason = "grasp_pose_committed"
+            return self._intent(
+                plan.grasp_pos,
+                plan.grasp_quat_wxyz,
+                "open",
+                should_freeze_arm=True,
+                reason=self.last_reason,
+            )
 
         if self.phase == GraspPhase.CLOSE:
             self.close_counter += 1
@@ -242,7 +308,12 @@ class GraspStateMachine:
     def _apply_tracking(self, obs: GraspObservation) -> None:
         if self.plan is None or self.plan0 is None or obs.tracking is None:
             return
-        if self.phase not in (GraspPhase.FINAL_APPROACH, GraspPhase.CLOSE):
+        if self.tracking_frozen:
+            return
+        if self.phase == GraspPhase.MOVE_TO_PREGRASP:
+            if obs.dist_to_control > self.thresholds.track_activate_dist:
+                return
+        elif self.phase != GraspPhase.FINAL_APPROACH:
             return
         track = obs.tracking
         if track.valid:
@@ -258,16 +329,6 @@ class GraspStateMachine:
             self.plan.pregrasp_pos = self.plan0.pregrasp_pos + gain * delta
             self.plan.grasp_pos = self.plan0.grasp_pos + gain * delta
             self.last_reason = f"track_update source={track.source}"
-
-    def _should_replan(self, obs: GraspObservation) -> bool:
-        if obs.tracking is None or self.replan_attempts >= self.thresholds.replan_max_attempts:
-            return False
-        if self.phase != GraspPhase.FINAL_APPROACH:
-            return False
-        if obs.tracking.valid:
-            delta_norm = float(np.linalg.norm(obs.tracking.delta_world))
-            return delta_norm >= self.thresholds.replan_delta
-        return self.tracking_ever_valid and self.tracking_invalid_counter >= 3
 
     def _steps(self, duration: float, *, min_steps: int) -> int:
         return max(int(np.ceil(max(float(duration), 0.0) / max(self.ctrl_dt, 1e-6))), int(min_steps))

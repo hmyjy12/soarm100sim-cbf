@@ -1,0 +1,4 @@
+[INFO] [1785147941.300084229] [wrist_tracker]: RGB wrist tracker ready: rgb=/wrist/color/image_raw hint=/wrist/tracking_roi tracked=/target/tracked_2d
+[WARN] [1785147955.595925504] [wrist_tracker]: saved low-confidence wrist diagnostics: frame=14 confidence=0.321 dir=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/logs/ros2_tracking_failures
+[WARN] [1785147955.728649590] [wrist_tracker]: saved low-confidence wrist diagnostics: frame=16 confidence=0.379 dir=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/logs/ros2_tracking_failures
+[WARN] [1785147955.792837192] [wrist_tracker]: saved low-confidence wrist diagnostics: frame=17 confidence=0.342 dir=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/logs/ros2_tracking_failures

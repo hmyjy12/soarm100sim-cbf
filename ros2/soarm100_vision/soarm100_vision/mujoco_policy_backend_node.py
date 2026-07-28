@@ -61,6 +61,11 @@ class MujocoPolicyBackendNode(Node):
         self.declare_parameter("python_executable", "python")
         self.declare_parameter("default_target_object", "cube")
         self.declare_parameter("default_target_pos", "0.42,0.08,0.021")
+        self.declare_parameter("target_motion", "none")
+        self.declare_parameter("target_motion_amplitude", 0.050)
+        self.declare_parameter("target_motion_travel_time", 2.0)
+        self.declare_parameter("target_motion_dwell_time", 1.0)
+        self.declare_parameter("target_motion_delay", 0.5)
         self.declare_parameter("default_traj_log", "logs/ros2_policy_backend_grasp.jsonl")
         self.declare_parameter("enable_obstacle", False)
         self.declare_parameter("obstacle_body", "obstacle_rod_mount")
@@ -88,9 +93,14 @@ class MujocoPolicyBackendNode(Node):
         self.declare_parameter("timeout_s", 90.0)
         self.declare_parameter("enable_internal_tracking", True)
         self.declare_parameter("grasp_track_source", "wrist")
-        self.declare_parameter("grasp_track_max_delta", 0.020)
+        self.declare_parameter("grasp_track_max_delta", 0.080)
         self.declare_parameter("grasp_replan_max_attempts", 2)
         self.declare_parameter("grasp_final_approach_timeout", 10.0)
+        self.declare_parameter("grasp_final_dist", 0.035)
+        self.declare_parameter("grasp_final_timeout_close_dist", 0.040)
+        self.declare_parameter("grasp_final_stable_time", 0.20)
+        self.declare_parameter("grasp_close_tracking_confidence", 0.45)
+        self.declare_parameter("grasp_close_target_speed", 0.005)
         self.declare_parameter("replan_timeout_s", 70.0)
         self.declare_parameter("replan_top_k", 45)
         self.declare_parameter("segment_service", "segment_target")
@@ -424,6 +434,18 @@ class MujocoPolicyBackendNode(Node):
                     checkpoint=str(self._param("checkpoint")),
                     target_object=str(cfg.target_object),
                     target_pos=str(cfg.target_pos),
+                    target_motion=str(self._param("target_motion")),
+                    target_motion_amplitude=float(
+                        self._param("target_motion_amplitude")
+                    ),
+                    target_motion_travel_time=float(
+                        self._param("target_motion_travel_time")
+                    ),
+                    target_motion_dwell_time=float(
+                        self._param("target_motion_dwell_time")
+                    ),
+                    target_motion_delay=float(self._param("target_motion_delay")),
+                    enable_tracking=bool(cfg.enable_internal_tracking),
                     enable_obstacle=bool(self._param("enable_obstacle")),
                     obstacle_mode=str(self._param("obstacle_mode")),
                     obstacle_body=str(self._param("obstacle_body")),
@@ -437,6 +459,20 @@ class MujocoPolicyBackendNode(Node):
                     replan_max_attempts=int(cfg.grasp_replan_max_attempts),
                     final_approach_timeout=float(
                         self._param("grasp_final_approach_timeout")
+                    ),
+                    final_grasp_dist=float(self._param("grasp_final_dist")),
+                    final_timeout_close_dist=float(
+                        self._param("grasp_final_timeout_close_dist")
+                    ),
+                    final_stable_time=float(
+                        self._param("grasp_final_stable_time")
+                    ),
+                    track_max_delta=float(cfg.grasp_track_max_delta),
+                    close_tracking_confidence=float(
+                        self._param("grasp_close_tracking_confidence")
+                    ),
+                    close_target_speed=float(
+                        self._param("grasp_close_target_speed")
                     ),
                     speed=float(cfg.speed),
                     show_viewer=False,

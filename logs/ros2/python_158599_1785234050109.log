@@ -1,0 +1,1 @@
+[INFO] [1785234050.157396689] [wrist_tracker]: RGB wrist tracker ready: mode=color color=255,0,0 rgb=/wrist/color/image_raw hint=/wrist/tracking_roi tracked=/target/tracked_2d

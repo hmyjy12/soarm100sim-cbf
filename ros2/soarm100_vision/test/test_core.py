@@ -16,7 +16,12 @@ from soarm100_vision.policy_backend_core import (
     PoseWxyz,
     build_mujoco_external_grasp_cmd,
 )
+from soarm100_vision.mujoco_inprocess_runner import (
+    MujocoInProcessRunner,
+    MujocoRunnerConfig,
+)
 from soarm100_vision.sdf_cbf_core import TableFilter, VoxelPersistence, WorkspaceCrop
+from soarm100_vision.vision_utils import color_components, hsv_color_mask, parse_rgb
 
 
 def test_grasp_state_machine_tracks_position_only():
@@ -49,9 +54,15 @@ def test_final_approach_timeout_uses_independent_seconds():
         grasp_quat_wxyz=np.array([1.0, 0.0, 0.0, 0.0]),
         approach_axis_world=np.array([1.0, 0.0, 0.0]),
     )
-    # 0.10s @ 50Hz => 5 steps; still far from grasp so must time out, not final_stable.
+    # A near pose may commit on the soft timeout, but a far pose must not close.
     sm = GraspStateMachine(
-        GraspThresholds(final_approach_timeout=0.10, final_stable_time=0.10, final_grasp_dist=0.01),
+        GraspThresholds(
+            final_approach_timeout=0.10,
+            final_total_timeout=0.20,
+            final_stable_time=0.10,
+            final_grasp_dist=0.01,
+            final_timeout_close_dist=0.03,
+        ),
         ctrl_dt=0.02,
     )
     sm.reset(plan)
@@ -66,8 +77,169 @@ def test_final_approach_timeout_uses_independent_seconds():
             )
         )
     assert last is not None
-    assert last.phase == GraspPhase.CLOSE
-    assert sm.last_reason == "final_timeout"
+    assert last.phase == GraspPhase.FINAL_APPROACH
+    assert sm.last_reason != "close_gate_timeout_near"
+
+
+def test_close_gate_freezes_tracking_until_replan():
+    plan = GraspPlan(
+        pregrasp_pos=np.array([0.30, 0.00, 0.10]),
+        grasp_pos=np.array([0.34, 0.00, 0.07]),
+        grasp_quat_wxyz=np.array([1.0, 0.0, 0.0, 0.0]),
+        approach_axis_world=np.array([1.0, 0.0, 0.0]),
+    )
+    sm = GraspStateMachine(
+        GraspThresholds(
+            final_grasp_dist=0.015,
+            final_stable_time=0.04,
+            close_tracking_confidence=0.45,
+            close_target_speed=0.005,
+        ),
+        ctrl_dt=0.02,
+    )
+    sm.reset(plan)
+    sm.phase = GraspPhase.FINAL_APPROACH
+    tracking = TrackingObservation(
+        valid=True,
+        confidence=0.9,
+        delta_world=np.array([0.005, 0.0, 0.0]),
+        source="wrist",
+    )
+    obs = GraspObservation(
+        tcp_pos=plan.grasp_pos.copy(),
+        dist_to_control=0.01,
+        final_err=0.01,
+        target_speed=0.0,
+        tracking=tracking,
+    )
+    sm.step(obs)
+    intent = sm.step(obs)
+    assert intent.phase == GraspPhase.COMMIT_GRASP
+    committed = sm.plan.grasp_pos.copy()
+
+    intent = sm.step(
+        GraspObservation(
+            tcp_pos=committed.copy(),
+            dist_to_control=0.0,
+            final_err=0.0,
+            target_speed=0.0,
+            tracking=TrackingObservation(
+                valid=True,
+                confidence=1.0,
+                delta_world=np.array([-0.02, 0.02, 0.0]),
+                source="wrist",
+            ),
+        )
+    )
+    assert intent.phase == GraspPhase.CLOSE
+    assert intent.should_freeze_arm
+    assert np.allclose(sm.plan.grasp_pos, committed)
+
+
+def test_default_close_gate_accepts_observed_policy_error():
+    plan = GraspPlan(
+        pregrasp_pos=np.array([0.30, 0.00, 0.10]),
+        grasp_pos=np.array([0.34, 0.00, 0.07]),
+        grasp_quat_wxyz=np.array([1.0, 0.0, 0.0, 0.0]),
+        approach_axis_world=np.array([1.0, 0.0, 0.0]),
+    )
+    sm = GraspStateMachine(GraspThresholds(final_stable_time=0.04), ctrl_dt=0.02)
+    sm.reset(plan)
+    sm.phase = GraspPhase.FINAL_APPROACH
+    obs = GraspObservation(
+        tcp_pos=plan.grasp_pos.copy(),
+        dist_to_control=0.032,
+        final_err=0.032,
+        target_speed=0.0,
+        tracking=TrackingObservation(valid=True, confidence=0.9, source="wrist"),
+    )
+    sm.step(obs)
+    intent = sm.step(obs)
+    assert intent.phase == GraspPhase.COMMIT_GRASP
+    assert intent.reason == "close_gate_stable"
+
+
+def test_tracking_loss_before_close_does_not_trigger_replan():
+    plan = GraspPlan(
+        pregrasp_pos=np.array([0.30, 0.00, 0.10]),
+        grasp_pos=np.array([0.34, 0.00, 0.07]),
+        grasp_quat_wxyz=np.array([1.0, 0.0, 0.0, 0.0]),
+        approach_axis_world=np.array([1.0, 0.0, 0.0]),
+    )
+    sm = GraspStateMachine(
+        GraspThresholds(final_approach_timeout=0.10, final_total_timeout=0.20),
+        ctrl_dt=0.02,
+    )
+    sm.reset(plan)
+    sm.phase = GraspPhase.FINAL_APPROACH
+    for _ in range(6):
+        intent = sm.step(
+            GraspObservation(
+                tcp_pos=plan.grasp_pos.copy(),
+                dist_to_control=0.01,
+                final_err=0.01,
+                tracking=TrackingObservation(
+                    valid=False,
+                    confidence=0.0,
+                    replan_required=True,
+                    source="wrist",
+                ),
+            )
+        )
+    assert intent.phase == GraspPhase.FINAL_APPROACH
+    assert not intent.should_plan_grasp
+
+
+def test_dynamic_target_starts_at_anchor_and_dwells_at_endpoints():
+    runner = MujocoInProcessRunner(
+        MujocoRunnerConfig(
+            repo_root=Path("."),
+            target_motion="line",
+            target_motion_amplitude=0.03,
+            target_motion_travel_time=2.0,
+            target_motion_dwell_time=1.0,
+            target_motion_delay=2.0,
+            ctrl_dt=0.02,
+        )
+    )
+    anchor = np.array([0.42, 0.08, 0.021])
+    at_start, speed_start, phase_start = runner._target_motion_state(2.0, anchor)
+    at_positive, speed_positive, phase_positive = runner._target_motion_state(
+        3.0, anchor
+    )
+    at_negative, speed_negative, phase_negative = runner._target_motion_state(
+        6.0, anchor
+    )
+    at_cycle, speed_cycle, _ = runner._target_motion_state(8.0, anchor)
+
+    assert np.allclose(at_start, anchor)
+    assert np.allclose(speed_start, 0.0)
+    assert phase_start == "move_positive_y"
+    assert np.isclose(at_positive[1], anchor[1] + 0.03)
+    assert np.allclose(speed_positive, 0.0, atol=1.0e-12)
+    assert phase_positive == "dwell_positive_y"
+    assert np.isclose(at_negative[1], anchor[1] - 0.03)
+    assert np.allclose(speed_negative, 0.0, atol=1.0e-12)
+    assert phase_negative == "dwell_negative_y"
+    assert np.allclose(at_cycle, anchor)
+    assert np.allclose(speed_cycle, 0.0, atol=1.0e-12)
+
+
+def test_configurable_color_mask_selects_only_target_color():
+    rgb = np.zeros((80, 100, 3), dtype=np.uint8)
+    rgb[20:50, 30:70] = np.array([245, 15, 12], dtype=np.uint8)
+    rgb[5:15, 5:15] = np.array([20, 230, 20], dtype=np.uint8)
+    mask = hsv_color_mask(
+        rgb,
+        target_rgb=parse_rgb("255,0,0"),
+        hue_tolerance_deg=18.0,
+        saturation_min=0.45,
+        value_min=0.30,
+    )
+    components = color_components(mask, min_area=20)
+    assert len(components) == 1
+    assert components[0]["bbox"] == (30, 20, 70, 50)
+    assert int(components[0]["area"]) == 1200
 
 
 def test_replan_accept_replaces_plan_and_counts_attempt():

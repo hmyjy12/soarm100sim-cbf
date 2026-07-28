@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import asyncio
+import faulthandler
 import os
 from pathlib import Path
 import threading
@@ -14,12 +15,18 @@ from rclpy.callback_groups import ReentrantCallbackGroup
 from rclpy.executors import MultiThreadedExecutor
 from rclpy.node import Node
 from geometry_msgs.msg import PoseStamped
-from sensor_msgs.msg import CameraInfo, Image, PointCloud2
-from std_msgs.msg import Bool
+from sensor_msgs.msg import CameraInfo, Image, PointCloud2, RegionOfInterest
+from std_msgs.msg import Bool, Float64MultiArray, String
 
 from soarm100_interfaces.action import ExecutePlannedGrasp, PlanGrasp
+from soarm100_interfaces.msg import TrackedTarget2D
 from soarm100_interfaces.srv import SegmentTarget
-from soarm100_vision.mujoco_camera_publisher_node import _camera_info, _depth_msg, _rgb_msg
+from soarm100_vision.mujoco_camera_publisher_node import (
+    _camera_info,
+    _depth_msg,
+    _mask_msg,
+    _rgb_msg,
+)
 from soarm100_vision.vision_utils import pointcloud2_to_xyz
 from soarm100_vision.policy_backend_core import (
     ExecutionParseState,
@@ -54,21 +61,32 @@ class MujocoPolicyBackendNode(Node):
         self.declare_parameter("python_executable", "python")
         self.declare_parameter("default_target_object", "cube")
         self.declare_parameter("default_target_pos", "0.42,0.08,0.021")
+        self.declare_parameter("target_motion", "none")
+        self.declare_parameter("target_motion_amplitude", 0.030)
+        self.declare_parameter("target_motion_travel_time", 2.0)
+        self.declare_parameter("target_motion_dwell_time", 1.0)
+        self.declare_parameter("target_motion_delay", 2.0)
         self.declare_parameter("default_traj_log", "logs/ros2_policy_backend_grasp.jsonl")
         self.declare_parameter("enable_obstacle", False)
         self.declare_parameter("obstacle_body", "obstacle_rod_mount")
         self.declare_parameter("obstacle_pos", "0.16,0.09,0.02")
+        self.declare_parameter("obstacle_motion", "none")
+        self.declare_parameter("obstacle_motion_amp", "0.03,0.00,0.00")
+        self.declare_parameter("obstacle_motion_period", 5.0)
         self.declare_parameter("backend_mode", "subprocess")
         self.declare_parameter("inprocess_viewer", False)
+        self.declare_parameter("sim_state_topic", "/mujoco/sim_state")
         self.declare_parameter("mjcf", "SO-ARM100/Simulation/SO100/mujoco/scene_plus_norod.xml")
         self.declare_parameter("checkpoint", "rl/checkpoints/2026-07-06_14-44-29/PPO/checkpoints/best_agent.pt")
         self.declare_parameter("calib_json", "logs/calib/camera_calib.json")
         self.declare_parameter("use_sim_camera_extrinsics", True)
         self.declare_parameter("input_camera_name", "scene_depth")
-        self.declare_parameter("tracking_topic", "/target/tracked_center")
+        self.declare_parameter("tracking_topic", "/target/tracked_2d")
         self.declare_parameter("tracking_camera_name", "wrist_rgb")
         self.declare_parameter("obstacle_cloud_topic", "/obstacle/cloud")
+        self.declare_parameter("obstacle_status_topic", "/obstacle/status")
         self.declare_parameter("obstacle_camera_name", "scene_depth")
+        self.declare_parameter("obstacle_mode", "static")
         self.declare_parameter("base_frame", "base")
         self.declare_parameter("speed", 1.0)
         self.declare_parameter("headless", False)
@@ -77,17 +95,31 @@ class MujocoPolicyBackendNode(Node):
         self.declare_parameter("grasp_track_source", "wrist")
         self.declare_parameter("grasp_track_max_delta", 0.020)
         self.declare_parameter("grasp_replan_max_attempts", 2)
+        self.declare_parameter("grasp_final_approach_timeout", 10.0)
+        self.declare_parameter("grasp_final_dist", 0.015)
+        self.declare_parameter("grasp_final_stable_time", 0.20)
+        self.declare_parameter("grasp_close_tracking_confidence", 0.45)
+        self.declare_parameter("grasp_close_target_speed", 0.005)
         self.declare_parameter("replan_timeout_s", 70.0)
         self.declare_parameter("replan_top_k", 45)
         self.declare_parameter("segment_service", "segment_target")
         self.declare_parameter("plan_action", "plan_grasp")
         self.declare_parameter("target_cloud_topic", "/target/cloud")
         self.declare_parameter("backend_camera_active_topic", "/mujoco/backend_camera_active")
+        self.declare_parameter(
+            "camera_paused_topic", "/mujoco/standalone_camera_paused"
+        )
         self.declare_parameter("extra_args", "")
         self._lock = threading.Lock()
         self._cloud_condition = threading.Condition()
-        self._tracked_pos_base: np.ndarray | None = None
+        self._camera_pause_condition = threading.Condition()
+        self._standalone_camera_paused = False
+        self._tracked_2d: dict | None = None
+        self._tracking_seq = 0
+        self._obstacle_status = ""
+        self._wrist_diag_seq = 0
         self._obstacle_points_base = np.zeros((0, 3), dtype=np.float32)
+        self._obstacle_cloud_seq = 0
         self._target_cloud: PointCloud2 | None = None
         self._target_cloud_seq = 0
         self._callback_group = ReentrantCallbackGroup()
@@ -107,17 +139,37 @@ class MujocoPolicyBackendNode(Node):
             str(self._param("backend_camera_active_topic")),
             1,
         )
+        self._sim_state_pub = self.create_publisher(
+            Float64MultiArray, str(self._param("sim_state_topic")), 1
+        )
+        self.create_subscription(
+            Bool,
+            str(self._param("camera_paused_topic")),
+            self._on_camera_paused,
+            1,
+            callback_group=self._callback_group,
+        )
         self._scene_rgb_pub = self.create_publisher(Image, "/camera/color/image_raw", 1)
         self._scene_depth_pub = self.create_publisher(Image, "/camera/depth/image_rect_raw", 1)
         self._scene_info_pub = self.create_publisher(CameraInfo, "/camera/color/camera_info", 1)
+        self._robot_mask_pub = self.create_publisher(Image, "/robot/mask", 1)
         self._wrist_rgb_pub = self.create_publisher(Image, "/wrist/color/image_raw", 1)
-        self._wrist_depth_pub = self.create_publisher(Image, "/wrist/depth/image_rect_raw", 1)
-        self._wrist_info_pub = self.create_publisher(CameraInfo, "/wrist/depth/camera_info", 1)
+        self._wrist_info_pub = self.create_publisher(CameraInfo, "/wrist/color/camera_info", 1)
+        self._tracking_roi_pub = self.create_publisher(
+            RegionOfInterest, "/wrist/tracking_roi", 1
+        )
         self.create_subscription(
-            PoseStamped,
+            TrackedTarget2D,
             str(self.get_parameter("tracking_topic").value),
             self._on_tracking,
             1,
+            callback_group=self._callback_group,
+        )
+        self.create_subscription(
+            String,
+            str(self._param("obstacle_status_topic")),
+            self._on_obstacle_status,
+            10,
             callback_group=self._callback_group,
         )
         self.create_subscription(
@@ -154,21 +206,38 @@ class MujocoPolicyBackendNode(Node):
     def _cancel(self, _goal_handle) -> CancelResponse:
         return CancelResponse.ACCEPT
 
-    def _on_tracking(self, msg: PoseStamped) -> None:
-        repo = Path(str(self._param("repo_root"))).expanduser().resolve()
-        try:
-            converted = pose_to_base_from_calib(
-                msg,
-                repo_root=repo,
-                calib_json=str(self._param("calib_json")),
-                input_camera_name=str(self._param("tracking_camera_name")),
-                base_frame=str(self._param("base_frame")),
-            )
-            p = converted.pose.position
-            with self._lock:
-                self._tracked_pos_base = np.array([p.x, p.y, p.z], dtype=np.float64)
-        except Exception as exc:
-            self.get_logger().warn(f"tracking pose conversion failed: {exc}")
+    def _on_tracking(self, msg: TrackedTarget2D) -> None:
+        with self._lock:
+            self._tracking_seq += 1
+            self._tracked_2d = {
+                "seq": int(self._tracking_seq),
+                "valid": bool(msg.valid),
+                "u": float(msg.u),
+                "v": float(msg.v),
+                "reference_u": float(msg.reference_u),
+                "reference_v": float(msg.reference_v),
+                "delta_u": float(msg.delta_u),
+                "delta_v": float(msg.delta_v),
+                "width": float(msg.width),
+                "height": float(msg.height),
+                "image_width": int(msg.image_width),
+                "image_height": int(msg.image_height),
+                "confidence": float(msg.confidence),
+                "lost_frames": int(msg.lost_frames),
+                "replan_required": bool(msg.replan_required),
+                "reason": str(msg.reason),
+            }
+
+    def _on_obstacle_status(self, msg: String) -> None:
+        status = str(msg.data)
+        with self._lock:
+            self._obstacle_status = status
+        self.get_logger().info(f"obstacle_init {status}")
+
+    def _on_camera_paused(self, msg: Bool) -> None:
+        with self._camera_pause_condition:
+            self._standalone_camera_paused = bool(msg.data)
+            self._camera_pause_condition.notify_all()
 
     def _on_obstacle_cloud(self, msg: PointCloud2) -> None:
         repo = Path(str(self._param("repo_root"))).expanduser().resolve()
@@ -192,6 +261,7 @@ class MujocoPolicyBackendNode(Node):
                     )
             with self._lock:
                 self._obstacle_points_base = np.asarray(pts, dtype=np.float32).reshape(-1, 3).copy()
+                self._obstacle_cloud_seq += 1
         except Exception as exc:
             self.get_logger().warn(f"obstacle cloud conversion failed: {exc}")
 
@@ -210,6 +280,7 @@ class MujocoPolicyBackendNode(Node):
         raw_grasp_pose = goal.grasp_pose
         pregrasp_pose = self._pose_to_base(goal.pregrasp_pose, repo)
         grasp_pose = self._pose_to_base(goal.grasp_pose, repo)
+        tracking_pose = self._pose_to_base(goal.tracking_reference_pose, repo)
         target_object = str(goal.target_object).strip() or str(self._param("default_target_object"))
         target_pos = str(goal.target_pos).strip() or str(self._param("default_target_pos"))
         traj_log = str(goal.traj_log).strip() or str(self._param("default_traj_log"))
@@ -220,6 +291,7 @@ class MujocoPolicyBackendNode(Node):
             f"{_pose_summary('raw_grasp', raw_grasp_pose)} "
             f"{_pose_summary('base_pregrasp', pregrasp_pose)} "
             f"{_pose_summary('base_grasp', grasp_pose)} "
+            f"{_pose_summary('tracking_reference', tracking_pose)} "
             f"width={float(goal.gripper_width)*1000.0:.1f}mm "
             f"target={target_object}@{target_pos} traj_log={traj_log}"
         )
@@ -241,6 +313,7 @@ class MujocoPolicyBackendNode(Node):
         planned = PlannedGraspCommand(
             pregrasp=PoseWxyz.from_ros_pose(pregrasp_pose),
             grasp=PoseWxyz.from_ros_pose(grasp_pose),
+            tracking_reference=PoseWxyz.from_ros_pose(tracking_pose),
             gripper_width=float(goal.gripper_width),
         )
         mode = str(self._param("backend_mode")).strip().lower()
@@ -340,6 +413,18 @@ class MujocoPolicyBackendNode(Node):
             goal_handle.publish_feedback(feedback)
 
         self._camera_active_pub.publish(Bool(data=True))
+        with self._camera_pause_condition:
+            pause_deadline = time.monotonic() + 2.0
+            while not self._standalone_camera_paused:
+                remaining = pause_deadline - time.monotonic()
+                if remaining <= 0.0:
+                    self.get_logger().warn(
+                        "standalone camera pause acknowledgement timed out; "
+                        "continuing after safety delay"
+                    )
+                    break
+                self._camera_pause_condition.wait(timeout=remaining)
+        time.sleep(0.10)
         try:
             runner = MujocoInProcessRunner(
                 MujocoRunnerConfig(
@@ -348,23 +433,55 @@ class MujocoPolicyBackendNode(Node):
                     checkpoint=str(self._param("checkpoint")),
                     target_object=str(cfg.target_object),
                     target_pos=str(cfg.target_pos),
+                    target_motion=str(self._param("target_motion")),
+                    target_motion_amplitude=float(
+                        self._param("target_motion_amplitude")
+                    ),
+                    target_motion_travel_time=float(
+                        self._param("target_motion_travel_time")
+                    ),
+                    target_motion_dwell_time=float(
+                        self._param("target_motion_dwell_time")
+                    ),
+                    target_motion_delay=float(self._param("target_motion_delay")),
+                    enable_tracking=bool(cfg.enable_internal_tracking),
                     enable_obstacle=bool(self._param("enable_obstacle")),
+                    obstacle_mode=str(self._param("obstacle_mode")),
                     obstacle_body=str(self._param("obstacle_body")),
                     obstacle_pos=str(self._param("obstacle_pos")),
+                    obstacle_motion=str(self._param("obstacle_motion")),
+                    obstacle_motion_amp=str(self._param("obstacle_motion_amp")),
+                    obstacle_motion_period=float(
+                        self._param("obstacle_motion_period")
+                    ),
                     enable_cbf=bool(cfg.enable_avoidance),
                     replan_max_attempts=int(cfg.grasp_replan_max_attempts),
+                    final_approach_timeout=float(
+                        self._param("grasp_final_approach_timeout")
+                    ),
+                    final_grasp_dist=float(self._param("grasp_final_dist")),
+                    final_stable_time=float(
+                        self._param("grasp_final_stable_time")
+                    ),
+                    close_tracking_confidence=float(
+                        self._param("grasp_close_tracking_confidence")
+                    ),
+                    close_target_speed=float(
+                        self._param("grasp_close_target_speed")
+                    ),
                     speed=float(cfg.speed),
-                    show_viewer=bool(self._param("inprocess_viewer")),
+                    show_viewer=False,
                     traj_log=str(cfg.traj_log),
                 )
             )
             run_res = runner.run(
                 planned,
                 feedback_cb=publish,
-                tracking_provider=self._latest_tracking_pos,
+                tracking_provider=self._latest_tracking,
                 obstacle_provider=self._latest_obstacle_points,
                 replan_provider=lambda attempt: self._request_replan(target_prompt, attempt),
                 camera_frame_cb=self._publish_sim_camera_frame,
+                sim_state_cb=self._publish_sim_state,
             )
             result.success = bool(run_res.success)
             result.reason = str(run_res.reason)
@@ -446,11 +563,14 @@ class MujocoPolicyBackendNode(Node):
         repo = Path(str(self._param("repo_root"))).expanduser().resolve()
         raw_pre = plan.selected_pregrasp_pose
         raw_grasp = plan.selected_grasp_pose
+        raw_tracking = plan.target_center_pose
         base_pre = self._pose_to_base(raw_pre, repo)
         base_grasp = self._pose_to_base(raw_grasp, repo)
+        base_tracking = self._pose_to_base(raw_tracking, repo)
         command = PlannedGraspCommand(
             pregrasp=PoseWxyz.from_ros_pose(base_pre),
             grasp=PoseWxyz.from_ros_pose(base_grasp),
+            tracking_reference=PoseWxyz.from_ros_pose(base_tracking),
             gripper_width=float(plan.gripper_width),
         )
         elapsed = time.monotonic() - started
@@ -487,42 +607,119 @@ class MujocoPolicyBackendNode(Node):
         stamp = self.get_clock().now().to_msg()
         scene_frame = "scene_depth_optical"
         wrist_frame = "wrist_rgb_optical"
-        scene_rgb = np.asarray(frame["scene_rgb"])
-        scene_depth = np.asarray(frame["scene_depth"])
-        wrist_rgb = np.asarray(frame["wrist_rgb"])
-        wrist_depth = np.asarray(frame["wrist_depth"])
-        h, w = scene_depth.shape[:2]
-        wh, ww = wrist_depth.shape[:2]
-        self._scene_rgb_pub.publish(_rgb_msg(scene_rgb, stamp=stamp, frame_id=scene_frame))
-        self._scene_depth_pub.publish(_depth_msg(scene_depth, stamp=stamp, frame_id=scene_frame))
-        self._scene_info_pub.publish(
-            _camera_info(
-                stamp=stamp,
-                frame_id=scene_frame,
-                width=w,
-                height=h,
-                fovy_deg=float(frame["scene_fovy"]),
+        if "scene_depth" in frame:
+            scene_depth = np.asarray(frame["scene_depth"])
+            h, w = scene_depth.shape[:2]
+            if "scene_rgb" in frame:
+                self._scene_rgb_pub.publish(
+                    _rgb_msg(np.asarray(frame["scene_rgb"]), stamp=stamp, frame_id=scene_frame)
+                )
+            self._scene_depth_pub.publish(
+                _depth_msg(scene_depth, stamp=stamp, frame_id=scene_frame)
             )
-        )
-        self._wrist_rgb_pub.publish(_rgb_msg(wrist_rgb, stamp=stamp, frame_id=wrist_frame))
-        self._wrist_depth_pub.publish(_depth_msg(wrist_depth, stamp=stamp, frame_id=wrist_frame))
-        self._wrist_info_pub.publish(
-            _camera_info(
-                stamp=stamp,
-                frame_id=wrist_frame,
-                width=ww,
-                height=wh,
-                fovy_deg=float(frame["wrist_fovy"]),
+            if "scene_robot_mask" in frame:
+                self._robot_mask_pub.publish(
+                    _mask_msg(
+                        np.asarray(frame["scene_robot_mask"]),
+                        stamp=stamp,
+                        frame_id=scene_frame,
+                    )
+                )
+            self._scene_info_pub.publish(
+                _camera_info(
+                    stamp=stamp,
+                    frame_id=scene_frame,
+                    width=w,
+                    height=h,
+                    fovy_deg=float(frame["scene_fovy"]),
+                )
             )
-        )
+        if "wrist_rgb" in frame:
+            wrist_rgb = np.asarray(frame["wrist_rgb"])
+            wh, ww = wrist_rgb.shape[:2]
+            self._publish_tracking_roi(frame, width=ww, height=wh)
+            self._wrist_rgb_pub.publish(
+                _rgb_msg(wrist_rgb, stamp=stamp, frame_id=wrist_frame)
+            )
+            self._wrist_info_pub.publish(
+                _camera_info(
+                    stamp=stamp,
+                    frame_id=wrist_frame,
+                    width=ww,
+                    height=wh,
+                    fovy_deg=float(frame["wrist_fovy"]),
+                )
+            )
 
-    def _latest_tracking_pos(self):
+    def _publish_tracking_roi(self, frame: dict, *, width: int, height: int) -> None:
+        required = (
+            "tracking_reference_world",
+            "wrist_camera_pos_world",
+            "wrist_camera_rot_world",
+        )
+        if any(key not in frame for key in required):
+            return
+        reference = np.asarray(frame["tracking_reference_world"], dtype=np.float64)
+        cam_pos = np.asarray(frame["wrist_camera_pos_world"], dtype=np.float64)
+        cam_rot = np.asarray(frame["wrist_camera_rot_world"], dtype=np.float64).reshape(3, 3)
+        p_mj = cam_rot.T @ (reference - cam_pos)
+        p_opt = np.array([p_mj[0], -p_mj[1], -p_mj[2]], dtype=np.float64)
+        if p_opt[2] <= 1.0e-4:
+            return
+        fy = height / (
+            2.0 * np.tan(np.deg2rad(float(frame["wrist_fovy"])) / 2.0)
+        )
+        u = fy * p_opt[0] / p_opt[2] + 0.5 * (width - 1)
+        v = fy * p_opt[1] / p_opt[2] + 0.5 * (height - 1)
+        self._wrist_diag_seq += 1
+        if self._wrist_diag_seq % 10 == 1 and "wrist_rgb" in frame:
+            rgb = np.asarray(frame["wrist_rgb"])
+            red = (
+                (rgb[..., 0] > 100)
+                & (rgb[..., 0] > 1.4 * rgb[..., 1])
+                & (rgb[..., 0] > 1.4 * rgb[..., 2])
+            )
+            ys, xs = np.nonzero(red)
+            if xs.size:
+                actual_u = float(xs.mean())
+                actual_v = float(ys.mean())
+                offset = float(np.hypot(actual_u - u, actual_v - v))
+                actual = f"red_uv=({actual_u:.1f},{actual_v:.1f}) offset={offset:.1f}px"
+            else:
+                actual = "red_uv=not_visible"
+            self.get_logger().info(
+                f"wrist_roi_diag frame={self._wrist_diag_seq} "
+                f"projected_uv=({u:.1f},{v:.1f}) {actual} "
+                f"depth={p_opt[2]:.3f}m"
+            )
+        half = 28
+        x1, y1 = max(0, int(round(u)) - half), max(0, int(round(v)) - half)
+        x2, y2 = min(width, int(round(u)) + half), min(height, int(round(v)) + half)
+        if x2 - x1 < 12 or y2 - y1 < 12:
+            return
+        roi = RegionOfInterest()
+        roi.x_offset = x1
+        roi.y_offset = y1
+        roi.width = x2 - x1
+        roi.height = y2 - y1
+        roi.do_rectify = False
+        self._tracking_roi_pub.publish(roi)
+
+    def _latest_tracking(self):
         with self._lock:
-            return None if self._tracked_pos_base is None else self._tracked_pos_base.copy()
+            return None if self._tracked_2d is None else dict(self._tracked_2d)
+
+    def _publish_sim_state(self, sim_time: float, qpos: np.ndarray) -> None:
+        msg = Float64MultiArray()
+        msg.data = [float(sim_time), *np.asarray(qpos, dtype=np.float64).tolist()]
+        self._sim_state_pub.publish(msg)
 
     def _latest_obstacle_points(self):
         with self._lock:
-            return self._obstacle_points_base.copy()
+            return {
+                "seq": int(self._obstacle_cloud_seq),
+                "points": self._obstacle_points_base.copy(),
+            }
 
     def _pose_to_base(self, pose, repo: Path):
         if bool(self._param("use_sim_camera_extrinsics")):
@@ -543,6 +740,8 @@ class MujocoPolicyBackendNode(Node):
 
 
 def main() -> None:
+    os.environ.setdefault("MUJOCO_GL", "egl")
+    faulthandler.enable(all_threads=True)
     rclpy.init()
     node = MujocoPolicyBackendNode()
     executor = MultiThreadedExecutor(num_threads=4)

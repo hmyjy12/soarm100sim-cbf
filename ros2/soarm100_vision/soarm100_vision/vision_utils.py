@@ -233,6 +233,76 @@ def bbox_from_mask(mask: np.ndarray, expand_px: int = 0) -> tuple[int, int, int,
     return x1, y1, x2, y2
 
 
+def hsv_color_mask(
+    rgb: np.ndarray,
+    *,
+    target_rgb: tuple[int, int, int],
+    hue_tolerance_deg: float = 18.0,
+    saturation_min: float = 0.45,
+    value_min: float = 0.30,
+) -> np.ndarray:
+    """Segment pixels near a configurable RGB color in circular HSV space."""
+    import cv2
+
+    image = np.asarray(rgb, dtype=np.uint8)
+    if image.ndim != 3 or image.shape[2] < 3:
+        raise ValueError(f"expected HxWx3 RGB image, got {image.shape}")
+    target = np.asarray(target_rgb, dtype=np.uint8).reshape(1, 1, 3)
+    hsv = cv2.cvtColor(image[..., :3], cv2.COLOR_RGB2HSV)
+    target_hsv = cv2.cvtColor(target, cv2.COLOR_RGB2HSV)[0, 0]
+    hue = hsv[..., 0].astype(np.float32) * 2.0
+    target_hue = float(target_hsv[0]) * 2.0
+    hue_delta = np.abs(hue - target_hue)
+    hue_delta = np.minimum(hue_delta, 360.0 - hue_delta)
+    saturation = hsv[..., 1].astype(np.float32) / 255.0
+    value = hsv[..., 2].astype(np.float32) / 255.0
+    return (
+        (hue_delta <= max(float(hue_tolerance_deg), 0.0))
+        & (saturation >= float(saturation_min))
+        & (value >= float(value_min))
+    )
+
+
+def color_components(
+    mask: np.ndarray,
+    *,
+    min_area: int,
+) -> list[dict[str, float | tuple[int, int, int, int]]]:
+    """Return connected color regions sorted from largest to smallest."""
+    import cv2
+
+    binary = np.asarray(mask, dtype=bool).astype(np.uint8)
+    count, _labels, stats, centroids = cv2.connectedComponentsWithStats(
+        binary, connectivity=8
+    )
+    components = []
+    for index in range(1, int(count)):
+        area = int(stats[index, cv2.CC_STAT_AREA])
+        if area < max(int(min_area), 1):
+            continue
+        x = int(stats[index, cv2.CC_STAT_LEFT])
+        y = int(stats[index, cv2.CC_STAT_TOP])
+        w = int(stats[index, cv2.CC_STAT_WIDTH])
+        h = int(stats[index, cv2.CC_STAT_HEIGHT])
+        components.append(
+            {
+                "area": float(area),
+                "bbox": (x, y, x + w, y + h),
+                "u": float(centroids[index, 0]),
+                "v": float(centroids[index, 1]),
+            }
+        )
+    components.sort(key=lambda item: float(item["area"]), reverse=True)
+    return components
+
+
+def parse_rgb(value: str) -> tuple[int, int, int]:
+    parts = [int(x) for x in str(value).replace(",", " ").split()]
+    if len(parts) != 3 or any(x < 0 or x > 255 for x in parts):
+        raise ValueError(f"expected RGB values in [0,255], got {value!r}")
+    return int(parts[0]), int(parts[1]), int(parts[2])
+
+
 def dump_json(path: str | Path, data: dict[str, Any]) -> str:
     p = Path(path)
     p.parent.mkdir(parents=True, exist_ok=True)

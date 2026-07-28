@@ -20,6 +20,9 @@ ROS_SETUP="${ROS_SETUP:-/opt/ros/humble/setup.bash}"
 ROS_LOG_DIR="${ROS_LOG_DIR:-$ROOT_DIR/logs/ros2}"
 
 TARGET_PROMPT="red cube"
+TARGET_SEGMENTATION_MODE="color"
+TARGET_COLOR_RGB="255,0,0"
+COLOR_HUE_TOLERANCE_DEG="18.0"
 ENABLE_AVOIDANCE="false"
 BUILD_FIRST="false"
 ENABLE_VISUALIZER="false"
@@ -40,6 +43,11 @@ MUJOCO_OBSTACLE_MOTION_PERIOD="5.0"  #动态障碍物运动周期
 MUJOCO_MJCF=""
 MUJOCO_TARGET_OBJECT="cube"
 MUJOCO_TARGET_POS="0.42,0.08,0.021"
+MUJOCO_TARGET_MOTION="none"
+MUJOCO_TARGET_MOTION_AMPLITUDE="0.05"
+MUJOCO_TARGET_MOTION_TRAVEL_TIME="2.0"
+MUJOCO_TARGET_MOTION_DWELL_TIME="1.0"
+MUJOCO_TARGET_MOTION_DELAY="0.5"
 MUJOCO_TRAJ_LOG="$ROOT_DIR/logs/ros2_mujoco_grasp.jsonl"
 MUJOCO_SPEED="1.0"
 MUJOCO_PYTHON="${MUJOCO_PYTHON:-/home/sophie/miniconda3/bin/python}"
@@ -49,6 +57,11 @@ MUJOCO_INTERNAL_TRACKING="true"
 MUJOCO_TRACK_SOURCE="wrist"
 MUJOCO_REPLAN_ATTEMPTS="3"
 MUJOCO_FINAL_APPROACH_TIMEOUT="10.0"
+GRASP_FINAL_DIST="0.035"
+GRASP_FINAL_TIMEOUT_CLOSE_DIST="0.040"
+GRASP_FINAL_STABLE_TIME="0.20"
+GRASP_CLOSE_TRACKING_CONFIDENCE="0.45"
+GRASP_CLOSE_TARGET_SPEED="0.005"
 AUTO_PLANNED_GRASP="false" #自动规划抓取，不走视觉
 AUTO_PREGRASP_POS="0.35,0.08,0.09"
 AUTO_GRASP_POS="0.39,0.08,0.06"
@@ -81,6 +94,9 @@ Usage:
 Options:
   --build                         Run colcon build before launch.
   --target TEXT                   Target prompt for later action/service calls. Default: "red cube".
+  --target-segmentation MODE      Target mask/tracking source: color/yolo_sam. Default: color.
+  --target-color-rgb R,G,B        Target color used by color mode. Default: 255,0,0.
+  --color-hue-tolerance DEG       Circular HSV hue tolerance. Default: 18 degrees.
   --avoidance on|off              Default avoidance flag for orchestrator. Default: off.
   --visualizer on|off             Start debug overlay viewer. Default: off.
   --show-window on|off            Open local OpenCV preview window. Default: off.
@@ -101,6 +117,15 @@ Options:
                                   Dynamic obstacle period. Default: 5.0 s.
   --mujoco-target-object NAME     MuJoCo grasp target: cube/bottle/sphere/custom. Default: cube.
   --mujoco-target-pos X,Y,Z       MuJoCo target world position. Default: 0.42,0.08,0.021.
+  --mujoco-target-motion TYPE     Target trajectory: none/line. Default: none.
+  --mujoco-target-motion-amplitude M
+                                  Y-axis half range. Default: 0.05 m.
+  --mujoco-target-motion-travel-time SEC
+                                  Time to travel between Y endpoints. Default: 2.0 s.
+  --mujoco-target-motion-dwell-time SEC
+                                  Pause at each Y endpoint. Default: 1.0 s.
+  --mujoco-target-motion-delay SEC
+                                  Initial static delay. Default: 0.5 s.
   --mujoco-traj-log PATH          MuJoCo trajectory log path.
   --mujoco-speed SPEED            MuJoCo playback speed. Default: 1.0.
   --mujoco-python PATH            Python executable for MuJoCo backend subprocess. Default: /home/sophie/miniconda3/bin/python.
@@ -114,6 +139,11 @@ Options:
                                   Tracking source passed to play.py. Default: wrist.
   --mujoco-replan-attempts N      Maximum in-place SAM+AnyGrasp replans. Default: 2.
   --final-approach-timeout SEC    Maximum FINAL_APPROACH time before CLOSE. Default: 10.0.
+  --grasp-final-dist M            Stable CLOSE position threshold. Default: 0.035 m.
+  --grasp-final-timeout-dist M    Near-pose timeout CLOSE threshold. Default: 0.040 m.
+  --grasp-final-stable-time SEC   Required stable time before CLOSE. Default: 0.20 s.
+  --grasp-close-confidence SCORE  Wrist confidence required for CLOSE. Default: 0.45.
+  --grasp-close-target-speed MPS  Target speed required for CLOSE. Default: 0.005 m/s.
   --auto-planned-grasp on|off     Send one ExecutePlannedGrasp goal after launch. Default: off.
   --auto-pregrasp-pos X,Y,Z       Planned pregrasp pose position for auto goal.
   --auto-grasp-pos X,Y,Z          Planned final grasp pose position for auto goal.
@@ -148,6 +178,21 @@ while [[ $# -gt 0 ]]; do
       ;;
     --target)
       TARGET_PROMPT="$2"
+      shift 2
+      ;;
+    --target-segmentation)
+      case "$2" in
+        color|yolo_sam) TARGET_SEGMENTATION_MODE="$2" ;;
+        *) echo "[ERROR] --target-segmentation must be color/yolo_sam" >&2; exit 2 ;;
+      esac
+      shift 2
+      ;;
+    --target-color-rgb)
+      TARGET_COLOR_RGB="$2"
+      shift 2
+      ;;
+    --color-hue-tolerance)
+      COLOR_HUE_TOLERANCE_DEG="$2"
       shift 2
       ;;
     --avoidance)
@@ -270,6 +315,29 @@ while [[ $# -gt 0 ]]; do
       MUJOCO_TARGET_POS="$2"
       shift 2
       ;;
+    --mujoco-target-motion)
+      case "$2" in
+        none|line) MUJOCO_TARGET_MOTION="$2" ;;
+        *) echo "[ERROR] --mujoco-target-motion must be none/line" >&2; exit 2 ;;
+      esac
+      shift 2
+      ;;
+    --mujoco-target-motion-amplitude)
+      MUJOCO_TARGET_MOTION_AMPLITUDE="$2"
+      shift 2
+      ;;
+    --mujoco-target-motion-travel-time)
+      MUJOCO_TARGET_MOTION_TRAVEL_TIME="$2"
+      shift 2
+      ;;
+    --mujoco-target-motion-dwell-time)
+      MUJOCO_TARGET_MOTION_DWELL_TIME="$2"
+      shift 2
+      ;;
+    --mujoco-target-motion-delay)
+      MUJOCO_TARGET_MOTION_DELAY="$2"
+      shift 2
+      ;;
     --mujoco-traj-log)
       MUJOCO_TRAJ_LOG="$2"
       shift 2
@@ -318,6 +386,26 @@ while [[ $# -gt 0 ]]; do
       ;;
     --final-approach-timeout)
       MUJOCO_FINAL_APPROACH_TIMEOUT="$2"
+      shift 2
+      ;;
+    --grasp-final-dist)
+      GRASP_FINAL_DIST="$2"
+      shift 2
+      ;;
+    --grasp-final-timeout-dist)
+      GRASP_FINAL_TIMEOUT_CLOSE_DIST="$2"
+      shift 2
+      ;;
+    --grasp-final-stable-time)
+      GRASP_FINAL_STABLE_TIME="$2"
+      shift 2
+      ;;
+    --grasp-close-confidence)
+      GRASP_CLOSE_TRACKING_CONFIDENCE="$2"
+      shift 2
+      ;;
+    --grasp-close-target-speed)
+      GRASP_CLOSE_TARGET_SPEED="$2"
       shift 2
       ;;
     --auto-planned-grasp)
@@ -462,6 +550,8 @@ if [[ "$BUILD_FIRST" == "true" ]]; then
     colcon build --packages-select soarm100_interfaces soarm100_vision \
     --cmake-clean-cache \
     --cmake-args \
+      -DCMAKE_C_COMPILER=/usr/bin/cc \
+      -DCMAKE_CXX_COMPILER=/usr/bin/c++ \
       -DPython3_EXECUTABLE=/usr/bin/python3 \
       -DPYTHON_EXECUTABLE=/usr/bin/python3 \
       "-DPYTHON_INCLUDE_DIR=/usr/include/python3.10;/usr/include/x86_64-linux-gnu/python3.10" \
@@ -552,13 +642,17 @@ if [[ "$ENABLE_MUJOCO_CAMERA" == "true" ]]; then
 fi
 
 echo "[soarm100_ros2] conda_env=$CONDA_ENV"
-echo "[soarm100_ros2] target=$TARGET_PROMPT avoidance=$ENABLE_AVOIDANCE"
+echo "[soarm100_ros2] target=$TARGET_PROMPT segmentation=$TARGET_SEGMENTATION_MODE color_rgb=$TARGET_COLOR_RGB hue_tol=$COLOR_HUE_TOLERANCE_DEG avoidance=$ENABLE_AVOIDANCE"
 echo "[soarm100_ros2] visualizer=$ENABLE_VISUALIZER show_window=$SHOW_WINDOW"
-echo "[soarm100_ros2] mujoco=$ENABLE_MUJOCO mujoco_backend=$ENABLE_MUJOCO_BACKEND backend_mode=$MUJOCO_BACKEND_MODE inprocess_viewer=$MUJOCO_INPROCESS_VIEWER mujoco_camera=$ENABLE_MUJOCO_CAMERA sdf_backend=$ENABLE_SDF_BACKEND anygrasp_planner=$ENABLE_ANYGRASP_PLANNER obstacle=$MUJOCO_OBSTACLE obstacle_mode=$OBSTACLE_MODE obstacle_motion=$MUJOCO_OBSTACLE_MOTION amp=$MUJOCO_OBSTACLE_MOTION_AMP period=$MUJOCO_OBSTACLE_MOTION_PERIOD sdf_cbf=$MUJOCO_SDF_CBF mjcf=$MUJOCO_MJCF target_object=$MUJOCO_TARGET_OBJECT target_pos=$MUJOCO_TARGET_POS obstacle_body=$MUJOCO_OBSTACLE_BODY obstacle_pos=$MUJOCO_OBSTACLE_POS speed=$MUJOCO_SPEED internal_tracking=$MUJOCO_INTERNAL_TRACKING track_source=$MUJOCO_TRACK_SOURCE replan_attempts=$MUJOCO_REPLAN_ATTEMPTS final_approach_timeout=$MUJOCO_FINAL_APPROACH_TIMEOUT"
+echo "[soarm100_ros2] mujoco=$ENABLE_MUJOCO mujoco_backend=$ENABLE_MUJOCO_BACKEND backend_mode=$MUJOCO_BACKEND_MODE inprocess_viewer=$MUJOCO_INPROCESS_VIEWER mujoco_camera=$ENABLE_MUJOCO_CAMERA sdf_backend=$ENABLE_SDF_BACKEND anygrasp_planner=$ENABLE_ANYGRASP_PLANNER obstacle=$MUJOCO_OBSTACLE obstacle_mode=$OBSTACLE_MODE obstacle_motion=$MUJOCO_OBSTACLE_MOTION amp=$MUJOCO_OBSTACLE_MOTION_AMP period=$MUJOCO_OBSTACLE_MOTION_PERIOD sdf_cbf=$MUJOCO_SDF_CBF mjcf=$MUJOCO_MJCF target_object=$MUJOCO_TARGET_OBJECT target_pos=$MUJOCO_TARGET_POS target_motion=$MUJOCO_TARGET_MOTION target_amp=$MUJOCO_TARGET_MOTION_AMPLITUDE target_travel=$MUJOCO_TARGET_MOTION_TRAVEL_TIME target_dwell=$MUJOCO_TARGET_MOTION_DWELL_TIME target_delay=$MUJOCO_TARGET_MOTION_DELAY obstacle_body=$MUJOCO_OBSTACLE_BODY obstacle_pos=$MUJOCO_OBSTACLE_POS speed=$MUJOCO_SPEED internal_tracking=$MUJOCO_INTERNAL_TRACKING track_source=$MUJOCO_TRACK_SOURCE replan_attempts=$MUJOCO_REPLAN_ATTEMPTS final_approach_timeout=$MUJOCO_FINAL_APPROACH_TIMEOUT final_dist=$GRASP_FINAL_DIST final_timeout_dist=$GRASP_FINAL_TIMEOUT_CLOSE_DIST stable_time=$GRASP_FINAL_STABLE_TIME close_conf=$GRASP_CLOSE_TRACKING_CONFIDENCE close_speed=$GRASP_CLOSE_TARGET_SPEED"
 echo "[soarm100_ros2] auto_planned_grasp=$AUTO_PLANNED_GRASP auto_execute_grasp=$AUTO_EXECUTE_GRASP pregrasp=$AUTO_PREGRASP_POS grasp=$AUTO_GRASP_POS quat=$AUTO_GRASP_QUAT width=$AUTO_GRIPPER_WIDTH delay=$AUTO_GOAL_DELAY"
 echo "[soarm100_ros2] mujoco_python=$MUJOCO_PYTHON"
-echo "[soarm100_ros2] yolo=$YOLO_MODEL"
-echo "[soarm100_ros2] sam=$SAM_MODEL"
+if [[ "$TARGET_SEGMENTATION_MODE" == "yolo_sam" ]]; then
+  echo "[soarm100_ros2] yolo=$YOLO_MODEL"
+  echo "[soarm100_ros2] sam=$SAM_MODEL"
+else
+  echo "[soarm100_ros2] YOLO-World/SAM skipped (color segmentation active)"
+fi
 echo "[soarm100_ros2] anygrasp_sdk=$ANYGRASP_SDK_ROOT"
 echo "[soarm100_ros2] anygrasp_checkpoint=$ANYGRASP_CHECKPOINT"
 
@@ -615,6 +709,9 @@ fi
 
 ros2 launch soarm100_vision vision_grasp.launch.py \
   target_prompt:="$TARGET_PROMPT" \
+  target_segmentation_mode:="$TARGET_SEGMENTATION_MODE" \
+  target_color_rgb:="$TARGET_COLOR_RGB" \
+  color_hue_tolerance_deg:="$COLOR_HUE_TOLERANCE_DEG" \
   enable_avoidance:="$ENABLE_AVOIDANCE" \
   rgb_topic:="$RGB_TOPIC" \
   depth_topic:="$DEPTH_TOPIC" \
@@ -632,6 +729,11 @@ ros2 launch soarm100_vision vision_grasp.launch.py \
   mujoco_mjcf:="$MUJOCO_MJCF" \
   mujoco_target_object:="$MUJOCO_TARGET_OBJECT" \
   mujoco_target_pos:="$MUJOCO_TARGET_POS" \
+  mujoco_target_motion:="$MUJOCO_TARGET_MOTION" \
+  mujoco_target_motion_amplitude:="$MUJOCO_TARGET_MOTION_AMPLITUDE" \
+  mujoco_target_motion_travel_time:="$MUJOCO_TARGET_MOTION_TRAVEL_TIME" \
+  mujoco_target_motion_dwell_time:="$MUJOCO_TARGET_MOTION_DWELL_TIME" \
+  mujoco_target_motion_delay:="$MUJOCO_TARGET_MOTION_DELAY" \
   mujoco_enable_obstacle:="$MUJOCO_OBSTACLE" \
   mujoco_obstacle_body:="$MUJOCO_OBSTACLE_BODY" \
   mujoco_obstacle_pos:="$MUJOCO_OBSTACLE_POS" \
@@ -651,6 +753,11 @@ ros2 launch soarm100_vision vision_grasp.launch.py \
   mujoco_track_source:="$MUJOCO_TRACK_SOURCE" \
   mujoco_replan_attempts:="$MUJOCO_REPLAN_ATTEMPTS" \
   mujoco_final_approach_timeout:="$MUJOCO_FINAL_APPROACH_TIMEOUT" \
+  grasp_final_dist:="$GRASP_FINAL_DIST" \
+  grasp_final_timeout_close_dist:="$GRASP_FINAL_TIMEOUT_CLOSE_DIST" \
+  grasp_final_stable_time:="$GRASP_FINAL_STABLE_TIME" \
+  grasp_close_tracking_confidence:="$GRASP_CLOSE_TRACKING_CONFIDENCE" \
+  grasp_close_target_speed:="$GRASP_CLOSE_TARGET_SPEED" \
   obstacle_mode:="$OBSTACLE_MODE" \
   enable_visualizer:="$ENABLE_VISUALIZER" \
   show_window:="$SHOW_WINDOW"

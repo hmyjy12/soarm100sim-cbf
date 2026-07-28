@@ -55,6 +55,7 @@ class MujocoExternalGraspConfig:
 class PlannedGraspCommand:
     pregrasp: PoseWxyz
     grasp: PoseWxyz
+    tracking_reference: PoseWxyz | None = None
     gripper_width: float = 0.0
 
 

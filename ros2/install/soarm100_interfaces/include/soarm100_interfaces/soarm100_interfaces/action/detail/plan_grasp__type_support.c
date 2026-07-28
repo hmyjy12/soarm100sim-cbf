@@ -173,10 +173,12 @@ ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_introspecti
 // #include "rosidl_runtime_c/string_functions.h"
 // Member `selected_grasp_pose`
 // Member `selected_pregrasp_pose`
+// Member `target_center_pose`
 // already included above
 // #include "geometry_msgs/msg/pose_stamped.h"
 // Member `selected_grasp_pose`
 // Member `selected_pregrasp_pose`
+// Member `target_center_pose`
 // already included above
 // #include "geometry_msgs/msg/detail/pose_stamped__rosidl_typesupport_introspection_c.h"
 
@@ -199,7 +201,7 @@ void soarm100_interfaces__action__PlanGrasp_Result__rosidl_typesupport_introspec
   soarm100_interfaces__action__PlanGrasp_Result__fini(message_memory);
 }
 
-static rosidl_typesupport_introspection_c__MessageMember soarm100_interfaces__action__PlanGrasp_Result__rosidl_typesupport_introspection_c__PlanGrasp_Result_message_member_array[7] = {
+static rosidl_typesupport_introspection_c__MessageMember soarm100_interfaces__action__PlanGrasp_Result__rosidl_typesupport_introspection_c__PlanGrasp_Result_message_member_array[8] = {
   {
     "success",  // name
     rosidl_typesupport_introspection_c__ROS_TYPE_BOOLEAN,  // type
@@ -269,6 +271,23 @@ static rosidl_typesupport_introspection_c__MessageMember soarm100_interfaces__ac
     NULL  // resize(index) function pointer
   },
   {
+    "target_center_pose",  // name
+    rosidl_typesupport_introspection_c__ROS_TYPE_MESSAGE,  // type
+    0,  // upper bound of string
+    NULL,  // members of sub message (initialized later)
+    false,  // is array
+    0,  // array size
+    false,  // is upper bound
+    offsetof(soarm100_interfaces__action__PlanGrasp_Result, target_center_pose),  // bytes offset in struct
+    NULL,  // default value
+    NULL,  // size() function pointer
+    NULL,  // get_const(index) function pointer
+    NULL,  // get(index) function pointer
+    NULL,  // fetch(index, &value) function pointer
+    NULL,  // assign(index, value) function pointer
+    NULL  // resize(index) function pointer
+  },
+  {
     "grasp_score",  // name
     rosidl_typesupport_introspection_c__ROS_TYPE_FLOAT,  // type
     0,  // upper bound of string
@@ -324,7 +343,7 @@ static rosidl_typesupport_introspection_c__MessageMember soarm100_interfaces__ac
 static const rosidl_typesupport_introspection_c__MessageMembers soarm100_interfaces__action__PlanGrasp_Result__rosidl_typesupport_introspection_c__PlanGrasp_Result_message_members = {
   "soarm100_interfaces__action",  // message namespace
   "PlanGrasp_Result",  // message name
-  7,  // number of fields
+  8,  // number of fields
   sizeof(soarm100_interfaces__action__PlanGrasp_Result),
   soarm100_interfaces__action__PlanGrasp_Result__rosidl_typesupport_introspection_c__PlanGrasp_Result_message_member_array,  // message members
   soarm100_interfaces__action__PlanGrasp_Result__rosidl_typesupport_introspection_c__PlanGrasp_Result_init_function,  // function to initialize message memory (memory has to be allocated)
@@ -345,6 +364,8 @@ ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_introspecti
   soarm100_interfaces__action__PlanGrasp_Result__rosidl_typesupport_introspection_c__PlanGrasp_Result_message_member_array[2].members_ =
     ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_introspection_c, geometry_msgs, msg, PoseStamped)();
   soarm100_interfaces__action__PlanGrasp_Result__rosidl_typesupport_introspection_c__PlanGrasp_Result_message_member_array[3].members_ =
+    ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_introspection_c, geometry_msgs, msg, PoseStamped)();
+  soarm100_interfaces__action__PlanGrasp_Result__rosidl_typesupport_introspection_c__PlanGrasp_Result_message_member_array[4].members_ =
     ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_introspection_c, geometry_msgs, msg, PoseStamped)();
   if (!soarm100_interfaces__action__PlanGrasp_Result__rosidl_typesupport_introspection_c__PlanGrasp_Result_message_type_support_handle.typesupport_identifier) {
     soarm100_interfaces__action__PlanGrasp_Result__rosidl_typesupport_introspection_c__PlanGrasp_Result_message_type_support_handle.typesupport_identifier =

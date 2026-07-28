@@ -1,0 +1,35 @@
+[INFO] [1785203489.927896649] [mujoco_policy_backend]: MuJoCo policy backend ready: action=execute_planned_grasp
+[INFO] [1785203492.149247694] [mujoco_policy_backend]: obstacle_init stamp=1785203491.804760291 depth=296774 robot_mask_received=True self_rm=10426 workspace=0 table_rm=0 raw_obstacle=0 persistent=0 voxels=0 mode=dynamic frame=1/5 bbox=empty
+[INFO] [1785203492.250158290] [mujoco_policy_backend]: obstacle_init stamp=1785203491.959115328 depth=296774 robot_mask_received=True self_rm=10426 workspace=0 table_rm=0 raw_obstacle=0 persistent=0 voxels=0 mode=dynamic frame=2/5 bbox=empty
+[INFO] [1785203492.430559012] [mujoco_policy_backend]: obstacle_init stamp=1785203492.100568423 depth=296774 robot_mask_received=True self_rm=10426 workspace=0 table_rm=0 raw_obstacle=0 persistent=0 voxels=0 mode=dynamic frame=3/5 bbox=empty
+[INFO] [1785203492.626376675] [mujoco_policy_backend]: obstacle_init stamp=1785203492.319244025 depth=296774 robot_mask_received=True self_rm=10426 workspace=0 table_rm=0 raw_obstacle=0 persistent=0 voxels=0 mode=dynamic frame=4/5 bbox=empty
+[INFO] [1785203492.835153428] [mujoco_policy_backend]: obstacle_init stamp=1785203492.511088449 depth=296774 robot_mask_received=True self_rm=10426 workspace=0 table_rm=0 raw_obstacle=0 persistent=0 voxels=0 mode=dynamic frame=5/5 bbox=empty
+[INFO] [1785203501.292553337] [mujoco_policy_backend]: planned grasp pose conversion: source=sim_mjcf raw_pregrasp[frame=scene_depth_optical pos=(+0.076,+0.035,+0.516) quat=(+0.513,+0.135,-0.082,+0.844)] raw_grasp[frame=scene_depth_optical pos=(+0.086,+0.016,+0.582) quat=(+0.513,+0.135,-0.082,+0.844)] base_pregrasp[frame=base pos=(+0.396,+0.065,+0.104) quat=(+0.135,-0.513,+0.844,+0.082)] base_grasp[frame=base pos=(+0.406,+0.084,+0.038) quat=(+0.135,-0.513,+0.844,+0.082)] tracking_reference[frame=base pos=(+0.420,+0.080,+0.036) quat=(+0.000,+1.000,+0.000,+0.000)] width=64.9mm target=cube@0.42,0.08,0.021 traj_log=logs/ros2_grasp_openloop.jsonl
+[INFO] [1785203502.476188495] [mujoco_policy_backend]: wrist_roi_diag frame=1 projected_uv=(-2798.8,-889.6) red_uv=not_visible depth=0.027m
+[INFO] [1785203503.158836139] [mujoco_policy_backend]: wrist_roi_diag frame=11 projected_uv=(181.8,322.8) red_uv=(81.1,262.1) offset=117.6px depth=0.118m
+[INFO] [1785203503.757315311] [mujoco_policy_backend]: wrist_roi_diag frame=21 projected_uv=(116.6,221.9) red_uv=(76.7,166.6) offset=68.2px depth=0.088m
+[INFO] [1785203504.363233837] [mujoco_policy_backend]: wrist_roi_diag frame=31 projected_uv=(251.8,-68.5) red_uv=(193.9,10.1) offset=97.6px depth=0.060m
+[INFO] [1785203504.979705242] [mujoco_policy_backend]: wrist_roi_diag frame=41 projected_uv=(345.2,321.9) red_uv=(389.7,190.0) offset=139.2px depth=0.070m
+[INFO] [1785203505.581732451] [mujoco_policy_backend]: wrist_roi_diag frame=51 projected_uv=(523.4,272.6) red_uv=(518.0,169.6) offset=103.1px depth=0.047m
+[INFO] [1785203506.184350047] [mujoco_policy_backend]: wrist_roi_diag frame=61 projected_uv=(616.4,284.2) red_uv=(559.5,221.9) offset=84.3px depth=0.055m
+[INFO] [1785203506.787976904] [mujoco_policy_backend]: wrist_roi_diag frame=71 projected_uv=(550.6,390.9) red_uv=(536.0,354.9) offset=38.9px depth=0.065m
+[INFO] [1785203507.397131076] [mujoco_policy_backend]: wrist_roi_diag frame=81 projected_uv=(545.2,426.3) red_uv=(525.6,373.3) offset=56.6px depth=0.062m
+[INFO] [1785203508.016058090] [mujoco_policy_backend]: wrist_roi_diag frame=91 projected_uv=(559.1,447.9) red_uv=(527.3,380.5) offset=74.5px depth=0.059m
+[INFO] [1785203508.627826681] [mujoco_policy_backend]: wrist_roi_diag frame=101 projected_uv=(569.8,463.5) red_uv=(529.9,385.3) offset=87.9px depth=0.058m
+[INFO] [1785203509.241511796] [mujoco_policy_backend]: wrist_roi_diag frame=111 projected_uv=(575.0,469.8) red_uv=(531.0,386.7) offset=94.1px depth=0.057m
+[INFO] [1785203509.858365949] [mujoco_policy_backend]: wrist_roi_diag frame=121 projected_uv=(578.2,472.0) red_uv=(531.6,386.7) offset=97.2px depth=0.056m
+[INFO] [1785203510.456672091] [mujoco_policy_backend]: wrist_roi_diag frame=131 projected_uv=(580.6,472.2) red_uv=(532.0,386.2) offset=98.8px depth=0.056m
+[INFO] [1785203511.025598608] [mujoco_policy_backend]: wrist_roi_diag frame=141 projected_uv=(560.5,453.9) red_uv=(524.5,380.7) offset=81.5px depth=0.057m
+[INFO] [1785203511.836017316] [mujoco_policy_backend]: obstacle_init stamp=1785203511.565760205 depth=296786 robot_mask_received=True self_rm=10414 workspace=0 table_rm=0 raw_obstacle=0 persistent=0 voxels=0 mode=dynamic frame=6/5 bbox=empty
+[INFO] [1785203511.906871223] [mujoco_policy_backend]: replan[1] start prompt='red cube' cloud_seq_before=1
+[INFO] [1785203515.804060726] [mujoco_policy_backend]: wrist_roi_diag frame=151 projected_uv=(569.7,398.1) red_uv=(495.4,329.6) offset=101.0px depth=0.066m
+[INFO] [1785203516.544252236] [mujoco_policy_backend]: obstacle_init stamp=1785203516.312642911 depth=296253 robot_mask_received=True self_rm=10947 workspace=0 table_rm=0 raw_obstacle=0 persistent=0 voxels=0 mode=dynamic frame=7/5 bbox=empty
+[INFO] [1785203516.653876547] [mujoco_policy_backend]: replan[2] start prompt='red cube' cloud_seq_before=2
+[INFO] [1785203521.759435572] [mujoco_policy_backend]: wrist_roi_diag frame=161 projected_uv=(697.8,459.6) red_uv=(577.4,390.7) offset=138.7px depth=0.085m
+[INFO] [1785203522.328069772] [mujoco_policy_backend]: obstacle_init stamp=1785203522.117983083 depth=296194 robot_mask_received=True self_rm=11006 workspace=0 table_rm=0 raw_obstacle=0 persistent=0 voxels=0 mode=dynamic frame=8/5 bbox=empty
+[INFO] [1785203522.458430235] [mujoco_policy_backend]: replan[3] start prompt='red cube' cloud_seq_before=3
+[INFO] [1785203528.118505789] [mujoco_policy_backend]: obstacle_init stamp=1785203527.843831803 depth=296774 robot_mask_received=True self_rm=10426 workspace=0 table_rm=0 raw_obstacle=0 persistent=0 voxels=0 mode=dynamic frame=9/5 bbox=empty
+[INFO] [1785203528.240055638] [mujoco_policy_backend]: obstacle_init stamp=1785203527.988415210 depth=296774 robot_mask_received=True self_rm=10426 workspace=0 table_rm=0 raw_obstacle=0 persistent=0 voxels=0 mode=dynamic frame=10/5 bbox=empty
+[INFO] [1785203528.427672409] [mujoco_policy_backend]: obstacle_init stamp=1785203528.143368568 depth=296774 robot_mask_received=True self_rm=10426 workspace=0 table_rm=0 raw_obstacle=0 persistent=0 voxels=0 mode=dynamic frame=11/5 bbox=empty
+[INFO] [1785203528.630913928] [mujoco_policy_backend]: obstacle_init stamp=1785203528.361748588 depth=296773 robot_mask_received=True self_rm=10427 workspace=0 table_rm=0 raw_obstacle=0 persistent=0 voxels=0 mode=dynamic frame=12/5 bbox=empty
+[INFO] [1785203528.843995249] [mujoco_policy_backend]: obstacle_init stamp=1785203528.549144522 depth=296773 robot_mask_received=True self_rm=10427 workspace=0 table_rm=0 raw_obstacle=0 persistent=0 voxels=0 mode=dynamic frame=13/5 bbox=empty

@@ -1,0 +1,34 @@
+[INFO] [1785219138.547123987] [anygrasp_planner]: AnyGrasp planner ready: action=plan_grasp
+[INFO] [1785219149.033355564] [anygrasp_planner]: AnyGrasp candidate[00] frame=scene_depth_optical score=0.194 width=64.9mm pos=(+0.086,+0.016,+0.582) approach=(+0.14,-0.28,+0.95)
+[INFO] [1785219149.034214835] [anygrasp_planner]: AnyGrasp candidate[01] frame=scene_depth_optical score=0.179 width=64.6mm pos=(+0.093,+0.016,+0.581) approach=(+0.14,-0.28,+0.95)
+[INFO] [1785219149.035022623] [anygrasp_planner]: AnyGrasp candidate[02] frame=scene_depth_optical score=0.173 width=66.1mm pos=(+0.097,+0.005,+0.583) approach=(-0.13,+0.17,+0.98)
+[INFO] [1785219149.035740941] [anygrasp_planner]: AnyGrasp candidate[03] frame=scene_depth_optical score=0.162 width=75.4mm pos=(+0.101,+0.020,+0.582) approach=(-0.16,-0.33,+0.93)
+[INFO] [1785219149.036423454] [anygrasp_planner]: AnyGrasp candidate[04] frame=scene_depth_optical score=0.150 width=60.2mm pos=(+0.105,+0.020,+0.582) approach=(-0.16,-0.33,+0.93)
+[INFO] [1785219149.037084092] [anygrasp_planner]: AnyGrasp candidate[05] frame=scene_depth_optical score=0.122 width=63.4mm pos=(+0.087,+0.016,+0.581) approach=(+0.08,+0.28,+0.96)
+[INFO] [1785219149.037742041] [anygrasp_planner]: AnyGrasp candidate[06] frame=scene_depth_optical score=0.118 width=65.5mm pos=(+0.101,+0.012,+0.583) approach=(+0.10,+0.10,+0.99)
+[INFO] [1785219150.013288483] [anygrasp_planner]: AnyGrasp IK[00] pass=True reason=ok pre_err=4.8mm/0.1deg final_err=2.4mm/0.0deg joint_margin=0.615rad q_final=[ 0.146,-0.499, 0.619,-0.745,-0.55 , 0.62 ]
+[INFO] [1785219159.324243611] [anygrasp_planner]: AnyGrasp candidate[00] frame=scene_depth_optical score=0.021 width=15.1mm pos=(+0.122,+0.024,+0.585) approach=(-0.54,-0.41,+0.74)
+[INFO] [1785219159.324652277] [anygrasp_planner]: AnyGrasp candidate[01] frame=scene_depth_optical score=0.019 width=28.1mm pos=(+0.121,+0.013,+0.583) approach=(-0.86,+0.16,+0.49)
+[INFO] [1785219159.325046759] [anygrasp_planner]: AnyGrasp candidate[02] frame=scene_depth_optical score=0.018 width=28.1mm pos=(+0.114,+0.011,+0.584) approach=(-0.40,-0.09,+0.91)
+[INFO] [1785219159.325421660] [anygrasp_planner]: AnyGrasp candidate[03] frame=scene_depth_optical score=0.016 width=38.6mm pos=(+0.118,+0.010,+0.585) approach=(-0.78,+0.04,+0.63)
+[INFO] [1785219159.325800986] [anygrasp_planner]: AnyGrasp candidate[04] frame=scene_depth_optical score=0.015 width=26.1mm pos=(+0.114,+0.021,+0.585) approach=(-0.33,-0.52,+0.79)
+[INFO] [1785219159.326173218] [anygrasp_planner]: AnyGrasp candidate[05] frame=scene_depth_optical score=0.014 width=40.8mm pos=(+0.116,+0.013,+0.585) approach=(-0.52,-0.24,+0.82)
+[INFO] [1785219160.527149802] [anygrasp_planner]: AnyGrasp IK[00] pass=False reason=pregrasp_unreachable pre_err=159.0mm/0.2deg final_err=infmm/infdeg joint_margin=0.262rad q_final=[nan,nan,nan,nan,nan,nan]
+[INFO] [1785219161.695518367] [anygrasp_planner]: AnyGrasp IK[01] pass=False reason=pregrasp_unreachable pre_err=244.7mm/2.5deg final_err=infmm/infdeg joint_margin=0.000rad q_final=[nan,nan,nan,nan,nan,nan]
+[INFO] [1785219162.853121579] [anygrasp_planner]: AnyGrasp IK[02] pass=False reason=pregrasp_unreachable pre_err=134.6mm/0.2deg final_err=infmm/infdeg joint_margin=0.282rad q_final=[nan,nan,nan,nan,nan,nan]
+[INFO] [1785219164.009873922] [anygrasp_planner]: AnyGrasp IK[03] pass=False reason=pregrasp_unreachable pre_err=217.4mm/2.0deg final_err=infmm/infdeg joint_margin=0.000rad q_final=[nan,nan,nan,nan,nan,nan]
+[INFO] [1785219165.160862267] [anygrasp_planner]: AnyGrasp IK[04] pass=False reason=pregrasp_unreachable pre_err=107.1mm/0.2deg final_err=infmm/infdeg joint_margin=0.282rad q_final=[nan,nan,nan,nan,nan,nan]
+[INFO] [1785219166.313566839] [anygrasp_planner]: AnyGrasp IK[05] pass=False reason=pregrasp_unreachable pre_err=152.7mm/0.2deg final_err=infmm/infdeg joint_margin=0.260rad q_final=[nan,nan,nan,nan,nan,nan]
+[INFO] [1785219171.023797064] [anygrasp_planner]: AnyGrasp candidate[00] frame=scene_depth_optical score=0.036 width=26.3mm pos=(+0.114,+0.026,+0.584) approach=(-0.02,-0.18,+0.98)
+[INFO] [1785219171.024305058] [anygrasp_planner]: AnyGrasp candidate[01] frame=scene_depth_optical score=0.028 width=16.8mm pos=(+0.127,+0.021,+0.620) approach=(-0.54,-0.41,+0.74)
+[INFO] [1785219171.024772979] [anygrasp_planner]: AnyGrasp candidate[02] frame=scene_depth_optical score=0.027 width=19.4mm pos=(+0.127,+0.022,+0.621) approach=(-0.54,-0.41,+0.74)
+[INFO] [1785219171.025242351] [anygrasp_planner]: AnyGrasp candidate[03] frame=scene_depth_optical score=0.025 width=27.1mm pos=(+0.118,+0.026,+0.584) approach=(-0.02,-0.18,+0.98)
+[INFO] [1785219171.025714834] [anygrasp_planner]: AnyGrasp candidate[04] frame=scene_depth_optical score=0.024 width=20.7mm pos=(+0.091,+0.012,+0.584) approach=(+0.24,-0.04,+0.97)
+[INFO] [1785219171.026183990] [anygrasp_planner]: AnyGrasp candidate[05] frame=scene_depth_optical score=0.019 width=15.0mm pos=(+0.090,+0.007,+0.567) approach=(-0.78,+0.04,+0.63)
+[INFO] [1785219171.026680344] [anygrasp_planner]: AnyGrasp candidate[06] frame=scene_depth_optical score=0.019 width=15.0mm pos=(+0.122,+0.031,+0.583) approach=(-0.83,-0.14,+0.54)
+[INFO] [1785219171.027177610] [anygrasp_planner]: AnyGrasp candidate[07] frame=scene_depth_optical score=0.017 width=38.6mm pos=(+0.094,+0.017,+0.584) approach=(+0.24,-0.04,+0.97)
+[INFO] [1785219172.174180944] [anygrasp_planner]: AnyGrasp IK[00] pass=False reason=pregrasp_unreachable pre_err=57.2mm/0.2deg final_err=infmm/infdeg joint_margin=0.282rad q_final=[nan,nan,nan,nan,nan,nan]
+[INFO] [1785219173.359581866] [anygrasp_planner]: AnyGrasp IK[01] pass=False reason=pregrasp_unreachable pre_err=157.9mm/0.2deg final_err=infmm/infdeg joint_margin=0.282rad q_final=[nan,nan,nan,nan,nan,nan]
+[INFO] [1785219174.542286081] [anygrasp_planner]: AnyGrasp IK[02] pass=False reason=pregrasp_unreachable pre_err=158.3mm/0.2deg final_err=infmm/infdeg joint_margin=0.282rad q_final=[nan,nan,nan,nan,nan,nan]
+[INFO] [1785219175.683295917] [anygrasp_planner]: AnyGrasp IK[03] pass=False reason=pregrasp_unreachable pre_err=60.5mm/0.2deg final_err=infmm/infdeg joint_margin=0.282rad q_final=[nan,nan,nan,nan,nan,nan]
+[INFO] [1785219176.454528483] [anygrasp_planner]: AnyGrasp IK[04] pass=True reason=ok pre_err=4.3mm/0.1deg final_err=4.2mm/0.1deg joint_margin=0.731rad q_final=[ 0.234,-0.556, 0.731,-0.648,-0.235, 0.631]

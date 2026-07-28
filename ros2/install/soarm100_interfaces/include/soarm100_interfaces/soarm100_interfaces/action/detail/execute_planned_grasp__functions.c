@@ -14,6 +14,7 @@
 // Include directives for member types
 // Member `pregrasp_pose`
 // Member `grasp_pose`
+// Member `tracking_reference_pose`
 #include "geometry_msgs/msg/detail/pose_stamped__functions.h"
 // Member `target_prompt`
 // Member `target_object`
@@ -34,6 +35,11 @@ soarm100_interfaces__action__ExecutePlannedGrasp_Goal__init(soarm100_interfaces_
   }
   // grasp_pose
   if (!geometry_msgs__msg__PoseStamped__init(&msg->grasp_pose)) {
+    soarm100_interfaces__action__ExecutePlannedGrasp_Goal__fini(msg);
+    return false;
+  }
+  // tracking_reference_pose
+  if (!geometry_msgs__msg__PoseStamped__init(&msg->tracking_reference_pose)) {
     soarm100_interfaces__action__ExecutePlannedGrasp_Goal__fini(msg);
     return false;
   }
@@ -72,6 +78,8 @@ soarm100_interfaces__action__ExecutePlannedGrasp_Goal__fini(soarm100_interfaces_
   geometry_msgs__msg__PoseStamped__fini(&msg->pregrasp_pose);
   // grasp_pose
   geometry_msgs__msg__PoseStamped__fini(&msg->grasp_pose);
+  // tracking_reference_pose
+  geometry_msgs__msg__PoseStamped__fini(&msg->tracking_reference_pose);
   // gripper_width
   // enable_avoidance
   // target_prompt
@@ -99,6 +107,12 @@ soarm100_interfaces__action__ExecutePlannedGrasp_Goal__are_equal(const soarm100_
   // grasp_pose
   if (!geometry_msgs__msg__PoseStamped__are_equal(
       &(lhs->grasp_pose), &(rhs->grasp_pose)))
+  {
+    return false;
+  }
+  // tracking_reference_pose
+  if (!geometry_msgs__msg__PoseStamped__are_equal(
+      &(lhs->tracking_reference_pose), &(rhs->tracking_reference_pose)))
   {
     return false;
   }
@@ -154,6 +168,12 @@ soarm100_interfaces__action__ExecutePlannedGrasp_Goal__copy(
   // grasp_pose
   if (!geometry_msgs__msg__PoseStamped__copy(
       &(input->grasp_pose), &(output->grasp_pose)))
+  {
+    return false;
+  }
+  // tracking_reference_pose
+  if (!geometry_msgs__msg__PoseStamped__copy(
+      &(input->tracking_reference_pose), &(output->tracking_reference_pose)))
   {
     return false;
   }
