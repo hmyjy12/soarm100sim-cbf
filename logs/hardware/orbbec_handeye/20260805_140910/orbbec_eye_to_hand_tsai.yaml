@@ -1,0 +1,20 @@
+%YAML:1.0
+---
+method: Tsai_eye_to_hand
+configuration: eye_to_hand
+base_frame: base
+gripper_frame: wrist_roll
+camera_frame: camera_color_optical_frame
+T_base_camera: !!opencv-matrix
+   rows: 4
+   cols: 4
+   dt: d
+   data: [ 6.0512071152601044e-02, -4.8381766816745825e-01,
+       8.7307431139269343e-01, -4.4014944635368425e-02,
+       -8.7874904802002862e-01, 3.8903939800625231e-01,
+       2.7649314169220596e-01, -6.9625094225805872e-03,
+       -4.7343257159675439e-01, -7.8394439265035631e-01,
+       -4.0161273558410460e-01, 6.0681840559637734e-01, 0., 0., 0., 1. ]
+sample_count: 26
+fixed_board_in_gripper_translation_rms_mm: 1.4713569861830351e+02
+fixed_board_in_gripper_rotation_rms_deg: 2.3866274342579040e+01

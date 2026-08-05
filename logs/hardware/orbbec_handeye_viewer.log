@@ -1,0 +1,34 @@
+[orbbec_handeye] EYE-TO-HAND calibrator
+[orbbec_handeye] TF=base<-wrist_roll
+[orbbec_handeye] square=0.0144m reject_duplicates=false
+[orbbec_handeye] image=/camera/color/image_raw
+[orbbec_handeye] output=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/logs/hardware/orbbec_handeye
+[INFO] [1785911861.032324205] [orbbec_eye_to_hand_calibrator]: orbbec eye-to-hand ready; pattern=9x6 square=14.40mm TF=base<-wrist_roll reject_duplicates=False capture_srv=/orbbec_handeye/capture output=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/logs/hardware/orbbec_handeye/20260805_143740
+[INFO] [1785911884.672431854] [orbbec_eye_to_hand_calibrator]: CAPTURED sample=000 rms=0.129px board_distance=521.6mm total=1
+[WARN] [1785911918.371097338] [orbbec_eye_to_hand_calibrator]: timestamped TF unavailable; using latest TF: Lookup would require extrapolation into the future.  Requested time 1785911918.125721 but the latest data is at time 1785911918.064095, when looking up transform from frame [wrist_roll] to frame [base]
+[INFO] [1785911918.404924800] [orbbec_eye_to_hand_calibrator]: CAPTURED sample=001 rms=0.181px board_distance=583.5mm total=2
+[INFO] [1785912007.199714373] [orbbec_eye_to_hand_calibrator]: CAPTURED sample=002 rms=0.166px board_distance=578.7mm total=3
+[INFO] [1785912074.259877635] [orbbec_eye_to_hand_calibrator]: CAPTURED sample=003 rms=0.126px board_distance=569.4mm total=4
+[INFO] [1785912100.194609856] [orbbec_eye_to_hand_calibrator]: CAPTURED sample=004 rms=0.209px board_distance=541.5mm total=5
+[WARN] [1785912128.569412128] [orbbec_eye_to_hand_calibrator]: timestamped TF unavailable; using latest TF: Lookup would require extrapolation into the future.  Requested time 1785912128.337822 but the latest data is at time 1785912128.306969, when looking up transform from frame [wrist_roll] to frame [base]
+[INFO] [1785912128.601428485] [orbbec_eye_to_hand_calibrator]: CAPTURED sample=005 rms=0.309px board_distance=400.8mm total=6
+[INFO] [1785912206.264918184] [orbbec_eye_to_hand_calibrator]: CAPTURED sample=006 rms=0.225px board_distance=529.0mm total=7
+[INFO] [1785912248.390037261] [orbbec_eye_to_hand_calibrator]: CAPTURED sample=007 rms=0.211px board_distance=529.9mm total=8
+[INFO] [1785912276.599068020] [orbbec_eye_to_hand_calibrator]: CAPTURED sample=008 rms=0.169px board_distance=621.0mm total=9
+[INFO] [1785912306.775250596] [orbbec_eye_to_hand_calibrator]: CAPTURED sample=009 rms=0.155px board_distance=642.4mm total=10
+[INFO] [1785912337.526429134] [orbbec_eye_to_hand_calibrator]: CAPTURED sample=010 rms=0.116px board_distance=532.0mm total=11
+[WARN] [1785912370.435546515] [orbbec_eye_to_hand_calibrator]: timestamped TF unavailable; using latest TF: Lookup would require extrapolation into the future.  Requested time 1785912370.205325 but the latest data is at time 1785912370.203493, when looking up transform from frame [wrist_roll] to frame [base]
+[INFO] [1785912370.472237074] [orbbec_eye_to_hand_calibrator]: CAPTURED sample=011 rms=0.224px board_distance=476.3mm total=12
+[INFO] [1785912395.747305979] [orbbec_eye_to_hand_calibrator]: CAPTURED sample=012 rms=0.182px board_distance=532.1mm total=13
+[INFO] [1785912425.398114000] [orbbec_eye_to_hand_calibrator]: CAPTURED sample=013 rms=0.206px board_distance=560.7mm total=14
+[INFO] [1785912461.548442308] [orbbec_eye_to_hand_calibrator]: CAPTURED sample=014 rms=0.215px board_distance=508.6mm total=15
+[INFO] [1785912497.733044795] [orbbec_eye_to_hand_calibrator]: CAPTURED sample=015 rms=0.190px board_distance=544.9mm total=16
+[WARN] [1785912556.840277135] [orbbec_eye_to_hand_calibrator]: timestamped TF unavailable; using latest TF: Lookup would require extrapolation into the future.  Requested time 1785912556.604179 but the latest data is at time 1785912556.544731, when looking up transform from frame [wrist_roll] to frame [base]
+[INFO] [1785912556.879118241] [orbbec_eye_to_hand_calibrator]: CAPTURED sample=016 rms=0.215px board_distance=538.2mm total=17
+[INFO] [1785912605.867440318] [orbbec_eye_to_hand_calibrator]: CAPTURED sample=017 rms=0.133px board_distance=580.3mm total=18
+[INFO] [1785912661.940746349] [orbbec_eye_to_hand_calibrator]: CAPTURED sample=018 rms=0.164px board_distance=628.5mm total=19
+[INFO] [1785912692.069817797] [orbbec_eye_to_hand_calibrator]: CAPTURED sample=019 rms=0.114px board_distance=699.5mm total=20
+[WARN] [1785912728.918826534] [orbbec_eye_to_hand_calibrator]: timestamped TF unavailable; using latest TF: Lookup would require extrapolation into the future.  Requested time 1785912728.672832 but the latest data is at time 1785912728.560596, when looking up transform from frame [wrist_roll] to frame [base]
+[INFO] [1785912728.955664249] [orbbec_eye_to_hand_calibrator]: CAPTURED sample=020 rms=0.109px board_distance=727.0mm total=21
+[INFO] [1785912752.542616885] [orbbec_eye_to_hand_calibrator]: CAPTURED sample=021 rms=0.186px board_distance=686.9mm total=22
+[INFO] [1785912756.572384399] [orbbec_eye_to_hand_calibrator]: SOLVED eye-to-hand Tsai: samples=22 board_in_gripper_spread=50.63mm RMS, rotation=8.77deg RMS; result=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/logs/hardware/orbbec_handeye/20260805_143740/orbbec_eye_to_hand_tsai.json

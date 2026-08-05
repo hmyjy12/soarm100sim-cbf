@@ -619,3 +619,144 @@ logs/hardware/wrist_handeye/20260805_110442/wrist_handeye_tsai.yaml
 ```
 
 或同目录 `wrist_handeye_tsai.json` 中的 `T_gripper_camera`。
+
+### 3.15 Orbbec 固定相机 eye-to-hand（棋盘夹在指尖）
+
+#### 3.15.1 配置与眼在手上 / 眼在手外的区别
+
+**物理布置（与腕部 eye-in-hand 相反）：**
+
+```text
+Orbbec Gemini 336：完全固定在工作空间（眼在手外 / eye-to-hand）
+棋盘格：夹在夹爪指尖，随臂运动
+gripper_frame：wrist_roll（会话中夹爪开合锁定，勿中途改变）
+棋盘：9×6 内角点，square_size_m = 0.0144
+内参：Orbbec 主摄驱动发布的 /camera/color/camera_info（K + D）
+       未沿用腕部相机内参，未读 wrist_handeye 标定文件
+图像：/camera/color/image_raw（1280×720，depth 关）
+```
+
+**求解器相同，输入 / 输出不同：**
+
+| | 腕部 eye-in-hand（§3.14） | Orbbec eye-to-hand（本节） |
+|---|---|---|
+| 相机 | 装在手腕上 | 固定在场景 |
+| OpenCV | `cv2.calibrateHandEye(..., TSAI)` | 同上 |
+| 喂入机器人位姿 | `T_base_gripper` | **`inv(T_base_gripper)`** |
+| 棋盘观测 | `T_camera_board`（PnP） | 同上 |
+| 输出外参 | `T_gripper_camera` | **`T_base_camera`** |
+| 语义 | 相机坐标 → gripper | 相机坐标 → base |
+| 一致性检查 | 棋盘在 **base** 下应固定 | 棋盘在 **gripper** 下应固定 |
+
+节点内显式标注 `configuration: eye_to_hand`，`method: Tsai (..., inverted gripper poses)`；结果 `camera_frame` 为 `camera_color_optical_frame`。
+
+#### 3.15.2 当前推荐入口与操作
+
+```bash
+cd /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim
+./ros2/run_orbbec_handeye_manual.sh
+```
+
+终端按键（与 §3.14 手动腕部流程同构）：
+
+```text
+SPACE  未上电：上电保持（不采集）
+       已上电：采集 1 条样本（/orbbec_handeye/capture）
+m      断力矩 / 下电，然后手动掰臂（开合不变）
+s      提示到 Viewer 按 S 做 Tsai 求解
+q      强制清理 Orbbec launch / component_container / OpenCV GUI / hardware_controller
+```
+
+Viewer 窗口内仍可 `SPACE` 本地补采、`S` 求解、`Q` 仅退出节点。
+
+手动模式 `reject_duplicate_samples:=false`（相邻过像不拒）。每成功采集一条即写盘；采够后在 Viewer 按 `S`，再终端 `q` 退出。
+
+#### 3.15.3 代码与脚本路径
+
+```text
+# 手动一键编排（当前推荐）
+ros2/run_orbbec_handeye_manual.sh
+
+# Orbbec RGB 驱动（third_party/orbbec_293_ws）
+ros2/run_orbbec_camera.sh
+
+# Viewer / 采集节点包装
+ros2/run_orbbec_handeye.sh
+  支持 --reject-duplicates（默认关）
+  支持 --square-size-m（默认 0.0144）
+
+# 硬件上电保持（与腕部共用）
+ros2/run_hardware_controller.sh
+hardware/tools/disable_all_torque.py
+
+# 核心节点源码
+ros2/soarm100_vision/soarm100_vision/orbbec_eye_to_hand_calibrator_node.py
+  - 服务：/orbbec_handeye/capture  (std_srvs/Trigger)
+  - 订阅：/camera/color/image_raw、/camera/color/camera_info
+  - 每次采集写 samples.json + sample_*.png；S 求解写 tsai json/yaml
+
+# 棋盘（与腕部相同规格）
+hardware/calibration/camera/handeye_checkerboard_9x6_14_4mm.svg
+```
+
+#### 3.15.4 两轮标定结果与分析
+
+**第一轮（20260805_140910，26 样本）— 不可用**
+
+```text
+logs/hardware/orbbec_handeye/20260805_140910/
+```
+
+| 指标 | 数值 | 备注 |
+|---|---|---|
+| mean PnP RMS | 0.17 px | 图像检测正常 |
+| board_in_gripper 平移 RMS | 147 mm | 极差 |
+| board_in_gripper 平移 max | 298 mm | |
+| board_in_gripper 旋转 RMS | 23.9 deg | |
+| T_base_camera 平移模长 | ~61 cm | |
+| 姿态覆盖 | 平移跨度 ~26–41 cm，最大转角 ~85 deg | |
+
+分析：PnP 极好但「棋盘在夹爪系」几乎每相邻两帧跳变 100–300 mm / 十余～数十度，leave-one-out 去掉单帧几乎救不了全局 RMS。说明整场「板相对指尖刚体固定」假设不成立（滑动 / 重夹 / 开合变化），或外参整体解歪；不是个别「倒霉姿态」问题。
+
+**第二轮（20260805_143740，22 样本）— 当前采用版**
+
+```text
+logs/hardware/orbbec_handeye/20260805_143740/
+  samples.json
+  sample_000.png ... sample_021.png
+  orbbec_eye_to_hand_tsai.json
+  orbbec_eye_to_hand_tsai.yaml
+```
+
+| 指标 | 第一轮 → 第二轮 | 腕部 §3.14 参考 |
+|---|---|---|
+| 样本数 | 26 → **22** | 26 |
+| mean PnP RMS | 0.17 → **0.18 px** | 0.61 px |
+| board_in_gripper 平移 RMS | 147 → **51 mm** | 17.4 mm |
+| board_in_gripper 平移 max | 298 → **93 mm** | 57 mm |
+| board_in_gripper 旋转 RMS | 23.9 → **8.8 deg** | 5.9 deg |
+| board_in_gripper 旋转 max | 44.4 → **15.9 deg** | 8.5 deg |
+| T_base_camera 平移 (m) | — | **(-0.029, 0.028, 0.638)** |
+| T_base_camera 平移模长 | ~61 → **~64 cm** | — |
+| 姿态覆盖 | — | 平移跨度 ~24–39 cm，最大转角 ~79 deg |
+
+第二轮相对首轮明显改善；相邻帧 board_in_gripper 中位跳变约 70 mm / 9 deg，仍高于腕部标定水平。现场操作已认为夹持足够稳，进一步提升空间有限。
+
+**结论（工程取舍）：** 采纳 **20260805_143740** 作为当前 2Real Orbbec 眼在手外外参。精度低于腕部 eye-in-hand，但 PnP 与姿态覆盖可支撑联调与粗抓取；高精度终版抓取前可再复标。理论目标仍为 board_in_gripper 平移 RMS &lt; 20–30 mm、旋转 RMS &lt; 5 deg。
+
+下游优先加载：
+
+```text
+logs/hardware/orbbec_handeye/20260805_143740/orbbec_eye_to_hand_tsai.yaml
+```
+
+或同目录 `orbbec_eye_to_hand_tsai.json` 中的 `T_base_camera`（`X_base = R · X_camera + t`，frame：`camera_color_optical_frame` → `base`）。深度若已与 RGB 对齐，可共用此外参。
+
+#### 3.15.5 复标注意点
+
+1. 棋盘夹死后整场勿松夹、勿换夹；夹爪开合整场锁定。
+2. 第一次 SPACE 仅上电；松手稳定且 Viewer `DETECTED` 后再第二次 SPACE 采集。
+3. 采完一条先 `m` 下电再挪臂，避免带力换姿。
+4. 关闭官方 Orbbec Viewer 后再跑脚本（USB 独占）。
+5. 若相邻采集后 board_in_gripper 仍大幅跳变，优先查夹持而非继续堆样本。
+

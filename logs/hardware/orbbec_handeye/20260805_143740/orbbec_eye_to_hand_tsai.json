@@ -1,0 +1,67 @@
+{
+  "schema": "soarm100_real_orbbec_eye_to_hand_result_v1",
+  "configuration": "eye_to_hand",
+  "method": "Tsai (cv2.CALIB_HAND_EYE_TSAI, inverted gripper poses)",
+  "transform_semantics": "T_base_camera maps Orbbec color/optical coordinates into robot base; X_base = R * X_camera + t",
+  "base_frame": "base",
+  "gripper_frame": "wrist_roll",
+  "camera_frame": "camera_color_optical_frame",
+  "sample_count": 22,
+  "T_base_camera": {
+    "matrix": [
+      [
+        0.010392341479141365,
+        -0.7248118643646504,
+        0.6888684638701503,
+        -0.02901455426136762
+      ],
+      [
+        -0.9811498007820099,
+        0.1255533734165062,
+        0.14690615660739956,
+        0.027828703172223017
+      ],
+      [
+        -0.19296908473639865,
+        -0.6774098550360594,
+        -0.7098442227954114,
+        0.6376916205164427
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    ],
+    "translation_m": [
+      -0.02901455426136762,
+      0.027828703172223017,
+      0.6376916205164427
+    ],
+    "rotation_matrix": [
+      [
+        0.010392341479141365,
+        -0.7248118643646504,
+        0.6888684638701503
+      ],
+      [
+        -0.9811498007820099,
+        0.1255533734165062,
+        0.14690615660739956
+      ],
+      [
+        -0.19296908473639865,
+        -0.6774098550360594,
+        -0.7098442227954114
+      ]
+    ]
+  },
+  "validation": {
+    "fixed_board_in_gripper_translation_rms_mm": 50.62735652288847,
+    "fixed_board_in_gripper_translation_max_mm": 93.36302263457223,
+    "fixed_board_in_gripper_rotation_rms_deg_vs_first": 8.765756714887463,
+    "fixed_board_in_gripper_rotation_max_deg_vs_first": 15.869828920847434,
+    "mean_pnp_reprojection_rms_px": 0.17879424859939197
+  }
+}

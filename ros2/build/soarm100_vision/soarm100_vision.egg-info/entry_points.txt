@@ -9,6 +9,7 @@ mujoco_camera_publisher_node = soarm100_vision.mujoco_camera_publisher_node:main
 mujoco_mirror_viewer_node = soarm100_vision.mujoco_mirror_viewer_node:main
 mujoco_policy_backend_node = soarm100_vision.mujoco_policy_backend_node:main
 obstacle_cloud_node = soarm100_vision.obstacle_cloud_node:main
+orbbec_eye_to_hand_calibrator_node = soarm100_vision.orbbec_eye_to_hand_calibrator_node:main
 sdf_cbf_backend_node = soarm100_vision.sdf_cbf_backend_node:main
 send_execute_grasp = soarm100_vision.send_execute_grasp_node:main
 send_planned_grasp = soarm100_vision.send_planned_grasp_node:main
