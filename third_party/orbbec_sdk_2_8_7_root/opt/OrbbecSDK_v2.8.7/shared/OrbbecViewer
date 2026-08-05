@@ -1,0 +1,13 @@
+#!/bin/bash
+
+ORBBECSDK_PACK_NAME="OrbbecSDK"
+
+ORBBECSDK_PATH=/opt/OrbbecSDK_v2.8.7
+
+ORBBECVIEWER_PATH=$ORBBECSDK_PATH/tools
+
+cd "$ORBBECVIEWER_PATH" || { echo "Unable to switch to the directory: $ORBBECVIEWER_PATH"; exit 1; }
+
+exec "$ORBBECVIEWER_PATH/OrbbecViewer"
+
+exit

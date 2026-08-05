@@ -1,0 +1,731 @@
+[0.000000] (-) TimerEvent: {}
+[0.000433] (orbbec_camera_msgs) JobQueued: {'identifier': 'orbbec_camera_msgs', 'dependencies': OrderedDict()}
+[0.000782] (orbbec_description) JobQueued: {'identifier': 'orbbec_description', 'dependencies': OrderedDict()}
+[0.000826] (orbbec_camera) JobQueued: {'identifier': 'orbbec_camera', 'dependencies': OrderedDict([('orbbec_camera_msgs', '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_camera_msgs')])}
+[0.000962] (orbbec_camera_msgs) JobStarted: {'identifier': 'orbbec_camera_msgs'}
+[0.004568] (orbbec_description) JobStarted: {'identifier': 'orbbec_description'}
+[0.006966] (orbbec_camera_msgs) JobProgress: {'identifier': 'orbbec_camera_msgs', 'progress': 'cmake'}
+[0.007149] (orbbec_camera_msgs) Command: {'cmd': ['/usr/bin/cmake', '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/src/OrbbecSDK_ROS2/orbbec_camera_msgs', '-DCMAKE_BUILD_TYPE=Release', '-DINSTALL_UDEV_RULES=OFF', '-DPython3_EXECUTABLE=/usr/bin/python3', '-DCMAKE_INSTALL_PREFIX=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_camera_msgs'], 'cwd': '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/build_system/orbbec_camera_msgs', 'env': OrderedDict([('GJS_DEBUG_TOPICS', 'JS ERROR;JS LOG'), ('LESSOPEN', '| /usr/bin/lesspipe %s'), ('VSCODE_CWD', '/home/sophie'), ('CURSOR_EXTENSION_HOST_ROLE', 'user'), ('VSCODE_ESM_ENTRYPOINT', 'vs/workbench/api/node/extensionHostProcess'), ('CONDA_PROMPT_MODIFIER', '(base)'), ('CODEX_CI', '1'), ('LANGUAGE', 'zh_CN:zh:en_US:en'), ('USER', 'sophie'), ('LC_TIME', 'zh_CN.UTF-8'), ('CODEX_INTERNAL_ORIGINATOR_OVERRIDE', 'codex_vscode'), ('VSCODE_NLS_CONFIG', '{"userLocale":"zh-cn","osLocale":"zh-cn","resolvedLanguage":"en","defaultMessagesFile":"/usr/share/cursor/resources/app/out/nls.messages.json","locale":"zh-cn","availableLanguages":{}}'), ('CXXFLAGS', '-fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/sophie/miniconda3/include  -I/home/sophie/miniconda3/targets/x86_64-linux/include  -L/home/sophie/miniconda3/targets/x86_64-linux/lib -L/home/sophie/miniconda3/targets/x86_64-linux/lib/stubs'), ('VSCODE_HANDLES_UNCAUGHT_ERRORS', 'true'), ('GCC_RANLIB', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-gcc-ranlib'), ('XDG_SESSION_TYPE', 'x11'), ('OBJCOPY', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-objcopy'), ('DEBUG', 'release'), ('DEBUG_CXXFLAGS', '-fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-all -fno-plt -Og -g -Wall -Wextra -fvar-tracking-assignments -ffunction-sections -pipe -isystem /home/sophie/miniconda3/include'), ('SIZE', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-size'), ('SHLVL', '0'), ('LD_LIBRARY_PATH', '/usr/local/cuda-11.0/lib64:/usr/lib/x86_64-linux-gnu/gazebo-11/plugins:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib:/home/sophie/.mujoco/mujoco-3.3.4/bin'), ('HOME', '/home/sophie'), ('CHROME_DESKTOP', 'cursor.desktop'), ('CC_FOR_BUILD', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-cc'), ('CONDA_SHLVL', '1'), ('DESKTOP_SESSION', 'ubuntu'), ('CONDA_TOOLCHAIN_BUILD', 'x86_64-conda-linux-gnu'), ('VSCODE_IPC_HOOK', '/run/user/1000/vscode-b77d059a-3.13-main.sock'), ('GIO_LAUNCHED_DESKTOP_FILE', '/usr/share/applications/cursor.desktop'), ('ROS_DOMAINID', '7'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('LDFLAGS', '-Wl,-O2 -Wl,--sort-common -Wl,--as-needed -Wl,-z,relro -Wl,-z,now -Wl,--disable-new-dtags -Wl,--gc-sections -Wl,-rpath,/home/sophie/miniconda3/lib -Wl,-rpath-link,/home/sophie/miniconda3/lib -L/home/sophie/miniconda3/lib  -L/home/sophie/miniconda3/targets/x86_64-linux/lib -L/home/sophie/miniconda3/targets/x86_64-linux/lib/stubs'), ('PAGER', 'cat'), ('STRINGS', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-strings'), ('LC_MONETARY', 'zh_CN.UTF-8'), ('CURSOR_WORKSPACE_LABEL', 'soarm100sim'), ('MANAGERPID', '1459'), ('LC_CTYPE', 'C.UTF-8'), ('SYSTEMD_EXEC_PID', '1837'), ('NO_COLOR', '1'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('COLORTERM', ''), ('CPP', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-cpp'), ('_CONDA_ROOT', '/home/sophie/miniconda3'), ('GIO_LAUNCHED_DESKTOP_FILE_PID', '7052'), ('VSCODE_CRASH_REPORTER_PROCESS_TYPE', 'extensionHost'), ('IM_CONFIG_PHASE', '1'), ('NVCC_PREPEND_FLAGS', ' -ccbin=/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-c++'), ('ELFEDIT', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-elfedit'), ('VSCODE_L10N_BUNDLE_LOCATION', ''), ('CODEX_PERMISSION_PROFILE', ':workspace'), ('STRIP', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-strip'), ('ROS_DISTRO', 'humble'), ('GTK_IM_MODULE', 'fcitx'), ('LOGNAME', 'sophie'), ('GCC', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-gcc'), ('JOURNAL_STREAM', '8:16592'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('CURSOR_LAYOUT', 'unifiedAgent'), ('READELF', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-readelf'), ('XDG_SESSION_CLASS', 'user'), ('AR', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-ar'), ('RUST_LOG', 'warn'), ('USERNAME', 'sophie'), ('GXX', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-g++'), ('TERM', 'dumb'), ('AS', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-as'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('FC_FONTATIONS', '1'), ('ROS_LOCALHOST_ONLY', '0'), ('CXXFILT', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-c++filt'), ('WINDOWPATH', '2'), ('BUILD', 'x86_64-conda-linux-gnu'), ('PATH', '/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'), ('SESSION_MANAGER', 'local/sophie-Legion-Y7000P-IRX10:@/tmp/.ICE-unix/1790,unix/sophie-Legion-Y7000P-IRX10:/tmp/.ICE-unix/1790'), ('INVOCATION_ID', 'a9d6127a82b246578841dca28b488137'), ('XDG_MENU_PREFIX', 'gnome-'), ('build_alias', 'x86_64-conda-linux-gnu'), ('LC_ADDRESS', 'zh_CN.UTF-8'), ('VSCODE_PROCESS_TITLE', 'extension-host (user) soarm100sim [1-2]'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('GDK_BACKEND', 'x11'), ('CFLAGS', '-march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/sophie/miniconda3/include  -I/home/sophie/miniconda3/targets/x86_64-linux/include  -L/home/sophie/miniconda3/targets/x86_64-linux/lib -L/home/sophie/miniconda3/targets/x86_64-linux/lib/stubs'), ('MUJOCO_PY_MUJOCO_PATH', '/home/sophie/.mujoco/mujoco-3.3.4'), ('GCC_AR', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-gcc-ar'), ('DISPLAY', ':0'), ('CODEX_SANDBOX_NETWORK_DISABLED', '1'), ('LANG', 'C.UTF-8'), ('DEBUG_CFLAGS', '-march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-all -fno-plt -Og -g -Wall -Wextra -fvar-tracking-assignments -ffunction-sections -pipe -isystem /home/sophie/miniconda3/include'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('LC_TELEPHONE', 'zh_CN.UTF-8'), ('_CONDA_PYTHON_SYSCONFIGDATA_NAME', '_sysconfigdata_x86_64_conda_linux_gnu'), ('XMODIFIERS', '@im=fcitx'), ('GH_PAGER', 'cat'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/gdm/Xauthority'), ('MESON_ARGS', '-Dbuildtype=release'), ('CURSOR_SPAWNED_BY_EXTENSION_ID', 'openai.chatgpt'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('AMENT_PREFIX_PATH', '/opt/ros/humble'), ('CPPFLAGS', '-DNDEBUG -D_FORTIFY_SOURCE=2 -O2 -isystem /home/sophie/miniconda3/include  -I/home/sophie/miniconda3/targets/x86_64-linux/include  -L/home/sophie/miniconda3/targets/x86_64-linux/lib -L/home/sophie/miniconda3/targets/x86_64-linux/lib/stubs'), ('CONDA_PYTHON_EXE', '/home/sophie/miniconda3/bin/python'), ('SHELL', '/bin/bash'), ('CMAKE_ARGS', '-DCMAKE_AR=/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-ar -DCMAKE_CXX_COMPILER_AR=/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-gcc-ar -DCMAKE_C_COMPILER_AR=/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-gcc-ar -DCMAKE_RANLIB=/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-ranlib -DCMAKE_CXX_COMPILER_RANLIB=/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-gcc-ranlib -DCMAKE_C_COMPILER_RANLIB=/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-gcc-ranlib -DCMAKE_LINKER=/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-ld -DCMAKE_STRIP=/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-strip -DCMAKE_BUILD_TYPE=Release'), ('LC_NAME', 'zh_CN.UTF-8'), ('HOST', 'x86_64-conda-linux-gnu'), ('QT_ACCESSIBILITY', '1'), ('ELECTRON_RUN_AS_NODE', '1'), ('DEBUG_CPPFLAGS', '-D_DEBUG -D_FORTIFY_SOURCE=2 -Og -isystem /home/sophie/miniconda3/include'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('CODEX_THREAD_ID', '019f5a48-96e5-7af0-8a1e-65bfcfd09744'), ('LC_MEASUREMENT', 'zh_CN.UTF-8'), ('CURSOR_SPAWN_CHAIN', 'openai.chatgpt'), ('GPG_AGENT_INFO', '/run/user/1000/gnupg/S.gpg-agent:0:1'), ('GJS_DEBUG_OUTPUT', 'stderr'), ('_CONDA_EXE', '/home/sophie/miniconda3/bin/conda'), ('ADDR2LINE', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-addr2line'), ('LC_IDENTIFICATION', 'zh_CN.UTF-8'), ('GCC_NM', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-gcc-nm'), ('CONDA_BUILD_SYSROOT', '/home/sophie/miniconda3/x86_64-conda-linux-gnu/sysroot'), ('GIT_PAGER', 'cat'), ('QT_IM_MODULE', 'fcitx'), ('PWD', '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/build_system/orbbec_camera_msgs'), ('LC_ALL', 'C.UTF-8'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('CONDA_EXE', '/home/sophie/miniconda3/bin/conda'), ('VSCODE_CODE_CACHE_PATH', '/home/sophie/.config/Cursor/CachedData/55434bd8062ece6fee083b82beed2aee42d253f0'), ('LD', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-ld'), ('CLUTTER_IM_MODULE', 'fcitx'), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/share/gnome:/home/sophie/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('PYTHONPATH', '/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('LC_NUMERIC', 'zh_CN.UTF-8'), ('GPROF', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-gprof'), ('CONDA_TOOLCHAIN_HOST', 'x86_64-conda-linux-gnu'), ('LC_PAPER', 'zh_CN.UTF-8'), ('host_alias', 'x86_64-conda-linux-gnu'), ('RANLIB', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-ranlib'), ('COLCON', '1'), ('CXX_FOR_BUILD', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-c++'), ('CMAKE_PREFIX_PATH', '/home/sophie/miniconda3:/home/sophie/miniconda3/x86_64-conda-linux-gnu/sysroot/usr:/opt/ros/humble'), ('VSCODE_PID', '7052'), ('NM', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-nm'), ('OBJDUMP', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-objdump')]), 'shell': False}
+[0.092823] (orbbec_camera_msgs) StdoutLine: {'line': b'-- The C compiler identification is GNU 11.4.0\n'}
+[0.093351] (orbbec_description) JobProgress: {'identifier': 'orbbec_description', 'progress': 'cmake'}
+[0.094616] (orbbec_description) Command: {'cmd': ['/usr/bin/cmake', '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/src/OrbbecSDK_ROS2/orbbec_description', '-DCMAKE_BUILD_TYPE=Release', '-DINSTALL_UDEV_RULES=OFF', '-DPython3_EXECUTABLE=/usr/bin/python3', '-DCMAKE_INSTALL_PREFIX=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description'], 'cwd': '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/build_system/orbbec_description', 'env': OrderedDict([('GJS_DEBUG_TOPICS', 'JS ERROR;JS LOG'), ('LESSOPEN', '| /usr/bin/lesspipe %s'), ('VSCODE_CWD', '/home/sophie'), ('CURSOR_EXTENSION_HOST_ROLE', 'user'), ('VSCODE_ESM_ENTRYPOINT', 'vs/workbench/api/node/extensionHostProcess'), ('CONDA_PROMPT_MODIFIER', '(base)'), ('CODEX_CI', '1'), ('LANGUAGE', 'zh_CN:zh:en_US:en'), ('USER', 'sophie'), ('LC_TIME', 'zh_CN.UTF-8'), ('CODEX_INTERNAL_ORIGINATOR_OVERRIDE', 'codex_vscode'), ('VSCODE_NLS_CONFIG', '{"userLocale":"zh-cn","osLocale":"zh-cn","resolvedLanguage":"en","defaultMessagesFile":"/usr/share/cursor/resources/app/out/nls.messages.json","locale":"zh-cn","availableLanguages":{}}'), ('CXXFLAGS', '-fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/sophie/miniconda3/include  -I/home/sophie/miniconda3/targets/x86_64-linux/include  -L/home/sophie/miniconda3/targets/x86_64-linux/lib -L/home/sophie/miniconda3/targets/x86_64-linux/lib/stubs'), ('VSCODE_HANDLES_UNCAUGHT_ERRORS', 'true'), ('GCC_RANLIB', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-gcc-ranlib'), ('XDG_SESSION_TYPE', 'x11'), ('OBJCOPY', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-objcopy'), ('DEBUG', 'release'), ('DEBUG_CXXFLAGS', '-fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-all -fno-plt -Og -g -Wall -Wextra -fvar-tracking-assignments -ffunction-sections -pipe -isystem /home/sophie/miniconda3/include'), ('SIZE', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-size'), ('SHLVL', '0'), ('LD_LIBRARY_PATH', '/usr/local/cuda-11.0/lib64:/usr/lib/x86_64-linux-gnu/gazebo-11/plugins:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib:/home/sophie/.mujoco/mujoco-3.3.4/bin'), ('HOME', '/home/sophie'), ('CHROME_DESKTOP', 'cursor.desktop'), ('CC_FOR_BUILD', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-cc'), ('CONDA_SHLVL', '1'), ('DESKTOP_SESSION', 'ubuntu'), ('CONDA_TOOLCHAIN_BUILD', 'x86_64-conda-linux-gnu'), ('VSCODE_IPC_HOOK', '/run/user/1000/vscode-b77d059a-3.13-main.sock'), ('GIO_LAUNCHED_DESKTOP_FILE', '/usr/share/applications/cursor.desktop'), ('ROS_DOMAINID', '7'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('LDFLAGS', '-Wl,-O2 -Wl,--sort-common -Wl,--as-needed -Wl,-z,relro -Wl,-z,now -Wl,--disable-new-dtags -Wl,--gc-sections -Wl,-rpath,/home/sophie/miniconda3/lib -Wl,-rpath-link,/home/sophie/miniconda3/lib -L/home/sophie/miniconda3/lib  -L/home/sophie/miniconda3/targets/x86_64-linux/lib -L/home/sophie/miniconda3/targets/x86_64-linux/lib/stubs'), ('PAGER', 'cat'), ('STRINGS', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-strings'), ('LC_MONETARY', 'zh_CN.UTF-8'), ('CURSOR_WORKSPACE_LABEL', 'soarm100sim'), ('MANAGERPID', '1459'), ('LC_CTYPE', 'C.UTF-8'), ('SYSTEMD_EXEC_PID', '1837'), ('NO_COLOR', '1'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('COLORTERM', ''), ('CPP', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-cpp'), ('_CONDA_ROOT', '/home/sophie/miniconda3'), ('GIO_LAUNCHED_DESKTOP_FILE_PID', '7052'), ('VSCODE_CRASH_REPORTER_PROCESS_TYPE', 'extensionHost'), ('IM_CONFIG_PHASE', '1'), ('NVCC_PREPEND_FLAGS', ' -ccbin=/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-c++'), ('ELFEDIT', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-elfedit'), ('VSCODE_L10N_BUNDLE_LOCATION', ''), ('CODEX_PERMISSION_PROFILE', ':workspace'), ('STRIP', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-strip'), ('ROS_DISTRO', 'humble'), ('GTK_IM_MODULE', 'fcitx'), ('LOGNAME', 'sophie'), ('GCC', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-gcc'), ('JOURNAL_STREAM', '8:16592'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('CURSOR_LAYOUT', 'unifiedAgent'), ('READELF', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-readelf'), ('XDG_SESSION_CLASS', 'user'), ('AR', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-ar'), ('RUST_LOG', 'warn'), ('USERNAME', 'sophie'), ('GXX', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-g++'), ('TERM', 'dumb'), ('AS', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-as'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('FC_FONTATIONS', '1'), ('ROS_LOCALHOST_ONLY', '0'), ('CXXFILT', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-c++filt'), ('WINDOWPATH', '2'), ('BUILD', 'x86_64-conda-linux-gnu'), ('PATH', '/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'), ('SESSION_MANAGER', 'local/sophie-Legion-Y7000P-IRX10:@/tmp/.ICE-unix/1790,unix/sophie-Legion-Y7000P-IRX10:/tmp/.ICE-unix/1790'), ('INVOCATION_ID', 'a9d6127a82b246578841dca28b488137'), ('XDG_MENU_PREFIX', 'gnome-'), ('build_alias', 'x86_64-conda-linux-gnu'), ('LC_ADDRESS', 'zh_CN.UTF-8'), ('VSCODE_PROCESS_TITLE', 'extension-host (user) soarm100sim [1-2]'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('GDK_BACKEND', 'x11'), ('CFLAGS', '-march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/sophie/miniconda3/include  -I/home/sophie/miniconda3/targets/x86_64-linux/include  -L/home/sophie/miniconda3/targets/x86_64-linux/lib -L/home/sophie/miniconda3/targets/x86_64-linux/lib/stubs'), ('MUJOCO_PY_MUJOCO_PATH', '/home/sophie/.mujoco/mujoco-3.3.4'), ('GCC_AR', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-gcc-ar'), ('DISPLAY', ':0'), ('CODEX_SANDBOX_NETWORK_DISABLED', '1'), ('LANG', 'C.UTF-8'), ('DEBUG_CFLAGS', '-march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-all -fno-plt -Og -g -Wall -Wextra -fvar-tracking-assignments -ffunction-sections -pipe -isystem /home/sophie/miniconda3/include'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('LC_TELEPHONE', 'zh_CN.UTF-8'), ('_CONDA_PYTHON_SYSCONFIGDATA_NAME', '_sysconfigdata_x86_64_conda_linux_gnu'), ('XMODIFIERS', '@im=fcitx'), ('GH_PAGER', 'cat'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/gdm/Xauthority'), ('MESON_ARGS', '-Dbuildtype=release'), ('CURSOR_SPAWNED_BY_EXTENSION_ID', 'openai.chatgpt'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('AMENT_PREFIX_PATH', '/opt/ros/humble'), ('CPPFLAGS', '-DNDEBUG -D_FORTIFY_SOURCE=2 -O2 -isystem /home/sophie/miniconda3/include  -I/home/sophie/miniconda3/targets/x86_64-linux/include  -L/home/sophie/miniconda3/targets/x86_64-linux/lib -L/home/sophie/miniconda3/targets/x86_64-linux/lib/stubs'), ('CONDA_PYTHON_EXE', '/home/sophie/miniconda3/bin/python'), ('SHELL', '/bin/bash'), ('CMAKE_ARGS', '-DCMAKE_AR=/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-ar -DCMAKE_CXX_COMPILER_AR=/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-gcc-ar -DCMAKE_C_COMPILER_AR=/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-gcc-ar -DCMAKE_RANLIB=/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-ranlib -DCMAKE_CXX_COMPILER_RANLIB=/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-gcc-ranlib -DCMAKE_C_COMPILER_RANLIB=/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-gcc-ranlib -DCMAKE_LINKER=/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-ld -DCMAKE_STRIP=/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-strip -DCMAKE_BUILD_TYPE=Release'), ('LC_NAME', 'zh_CN.UTF-8'), ('HOST', 'x86_64-conda-linux-gnu'), ('QT_ACCESSIBILITY', '1'), ('ELECTRON_RUN_AS_NODE', '1'), ('DEBUG_CPPFLAGS', '-D_DEBUG -D_FORTIFY_SOURCE=2 -Og -isystem /home/sophie/miniconda3/include'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('CODEX_THREAD_ID', '019f5a48-96e5-7af0-8a1e-65bfcfd09744'), ('LC_MEASUREMENT', 'zh_CN.UTF-8'), ('CURSOR_SPAWN_CHAIN', 'openai.chatgpt'), ('GPG_AGENT_INFO', '/run/user/1000/gnupg/S.gpg-agent:0:1'), ('GJS_DEBUG_OUTPUT', 'stderr'), ('_CONDA_EXE', '/home/sophie/miniconda3/bin/conda'), ('ADDR2LINE', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-addr2line'), ('LC_IDENTIFICATION', 'zh_CN.UTF-8'), ('GCC_NM', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-gcc-nm'), ('CONDA_BUILD_SYSROOT', '/home/sophie/miniconda3/x86_64-conda-linux-gnu/sysroot'), ('GIT_PAGER', 'cat'), ('QT_IM_MODULE', 'fcitx'), ('PWD', '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/build_system/orbbec_description'), ('LC_ALL', 'C.UTF-8'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('CONDA_EXE', '/home/sophie/miniconda3/bin/conda'), ('VSCODE_CODE_CACHE_PATH', '/home/sophie/.config/Cursor/CachedData/55434bd8062ece6fee083b82beed2aee42d253f0'), ('LD', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-ld'), ('CLUTTER_IM_MODULE', 'fcitx'), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/share/gnome:/home/sophie/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('PYTHONPATH', '/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('LC_NUMERIC', 'zh_CN.UTF-8'), ('GPROF', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-gprof'), ('CONDA_TOOLCHAIN_HOST', 'x86_64-conda-linux-gnu'), ('LC_PAPER', 'zh_CN.UTF-8'), ('host_alias', 'x86_64-conda-linux-gnu'), ('RANLIB', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-ranlib'), ('COLCON', '1'), ('CXX_FOR_BUILD', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-c++'), ('CMAKE_PREFIX_PATH', '/home/sophie/miniconda3:/home/sophie/miniconda3/x86_64-conda-linux-gnu/sysroot/usr:/opt/ros/humble'), ('VSCODE_PID', '7052'), ('NM', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-nm'), ('OBJDUMP', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-objdump')]), 'shell': False}
+[0.100056] (-) TimerEvent: {}
+[0.149202] (orbbec_description) StdoutLine: {'line': b'-- The C compiler identification is GNU 11.4.0\n'}
+[0.174591] (orbbec_camera_msgs) StdoutLine: {'line': b'-- The CXX compiler identification is GNU 11.4.0\n'}
+[0.180992] (orbbec_camera_msgs) StdoutLine: {'line': b'-- Detecting C compiler ABI info\n'}
+[0.192153] (orbbec_description) StdoutLine: {'line': b'-- The CXX compiler identification is GNU 11.4.0\n'}
+[0.197467] (orbbec_description) StdoutLine: {'line': b'-- Detecting C compiler ABI info\n'}
+[0.200141] (-) TimerEvent: {}
+[0.242022] (orbbec_camera_msgs) StdoutLine: {'line': b'-- Detecting C compiler ABI info - done\n'}
+[0.247992] (orbbec_camera_msgs) StdoutLine: {'line': b'-- Check for working C compiler: /usr/bin/cc - skipped\n'}
+[0.248132] (orbbec_camera_msgs) StdoutLine: {'line': b'-- Detecting C compile features\n'}
+[0.248379] (orbbec_camera_msgs) StdoutLine: {'line': b'-- Detecting C compile features - done\n'}
+[0.250712] (orbbec_camera_msgs) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info\n'}
+[0.261099] (orbbec_description) StdoutLine: {'line': b'-- Detecting C compiler ABI info - done\n'}
+[0.267040] (orbbec_description) StdoutLine: {'line': b'-- Check for working C compiler: /usr/bin/cc - skipped\n'}
+[0.267222] (orbbec_description) StdoutLine: {'line': b'-- Detecting C compile features\n'}
+[0.267509] (orbbec_description) StdoutLine: {'line': b'-- Detecting C compile features - done\n'}
+[0.269523] (orbbec_description) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info\n'}
+[0.300285] (-) TimerEvent: {}
+[0.321523] (orbbec_camera_msgs) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info - done\n'}
+[0.327974] (orbbec_camera_msgs) StdoutLine: {'line': b'-- Check for working CXX compiler: /usr/bin/c++ - skipped\n'}
+[0.328232] (orbbec_camera_msgs) StdoutLine: {'line': b'-- Detecting CXX compile features\n'}
+[0.328406] (orbbec_camera_msgs) StdoutLine: {'line': b'-- Detecting CXX compile features - done\n'}
+[0.330236] (orbbec_camera_msgs) StdoutLine: {'line': b'-- Found ament_cmake: 1.3.14 (/opt/ros/humble/share/ament_cmake/cmake)\n'}
+[0.335372] (orbbec_description) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info - done\n'}
+[0.341154] (orbbec_description) StdoutLine: {'line': b'-- Check for working CXX compiler: /usr/bin/c++ - skipped\n'}
+[0.341329] (orbbec_description) StdoutLine: {'line': b'-- Detecting CXX compile features\n'}
+[0.341580] (orbbec_description) StdoutLine: {'line': b'-- Detecting CXX compile features - done\n'}
+[0.343458] (orbbec_description) StdoutLine: {'line': b'-- Found ament_cmake: 1.3.14 (/opt/ros/humble/share/ament_cmake/cmake)\n'}
+[0.400372] (-) TimerEvent: {}
+[0.470478] (orbbec_camera_msgs) StdoutLine: {'line': b'-- Found Python3: /usr/bin/python3 (found version "3.10.12") found components: Interpreter \n'}
+[0.483633] (orbbec_description) StdoutLine: {'line': b'-- Found Python3: /usr/bin/python3 (found version "3.10.12") found components: Interpreter \n'}
+[0.500479] (-) TimerEvent: {}
+[0.534728] (orbbec_camera_msgs) StdoutLine: {'line': b'-- Found rosidl_default_generators: 1.2.1 (/opt/ros/humble/share/rosidl_default_generators/cmake)\n'}
+[0.536607] (orbbec_camera_msgs) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c\n'}
+[0.541754] (orbbec_camera_msgs) StdoutLine: {'line': b'-- Found rosidl_adapter: 3.1.8 (/opt/ros/humble/share/rosidl_adapter/cmake)\n'}
+[0.566614] (orbbec_camera_msgs) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp\n'}
+[0.593160] (orbbec_camera_msgs) StdoutLine: {'line': b'-- Found sensor_msgs: 4.9.1 (/opt/ros/humble/share/sensor_msgs/cmake)\n'}
+[0.600599] (-) TimerEvent: {}
+[0.613981] (orbbec_description) StdoutLine: {'line': b'-- Configuring done\n'}
+[0.615439] (orbbec_description) StdoutLine: {'line': b'-- Generating done\n'}
+[0.615719] (orbbec_description) StderrLine: {'line': b'CMake Warning:\n'}
+[0.615809] (orbbec_description) StderrLine: {'line': b'  Manually-specified variables were not used by the project:\n'}
+[0.615872] (orbbec_description) StderrLine: {'line': b'\n'}
+[0.615941] (orbbec_description) StderrLine: {'line': b'    INSTALL_UDEV_RULES\n'}
+[0.616003] (orbbec_description) StderrLine: {'line': b'\n'}
+[0.616062] (orbbec_description) StderrLine: {'line': b'\n'}
+[0.616363] (orbbec_description) StdoutLine: {'line': b'-- Build files have been written to: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/build_system/orbbec_description\n'}
+[0.700719] (-) TimerEvent: {}
+[0.800878] (-) TimerEvent: {}
+[0.901065] (-) TimerEvent: {}
+[0.951991] (orbbec_camera_msgs) StdoutLine: {'line': b'-- Found ament_cmake_ros: 0.10.0 (/opt/ros/humble/share/ament_cmake_ros/cmake)\n'}
+[0.952144] (orbbec_description) CommandEnded: {'returncode': 0}
+[0.953462] (orbbec_description) JobProgress: {'identifier': 'orbbec_description', 'progress': 'build'}
+[0.953490] (orbbec_description) Command: {'cmd': ['/usr/bin/cmake', '--build', '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/build_system/orbbec_description', '--', '-j32', '-l32'], 'cwd': '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/build_system/orbbec_description', 'env': OrderedDict([('GJS_DEBUG_TOPICS', 'JS ERROR;JS LOG'), ('LESSOPEN', '| /usr/bin/lesspipe %s'), ('VSCODE_CWD', '/home/sophie'), ('CURSOR_EXTENSION_HOST_ROLE', 'user'), ('VSCODE_ESM_ENTRYPOINT', 'vs/workbench/api/node/extensionHostProcess'), ('CONDA_PROMPT_MODIFIER', '(base)'), ('CODEX_CI', '1'), ('LANGUAGE', 'zh_CN:zh:en_US:en'), ('USER', 'sophie'), ('LC_TIME', 'zh_CN.UTF-8'), ('CODEX_INTERNAL_ORIGINATOR_OVERRIDE', 'codex_vscode'), ('VSCODE_NLS_CONFIG', '{"userLocale":"zh-cn","osLocale":"zh-cn","resolvedLanguage":"en","defaultMessagesFile":"/usr/share/cursor/resources/app/out/nls.messages.json","locale":"zh-cn","availableLanguages":{}}'), ('CXXFLAGS', '-fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/sophie/miniconda3/include  -I/home/sophie/miniconda3/targets/x86_64-linux/include  -L/home/sophie/miniconda3/targets/x86_64-linux/lib -L/home/sophie/miniconda3/targets/x86_64-linux/lib/stubs'), ('VSCODE_HANDLES_UNCAUGHT_ERRORS', 'true'), ('GCC_RANLIB', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-gcc-ranlib'), ('XDG_SESSION_TYPE', 'x11'), ('OBJCOPY', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-objcopy'), ('DEBUG', 'release'), ('DEBUG_CXXFLAGS', '-fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-all -fno-plt -Og -g -Wall -Wextra -fvar-tracking-assignments -ffunction-sections -pipe -isystem /home/sophie/miniconda3/include'), ('SIZE', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-size'), ('SHLVL', '0'), ('LD_LIBRARY_PATH', '/usr/local/cuda-11.0/lib64:/usr/lib/x86_64-linux-gnu/gazebo-11/plugins:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib:/home/sophie/.mujoco/mujoco-3.3.4/bin'), ('HOME', '/home/sophie'), ('CHROME_DESKTOP', 'cursor.desktop'), ('CC_FOR_BUILD', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-cc'), ('CONDA_SHLVL', '1'), ('DESKTOP_SESSION', 'ubuntu'), ('CONDA_TOOLCHAIN_BUILD', 'x86_64-conda-linux-gnu'), ('VSCODE_IPC_HOOK', '/run/user/1000/vscode-b77d059a-3.13-main.sock'), ('GIO_LAUNCHED_DESKTOP_FILE', '/usr/share/applications/cursor.desktop'), ('ROS_DOMAINID', '7'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('LDFLAGS', '-Wl,-O2 -Wl,--sort-common -Wl,--as-needed -Wl,-z,relro -Wl,-z,now -Wl,--disable-new-dtags -Wl,--gc-sections -Wl,-rpath,/home/sophie/miniconda3/lib -Wl,-rpath-link,/home/sophie/miniconda3/lib -L/home/sophie/miniconda3/lib  -L/home/sophie/miniconda3/targets/x86_64-linux/lib -L/home/sophie/miniconda3/targets/x86_64-linux/lib/stubs'), ('PAGER', 'cat'), ('STRINGS', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-strings'), ('LC_MONETARY', 'zh_CN.UTF-8'), ('CURSOR_WORKSPACE_LABEL', 'soarm100sim'), ('MANAGERPID', '1459'), ('LC_CTYPE', 'C.UTF-8'), ('SYSTEMD_EXEC_PID', '1837'), ('NO_COLOR', '1'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('COLORTERM', ''), ('CPP', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-cpp'), ('_CONDA_ROOT', '/home/sophie/miniconda3'), ('GIO_LAUNCHED_DESKTOP_FILE_PID', '7052'), ('VSCODE_CRASH_REPORTER_PROCESS_TYPE', 'extensionHost'), ('IM_CONFIG_PHASE', '1'), ('NVCC_PREPEND_FLAGS', ' -ccbin=/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-c++'), ('ELFEDIT', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-elfedit'), ('VSCODE_L10N_BUNDLE_LOCATION', ''), ('CODEX_PERMISSION_PROFILE', ':workspace'), ('STRIP', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-strip'), ('ROS_DISTRO', 'humble'), ('GTK_IM_MODULE', 'fcitx'), ('LOGNAME', 'sophie'), ('GCC', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-gcc'), ('JOURNAL_STREAM', '8:16592'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('CURSOR_LAYOUT', 'unifiedAgent'), ('READELF', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-readelf'), ('XDG_SESSION_CLASS', 'user'), ('AR', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-ar'), ('RUST_LOG', 'warn'), ('USERNAME', 'sophie'), ('GXX', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-g++'), ('TERM', 'dumb'), ('AS', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-as'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('FC_FONTATIONS', '1'), ('ROS_LOCALHOST_ONLY', '0'), ('CXXFILT', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-c++filt'), ('WINDOWPATH', '2'), ('BUILD', 'x86_64-conda-linux-gnu'), ('PATH', '/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'), ('SESSION_MANAGER', 'local/sophie-Legion-Y7000P-IRX10:@/tmp/.ICE-unix/1790,unix/sophie-Legion-Y7000P-IRX10:/tmp/.ICE-unix/1790'), ('INVOCATION_ID', 'a9d6127a82b246578841dca28b488137'), ('XDG_MENU_PREFIX', 'gnome-'), ('build_alias', 'x86_64-conda-linux-gnu'), ('LC_ADDRESS', 'zh_CN.UTF-8'), ('VSCODE_PROCESS_TITLE', 'extension-host (user) soarm100sim [1-2]'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('GDK_BACKEND', 'x11'), ('CFLAGS', '-march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/sophie/miniconda3/include  -I/home/sophie/miniconda3/targets/x86_64-linux/include  -L/home/sophie/miniconda3/targets/x86_64-linux/lib -L/home/sophie/miniconda3/targets/x86_64-linux/lib/stubs'), ('MUJOCO_PY_MUJOCO_PATH', '/home/sophie/.mujoco/mujoco-3.3.4'), ('GCC_AR', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-gcc-ar'), ('DISPLAY', ':0'), ('CODEX_SANDBOX_NETWORK_DISABLED', '1'), ('LANG', 'C.UTF-8'), ('DEBUG_CFLAGS', '-march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-all -fno-plt -Og -g -Wall -Wextra -fvar-tracking-assignments -ffunction-sections -pipe -isystem /home/sophie/miniconda3/include'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('LC_TELEPHONE', 'zh_CN.UTF-8'), ('_CONDA_PYTHON_SYSCONFIGDATA_NAME', '_sysconfigdata_x86_64_conda_linux_gnu'), ('XMODIFIERS', '@im=fcitx'), ('GH_PAGER', 'cat'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/gdm/Xauthority'), ('MESON_ARGS', '-Dbuildtype=release'), ('CURSOR_SPAWNED_BY_EXTENSION_ID', 'openai.chatgpt'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('AMENT_PREFIX_PATH', '/opt/ros/humble'), ('CPPFLAGS', '-DNDEBUG -D_FORTIFY_SOURCE=2 -O2 -isystem /home/sophie/miniconda3/include  -I/home/sophie/miniconda3/targets/x86_64-linux/include  -L/home/sophie/miniconda3/targets/x86_64-linux/lib -L/home/sophie/miniconda3/targets/x86_64-linux/lib/stubs'), ('CONDA_PYTHON_EXE', '/home/sophie/miniconda3/bin/python'), ('SHELL', '/bin/bash'), ('CMAKE_ARGS', '-DCMAKE_AR=/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-ar -DCMAKE_CXX_COMPILER_AR=/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-gcc-ar -DCMAKE_C_COMPILER_AR=/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-gcc-ar -DCMAKE_RANLIB=/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-ranlib -DCMAKE_CXX_COMPILER_RANLIB=/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-gcc-ranlib -DCMAKE_C_COMPILER_RANLIB=/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-gcc-ranlib -DCMAKE_LINKER=/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-ld -DCMAKE_STRIP=/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-strip -DCMAKE_BUILD_TYPE=Release'), ('LC_NAME', 'zh_CN.UTF-8'), ('HOST', 'x86_64-conda-linux-gnu'), ('QT_ACCESSIBILITY', '1'), ('ELECTRON_RUN_AS_NODE', '1'), ('DEBUG_CPPFLAGS', '-D_DEBUG -D_FORTIFY_SOURCE=2 -Og -isystem /home/sophie/miniconda3/include'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('CODEX_THREAD_ID', '019f5a48-96e5-7af0-8a1e-65bfcfd09744'), ('LC_MEASUREMENT', 'zh_CN.UTF-8'), ('CURSOR_SPAWN_CHAIN', 'openai.chatgpt'), ('GPG_AGENT_INFO', '/run/user/1000/gnupg/S.gpg-agent:0:1'), ('GJS_DEBUG_OUTPUT', 'stderr'), ('_CONDA_EXE', '/home/sophie/miniconda3/bin/conda'), ('ADDR2LINE', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-addr2line'), ('LC_IDENTIFICATION', 'zh_CN.UTF-8'), ('GCC_NM', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-gcc-nm'), ('CONDA_BUILD_SYSROOT', '/home/sophie/miniconda3/x86_64-conda-linux-gnu/sysroot'), ('GIT_PAGER', 'cat'), ('QT_IM_MODULE', 'fcitx'), ('PWD', '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/build_system/orbbec_description'), ('LC_ALL', 'C.UTF-8'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('CONDA_EXE', '/home/sophie/miniconda3/bin/conda'), ('VSCODE_CODE_CACHE_PATH', '/home/sophie/.config/Cursor/CachedData/55434bd8062ece6fee083b82beed2aee42d253f0'), ('LD', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-ld'), ('CLUTTER_IM_MODULE', 'fcitx'), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/share/gnome:/home/sophie/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('PYTHONPATH', '/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('LC_NUMERIC', 'zh_CN.UTF-8'), ('GPROF', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-gprof'), ('CONDA_TOOLCHAIN_HOST', 'x86_64-conda-linux-gnu'), ('LC_PAPER', 'zh_CN.UTF-8'), ('host_alias', 'x86_64-conda-linux-gnu'), ('RANLIB', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-ranlib'), ('COLCON', '1'), ('CXX_FOR_BUILD', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-c++'), ('CMAKE_PREFIX_PATH', '/home/sophie/miniconda3:/home/sophie/miniconda3/x86_64-conda-linux-gnu/sysroot/usr:/opt/ros/humble'), ('VSCODE_PID', '7052'), ('NM', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-nm'), ('OBJDUMP', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-objdump')]), 'shell': False}
+[0.990748] (orbbec_description) CommandEnded: {'returncode': 0}
+[0.991177] (orbbec_description) JobProgress: {'identifier': 'orbbec_description', 'progress': 'install'}
+[0.997419] (orbbec_description) Command: {'cmd': ['/usr/bin/cmake', '--install', '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/build_system/orbbec_description'], 'cwd': '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/build_system/orbbec_description', 'env': OrderedDict([('GJS_DEBUG_TOPICS', 'JS ERROR;JS LOG'), ('LESSOPEN', '| /usr/bin/lesspipe %s'), ('VSCODE_CWD', '/home/sophie'), ('CURSOR_EXTENSION_HOST_ROLE', 'user'), ('VSCODE_ESM_ENTRYPOINT', 'vs/workbench/api/node/extensionHostProcess'), ('CONDA_PROMPT_MODIFIER', '(base)'), ('CODEX_CI', '1'), ('LANGUAGE', 'zh_CN:zh:en_US:en'), ('USER', 'sophie'), ('LC_TIME', 'zh_CN.UTF-8'), ('CODEX_INTERNAL_ORIGINATOR_OVERRIDE', 'codex_vscode'), ('VSCODE_NLS_CONFIG', '{"userLocale":"zh-cn","osLocale":"zh-cn","resolvedLanguage":"en","defaultMessagesFile":"/usr/share/cursor/resources/app/out/nls.messages.json","locale":"zh-cn","availableLanguages":{}}'), ('CXXFLAGS', '-fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/sophie/miniconda3/include  -I/home/sophie/miniconda3/targets/x86_64-linux/include  -L/home/sophie/miniconda3/targets/x86_64-linux/lib -L/home/sophie/miniconda3/targets/x86_64-linux/lib/stubs'), ('VSCODE_HANDLES_UNCAUGHT_ERRORS', 'true'), ('GCC_RANLIB', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-gcc-ranlib'), ('XDG_SESSION_TYPE', 'x11'), ('OBJCOPY', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-objcopy'), ('DEBUG', 'release'), ('DEBUG_CXXFLAGS', '-fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-all -fno-plt -Og -g -Wall -Wextra -fvar-tracking-assignments -ffunction-sections -pipe -isystem /home/sophie/miniconda3/include'), ('SIZE', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-size'), ('SHLVL', '0'), ('LD_LIBRARY_PATH', '/usr/local/cuda-11.0/lib64:/usr/lib/x86_64-linux-gnu/gazebo-11/plugins:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib:/home/sophie/.mujoco/mujoco-3.3.4/bin'), ('HOME', '/home/sophie'), ('CHROME_DESKTOP', 'cursor.desktop'), ('CC_FOR_BUILD', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-cc'), ('CONDA_SHLVL', '1'), ('DESKTOP_SESSION', 'ubuntu'), ('CONDA_TOOLCHAIN_BUILD', 'x86_64-conda-linux-gnu'), ('VSCODE_IPC_HOOK', '/run/user/1000/vscode-b77d059a-3.13-main.sock'), ('GIO_LAUNCHED_DESKTOP_FILE', '/usr/share/applications/cursor.desktop'), ('ROS_DOMAINID', '7'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('LDFLAGS', '-Wl,-O2 -Wl,--sort-common -Wl,--as-needed -Wl,-z,relro -Wl,-z,now -Wl,--disable-new-dtags -Wl,--gc-sections -Wl,-rpath,/home/sophie/miniconda3/lib -Wl,-rpath-link,/home/sophie/miniconda3/lib -L/home/sophie/miniconda3/lib  -L/home/sophie/miniconda3/targets/x86_64-linux/lib -L/home/sophie/miniconda3/targets/x86_64-linux/lib/stubs'), ('PAGER', 'cat'), ('STRINGS', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-strings'), ('LC_MONETARY', 'zh_CN.UTF-8'), ('CURSOR_WORKSPACE_LABEL', 'soarm100sim'), ('MANAGERPID', '1459'), ('LC_CTYPE', 'C.UTF-8'), ('SYSTEMD_EXEC_PID', '1837'), ('NO_COLOR', '1'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('COLORTERM', ''), ('CPP', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-cpp'), ('_CONDA_ROOT', '/home/sophie/miniconda3'), ('GIO_LAUNCHED_DESKTOP_FILE_PID', '7052'), ('VSCODE_CRASH_REPORTER_PROCESS_TYPE', 'extensionHost'), ('IM_CONFIG_PHASE', '1'), ('NVCC_PREPEND_FLAGS', ' -ccbin=/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-c++'), ('ELFEDIT', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-elfedit'), ('VSCODE_L10N_BUNDLE_LOCATION', ''), ('CODEX_PERMISSION_PROFILE', ':workspace'), ('STRIP', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-strip'), ('ROS_DISTRO', 'humble'), ('GTK_IM_MODULE', 'fcitx'), ('LOGNAME', 'sophie'), ('GCC', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-gcc'), ('JOURNAL_STREAM', '8:16592'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('CURSOR_LAYOUT', 'unifiedAgent'), ('READELF', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-readelf'), ('XDG_SESSION_CLASS', 'user'), ('AR', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-ar'), ('RUST_LOG', 'warn'), ('USERNAME', 'sophie'), ('GXX', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-g++'), ('TERM', 'dumb'), ('AS', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-as'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('FC_FONTATIONS', '1'), ('ROS_LOCALHOST_ONLY', '0'), ('CXXFILT', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-c++filt'), ('WINDOWPATH', '2'), ('BUILD', 'x86_64-conda-linux-gnu'), ('PATH', '/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'), ('SESSION_MANAGER', 'local/sophie-Legion-Y7000P-IRX10:@/tmp/.ICE-unix/1790,unix/sophie-Legion-Y7000P-IRX10:/tmp/.ICE-unix/1790'), ('INVOCATION_ID', 'a9d6127a82b246578841dca28b488137'), ('XDG_MENU_PREFIX', 'gnome-'), ('build_alias', 'x86_64-conda-linux-gnu'), ('LC_ADDRESS', 'zh_CN.UTF-8'), ('VSCODE_PROCESS_TITLE', 'extension-host (user) soarm100sim [1-2]'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('GDK_BACKEND', 'x11'), ('CFLAGS', '-march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/sophie/miniconda3/include  -I/home/sophie/miniconda3/targets/x86_64-linux/include  -L/home/sophie/miniconda3/targets/x86_64-linux/lib -L/home/sophie/miniconda3/targets/x86_64-linux/lib/stubs'), ('MUJOCO_PY_MUJOCO_PATH', '/home/sophie/.mujoco/mujoco-3.3.4'), ('GCC_AR', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-gcc-ar'), ('DISPLAY', ':0'), ('CODEX_SANDBOX_NETWORK_DISABLED', '1'), ('LANG', 'C.UTF-8'), ('DEBUG_CFLAGS', '-march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-all -fno-plt -Og -g -Wall -Wextra -fvar-tracking-assignments -ffunction-sections -pipe -isystem /home/sophie/miniconda3/include'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('LC_TELEPHONE', 'zh_CN.UTF-8'), ('_CONDA_PYTHON_SYSCONFIGDATA_NAME', '_sysconfigdata_x86_64_conda_linux_gnu'), ('XMODIFIERS', '@im=fcitx'), ('GH_PAGER', 'cat'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/gdm/Xauthority'), ('MESON_ARGS', '-Dbuildtype=release'), ('CURSOR_SPAWNED_BY_EXTENSION_ID', 'openai.chatgpt'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('AMENT_PREFIX_PATH', '/opt/ros/humble'), ('CPPFLAGS', '-DNDEBUG -D_FORTIFY_SOURCE=2 -O2 -isystem /home/sophie/miniconda3/include  -I/home/sophie/miniconda3/targets/x86_64-linux/include  -L/home/sophie/miniconda3/targets/x86_64-linux/lib -L/home/sophie/miniconda3/targets/x86_64-linux/lib/stubs'), ('CONDA_PYTHON_EXE', '/home/sophie/miniconda3/bin/python'), ('SHELL', '/bin/bash'), ('CMAKE_ARGS', '-DCMAKE_AR=/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-ar -DCMAKE_CXX_COMPILER_AR=/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-gcc-ar -DCMAKE_C_COMPILER_AR=/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-gcc-ar -DCMAKE_RANLIB=/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-ranlib -DCMAKE_CXX_COMPILER_RANLIB=/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-gcc-ranlib -DCMAKE_C_COMPILER_RANLIB=/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-gcc-ranlib -DCMAKE_LINKER=/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-ld -DCMAKE_STRIP=/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-strip -DCMAKE_BUILD_TYPE=Release'), ('LC_NAME', 'zh_CN.UTF-8'), ('HOST', 'x86_64-conda-linux-gnu'), ('QT_ACCESSIBILITY', '1'), ('ELECTRON_RUN_AS_NODE', '1'), ('DEBUG_CPPFLAGS', '-D_DEBUG -D_FORTIFY_SOURCE=2 -Og -isystem /home/sophie/miniconda3/include'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('CODEX_THREAD_ID', '019f5a48-96e5-7af0-8a1e-65bfcfd09744'), ('LC_MEASUREMENT', 'zh_CN.UTF-8'), ('CURSOR_SPAWN_CHAIN', 'openai.chatgpt'), ('GPG_AGENT_INFO', '/run/user/1000/gnupg/S.gpg-agent:0:1'), ('GJS_DEBUG_OUTPUT', 'stderr'), ('_CONDA_EXE', '/home/sophie/miniconda3/bin/conda'), ('ADDR2LINE', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-addr2line'), ('LC_IDENTIFICATION', 'zh_CN.UTF-8'), ('GCC_NM', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-gcc-nm'), ('CONDA_BUILD_SYSROOT', '/home/sophie/miniconda3/x86_64-conda-linux-gnu/sysroot'), ('GIT_PAGER', 'cat'), ('QT_IM_MODULE', 'fcitx'), ('PWD', '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/build_system/orbbec_description'), ('LC_ALL', 'C.UTF-8'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('CONDA_EXE', '/home/sophie/miniconda3/bin/conda'), ('VSCODE_CODE_CACHE_PATH', '/home/sophie/.config/Cursor/CachedData/55434bd8062ece6fee083b82beed2aee42d253f0'), ('LD', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-ld'), ('CLUTTER_IM_MODULE', 'fcitx'), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/share/gnome:/home/sophie/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('PYTHONPATH', '/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('LC_NUMERIC', 'zh_CN.UTF-8'), ('GPROF', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-gprof'), ('CONDA_TOOLCHAIN_HOST', 'x86_64-conda-linux-gnu'), ('LC_PAPER', 'zh_CN.UTF-8'), ('host_alias', 'x86_64-conda-linux-gnu'), ('RANLIB', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-ranlib'), ('COLCON', '1'), ('CXX_FOR_BUILD', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-c++'), ('CMAKE_PREFIX_PATH', '/home/sophie/miniconda3:/home/sophie/miniconda3/x86_64-conda-linux-gnu/sysroot/usr:/opt/ros/humble'), ('VSCODE_PID', '7052'), ('NM', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-nm'), ('OBJDUMP', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-objdump')]), 'shell': False}
+[1.001119] (-) TimerEvent: {}
+[1.003160] (orbbec_description) StdoutLine: {'line': b'-- Install configuration: "Release"\n'}
+[1.003354] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/launch\n'}
+[1.003391] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/launch/launch_utils.py\n'}
+[1.003420] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/launch/view_model.launch.py\n'}
+[1.003448] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/meshes\n'}
+[1.003482] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/meshes/astra2\n'}
+[1.003536] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/meshes/astra2/camera_bottom_screw_frame.STL\n'}
+[1.003565] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/meshes/astra2/camera_depth_optical_frame.STL\n'}
+[1.003590] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/meshes/astra2/camera_color_optical_frame.STL\n'}
+[1.003774] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/meshes/astra2/base_link.STL\n'}
+[1.005293] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/meshes/astra2/camera_colorl_frame.STL\n'}
+[1.005463] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/meshes/astra2/camera_infra1_frame.STL\n'}
+[1.005678] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/meshes/astra2/camera_depth_frame.STL\n'}
+[1.005881] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/meshes/astra2/camera_infra1_optical_frame.STL\n'}
+[1.006095] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/meshes/gemini335L_336L\n'}
+[1.006165] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/meshes/gemini335L_336L/camera_IMU_frame.STL\n'}
+[1.006227] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/meshes/gemini335L_336L/camera_color_screw_frame.STL\n'}
+[1.007204] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/meshes/gemini335L_336L/camera_color_optical_frame.STL\n'}
+[1.007422] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/meshes/gemini335L_336L/base_link.STL\n'}
+[1.010173] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/meshes/gemini335L_336L/camera_infra2_optical_frame.STL\n'}
+[1.010383] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/meshes/gemini335L_336L/camera_color_frame.STL\n'}
+[1.010663] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/meshes/gemini335L_336L/camera_infra1_frame.STL\n'}
+[1.010815] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/meshes/gemini335L_336L/camera_depth_frame.STL\n'}
+[1.011116] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/meshes/gemini335L_336L/camera_infra2_frame.STL\n'}
+[1.011391] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/meshes/gemini335L_336L/camera_infra1_optical_frame.STL\n'}
+[1.011592] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/meshes/femto_bolt\n'}
+[1.011714] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/meshes/femto_bolt/femto_bolt.stl\n'}
+[1.011847] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/meshes/gemini2l\n'}
+[1.011987] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/meshes/gemini2l/camera_imu_frame.STL\n'}
+[1.012062] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/meshes/gemini2l/camera_IR1_optical_frame.STL\n'}
+[1.012160] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/meshes/gemini2l/camera_bottom_screw_frame.STL\n'}
+[1.013351] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/meshes/gemini2l/base_link.STL\n'}
+[1.013511] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/meshes/gemini2l/camera_IR2_optical_frame.STL\n'}
+[1.013619] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/meshes/gemini2l/camera_IR1_frame.STL\n'}
+[1.013817] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/meshes/gemini2l/camera_color_frame.STL\n'}
+[1.013923] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/meshes/gemini2l/camera_rgb_optical_frame.STL\n'}
+[1.014035] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/meshes/gemini2l/camera_depth_frame.STL\n'}
+[1.014219] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/meshes/gemini2l/camera_IR2_frame.STL\n'}
+[1.014351] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/meshes/gemini335_336\n'}
+[1.014481] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/meshes/gemini335_336/camera_left_ir_optical_frame.STL\n'}
+[1.014596] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/meshes/gemini335_336/camera_bottom_screw_frame.STL\n'}
+[1.015206] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/meshes/gemini335_336/camera_right_ir_optical_frame.STL\n'}
+[1.015419] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/meshes/gemini335_336/camera_depth_optical_frame.STL\n'}
+[1.015631] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/meshes/gemini335_336/camera_left_ir_frame.STL\n'}
+[1.015847] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/meshes/gemini335_336/camera_color_optical_frame.STL\n'}
+[1.016072] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/meshes/gemini335_336/camera_link.STL\n'}
+[1.017423] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/meshes/gemini335_336/camera_color_frame.STL\n'}
+[1.017570] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/meshes/gemini335_336/camera_right_ir_frame.STL\n'}
+[1.017781] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/meshes/gemini335_336/camera_depth_frame.STL\n'}
+[1.018010] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/meshes/AstraPlus.stl\n'}
+[1.034028] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/meshes/gemini2\n'}
+[1.034175] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/meshes/gemini2/camera_botter_screw_frame.STL\n'}
+[1.034632] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/meshes/gemini2/camera_color_optical_frame.STL\n'}
+[1.034765] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/meshes/gemini2/base_link.STL\n'}
+[1.036150] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/meshes/gemini2/camera_infra2_optical_frame.STL\n'}
+[1.036424] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/meshes/gemini2/camera_color_frame.STL\n'}
+[1.036515] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/meshes/gemini2/camera_infra1_frame.STL\n'}
+[1.036666] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/meshes/gemini2/camera_depth_frame.STL\n'}
+[1.036776] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/meshes/gemini2/camera_infra2_frame.STL\n'}
+[1.037162] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/meshes/gemini2/camera_infra1_optical_frame.STL\n'}
+[1.037334] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/meshes/gemini335Le\n'}
+[1.037403] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/meshes/gemini335Le/base_Link.STL\n'}
+[1.038894] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/meshes/gemini335Le/canera_left_IR_ROS_frame.STL\n'}
+[1.039029] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/meshes/gemini335Le/camera_botton_screw_frame.STL\n'}
+[1.041078] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/meshes/gemini335Le/canera_IMU_ROS_frame.STL\n'}
+[1.041688] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/meshes/gemini335Le/canera_right_IR_ROS_frame.STL\n'}
+[1.041795] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/meshes/gemini335Le/canera_RGB_ROS_frame.STL\n'}
+[1.041936] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/meshes/gemini335Lg\n'}
+[1.042132] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/meshes/gemini335Lg/camera_bottom_screw_frame.STL\n'}
+[1.042967] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/meshes/gemini335Lg/camera_IMU_frame.STL\n'}
+[1.043041] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/meshes/gemini335Lg/camera_color_optical_frame.STL\n'}
+[1.043138] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/meshes/gemini335Lg/base_link.STL\n'}
+[1.045223] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/meshes/gemini335Lg/camera_infra2_optical_frame.STL\n'}
+[1.045444] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/meshes/gemini335Lg/camera_color_frame.STL\n'}
+[1.045646] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/meshes/gemini335Lg/camera_infra1_frame.STL\n'}
+[1.045917] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/meshes/gemini335Lg/camera_depth_frame.STL\n'}
+[1.046102] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/meshes/gemini335Lg/camera_infra2_frame.STL\n'}
+[1.046298] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/meshes/gemini335Lg/camera_infra1_optical_frame.STL\n'}
+[1.046495] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/urdf\n'}
+[1.046654] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/urdf/test_femto_bolt.urdf.xacro\n'}
+[1.046727] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/urdf/test_gemini_335.urdf.xacro\n'}
+[1.046922] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/urdf/gemini335Lg.urdf.xacro\n'}
+[1.047342] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/urdf/test_gemini335L.urdf.xacro\n'}
+[1.047533] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/urdf/test_gemini2.urdf.xacro\n'}
+[1.047783] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/urdf/gemini335L_336L.urdf.xacro\n'}
+[1.048015] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/urdf/test_gemini335Lg.urdf.xacro\n'}
+[1.048120] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/urdf/test_gemini2L.urdf.xacro\n'}
+[1.048265] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/urdf/gemini_335_336.urdf.xacro\n'}
+[1.048329] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/urdf/gemini335Le.urdf.xacro\n'}
+[1.048395] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/urdf/test_gemini336L.urdf.xacro\n'}
+[1.048455] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/urdf/gemini2L.urdf.xacro\n'}
+[1.048513] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/urdf/test_gemini_336.urdf.xacro\n'}
+[1.048571] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/urdf/gemini2.urdf.xacro\n'}
+[1.048630] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/urdf/femto_bolt.urdf.xacro\n'}
+[1.048688] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/urdf/astra2.urdf.xacro\n'}
+[1.048750] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/urdf/test_gemini335Le.urdf.xacro\n'}
+[1.048814] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/urdf/test_astra2.urdf.xacro\n'}
+[1.048870] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/rviz\n'}
+[1.048939] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/rviz/urdf.rviz\n'}
+[1.049117] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/ament_index/resource_index/package_run_dependencies/orbbec_description\n'}
+[1.049185] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/ament_index/resource_index/parent_prefix_path/orbbec_description\n'}
+[1.049248] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/environment/ament_prefix_path.sh\n'}
+[1.049307] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/environment/ament_prefix_path.dsv\n'}
+[1.049372] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/environment/path.sh\n'}
+[1.049434] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/environment/path.dsv\n'}
+[1.049552] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/local_setup.bash\n'}
+[1.049612] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/local_setup.sh\n'}
+[1.049678] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/local_setup.zsh\n'}
+[1.049741] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/local_setup.dsv\n'}
+[1.049801] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/package.dsv\n'}
+[1.049862] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/ament_index/resource_index/packages/orbbec_description\n'}
+[1.049937] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/cmake/orbbec_descriptionConfig.cmake\n'}
+[1.050001] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/cmake/orbbec_descriptionConfig-version.cmake\n'}
+[1.050067] (orbbec_description) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_system/orbbec_description/share/orbbec_description/package.xml\n'}
+[1.101219] (-) TimerEvent: {}
+[1.184721] (orbbec_camera_msgs) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c\n'}
+[1.184989] (orbbec_description) CommandEnded: {'returncode': 0}
+[1.194897] (orbbec_description) JobEnded: {'identifier': 'orbbec_description', 'rc': 0}
+[1.201316] (-) TimerEvent: {}
+[1.301560] (-) TimerEvent: {}
+[1.401817] (-) TimerEvent: {}
+[1.497864] (orbbec_camera_msgs) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp\n'}
+[1.502072] (-) TimerEvent: {}
+[1.517094] (orbbec_camera_msgs) StdoutLine: {'line': b'-- Found PythonInterp: /home/sophie/miniconda3/bin/python3 (found suitable version "3.13.12", minimum required is "3.6") \n'}
+[1.519780] (orbbec_camera_msgs) StdoutLine: {'line': b'-- Found python_cmake_module: 0.10.0 (/opt/ros/humble/share/python_cmake_module/cmake)\n'}
+[1.544007] (orbbec_camera_msgs) StdoutLine: {'line': b'-- Found PythonLibs: /home/sophie/miniconda3/lib/libpython3.13.so (found suitable version "3.13.12", minimum required is "3.5") \n'}
+[1.544114] (orbbec_camera_msgs) StdoutLine: {'line': b'-- Using PYTHON_EXECUTABLE: /home/sophie/miniconda3/bin/python3\n'}
+[1.544151] (orbbec_camera_msgs) StdoutLine: {'line': b'-- Using PYTHON_INCLUDE_DIRS: /home/sophie/miniconda3/include/python3.13\n'}
+[1.544184] (orbbec_camera_msgs) StdoutLine: {'line': b'-- Using PYTHON_LIBRARIES: /home/sophie/miniconda3/lib/libpython3.13.so\n'}
+[1.567147] (orbbec_camera_msgs) StdoutLine: {'line': b'-- Found PythonExtra: .so  \n'}
+[1.602061] (-) TimerEvent: {}
+[1.702954] (-) TimerEvent: {}
+[1.742734] (orbbec_camera_msgs) StdoutLine: {'line': b'-- Using numpy include directory: /home/sophie/miniconda3/lib/python3.13/site-packages/numpy/_core/include\n'}
+[1.803028] (-) TimerEvent: {}
+[1.831092] (orbbec_camera_msgs) StdoutLine: {'line': b'-- Found ament_lint_auto: 0.12.15 (/opt/ros/humble/share/ament_lint_auto/cmake)\n'}
+[1.851112] (orbbec_camera_msgs) StdoutLine: {'line': b"-- Added test 'copyright' to check source files copyright and LICENSE\n"}
+[1.853035] (orbbec_camera_msgs) StdoutLine: {'line': b"-- Added test 'lint_cmake' to check CMake code style\n"}
+[1.854104] (orbbec_camera_msgs) StdoutLine: {'line': b"-- Added test 'xmllint' to check XML markup files\n"}
+[1.855556] (orbbec_camera_msgs) StdoutLine: {'line': b'-- Configuring done\n'}
+[1.903114] (-) TimerEvent: {}
+[1.905105] (orbbec_camera_msgs) StdoutLine: {'line': b'-- Generating done\n'}
+[1.906498] (orbbec_camera_msgs) StderrLine: {'line': b'CMake Warning:\n'}
+[1.906581] (orbbec_camera_msgs) StderrLine: {'line': b'  Manually-specified variables were not used by the project:\n'}
+[1.906617] (orbbec_camera_msgs) StderrLine: {'line': b'\n'}
+[1.906649] (orbbec_camera_msgs) StderrLine: {'line': b'    INSTALL_UDEV_RULES\n'}
+[1.906678] (orbbec_camera_msgs) StderrLine: {'line': b'\n'}
+[1.906707] (orbbec_camera_msgs) StderrLine: {'line': b'\n'}
+[1.915589] (orbbec_camera_msgs) StdoutLine: {'line': b'-- Build files have been written to: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/build_system/orbbec_camera_msgs\n'}
+[2.003198] (-) TimerEvent: {}
+[2.103372] (-) TimerEvent: {}
+[2.203635] (-) TimerEvent: {}
+[2.303880] (-) TimerEvent: {}
+[2.404119] (-) TimerEvent: {}
+[2.504387] (-) TimerEvent: {}
+[2.604615] (-) TimerEvent: {}
+[2.704798] (-) TimerEvent: {}
+[2.805001] (-) TimerEvent: {}
+[2.905226] (-) TimerEvent: {}
+[3.005460] (-) TimerEvent: {}
+[3.105684] (-) TimerEvent: {}
+[3.205882] (-) TimerEvent: {}
+[3.306116] (-) TimerEvent: {}
+[3.406364] (-) TimerEvent: {}
+[3.506599] (-) TimerEvent: {}
+[3.606807] (-) TimerEvent: {}
+[3.707031] (-) TimerEvent: {}
+[3.807249] (-) TimerEvent: {}
+[3.907485] (-) TimerEvent: {}
+[4.007704] (-) TimerEvent: {}
+[4.107975] (-) TimerEvent: {}
+[4.208181] (-) TimerEvent: {}
+[4.308406] (-) TimerEvent: {}
+[4.408674] (-) TimerEvent: {}
+[4.508878] (-) TimerEvent: {}
+[4.609084] (-) TimerEvent: {}
+[4.709322] (-) TimerEvent: {}
+[4.809546] (-) TimerEvent: {}
+[4.909760] (-) TimerEvent: {}
+[5.010065] (-) TimerEvent: {}
+[5.110320] (-) TimerEvent: {}
+[5.210603] (-) TimerEvent: {}
+[5.310880] (-) TimerEvent: {}
+[5.411136] (-) TimerEvent: {}
+[5.511403] (-) TimerEvent: {}
+[5.611646] (-) TimerEvent: {}
+[5.711975] (-) TimerEvent: {}
+[5.812196] (-) TimerEvent: {}
+[5.912473] (-) TimerEvent: {}
+[6.012743] (-) TimerEvent: {}
+[6.113018] (-) TimerEvent: {}
+[6.213256] (-) TimerEvent: {}
+[6.313529] (-) TimerEvent: {}
+[6.413818] (-) TimerEvent: {}
+[6.514067] (-) TimerEvent: {}
+[6.614341] (-) TimerEvent: {}
+[6.714576] (-) TimerEvent: {}
+[6.814823] (-) TimerEvent: {}
+[6.915095] (-) TimerEvent: {}
+[7.015352] (-) TimerEvent: {}
+[7.115576] (-) TimerEvent: {}
+[7.215776] (-) TimerEvent: {}
+[7.315964] (-) TimerEvent: {}
+[7.416189] (-) TimerEvent: {}
+[7.516411] (-) TimerEvent: {}
+[7.616571] (-) TimerEvent: {}
+[7.716788] (-) TimerEvent: {}
+[7.816978] (-) TimerEvent: {}
+[7.917169] (-) TimerEvent: {}
+[8.017377] (-) TimerEvent: {}
+[8.117588] (-) TimerEvent: {}
+[8.217807] (-) TimerEvent: {}
+[8.317968] (-) TimerEvent: {}
+[8.418196] (-) TimerEvent: {}
+[8.518451] (-) TimerEvent: {}
+[8.618682] (-) TimerEvent: {}
+[8.718893] (-) TimerEvent: {}
+[8.819110] (-) TimerEvent: {}
+[8.919334] (-) TimerEvent: {}
+[9.019545] (-) TimerEvent: {}
+[9.119788] (-) TimerEvent: {}
+[9.220042] (-) TimerEvent: {}
+[9.320236] (-) TimerEvent: {}
+[9.420470] (-) TimerEvent: {}
+[9.520711] (-) TimerEvent: {}
+[9.621028] (-) TimerEvent: {}
+[9.721234] (-) TimerEvent: {}
+[9.821447] (-) TimerEvent: {}
+[9.921656] (-) TimerEvent: {}
+[10.021928] (-) TimerEvent: {}
+[10.122163] (-) TimerEvent: {}
+[10.222407] (-) TimerEvent: {}
+[10.322639] (-) TimerEvent: {}
+[10.422868] (-) TimerEvent: {}
+[10.523136] (-) TimerEvent: {}
+[10.623417] (-) TimerEvent: {}
+[10.723640] (-) TimerEvent: {}
+[10.823840] (-) TimerEvent: {}
+[10.924073] (-) TimerEvent: {}
+[11.024293] (-) TimerEvent: {}
+[11.124527] (-) TimerEvent: {}
+[11.224794] (-) TimerEvent: {}
+[11.325048] (-) TimerEvent: {}
+[11.425277] (-) TimerEvent: {}
+[11.525526] (-) TimerEvent: {}
+[11.625770] (-) TimerEvent: {}
+[11.726155] (-) TimerEvent: {}
+[11.826421] (-) TimerEvent: {}
+[11.926673] (-) TimerEvent: {}
+[12.026958] (-) TimerEvent: {}
+[12.127170] (-) TimerEvent: {}
+[12.227418] (-) TimerEvent: {}
+[12.327714] (-) TimerEvent: {}
+[12.428004] (-) TimerEvent: {}
+[12.528254] (-) TimerEvent: {}
+[12.628491] (-) TimerEvent: {}
+[12.728739] (-) TimerEvent: {}
+[12.829062] (-) TimerEvent: {}
+[12.929307] (-) TimerEvent: {}
+[13.029568] (-) TimerEvent: {}
+[13.129828] (-) TimerEvent: {}
+[13.230046] (-) TimerEvent: {}
+[13.330220] (-) TimerEvent: {}
+[13.430455] (-) TimerEvent: {}
+[13.530698] (-) TimerEvent: {}
+[13.630939] (-) TimerEvent: {}
+[13.731234] (-) TimerEvent: {}
+[13.831513] (-) TimerEvent: {}
+[13.931794] (-) TimerEvent: {}
+[14.032081] (-) TimerEvent: {}
+[14.132356] (-) TimerEvent: {}
+[14.232623] (-) TimerEvent: {}
+[14.332883] (-) TimerEvent: {}
+[14.433155] (-) TimerEvent: {}
+[14.533433] (-) TimerEvent: {}
+[14.633712] (-) TimerEvent: {}
+[14.734014] (-) TimerEvent: {}
+[14.834265] (-) TimerEvent: {}
+[14.934520] (-) TimerEvent: {}
+[15.034753] (-) TimerEvent: {}
+[15.134986] (-) TimerEvent: {}
+[15.235210] (-) TimerEvent: {}
+[15.335469] (-) TimerEvent: {}
+[15.435702] (-) TimerEvent: {}
+[15.535942] (-) TimerEvent: {}
+[15.636167] (-) TimerEvent: {}
+[15.736413] (-) TimerEvent: {}
+[15.836645] (-) TimerEvent: {}
+[15.936866] (-) TimerEvent: {}
+[16.037085] (-) TimerEvent: {}
+[16.137313] (-) TimerEvent: {}
+[16.237549] (-) TimerEvent: {}
+[16.337783] (-) TimerEvent: {}
+[16.437997] (-) TimerEvent: {}
+[16.538245] (-) TimerEvent: {}
+[16.638488] (-) TimerEvent: {}
+[16.738718] (-) TimerEvent: {}
+[16.838933] (-) TimerEvent: {}
+[16.939129] (-) TimerEvent: {}
+[17.039357] (-) TimerEvent: {}
+[17.139561] (-) TimerEvent: {}
+[17.239774] (-) TimerEvent: {}
+[17.340034] (-) TimerEvent: {}
+[17.440257] (-) TimerEvent: {}
+[17.540514] (-) TimerEvent: {}
+[17.640716] (-) TimerEvent: {}
+[17.740950] (-) TimerEvent: {}
+[17.841143] (-) TimerEvent: {}
+[17.941346] (-) TimerEvent: {}
+[18.041581] (-) TimerEvent: {}
+[18.141797] (-) TimerEvent: {}
+[18.242027] (-) TimerEvent: {}
+[18.342239] (-) TimerEvent: {}
+[18.442466] (-) TimerEvent: {}
+[18.542712] (-) TimerEvent: {}
+[18.642945] (-) TimerEvent: {}
+[18.743147] (-) TimerEvent: {}
+[18.843373] (-) TimerEvent: {}
+[18.943584] (-) TimerEvent: {}
+[19.043777] (-) TimerEvent: {}
+[19.143987] (-) TimerEvent: {}
+[19.244251] (-) TimerEvent: {}
+[19.344465] (-) TimerEvent: {}
+[19.444671] (-) TimerEvent: {}
+[19.544914] (-) TimerEvent: {}
+[19.645112] (-) TimerEvent: {}
+[19.745319] (-) TimerEvent: {}
+[19.845559] (-) TimerEvent: {}
+[19.945820] (-) TimerEvent: {}
+[20.046097] (-) TimerEvent: {}
+[20.146354] (-) TimerEvent: {}
+[20.246588] (-) TimerEvent: {}
+[20.346794] (-) TimerEvent: {}
+[20.446999] (-) TimerEvent: {}
+[20.547234] (-) TimerEvent: {}
+[20.647583] (-) TimerEvent: {}
+[20.747881] (-) TimerEvent: {}
+[20.848177] (-) TimerEvent: {}
+[20.948451] (-) TimerEvent: {}
+[21.048668] (-) TimerEvent: {}
+[21.148877] (-) TimerEvent: {}
+[21.249095] (-) TimerEvent: {}
+[21.349314] (-) TimerEvent: {}
+[21.449554] (-) TimerEvent: {}
+[21.549802] (-) TimerEvent: {}
+[21.649990] (-) TimerEvent: {}
+[21.750230] (-) TimerEvent: {}
+[21.850497] (-) TimerEvent: {}
+[21.950746] (-) TimerEvent: {}
+[22.051035] (-) TimerEvent: {}
+[22.151230] (-) TimerEvent: {}
+[22.251430] (-) TimerEvent: {}
+[22.351668] (-) TimerEvent: {}
+[22.451921] (-) TimerEvent: {}
+[22.552074] (-) TimerEvent: {}
+[22.652259] (-) TimerEvent: {}
+[22.752452] (-) TimerEvent: {}
+[22.852673] (-) TimerEvent: {}
+[22.952880] (-) TimerEvent: {}
+[23.053107] (-) TimerEvent: {}
+[23.153351] (-) TimerEvent: {}
+[23.253640] (-) TimerEvent: {}
+[23.353870] (-) TimerEvent: {}
+[23.454117] (-) TimerEvent: {}
+[23.554313] (-) TimerEvent: {}
+[23.654510] (-) TimerEvent: {}
+[23.754720] (-) TimerEvent: {}
+[23.854952] (-) TimerEvent: {}
+[23.955160] (-) TimerEvent: {}
+[24.055408] (-) TimerEvent: {}
+[24.155621] (-) TimerEvent: {}
+[24.255809] (-) TimerEvent: {}
+[24.355989] (-) TimerEvent: {}
+[24.456207] (-) TimerEvent: {}
+[24.556448] (-) TimerEvent: {}
+[24.656688] (-) TimerEvent: {}
+[24.756963] (-) TimerEvent: {}
+[24.857189] (-) TimerEvent: {}
+[24.957411] (-) TimerEvent: {}
+[25.057647] (-) TimerEvent: {}
+[25.157897] (-) TimerEvent: {}
+[25.258106] (-) TimerEvent: {}
+[25.358365] (-) TimerEvent: {}
+[25.458592] (-) TimerEvent: {}
+[25.558816] (-) TimerEvent: {}
+[25.659076] (-) TimerEvent: {}
+[25.759302] (-) TimerEvent: {}
+[25.859536] (-) TimerEvent: {}
+[25.959764] (-) TimerEvent: {}
+[26.060020] (-) TimerEvent: {}
+[26.160246] (-) TimerEvent: {}
+[26.260490] (-) TimerEvent: {}
+[26.360751] (-) TimerEvent: {}
+[26.460993] (-) TimerEvent: {}
+[26.561215] (-) TimerEvent: {}
+[26.661465] (-) TimerEvent: {}
+[26.761691] (-) TimerEvent: {}
+[26.861962] (-) TimerEvent: {}
+[26.962218] (-) TimerEvent: {}
+[27.062471] (-) TimerEvent: {}
+[27.162715] (-) TimerEvent: {}
+[27.263042] (-) TimerEvent: {}
+[27.363363] (-) TimerEvent: {}
+[27.463561] (-) TimerEvent: {}
+[27.563774] (-) TimerEvent: {}
+[27.663996] (-) TimerEvent: {}
+[27.764215] (-) TimerEvent: {}
+[27.864464] (-) TimerEvent: {}
+[27.964705] (-) TimerEvent: {}
+[28.064985] (-) TimerEvent: {}
+[28.165221] (-) TimerEvent: {}
+[28.265454] (-) TimerEvent: {}
+[28.365643] (-) TimerEvent: {}
+[28.465819] (-) TimerEvent: {}
+[28.566007] (-) TimerEvent: {}
+[28.666260] (-) TimerEvent: {}
+[28.766506] (-) TimerEvent: {}
+[28.866712] (-) TimerEvent: {}
+[28.966926] (-) TimerEvent: {}
+[29.067134] (-) TimerEvent: {}
+[29.167366] (-) TimerEvent: {}
+[29.267633] (-) TimerEvent: {}
+[29.367851] (-) TimerEvent: {}
+[29.468056] (-) TimerEvent: {}
+[29.568266] (-) TimerEvent: {}
+[29.668469] (-) TimerEvent: {}
+[29.768694] (-) TimerEvent: {}
+[29.868949] (-) TimerEvent: {}
+[29.969187] (-) TimerEvent: {}
+[30.069436] (-) TimerEvent: {}
+[30.169667] (-) TimerEvent: {}
+[30.269933] (-) TimerEvent: {}
+[30.370163] (-) TimerEvent: {}
+[30.470365] (-) TimerEvent: {}
+[30.570588] (-) TimerEvent: {}
+[30.670800] (-) TimerEvent: {}
+[30.771026] (-) TimerEvent: {}
+[30.871293] (-) TimerEvent: {}
+[30.971543] (-) TimerEvent: {}
+[31.071792] (-) TimerEvent: {}
+[31.172031] (-) TimerEvent: {}
+[31.226494] (orbbec_camera_msgs) CommandEnded: {'returncode': 0}
+[31.228007] (orbbec_camera_msgs) JobProgress: {'identifier': 'orbbec_camera_msgs', 'progress': 'build'}
+[31.228581] (orbbec_camera_msgs) Command: {'cmd': ['/usr/bin/cmake', '--build', '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/build_system/orbbec_camera_msgs', '--', '-j32', '-l32'], 'cwd': '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/build_system/orbbec_camera_msgs', 'env': OrderedDict([('GJS_DEBUG_TOPICS', 'JS ERROR;JS LOG'), ('LESSOPEN', '| /usr/bin/lesspipe %s'), ('VSCODE_CWD', '/home/sophie'), ('CURSOR_EXTENSION_HOST_ROLE', 'user'), ('VSCODE_ESM_ENTRYPOINT', 'vs/workbench/api/node/extensionHostProcess'), ('CONDA_PROMPT_MODIFIER', '(base)'), ('CODEX_CI', '1'), ('LANGUAGE', 'zh_CN:zh:en_US:en'), ('USER', 'sophie'), ('LC_TIME', 'zh_CN.UTF-8'), ('CODEX_INTERNAL_ORIGINATOR_OVERRIDE', 'codex_vscode'), ('VSCODE_NLS_CONFIG', '{"userLocale":"zh-cn","osLocale":"zh-cn","resolvedLanguage":"en","defaultMessagesFile":"/usr/share/cursor/resources/app/out/nls.messages.json","locale":"zh-cn","availableLanguages":{}}'), ('CXXFLAGS', '-fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/sophie/miniconda3/include  -I/home/sophie/miniconda3/targets/x86_64-linux/include  -L/home/sophie/miniconda3/targets/x86_64-linux/lib -L/home/sophie/miniconda3/targets/x86_64-linux/lib/stubs'), ('VSCODE_HANDLES_UNCAUGHT_ERRORS', 'true'), ('GCC_RANLIB', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-gcc-ranlib'), ('XDG_SESSION_TYPE', 'x11'), ('OBJCOPY', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-objcopy'), ('DEBUG', 'release'), ('DEBUG_CXXFLAGS', '-fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-all -fno-plt -Og -g -Wall -Wextra -fvar-tracking-assignments -ffunction-sections -pipe -isystem /home/sophie/miniconda3/include'), ('SIZE', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-size'), ('SHLVL', '0'), ('LD_LIBRARY_PATH', '/usr/local/cuda-11.0/lib64:/usr/lib/x86_64-linux-gnu/gazebo-11/plugins:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib:/home/sophie/.mujoco/mujoco-3.3.4/bin'), ('HOME', '/home/sophie'), ('CHROME_DESKTOP', 'cursor.desktop'), ('CC_FOR_BUILD', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-cc'), ('CONDA_SHLVL', '1'), ('DESKTOP_SESSION', 'ubuntu'), ('CONDA_TOOLCHAIN_BUILD', 'x86_64-conda-linux-gnu'), ('VSCODE_IPC_HOOK', '/run/user/1000/vscode-b77d059a-3.13-main.sock'), ('GIO_LAUNCHED_DESKTOP_FILE', '/usr/share/applications/cursor.desktop'), ('ROS_DOMAINID', '7'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('LDFLAGS', '-Wl,-O2 -Wl,--sort-common -Wl,--as-needed -Wl,-z,relro -Wl,-z,now -Wl,--disable-new-dtags -Wl,--gc-sections -Wl,-rpath,/home/sophie/miniconda3/lib -Wl,-rpath-link,/home/sophie/miniconda3/lib -L/home/sophie/miniconda3/lib  -L/home/sophie/miniconda3/targets/x86_64-linux/lib -L/home/sophie/miniconda3/targets/x86_64-linux/lib/stubs'), ('PAGER', 'cat'), ('STRINGS', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-strings'), ('LC_MONETARY', 'zh_CN.UTF-8'), ('CURSOR_WORKSPACE_LABEL', 'soarm100sim'), ('MANAGERPID', '1459'), ('LC_CTYPE', 'C.UTF-8'), ('SYSTEMD_EXEC_PID', '1837'), ('NO_COLOR', '1'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('COLORTERM', ''), ('CPP', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-cpp'), ('_CONDA_ROOT', '/home/sophie/miniconda3'), ('GIO_LAUNCHED_DESKTOP_FILE_PID', '7052'), ('VSCODE_CRASH_REPORTER_PROCESS_TYPE', 'extensionHost'), ('IM_CONFIG_PHASE', '1'), ('NVCC_PREPEND_FLAGS', ' -ccbin=/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-c++'), ('ELFEDIT', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-elfedit'), ('VSCODE_L10N_BUNDLE_LOCATION', ''), ('CODEX_PERMISSION_PROFILE', ':workspace'), ('STRIP', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-strip'), ('ROS_DISTRO', 'humble'), ('GTK_IM_MODULE', 'fcitx'), ('LOGNAME', 'sophie'), ('GCC', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-gcc'), ('JOURNAL_STREAM', '8:16592'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('CURSOR_LAYOUT', 'unifiedAgent'), ('READELF', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-readelf'), ('XDG_SESSION_CLASS', 'user'), ('AR', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-ar'), ('RUST_LOG', 'warn'), ('USERNAME', 'sophie'), ('GXX', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-g++'), ('TERM', 'dumb'), ('AS', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-as'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('FC_FONTATIONS', '1'), ('ROS_LOCALHOST_ONLY', '0'), ('CXXFILT', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-c++filt'), ('WINDOWPATH', '2'), ('BUILD', 'x86_64-conda-linux-gnu'), ('PATH', '/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'), ('SESSION_MANAGER', 'local/sophie-Legion-Y7000P-IRX10:@/tmp/.ICE-unix/1790,unix/sophie-Legion-Y7000P-IRX10:/tmp/.ICE-unix/1790'), ('INVOCATION_ID', 'a9d6127a82b246578841dca28b488137'), ('XDG_MENU_PREFIX', 'gnome-'), ('build_alias', 'x86_64-conda-linux-gnu'), ('LC_ADDRESS', 'zh_CN.UTF-8'), ('VSCODE_PROCESS_TITLE', 'extension-host (user) soarm100sim [1-2]'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('GDK_BACKEND', 'x11'), ('CFLAGS', '-march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/sophie/miniconda3/include  -I/home/sophie/miniconda3/targets/x86_64-linux/include  -L/home/sophie/miniconda3/targets/x86_64-linux/lib -L/home/sophie/miniconda3/targets/x86_64-linux/lib/stubs'), ('MUJOCO_PY_MUJOCO_PATH', '/home/sophie/.mujoco/mujoco-3.3.4'), ('GCC_AR', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-gcc-ar'), ('DISPLAY', ':0'), ('CODEX_SANDBOX_NETWORK_DISABLED', '1'), ('LANG', 'C.UTF-8'), ('DEBUG_CFLAGS', '-march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-all -fno-plt -Og -g -Wall -Wextra -fvar-tracking-assignments -ffunction-sections -pipe -isystem /home/sophie/miniconda3/include'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('LC_TELEPHONE', 'zh_CN.UTF-8'), ('_CONDA_PYTHON_SYSCONFIGDATA_NAME', '_sysconfigdata_x86_64_conda_linux_gnu'), ('XMODIFIERS', '@im=fcitx'), ('GH_PAGER', 'cat'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/gdm/Xauthority'), ('MESON_ARGS', '-Dbuildtype=release'), ('CURSOR_SPAWNED_BY_EXTENSION_ID', 'openai.chatgpt'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('AMENT_PREFIX_PATH', '/opt/ros/humble'), ('CPPFLAGS', '-DNDEBUG -D_FORTIFY_SOURCE=2 -O2 -isystem /home/sophie/miniconda3/include  -I/home/sophie/miniconda3/targets/x86_64-linux/include  -L/home/sophie/miniconda3/targets/x86_64-linux/lib -L/home/sophie/miniconda3/targets/x86_64-linux/lib/stubs'), ('CONDA_PYTHON_EXE', '/home/sophie/miniconda3/bin/python'), ('SHELL', '/bin/bash'), ('CMAKE_ARGS', '-DCMAKE_AR=/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-ar -DCMAKE_CXX_COMPILER_AR=/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-gcc-ar -DCMAKE_C_COMPILER_AR=/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-gcc-ar -DCMAKE_RANLIB=/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-ranlib -DCMAKE_CXX_COMPILER_RANLIB=/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-gcc-ranlib -DCMAKE_C_COMPILER_RANLIB=/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-gcc-ranlib -DCMAKE_LINKER=/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-ld -DCMAKE_STRIP=/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-strip -DCMAKE_BUILD_TYPE=Release'), ('LC_NAME', 'zh_CN.UTF-8'), ('HOST', 'x86_64-conda-linux-gnu'), ('QT_ACCESSIBILITY', '1'), ('ELECTRON_RUN_AS_NODE', '1'), ('DEBUG_CPPFLAGS', '-D_DEBUG -D_FORTIFY_SOURCE=2 -Og -isystem /home/sophie/miniconda3/include'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('CODEX_THREAD_ID', '019f5a48-96e5-7af0-8a1e-65bfcfd09744'), ('LC_MEASUREMENT', 'zh_CN.UTF-8'), ('CURSOR_SPAWN_CHAIN', 'openai.chatgpt'), ('GPG_AGENT_INFO', '/run/user/1000/gnupg/S.gpg-agent:0:1'), ('GJS_DEBUG_OUTPUT', 'stderr'), ('_CONDA_EXE', '/home/sophie/miniconda3/bin/conda'), ('ADDR2LINE', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-addr2line'), ('LC_IDENTIFICATION', 'zh_CN.UTF-8'), ('GCC_NM', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-gcc-nm'), ('CONDA_BUILD_SYSROOT', '/home/sophie/miniconda3/x86_64-conda-linux-gnu/sysroot'), ('GIT_PAGER', 'cat'), ('QT_IM_MODULE', 'fcitx'), ('PWD', '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/build_system/orbbec_camera_msgs'), ('LC_ALL', 'C.UTF-8'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('CONDA_EXE', '/home/sophie/miniconda3/bin/conda'), ('VSCODE_CODE_CACHE_PATH', '/home/sophie/.config/Cursor/CachedData/55434bd8062ece6fee083b82beed2aee42d253f0'), ('LD', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-ld'), ('CLUTTER_IM_MODULE', 'fcitx'), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/share/gnome:/home/sophie/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('PYTHONPATH', '/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('LC_NUMERIC', 'zh_CN.UTF-8'), ('GPROF', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-gprof'), ('CONDA_TOOLCHAIN_HOST', 'x86_64-conda-linux-gnu'), ('LC_PAPER', 'zh_CN.UTF-8'), ('host_alias', 'x86_64-conda-linux-gnu'), ('RANLIB', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-ranlib'), ('COLCON', '1'), ('CXX_FOR_BUILD', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-c++'), ('CMAKE_PREFIX_PATH', '/home/sophie/miniconda3:/home/sophie/miniconda3/x86_64-conda-linux-gnu/sysroot/usr:/opt/ros/humble'), ('VSCODE_PID', '7052'), ('NM', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-nm'), ('OBJDUMP', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-objdump')]), 'shell': False}
+[31.272134] (-) TimerEvent: {}
+[31.291720] (orbbec_camera_msgs) StdoutLine: {'line': b'[  0%] Generating C code for ROS interfaces\n'}
+[31.304901] (orbbec_camera_msgs) StdoutLine: {'line': b'[  1%] Generating Rust code for ROS interfaces\n'}
+[31.306871] (orbbec_camera_msgs) StdoutLine: {'line': b'[  1%] Generating C++ code for ROS interfaces\n'}
+[31.313086] (orbbec_camera_msgs) StdoutLine: {'line': b'[  1%] Built target ament_cmake_python_copy_orbbec_camera_msgs\n'}
+[31.372209] (-) TimerEvent: {}
+[31.472432] (-) TimerEvent: {}
+[31.488221] (orbbec_camera_msgs) StdoutLine: {'line': b'running egg_info\n'}
+[31.488501] (orbbec_camera_msgs) StdoutLine: {'line': b'creating orbbec_camera_msgs.egg-info\n'}
+[31.488662] (orbbec_camera_msgs) StdoutLine: {'line': b'writing orbbec_camera_msgs.egg-info/PKG-INFO\n'}
+[31.488821] (orbbec_camera_msgs) StdoutLine: {'line': b'writing dependency_links to orbbec_camera_msgs.egg-info/dependency_links.txt\n'}
+[31.488914] (orbbec_camera_msgs) StdoutLine: {'line': b'writing top-level names to orbbec_camera_msgs.egg-info/top_level.txt\n'}
+[31.488987] (orbbec_camera_msgs) StdoutLine: {'line': b"writing manifest file 'orbbec_camera_msgs.egg-info/SOURCES.txt'\n"}
+[31.490626] (orbbec_camera_msgs) StdoutLine: {'line': b"reading manifest file 'orbbec_camera_msgs.egg-info/SOURCES.txt'\n"}
+[31.491012] (orbbec_camera_msgs) StdoutLine: {'line': b"writing manifest file 'orbbec_camera_msgs.egg-info/SOURCES.txt'\n"}
+[31.510466] (orbbec_camera_msgs) StdoutLine: {'line': b'[  1%] Built target ament_cmake_python_build_orbbec_camera_msgs_egg\n'}
+[31.572527] (-) TimerEvent: {}
+[31.672708] (-) TimerEvent: {}
+[31.761116] (orbbec_camera_msgs) StdoutLine: {'line': b'[  1%] Built target orbbec_camera_msgs__rs\n'}
+[31.772899] (-) TimerEvent: {}
+[31.873096] (-) TimerEvent: {}
+[31.973266] (-) TimerEvent: {}
+[32.073405] (-) TimerEvent: {}
+[32.173632] (-) TimerEvent: {}
+[32.275136] (-) TimerEvent: {}
+[32.286100] (orbbec_camera_msgs) StdoutLine: {'line': b'[  3%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_generator_c.dir/rosidl_generator_c/orbbec_camera_msgs/msg/detail/depth_filter_param__functions.c.o\n'}
+[32.286259] (orbbec_camera_msgs) StdoutLine: {'line': b'[  3%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_generator_c.dir/rosidl_generator_c/orbbec_camera_msgs/msg/detail/device_info__functions.c.o\n'}
+[32.286298] (orbbec_camera_msgs) StdoutLine: {'line': b'[  4%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_generator_c.dir/rosidl_generator_c/orbbec_camera_msgs/msg/detail/depth_filters_status__functions.c.o\n'}
+[32.286828] (orbbec_camera_msgs) StdoutLine: {'line': b'[  5%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_generator_c.dir/rosidl_generator_c/orbbec_camera_msgs/srv/detail/get_bool__functions.c.o\n'}
+[32.287408] (orbbec_camera_msgs) StdoutLine: {'line': b'[  7%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_generator_c.dir/rosidl_generator_c/orbbec_camera_msgs/srv/detail/get_string__functions.c.o\n'}
+[32.287515] (orbbec_camera_msgs) StdoutLine: {'line': b'[  7%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_generator_c.dir/rosidl_generator_c/orbbec_camera_msgs/msg/detail/rgbd__functions.c.o\n'}
+[32.287714] (orbbec_camera_msgs) StdoutLine: {'line': b'[  7%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_generator_c.dir/rosidl_generator_c/orbbec_camera_msgs/msg/detail/device_status__functions.c.o\n'}
+[32.287976] (orbbec_camera_msgs) StdoutLine: {'line': b'[  7%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_generator_c.dir/rosidl_generator_c/orbbec_camera_msgs/msg/detail/depth_filter_state__functions.c.o\n'}
+[32.288392] (orbbec_camera_msgs) StdoutLine: {'line': b'[  8%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_generator_c.dir/rosidl_generator_c/orbbec_camera_msgs/srv/detail/set_int32__functions.c.o\n'}
+[32.288621] (orbbec_camera_msgs) StdoutLine: {'line': b'[  8%] Built target orbbec_camera_msgs__cpp\n'}
+[32.288733] (orbbec_camera_msgs) StdoutLine: {'line': b'[  8%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_generator_c.dir/rosidl_generator_c/orbbec_camera_msgs/msg/detail/extrinsics__functions.c.o\n'}
+[32.288808] (orbbec_camera_msgs) StdoutLine: {'line': b'[  9%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_generator_c.dir/rosidl_generator_c/orbbec_camera_msgs/srv/detail/set_arrays__functions.c.o\n'}
+[32.288878] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 10%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_generator_c.dir/rosidl_generator_c/orbbec_camera_msgs/msg/detail/metadata__functions.c.o\n'}
+[32.289252] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 10%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_generator_c.dir/rosidl_generator_c/orbbec_camera_msgs/msg/detail/imu_info__functions.c.o\n'}
+[32.289323] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 10%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_generator_c.dir/rosidl_generator_c/orbbec_camera_msgs/srv/detail/get_device_info__functions.c.o\n'}
+[32.289650] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 11%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_generator_c.dir/rosidl_generator_c/orbbec_camera_msgs/srv/detail/get_camera_info__functions.c.o\n'}
+[32.289726] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 11%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_generator_c.dir/rosidl_generator_c/orbbec_camera_msgs/srv/detail/get_int32__functions.c.o\n'}
+[32.289971] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 11%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_generator_c.dir/rosidl_generator_c/orbbec_camera_msgs/srv/detail/set_filter__functions.c.o\n'}
+[32.290404] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 11%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_generator_c.dir/rosidl_generator_c/orbbec_camera_msgs/srv/detail/get_user_calib_params__functions.c.o\n'}
+[32.290490] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 11%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_generator_c.dir/rosidl_generator_c/orbbec_camera_msgs/srv/detail/set_string__functions.c.o\n'}
+[32.290726] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 12%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_generator_c.dir/rosidl_generator_c/orbbec_camera_msgs/srv/detail/set_user_calib_params__functions.c.o\n'}
+[32.298045] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 13%] Generating C++ introspection for ROS interfaces\n'}
+[32.298502] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 14%] Generating C++ type support dispatch for ROS interfaces\n'}
+[32.302933] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 15%] Generating C++ type support for eProsima Fast-RTPS\n'}
+[32.375223] (-) TimerEvent: {}
+[32.421439] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 16%] Linking C shared library liborbbec_camera_msgs__rosidl_generator_c.so\n'}
+[32.463347] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 16%] Built target orbbec_camera_msgs__rosidl_generator_c\n'}
+[32.474447] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 19%] Generating C type support for eProsima Fast-RTPS\n'}
+[32.474608] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 19%] Generating C type support dispatch for ROS interfaces\n'}
+[32.474676] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 19%] Generating C introspection for ROS interfaces\n'}
+[32.475335] (-) TimerEvent: {}
+[32.575480] (-) TimerEvent: {}
+[32.675656] (-) TimerEvent: {}
+[32.775895] (-) TimerEvent: {}
+[32.869360] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 19%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/orbbec_camera_msgs/msg/device_info__type_support.cpp.o\n'}
+[32.871670] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 19%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/orbbec_camera_msgs/msg/depth_filter_param__type_support.cpp.o\n'}
+[32.871895] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 20%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/orbbec_camera_msgs/msg/device_status__type_support.cpp.o\n'}
+[32.872306] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 21%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/orbbec_camera_msgs/srv/get_bool__type_support.cpp.o\n'}
+[32.872444] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 21%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/orbbec_camera_msgs/msg/depth_filters_status__type_support.cpp.o\n'}
+[32.872632] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 21%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/orbbec_camera_msgs/msg/metadata__type_support.cpp.o\n'}
+[32.872846] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 23%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/orbbec_camera_msgs/msg/extrinsics__type_support.cpp.o\n'}
+[32.873034] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 23%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/orbbec_camera_msgs/msg/imu_info__type_support.cpp.o\n'}
+[32.873280] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 23%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/orbbec_camera_msgs/msg/rgbd__type_support.cpp.o\n'}
+[32.873556] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 24%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/orbbec_camera_msgs/srv/get_device_info__type_support.cpp.o\n'}
+[32.874039] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 25%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/orbbec_camera_msgs/srv/get_camera_info__type_support.cpp.o\n'}
+[32.874160] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 25%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/orbbec_camera_msgs/srv/get_int32__type_support.cpp.o\n'}
+[32.874368] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 26%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/orbbec_camera_msgs/msg/depth_filter_state__type_support.cpp.o\n'}
+[32.874568] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 27%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/orbbec_camera_msgs/srv/set_string__type_support.cpp.o\n'}
+[32.874722] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 27%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/orbbec_camera_msgs/srv/get_string__type_support.cpp.o\n'}
+[32.874799] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 28%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/orbbec_camera_msgs/srv/set_user_calib_params__type_support.cpp.o\n'}
+[32.874867] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 28%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/orbbec_camera_msgs/srv/get_user_calib_params__type_support.cpp.o\n'}
+[32.875292] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 29%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/orbbec_camera_msgs/srv/set_arrays__type_support.cpp.o\n'}
+[32.875375] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 29%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/orbbec_camera_msgs/srv/set_int32__type_support.cpp.o\n'}
+[32.875445] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 29%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/orbbec_camera_msgs/srv/set_filter__type_support.cpp.o\n'}
+[32.876017] (-) TimerEvent: {}
+[32.976150] (-) TimerEvent: {}
+[33.076341] (-) TimerEvent: {}
+[33.140685] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 30%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/orbbec_camera_msgs/msg/depth_filter_state__type_support.cpp.o\n'}
+[33.140850] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 31%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/orbbec_camera_msgs/msg/device_status__type_support.cpp.o\n'}
+[33.140933] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 31%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/orbbec_camera_msgs/msg/device_info__type_support.cpp.o\n'}
+[33.142610] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 31%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/orbbec_camera_msgs/msg/depth_filter_param__type_support.cpp.o\n'}
+[33.142737] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 31%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/orbbec_camera_msgs/msg/depth_filters_status__type_support.cpp.o\n'}
+[33.146845] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 31%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/orbbec_camera_msgs/msg/metadata__type_support.cpp.o\n'}
+[33.147133] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 31%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/orbbec_camera_msgs/msg/rgbd__type_support.cpp.o\n'}
+[33.147217] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 32%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/orbbec_camera_msgs/msg/extrinsics__type_support.cpp.o\n'}
+[33.147284] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 33%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/orbbec_camera_msgs/msg/imu_info__type_support.cpp.o\n'}
+[33.147347] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 33%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/orbbec_camera_msgs/srv/get_device_info__type_support.cpp.o\n'}
+[33.147418] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 34%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/orbbec_camera_msgs/srv/get_bool__type_support.cpp.o\n'}
+[33.150435] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 35%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/orbbec_camera_msgs/srv/get_camera_info__type_support.cpp.o\n'}
+[33.153311] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 36%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/orbbec_camera_msgs/srv/get_int32__type_support.cpp.o\n'}
+[33.159057] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 36%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/orbbec_camera_msgs/srv/get_string__type_support.cpp.o\n'}
+[33.162367] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 37%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/orbbec_camera_msgs/srv/set_string__type_support.cpp.o\n'}
+[33.162667] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 37%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/orbbec_camera_msgs/srv/set_int32__type_support.cpp.o\n'}
+[33.163596] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 37%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/orbbec_camera_msgs/srv/set_arrays__type_support.cpp.o\n'}
+[33.164039] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 38%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/orbbec_camera_msgs/srv/set_filter__type_support.cpp.o\n'}
+[33.164332] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 39%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/orbbec_camera_msgs/srv/get_user_calib_params__type_support.cpp.o\n'}
+[33.166936] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 39%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/orbbec_camera_msgs/srv/set_user_calib_params__type_support.cpp.o\n'}
+[33.175270] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 40%] Linking CXX shared library liborbbec_camera_msgs__rosidl_typesupport_cpp.so\n'}
+[33.176416] (-) TimerEvent: {}
+[33.184357] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 40%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/orbbec_camera_msgs/msg/detail/device_info__type_support.cpp.o\n'}
+[33.187125] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 41%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/orbbec_camera_msgs/msg/detail/device_status__type_support.cpp.o\n'}
+[33.187846] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 41%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/orbbec_camera_msgs/msg/detail/depth_filter_param__type_support.cpp.o\n'}
+[33.188997] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 42%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/orbbec_camera_msgs/msg/detail/depth_filter_state__type_support.cpp.o\n'}
+[33.189291] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 42%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/orbbec_camera_msgs/msg/detail/depth_filters_status__type_support.cpp.o\n'}
+[33.190031] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 42%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/orbbec_camera_msgs/msg/detail/metadata__type_support.cpp.o\n'}
+[33.190169] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 42%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/orbbec_camera_msgs/msg/detail/rgbd__type_support.cpp.o\n'}
+[33.190252] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 43%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/orbbec_camera_msgs/msg/detail/imu_info__type_support.cpp.o\n'}
+[33.190477] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 44%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/orbbec_camera_msgs/msg/detail/extrinsics__type_support.cpp.o\n'}
+[33.191275] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 45%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/orbbec_camera_msgs/srv/detail/get_bool__type_support.cpp.o\n'}
+[33.191552] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 45%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/orbbec_camera_msgs/srv/detail/set_int32__type_support.cpp.o\n'}
+[33.191794] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 46%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/orbbec_camera_msgs/srv/detail/set_string__type_support.cpp.o\n'}
+[33.192007] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 46%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/orbbec_camera_msgs/srv/detail/get_camera_info__type_support.cpp.o\n'}
+[33.192242] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 47%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/orbbec_camera_msgs/srv/detail/get_device_info__type_support.cpp.o\n'}
+[33.192311] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 48%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/orbbec_camera_msgs/srv/detail/set_filter__type_support.cpp.o\n'}
+[33.193182] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 48%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/orbbec_camera_msgs/srv/detail/get_string__type_support.cpp.o\n'}
+[33.193469] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 48%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/orbbec_camera_msgs/srv/detail/set_arrays__type_support.cpp.o\n'}
+[33.193754] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 49%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/orbbec_camera_msgs/srv/detail/get_user_calib_params__type_support.cpp.o\n'}
+[33.193839] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 49%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/orbbec_camera_msgs/srv/detail/set_user_calib_params__type_support.cpp.o\n'}
+[33.194694] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 50%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/orbbec_camera_msgs/srv/detail/get_int32__type_support.cpp.o\n'}
+[33.195537] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 51%] Linking CXX shared library liborbbec_camera_msgs__rosidl_typesupport_c.so\n'}
+[33.209089] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 51%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/orbbec_camera_msgs/msg/detail/dds_fastrtps/device_info__type_support.cpp.o\n'}
+[33.209974] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 52%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/orbbec_camera_msgs/msg/detail/dds_fastrtps/device_status__type_support.cpp.o\n'}
+[33.210184] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 52%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/orbbec_camera_msgs/msg/detail/dds_fastrtps/depth_filter_param__type_support.cpp.o\n'}
+[33.211892] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 53%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/orbbec_camera_msgs/msg/detail/dds_fastrtps/depth_filter_state__type_support.cpp.o\n'}
+[33.213109] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 53%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/orbbec_camera_msgs/msg/detail/dds_fastrtps/depth_filters_status__type_support.cpp.o\n'}
+[33.219929] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 54%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/orbbec_camera_msgs/msg/detail/dds_fastrtps/extrinsics__type_support.cpp.o\n'}
+[33.220110] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 54%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/orbbec_camera_msgs/msg/detail/dds_fastrtps/metadata__type_support.cpp.o\n'}
+[33.220183] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 55%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/orbbec_camera_msgs/msg/detail/dds_fastrtps/imu_info__type_support.cpp.o\n'}
+[33.238436] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 55%] Built target orbbec_camera_msgs__rosidl_typesupport_cpp\n'}
+[33.244401] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 55%] Built target orbbec_camera_msgs__rosidl_typesupport_c\n'}
+[33.248219] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 55%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/orbbec_camera_msgs/msg/detail/dds_fastrtps/rgbd__type_support.cpp.o\n'}
+[33.253633] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 56%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/orbbec_camera_msgs/srv/detail/dds_fastrtps/get_bool__type_support.cpp.o\n'}
+[33.279473] (-) TimerEvent: {}
+[33.381964] (-) TimerEvent: {}
+[33.482156] (-) TimerEvent: {}
+[33.582351] (-) TimerEvent: {}
+[33.588880] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 57%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/orbbec_camera_msgs/srv/detail/dds_fastrtps/get_device_info__type_support.cpp.o\n'}
+[33.592446] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 57%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/orbbec_camera_msgs/srv/detail/dds_fastrtps/get_camera_info__type_support.cpp.o\n'}
+[33.610684] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 58%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/orbbec_camera_msgs/srv/detail/dds_fastrtps/get_int32__type_support.cpp.o\n'}
+[33.618564] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 58%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/orbbec_camera_msgs/srv/detail/dds_fastrtps/get_string__type_support.cpp.o\n'}
+[33.626146] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 59%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/orbbec_camera_msgs/srv/detail/dds_fastrtps/set_filter__type_support.cpp.o\n'}
+[33.628963] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 59%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/orbbec_camera_msgs/srv/detail/dds_fastrtps/set_int32__type_support.cpp.o\n'}
+[33.629158] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 60%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/orbbec_camera_msgs/srv/detail/dds_fastrtps/set_string__type_support.cpp.o\n'}
+[33.641369] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 61%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/orbbec_camera_msgs/srv/detail/dds_fastrtps/get_user_calib_params__type_support.cpp.o\n'}
+[33.641537] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 61%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/orbbec_camera_msgs/srv/detail/dds_fastrtps/set_arrays__type_support.cpp.o\n'}
+[33.642087] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 61%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/orbbec_camera_msgs/msg/detail/device_info__type_support.c.o\n'}
+[33.642537] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 61%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/orbbec_camera_msgs/srv/detail/dds_fastrtps/set_user_calib_params__type_support.cpp.o\n'}
+[33.644925] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 62%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/orbbec_camera_msgs/msg/detail/device_status__type_support.c.o\n'}
+[33.648647] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 62%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/orbbec_camera_msgs/msg/detail/depth_filter_param__type_support.c.o\n'}
+[33.649675] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 63%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/orbbec_camera_msgs/msg/detail/depth_filter_state__type_support.c.o\n'}
+[33.657974] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 63%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/orbbec_camera_msgs/msg/detail/depth_filters_status__type_support.c.o\n'}
+[33.660213] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 63%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/orbbec_camera_msgs/msg/detail/metadata__type_support.c.o\n'}
+[33.662994] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 64%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/orbbec_camera_msgs/msg/detail/extrinsics__type_support.c.o\n'}
+[33.663774] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 65%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/orbbec_camera_msgs/msg/detail/imu_info__type_support.c.o\n'}
+[33.669028] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 65%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/orbbec_camera_msgs/msg/detail/rgbd__type_support.c.o\n'}
+[33.678095] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 66%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/orbbec_camera_msgs/srv/detail/get_bool__type_support.c.o\n'}
+[33.678246] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 66%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/orbbec_camera_msgs/srv/detail/get_device_info__type_support.c.o\n'}
+[33.683948] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 67%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/orbbec_camera_msgs/srv/detail/get_camera_info__type_support.c.o\n'}
+[33.684251] (-) TimerEvent: {}
+[33.684288] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 67%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/orbbec_camera_msgs/srv/detail/get_string__type_support.c.o\n'}
+[33.684364] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 68%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/orbbec_camera_msgs/srv/detail/get_int32__type_support.c.o\n'}
+[33.684431] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 68%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/orbbec_camera_msgs/srv/detail/set_int32__type_support.c.o\n'}
+[33.684507] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 69%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/orbbec_camera_msgs/srv/detail/set_string__type_support.c.o\n'}
+[33.684703] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 70%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/orbbec_camera_msgs/srv/detail/set_filter__type_support.c.o\n'}
+[33.691074] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 70%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/orbbec_camera_msgs/srv/detail/set_arrays__type_support.c.o\n'}
+[33.696063] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 70%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/orbbec_camera_msgs/msg/detail/device_info__type_support_c.cpp.o\n'}
+[33.698200] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 71%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/orbbec_camera_msgs/msg/detail/device_status__type_support_c.cpp.o\n'}
+[33.708869] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 71%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/orbbec_camera_msgs/msg/detail/depth_filter_param__type_support_c.cpp.o\n'}
+[33.709919] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 72%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/orbbec_camera_msgs/srv/detail/get_user_calib_params__type_support.c.o\n'}
+[33.715155] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 72%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/orbbec_camera_msgs/srv/detail/set_user_calib_params__type_support.c.o\n'}
+[33.715353] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 73%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/orbbec_camera_msgs/msg/detail/depth_filter_state__type_support_c.cpp.o\n'}
+[33.716317] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 73%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/orbbec_camera_msgs/msg/detail/depth_filters_status__type_support_c.cpp.o\n'}
+[33.724107] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 74%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/orbbec_camera_msgs/msg/detail/extrinsics__type_support_c.cpp.o\n'}
+[33.730987] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 76%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/orbbec_camera_msgs/srv/detail/get_camera_info__type_support_c.cpp.o\n'}
+[33.731176] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 76%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/orbbec_camera_msgs/msg/detail/imu_info__type_support_c.cpp.o\n'}
+[33.731255] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 77%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/orbbec_camera_msgs/srv/detail/get_bool__type_support_c.cpp.o\n'}
+[33.731335] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 77%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/orbbec_camera_msgs/msg/detail/rgbd__type_support_c.cpp.o\n'}
+[33.731518] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 77%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/orbbec_camera_msgs/msg/detail/metadata__type_support_c.cpp.o\n'}
+[33.733988] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 77%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/orbbec_camera_msgs/srv/detail/get_device_info__type_support_c.cpp.o\n'}
+[33.735587] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 78%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/orbbec_camera_msgs/srv/detail/get_int32__type_support_c.cpp.o\n'}
+[33.736850] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 78%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/orbbec_camera_msgs/srv/detail/get_string__type_support_c.cpp.o\n'}
+[33.745338] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 78%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/orbbec_camera_msgs/srv/detail/set_int32__type_support_c.cpp.o\n'}
+[33.749331] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 79%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/orbbec_camera_msgs/srv/detail/set_filter__type_support_c.cpp.o\n'}
+[33.750580] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 79%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/orbbec_camera_msgs/srv/detail/set_arrays__type_support_c.cpp.o\n'}
+[33.751216] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 80%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/orbbec_camera_msgs/srv/detail/set_string__type_support_c.cpp.o\n'}
+[33.782952] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 81%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/orbbec_camera_msgs/srv/detail/get_user_calib_params__type_support_c.cpp.o\n'}
+[33.786962] (-) TimerEvent: {}
+[33.787228] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 82%] Linking CXX shared library liborbbec_camera_msgs__rosidl_typesupport_introspection_cpp.so\n'}
+[33.792941] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 82%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/orbbec_camera_msgs/srv/detail/set_user_calib_params__type_support_c.cpp.o\n'}
+[33.813116] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 83%] Linking C shared library liborbbec_camera_msgs__rosidl_typesupport_introspection_c.so\n'}
+[33.857772] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 83%] Built target orbbec_camera_msgs__rosidl_typesupport_introspection_c\n'}
+[33.887079] (-) TimerEvent: {}
+[33.987279] (-) TimerEvent: {}
+[33.989243] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 83%] Built target orbbec_camera_msgs__rosidl_typesupport_introspection_cpp\n'}
+[34.087383] (-) TimerEvent: {}
+[34.111650] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 84%] Linking CXX shared library liborbbec_camera_msgs__rosidl_typesupport_fastrtps_cpp.so\n'}
+[34.168257] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 85%] Linking CXX shared library liborbbec_camera_msgs__rosidl_typesupport_fastrtps_c.so\n'}
+[34.176284] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 85%] Built target orbbec_camera_msgs__rosidl_typesupport_fastrtps_cpp\n'}
+[34.187496] (-) TimerEvent: {}
+[34.252858] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 85%] Built target orbbec_camera_msgs__rosidl_typesupport_fastrtps_c\n'}
+[34.276229] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 85%] Built target orbbec_camera_msgs\n'}
+[34.287632] (-) TimerEvent: {}
+[34.296923] (orbbec_camera_msgs) StdoutLine: {'line': b'[ 86%] Generating Python code for ROS interfaces\n'}
+[34.328714] (orbbec_camera_msgs) StderrLine: {'line': b'Traceback (most recent call last):\n'}
+[34.328882] (orbbec_camera_msgs) StderrLine: {'line': b'  File "/opt/ros/humble/share/rosidl_generator_py/cmake/../../../lib/rosidl_generator_py/rosidl_generator_py", line 8, in <module>\n'}
+[34.328958] (orbbec_camera_msgs) StderrLine: {'line': b'    from rosidl_generator_py import generate_py\n'}
+[34.329020] (orbbec_camera_msgs) StderrLine: {'line': b"ImportError: cannot import name 'generate_py' from 'rosidl_generator_py' (/opt/ros/humble/local/lib/python3.10/dist-packages/rosidl_generator_py/__init__.py)\n"}
+[34.333776] (orbbec_camera_msgs) StderrLine: {'line': b'gmake[2]: *** [orbbec_camera_msgs__py/CMakeFiles/orbbec_camera_msgs__py.dir/build.make:241\xef\xbc\x9arosidl_generator_py/orbbec_camera_msgs/_orbbec_camera_msgs_s.ep.rosidl_typesupport_fastrtps_c.c] \xe9\x94\x99\xe8\xaf\xaf 1\n'}
+[34.334150] (orbbec_camera_msgs) StderrLine: {'line': b'gmake[1]: *** [CMakeFiles/Makefile2:609\xef\xbc\x9aorbbec_camera_msgs__py/CMakeFiles/orbbec_camera_msgs__py.dir/all] \xe9\x94\x99\xe8\xaf\xaf 2\n'}
+[34.334490] (orbbec_camera_msgs) StderrLine: {'line': b'gmake: *** [Makefile:146\xef\xbc\x9aall] \xe9\x94\x99\xe8\xaf\xaf 2\n'}
+[34.336189] (orbbec_camera_msgs) CommandEnded: {'returncode': 2}
+[34.342243] (orbbec_camera_msgs) JobEnded: {'identifier': 'orbbec_camera_msgs', 'rc': 2}
+[34.352743] (orbbec_camera) JobSkipped: {'identifier': 'orbbec_camera'}
+[34.352825] (-) EventReactorShutdown: {}

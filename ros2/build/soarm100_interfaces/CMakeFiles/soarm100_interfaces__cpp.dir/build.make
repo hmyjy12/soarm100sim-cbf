@@ -96,6 +96,31 @@ CMakeFiles/soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/sr
 CMakeFiles/soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/srv/detail/set_avoidance__struct.hpp
 CMakeFiles/soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/srv/detail/set_avoidance__traits.hpp
 CMakeFiles/soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/srv/detail/set_avoidance__type_support.hpp
+CMakeFiles/soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/srv/move_single_joint.hpp
+CMakeFiles/soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/srv/detail/move_single_joint__builder.hpp
+CMakeFiles/soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/srv/detail/move_single_joint__struct.hpp
+CMakeFiles/soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/srv/detail/move_single_joint__traits.hpp
+CMakeFiles/soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/srv/detail/move_single_joint__type_support.hpp
+CMakeFiles/soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/srv/move_joint_delta.hpp
+CMakeFiles/soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/srv/detail/move_joint_delta__builder.hpp
+CMakeFiles/soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/srv/detail/move_joint_delta__struct.hpp
+CMakeFiles/soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/srv/detail/move_joint_delta__traits.hpp
+CMakeFiles/soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/srv/detail/move_joint_delta__type_support.hpp
+CMakeFiles/soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/srv/move_named_pose.hpp
+CMakeFiles/soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/srv/detail/move_named_pose__builder.hpp
+CMakeFiles/soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/srv/detail/move_named_pose__struct.hpp
+CMakeFiles/soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/srv/detail/move_named_pose__traits.hpp
+CMakeFiles/soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/srv/detail/move_named_pose__type_support.hpp
+CMakeFiles/soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/srv/move_joint_target.hpp
+CMakeFiles/soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/srv/detail/move_joint_target__builder.hpp
+CMakeFiles/soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/srv/detail/move_joint_target__struct.hpp
+CMakeFiles/soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/srv/detail/move_joint_target__traits.hpp
+CMakeFiles/soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/srv/detail/move_joint_target__type_support.hpp
+CMakeFiles/soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/srv/set_hardware_torque.hpp
+CMakeFiles/soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/srv/detail/set_hardware_torque__builder.hpp
+CMakeFiles/soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/srv/detail/set_hardware_torque__struct.hpp
+CMakeFiles/soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/srv/detail/set_hardware_torque__traits.hpp
+CMakeFiles/soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/srv/detail/set_hardware_torque__type_support.hpp
 CMakeFiles/soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/msg/rosidl_generator_cpp__visibility_control.hpp
 
 rosidl_generator_cpp/soarm100_interfaces/msg/tracked_target2_d.hpp: /opt/ros/humble/lib/rosidl_generator_cpp/rosidl_generator_cpp
@@ -119,6 +144,11 @@ rosidl_generator_cpp/soarm100_interfaces/msg/tracked_target2_d.hpp: rosidl_adapt
 rosidl_generator_cpp/soarm100_interfaces/msg/tracked_target2_d.hpp: rosidl_adapter/soarm100_interfaces/action/PlanGrasp.idl
 rosidl_generator_cpp/soarm100_interfaces/msg/tracked_target2_d.hpp: rosidl_adapter/soarm100_interfaces/srv/SegmentTarget.idl
 rosidl_generator_cpp/soarm100_interfaces/msg/tracked_target2_d.hpp: rosidl_adapter/soarm100_interfaces/srv/SetAvoidance.idl
+rosidl_generator_cpp/soarm100_interfaces/msg/tracked_target2_d.hpp: rosidl_adapter/soarm100_interfaces/srv/MoveSingleJoint.idl
+rosidl_generator_cpp/soarm100_interfaces/msg/tracked_target2_d.hpp: rosidl_adapter/soarm100_interfaces/srv/MoveJointDelta.idl
+rosidl_generator_cpp/soarm100_interfaces/msg/tracked_target2_d.hpp: rosidl_adapter/soarm100_interfaces/srv/MoveNamedPose.idl
+rosidl_generator_cpp/soarm100_interfaces/msg/tracked_target2_d.hpp: rosidl_adapter/soarm100_interfaces/srv/MoveJointTarget.idl
+rosidl_generator_cpp/soarm100_interfaces/msg/tracked_target2_d.hpp: rosidl_adapter/soarm100_interfaces/srv/SetHardwareTorque.idl
 rosidl_generator_cpp/soarm100_interfaces/msg/tracked_target2_d.hpp: /opt/ros/humble/share/builtin_interfaces/msg/Duration.idl
 rosidl_generator_cpp/soarm100_interfaces/msg/tracked_target2_d.hpp: /opt/ros/humble/share/builtin_interfaces/msg/Time.idl
 rosidl_generator_cpp/soarm100_interfaces/msg/tracked_target2_d.hpp: /opt/ros/humble/share/geometry_msgs/msg/Accel.idl
@@ -306,6 +336,81 @@ rosidl_generator_cpp/soarm100_interfaces/srv/detail/set_avoidance__traits.hpp: r
 rosidl_generator_cpp/soarm100_interfaces/srv/detail/set_avoidance__type_support.hpp: rosidl_generator_cpp/soarm100_interfaces/msg/tracked_target2_d.hpp
 	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_cpp/soarm100_interfaces/srv/detail/set_avoidance__type_support.hpp
 
+rosidl_generator_cpp/soarm100_interfaces/srv/move_single_joint.hpp: rosidl_generator_cpp/soarm100_interfaces/msg/tracked_target2_d.hpp
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_cpp/soarm100_interfaces/srv/move_single_joint.hpp
+
+rosidl_generator_cpp/soarm100_interfaces/srv/detail/move_single_joint__builder.hpp: rosidl_generator_cpp/soarm100_interfaces/msg/tracked_target2_d.hpp
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_cpp/soarm100_interfaces/srv/detail/move_single_joint__builder.hpp
+
+rosidl_generator_cpp/soarm100_interfaces/srv/detail/move_single_joint__struct.hpp: rosidl_generator_cpp/soarm100_interfaces/msg/tracked_target2_d.hpp
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_cpp/soarm100_interfaces/srv/detail/move_single_joint__struct.hpp
+
+rosidl_generator_cpp/soarm100_interfaces/srv/detail/move_single_joint__traits.hpp: rosidl_generator_cpp/soarm100_interfaces/msg/tracked_target2_d.hpp
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_cpp/soarm100_interfaces/srv/detail/move_single_joint__traits.hpp
+
+rosidl_generator_cpp/soarm100_interfaces/srv/detail/move_single_joint__type_support.hpp: rosidl_generator_cpp/soarm100_interfaces/msg/tracked_target2_d.hpp
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_cpp/soarm100_interfaces/srv/detail/move_single_joint__type_support.hpp
+
+rosidl_generator_cpp/soarm100_interfaces/srv/move_joint_delta.hpp: rosidl_generator_cpp/soarm100_interfaces/msg/tracked_target2_d.hpp
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_cpp/soarm100_interfaces/srv/move_joint_delta.hpp
+
+rosidl_generator_cpp/soarm100_interfaces/srv/detail/move_joint_delta__builder.hpp: rosidl_generator_cpp/soarm100_interfaces/msg/tracked_target2_d.hpp
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_cpp/soarm100_interfaces/srv/detail/move_joint_delta__builder.hpp
+
+rosidl_generator_cpp/soarm100_interfaces/srv/detail/move_joint_delta__struct.hpp: rosidl_generator_cpp/soarm100_interfaces/msg/tracked_target2_d.hpp
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_cpp/soarm100_interfaces/srv/detail/move_joint_delta__struct.hpp
+
+rosidl_generator_cpp/soarm100_interfaces/srv/detail/move_joint_delta__traits.hpp: rosidl_generator_cpp/soarm100_interfaces/msg/tracked_target2_d.hpp
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_cpp/soarm100_interfaces/srv/detail/move_joint_delta__traits.hpp
+
+rosidl_generator_cpp/soarm100_interfaces/srv/detail/move_joint_delta__type_support.hpp: rosidl_generator_cpp/soarm100_interfaces/msg/tracked_target2_d.hpp
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_cpp/soarm100_interfaces/srv/detail/move_joint_delta__type_support.hpp
+
+rosidl_generator_cpp/soarm100_interfaces/srv/move_named_pose.hpp: rosidl_generator_cpp/soarm100_interfaces/msg/tracked_target2_d.hpp
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_cpp/soarm100_interfaces/srv/move_named_pose.hpp
+
+rosidl_generator_cpp/soarm100_interfaces/srv/detail/move_named_pose__builder.hpp: rosidl_generator_cpp/soarm100_interfaces/msg/tracked_target2_d.hpp
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_cpp/soarm100_interfaces/srv/detail/move_named_pose__builder.hpp
+
+rosidl_generator_cpp/soarm100_interfaces/srv/detail/move_named_pose__struct.hpp: rosidl_generator_cpp/soarm100_interfaces/msg/tracked_target2_d.hpp
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_cpp/soarm100_interfaces/srv/detail/move_named_pose__struct.hpp
+
+rosidl_generator_cpp/soarm100_interfaces/srv/detail/move_named_pose__traits.hpp: rosidl_generator_cpp/soarm100_interfaces/msg/tracked_target2_d.hpp
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_cpp/soarm100_interfaces/srv/detail/move_named_pose__traits.hpp
+
+rosidl_generator_cpp/soarm100_interfaces/srv/detail/move_named_pose__type_support.hpp: rosidl_generator_cpp/soarm100_interfaces/msg/tracked_target2_d.hpp
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_cpp/soarm100_interfaces/srv/detail/move_named_pose__type_support.hpp
+
+rosidl_generator_cpp/soarm100_interfaces/srv/move_joint_target.hpp: rosidl_generator_cpp/soarm100_interfaces/msg/tracked_target2_d.hpp
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_cpp/soarm100_interfaces/srv/move_joint_target.hpp
+
+rosidl_generator_cpp/soarm100_interfaces/srv/detail/move_joint_target__builder.hpp: rosidl_generator_cpp/soarm100_interfaces/msg/tracked_target2_d.hpp
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_cpp/soarm100_interfaces/srv/detail/move_joint_target__builder.hpp
+
+rosidl_generator_cpp/soarm100_interfaces/srv/detail/move_joint_target__struct.hpp: rosidl_generator_cpp/soarm100_interfaces/msg/tracked_target2_d.hpp
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_cpp/soarm100_interfaces/srv/detail/move_joint_target__struct.hpp
+
+rosidl_generator_cpp/soarm100_interfaces/srv/detail/move_joint_target__traits.hpp: rosidl_generator_cpp/soarm100_interfaces/msg/tracked_target2_d.hpp
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_cpp/soarm100_interfaces/srv/detail/move_joint_target__traits.hpp
+
+rosidl_generator_cpp/soarm100_interfaces/srv/detail/move_joint_target__type_support.hpp: rosidl_generator_cpp/soarm100_interfaces/msg/tracked_target2_d.hpp
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_cpp/soarm100_interfaces/srv/detail/move_joint_target__type_support.hpp
+
+rosidl_generator_cpp/soarm100_interfaces/srv/set_hardware_torque.hpp: rosidl_generator_cpp/soarm100_interfaces/msg/tracked_target2_d.hpp
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_cpp/soarm100_interfaces/srv/set_hardware_torque.hpp
+
+rosidl_generator_cpp/soarm100_interfaces/srv/detail/set_hardware_torque__builder.hpp: rosidl_generator_cpp/soarm100_interfaces/msg/tracked_target2_d.hpp
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_cpp/soarm100_interfaces/srv/detail/set_hardware_torque__builder.hpp
+
+rosidl_generator_cpp/soarm100_interfaces/srv/detail/set_hardware_torque__struct.hpp: rosidl_generator_cpp/soarm100_interfaces/msg/tracked_target2_d.hpp
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_cpp/soarm100_interfaces/srv/detail/set_hardware_torque__struct.hpp
+
+rosidl_generator_cpp/soarm100_interfaces/srv/detail/set_hardware_torque__traits.hpp: rosidl_generator_cpp/soarm100_interfaces/msg/tracked_target2_d.hpp
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_cpp/soarm100_interfaces/srv/detail/set_hardware_torque__traits.hpp
+
+rosidl_generator_cpp/soarm100_interfaces/srv/detail/set_hardware_torque__type_support.hpp: rosidl_generator_cpp/soarm100_interfaces/msg/tracked_target2_d.hpp
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_cpp/soarm100_interfaces/srv/detail/set_hardware_torque__type_support.hpp
+
 soarm100_interfaces__cpp: CMakeFiles/soarm100_interfaces__cpp
 soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/action/detail/execute_grasp__builder.hpp
 soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/action/detail/execute_grasp__struct.hpp
@@ -327,6 +432,22 @@ soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/msg/detail/tr
 soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/msg/detail/tracked_target2_d__traits.hpp
 soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/msg/detail/tracked_target2_d__type_support.hpp
 soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/msg/tracked_target2_d.hpp
+soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/srv/detail/move_joint_delta__builder.hpp
+soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/srv/detail/move_joint_delta__struct.hpp
+soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/srv/detail/move_joint_delta__traits.hpp
+soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/srv/detail/move_joint_delta__type_support.hpp
+soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/srv/detail/move_joint_target__builder.hpp
+soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/srv/detail/move_joint_target__struct.hpp
+soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/srv/detail/move_joint_target__traits.hpp
+soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/srv/detail/move_joint_target__type_support.hpp
+soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/srv/detail/move_named_pose__builder.hpp
+soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/srv/detail/move_named_pose__struct.hpp
+soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/srv/detail/move_named_pose__traits.hpp
+soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/srv/detail/move_named_pose__type_support.hpp
+soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/srv/detail/move_single_joint__builder.hpp
+soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/srv/detail/move_single_joint__struct.hpp
+soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/srv/detail/move_single_joint__traits.hpp
+soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/srv/detail/move_single_joint__type_support.hpp
 soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/srv/detail/segment_target__builder.hpp
 soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/srv/detail/segment_target__struct.hpp
 soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/srv/detail/segment_target__traits.hpp
@@ -335,8 +456,17 @@ soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/srv/detail/se
 soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/srv/detail/set_avoidance__struct.hpp
 soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/srv/detail/set_avoidance__traits.hpp
 soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/srv/detail/set_avoidance__type_support.hpp
+soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/srv/detail/set_hardware_torque__builder.hpp
+soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/srv/detail/set_hardware_torque__struct.hpp
+soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/srv/detail/set_hardware_torque__traits.hpp
+soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/srv/detail/set_hardware_torque__type_support.hpp
+soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/srv/move_joint_delta.hpp
+soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/srv/move_joint_target.hpp
+soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/srv/move_named_pose.hpp
+soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/srv/move_single_joint.hpp
 soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/srv/segment_target.hpp
 soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/srv/set_avoidance.hpp
+soarm100_interfaces__cpp: rosidl_generator_cpp/soarm100_interfaces/srv/set_hardware_torque.hpp
 soarm100_interfaces__cpp: CMakeFiles/soarm100_interfaces__cpp.dir/build.make
 .PHONY : soarm100_interfaces__cpp
 

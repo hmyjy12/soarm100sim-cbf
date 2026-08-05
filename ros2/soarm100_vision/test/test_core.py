@@ -22,6 +22,44 @@ from soarm100_vision.mujoco_inprocess_runner import (
 )
 from soarm100_vision.sdf_cbf_core import TableFilter, VoxelPersistence, WorkspaceCrop
 from soarm100_vision.vision_utils import color_components, hsv_color_mask, parse_rgb
+from soarm100_vision.hardware_joint_bridge import (
+    JOINT_NAMES,
+    decode_hardware_joint_packet,
+)
+
+
+def test_hardware_joint_packet_decode_orders_policy_joints():
+    import json
+
+    policy = {name: index * 0.1 for index, name in enumerate(reversed(JOINT_NAMES))}
+    payload = json.dumps(
+        {
+            "schema_version": 1,
+            "sequence": 42,
+            "timestamp": "2026-07-30T12:00:00+08:00",
+            "source": "so100_plus_feetech_read_only",
+            "policy": policy,
+        }
+    ).encode("ascii")
+    packet = decode_hardware_joint_packet(payload)
+    assert packet.sequence == 42
+    assert packet.positions == tuple(float(policy[name]) for name in JOINT_NAMES)
+
+
+def test_hardware_joint_packet_rejects_missing_joint():
+    import json
+    import pytest
+
+    payload = json.dumps(
+        {
+            "schema_version": 1,
+            "sequence": 1,
+            "source": "so100_plus_feetech_read_only",
+            "policy": {name: 0.0 for name in JOINT_NAMES[:-1]},
+        }
+    ).encode("ascii")
+    with pytest.raises(ValueError, match="exactly the seven"):
+        decode_hardware_joint_packet(payload)
 
 
 def test_grasp_state_machine_tracks_position_only():

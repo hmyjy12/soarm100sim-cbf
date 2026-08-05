@@ -1,0 +1,1 @@
+[INFO] [1785407614.314734521] [hardware_single_joint_service]: guarded single-joint service ready: /hardware/move_single_joint; max_delta=2deg, automatic return and torque-off

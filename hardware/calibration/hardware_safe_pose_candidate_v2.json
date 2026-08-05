@@ -1,0 +1,150 @@
+{
+  "schema_version": 1,
+  "timestamp": "2026-07-31T11:29:00.954924+08:00",
+  "name": "hardware_safe",
+  "mode": "STRICT_READ_ONLY",
+  "policy_joint_order": [
+    "shoulder_rotation_joint",
+    "shoulder_pitch_joint",
+    "ellbow_joint",
+    "wrist_pitch_joint",
+    "wrist_jaw_joint",
+    "wrist_roll_joint",
+    "gripper_joint"
+  ],
+  "policy_position_rad": [
+    0.10126745550033033,
+    -1.4480478958854053,
+    1.3682614157942359,
+    0.058305504682008374,
+    -0.03835888465921604,
+    0.13655762938680907,
+    0.03425863236289778
+  ],
+  "policy_position_by_name": {
+    "shoulder_rotation_joint": 0.10126745550033033,
+    "shoulder_pitch_joint": -1.4480478958854053,
+    "ellbow_joint": 1.3682614157942359,
+    "wrist_pitch_joint": 0.058305504682008374,
+    "wrist_jaw_joint": -0.03835888465921604,
+    "wrist_roll_joint": 0.13655762938680907,
+    "gripper_joint": 0.03425863236289778
+  },
+  "motor_raw_position": {
+    "shoulder_pan": 1954,
+    "shoulder_lift": 2158,
+    "elbow_flex": 1924,
+    "wrist_flex": 1990,
+    "wrist_yaw": 2037,
+    "wrist_roll": 2083,
+    "gripper": 2164
+  },
+  "motor_lerobot_value": {
+    "shoulder_pan": -7.032967032967033,
+    "shoulder_lift": 0.26373626373626374,
+    "elbow_flex": 3.6483516483516483,
+    "wrist_flex": -3.6043956043956045,
+    "wrist_yaw": -1.3626373626373627,
+    "wrist_roll": -8.923076923076923,
+    "gripper": 12.931618144888288
+  },
+  "raw_margin_counts": 100,
+  "raw_checks": {
+    "shoulder_pan": {
+      "position": 1954,
+      "safe_min": 1130,
+      "safe_max": 2938,
+      "passed": true
+    },
+    "shoulder_lift": {
+      "position": 2158,
+      "safe_min": 1056,
+      "safe_max": 3254,
+      "passed": true
+    },
+    "elbow_flex": {
+      "position": 1924,
+      "safe_min": 875,
+      "safe_max": 2890,
+      "passed": true
+    },
+    "wrist_flex": {
+      "position": 1990,
+      "safe_min": 1147,
+      "safe_max": 2915,
+      "passed": true
+    },
+    "wrist_yaw": {
+      "position": 2037,
+      "safe_min": 1154,
+      "safe_max": 2951,
+      "passed": true
+    },
+    "wrist_roll": {
+      "position": 2083,
+      "safe_min": 1192,
+      "safe_max": 3177,
+      "passed": true
+    },
+    "gripper": {
+      "position": 2164,
+      "safe_min": 2073,
+      "safe_max": 3350,
+      "passed": true
+    }
+  },
+  "policy_checks": {
+    "shoulder_rotation_joint": {
+      "position_rad": 0.10126745550033033,
+      "min_rad": -2.2,
+      "max_rad": 2.2,
+      "passed": true
+    },
+    "shoulder_pitch_joint": {
+      "position_rad": -1.4480478958854053,
+      "min_rad": -3.14158,
+      "max_rad": 0.2,
+      "passed": true
+    },
+    "ellbow_joint": {
+      "position_rad": 1.3682614157942359,
+      "min_rad": 0.0,
+      "max_rad": 3.14158,
+      "passed": true
+    },
+    "wrist_pitch_joint": {
+      "position_rad": 0.058305504682008374,
+      "min_rad": -2.0,
+      "max_rad": 1.8,
+      "passed": true
+    },
+    "wrist_jaw_joint": {
+      "position_rad": -0.03835888465921604,
+      "min_rad": -1.45,
+      "max_rad": 1.45,
+      "passed": true
+    },
+    "wrist_roll_joint": {
+      "position_rad": 0.13655762938680907,
+      "min_rad": -3.14158,
+      "max_rad": 3.14158,
+      "passed": true
+    },
+    "gripper_joint": {
+      "position_rad": 0.03425863236289778,
+      "min_rad": -0.2,
+      "max_rad": 2.0,
+      "passed": true
+    }
+  },
+  "automatic_validation_passed": true,
+  "automatic_validation_failures": [],
+  "user_visual_approval": false,
+  "approved_for_recovery_motion": false,
+  "manual_checks_required": [
+    "arm is mechanically stable after torque is disabled",
+    "wrist_roll cable is relaxed with margin in both directions",
+    "arm, camera, and gripper do not contact the table or robot",
+    "camera mounts and cables are not under tension"
+  ]
+}

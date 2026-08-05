@@ -1,0 +1,312 @@
+[30.033s] Invoking command in '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble CONDA_PROMPT_MODIFIER=(base) /usr/bin/cmake --build /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces -- -j32 -l32
+[30.052s] -- Found ament_cmake: 1.3.14 (/opt/ros/humble/share/ament_cmake/cmake)
+[30.168s] -- Found rosidl_default_generators: 1.2.1 (/opt/ros/humble/share/rosidl_default_generators/cmake)
+[30.169s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[30.170s] -- Found rosidl_adapter: 3.1.8 (/opt/ros/humble/share/rosidl_adapter/cmake)
+[30.185s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[30.202s] -- Found builtin_interfaces: 1.2.2 (/opt/ros/humble/share/builtin_interfaces/cmake)
+[30.209s] -- Found geometry_msgs: 4.9.1 (/opt/ros/humble/share/geometry_msgs/cmake)
+[30.225s] -- Found sensor_msgs: 4.9.1 (/opt/ros/humble/share/sensor_msgs/cmake)
+[30.533s] -- Found ament_cmake_ros: 0.10.0 (/opt/ros/humble/share/ament_cmake_ros/cmake)
+[30.779s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[31.094s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[31.116s] -- Found python_cmake_module: 0.10.0 (/opt/ros/humble/share/python_cmake_module/cmake)
+[31.144s] -- Using PYTHON_EXECUTABLE: /usr/bin/python3
+[31.144s] -- Using PYTHON_INCLUDE_DIRS: /usr/include/python3.10;/usr/include/x86_64-linux-gnu/python3.10
+[31.144s] -- Using PYTHON_LIBRARIES: /usr/lib/x86_64-linux-gnu/libpython3.10.so
+[31.262s] -- Configuring done
+[31.299s] -- Generating done
+[31.310s] -- Build files have been written to: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces
+[31.333s] [  1%] Generating C code for ROS interfaces
+[31.342s] [  2%] Generating Rust code for ROS interfaces
+[31.345s] [  3%] Generating C++ code for ROS interfaces
+[31.349s] [  3%] Built target ament_cmake_python_copy_soarm100_interfaces
+[31.508s] running egg_info
+[31.509s] writing soarm100_interfaces.egg-info/PKG-INFO
+[31.509s] writing dependency_links to soarm100_interfaces.egg-info/dependency_links.txt
+[31.509s] writing top-level names to soarm100_interfaces.egg-info/top_level.txt
+[31.511s] reading manifest file 'soarm100_interfaces.egg-info/SOURCES.txt'
+[31.511s] writing manifest file 'soarm100_interfaces.egg-info/SOURCES.txt'
+[31.530s] [  3%] Built target ament_cmake_python_build_soarm100_interfaces_egg
+[31.678s] [  3%] Built target soarm100_interfaces__rs
+[32.090s] Consolidate compiler generated dependencies of target soarm100_interfaces__rosidl_generator_c
+[32.100s] [  4%] Building C object CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/segment_target__functions.c.o
+[32.100s] [  7%] Building C object CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/action/detail/execute_planned_grasp__functions.c.o
+[32.100s] [  7%] Building C object CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/action/detail/plan_grasp__functions.c.o
+[32.100s] [  7%] Building C object CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/action/detail/execute_grasp__functions.c.o
+[32.100s] [  9%] Building C object CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/move_single_joint__functions.c.o
+[32.101s] [ 10%] Building C object CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/msg/detail/tracked_target2_d__functions.c.o
+[32.101s] [ 11%] Building C object CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_delta__functions.c.o
+[32.102s] [ 12%] Building C object CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/set_avoidance__functions.c.o
+[32.129s] [ 12%] Built target soarm100_interfaces__cpp
+[32.137s] [ 15%] Generating C++ type support for eProsima Fast-RTPS
+[32.137s] [ 15%] Generating C++ type support dispatch for ROS interfaces
+[32.137s] [ 15%] Generating C++ introspection for ROS interfaces
+[32.200s] [ 17%] Linking C shared library libsoarm100_interfaces__rosidl_generator_c.so
+[32.240s] [ 17%] Built target soarm100_interfaces__rosidl_generator_c
+[32.250s] [ 18%] Generating C introspection for ROS interfaces
+[32.250s] [ 20%] Generating C type support dispatch for ROS interfaces
+[32.251s] [ 20%] Generating C type support for eProsima Fast-RTPS
+[32.553s] Consolidate compiler generated dependencies of target soarm100_interfaces__rosidl_typesupport_cpp
+[32.564s] [ 21%] Building CXX object CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/msg/tracked_target2_d__type_support.cpp.o
+[32.566s] [ 25%] Building CXX object CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/action/execute_grasp__type_support.cpp.o
+[32.566s] [ 25%] Building CXX object CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/action/execute_planned_grasp__type_support.cpp.o
+[32.566s] [ 25%] Building CXX object CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/action/plan_grasp__type_support.cpp.o
+[32.566s] [ 26%] Building CXX object CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/segment_target__type_support.cpp.o
+[32.566s] [ 27%] Building CXX object CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/set_avoidance__type_support.cpp.o
+[32.566s] [ 28%] Building CXX object CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/move_single_joint__type_support.cpp.o
+[32.567s] [ 29%] Building CXX object CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/move_joint_delta__type_support.cpp.o
+[32.650s] Consolidate compiler generated dependencies of target soarm100_interfaces__rosidl_typesupport_c
+[32.659s] [ 30%] Building CXX object CMakeFiles/soarm100_interfaces__rosidl_typesupport_c.dir/rosidl_typesupport_c/soarm100_interfaces/action/execute_grasp__type_support.cpp.o
+[32.659s] [ 31%] Building CXX object CMakeFiles/soarm100_interfaces__rosidl_typesupport_c.dir/rosidl_typesupport_c/soarm100_interfaces/srv/move_single_joint__type_support.cpp.o
+[32.660s] [ 32%] Building CXX object CMakeFiles/soarm100_interfaces__rosidl_typesupport_c.dir/rosidl_typesupport_c/soarm100_interfaces/action/execute_planned_grasp__type_support.cpp.o
+[32.660s] [ 34%] Building CXX object CMakeFiles/soarm100_interfaces__rosidl_typesupport_c.dir/rosidl_typesupport_c/soarm100_interfaces/msg/tracked_target2_d__type_support.cpp.o
+[32.660s] [ 35%] Building CXX object CMakeFiles/soarm100_interfaces__rosidl_typesupport_c.dir/rosidl_typesupport_c/soarm100_interfaces/srv/set_avoidance__type_support.cpp.o
+[32.661s] [ 37%] Building CXX object CMakeFiles/soarm100_interfaces__rosidl_typesupport_c.dir/rosidl_typesupport_c/soarm100_interfaces/srv/segment_target__type_support.cpp.o
+[32.661s] [ 37%] Building CXX object CMakeFiles/soarm100_interfaces__rosidl_typesupport_c.dir/rosidl_typesupport_c/soarm100_interfaces/action/plan_grasp__type_support.cpp.o
+[32.662s] [ 38%] Building CXX object CMakeFiles/soarm100_interfaces__rosidl_typesupport_c.dir/rosidl_typesupport_c/soarm100_interfaces/srv/move_joint_delta__type_support.cpp.o
+[32.666s] Consolidate compiler generated dependencies of target soarm100_interfaces__rosidl_typesupport_introspection_cpp
+[32.679s] [ 39%] Building CXX object CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/segment_target__type_support.cpp.o
+[32.679s] [ 40%] Building CXX object CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/soarm100_interfaces/action/detail/execute_planned_grasp__type_support.cpp.o
+[32.680s] [ 43%] Building CXX object CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/set_avoidance__type_support.cpp.o
+[32.680s] [ 43%] Building CXX object CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/soarm100_interfaces/action/detail/execute_grasp__type_support.cpp.o
+[32.680s] [ 44%] Building CXX object CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/soarm100_interfaces/msg/detail/tracked_target2_d__type_support.cpp.o
+[32.680s] [ 45%] Building CXX object CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/soarm100_interfaces/action/detail/plan_grasp__type_support.cpp.o
+[32.680s] [ 46%] Building CXX object CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/move_single_joint__type_support.cpp.o
+[32.681s] [ 47%] Building CXX object CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/move_joint_delta__type_support.cpp.o
+[32.717s] [ 48%] Linking CXX shared library libsoarm100_interfaces__rosidl_typesupport_c.so
+[32.752s] [ 48%] Built target soarm100_interfaces__rosidl_typesupport_c
+[32.814s] Consolidate compiler generated dependencies of target soarm100_interfaces__rosidl_typesupport_fastrtps_cpp
+[32.827s] [ 50%] Building CXX object CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/segment_target__type_support.cpp.o
+[32.828s] [ 51%] Building CXX object CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/action/detail/dds_fastrtps/execute_planned_grasp__type_support.cpp.o
+[32.828s] [ 53%] Building CXX object CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/msg/detail/dds_fastrtps/tracked_target2_d__type_support.cpp.o
+[32.828s] [ 53%] Building CXX object CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/action/detail/dds_fastrtps/execute_grasp__type_support.cpp.o
+[32.828s] [ 54%] Building CXX object CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/action/detail/dds_fastrtps/plan_grasp__type_support.cpp.o
+[32.829s] [ 55%] Building CXX object CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/set_avoidance__type_support.cpp.o
+[32.829s] [ 57%] Building CXX object CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/move_single_joint__type_support.cpp.o
+[32.829s] [ 57%] Building CXX object CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/move_joint_delta__type_support.cpp.o
+[32.949s] Consolidate compiler generated dependencies of target soarm100_interfaces__rosidl_typesupport_fastrtps_c
+[32.954s] Consolidate compiler generated dependencies of target soarm100_interfaces__rosidl_typesupport_introspection_c
+[32.959s] [ 59%] Building CXX object CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/segment_target__type_support_c.cpp.o
+[32.959s] [ 60%] Building CXX object CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/soarm100_interfaces/action/detail/execute_grasp__type_support_c.cpp.o
+[32.960s] [ 61%] Building CXX object CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/soarm100_interfaces/action/detail/execute_planned_grasp__type_support_c.cpp.o
+[32.960s] [ 63%] Building CXX object CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/soarm100_interfaces/action/detail/plan_grasp__type_support_c.cpp.o
+[32.960s] [ 63%] Building CXX object CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/soarm100_interfaces/msg/detail/tracked_target2_d__type_support_c.cpp.o
+[32.960s] [ 64%] Building CXX object CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/set_avoidance__type_support_c.cpp.o
+[32.962s] [ 65%] Building CXX object CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/move_joint_delta__type_support_c.cpp.o
+[32.962s] [ 67%] Building CXX object CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/move_single_joint__type_support_c.cpp.o
+[32.966s] [ 69%] Building C object CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/soarm100_interfaces/msg/detail/tracked_target2_d__type_support.c.o
+[32.967s] [ 70%] Building C object CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/soarm100_interfaces/action/detail/execute_planned_grasp__type_support.c.o
+[32.969s] [ 70%] Building C object CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/soarm100_interfaces/action/detail/execute_grasp__type_support.c.o
+[32.969s] [ 71%] Building C object CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/segment_target__type_support.c.o
+[32.970s] [ 72%] Building C object CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/soarm100_interfaces/action/detail/plan_grasp__type_support.c.o
+[32.972s] [ 73%] Building C object CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/move_single_joint__type_support.c.o
+[32.973s] [ 75%] Building C object CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/set_avoidance__type_support.c.o
+[32.980s] [ 76%] Building C object CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/move_joint_delta__type_support.c.o
+[33.019s] [ 77%] Linking C shared library libsoarm100_interfaces__rosidl_typesupport_introspection_c.so
+[33.050s] [ 77%] Built target soarm100_interfaces__rosidl_typesupport_introspection_c
+[33.056s] [ 78%] Linking CXX shared library libsoarm100_interfaces__rosidl_typesupport_cpp.so
+[33.098s] [ 78%] Built target soarm100_interfaces__rosidl_typesupport_cpp
+[33.369s] [ 79%] Linking CXX shared library libsoarm100_interfaces__rosidl_typesupport_introspection_cpp.so
+[33.381s] [ 80%] Linking CXX shared library libsoarm100_interfaces__rosidl_typesupport_fastrtps_cpp.so
+[33.429s] [ 80%] Built target soarm100_interfaces__rosidl_typesupport_introspection_cpp
+[33.435s] [ 81%] Linking CXX shared library libsoarm100_interfaces__rosidl_typesupport_fastrtps_c.so
+[33.446s] [ 81%] Built target soarm100_interfaces__rosidl_typesupport_fastrtps_cpp
+[33.503s] [ 81%] Built target soarm100_interfaces__rosidl_typesupport_fastrtps_c
+[33.527s] [ 81%] Built target soarm100_interfaces
+[33.551s] [ 82%] Generating Python code for ROS interfaces
+[35.071s] [ 82%] Built target soarm100_interfaces__py
+[35.094s] Consolidate compiler generated dependencies of target soarm100_interfaces__rosidl_generator_py
+[35.108s] [ 84%] Building C object CMakeFiles/soarm100_interfaces__rosidl_generator_py.dir/rosidl_generator_py/soarm100_interfaces/msg/_tracked_target2_d_s.c.o
+[35.112s] [ 86%] Building C object CMakeFiles/soarm100_interfaces__rosidl_generator_py.dir/rosidl_generator_py/soarm100_interfaces/srv/_move_single_joint_s.c.o
+[35.113s] [ 86%] Building C object CMakeFiles/soarm100_interfaces__rosidl_generator_py.dir/rosidl_generator_py/soarm100_interfaces/action/_plan_grasp_s.c.o
+[35.113s] [ 87%] Building C object CMakeFiles/soarm100_interfaces__rosidl_generator_py.dir/rosidl_generator_py/soarm100_interfaces/srv/_segment_target_s.c.o
+[35.113s] [ 89%] Building C object CMakeFiles/soarm100_interfaces__rosidl_generator_py.dir/rosidl_generator_py/soarm100_interfaces/srv/_move_joint_delta_s.c.o
+[35.113s] [ 88%] Building C object CMakeFiles/soarm100_interfaces__rosidl_generator_py.dir/rosidl_generator_py/soarm100_interfaces/action/_execute_grasp_s.c.o
+[35.113s] [ 90%] Building C object CMakeFiles/soarm100_interfaces__rosidl_generator_py.dir/rosidl_generator_py/soarm100_interfaces/action/_execute_planned_grasp_s.c.o
+[35.114s] [ 92%] Building C object CMakeFiles/soarm100_interfaces__rosidl_generator_py.dir/rosidl_generator_py/soarm100_interfaces/srv/_set_avoidance_s.c.o
+[35.218s] [ 93%] Linking C shared library rosidl_generator_py/soarm100_interfaces/libsoarm100_interfaces__rosidl_generator_py.so
+[35.264s] [ 93%] Built target soarm100_interfaces__rosidl_generator_py
+[35.275s] Consolidate compiler generated dependencies of target soarm100_interfaces__rosidl_typesupport_fastrtps_c__pyext
+[35.276s] Consolidate compiler generated dependencies of target soarm100_interfaces__rosidl_typesupport_c__pyext
+[35.276s] Consolidate compiler generated dependencies of target soarm100_interfaces__rosidl_typesupport_introspection_c__pyext
+[35.284s] [ 94%] Building C object CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_c__pyext.dir/rosidl_generator_py/soarm100_interfaces/_soarm100_interfaces_s.ep.rosidl_typesupport_fastrtps_c.c.o
+[35.286s] [ 95%] Building C object CMakeFiles/soarm100_interfaces__rosidl_typesupport_c__pyext.dir/rosidl_generator_py/soarm100_interfaces/_soarm100_interfaces_s.ep.rosidl_typesupport_c.c.o
+[35.287s] [ 96%] Building C object CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_c__pyext.dir/rosidl_generator_py/soarm100_interfaces/_soarm100_interfaces_s.ep.rosidl_typesupport_introspection_c.c.o
+[35.417s] [ 98%] Linking C shared library rosidl_generator_py/soarm100_interfaces/soarm100_interfaces_s__rosidl_typesupport_fastrtps_c.cpython-310-x86_64-linux-gnu.so
+[35.417s] [ 98%] Linking C shared library rosidl_generator_py/soarm100_interfaces/soarm100_interfaces_s__rosidl_typesupport_introspection_c.cpython-310-x86_64-linux-gnu.so
+[35.417s] [100%] Linking C shared library rosidl_generator_py/soarm100_interfaces/soarm100_interfaces_s__rosidl_typesupport_c.cpython-310-x86_64-linux-gnu.so
+[35.459s] [100%] Built target soarm100_interfaces__rosidl_typesupport_fastrtps_c__pyext
+[35.459s] [100%] Built target soarm100_interfaces__rosidl_typesupport_introspection_c__pyext
+[35.459s] [100%] Built target soarm100_interfaces__rosidl_typesupport_c__pyext
+[35.469s] Invoked command in '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble CONDA_PROMPT_MODIFIER=(base) /usr/bin/cmake --build /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces -- -j32 -l32
+[35.477s] Invoking command in '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble CONDA_PROMPT_MODIFIER=(base) /usr/bin/cmake --install /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces
+[35.485s] -- Install configuration: ""
+[35.485s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces
+[35.485s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action
+[35.485s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/detail
+[35.485s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/detail/plan_grasp__functions.c
+[35.485s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/detail/execute_grasp__functions.c
+[35.485s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/detail/execute_planned_grasp__functions.c
+[35.486s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv
+[35.486s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail
+[35.486s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/segment_target__functions.c
+[35.486s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/move_joint_delta__functions.h
+[35.486s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/move_single_joint__struct.h
+[35.486s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/move_single_joint__type_support.h
+[35.486s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/set_avoidance__functions.c
+[35.486s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/move_joint_delta__type_support.h
+[35.487s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/move_single_joint__functions.c
+[35.487s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/move_single_joint__functions.h
+[35.487s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/move_joint_delta__struct.h
+[35.487s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/move_joint_delta__functions.c
+[35.487s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/move_joint_delta.h
+[35.487s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/move_single_joint.h
+[35.487s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/msg
+[35.487s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/msg/detail
+[35.487s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/msg/detail/tracked_target2_d__functions.c
+[35.487s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/lib/libsoarm100_interfaces__rosidl_generator_c.so
+[35.488s] -- Set runtime path of "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/lib/libsoarm100_interfaces__rosidl_generator_c.so" to ""
+[35.488s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces
+[35.488s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action
+[35.488s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/detail
+[35.488s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv
+[35.488s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail
+[35.488s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/move_joint_delta__rosidl_typesupport_fastrtps_c.h
+[35.488s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/move_single_joint__rosidl_typesupport_fastrtps_c.h
+[35.488s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/msg
+[35.488s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/msg/detail
+[35.488s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/lib/libsoarm100_interfaces__rosidl_typesupport_fastrtps_c.so
+[35.489s] -- Set runtime path of "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/lib/libsoarm100_interfaces__rosidl_typesupport_fastrtps_c.so" to ""
+[35.489s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces
+[35.489s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action
+[35.489s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/detail
+[35.489s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/detail/execute_planned_grasp__type_support.c
+[35.489s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/detail/execute_grasp__type_support.c
+[35.489s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/detail/plan_grasp__type_support.c
+[35.489s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv
+[35.489s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail
+[35.489s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/move_joint_delta__type_support.c
+[35.489s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/segment_target__type_support.c
+[35.489s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/move_single_joint__type_support.c
+[35.489s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/move_single_joint__rosidl_typesupport_introspection_c.h
+[35.489s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/move_joint_delta__rosidl_typesupport_introspection_c.h
+[35.489s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/set_avoidance__type_support.c
+[35.489s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/msg
+[35.490s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/msg/detail
+[35.490s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/msg/detail/tracked_target2_d__type_support.c
+[35.490s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/lib/libsoarm100_interfaces__rosidl_typesupport_introspection_c.so
+[35.490s] -- Set runtime path of "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/lib/libsoarm100_interfaces__rosidl_typesupport_introspection_c.so" to ""
+[35.490s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/lib/libsoarm100_interfaces__rosidl_typesupport_c.so
+[35.490s] -- Set runtime path of "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/lib/libsoarm100_interfaces__rosidl_typesupport_c.so" to ""
+[35.490s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces
+[35.490s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action
+[35.490s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/detail
+[35.491s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv
+[35.491s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail
+[35.491s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/move_single_joint__traits.hpp
+[35.491s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/move_joint_delta__type_support.hpp
+[35.491s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/move_single_joint__type_support.hpp
+[35.491s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/move_joint_delta__traits.hpp
+[35.491s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/move_single_joint__struct.hpp
+[35.491s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/move_joint_delta__builder.hpp
+[35.491s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/move_joint_delta__struct.hpp
+[35.491s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/move_single_joint__builder.hpp
+[35.491s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/move_single_joint.hpp
+[35.491s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/move_joint_delta.hpp
+[35.491s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/msg
+[35.491s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/msg/detail
+[35.491s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces
+[35.491s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action
+[35.492s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/detail
+[35.492s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/detail/dds_fastrtps
+[35.492s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv
+[35.492s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail
+[35.492s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/move_joint_delta__rosidl_typesupport_fastrtps_cpp.hpp
+[35.492s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/move_single_joint__rosidl_typesupport_fastrtps_cpp.hpp
+[35.492s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/dds_fastrtps
+[35.492s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/msg
+[35.492s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/msg/detail
+[35.492s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/msg/detail/dds_fastrtps
+[35.492s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/lib/libsoarm100_interfaces__rosidl_typesupport_fastrtps_cpp.so
+[35.492s] -- Set runtime path of "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/lib/libsoarm100_interfaces__rosidl_typesupport_fastrtps_cpp.so" to ""
+[35.492s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces
+[35.492s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action
+[35.492s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/detail
+[35.492s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/detail/execute_grasp__type_support.cpp
+[35.492s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/detail/plan_grasp__type_support.cpp
+[35.492s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/detail/execute_planned_grasp__type_support.cpp
+[35.492s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv
+[35.492s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail
+[35.492s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/move_single_joint__rosidl_typesupport_introspection_cpp.hpp
+[35.492s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/move_joint_delta__rosidl_typesupport_introspection_cpp.hpp
+[35.492s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/segment_target__type_support.cpp
+[35.492s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/move_joint_delta__type_support.cpp
+[35.493s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/move_single_joint__type_support.cpp
+[35.493s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/set_avoidance__type_support.cpp
+[35.493s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/msg
+[35.493s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/msg/detail
+[35.493s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/msg/detail/tracked_target2_d__type_support.cpp
+[35.493s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/lib/libsoarm100_interfaces__rosidl_typesupport_introspection_cpp.so
+[35.493s] -- Set runtime path of "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/lib/libsoarm100_interfaces__rosidl_typesupport_introspection_cpp.so" to ""
+[35.493s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/lib/libsoarm100_interfaces__rosidl_typesupport_cpp.so
+[35.493s] -- Set runtime path of "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/lib/libsoarm100_interfaces__rosidl_typesupport_cpp.so" to ""
+[35.493s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces-0.1.0-py3.10.egg-info
+[35.493s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces
+[35.493s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces/action
+[35.493s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces/srv
+[35.494s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces/srv/_move_joint_delta_s.c
+[35.494s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces/srv/_move_joint_delta.py
+[35.494s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces/srv/_move_single_joint.py
+[35.494s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces/srv/_move_single_joint_s.c
+[35.494s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces/msg
+[35.540s] Listing '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces'...
+[35.540s] Compiling '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces/__init__.py'...
+[35.540s] Listing '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces/action'...
+[35.540s] Compiling '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces/action/__init__.py'...
+[35.540s] Compiling '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces/action/_execute_grasp.py'...
+[35.540s] Compiling '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces/action/_execute_planned_grasp.py'...
+[35.540s] Compiling '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces/action/_plan_grasp.py'...
+[35.540s] Listing '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces/msg'...
+[35.540s] Compiling '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces/msg/__init__.py'...
+[35.540s] Compiling '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces/msg/_tracked_target2_d.py'...
+[35.540s] Listing '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces/srv'...
+[35.540s] Compiling '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces/srv/__init__.py'...
+[35.540s] Compiling '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces/srv/_move_joint_delta.py'...
+[35.540s] Compiling '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces/srv/_move_single_joint.py'...
+[35.540s] Compiling '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces/srv/_segment_target.py'...
+[35.540s] Compiling '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces/srv/_set_avoidance.py'...
+[35.544s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/lib/libsoarm100_interfaces__rosidl_generator_py.so
+[35.544s] -- Set runtime path of "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/lib/libsoarm100_interfaces__rosidl_generator_py.so" to ""
+[35.544s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/rust
+[35.544s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/rust/src
+[35.544s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/rust/src/action
+[35.544s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/rust/src/srv
+[35.544s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/rust/src/msg
+[35.544s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/srv/MoveSingleJoint.idl
+[35.544s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/srv/MoveJointDelta.idl
+[35.544s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/srv/MoveSingleJoint.srv
+[35.544s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/srv/MoveSingleJoint_Request.msg
+[35.544s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/srv/MoveSingleJoint_Response.msg
+[35.544s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/srv/MoveJointDelta.srv
+[35.545s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/srv/MoveJointDelta_Request.msg
+[35.545s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/srv/MoveJointDelta_Response.msg
+[35.545s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/package.dsv
+[35.545s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/cmake/export_soarm100_interfaces__rosidl_generator_cExport.cmake
+[35.545s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/cmake/export_soarm100_interfaces__rosidl_generator_cExport-noconfig.cmake
+[35.545s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/cmake/export_soarm100_interfaces__rosidl_typesupport_fastrtps_cExport.cmake
+[35.545s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/cmake/export_soarm100_interfaces__rosidl_typesupport_fastrtps_cExport-noconfig.cmake
+[35.545s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/cmake/soarm100_interfaces__rosidl_typesupport_introspection_cExport.cmake
+[35.545s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/cmake/soarm100_interfaces__rosidl_typesupport_introspection_cExport-noconfig.cmake
+[35.545s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/cmake/soarm100_interfaces__rosidl_typesupport_cExport.cmake
+[35.545s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/cmake/soarm100_interfaces__rosidl_typesupport_cExport-noconfig.cmake
+[35.545s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/cmake/export_soarm100_interfaces__rosidl_generator_cppExport.cmake
+[35.545s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/cmake/export_soarm100_interfaces__rosidl_typesupport_fastrtps_cppExport.cmake
+[35.545s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/cmake/export_soarm100_interfaces__rosidl_typesupport_fastrtps_cppExport-noconfig.cmake
+[35.545s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/cmake/soarm100_interfaces__rosidl_typesupport_introspection_cppExport.cmake
+[35.545s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/cmake/soarm100_interfaces__rosidl_typesupport_introspection_cppExport-noconfig.cmake
+[35.545s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/cmake/soarm100_interfaces__rosidl_typesupport_cppExport.cmake
+[35.545s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/cmake/soarm100_interfaces__rosidl_typesupport_cppExport-noconfig.cmake
+[35.545s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/cmake/export_soarm100_interfaces__rosidl_generator_pyExport.cmake
+[35.545s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/cmake/export_soarm100_interfaces__rosidl_generator_pyExport-noconfig.cmake
+[60.044s] Invoked command in '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble CONDA_PROMPT_MODIFIER=(base) /usr/bin/cmake --install /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces

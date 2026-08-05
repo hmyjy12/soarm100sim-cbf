@@ -1,0 +1,1 @@
+['-DCMAKE_BUILD_TYPE=Release', '-DINSTALL_UDEV_RULES=OFF', '-DORBBEC_SDK_ROOT=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_sdk_2_8_7_root/opt/OrbbecSDK_v2.8.7']

@@ -1,0 +1,1 @@
+['-DCMAKE_BUILD_TYPE=Release', '-DINSTALL_UDEV_RULES=OFF', '-DPython3_EXECUTABLE=/usr/bin/python3']

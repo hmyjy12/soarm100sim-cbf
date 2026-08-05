@@ -12,6 +12,7 @@ from std_msgs.msg import String
 
 from soarm100_interfaces.srv import SegmentTarget
 from soarm100_vision.vision_utils import (
+    color_components,
     dump_json,
     expand_mask_bbox,
     image_to_numpy,
@@ -19,11 +20,13 @@ from soarm100_vision.vision_utils import (
     numpy_to_mask_msg,
     pointcloud2_xyz,
     pose_from_xyz,
+    hsv_color_mask,
+    parse_rgb,
 )
 
 
 class TargetSegmenterNode(Node):
-    """On-demand YOLO-World + SAM target segmentation.
+    """On-demand color or YOLO-World + SAM target segmentation.
 
     This node is intentionally service-triggered. Heavy open-vocabulary
     detection and SAM segmentation should run at task start or replan time,
@@ -48,6 +51,12 @@ class TargetSegmenterNode(Node):
         self.declare_parameter("mask_expand_ratio", 0.05)
         self.declare_parameter("use_expanded_mask_for_target_cloud", False)
         self.declare_parameter("fallback_red_mask", True)
+        self.declare_parameter("segmentation_mode", "color")
+        self.declare_parameter("target_color_rgb", "255,0,0")
+        self.declare_parameter("color_hue_tolerance_deg", 18.0)
+        self.declare_parameter("color_saturation_min", 0.45)
+        self.declare_parameter("color_value_min", 0.30)
+        self.declare_parameter("color_min_area_px", 40)
 
         self._rgb: Image | None = None
         self._depth: Image | None = None
@@ -56,7 +65,8 @@ class TargetSegmenterNode(Node):
         self._sam = None
         self._detector_prompt = ""
         self._model_error = ""
-        self._load_models()
+        if str(self._param("segmentation_mode")).strip().lower() == "yolo_sam":
+            self._load_models()
 
         self._mask_pub = self.create_publisher(Image, self._param("mask_topic"), 1)
         self._expanded_mask_pub = self.create_publisher(Image, self._param("expanded_mask_topic"), 1)
@@ -70,6 +80,8 @@ class TargetSegmenterNode(Node):
         self.create_service(SegmentTarget, "segment_target", self._on_segment)
         self.get_logger().info(
             "target segmenter ready: "
+            f"mode={self._param('segmentation_mode')} "
+            f"color={self._param('target_color_rgb')} "
             f"rgb={self._param('rgb_topic')} depth={self._param('depth_topic')} "
             f"mask={self._param('mask_topic')} cloud={self._param('target_cloud_topic')}"
         )
@@ -103,7 +115,8 @@ class TargetSegmenterNode(Node):
             response.success = False
             response.reason = "waiting_for_rgb_depth_camera_info"
             return response
-        if self._detector is None or self._sam is None:
+        mode = str(self._param("segmentation_mode")).strip().lower()
+        if mode == "yolo_sam" and (self._detector is None or self._sam is None):
             response.success = False
             response.reason = self._model_error or "models_not_loaded"
             return response
@@ -112,14 +125,22 @@ class TargetSegmenterNode(Node):
             rgb = image_to_numpy(self._rgb)
             depth = image_to_numpy(self._depth)
             used_fallback = False
-            try:
-                bbox, score = self._detect_bbox(rgb, request.target_prompt)
-                mask = self._segment_mask(rgb, bbox)
-            except RuntimeError as exc:
-                if not bool(self._param("fallback_red_mask")) or "no_yolo_detection" not in str(exc):
-                    raise
-                mask, bbox, score = self._fallback_red_mask(rgb)
-                used_fallback = True
+            if mode == "color":
+                mask, bbox, score = self._color_mask(rgb)
+            elif mode == "yolo_sam":
+                try:
+                    bbox, score = self._detect_bbox(rgb, request.target_prompt)
+                    mask = self._segment_mask(rgb, bbox)
+                except RuntimeError as exc:
+                    if (
+                        not bool(self._param("fallback_red_mask"))
+                        or "no_yolo_detection" not in str(exc)
+                    ):
+                        raise
+                    mask, bbox, score = self._fallback_red_mask(rgb)
+                    used_fallback = True
+            else:
+                raise RuntimeError(f"unsupported_segmentation_mode:{mode}")
             expanded_mask = expand_mask_bbox(mask, float(self._param("mask_expand_ratio")))
             cloud_mask = expanded_mask if bool(self._param("use_expanded_mask_for_target_cloud")) else mask
             points = masked_depth_to_points(depth, cloud_mask, self._info)
@@ -148,6 +169,8 @@ class TargetSegmenterNode(Node):
                 {
                     "ok": True,
                     "target_prompt": request.target_prompt,
+                    "segmentation_mode": mode,
+                    "target_color_rgb": str(self._param("target_color_rgb")),
                     "bbox_xyxy": [float(x) for x in bbox],
                     "score": float(score),
                     "fallback_red_mask": bool(used_fallback),
@@ -162,7 +185,7 @@ class TargetSegmenterNode(Node):
                 },
             )
             response.success = True
-            response.reason = "ok"
+            response.reason = f"ok mode={mode}"
             response.target_center = center_msg
             response.score = float(score)
             response.bbox_xyxy = [float(x) for x in bbox]
@@ -171,7 +194,7 @@ class TargetSegmenterNode(Node):
             self._status_pub.publish(
                 String(
                     data=(
-                        f"ok prompt={request.target_prompt} points={points.shape[0]} "
+                        f"ok mode={mode} prompt={request.target_prompt} points={points.shape[0]} "
                         f"roi_points={roi_points.shape[0]} mask_px={int(np.count_nonzero(mask))} "
                         f"expanded_px={int(np.count_nonzero(expanded_mask))} score={score:.3f} "
                         f"fallback_red={used_fallback}"
@@ -222,6 +245,27 @@ class TargetSegmenterNode(Node):
             raise RuntimeError(f"red_mask_too_small:{xs.size}")
         bbox = np.array([x0, y0, x1, y1], dtype=np.float32)
         return np.asarray(mask, dtype=bool), bbox, 0.50
+
+    def _color_mask(self, rgb: np.ndarray) -> tuple[np.ndarray, np.ndarray, float]:
+        mask = hsv_color_mask(
+            rgb,
+            target_rgb=parse_rgb(str(self._param("target_color_rgb"))),
+            hue_tolerance_deg=float(self._param("color_hue_tolerance_deg")),
+            saturation_min=float(self._param("color_saturation_min")),
+            value_min=float(self._param("color_value_min")),
+        )
+        components = color_components(
+            mask, min_area=int(self._param("color_min_area_px"))
+        )
+        if not components:
+            raise RuntimeError("no_target_color_component")
+        selected = components[0]
+        x1, y1, x2, y2 = selected["bbox"]
+        selected_mask = np.zeros_like(mask, dtype=bool)
+        selected_mask[y1:y2, x1:x2] = mask[y1:y2, x1:x2]
+        bbox = np.asarray([x1, y1, x2 - 1, y2 - 1], dtype=np.float32)
+        score = min(1.0, float(selected["area"]) / max((x2 - x1) * (y2 - y1), 1))
+        return selected_mask, bbox, score
 
 
 def main() -> None:

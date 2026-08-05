@@ -22,12 +22,12 @@ class GraspThresholds:
     pregrasp_success_dist: float = 0.035
     pregrasp_approach_success_deg: float = 60.0
     pregrasp_stable_time: float = 0.05
-    final_grasp_dist: float = 0.015
+    final_grasp_dist: float = 0.035
     final_stable_time: float = 0.20
     # FINAL_APPROACH 最长等待时间（秒）；与 final_stable_time 解耦，不再用倍率相乘。
     final_approach_timeout: float = 10.0
     final_total_timeout: float = 20.0
-    final_timeout_close_dist: float = 0.030
+    final_timeout_close_dist: float = 0.040
     close_tracking_confidence: float = 0.45
     close_target_speed: float = 0.005
     close_time: float = 0.80

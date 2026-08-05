@@ -1,0 +1,44 @@
+[wrist_handeye] REAL HARDWARE read-only calibration
+[wrist_handeye] TF=base<-wrist_roll
+[wrist_handeye] checker inner corners=9x6 square=0.0144m
+[wrist_handeye] reject_duplicates=false
+[wrist_handeye] output=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/logs/hardware/wrist_handeye
+[INFO] [1785899082.320419924] [wrist_handeye_calibrator]: real wrist hand-eye ready; pattern=9x6 square=14.40mm TF=base<-wrist_roll reject_duplicates=False capture_srv=/wrist_handeye/capture output=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/logs/hardware/wrist_handeye/20260805_110442
+[INFO] [1785899135.010390724] [wrist_handeye_calibrator]: CAPTURED sample=000 rms=0.323px board_distance=349.5mm total=1
+[INFO] [1785899169.213607436] [wrist_handeye_calibrator]: CAPTURED sample=001 rms=0.331px board_distance=340.4mm total=2
+[WARN] [1785899201.802535200] [wrist_handeye_calibrator]: timestamped TF unavailable; using latest TF: Lookup would require extrapolation into the future.  Requested time 1785899201.574969 but the latest data is at time 1785899201.568465, when looking up transform from frame [wrist_roll] to frame [base]
+[INFO] [1785899201.829660004] [wrist_handeye_calibrator]: CAPTURED sample=002 rms=0.306px board_distance=331.5mm total=3
+[WARN] [1785899230.258470205] [wrist_handeye_calibrator]: timestamped TF unavailable; using latest TF: Lookup would require extrapolation into the future.  Requested time 1785899229.988958 but the latest data is at time 1785899229.960336, when looking up transform from frame [wrist_roll] to frame [base]
+[INFO] [1785899230.304726256] [wrist_handeye_calibrator]: CAPTURED sample=003 rms=0.798px board_distance=313.1mm total=4
+[WARN] [1785899255.848994691] [wrist_handeye_calibrator]: sample rejected: reprojection RMS 1.602px > 1.500px
+[WARN] [1785899289.650671478] [wrist_handeye_calibrator]: timestamped TF unavailable; using latest TF: Lookup would require extrapolation into the future.  Requested time 1785899289.406755 but the latest data is at time 1785899289.374140, when looking up transform from frame [wrist_roll] to frame [base]
+[INFO] [1785899289.688159760] [wrist_handeye_calibrator]: CAPTURED sample=004 rms=0.501px board_distance=321.2mm total=5
+[INFO] [1785899308.697859026] [wrist_handeye_calibrator]: CAPTURED sample=005 rms=0.646px board_distance=283.6mm total=6
+[INFO] [1785899335.479421106] [wrist_handeye_calibrator]: CAPTURED sample=006 rms=0.616px board_distance=234.6mm total=7
+[INFO] [1785899358.413282106] [wrist_handeye_calibrator]: CAPTURED sample=007 rms=0.578px board_distance=241.8mm total=8
+[WARN] [1785899386.523065783] [wrist_handeye_calibrator]: timestamped TF unavailable; using latest TF: Lookup would require extrapolation into the future.  Requested time 1785899386.302636 but the latest data is at time 1785899386.264305, when looking up transform from frame [wrist_roll] to frame [base]
+[INFO] [1785899386.557442058] [wrist_handeye_calibrator]: CAPTURED sample=008 rms=0.328px board_distance=302.9mm total=9
+[INFO] [1785899436.945868391] [wrist_handeye_calibrator]: CAPTURED sample=009 rms=1.296px board_distance=189.0mm total=10
+[WARN] [1785899467.788822917] [wrist_handeye_calibrator]: timestamped TF unavailable; using latest TF: Lookup would require extrapolation into the future.  Requested time 1785899467.513387 but the latest data is at time 1785899467.471499, when looking up transform from frame [wrist_roll] to frame [base]
+[INFO] [1785899467.829026491] [wrist_handeye_calibrator]: CAPTURED sample=010 rms=1.313px board_distance=225.5mm total=11
+[INFO] [1785899496.825678877] [wrist_handeye_calibrator]: CAPTURED sample=011 rms=0.875px board_distance=321.5mm total=12
+[WARN] [1785899536.193936217] [wrist_handeye_calibrator]: timestamped TF unavailable; using latest TF: Lookup would require extrapolation into the future.  Requested time 1785899535.979090 but the latest data is at time 1785899535.972551, when looking up transform from frame [wrist_roll] to frame [base]
+[INFO] [1785899536.230413913] [wrist_handeye_calibrator]: CAPTURED sample=012 rms=1.285px board_distance=234.3mm total=13
+[INFO] [1785899575.029462276] [wrist_handeye_calibrator]: CAPTURED sample=013 rms=0.282px board_distance=332.6mm total=14
+[WARN] [1785899617.315146328] [wrist_handeye_calibrator]: timestamped TF unavailable; using latest TF: Lookup would require extrapolation into the future.  Requested time 1785899617.030533 but the latest data is at time 1785899617.027560, when looking up transform from frame [wrist_roll] to frame [base]
+[INFO] [1785899617.357694062] [wrist_handeye_calibrator]: CAPTURED sample=014 rms=0.371px board_distance=301.3mm total=15
+[INFO] [1785899642.544844795] [wrist_handeye_calibrator]: CAPTURED sample=015 rms=0.303px board_distance=358.3mm total=16
+[INFO] [1785899671.495587290] [wrist_handeye_calibrator]: CAPTURED sample=016 rms=1.063px board_distance=220.4mm total=17
+[WARN] [1785899728.724901814] [wrist_handeye_calibrator]: timestamped TF unavailable; using latest TF: Lookup would require extrapolation into the future.  Requested time 1785899728.514019 but the latest data is at time 1785899728.498820, when looking up transform from frame [wrist_roll] to frame [base]
+[INFO] [1785899728.765966396] [wrist_handeye_calibrator]: CAPTURED sample=017 rms=1.178px board_distance=205.2mm total=18
+[WARN] [1785899781.456789447] [wrist_handeye_calibrator]: timestamped TF unavailable; using latest TF: Lookup would require extrapolation into the future.  Requested time 1785899781.239737 but the latest data is at time 1785899781.203255, when looking up transform from frame [wrist_roll] to frame [base]
+[INFO] [1785899781.496755868] [wrist_handeye_calibrator]: CAPTURED sample=018 rms=0.380px board_distance=288.1mm total=19
+[INFO] [1785899811.094105238] [wrist_handeye_calibrator]: CAPTURED sample=019 rms=0.458px board_distance=294.6mm total=20
+[WARN] [1785899832.389264909] [wrist_handeye_calibrator]: timestamped TF unavailable; using latest TF: Lookup would require extrapolation into the future.  Requested time 1785899832.165254 but the latest data is at time 1785899832.107850, when looking up transform from frame [wrist_roll] to frame [base]
+[INFO] [1785899832.423470621] [wrist_handeye_calibrator]: CAPTURED sample=020 rms=0.295px board_distance=328.4mm total=21
+[INFO] [1785899862.222271752] [wrist_handeye_calibrator]: CAPTURED sample=021 rms=0.608px board_distance=244.3mm total=22
+[INFO] [1785899991.211510655] [wrist_handeye_calibrator]: CAPTURED sample=022 rms=0.342px board_distance=311.4mm total=23
+[INFO] [1785900071.342246422] [wrist_handeye_calibrator]: CAPTURED sample=023 rms=0.578px board_distance=289.1mm total=24
+[INFO] [1785900118.547418020] [wrist_handeye_calibrator]: CAPTURED sample=024 rms=0.302px board_distance=363.5mm total=25
+[INFO] [1785900150.279602883] [wrist_handeye_calibrator]: CAPTURED sample=025 rms=0.387px board_distance=333.8mm total=26
+[INFO] [1785900390.309872134] [wrist_handeye_calibrator]: SOLVED Tsai: samples=26 board_spread=17.44mm RMS, rotation=5.85deg RMS; result=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/logs/hardware/wrist_handeye/20260805_110442/wrist_handeye_tsai.json

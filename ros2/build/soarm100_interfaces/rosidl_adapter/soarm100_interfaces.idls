@@ -4,3 +4,8 @@
 /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_adapter/soarm100_interfaces:action/PlanGrasp.idl
 /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_adapter/soarm100_interfaces:srv/SegmentTarget.idl
 /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_adapter/soarm100_interfaces:srv/SetAvoidance.idl
+/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_adapter/soarm100_interfaces:srv/MoveSingleJoint.idl
+/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_adapter/soarm100_interfaces:srv/MoveJointDelta.idl
+/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_adapter/soarm100_interfaces:srv/MoveNamedPose.idl
+/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_adapter/soarm100_interfaces:srv/MoveJointTarget.idl
+/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_adapter/soarm100_interfaces:srv/SetHardwareTorque.idl

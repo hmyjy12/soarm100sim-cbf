@@ -1,0 +1,113 @@
+{
+  "schema_version": 1,
+  "timestamp": "2026-07-30T14:26:03.176103+08:00",
+  "port": "/dev/ttyACM0",
+  "read_only_collection": true,
+  "margin_counts": 30,
+  "approved_for_motion": false,
+  "motors": {
+    "shoulder_pan": {
+      "id": 1,
+      "policy_joint": "shoulder_rotation_joint",
+      "center_raw": 1886,
+      "observed_safe_raw_min": 1309,
+      "observed_safe_raw_max": 1974,
+      "direction": null,
+      "zero_offset_rad": null,
+      "mujoco_limit_rad": [
+        -2.2,
+        2.2
+      ],
+      "approved": false
+    },
+    "shoulder_lift": {
+      "id": 2,
+      "policy_joint": "shoulder_pitch_joint",
+      "center_raw": 994,
+      "observed_safe_raw_min": 940,
+      "observed_safe_raw_max": 2027,
+      "direction": null,
+      "zero_offset_rad": null,
+      "mujoco_limit_rad": [
+        -3.14158,
+        0.2
+      ],
+      "approved": false
+    },
+    "elbow_flex": {
+      "id": 3,
+      "policy_joint": "ellbow_joint",
+      "center_raw": 3023,
+      "observed_safe_raw_min": 1378,
+      "observed_safe_raw_max": 2986,
+      "direction": null,
+      "zero_offset_rad": null,
+      "mujoco_limit_rad": [
+        0.0,
+        3.14158
+      ],
+      "approved": false
+    },
+    "wrist_flex": {
+      "id": 4,
+      "policy_joint": "wrist_pitch_joint",
+      "center_raw": 2595,
+      "observed_safe_raw_min": 1134,
+      "observed_safe_raw_max": 2575,
+      "direction": null,
+      "zero_offset_rad": null,
+      "mujoco_limit_rad": [
+        -2.0,
+        1.8
+      ],
+      "approved": false
+    },
+    "wrist_yaw": {
+      "id": 5,
+      "policy_joint": "wrist_jaw_joint",
+      "center_raw": 2094,
+      "observed_safe_raw_min": 1118,
+      "observed_safe_raw_max": 3001,
+      "direction": null,
+      "zero_offset_rad": null,
+      "mujoco_limit_rad": [
+        -1.45,
+        1.45
+      ],
+      "approved": false
+    },
+    "wrist_roll": {
+      "id": 6,
+      "policy_joint": "wrist_roll_joint",
+      "center_raw": 1948,
+      "observed_safe_raw_min": 74,
+      "observed_safe_raw_max": 4054,
+      "direction": null,
+      "zero_offset_rad": null,
+      "mujoco_limit_rad": [
+        -3.14158,
+        3.14158
+      ],
+      "approved": false
+    },
+    "gripper": {
+      "id": 7,
+      "policy_joint": "gripper_joint",
+      "center_raw": 2057,
+      "observed_safe_raw_min": 2058,
+      "observed_safe_raw_max": 3123,
+      "direction": null,
+      "zero_offset_rad": null,
+      "mujoco_limit_rad": [
+        -0.2,
+        2.0
+      ],
+      "approved": false
+    }
+  },
+  "notes": [
+    "Candidate only; nothing has been written to the servos.",
+    "direction and zero_offset_rad require model-to-hardware alignment.",
+    "wrist_roll range is finite and cable-limited."
+  ]
+}

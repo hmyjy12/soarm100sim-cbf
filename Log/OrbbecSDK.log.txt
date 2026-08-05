@@ -1,0 +1,277 @@
+[08/03 17:34:13.568512][info][113551][LinuxUsbPal.cpp:334] Create PollingDeviceWatcher!
+[08/03 17:34:13.568574][info][113551][DeviceManager.cpp:25] Current found device(s): (1)
+[08/03 17:34:13.568577][info][113551][DeviceManager.cpp:34] 	- Name: Gemini 336, PID: 0x0803, SN/ID: CP9KB53000JX, Connection: USB3.2
+[08/03 17:34:13.568580][info][113551][DeviceManager.cpp:405] Enable net device enumeration: true
+[08/03 17:34:14.573266][info][113551][DeviceManager.cpp:25] Current device(s) list: (1)
+[08/03 17:34:14.573288][info][113551][DeviceManager.cpp:34] 	- Name: Gemini 336, PID: 0x0803, SN/ID: CP9KB53000JX, Connection: USB3.2
+[08/03 17:34:14.575847][info][113551][G330Device.cpp:572] UVCAutoRebootOnFault=true for device: Gemini 336
+[08/03 17:34:14.578075][info][113551][DeviceBase.cpp:665] key: AppSlot,value:2
+[08/03 17:34:14.578081][info][113551][DeviceBase.cpp:665] key: HwType,value:R1
+[08/03 17:34:14.578083][info][113551][DeviceBase.cpp:665] key: HwVer,value:V1.1
+[08/03 17:34:14.578085][info][113551][DeviceBase.cpp:665] key: IspFwVer,value:20241125
+[08/03 17:34:14.578086][info][113551][DeviceBase.cpp:665] key: IspNeedVer,value:20241125
+[08/03 17:34:14.578087][info][113551][DeviceBase.cpp:665] key: PresetVer,value:1.1.9
+[08/03 17:34:14.742523][info][113551][DeviceManager.cpp:199] Device created successfully! Name: Gemini 336, PID: 0x0803, SN/ID: CP9KB53000JX FW: 1.4.60
+[08/03 17:34:14.742564][info][113551][Pipeline.cpp:54] [CP9KB53000JX] Pipeline created with device: {name: Gemini 336, sn: CP9KB53000JX}, @0x60A8F7E9A300
+[08/03 17:34:14.805631][info][113551][Pipeline.cpp:228] [CP9KB53000JX] Check and set config done!
+[08/03 17:34:14.805636][info][113551][Pipeline.cpp:266] [CP9KB53000JX] Try to start streams!
+[08/03 17:34:14.805640][info][113551][VideoSensor.cpp:58] [CP9KB53000JX] Try to start stream: {type: Color, format: MJPG, width: 1280, height: 720, fps: 30}
+[08/03 17:34:14.805645][info][113551][SensorBase.cpp:210] [CP9KB53000JX] Stream state changed from STOPPED to STARTING@Color
+[08/03 17:34:14.805647][info][113551][VideoSensor.cpp:127] [CP9KB53000JX] Start backend stream: {type: Color, format: MJPG, width: 1280, height: 720, fps: 30}
+[08/03 17:34:14.807017][info][113551][VideoSensor.cpp:58] [CP9KB53000JX] Try to start stream: {type: Depth, format: Y16, width: 848, height: 480, fps: 30}
+[08/03 17:34:14.807025][info][113551][SensorBase.cpp:210] [CP9KB53000JX] Stream state changed from STOPPED to STARTING@Depth
+[08/03 17:34:14.807027][info][113551][VideoSensor.cpp:127] [CP9KB53000JX] Start backend stream: {type: Depth, format: Z16, width: 848, height: 480, fps: 30}
+[08/03 17:34:14.821619][info][113551][Pipeline.cpp:293] [CP9KB53000JX] Start streams done!
+[08/03 17:34:14.821623][info][113551][Pipeline.cpp:250] [CP9KB53000JX] Pipeline start done!
+[08/03 17:34:14.921896][info][113618][SensorBase.cpp:210] [CP9KB53000JX] Stream state changed from STARTING to STREAMING@Depth
+[08/03 17:34:15.378494][info][113659][DeviceManager.cpp:332] Device changed! removed: 1, added: 0
+[08/03 17:34:15.378568][warning][113659][DeviceBase.cpp:207] Device is deactivated or disconnected while there are still sensors streaming!
+[08/03 17:34:15.378737][info][113659][DeviceManager.cpp:25] Removed device(s) list: (1)
+[08/03 17:34:15.378744][info][113659][DeviceManager.cpp:34] 	- Name: Gemini 336, PID: 0x0803, SN/ID: CP9KB53000JX, Connection: USB3.2
+[08/03 17:34:15.378748][info][113659][DeviceManager.cpp:25] Current device(s) list: (0)
+[08/03 17:34:15.731288][warning][113580][ObException.cpp:26] A recoverable_exception has occurred!
+ - where: DeviceBase.cpp(330)
+ - msg: Device is deactivated/disconnected! DeviceComponentId:0
+ - type: WRONG_API_CALL_SEQUENCE
+ - status: 108
+[08/03 17:34:15.781576][warning][113580][ObException.cpp:26] A recoverable_exception has occurred!
+ - where: DeviceBase.cpp(330)
+ - msg: Device is deactivated/disconnected! DeviceComponentId:0
+ - type: WRONG_API_CALL_SEQUENCE
+ - status: 108
+[08/03 17:34:15.831747][warning][113580][ObException.cpp:26] A recoverable_exception has occurred!
+ - where: DeviceBase.cpp(330)
+ - msg: Device is deactivated/disconnected! DeviceComponentId:0
+ - type: WRONG_API_CALL_SEQUENCE
+ - status: 108
+[08/03 17:34:15.874614][warning][113551][Pipeline.cpp:335] [CP9KB53000JX] Wait for frame timeout, you can try to increase the wait time! current timeout=1000
+[08/03 17:34:15.881938][warning][113580][ObException.cpp:26] A recoverable_exception has occurred!
+ - where: DeviceBase.cpp(330)
+ - msg: Device is deactivated/disconnected! DeviceComponentId:0
+ - type: WRONG_API_CALL_SEQUENCE
+ - status: 108
+[08/03 17:34:15.932068][warning][113580][ObException.cpp:26] A recoverable_exception has occurred!
+ - where: DeviceBase.cpp(330)
+ - msg: Device is deactivated/disconnected! DeviceComponentId:0
+ - type: WRONG_API_CALL_SEQUENCE
+ - status: 108
+[08/03 17:34:15.982213][warning][113580][ObException.cpp:26] A recoverable_exception has occurred!
+ - where: DeviceBase.cpp(330)
+ - msg: Device is deactivated/disconnected! DeviceComponentId:0
+ - type: WRONG_API_CALL_SEQUENCE
+ - status: 108
+[08/03 17:34:16.982427][warning][113580][ObException.cpp:26] A recoverable_exception has occurred!
+ - where: DeviceBase.cpp(330)
+ - msg: Device is deactivated/disconnected! DeviceComponentId:0
+ - type: WRONG_API_CALL_SEQUENCE
+ - status: 108
+[08/03 17:34:17.032599][warning][113580][ObException.cpp:26] A recoverable_exception has occurred!
+ - where: DeviceBase.cpp(330)
+ - msg: Device is deactivated/disconnected! DeviceComponentId:0
+ - type: WRONG_API_CALL_SEQUENCE
+ - status: 108
+[08/03 17:34:17.082851][warning][113580][ObException.cpp:26] A recoverable_exception has occurred!
+ - where: DeviceBase.cpp(330)
+ - msg: Device is deactivated/disconnected! DeviceComponentId:0
+ - type: WRONG_API_CALL_SEQUENCE
+ - status: 108
+[08/03 17:34:17.133019][warning][113580][ObException.cpp:26] A recoverable_exception has occurred!
+ - where: DeviceBase.cpp(330)
+ - msg: Device is deactivated/disconnected! DeviceComponentId:0
+ - type: WRONG_API_CALL_SEQUENCE
+ - status: 108
+[08/03 17:34:17.183199][warning][113580][ObException.cpp:26] A recoverable_exception has occurred!
+ - where: DeviceBase.cpp(330)
+ - msg: Device is deactivated/disconnected! DeviceComponentId:0
+ - type: WRONG_API_CALL_SEQUENCE
+ - status: 108
+[08/03 17:34:17.233433][warning][113580][ObException.cpp:26] A recoverable_exception has occurred!
+ - where: DeviceBase.cpp(330)
+ - msg: Device is deactivated/disconnected! DeviceComponentId:0
+ - type: WRONG_API_CALL_SEQUENCE
+ - status: 108
+[08/03 17:34:17.477474][info][113727][DeviceManager.cpp:332] Device changed! removed: 0, added: 1
+[08/03 17:34:17.477533][info][113727][DeviceManager.cpp:25] Current device(s) list: (1)
+[08/03 17:34:17.477541][info][113727][DeviceManager.cpp:34] 	- Name: Gemini 336, PID: 0x0803, SN/ID: CP9KB53000JX, Connection: USB3.2
+[08/03 17:34:18.233613][warning][113580][ObException.cpp:26] A recoverable_exception has occurred!
+ - where: DeviceBase.cpp(330)
+ - msg: Device is deactivated/disconnected! DeviceComponentId:0
+ - type: WRONG_API_CALL_SEQUENCE
+ - status: 108
+[08/03 17:34:18.283867][warning][113580][ObException.cpp:26] A recoverable_exception has occurred!
+ - where: DeviceBase.cpp(330)
+ - msg: Device is deactivated/disconnected! DeviceComponentId:0
+ - type: WRONG_API_CALL_SEQUENCE
+ - status: 108
+[08/03 17:34:18.334029][warning][113580][ObException.cpp:26] A recoverable_exception has occurred!
+ - where: DeviceBase.cpp(330)
+ - msg: Device is deactivated/disconnected! DeviceComponentId:0
+ - type: WRONG_API_CALL_SEQUENCE
+ - status: 108
+[08/03 17:34:18.384187][warning][113580][ObException.cpp:26] A recoverable_exception has occurred!
+ - where: DeviceBase.cpp(330)
+ - msg: Device is deactivated/disconnected! DeviceComponentId:0
+ - type: WRONG_API_CALL_SEQUENCE
+ - status: 108
+[08/03 17:34:18.434376][warning][113580][ObException.cpp:26] A recoverable_exception has occurred!
+ - where: DeviceBase.cpp(330)
+ - msg: Device is deactivated/disconnected! DeviceComponentId:0
+ - type: WRONG_API_CALL_SEQUENCE
+ - status: 108
+[08/03 17:34:18.484605][warning][113580][ObException.cpp:26] A recoverable_exception has occurred!
+ - where: DeviceBase.cpp(330)
+ - msg: Device is deactivated/disconnected! DeviceComponentId:0
+ - type: WRONG_API_CALL_SEQUENCE
+ - status: 108
+[08/03 17:34:18.890477][warning][113551][Pipeline.cpp:335] [CP9KB53000JX] Wait for frame timeout, you can try to increase the wait time! current timeout=1000 [**3 logs in 3015ms**]
+[08/03 17:34:19.484766][warning][113580][ObException.cpp:26] A recoverable_exception has occurred!
+ - where: DeviceBase.cpp(330)
+ - msg: Device is deactivated/disconnected! DeviceComponentId:0
+ - type: WRONG_API_CALL_SEQUENCE
+ - status: 108
+[08/03 17:34:19.534919][warning][113580][ObException.cpp:26] A recoverable_exception has occurred!
+ - where: DeviceBase.cpp(330)
+ - msg: Device is deactivated/disconnected! DeviceComponentId:0
+ - type: WRONG_API_CALL_SEQUENCE
+ - status: 108
+[08/03 17:34:19.585097][warning][113580][ObException.cpp:26] A recoverable_exception has occurred!
+ - where: DeviceBase.cpp(330)
+ - msg: Device is deactivated/disconnected! DeviceComponentId:0
+ - type: WRONG_API_CALL_SEQUENCE
+ - status: 108
+[08/03 17:34:19.635301][warning][113580][ObException.cpp:26] A recoverable_exception has occurred!
+ - where: DeviceBase.cpp(330)
+ - msg: Device is deactivated/disconnected! DeviceComponentId:0
+ - type: WRONG_API_CALL_SEQUENCE
+ - status: 108
+[08/03 17:34:19.685475][warning][113580][ObException.cpp:26] A recoverable_exception has occurred!
+ - where: DeviceBase.cpp(330)
+ - msg: Device is deactivated/disconnected! DeviceComponentId:0
+ - type: WRONG_API_CALL_SEQUENCE
+ - status: 108
+[08/03 17:34:19.735625][warning][113580][ObException.cpp:26] A recoverable_exception has occurred!
+ - where: DeviceBase.cpp(330)
+ - msg: Device is deactivated/disconnected! DeviceComponentId:0
+ - type: WRONG_API_CALL_SEQUENCE
+ - status: 108
+[08/03 17:34:20.735826][warning][113580][ObException.cpp:26] A recoverable_exception has occurred!
+ - where: DeviceBase.cpp(330)
+ - msg: Device is deactivated/disconnected! DeviceComponentId:0
+ - type: WRONG_API_CALL_SEQUENCE
+ - status: 108
+[08/03 17:34:20.786044][warning][113580][ObException.cpp:26] A recoverable_exception has occurred!
+ - where: DeviceBase.cpp(330)
+ - msg: Device is deactivated/disconnected! DeviceComponentId:0
+ - type: WRONG_API_CALL_SEQUENCE
+ - status: 108
+[08/03 17:34:20.836219][warning][113580][ObException.cpp:26] A recoverable_exception has occurred!
+ - where: DeviceBase.cpp(330)
+ - msg: Device is deactivated/disconnected! DeviceComponentId:0
+ - type: WRONG_API_CALL_SEQUENCE
+ - status: 108
+[08/03 17:34:20.886395][warning][113580][ObException.cpp:26] A recoverable_exception has occurred!
+ - where: DeviceBase.cpp(330)
+ - msg: Device is deactivated/disconnected! DeviceComponentId:0
+ - type: WRONG_API_CALL_SEQUENCE
+ - status: 108
+[08/03 17:34:20.936540][warning][113580][ObException.cpp:26] A recoverable_exception has occurred!
+ - where: DeviceBase.cpp(330)
+ - msg: Device is deactivated/disconnected! DeviceComponentId:0
+ - type: WRONG_API_CALL_SEQUENCE
+ - status: 108
+[08/03 17:34:20.986736][warning][113580][ObException.cpp:26] A recoverable_exception has occurred!
+ - where: DeviceBase.cpp(330)
+ - msg: Device is deactivated/disconnected! DeviceComponentId:0
+ - type: WRONG_API_CALL_SEQUENCE
+ - status: 108
+[08/03 17:34:21.986932][warning][113580][ObException.cpp:26] A recoverable_exception has occurred!
+ - where: DeviceBase.cpp(330)
+ - msg: Device is deactivated/disconnected! DeviceComponentId:0
+ - type: WRONG_API_CALL_SEQUENCE
+ - status: 108
+[08/03 17:34:22.037212][warning][113580][ObException.cpp:26] A recoverable_exception has occurred!
+ - where: DeviceBase.cpp(330)
+ - msg: Device is deactivated/disconnected! DeviceComponentId:0
+ - type: WRONG_API_CALL_SEQUENCE
+ - status: 108
+[08/03 17:34:22.087374][warning][113580][ObException.cpp:26] A recoverable_exception has occurred!
+ - where: DeviceBase.cpp(330)
+ - msg: Device is deactivated/disconnected! DeviceComponentId:0
+ - type: WRONG_API_CALL_SEQUENCE
+ - status: 108
+[08/03 17:34:22.137534][warning][113580][ObException.cpp:26] A recoverable_exception has occurred!
+ - where: DeviceBase.cpp(330)
+ - msg: Device is deactivated/disconnected! DeviceComponentId:0
+ - type: WRONG_API_CALL_SEQUENCE
+ - status: 108
+[08/03 17:34:22.187706][warning][113580][ObException.cpp:26] A recoverable_exception has occurred!
+ - where: DeviceBase.cpp(330)
+ - msg: Device is deactivated/disconnected! DeviceComponentId:0
+ - type: WRONG_API_CALL_SEQUENCE
+ - status: 108
+[08/03 17:34:22.237880][warning][113580][ObException.cpp:26] A recoverable_exception has occurred!
+ - where: DeviceBase.cpp(330)
+ - msg: Device is deactivated/disconnected! DeviceComponentId:0
+ - type: WRONG_API_CALL_SEQUENCE
+ - status: 108
+[08/03 17:34:23.238066][warning][113580][ObException.cpp:26] A recoverable_exception has occurred!
+ - where: DeviceBase.cpp(330)
+ - msg: Device is deactivated/disconnected! DeviceComponentId:0
+ - type: WRONG_API_CALL_SEQUENCE
+ - status: 108
+[08/03 17:34:23.288244][warning][113580][ObException.cpp:26] A recoverable_exception has occurred!
+ - where: DeviceBase.cpp(330)
+ - msg: Device is deactivated/disconnected! DeviceComponentId:0
+ - type: WRONG_API_CALL_SEQUENCE
+ - status: 108
+[08/03 17:34:23.338426][warning][113580][ObException.cpp:26] A recoverable_exception has occurred!
+ - where: DeviceBase.cpp(330)
+ - msg: Device is deactivated/disconnected! DeviceComponentId:0
+ - type: WRONG_API_CALL_SEQUENCE
+ - status: 108
+[08/03 17:34:23.388603][warning][113580][ObException.cpp:26] A recoverable_exception has occurred!
+ - where: DeviceBase.cpp(330)
+ - msg: Device is deactivated/disconnected! DeviceComponentId:0
+ - type: WRONG_API_CALL_SEQUENCE
+ - status: 108
+[08/03 17:34:23.438814][warning][113580][ObException.cpp:26] A recoverable_exception has occurred!
+ - where: DeviceBase.cpp(330)
+ - msg: Device is deactivated/disconnected! DeviceComponentId:0
+ - type: WRONG_API_CALL_SEQUENCE
+ - status: 108
+[08/03 17:34:23.488970][warning][113580][ObException.cpp:26] A recoverable_exception has occurred!
+ - where: DeviceBase.cpp(330)
+ - msg: Device is deactivated/disconnected! DeviceComponentId:0
+ - type: WRONG_API_CALL_SEQUENCE
+ - status: 108
+[08/03 17:34:24.489130][warning][113580][ObException.cpp:26] A recoverable_exception has occurred!
+ - where: DeviceBase.cpp(330)
+ - msg: Device is deactivated/disconnected! DeviceComponentId:0
+ - type: WRONG_API_CALL_SEQUENCE
+ - status: 108
+[08/03 17:34:24.539340][warning][113580][ObException.cpp:26] A recoverable_exception has occurred!
+ - where: DeviceBase.cpp(330)
+ - msg: Device is deactivated/disconnected! DeviceComponentId:0
+ - type: WRONG_API_CALL_SEQUENCE
+ - status: 108
+[08/03 17:34:24.589526][warning][113580][ObException.cpp:26] A recoverable_exception has occurred!
+ - where: DeviceBase.cpp(330)
+ - msg: Device is deactivated/disconnected! DeviceComponentId:0
+ - type: WRONG_API_CALL_SEQUENCE
+ - status: 108
+[08/03 17:34:24.639716][warning][113580][ObException.cpp:26] A recoverable_exception has occurred!
+ - where: DeviceBase.cpp(330)
+ - msg: Device is deactivated/disconnected! DeviceComponentId:0
+ - type: WRONG_API_CALL_SEQUENCE
+ - status: 108
+[08/03 17:34:24.689941][warning][113580][ObException.cpp:26] A recoverable_exception has occurred!
+ - where: DeviceBase.cpp(330)
+ - msg: Device is deactivated/disconnected! DeviceComponentId:0
+ - type: WRONG_API_CALL_SEQUENCE
+ - status: 108
+[08/03 17:34:24.740096][warning][113580][ObException.cpp:26] A recoverable_exception has occurred!
+ - where: DeviceBase.cpp(330)
+ - msg: Device is deactivated/disconnected! DeviceComponentId:0
+ - type: WRONG_API_CALL_SEQUENCE
+ - status: 108
+[08/03 17:34:24.908277][warning][113551][Pipeline.cpp:335] [CP9KB53000JX] Wait for frame timeout, you can try to increase the wait time! current timeout=1000 [**6 logs in 6017ms**]

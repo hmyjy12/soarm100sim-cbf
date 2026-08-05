@@ -260,6 +260,21 @@ CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_c__pyext.dir/ro
   rosidl_generator_c/soarm100_interfaces/srv/detail/set_avoidance__type_support.h \
   rosidl_generator_c/soarm100_interfaces/srv/detail/set_avoidance__struct.h \
   rosidl_generator_c/soarm100_interfaces/srv/detail/set_avoidance__functions.h \
+  rosidl_generator_c/soarm100_interfaces/srv/detail/move_single_joint__type_support.h \
+  rosidl_generator_c/soarm100_interfaces/srv/detail/move_single_joint__struct.h \
+  rosidl_generator_c/soarm100_interfaces/srv/detail/move_single_joint__functions.h \
+  rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_delta__type_support.h \
+  rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_delta__struct.h \
+  rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_delta__functions.h \
+  rosidl_generator_c/soarm100_interfaces/srv/detail/move_named_pose__type_support.h \
+  rosidl_generator_c/soarm100_interfaces/srv/detail/move_named_pose__struct.h \
+  rosidl_generator_c/soarm100_interfaces/srv/detail/move_named_pose__functions.h \
+  rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_target__type_support.h \
+  rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_target__struct.h \
+  rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_target__functions.h \
+  rosidl_generator_c/soarm100_interfaces/srv/detail/set_hardware_torque__type_support.h \
+  rosidl_generator_c/soarm100_interfaces/srv/detail/set_hardware_torque__struct.h \
+  rosidl_generator_c/soarm100_interfaces/srv/detail/set_hardware_torque__functions.h \
   rosidl_generator_c/soarm100_interfaces/action/detail/execute_grasp__type_support.h \
   rosidl_generator_c/soarm100_interfaces/action/detail/execute_grasp__struct.h \
   /opt/ros/humble/include/unique_identifier_msgs/unique_identifier_msgs/msg/detail/uuid__struct.h \
@@ -292,6 +307,24 @@ rosidl_generator_c/soarm100_interfaces/action/detail/execute_grasp__functions.h:
 
 rosidl_generator_c/soarm100_interfaces/action/detail/execute_grasp__struct.h:
 
+rosidl_generator_c/soarm100_interfaces/srv/detail/set_hardware_torque__functions.h:
+
+rosidl_generator_c/soarm100_interfaces/srv/detail/set_hardware_torque__type_support.h:
+
+rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_target__struct.h:
+
+rosidl_generator_c/soarm100_interfaces/srv/detail/move_named_pose__struct.h:
+
+rosidl_generator_c/soarm100_interfaces/srv/detail/move_named_pose__type_support.h:
+
+rosidl_generator_c/soarm100_interfaces/srv/detail/move_single_joint__functions.h:
+
+rosidl_generator_c/soarm100_interfaces/srv/detail/move_single_joint__struct.h:
+
+rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_target__functions.h:
+
+rosidl_generator_c/soarm100_interfaces/srv/detail/move_single_joint__type_support.h:
+
 rosidl_generator_c/soarm100_interfaces/srv/detail/set_avoidance__struct.h:
 
 /usr/include/asm-generic/errno-base.h:
@@ -305,6 +338,8 @@ rosidl_generator_c/soarm100_interfaces/srv/detail/set_avoidance__struct.h:
 /usr/include/x86_64-linux-gnu/bits/types/struct_statx_timestamp.h:
 
 /usr/include/x86_64-linux-gnu/asm/bitsperlong.h:
+
+rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_target__type_support.h:
 
 /usr/include/x86_64-linux-gnu/bits/pthreadtypes-arch.h:
 
@@ -325,6 +360,8 @@ rosidl_generator_c/soarm100_interfaces/srv/detail/set_avoidance__struct.h:
 /usr/include/x86_64-linux-gnu/bits/time.h:
 
 /usr/include/x86_64-linux-gnu/sys/time.h:
+
+rosidl_generator_c/soarm100_interfaces/srv/detail/set_hardware_torque__struct.h:
 
 /usr/include/x86_64-linux-gnu/bits/iscanonical.h:
 
@@ -417,6 +454,8 @@ rosidl_generator_py/soarm100_interfaces/_soarm100_interfaces_s.ep.rosidl_typesup
 /usr/include/x86_64-linux-gnu/bits/types/timer_t.h:
 
 /usr/include/x86_64-linux-gnu/bits/uio_lim.h:
+
+rosidl_generator_c/soarm100_interfaces/srv/detail/move_named_pose__functions.h:
 
 /usr/include/x86_64-linux-gnu/python3.10/pyconfig.h:
 
@@ -516,6 +555,8 @@ rosidl_generator_c/soarm100_interfaces/srv/detail/segment_target__struct.h:
 
 /usr/include/x86_64-linux-gnu/bits/stdio_lim.h:
 
+rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_delta__type_support.h:
+
 /usr/include/x86_64-linux-gnu/bits/types/FILE.h:
 
 /usr/include/python3.10/codecs.h:
@@ -569,6 +610,8 @@ rosidl_generator_c/soarm100_interfaces/msg/detail/tracked_target2_d__struct.h:
 rosidl_generator_c/soarm100_interfaces/msg/detail/tracked_target2_d__type_support.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/struct_tm.h:
+
+rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_delta__struct.h:
 
 /usr/include/x86_64-linux-gnu/bits/typesizes.h:
 
@@ -635,6 +678,8 @@ rosidl_generator_c/soarm100_interfaces/srv/detail/segment_target__functions.h:
 /usr/include/python3.10/pymath.h:
 
 /usr/include/python3.10/cpython/object.h:
+
+rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_delta__functions.h:
 
 /usr/include/x86_64-linux-gnu/sys/cdefs.h:
 

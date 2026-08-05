@@ -88,6 +88,11 @@ rosidl_generator_c/soarm100_interfaces/msg/tracked_target2_d.h: rosidl_adapter/s
 rosidl_generator_c/soarm100_interfaces/msg/tracked_target2_d.h: rosidl_adapter/soarm100_interfaces/action/PlanGrasp.idl
 rosidl_generator_c/soarm100_interfaces/msg/tracked_target2_d.h: rosidl_adapter/soarm100_interfaces/srv/SegmentTarget.idl
 rosidl_generator_c/soarm100_interfaces/msg/tracked_target2_d.h: rosidl_adapter/soarm100_interfaces/srv/SetAvoidance.idl
+rosidl_generator_c/soarm100_interfaces/msg/tracked_target2_d.h: rosidl_adapter/soarm100_interfaces/srv/MoveSingleJoint.idl
+rosidl_generator_c/soarm100_interfaces/msg/tracked_target2_d.h: rosidl_adapter/soarm100_interfaces/srv/MoveJointDelta.idl
+rosidl_generator_c/soarm100_interfaces/msg/tracked_target2_d.h: rosidl_adapter/soarm100_interfaces/srv/MoveNamedPose.idl
+rosidl_generator_c/soarm100_interfaces/msg/tracked_target2_d.h: rosidl_adapter/soarm100_interfaces/srv/MoveJointTarget.idl
+rosidl_generator_c/soarm100_interfaces/msg/tracked_target2_d.h: rosidl_adapter/soarm100_interfaces/srv/SetHardwareTorque.idl
 rosidl_generator_c/soarm100_interfaces/msg/tracked_target2_d.h: /opt/ros/humble/share/builtin_interfaces/msg/Duration.idl
 rosidl_generator_c/soarm100_interfaces/msg/tracked_target2_d.h: /opt/ros/humble/share/builtin_interfaces/msg/Time.idl
 rosidl_generator_c/soarm100_interfaces/msg/tracked_target2_d.h: /opt/ros/humble/share/geometry_msgs/msg/Accel.idl
@@ -257,6 +262,66 @@ rosidl_generator_c/soarm100_interfaces/srv/detail/set_avoidance__struct.h: rosid
 rosidl_generator_c/soarm100_interfaces/srv/detail/set_avoidance__type_support.h: rosidl_generator_c/soarm100_interfaces/msg/tracked_target2_d.h
 	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/soarm100_interfaces/srv/detail/set_avoidance__type_support.h
 
+rosidl_generator_c/soarm100_interfaces/srv/move_single_joint.h: rosidl_generator_c/soarm100_interfaces/msg/tracked_target2_d.h
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/soarm100_interfaces/srv/move_single_joint.h
+
+rosidl_generator_c/soarm100_interfaces/srv/detail/move_single_joint__functions.h: rosidl_generator_c/soarm100_interfaces/msg/tracked_target2_d.h
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/soarm100_interfaces/srv/detail/move_single_joint__functions.h
+
+rosidl_generator_c/soarm100_interfaces/srv/detail/move_single_joint__struct.h: rosidl_generator_c/soarm100_interfaces/msg/tracked_target2_d.h
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/soarm100_interfaces/srv/detail/move_single_joint__struct.h
+
+rosidl_generator_c/soarm100_interfaces/srv/detail/move_single_joint__type_support.h: rosidl_generator_c/soarm100_interfaces/msg/tracked_target2_d.h
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/soarm100_interfaces/srv/detail/move_single_joint__type_support.h
+
+rosidl_generator_c/soarm100_interfaces/srv/move_joint_delta.h: rosidl_generator_c/soarm100_interfaces/msg/tracked_target2_d.h
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/soarm100_interfaces/srv/move_joint_delta.h
+
+rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_delta__functions.h: rosidl_generator_c/soarm100_interfaces/msg/tracked_target2_d.h
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_delta__functions.h
+
+rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_delta__struct.h: rosidl_generator_c/soarm100_interfaces/msg/tracked_target2_d.h
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_delta__struct.h
+
+rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_delta__type_support.h: rosidl_generator_c/soarm100_interfaces/msg/tracked_target2_d.h
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_delta__type_support.h
+
+rosidl_generator_c/soarm100_interfaces/srv/move_named_pose.h: rosidl_generator_c/soarm100_interfaces/msg/tracked_target2_d.h
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/soarm100_interfaces/srv/move_named_pose.h
+
+rosidl_generator_c/soarm100_interfaces/srv/detail/move_named_pose__functions.h: rosidl_generator_c/soarm100_interfaces/msg/tracked_target2_d.h
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/soarm100_interfaces/srv/detail/move_named_pose__functions.h
+
+rosidl_generator_c/soarm100_interfaces/srv/detail/move_named_pose__struct.h: rosidl_generator_c/soarm100_interfaces/msg/tracked_target2_d.h
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/soarm100_interfaces/srv/detail/move_named_pose__struct.h
+
+rosidl_generator_c/soarm100_interfaces/srv/detail/move_named_pose__type_support.h: rosidl_generator_c/soarm100_interfaces/msg/tracked_target2_d.h
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/soarm100_interfaces/srv/detail/move_named_pose__type_support.h
+
+rosidl_generator_c/soarm100_interfaces/srv/move_joint_target.h: rosidl_generator_c/soarm100_interfaces/msg/tracked_target2_d.h
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/soarm100_interfaces/srv/move_joint_target.h
+
+rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_target__functions.h: rosidl_generator_c/soarm100_interfaces/msg/tracked_target2_d.h
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_target__functions.h
+
+rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_target__struct.h: rosidl_generator_c/soarm100_interfaces/msg/tracked_target2_d.h
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_target__struct.h
+
+rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_target__type_support.h: rosidl_generator_c/soarm100_interfaces/msg/tracked_target2_d.h
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_target__type_support.h
+
+rosidl_generator_c/soarm100_interfaces/srv/set_hardware_torque.h: rosidl_generator_c/soarm100_interfaces/msg/tracked_target2_d.h
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/soarm100_interfaces/srv/set_hardware_torque.h
+
+rosidl_generator_c/soarm100_interfaces/srv/detail/set_hardware_torque__functions.h: rosidl_generator_c/soarm100_interfaces/msg/tracked_target2_d.h
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/soarm100_interfaces/srv/detail/set_hardware_torque__functions.h
+
+rosidl_generator_c/soarm100_interfaces/srv/detail/set_hardware_torque__struct.h: rosidl_generator_c/soarm100_interfaces/msg/tracked_target2_d.h
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/soarm100_interfaces/srv/detail/set_hardware_torque__struct.h
+
+rosidl_generator_c/soarm100_interfaces/srv/detail/set_hardware_torque__type_support.h: rosidl_generator_c/soarm100_interfaces/msg/tracked_target2_d.h
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/soarm100_interfaces/srv/detail/set_hardware_torque__type_support.h
+
 rosidl_generator_c/soarm100_interfaces/msg/detail/tracked_target2_d__functions.c: rosidl_generator_c/soarm100_interfaces/msg/tracked_target2_d.h
 	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/soarm100_interfaces/msg/detail/tracked_target2_d__functions.c
 
@@ -274,6 +339,21 @@ rosidl_generator_c/soarm100_interfaces/srv/detail/segment_target__functions.c: r
 
 rosidl_generator_c/soarm100_interfaces/srv/detail/set_avoidance__functions.c: rosidl_generator_c/soarm100_interfaces/msg/tracked_target2_d.h
 	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/soarm100_interfaces/srv/detail/set_avoidance__functions.c
+
+rosidl_generator_c/soarm100_interfaces/srv/detail/move_single_joint__functions.c: rosidl_generator_c/soarm100_interfaces/msg/tracked_target2_d.h
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/soarm100_interfaces/srv/detail/move_single_joint__functions.c
+
+rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_delta__functions.c: rosidl_generator_c/soarm100_interfaces/msg/tracked_target2_d.h
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_delta__functions.c
+
+rosidl_generator_c/soarm100_interfaces/srv/detail/move_named_pose__functions.c: rosidl_generator_c/soarm100_interfaces/msg/tracked_target2_d.h
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/soarm100_interfaces/srv/detail/move_named_pose__functions.c
+
+rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_target__functions.c: rosidl_generator_c/soarm100_interfaces/msg/tracked_target2_d.h
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_target__functions.c
+
+rosidl_generator_c/soarm100_interfaces/srv/detail/set_hardware_torque__functions.c: rosidl_generator_c/soarm100_interfaces/msg/tracked_target2_d.h
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/soarm100_interfaces/srv/detail/set_hardware_torque__functions.c
 
 CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/msg/detail/tracked_target2_d__functions.c.o: CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/flags.make
 CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/msg/detail/tracked_target2_d__functions.c.o: rosidl_generator_c/soarm100_interfaces/msg/detail/tracked_target2_d__functions.c
@@ -359,6 +439,76 @@ CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm1
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/set_avoidance__functions.c.s"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_generator_c/soarm100_interfaces/srv/detail/set_avoidance__functions.c -o CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/set_avoidance__functions.c.s
 
+CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/move_single_joint__functions.c.o: CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/flags.make
+CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/move_single_joint__functions.c.o: rosidl_generator_c/soarm100_interfaces/srv/detail/move_single_joint__functions.c
+CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/move_single_joint__functions.c.o: CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building C object CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/move_single_joint__functions.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/move_single_joint__functions.c.o -MF CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/move_single_joint__functions.c.o.d -o CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/move_single_joint__functions.c.o -c /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_generator_c/soarm100_interfaces/srv/detail/move_single_joint__functions.c
+
+CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/move_single_joint__functions.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/move_single_joint__functions.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_generator_c/soarm100_interfaces/srv/detail/move_single_joint__functions.c > CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/move_single_joint__functions.c.i
+
+CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/move_single_joint__functions.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/move_single_joint__functions.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_generator_c/soarm100_interfaces/srv/detail/move_single_joint__functions.c -o CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/move_single_joint__functions.c.s
+
+CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_delta__functions.c.o: CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/flags.make
+CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_delta__functions.c.o: rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_delta__functions.c
+CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_delta__functions.c.o: CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building C object CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_delta__functions.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_delta__functions.c.o -MF CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_delta__functions.c.o.d -o CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_delta__functions.c.o -c /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_delta__functions.c
+
+CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_delta__functions.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_delta__functions.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_delta__functions.c > CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_delta__functions.c.i
+
+CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_delta__functions.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_delta__functions.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_delta__functions.c -o CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_delta__functions.c.s
+
+CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/move_named_pose__functions.c.o: CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/flags.make
+CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/move_named_pose__functions.c.o: rosidl_generator_c/soarm100_interfaces/srv/detail/move_named_pose__functions.c
+CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/move_named_pose__functions.c.o: CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building C object CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/move_named_pose__functions.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/move_named_pose__functions.c.o -MF CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/move_named_pose__functions.c.o.d -o CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/move_named_pose__functions.c.o -c /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_generator_c/soarm100_interfaces/srv/detail/move_named_pose__functions.c
+
+CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/move_named_pose__functions.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/move_named_pose__functions.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_generator_c/soarm100_interfaces/srv/detail/move_named_pose__functions.c > CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/move_named_pose__functions.c.i
+
+CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/move_named_pose__functions.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/move_named_pose__functions.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_generator_c/soarm100_interfaces/srv/detail/move_named_pose__functions.c -o CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/move_named_pose__functions.c.s
+
+CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_target__functions.c.o: CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/flags.make
+CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_target__functions.c.o: rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_target__functions.c
+CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_target__functions.c.o: CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building C object CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_target__functions.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_target__functions.c.o -MF CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_target__functions.c.o.d -o CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_target__functions.c.o -c /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_target__functions.c
+
+CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_target__functions.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_target__functions.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_target__functions.c > CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_target__functions.c.i
+
+CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_target__functions.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_target__functions.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_target__functions.c -o CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_target__functions.c.s
+
+CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/set_hardware_torque__functions.c.o: CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/flags.make
+CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/set_hardware_torque__functions.c.o: rosidl_generator_c/soarm100_interfaces/srv/detail/set_hardware_torque__functions.c
+CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/set_hardware_torque__functions.c.o: CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building C object CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/set_hardware_torque__functions.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/set_hardware_torque__functions.c.o -MF CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/set_hardware_torque__functions.c.o.d -o CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/set_hardware_torque__functions.c.o -c /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_generator_c/soarm100_interfaces/srv/detail/set_hardware_torque__functions.c
+
+CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/set_hardware_torque__functions.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/set_hardware_torque__functions.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_generator_c/soarm100_interfaces/srv/detail/set_hardware_torque__functions.c > CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/set_hardware_torque__functions.c.i
+
+CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/set_hardware_torque__functions.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/set_hardware_torque__functions.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_generator_c/soarm100_interfaces/srv/detail/set_hardware_torque__functions.c -o CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/set_hardware_torque__functions.c.s
+
 # Object files for target soarm100_interfaces__rosidl_generator_c
 soarm100_interfaces__rosidl_generator_c_OBJECTS = \
 "CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/msg/detail/tracked_target2_d__functions.c.o" \
@@ -366,7 +516,12 @@ soarm100_interfaces__rosidl_generator_c_OBJECTS = \
 "CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/action/detail/execute_planned_grasp__functions.c.o" \
 "CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/action/detail/plan_grasp__functions.c.o" \
 "CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/segment_target__functions.c.o" \
-"CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/set_avoidance__functions.c.o"
+"CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/set_avoidance__functions.c.o" \
+"CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/move_single_joint__functions.c.o" \
+"CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_delta__functions.c.o" \
+"CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/move_named_pose__functions.c.o" \
+"CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_target__functions.c.o" \
+"CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/set_hardware_torque__functions.c.o"
 
 # External object files for target soarm100_interfaces__rosidl_generator_c
 soarm100_interfaces__rosidl_generator_c_EXTERNAL_OBJECTS =
@@ -377,6 +532,11 @@ libsoarm100_interfaces__rosidl_generator_c.so: CMakeFiles/soarm100_interfaces__r
 libsoarm100_interfaces__rosidl_generator_c.so: CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/action/detail/plan_grasp__functions.c.o
 libsoarm100_interfaces__rosidl_generator_c.so: CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/segment_target__functions.c.o
 libsoarm100_interfaces__rosidl_generator_c.so: CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/set_avoidance__functions.c.o
+libsoarm100_interfaces__rosidl_generator_c.so: CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/move_single_joint__functions.c.o
+libsoarm100_interfaces__rosidl_generator_c.so: CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_delta__functions.c.o
+libsoarm100_interfaces__rosidl_generator_c.so: CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/move_named_pose__functions.c.o
+libsoarm100_interfaces__rosidl_generator_c.so: CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_target__functions.c.o
+libsoarm100_interfaces__rosidl_generator_c.so: CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/set_hardware_torque__functions.c.o
 libsoarm100_interfaces__rosidl_generator_c.so: CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/build.make
 libsoarm100_interfaces__rosidl_generator_c.so: /opt/ros/humble/lib/libsensor_msgs__rosidl_generator_c.so
 libsoarm100_interfaces__rosidl_generator_c.so: /opt/ros/humble/lib/libaction_msgs__rosidl_generator_c.so
@@ -387,7 +547,7 @@ libsoarm100_interfaces__rosidl_generator_c.so: /opt/ros/humble/lib/libbuiltin_in
 libsoarm100_interfaces__rosidl_generator_c.so: /opt/ros/humble/lib/librosidl_runtime_c.so
 libsoarm100_interfaces__rosidl_generator_c.so: /opt/ros/humble/lib/librcutils.so
 libsoarm100_interfaces__rosidl_generator_c.so: CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Linking C shared library libsoarm100_interfaces__rosidl_generator_c.so"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Linking C shared library libsoarm100_interfaces__rosidl_generator_c.so"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -418,6 +578,22 @@ CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_
 CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/soarm100_interfaces/msg/detail/tracked_target2_d__struct.h
 CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/soarm100_interfaces/msg/detail/tracked_target2_d__type_support.h
 CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/soarm100_interfaces/msg/tracked_target2_d.h
+CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_delta__functions.c
+CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_delta__functions.h
+CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_delta__struct.h
+CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_delta__type_support.h
+CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_target__functions.c
+CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_target__functions.h
+CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_target__struct.h
+CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_target__type_support.h
+CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/soarm100_interfaces/srv/detail/move_named_pose__functions.c
+CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/soarm100_interfaces/srv/detail/move_named_pose__functions.h
+CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/soarm100_interfaces/srv/detail/move_named_pose__struct.h
+CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/soarm100_interfaces/srv/detail/move_named_pose__type_support.h
+CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/soarm100_interfaces/srv/detail/move_single_joint__functions.c
+CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/soarm100_interfaces/srv/detail/move_single_joint__functions.h
+CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/soarm100_interfaces/srv/detail/move_single_joint__struct.h
+CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/soarm100_interfaces/srv/detail/move_single_joint__type_support.h
 CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/soarm100_interfaces/srv/detail/segment_target__functions.c
 CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/soarm100_interfaces/srv/detail/segment_target__functions.h
 CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/soarm100_interfaces/srv/detail/segment_target__struct.h
@@ -426,8 +602,17 @@ CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_
 CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/soarm100_interfaces/srv/detail/set_avoidance__functions.h
 CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/soarm100_interfaces/srv/detail/set_avoidance__struct.h
 CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/soarm100_interfaces/srv/detail/set_avoidance__type_support.h
+CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/soarm100_interfaces/srv/detail/set_hardware_torque__functions.c
+CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/soarm100_interfaces/srv/detail/set_hardware_torque__functions.h
+CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/soarm100_interfaces/srv/detail/set_hardware_torque__struct.h
+CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/soarm100_interfaces/srv/detail/set_hardware_torque__type_support.h
+CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/soarm100_interfaces/srv/move_joint_delta.h
+CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/soarm100_interfaces/srv/move_joint_target.h
+CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/soarm100_interfaces/srv/move_named_pose.h
+CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/soarm100_interfaces/srv/move_single_joint.h
 CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/soarm100_interfaces/srv/segment_target.h
 CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/soarm100_interfaces/srv/set_avoidance.h
+CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/soarm100_interfaces/srv/set_hardware_torque.h
 	cd /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/soarm100_interfaces /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/soarm100_interfaces /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/depend
 

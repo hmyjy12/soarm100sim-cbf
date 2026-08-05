@@ -55,3 +55,6 @@ endforeach()
 message(STATUS "Execute custom uninstall script")
 
 # begin of custom uninstall code
+
+# uninstall files installed using the symlink install functions
+include("/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/so100_plus_description/ament_cmake_symlink_install/ament_cmake_symlink_install_uninstall_script.cmake")

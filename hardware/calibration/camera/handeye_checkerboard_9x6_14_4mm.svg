@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="210mm" height="297mm" viewBox="0 0 210 297">
+  <style>@page { size: A4; margin: 0; } @media print { html, body { margin: 0; } }</style>
+  <title>SO-ARM100 hand-eye checkerboard 9x6 inner corners, 14.4 mm squares</title>
+  <rect width="210" height="297" fill="white"/>
+
+  <!-- 10 x 7 squares. The physical checkerboard area is exactly 150 x 105 mm. -->
+  <g transform="translate(30,40) scale(0.96)" shape-rendering="crispEdges">
+    <rect x="0" y="0" width="150" height="105" fill="white"/>
+    <g fill="black">
+      <rect x="0" y="0" width="15" height="15"/><rect x="30" y="0" width="15" height="15"/><rect x="60" y="0" width="15" height="15"/><rect x="90" y="0" width="15" height="15"/><rect x="120" y="0" width="15" height="15"/>
+      <rect x="15" y="15" width="15" height="15"/><rect x="45" y="15" width="15" height="15"/><rect x="75" y="15" width="15" height="15"/><rect x="105" y="15" width="15" height="15"/><rect x="135" y="15" width="15" height="15"/>
+      <rect x="0" y="30" width="15" height="15"/><rect x="30" y="30" width="15" height="15"/><rect x="60" y="30" width="15" height="15"/><rect x="90" y="30" width="15" height="15"/><rect x="120" y="30" width="15" height="15"/>
+      <rect x="15" y="45" width="15" height="15"/><rect x="45" y="45" width="15" height="15"/><rect x="75" y="45" width="15" height="15"/><rect x="105" y="45" width="15" height="15"/><rect x="135" y="45" width="15" height="15"/>
+      <rect x="0" y="60" width="15" height="15"/><rect x="30" y="60" width="15" height="15"/><rect x="60" y="60" width="15" height="15"/><rect x="90" y="60" width="15" height="15"/><rect x="120" y="60" width="15" height="15"/>
+      <rect x="15" y="75" width="15" height="15"/><rect x="45" y="75" width="15" height="15"/><rect x="75" y="75" width="15" height="15"/><rect x="105" y="75" width="15" height="15"/><rect x="135" y="75" width="15" height="15"/>
+      <rect x="0" y="90" width="15" height="15"/><rect x="30" y="90" width="15" height="15"/><rect x="60" y="90" width="15" height="15"/><rect x="90" y="90" width="15" height="15"/><rect x="120" y="90" width="15" height="15"/>
+    </g>
+    <rect x="0" y="0" width="150" height="105" fill="none" stroke="black" stroke-width="0.4"/>
+  </g>
+
+  <g font-family="Arial, sans-serif" fill="black">
+    <text x="30" y="160" font-size="5">SO-ARM100 hand-eye calibration board</text>
+    <text x="30" y="168" font-size="4">9 x 6 inner corners | 10 x 7 squares | square size = 14.4 mm</text>
+    <text x="30" y="175" font-size="4">Checkerboard area = 144 x 100.8 mm | Print at 100% scale</text>
+    <!-- Independent 50 mm scale check. Measure this line after printing. -->
+    <line x1="30" y1="190" x2="80" y2="190" stroke="black" stroke-width="0.5"/>
+    <line x1="30" y1="187" x2="30" y2="193" stroke="black" stroke-width="0.5"/>
+    <line x1="80" y1="187" x2="80" y2="193" stroke="black" stroke-width="0.5"/>
+    <text x="30" y="198" font-size="4">This line must measure exactly 50 mm</text>
+  </g>
+</svg>

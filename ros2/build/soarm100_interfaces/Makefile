@@ -514,6 +514,102 @@ rosidl_generator_c/soarm100_interfaces/msg/detail/tracked_target2_d__functions.c
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/msg/detail/tracked_target2_d__functions.c.s
 .PHONY : rosidl_generator_c/soarm100_interfaces/msg/detail/tracked_target2_d__functions.c.s
 
+rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_delta__functions.o: rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_delta__functions.c.o
+.PHONY : rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_delta__functions.o
+
+# target to build an object file
+rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_delta__functions.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_delta__functions.c.o
+.PHONY : rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_delta__functions.c.o
+
+rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_delta__functions.i: rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_delta__functions.c.i
+.PHONY : rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_delta__functions.i
+
+# target to preprocess a source file
+rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_delta__functions.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_delta__functions.c.i
+.PHONY : rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_delta__functions.c.i
+
+rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_delta__functions.s: rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_delta__functions.c.s
+.PHONY : rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_delta__functions.s
+
+# target to generate assembly for a file
+rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_delta__functions.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_delta__functions.c.s
+.PHONY : rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_delta__functions.c.s
+
+rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_target__functions.o: rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_target__functions.c.o
+.PHONY : rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_target__functions.o
+
+# target to build an object file
+rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_target__functions.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_target__functions.c.o
+.PHONY : rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_target__functions.c.o
+
+rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_target__functions.i: rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_target__functions.c.i
+.PHONY : rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_target__functions.i
+
+# target to preprocess a source file
+rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_target__functions.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_target__functions.c.i
+.PHONY : rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_target__functions.c.i
+
+rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_target__functions.s: rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_target__functions.c.s
+.PHONY : rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_target__functions.s
+
+# target to generate assembly for a file
+rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_target__functions.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_target__functions.c.s
+.PHONY : rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_target__functions.c.s
+
+rosidl_generator_c/soarm100_interfaces/srv/detail/move_named_pose__functions.o: rosidl_generator_c/soarm100_interfaces/srv/detail/move_named_pose__functions.c.o
+.PHONY : rosidl_generator_c/soarm100_interfaces/srv/detail/move_named_pose__functions.o
+
+# target to build an object file
+rosidl_generator_c/soarm100_interfaces/srv/detail/move_named_pose__functions.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/move_named_pose__functions.c.o
+.PHONY : rosidl_generator_c/soarm100_interfaces/srv/detail/move_named_pose__functions.c.o
+
+rosidl_generator_c/soarm100_interfaces/srv/detail/move_named_pose__functions.i: rosidl_generator_c/soarm100_interfaces/srv/detail/move_named_pose__functions.c.i
+.PHONY : rosidl_generator_c/soarm100_interfaces/srv/detail/move_named_pose__functions.i
+
+# target to preprocess a source file
+rosidl_generator_c/soarm100_interfaces/srv/detail/move_named_pose__functions.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/move_named_pose__functions.c.i
+.PHONY : rosidl_generator_c/soarm100_interfaces/srv/detail/move_named_pose__functions.c.i
+
+rosidl_generator_c/soarm100_interfaces/srv/detail/move_named_pose__functions.s: rosidl_generator_c/soarm100_interfaces/srv/detail/move_named_pose__functions.c.s
+.PHONY : rosidl_generator_c/soarm100_interfaces/srv/detail/move_named_pose__functions.s
+
+# target to generate assembly for a file
+rosidl_generator_c/soarm100_interfaces/srv/detail/move_named_pose__functions.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/move_named_pose__functions.c.s
+.PHONY : rosidl_generator_c/soarm100_interfaces/srv/detail/move_named_pose__functions.c.s
+
+rosidl_generator_c/soarm100_interfaces/srv/detail/move_single_joint__functions.o: rosidl_generator_c/soarm100_interfaces/srv/detail/move_single_joint__functions.c.o
+.PHONY : rosidl_generator_c/soarm100_interfaces/srv/detail/move_single_joint__functions.o
+
+# target to build an object file
+rosidl_generator_c/soarm100_interfaces/srv/detail/move_single_joint__functions.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/move_single_joint__functions.c.o
+.PHONY : rosidl_generator_c/soarm100_interfaces/srv/detail/move_single_joint__functions.c.o
+
+rosidl_generator_c/soarm100_interfaces/srv/detail/move_single_joint__functions.i: rosidl_generator_c/soarm100_interfaces/srv/detail/move_single_joint__functions.c.i
+.PHONY : rosidl_generator_c/soarm100_interfaces/srv/detail/move_single_joint__functions.i
+
+# target to preprocess a source file
+rosidl_generator_c/soarm100_interfaces/srv/detail/move_single_joint__functions.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/move_single_joint__functions.c.i
+.PHONY : rosidl_generator_c/soarm100_interfaces/srv/detail/move_single_joint__functions.c.i
+
+rosidl_generator_c/soarm100_interfaces/srv/detail/move_single_joint__functions.s: rosidl_generator_c/soarm100_interfaces/srv/detail/move_single_joint__functions.c.s
+.PHONY : rosidl_generator_c/soarm100_interfaces/srv/detail/move_single_joint__functions.s
+
+# target to generate assembly for a file
+rosidl_generator_c/soarm100_interfaces/srv/detail/move_single_joint__functions.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/move_single_joint__functions.c.s
+.PHONY : rosidl_generator_c/soarm100_interfaces/srv/detail/move_single_joint__functions.c.s
+
 rosidl_generator_c/soarm100_interfaces/srv/detail/segment_target__functions.o: rosidl_generator_c/soarm100_interfaces/srv/detail/segment_target__functions.c.o
 .PHONY : rosidl_generator_c/soarm100_interfaces/srv/detail/segment_target__functions.o
 
@@ -561,6 +657,30 @@ rosidl_generator_c/soarm100_interfaces/srv/detail/set_avoidance__functions.s: ro
 rosidl_generator_c/soarm100_interfaces/srv/detail/set_avoidance__functions.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/set_avoidance__functions.c.s
 .PHONY : rosidl_generator_c/soarm100_interfaces/srv/detail/set_avoidance__functions.c.s
+
+rosidl_generator_c/soarm100_interfaces/srv/detail/set_hardware_torque__functions.o: rosidl_generator_c/soarm100_interfaces/srv/detail/set_hardware_torque__functions.c.o
+.PHONY : rosidl_generator_c/soarm100_interfaces/srv/detail/set_hardware_torque__functions.o
+
+# target to build an object file
+rosidl_generator_c/soarm100_interfaces/srv/detail/set_hardware_torque__functions.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/set_hardware_torque__functions.c.o
+.PHONY : rosidl_generator_c/soarm100_interfaces/srv/detail/set_hardware_torque__functions.c.o
+
+rosidl_generator_c/soarm100_interfaces/srv/detail/set_hardware_torque__functions.i: rosidl_generator_c/soarm100_interfaces/srv/detail/set_hardware_torque__functions.c.i
+.PHONY : rosidl_generator_c/soarm100_interfaces/srv/detail/set_hardware_torque__functions.i
+
+# target to preprocess a source file
+rosidl_generator_c/soarm100_interfaces/srv/detail/set_hardware_torque__functions.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/set_hardware_torque__functions.c.i
+.PHONY : rosidl_generator_c/soarm100_interfaces/srv/detail/set_hardware_torque__functions.c.i
+
+rosidl_generator_c/soarm100_interfaces/srv/detail/set_hardware_torque__functions.s: rosidl_generator_c/soarm100_interfaces/srv/detail/set_hardware_torque__functions.c.s
+.PHONY : rosidl_generator_c/soarm100_interfaces/srv/detail/set_hardware_torque__functions.s
+
+# target to generate assembly for a file
+rosidl_generator_c/soarm100_interfaces/srv/detail/set_hardware_torque__functions.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_generator_c.dir/rosidl_generator_c/soarm100_interfaces/srv/detail/set_hardware_torque__functions.c.s
+.PHONY : rosidl_generator_c/soarm100_interfaces/srv/detail/set_hardware_torque__functions.c.s
 
 rosidl_generator_py/soarm100_interfaces/_soarm100_interfaces_s.ep.rosidl_typesupport_c.o: rosidl_generator_py/soarm100_interfaces/_soarm100_interfaces_s.ep.rosidl_typesupport_c.c.o
 .PHONY : rosidl_generator_py/soarm100_interfaces/_soarm100_interfaces_s.ep.rosidl_typesupport_c.o
@@ -730,6 +850,102 @@ rosidl_generator_py/soarm100_interfaces/msg/_tracked_target2_d_s.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_generator_py.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_generator_py.dir/rosidl_generator_py/soarm100_interfaces/msg/_tracked_target2_d_s.c.s
 .PHONY : rosidl_generator_py/soarm100_interfaces/msg/_tracked_target2_d_s.c.s
 
+rosidl_generator_py/soarm100_interfaces/srv/_move_joint_delta_s.o: rosidl_generator_py/soarm100_interfaces/srv/_move_joint_delta_s.c.o
+.PHONY : rosidl_generator_py/soarm100_interfaces/srv/_move_joint_delta_s.o
+
+# target to build an object file
+rosidl_generator_py/soarm100_interfaces/srv/_move_joint_delta_s.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_generator_py.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_generator_py.dir/rosidl_generator_py/soarm100_interfaces/srv/_move_joint_delta_s.c.o
+.PHONY : rosidl_generator_py/soarm100_interfaces/srv/_move_joint_delta_s.c.o
+
+rosidl_generator_py/soarm100_interfaces/srv/_move_joint_delta_s.i: rosidl_generator_py/soarm100_interfaces/srv/_move_joint_delta_s.c.i
+.PHONY : rosidl_generator_py/soarm100_interfaces/srv/_move_joint_delta_s.i
+
+# target to preprocess a source file
+rosidl_generator_py/soarm100_interfaces/srv/_move_joint_delta_s.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_generator_py.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_generator_py.dir/rosidl_generator_py/soarm100_interfaces/srv/_move_joint_delta_s.c.i
+.PHONY : rosidl_generator_py/soarm100_interfaces/srv/_move_joint_delta_s.c.i
+
+rosidl_generator_py/soarm100_interfaces/srv/_move_joint_delta_s.s: rosidl_generator_py/soarm100_interfaces/srv/_move_joint_delta_s.c.s
+.PHONY : rosidl_generator_py/soarm100_interfaces/srv/_move_joint_delta_s.s
+
+# target to generate assembly for a file
+rosidl_generator_py/soarm100_interfaces/srv/_move_joint_delta_s.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_generator_py.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_generator_py.dir/rosidl_generator_py/soarm100_interfaces/srv/_move_joint_delta_s.c.s
+.PHONY : rosidl_generator_py/soarm100_interfaces/srv/_move_joint_delta_s.c.s
+
+rosidl_generator_py/soarm100_interfaces/srv/_move_joint_target_s.o: rosidl_generator_py/soarm100_interfaces/srv/_move_joint_target_s.c.o
+.PHONY : rosidl_generator_py/soarm100_interfaces/srv/_move_joint_target_s.o
+
+# target to build an object file
+rosidl_generator_py/soarm100_interfaces/srv/_move_joint_target_s.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_generator_py.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_generator_py.dir/rosidl_generator_py/soarm100_interfaces/srv/_move_joint_target_s.c.o
+.PHONY : rosidl_generator_py/soarm100_interfaces/srv/_move_joint_target_s.c.o
+
+rosidl_generator_py/soarm100_interfaces/srv/_move_joint_target_s.i: rosidl_generator_py/soarm100_interfaces/srv/_move_joint_target_s.c.i
+.PHONY : rosidl_generator_py/soarm100_interfaces/srv/_move_joint_target_s.i
+
+# target to preprocess a source file
+rosidl_generator_py/soarm100_interfaces/srv/_move_joint_target_s.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_generator_py.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_generator_py.dir/rosidl_generator_py/soarm100_interfaces/srv/_move_joint_target_s.c.i
+.PHONY : rosidl_generator_py/soarm100_interfaces/srv/_move_joint_target_s.c.i
+
+rosidl_generator_py/soarm100_interfaces/srv/_move_joint_target_s.s: rosidl_generator_py/soarm100_interfaces/srv/_move_joint_target_s.c.s
+.PHONY : rosidl_generator_py/soarm100_interfaces/srv/_move_joint_target_s.s
+
+# target to generate assembly for a file
+rosidl_generator_py/soarm100_interfaces/srv/_move_joint_target_s.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_generator_py.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_generator_py.dir/rosidl_generator_py/soarm100_interfaces/srv/_move_joint_target_s.c.s
+.PHONY : rosidl_generator_py/soarm100_interfaces/srv/_move_joint_target_s.c.s
+
+rosidl_generator_py/soarm100_interfaces/srv/_move_named_pose_s.o: rosidl_generator_py/soarm100_interfaces/srv/_move_named_pose_s.c.o
+.PHONY : rosidl_generator_py/soarm100_interfaces/srv/_move_named_pose_s.o
+
+# target to build an object file
+rosidl_generator_py/soarm100_interfaces/srv/_move_named_pose_s.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_generator_py.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_generator_py.dir/rosidl_generator_py/soarm100_interfaces/srv/_move_named_pose_s.c.o
+.PHONY : rosidl_generator_py/soarm100_interfaces/srv/_move_named_pose_s.c.o
+
+rosidl_generator_py/soarm100_interfaces/srv/_move_named_pose_s.i: rosidl_generator_py/soarm100_interfaces/srv/_move_named_pose_s.c.i
+.PHONY : rosidl_generator_py/soarm100_interfaces/srv/_move_named_pose_s.i
+
+# target to preprocess a source file
+rosidl_generator_py/soarm100_interfaces/srv/_move_named_pose_s.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_generator_py.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_generator_py.dir/rosidl_generator_py/soarm100_interfaces/srv/_move_named_pose_s.c.i
+.PHONY : rosidl_generator_py/soarm100_interfaces/srv/_move_named_pose_s.c.i
+
+rosidl_generator_py/soarm100_interfaces/srv/_move_named_pose_s.s: rosidl_generator_py/soarm100_interfaces/srv/_move_named_pose_s.c.s
+.PHONY : rosidl_generator_py/soarm100_interfaces/srv/_move_named_pose_s.s
+
+# target to generate assembly for a file
+rosidl_generator_py/soarm100_interfaces/srv/_move_named_pose_s.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_generator_py.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_generator_py.dir/rosidl_generator_py/soarm100_interfaces/srv/_move_named_pose_s.c.s
+.PHONY : rosidl_generator_py/soarm100_interfaces/srv/_move_named_pose_s.c.s
+
+rosidl_generator_py/soarm100_interfaces/srv/_move_single_joint_s.o: rosidl_generator_py/soarm100_interfaces/srv/_move_single_joint_s.c.o
+.PHONY : rosidl_generator_py/soarm100_interfaces/srv/_move_single_joint_s.o
+
+# target to build an object file
+rosidl_generator_py/soarm100_interfaces/srv/_move_single_joint_s.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_generator_py.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_generator_py.dir/rosidl_generator_py/soarm100_interfaces/srv/_move_single_joint_s.c.o
+.PHONY : rosidl_generator_py/soarm100_interfaces/srv/_move_single_joint_s.c.o
+
+rosidl_generator_py/soarm100_interfaces/srv/_move_single_joint_s.i: rosidl_generator_py/soarm100_interfaces/srv/_move_single_joint_s.c.i
+.PHONY : rosidl_generator_py/soarm100_interfaces/srv/_move_single_joint_s.i
+
+# target to preprocess a source file
+rosidl_generator_py/soarm100_interfaces/srv/_move_single_joint_s.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_generator_py.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_generator_py.dir/rosidl_generator_py/soarm100_interfaces/srv/_move_single_joint_s.c.i
+.PHONY : rosidl_generator_py/soarm100_interfaces/srv/_move_single_joint_s.c.i
+
+rosidl_generator_py/soarm100_interfaces/srv/_move_single_joint_s.s: rosidl_generator_py/soarm100_interfaces/srv/_move_single_joint_s.c.s
+.PHONY : rosidl_generator_py/soarm100_interfaces/srv/_move_single_joint_s.s
+
+# target to generate assembly for a file
+rosidl_generator_py/soarm100_interfaces/srv/_move_single_joint_s.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_generator_py.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_generator_py.dir/rosidl_generator_py/soarm100_interfaces/srv/_move_single_joint_s.c.s
+.PHONY : rosidl_generator_py/soarm100_interfaces/srv/_move_single_joint_s.c.s
+
 rosidl_generator_py/soarm100_interfaces/srv/_segment_target_s.o: rosidl_generator_py/soarm100_interfaces/srv/_segment_target_s.c.o
 .PHONY : rosidl_generator_py/soarm100_interfaces/srv/_segment_target_s.o
 
@@ -777,6 +993,30 @@ rosidl_generator_py/soarm100_interfaces/srv/_set_avoidance_s.s: rosidl_generator
 rosidl_generator_py/soarm100_interfaces/srv/_set_avoidance_s.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_generator_py.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_generator_py.dir/rosidl_generator_py/soarm100_interfaces/srv/_set_avoidance_s.c.s
 .PHONY : rosidl_generator_py/soarm100_interfaces/srv/_set_avoidance_s.c.s
+
+rosidl_generator_py/soarm100_interfaces/srv/_set_hardware_torque_s.o: rosidl_generator_py/soarm100_interfaces/srv/_set_hardware_torque_s.c.o
+.PHONY : rosidl_generator_py/soarm100_interfaces/srv/_set_hardware_torque_s.o
+
+# target to build an object file
+rosidl_generator_py/soarm100_interfaces/srv/_set_hardware_torque_s.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_generator_py.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_generator_py.dir/rosidl_generator_py/soarm100_interfaces/srv/_set_hardware_torque_s.c.o
+.PHONY : rosidl_generator_py/soarm100_interfaces/srv/_set_hardware_torque_s.c.o
+
+rosidl_generator_py/soarm100_interfaces/srv/_set_hardware_torque_s.i: rosidl_generator_py/soarm100_interfaces/srv/_set_hardware_torque_s.c.i
+.PHONY : rosidl_generator_py/soarm100_interfaces/srv/_set_hardware_torque_s.i
+
+# target to preprocess a source file
+rosidl_generator_py/soarm100_interfaces/srv/_set_hardware_torque_s.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_generator_py.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_generator_py.dir/rosidl_generator_py/soarm100_interfaces/srv/_set_hardware_torque_s.c.i
+.PHONY : rosidl_generator_py/soarm100_interfaces/srv/_set_hardware_torque_s.c.i
+
+rosidl_generator_py/soarm100_interfaces/srv/_set_hardware_torque_s.s: rosidl_generator_py/soarm100_interfaces/srv/_set_hardware_torque_s.c.s
+.PHONY : rosidl_generator_py/soarm100_interfaces/srv/_set_hardware_torque_s.s
+
+# target to generate assembly for a file
+rosidl_generator_py/soarm100_interfaces/srv/_set_hardware_torque_s.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_generator_py.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_generator_py.dir/rosidl_generator_py/soarm100_interfaces/srv/_set_hardware_torque_s.c.s
+.PHONY : rosidl_generator_py/soarm100_interfaces/srv/_set_hardware_torque_s.c.s
 
 rosidl_typesupport_c/soarm100_interfaces/action/execute_grasp__type_support.o: rosidl_typesupport_c/soarm100_interfaces/action/execute_grasp__type_support.cpp.o
 .PHONY : rosidl_typesupport_c/soarm100_interfaces/action/execute_grasp__type_support.o
@@ -874,6 +1114,102 @@ rosidl_typesupport_c/soarm100_interfaces/msg/tracked_target2_d__type_support.cpp
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_c.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_c.dir/rosidl_typesupport_c/soarm100_interfaces/msg/tracked_target2_d__type_support.cpp.s
 .PHONY : rosidl_typesupport_c/soarm100_interfaces/msg/tracked_target2_d__type_support.cpp.s
 
+rosidl_typesupport_c/soarm100_interfaces/srv/move_joint_delta__type_support.o: rosidl_typesupport_c/soarm100_interfaces/srv/move_joint_delta__type_support.cpp.o
+.PHONY : rosidl_typesupport_c/soarm100_interfaces/srv/move_joint_delta__type_support.o
+
+# target to build an object file
+rosidl_typesupport_c/soarm100_interfaces/srv/move_joint_delta__type_support.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_c.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_c.dir/rosidl_typesupport_c/soarm100_interfaces/srv/move_joint_delta__type_support.cpp.o
+.PHONY : rosidl_typesupport_c/soarm100_interfaces/srv/move_joint_delta__type_support.cpp.o
+
+rosidl_typesupport_c/soarm100_interfaces/srv/move_joint_delta__type_support.i: rosidl_typesupport_c/soarm100_interfaces/srv/move_joint_delta__type_support.cpp.i
+.PHONY : rosidl_typesupport_c/soarm100_interfaces/srv/move_joint_delta__type_support.i
+
+# target to preprocess a source file
+rosidl_typesupport_c/soarm100_interfaces/srv/move_joint_delta__type_support.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_c.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_c.dir/rosidl_typesupport_c/soarm100_interfaces/srv/move_joint_delta__type_support.cpp.i
+.PHONY : rosidl_typesupport_c/soarm100_interfaces/srv/move_joint_delta__type_support.cpp.i
+
+rosidl_typesupport_c/soarm100_interfaces/srv/move_joint_delta__type_support.s: rosidl_typesupport_c/soarm100_interfaces/srv/move_joint_delta__type_support.cpp.s
+.PHONY : rosidl_typesupport_c/soarm100_interfaces/srv/move_joint_delta__type_support.s
+
+# target to generate assembly for a file
+rosidl_typesupport_c/soarm100_interfaces/srv/move_joint_delta__type_support.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_c.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_c.dir/rosidl_typesupport_c/soarm100_interfaces/srv/move_joint_delta__type_support.cpp.s
+.PHONY : rosidl_typesupport_c/soarm100_interfaces/srv/move_joint_delta__type_support.cpp.s
+
+rosidl_typesupport_c/soarm100_interfaces/srv/move_joint_target__type_support.o: rosidl_typesupport_c/soarm100_interfaces/srv/move_joint_target__type_support.cpp.o
+.PHONY : rosidl_typesupport_c/soarm100_interfaces/srv/move_joint_target__type_support.o
+
+# target to build an object file
+rosidl_typesupport_c/soarm100_interfaces/srv/move_joint_target__type_support.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_c.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_c.dir/rosidl_typesupport_c/soarm100_interfaces/srv/move_joint_target__type_support.cpp.o
+.PHONY : rosidl_typesupport_c/soarm100_interfaces/srv/move_joint_target__type_support.cpp.o
+
+rosidl_typesupport_c/soarm100_interfaces/srv/move_joint_target__type_support.i: rosidl_typesupport_c/soarm100_interfaces/srv/move_joint_target__type_support.cpp.i
+.PHONY : rosidl_typesupport_c/soarm100_interfaces/srv/move_joint_target__type_support.i
+
+# target to preprocess a source file
+rosidl_typesupport_c/soarm100_interfaces/srv/move_joint_target__type_support.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_c.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_c.dir/rosidl_typesupport_c/soarm100_interfaces/srv/move_joint_target__type_support.cpp.i
+.PHONY : rosidl_typesupport_c/soarm100_interfaces/srv/move_joint_target__type_support.cpp.i
+
+rosidl_typesupport_c/soarm100_interfaces/srv/move_joint_target__type_support.s: rosidl_typesupport_c/soarm100_interfaces/srv/move_joint_target__type_support.cpp.s
+.PHONY : rosidl_typesupport_c/soarm100_interfaces/srv/move_joint_target__type_support.s
+
+# target to generate assembly for a file
+rosidl_typesupport_c/soarm100_interfaces/srv/move_joint_target__type_support.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_c.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_c.dir/rosidl_typesupport_c/soarm100_interfaces/srv/move_joint_target__type_support.cpp.s
+.PHONY : rosidl_typesupport_c/soarm100_interfaces/srv/move_joint_target__type_support.cpp.s
+
+rosidl_typesupport_c/soarm100_interfaces/srv/move_named_pose__type_support.o: rosidl_typesupport_c/soarm100_interfaces/srv/move_named_pose__type_support.cpp.o
+.PHONY : rosidl_typesupport_c/soarm100_interfaces/srv/move_named_pose__type_support.o
+
+# target to build an object file
+rosidl_typesupport_c/soarm100_interfaces/srv/move_named_pose__type_support.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_c.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_c.dir/rosidl_typesupport_c/soarm100_interfaces/srv/move_named_pose__type_support.cpp.o
+.PHONY : rosidl_typesupport_c/soarm100_interfaces/srv/move_named_pose__type_support.cpp.o
+
+rosidl_typesupport_c/soarm100_interfaces/srv/move_named_pose__type_support.i: rosidl_typesupport_c/soarm100_interfaces/srv/move_named_pose__type_support.cpp.i
+.PHONY : rosidl_typesupport_c/soarm100_interfaces/srv/move_named_pose__type_support.i
+
+# target to preprocess a source file
+rosidl_typesupport_c/soarm100_interfaces/srv/move_named_pose__type_support.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_c.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_c.dir/rosidl_typesupport_c/soarm100_interfaces/srv/move_named_pose__type_support.cpp.i
+.PHONY : rosidl_typesupport_c/soarm100_interfaces/srv/move_named_pose__type_support.cpp.i
+
+rosidl_typesupport_c/soarm100_interfaces/srv/move_named_pose__type_support.s: rosidl_typesupport_c/soarm100_interfaces/srv/move_named_pose__type_support.cpp.s
+.PHONY : rosidl_typesupport_c/soarm100_interfaces/srv/move_named_pose__type_support.s
+
+# target to generate assembly for a file
+rosidl_typesupport_c/soarm100_interfaces/srv/move_named_pose__type_support.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_c.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_c.dir/rosidl_typesupport_c/soarm100_interfaces/srv/move_named_pose__type_support.cpp.s
+.PHONY : rosidl_typesupport_c/soarm100_interfaces/srv/move_named_pose__type_support.cpp.s
+
+rosidl_typesupport_c/soarm100_interfaces/srv/move_single_joint__type_support.o: rosidl_typesupport_c/soarm100_interfaces/srv/move_single_joint__type_support.cpp.o
+.PHONY : rosidl_typesupport_c/soarm100_interfaces/srv/move_single_joint__type_support.o
+
+# target to build an object file
+rosidl_typesupport_c/soarm100_interfaces/srv/move_single_joint__type_support.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_c.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_c.dir/rosidl_typesupport_c/soarm100_interfaces/srv/move_single_joint__type_support.cpp.o
+.PHONY : rosidl_typesupport_c/soarm100_interfaces/srv/move_single_joint__type_support.cpp.o
+
+rosidl_typesupport_c/soarm100_interfaces/srv/move_single_joint__type_support.i: rosidl_typesupport_c/soarm100_interfaces/srv/move_single_joint__type_support.cpp.i
+.PHONY : rosidl_typesupport_c/soarm100_interfaces/srv/move_single_joint__type_support.i
+
+# target to preprocess a source file
+rosidl_typesupport_c/soarm100_interfaces/srv/move_single_joint__type_support.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_c.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_c.dir/rosidl_typesupport_c/soarm100_interfaces/srv/move_single_joint__type_support.cpp.i
+.PHONY : rosidl_typesupport_c/soarm100_interfaces/srv/move_single_joint__type_support.cpp.i
+
+rosidl_typesupport_c/soarm100_interfaces/srv/move_single_joint__type_support.s: rosidl_typesupport_c/soarm100_interfaces/srv/move_single_joint__type_support.cpp.s
+.PHONY : rosidl_typesupport_c/soarm100_interfaces/srv/move_single_joint__type_support.s
+
+# target to generate assembly for a file
+rosidl_typesupport_c/soarm100_interfaces/srv/move_single_joint__type_support.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_c.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_c.dir/rosidl_typesupport_c/soarm100_interfaces/srv/move_single_joint__type_support.cpp.s
+.PHONY : rosidl_typesupport_c/soarm100_interfaces/srv/move_single_joint__type_support.cpp.s
+
 rosidl_typesupport_c/soarm100_interfaces/srv/segment_target__type_support.o: rosidl_typesupport_c/soarm100_interfaces/srv/segment_target__type_support.cpp.o
 .PHONY : rosidl_typesupport_c/soarm100_interfaces/srv/segment_target__type_support.o
 
@@ -921,6 +1257,30 @@ rosidl_typesupport_c/soarm100_interfaces/srv/set_avoidance__type_support.s: rosi
 rosidl_typesupport_c/soarm100_interfaces/srv/set_avoidance__type_support.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_c.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_c.dir/rosidl_typesupport_c/soarm100_interfaces/srv/set_avoidance__type_support.cpp.s
 .PHONY : rosidl_typesupport_c/soarm100_interfaces/srv/set_avoidance__type_support.cpp.s
+
+rosidl_typesupport_c/soarm100_interfaces/srv/set_hardware_torque__type_support.o: rosidl_typesupport_c/soarm100_interfaces/srv/set_hardware_torque__type_support.cpp.o
+.PHONY : rosidl_typesupport_c/soarm100_interfaces/srv/set_hardware_torque__type_support.o
+
+# target to build an object file
+rosidl_typesupport_c/soarm100_interfaces/srv/set_hardware_torque__type_support.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_c.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_c.dir/rosidl_typesupport_c/soarm100_interfaces/srv/set_hardware_torque__type_support.cpp.o
+.PHONY : rosidl_typesupport_c/soarm100_interfaces/srv/set_hardware_torque__type_support.cpp.o
+
+rosidl_typesupport_c/soarm100_interfaces/srv/set_hardware_torque__type_support.i: rosidl_typesupport_c/soarm100_interfaces/srv/set_hardware_torque__type_support.cpp.i
+.PHONY : rosidl_typesupport_c/soarm100_interfaces/srv/set_hardware_torque__type_support.i
+
+# target to preprocess a source file
+rosidl_typesupport_c/soarm100_interfaces/srv/set_hardware_torque__type_support.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_c.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_c.dir/rosidl_typesupport_c/soarm100_interfaces/srv/set_hardware_torque__type_support.cpp.i
+.PHONY : rosidl_typesupport_c/soarm100_interfaces/srv/set_hardware_torque__type_support.cpp.i
+
+rosidl_typesupport_c/soarm100_interfaces/srv/set_hardware_torque__type_support.s: rosidl_typesupport_c/soarm100_interfaces/srv/set_hardware_torque__type_support.cpp.s
+.PHONY : rosidl_typesupport_c/soarm100_interfaces/srv/set_hardware_torque__type_support.s
+
+# target to generate assembly for a file
+rosidl_typesupport_c/soarm100_interfaces/srv/set_hardware_torque__type_support.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_c.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_c.dir/rosidl_typesupport_c/soarm100_interfaces/srv/set_hardware_torque__type_support.cpp.s
+.PHONY : rosidl_typesupport_c/soarm100_interfaces/srv/set_hardware_torque__type_support.cpp.s
 
 rosidl_typesupport_cpp/soarm100_interfaces/action/execute_grasp__type_support.o: rosidl_typesupport_cpp/soarm100_interfaces/action/execute_grasp__type_support.cpp.o
 .PHONY : rosidl_typesupport_cpp/soarm100_interfaces/action/execute_grasp__type_support.o
@@ -1018,6 +1378,102 @@ rosidl_typesupport_cpp/soarm100_interfaces/msg/tracked_target2_d__type_support.c
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/msg/tracked_target2_d__type_support.cpp.s
 .PHONY : rosidl_typesupport_cpp/soarm100_interfaces/msg/tracked_target2_d__type_support.cpp.s
 
+rosidl_typesupport_cpp/soarm100_interfaces/srv/move_joint_delta__type_support.o: rosidl_typesupport_cpp/soarm100_interfaces/srv/move_joint_delta__type_support.cpp.o
+.PHONY : rosidl_typesupport_cpp/soarm100_interfaces/srv/move_joint_delta__type_support.o
+
+# target to build an object file
+rosidl_typesupport_cpp/soarm100_interfaces/srv/move_joint_delta__type_support.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/move_joint_delta__type_support.cpp.o
+.PHONY : rosidl_typesupport_cpp/soarm100_interfaces/srv/move_joint_delta__type_support.cpp.o
+
+rosidl_typesupport_cpp/soarm100_interfaces/srv/move_joint_delta__type_support.i: rosidl_typesupport_cpp/soarm100_interfaces/srv/move_joint_delta__type_support.cpp.i
+.PHONY : rosidl_typesupport_cpp/soarm100_interfaces/srv/move_joint_delta__type_support.i
+
+# target to preprocess a source file
+rosidl_typesupport_cpp/soarm100_interfaces/srv/move_joint_delta__type_support.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/move_joint_delta__type_support.cpp.i
+.PHONY : rosidl_typesupport_cpp/soarm100_interfaces/srv/move_joint_delta__type_support.cpp.i
+
+rosidl_typesupport_cpp/soarm100_interfaces/srv/move_joint_delta__type_support.s: rosidl_typesupport_cpp/soarm100_interfaces/srv/move_joint_delta__type_support.cpp.s
+.PHONY : rosidl_typesupport_cpp/soarm100_interfaces/srv/move_joint_delta__type_support.s
+
+# target to generate assembly for a file
+rosidl_typesupport_cpp/soarm100_interfaces/srv/move_joint_delta__type_support.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/move_joint_delta__type_support.cpp.s
+.PHONY : rosidl_typesupport_cpp/soarm100_interfaces/srv/move_joint_delta__type_support.cpp.s
+
+rosidl_typesupport_cpp/soarm100_interfaces/srv/move_joint_target__type_support.o: rosidl_typesupport_cpp/soarm100_interfaces/srv/move_joint_target__type_support.cpp.o
+.PHONY : rosidl_typesupport_cpp/soarm100_interfaces/srv/move_joint_target__type_support.o
+
+# target to build an object file
+rosidl_typesupport_cpp/soarm100_interfaces/srv/move_joint_target__type_support.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/move_joint_target__type_support.cpp.o
+.PHONY : rosidl_typesupport_cpp/soarm100_interfaces/srv/move_joint_target__type_support.cpp.o
+
+rosidl_typesupport_cpp/soarm100_interfaces/srv/move_joint_target__type_support.i: rosidl_typesupport_cpp/soarm100_interfaces/srv/move_joint_target__type_support.cpp.i
+.PHONY : rosidl_typesupport_cpp/soarm100_interfaces/srv/move_joint_target__type_support.i
+
+# target to preprocess a source file
+rosidl_typesupport_cpp/soarm100_interfaces/srv/move_joint_target__type_support.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/move_joint_target__type_support.cpp.i
+.PHONY : rosidl_typesupport_cpp/soarm100_interfaces/srv/move_joint_target__type_support.cpp.i
+
+rosidl_typesupport_cpp/soarm100_interfaces/srv/move_joint_target__type_support.s: rosidl_typesupport_cpp/soarm100_interfaces/srv/move_joint_target__type_support.cpp.s
+.PHONY : rosidl_typesupport_cpp/soarm100_interfaces/srv/move_joint_target__type_support.s
+
+# target to generate assembly for a file
+rosidl_typesupport_cpp/soarm100_interfaces/srv/move_joint_target__type_support.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/move_joint_target__type_support.cpp.s
+.PHONY : rosidl_typesupport_cpp/soarm100_interfaces/srv/move_joint_target__type_support.cpp.s
+
+rosidl_typesupport_cpp/soarm100_interfaces/srv/move_named_pose__type_support.o: rosidl_typesupport_cpp/soarm100_interfaces/srv/move_named_pose__type_support.cpp.o
+.PHONY : rosidl_typesupport_cpp/soarm100_interfaces/srv/move_named_pose__type_support.o
+
+# target to build an object file
+rosidl_typesupport_cpp/soarm100_interfaces/srv/move_named_pose__type_support.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/move_named_pose__type_support.cpp.o
+.PHONY : rosidl_typesupport_cpp/soarm100_interfaces/srv/move_named_pose__type_support.cpp.o
+
+rosidl_typesupport_cpp/soarm100_interfaces/srv/move_named_pose__type_support.i: rosidl_typesupport_cpp/soarm100_interfaces/srv/move_named_pose__type_support.cpp.i
+.PHONY : rosidl_typesupport_cpp/soarm100_interfaces/srv/move_named_pose__type_support.i
+
+# target to preprocess a source file
+rosidl_typesupport_cpp/soarm100_interfaces/srv/move_named_pose__type_support.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/move_named_pose__type_support.cpp.i
+.PHONY : rosidl_typesupport_cpp/soarm100_interfaces/srv/move_named_pose__type_support.cpp.i
+
+rosidl_typesupport_cpp/soarm100_interfaces/srv/move_named_pose__type_support.s: rosidl_typesupport_cpp/soarm100_interfaces/srv/move_named_pose__type_support.cpp.s
+.PHONY : rosidl_typesupport_cpp/soarm100_interfaces/srv/move_named_pose__type_support.s
+
+# target to generate assembly for a file
+rosidl_typesupport_cpp/soarm100_interfaces/srv/move_named_pose__type_support.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/move_named_pose__type_support.cpp.s
+.PHONY : rosidl_typesupport_cpp/soarm100_interfaces/srv/move_named_pose__type_support.cpp.s
+
+rosidl_typesupport_cpp/soarm100_interfaces/srv/move_single_joint__type_support.o: rosidl_typesupport_cpp/soarm100_interfaces/srv/move_single_joint__type_support.cpp.o
+.PHONY : rosidl_typesupport_cpp/soarm100_interfaces/srv/move_single_joint__type_support.o
+
+# target to build an object file
+rosidl_typesupport_cpp/soarm100_interfaces/srv/move_single_joint__type_support.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/move_single_joint__type_support.cpp.o
+.PHONY : rosidl_typesupport_cpp/soarm100_interfaces/srv/move_single_joint__type_support.cpp.o
+
+rosidl_typesupport_cpp/soarm100_interfaces/srv/move_single_joint__type_support.i: rosidl_typesupport_cpp/soarm100_interfaces/srv/move_single_joint__type_support.cpp.i
+.PHONY : rosidl_typesupport_cpp/soarm100_interfaces/srv/move_single_joint__type_support.i
+
+# target to preprocess a source file
+rosidl_typesupport_cpp/soarm100_interfaces/srv/move_single_joint__type_support.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/move_single_joint__type_support.cpp.i
+.PHONY : rosidl_typesupport_cpp/soarm100_interfaces/srv/move_single_joint__type_support.cpp.i
+
+rosidl_typesupport_cpp/soarm100_interfaces/srv/move_single_joint__type_support.s: rosidl_typesupport_cpp/soarm100_interfaces/srv/move_single_joint__type_support.cpp.s
+.PHONY : rosidl_typesupport_cpp/soarm100_interfaces/srv/move_single_joint__type_support.s
+
+# target to generate assembly for a file
+rosidl_typesupport_cpp/soarm100_interfaces/srv/move_single_joint__type_support.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/move_single_joint__type_support.cpp.s
+.PHONY : rosidl_typesupport_cpp/soarm100_interfaces/srv/move_single_joint__type_support.cpp.s
+
 rosidl_typesupport_cpp/soarm100_interfaces/srv/segment_target__type_support.o: rosidl_typesupport_cpp/soarm100_interfaces/srv/segment_target__type_support.cpp.o
 .PHONY : rosidl_typesupport_cpp/soarm100_interfaces/srv/segment_target__type_support.o
 
@@ -1065,6 +1521,30 @@ rosidl_typesupport_cpp/soarm100_interfaces/srv/set_avoidance__type_support.s: ro
 rosidl_typesupport_cpp/soarm100_interfaces/srv/set_avoidance__type_support.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/set_avoidance__type_support.cpp.s
 .PHONY : rosidl_typesupport_cpp/soarm100_interfaces/srv/set_avoidance__type_support.cpp.s
+
+rosidl_typesupport_cpp/soarm100_interfaces/srv/set_hardware_torque__type_support.o: rosidl_typesupport_cpp/soarm100_interfaces/srv/set_hardware_torque__type_support.cpp.o
+.PHONY : rosidl_typesupport_cpp/soarm100_interfaces/srv/set_hardware_torque__type_support.o
+
+# target to build an object file
+rosidl_typesupport_cpp/soarm100_interfaces/srv/set_hardware_torque__type_support.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/set_hardware_torque__type_support.cpp.o
+.PHONY : rosidl_typesupport_cpp/soarm100_interfaces/srv/set_hardware_torque__type_support.cpp.o
+
+rosidl_typesupport_cpp/soarm100_interfaces/srv/set_hardware_torque__type_support.i: rosidl_typesupport_cpp/soarm100_interfaces/srv/set_hardware_torque__type_support.cpp.i
+.PHONY : rosidl_typesupport_cpp/soarm100_interfaces/srv/set_hardware_torque__type_support.i
+
+# target to preprocess a source file
+rosidl_typesupport_cpp/soarm100_interfaces/srv/set_hardware_torque__type_support.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/set_hardware_torque__type_support.cpp.i
+.PHONY : rosidl_typesupport_cpp/soarm100_interfaces/srv/set_hardware_torque__type_support.cpp.i
+
+rosidl_typesupport_cpp/soarm100_interfaces/srv/set_hardware_torque__type_support.s: rosidl_typesupport_cpp/soarm100_interfaces/srv/set_hardware_torque__type_support.cpp.s
+.PHONY : rosidl_typesupport_cpp/soarm100_interfaces/srv/set_hardware_torque__type_support.s
+
+# target to generate assembly for a file
+rosidl_typesupport_cpp/soarm100_interfaces/srv/set_hardware_torque__type_support.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/set_hardware_torque__type_support.cpp.s
+.PHONY : rosidl_typesupport_cpp/soarm100_interfaces/srv/set_hardware_torque__type_support.cpp.s
 
 rosidl_typesupport_fastrtps_c/soarm100_interfaces/action/detail/execute_grasp__type_support_c.o: rosidl_typesupport_fastrtps_c/soarm100_interfaces/action/detail/execute_grasp__type_support_c.cpp.o
 .PHONY : rosidl_typesupport_fastrtps_c/soarm100_interfaces/action/detail/execute_grasp__type_support_c.o
@@ -1162,6 +1642,102 @@ rosidl_typesupport_fastrtps_c/soarm100_interfaces/msg/detail/tracked_target2_d__
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_c.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/soarm100_interfaces/msg/detail/tracked_target2_d__type_support_c.cpp.s
 .PHONY : rosidl_typesupport_fastrtps_c/soarm100_interfaces/msg/detail/tracked_target2_d__type_support_c.cpp.s
 
+rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/move_joint_delta__type_support_c.o: rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/move_joint_delta__type_support_c.cpp.o
+.PHONY : rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/move_joint_delta__type_support_c.o
+
+# target to build an object file
+rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/move_joint_delta__type_support_c.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_c.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/move_joint_delta__type_support_c.cpp.o
+.PHONY : rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/move_joint_delta__type_support_c.cpp.o
+
+rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/move_joint_delta__type_support_c.i: rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/move_joint_delta__type_support_c.cpp.i
+.PHONY : rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/move_joint_delta__type_support_c.i
+
+# target to preprocess a source file
+rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/move_joint_delta__type_support_c.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_c.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/move_joint_delta__type_support_c.cpp.i
+.PHONY : rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/move_joint_delta__type_support_c.cpp.i
+
+rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/move_joint_delta__type_support_c.s: rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/move_joint_delta__type_support_c.cpp.s
+.PHONY : rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/move_joint_delta__type_support_c.s
+
+# target to generate assembly for a file
+rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/move_joint_delta__type_support_c.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_c.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/move_joint_delta__type_support_c.cpp.s
+.PHONY : rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/move_joint_delta__type_support_c.cpp.s
+
+rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/move_joint_target__type_support_c.o: rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/move_joint_target__type_support_c.cpp.o
+.PHONY : rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/move_joint_target__type_support_c.o
+
+# target to build an object file
+rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/move_joint_target__type_support_c.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_c.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/move_joint_target__type_support_c.cpp.o
+.PHONY : rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/move_joint_target__type_support_c.cpp.o
+
+rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/move_joint_target__type_support_c.i: rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/move_joint_target__type_support_c.cpp.i
+.PHONY : rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/move_joint_target__type_support_c.i
+
+# target to preprocess a source file
+rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/move_joint_target__type_support_c.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_c.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/move_joint_target__type_support_c.cpp.i
+.PHONY : rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/move_joint_target__type_support_c.cpp.i
+
+rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/move_joint_target__type_support_c.s: rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/move_joint_target__type_support_c.cpp.s
+.PHONY : rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/move_joint_target__type_support_c.s
+
+# target to generate assembly for a file
+rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/move_joint_target__type_support_c.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_c.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/move_joint_target__type_support_c.cpp.s
+.PHONY : rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/move_joint_target__type_support_c.cpp.s
+
+rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/move_named_pose__type_support_c.o: rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/move_named_pose__type_support_c.cpp.o
+.PHONY : rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/move_named_pose__type_support_c.o
+
+# target to build an object file
+rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/move_named_pose__type_support_c.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_c.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/move_named_pose__type_support_c.cpp.o
+.PHONY : rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/move_named_pose__type_support_c.cpp.o
+
+rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/move_named_pose__type_support_c.i: rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/move_named_pose__type_support_c.cpp.i
+.PHONY : rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/move_named_pose__type_support_c.i
+
+# target to preprocess a source file
+rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/move_named_pose__type_support_c.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_c.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/move_named_pose__type_support_c.cpp.i
+.PHONY : rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/move_named_pose__type_support_c.cpp.i
+
+rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/move_named_pose__type_support_c.s: rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/move_named_pose__type_support_c.cpp.s
+.PHONY : rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/move_named_pose__type_support_c.s
+
+# target to generate assembly for a file
+rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/move_named_pose__type_support_c.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_c.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/move_named_pose__type_support_c.cpp.s
+.PHONY : rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/move_named_pose__type_support_c.cpp.s
+
+rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/move_single_joint__type_support_c.o: rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/move_single_joint__type_support_c.cpp.o
+.PHONY : rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/move_single_joint__type_support_c.o
+
+# target to build an object file
+rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/move_single_joint__type_support_c.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_c.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/move_single_joint__type_support_c.cpp.o
+.PHONY : rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/move_single_joint__type_support_c.cpp.o
+
+rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/move_single_joint__type_support_c.i: rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/move_single_joint__type_support_c.cpp.i
+.PHONY : rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/move_single_joint__type_support_c.i
+
+# target to preprocess a source file
+rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/move_single_joint__type_support_c.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_c.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/move_single_joint__type_support_c.cpp.i
+.PHONY : rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/move_single_joint__type_support_c.cpp.i
+
+rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/move_single_joint__type_support_c.s: rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/move_single_joint__type_support_c.cpp.s
+.PHONY : rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/move_single_joint__type_support_c.s
+
+# target to generate assembly for a file
+rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/move_single_joint__type_support_c.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_c.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/move_single_joint__type_support_c.cpp.s
+.PHONY : rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/move_single_joint__type_support_c.cpp.s
+
 rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/segment_target__type_support_c.o: rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/segment_target__type_support_c.cpp.o
 .PHONY : rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/segment_target__type_support_c.o
 
@@ -1209,6 +1785,30 @@ rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/set_avoidance__type
 rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/set_avoidance__type_support_c.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_c.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/set_avoidance__type_support_c.cpp.s
 .PHONY : rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/set_avoidance__type_support_c.cpp.s
+
+rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/set_hardware_torque__type_support_c.o: rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/set_hardware_torque__type_support_c.cpp.o
+.PHONY : rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/set_hardware_torque__type_support_c.o
+
+# target to build an object file
+rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/set_hardware_torque__type_support_c.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_c.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/set_hardware_torque__type_support_c.cpp.o
+.PHONY : rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/set_hardware_torque__type_support_c.cpp.o
+
+rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/set_hardware_torque__type_support_c.i: rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/set_hardware_torque__type_support_c.cpp.i
+.PHONY : rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/set_hardware_torque__type_support_c.i
+
+# target to preprocess a source file
+rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/set_hardware_torque__type_support_c.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_c.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/set_hardware_torque__type_support_c.cpp.i
+.PHONY : rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/set_hardware_torque__type_support_c.cpp.i
+
+rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/set_hardware_torque__type_support_c.s: rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/set_hardware_torque__type_support_c.cpp.s
+.PHONY : rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/set_hardware_torque__type_support_c.s
+
+# target to generate assembly for a file
+rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/set_hardware_torque__type_support_c.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_c.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/set_hardware_torque__type_support_c.cpp.s
+.PHONY : rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/set_hardware_torque__type_support_c.cpp.s
 
 rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/action/detail/dds_fastrtps/execute_grasp__type_support.o: rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/action/detail/dds_fastrtps/execute_grasp__type_support.cpp.o
 .PHONY : rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/action/detail/dds_fastrtps/execute_grasp__type_support.o
@@ -1306,6 +1906,102 @@ rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/msg/detail/dds_fastrtps/trac
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_cpp.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/msg/detail/dds_fastrtps/tracked_target2_d__type_support.cpp.s
 .PHONY : rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/msg/detail/dds_fastrtps/tracked_target2_d__type_support.cpp.s
 
+rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/move_joint_delta__type_support.o: rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/move_joint_delta__type_support.cpp.o
+.PHONY : rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/move_joint_delta__type_support.o
+
+# target to build an object file
+rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/move_joint_delta__type_support.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_cpp.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/move_joint_delta__type_support.cpp.o
+.PHONY : rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/move_joint_delta__type_support.cpp.o
+
+rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/move_joint_delta__type_support.i: rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/move_joint_delta__type_support.cpp.i
+.PHONY : rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/move_joint_delta__type_support.i
+
+# target to preprocess a source file
+rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/move_joint_delta__type_support.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_cpp.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/move_joint_delta__type_support.cpp.i
+.PHONY : rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/move_joint_delta__type_support.cpp.i
+
+rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/move_joint_delta__type_support.s: rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/move_joint_delta__type_support.cpp.s
+.PHONY : rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/move_joint_delta__type_support.s
+
+# target to generate assembly for a file
+rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/move_joint_delta__type_support.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_cpp.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/move_joint_delta__type_support.cpp.s
+.PHONY : rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/move_joint_delta__type_support.cpp.s
+
+rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/move_joint_target__type_support.o: rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/move_joint_target__type_support.cpp.o
+.PHONY : rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/move_joint_target__type_support.o
+
+# target to build an object file
+rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/move_joint_target__type_support.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_cpp.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/move_joint_target__type_support.cpp.o
+.PHONY : rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/move_joint_target__type_support.cpp.o
+
+rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/move_joint_target__type_support.i: rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/move_joint_target__type_support.cpp.i
+.PHONY : rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/move_joint_target__type_support.i
+
+# target to preprocess a source file
+rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/move_joint_target__type_support.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_cpp.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/move_joint_target__type_support.cpp.i
+.PHONY : rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/move_joint_target__type_support.cpp.i
+
+rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/move_joint_target__type_support.s: rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/move_joint_target__type_support.cpp.s
+.PHONY : rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/move_joint_target__type_support.s
+
+# target to generate assembly for a file
+rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/move_joint_target__type_support.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_cpp.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/move_joint_target__type_support.cpp.s
+.PHONY : rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/move_joint_target__type_support.cpp.s
+
+rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/move_named_pose__type_support.o: rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/move_named_pose__type_support.cpp.o
+.PHONY : rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/move_named_pose__type_support.o
+
+# target to build an object file
+rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/move_named_pose__type_support.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_cpp.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/move_named_pose__type_support.cpp.o
+.PHONY : rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/move_named_pose__type_support.cpp.o
+
+rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/move_named_pose__type_support.i: rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/move_named_pose__type_support.cpp.i
+.PHONY : rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/move_named_pose__type_support.i
+
+# target to preprocess a source file
+rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/move_named_pose__type_support.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_cpp.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/move_named_pose__type_support.cpp.i
+.PHONY : rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/move_named_pose__type_support.cpp.i
+
+rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/move_named_pose__type_support.s: rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/move_named_pose__type_support.cpp.s
+.PHONY : rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/move_named_pose__type_support.s
+
+# target to generate assembly for a file
+rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/move_named_pose__type_support.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_cpp.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/move_named_pose__type_support.cpp.s
+.PHONY : rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/move_named_pose__type_support.cpp.s
+
+rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/move_single_joint__type_support.o: rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/move_single_joint__type_support.cpp.o
+.PHONY : rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/move_single_joint__type_support.o
+
+# target to build an object file
+rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/move_single_joint__type_support.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_cpp.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/move_single_joint__type_support.cpp.o
+.PHONY : rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/move_single_joint__type_support.cpp.o
+
+rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/move_single_joint__type_support.i: rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/move_single_joint__type_support.cpp.i
+.PHONY : rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/move_single_joint__type_support.i
+
+# target to preprocess a source file
+rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/move_single_joint__type_support.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_cpp.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/move_single_joint__type_support.cpp.i
+.PHONY : rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/move_single_joint__type_support.cpp.i
+
+rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/move_single_joint__type_support.s: rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/move_single_joint__type_support.cpp.s
+.PHONY : rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/move_single_joint__type_support.s
+
+# target to generate assembly for a file
+rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/move_single_joint__type_support.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_cpp.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/move_single_joint__type_support.cpp.s
+.PHONY : rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/move_single_joint__type_support.cpp.s
+
 rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/segment_target__type_support.o: rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/segment_target__type_support.cpp.o
 .PHONY : rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/segment_target__type_support.o
 
@@ -1353,6 +2049,30 @@ rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/set_
 rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/set_avoidance__type_support.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_cpp.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/set_avoidance__type_support.cpp.s
 .PHONY : rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/set_avoidance__type_support.cpp.s
+
+rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/set_hardware_torque__type_support.o: rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/set_hardware_torque__type_support.cpp.o
+.PHONY : rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/set_hardware_torque__type_support.o
+
+# target to build an object file
+rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/set_hardware_torque__type_support.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_cpp.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/set_hardware_torque__type_support.cpp.o
+.PHONY : rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/set_hardware_torque__type_support.cpp.o
+
+rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/set_hardware_torque__type_support.i: rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/set_hardware_torque__type_support.cpp.i
+.PHONY : rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/set_hardware_torque__type_support.i
+
+# target to preprocess a source file
+rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/set_hardware_torque__type_support.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_cpp.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/set_hardware_torque__type_support.cpp.i
+.PHONY : rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/set_hardware_torque__type_support.cpp.i
+
+rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/set_hardware_torque__type_support.s: rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/set_hardware_torque__type_support.cpp.s
+.PHONY : rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/set_hardware_torque__type_support.s
+
+# target to generate assembly for a file
+rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/set_hardware_torque__type_support.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_cpp.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/set_hardware_torque__type_support.cpp.s
+.PHONY : rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/set_hardware_torque__type_support.cpp.s
 
 rosidl_typesupport_introspection_c/soarm100_interfaces/action/detail/execute_grasp__type_support.o: rosidl_typesupport_introspection_c/soarm100_interfaces/action/detail/execute_grasp__type_support.c.o
 .PHONY : rosidl_typesupport_introspection_c/soarm100_interfaces/action/detail/execute_grasp__type_support.o
@@ -1450,6 +2170,102 @@ rosidl_typesupport_introspection_c/soarm100_interfaces/msg/detail/tracked_target
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_c.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/soarm100_interfaces/msg/detail/tracked_target2_d__type_support.c.s
 .PHONY : rosidl_typesupport_introspection_c/soarm100_interfaces/msg/detail/tracked_target2_d__type_support.c.s
 
+rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/move_joint_delta__type_support.o: rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/move_joint_delta__type_support.c.o
+.PHONY : rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/move_joint_delta__type_support.o
+
+# target to build an object file
+rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/move_joint_delta__type_support.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_c.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/move_joint_delta__type_support.c.o
+.PHONY : rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/move_joint_delta__type_support.c.o
+
+rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/move_joint_delta__type_support.i: rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/move_joint_delta__type_support.c.i
+.PHONY : rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/move_joint_delta__type_support.i
+
+# target to preprocess a source file
+rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/move_joint_delta__type_support.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_c.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/move_joint_delta__type_support.c.i
+.PHONY : rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/move_joint_delta__type_support.c.i
+
+rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/move_joint_delta__type_support.s: rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/move_joint_delta__type_support.c.s
+.PHONY : rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/move_joint_delta__type_support.s
+
+# target to generate assembly for a file
+rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/move_joint_delta__type_support.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_c.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/move_joint_delta__type_support.c.s
+.PHONY : rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/move_joint_delta__type_support.c.s
+
+rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/move_joint_target__type_support.o: rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/move_joint_target__type_support.c.o
+.PHONY : rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/move_joint_target__type_support.o
+
+# target to build an object file
+rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/move_joint_target__type_support.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_c.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/move_joint_target__type_support.c.o
+.PHONY : rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/move_joint_target__type_support.c.o
+
+rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/move_joint_target__type_support.i: rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/move_joint_target__type_support.c.i
+.PHONY : rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/move_joint_target__type_support.i
+
+# target to preprocess a source file
+rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/move_joint_target__type_support.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_c.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/move_joint_target__type_support.c.i
+.PHONY : rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/move_joint_target__type_support.c.i
+
+rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/move_joint_target__type_support.s: rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/move_joint_target__type_support.c.s
+.PHONY : rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/move_joint_target__type_support.s
+
+# target to generate assembly for a file
+rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/move_joint_target__type_support.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_c.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/move_joint_target__type_support.c.s
+.PHONY : rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/move_joint_target__type_support.c.s
+
+rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/move_named_pose__type_support.o: rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/move_named_pose__type_support.c.o
+.PHONY : rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/move_named_pose__type_support.o
+
+# target to build an object file
+rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/move_named_pose__type_support.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_c.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/move_named_pose__type_support.c.o
+.PHONY : rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/move_named_pose__type_support.c.o
+
+rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/move_named_pose__type_support.i: rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/move_named_pose__type_support.c.i
+.PHONY : rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/move_named_pose__type_support.i
+
+# target to preprocess a source file
+rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/move_named_pose__type_support.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_c.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/move_named_pose__type_support.c.i
+.PHONY : rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/move_named_pose__type_support.c.i
+
+rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/move_named_pose__type_support.s: rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/move_named_pose__type_support.c.s
+.PHONY : rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/move_named_pose__type_support.s
+
+# target to generate assembly for a file
+rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/move_named_pose__type_support.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_c.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/move_named_pose__type_support.c.s
+.PHONY : rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/move_named_pose__type_support.c.s
+
+rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/move_single_joint__type_support.o: rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/move_single_joint__type_support.c.o
+.PHONY : rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/move_single_joint__type_support.o
+
+# target to build an object file
+rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/move_single_joint__type_support.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_c.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/move_single_joint__type_support.c.o
+.PHONY : rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/move_single_joint__type_support.c.o
+
+rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/move_single_joint__type_support.i: rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/move_single_joint__type_support.c.i
+.PHONY : rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/move_single_joint__type_support.i
+
+# target to preprocess a source file
+rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/move_single_joint__type_support.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_c.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/move_single_joint__type_support.c.i
+.PHONY : rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/move_single_joint__type_support.c.i
+
+rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/move_single_joint__type_support.s: rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/move_single_joint__type_support.c.s
+.PHONY : rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/move_single_joint__type_support.s
+
+# target to generate assembly for a file
+rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/move_single_joint__type_support.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_c.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/move_single_joint__type_support.c.s
+.PHONY : rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/move_single_joint__type_support.c.s
+
 rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/segment_target__type_support.o: rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/segment_target__type_support.c.o
 .PHONY : rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/segment_target__type_support.o
 
@@ -1497,6 +2313,30 @@ rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/set_avoidance_
 rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/set_avoidance__type_support.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_c.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/set_avoidance__type_support.c.s
 .PHONY : rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/set_avoidance__type_support.c.s
+
+rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/set_hardware_torque__type_support.o: rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/set_hardware_torque__type_support.c.o
+.PHONY : rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/set_hardware_torque__type_support.o
+
+# target to build an object file
+rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/set_hardware_torque__type_support.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_c.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/set_hardware_torque__type_support.c.o
+.PHONY : rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/set_hardware_torque__type_support.c.o
+
+rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/set_hardware_torque__type_support.i: rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/set_hardware_torque__type_support.c.i
+.PHONY : rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/set_hardware_torque__type_support.i
+
+# target to preprocess a source file
+rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/set_hardware_torque__type_support.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_c.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/set_hardware_torque__type_support.c.i
+.PHONY : rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/set_hardware_torque__type_support.c.i
+
+rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/set_hardware_torque__type_support.s: rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/set_hardware_torque__type_support.c.s
+.PHONY : rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/set_hardware_torque__type_support.s
+
+# target to generate assembly for a file
+rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/set_hardware_torque__type_support.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_c.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/set_hardware_torque__type_support.c.s
+.PHONY : rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/set_hardware_torque__type_support.c.s
 
 rosidl_typesupport_introspection_cpp/soarm100_interfaces/action/detail/execute_grasp__type_support.o: rosidl_typesupport_introspection_cpp/soarm100_interfaces/action/detail/execute_grasp__type_support.cpp.o
 .PHONY : rosidl_typesupport_introspection_cpp/soarm100_interfaces/action/detail/execute_grasp__type_support.o
@@ -1594,6 +2434,102 @@ rosidl_typesupport_introspection_cpp/soarm100_interfaces/msg/detail/tracked_targ
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_cpp.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/soarm100_interfaces/msg/detail/tracked_target2_d__type_support.cpp.s
 .PHONY : rosidl_typesupport_introspection_cpp/soarm100_interfaces/msg/detail/tracked_target2_d__type_support.cpp.s
 
+rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/move_joint_delta__type_support.o: rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/move_joint_delta__type_support.cpp.o
+.PHONY : rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/move_joint_delta__type_support.o
+
+# target to build an object file
+rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/move_joint_delta__type_support.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_cpp.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/move_joint_delta__type_support.cpp.o
+.PHONY : rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/move_joint_delta__type_support.cpp.o
+
+rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/move_joint_delta__type_support.i: rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/move_joint_delta__type_support.cpp.i
+.PHONY : rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/move_joint_delta__type_support.i
+
+# target to preprocess a source file
+rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/move_joint_delta__type_support.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_cpp.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/move_joint_delta__type_support.cpp.i
+.PHONY : rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/move_joint_delta__type_support.cpp.i
+
+rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/move_joint_delta__type_support.s: rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/move_joint_delta__type_support.cpp.s
+.PHONY : rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/move_joint_delta__type_support.s
+
+# target to generate assembly for a file
+rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/move_joint_delta__type_support.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_cpp.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/move_joint_delta__type_support.cpp.s
+.PHONY : rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/move_joint_delta__type_support.cpp.s
+
+rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/move_joint_target__type_support.o: rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/move_joint_target__type_support.cpp.o
+.PHONY : rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/move_joint_target__type_support.o
+
+# target to build an object file
+rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/move_joint_target__type_support.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_cpp.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/move_joint_target__type_support.cpp.o
+.PHONY : rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/move_joint_target__type_support.cpp.o
+
+rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/move_joint_target__type_support.i: rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/move_joint_target__type_support.cpp.i
+.PHONY : rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/move_joint_target__type_support.i
+
+# target to preprocess a source file
+rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/move_joint_target__type_support.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_cpp.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/move_joint_target__type_support.cpp.i
+.PHONY : rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/move_joint_target__type_support.cpp.i
+
+rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/move_joint_target__type_support.s: rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/move_joint_target__type_support.cpp.s
+.PHONY : rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/move_joint_target__type_support.s
+
+# target to generate assembly for a file
+rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/move_joint_target__type_support.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_cpp.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/move_joint_target__type_support.cpp.s
+.PHONY : rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/move_joint_target__type_support.cpp.s
+
+rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/move_named_pose__type_support.o: rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/move_named_pose__type_support.cpp.o
+.PHONY : rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/move_named_pose__type_support.o
+
+# target to build an object file
+rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/move_named_pose__type_support.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_cpp.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/move_named_pose__type_support.cpp.o
+.PHONY : rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/move_named_pose__type_support.cpp.o
+
+rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/move_named_pose__type_support.i: rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/move_named_pose__type_support.cpp.i
+.PHONY : rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/move_named_pose__type_support.i
+
+# target to preprocess a source file
+rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/move_named_pose__type_support.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_cpp.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/move_named_pose__type_support.cpp.i
+.PHONY : rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/move_named_pose__type_support.cpp.i
+
+rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/move_named_pose__type_support.s: rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/move_named_pose__type_support.cpp.s
+.PHONY : rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/move_named_pose__type_support.s
+
+# target to generate assembly for a file
+rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/move_named_pose__type_support.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_cpp.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/move_named_pose__type_support.cpp.s
+.PHONY : rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/move_named_pose__type_support.cpp.s
+
+rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/move_single_joint__type_support.o: rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/move_single_joint__type_support.cpp.o
+.PHONY : rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/move_single_joint__type_support.o
+
+# target to build an object file
+rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/move_single_joint__type_support.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_cpp.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/move_single_joint__type_support.cpp.o
+.PHONY : rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/move_single_joint__type_support.cpp.o
+
+rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/move_single_joint__type_support.i: rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/move_single_joint__type_support.cpp.i
+.PHONY : rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/move_single_joint__type_support.i
+
+# target to preprocess a source file
+rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/move_single_joint__type_support.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_cpp.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/move_single_joint__type_support.cpp.i
+.PHONY : rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/move_single_joint__type_support.cpp.i
+
+rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/move_single_joint__type_support.s: rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/move_single_joint__type_support.cpp.s
+.PHONY : rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/move_single_joint__type_support.s
+
+# target to generate assembly for a file
+rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/move_single_joint__type_support.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_cpp.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/move_single_joint__type_support.cpp.s
+.PHONY : rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/move_single_joint__type_support.cpp.s
+
 rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/segment_target__type_support.o: rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/segment_target__type_support.cpp.o
 .PHONY : rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/segment_target__type_support.o
 
@@ -1642,6 +2578,30 @@ rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/set_avoidanc
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_cpp.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/set_avoidance__type_support.cpp.s
 .PHONY : rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/set_avoidance__type_support.cpp.s
 
+rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/set_hardware_torque__type_support.o: rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/set_hardware_torque__type_support.cpp.o
+.PHONY : rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/set_hardware_torque__type_support.o
+
+# target to build an object file
+rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/set_hardware_torque__type_support.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_cpp.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/set_hardware_torque__type_support.cpp.o
+.PHONY : rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/set_hardware_torque__type_support.cpp.o
+
+rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/set_hardware_torque__type_support.i: rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/set_hardware_torque__type_support.cpp.i
+.PHONY : rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/set_hardware_torque__type_support.i
+
+# target to preprocess a source file
+rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/set_hardware_torque__type_support.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_cpp.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/set_hardware_torque__type_support.cpp.i
+.PHONY : rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/set_hardware_torque__type_support.cpp.i
+
+rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/set_hardware_torque__type_support.s: rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/set_hardware_torque__type_support.cpp.s
+.PHONY : rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/set_hardware_torque__type_support.s
+
+# target to generate assembly for a file
+rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/set_hardware_torque__type_support.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_cpp.dir/build.make CMakeFiles/soarm100_interfaces__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/set_hardware_torque__type_support.cpp.s
+.PHONY : rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/set_hardware_torque__type_support.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -1686,12 +2646,27 @@ help:
 	@echo "... rosidl_generator_c/soarm100_interfaces/msg/detail/tracked_target2_d__functions.o"
 	@echo "... rosidl_generator_c/soarm100_interfaces/msg/detail/tracked_target2_d__functions.i"
 	@echo "... rosidl_generator_c/soarm100_interfaces/msg/detail/tracked_target2_d__functions.s"
+	@echo "... rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_delta__functions.o"
+	@echo "... rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_delta__functions.i"
+	@echo "... rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_delta__functions.s"
+	@echo "... rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_target__functions.o"
+	@echo "... rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_target__functions.i"
+	@echo "... rosidl_generator_c/soarm100_interfaces/srv/detail/move_joint_target__functions.s"
+	@echo "... rosidl_generator_c/soarm100_interfaces/srv/detail/move_named_pose__functions.o"
+	@echo "... rosidl_generator_c/soarm100_interfaces/srv/detail/move_named_pose__functions.i"
+	@echo "... rosidl_generator_c/soarm100_interfaces/srv/detail/move_named_pose__functions.s"
+	@echo "... rosidl_generator_c/soarm100_interfaces/srv/detail/move_single_joint__functions.o"
+	@echo "... rosidl_generator_c/soarm100_interfaces/srv/detail/move_single_joint__functions.i"
+	@echo "... rosidl_generator_c/soarm100_interfaces/srv/detail/move_single_joint__functions.s"
 	@echo "... rosidl_generator_c/soarm100_interfaces/srv/detail/segment_target__functions.o"
 	@echo "... rosidl_generator_c/soarm100_interfaces/srv/detail/segment_target__functions.i"
 	@echo "... rosidl_generator_c/soarm100_interfaces/srv/detail/segment_target__functions.s"
 	@echo "... rosidl_generator_c/soarm100_interfaces/srv/detail/set_avoidance__functions.o"
 	@echo "... rosidl_generator_c/soarm100_interfaces/srv/detail/set_avoidance__functions.i"
 	@echo "... rosidl_generator_c/soarm100_interfaces/srv/detail/set_avoidance__functions.s"
+	@echo "... rosidl_generator_c/soarm100_interfaces/srv/detail/set_hardware_torque__functions.o"
+	@echo "... rosidl_generator_c/soarm100_interfaces/srv/detail/set_hardware_torque__functions.i"
+	@echo "... rosidl_generator_c/soarm100_interfaces/srv/detail/set_hardware_torque__functions.s"
 	@echo "... rosidl_generator_py/soarm100_interfaces/_soarm100_interfaces_s.ep.rosidl_typesupport_c.o"
 	@echo "... rosidl_generator_py/soarm100_interfaces/_soarm100_interfaces_s.ep.rosidl_typesupport_c.i"
 	@echo "... rosidl_generator_py/soarm100_interfaces/_soarm100_interfaces_s.ep.rosidl_typesupport_c.s"
@@ -1713,12 +2688,27 @@ help:
 	@echo "... rosidl_generator_py/soarm100_interfaces/msg/_tracked_target2_d_s.o"
 	@echo "... rosidl_generator_py/soarm100_interfaces/msg/_tracked_target2_d_s.i"
 	@echo "... rosidl_generator_py/soarm100_interfaces/msg/_tracked_target2_d_s.s"
+	@echo "... rosidl_generator_py/soarm100_interfaces/srv/_move_joint_delta_s.o"
+	@echo "... rosidl_generator_py/soarm100_interfaces/srv/_move_joint_delta_s.i"
+	@echo "... rosidl_generator_py/soarm100_interfaces/srv/_move_joint_delta_s.s"
+	@echo "... rosidl_generator_py/soarm100_interfaces/srv/_move_joint_target_s.o"
+	@echo "... rosidl_generator_py/soarm100_interfaces/srv/_move_joint_target_s.i"
+	@echo "... rosidl_generator_py/soarm100_interfaces/srv/_move_joint_target_s.s"
+	@echo "... rosidl_generator_py/soarm100_interfaces/srv/_move_named_pose_s.o"
+	@echo "... rosidl_generator_py/soarm100_interfaces/srv/_move_named_pose_s.i"
+	@echo "... rosidl_generator_py/soarm100_interfaces/srv/_move_named_pose_s.s"
+	@echo "... rosidl_generator_py/soarm100_interfaces/srv/_move_single_joint_s.o"
+	@echo "... rosidl_generator_py/soarm100_interfaces/srv/_move_single_joint_s.i"
+	@echo "... rosidl_generator_py/soarm100_interfaces/srv/_move_single_joint_s.s"
 	@echo "... rosidl_generator_py/soarm100_interfaces/srv/_segment_target_s.o"
 	@echo "... rosidl_generator_py/soarm100_interfaces/srv/_segment_target_s.i"
 	@echo "... rosidl_generator_py/soarm100_interfaces/srv/_segment_target_s.s"
 	@echo "... rosidl_generator_py/soarm100_interfaces/srv/_set_avoidance_s.o"
 	@echo "... rosidl_generator_py/soarm100_interfaces/srv/_set_avoidance_s.i"
 	@echo "... rosidl_generator_py/soarm100_interfaces/srv/_set_avoidance_s.s"
+	@echo "... rosidl_generator_py/soarm100_interfaces/srv/_set_hardware_torque_s.o"
+	@echo "... rosidl_generator_py/soarm100_interfaces/srv/_set_hardware_torque_s.i"
+	@echo "... rosidl_generator_py/soarm100_interfaces/srv/_set_hardware_torque_s.s"
 	@echo "... rosidl_typesupport_c/soarm100_interfaces/action/execute_grasp__type_support.o"
 	@echo "... rosidl_typesupport_c/soarm100_interfaces/action/execute_grasp__type_support.i"
 	@echo "... rosidl_typesupport_c/soarm100_interfaces/action/execute_grasp__type_support.s"
@@ -1731,12 +2721,27 @@ help:
 	@echo "... rosidl_typesupport_c/soarm100_interfaces/msg/tracked_target2_d__type_support.o"
 	@echo "... rosidl_typesupport_c/soarm100_interfaces/msg/tracked_target2_d__type_support.i"
 	@echo "... rosidl_typesupport_c/soarm100_interfaces/msg/tracked_target2_d__type_support.s"
+	@echo "... rosidl_typesupport_c/soarm100_interfaces/srv/move_joint_delta__type_support.o"
+	@echo "... rosidl_typesupport_c/soarm100_interfaces/srv/move_joint_delta__type_support.i"
+	@echo "... rosidl_typesupport_c/soarm100_interfaces/srv/move_joint_delta__type_support.s"
+	@echo "... rosidl_typesupport_c/soarm100_interfaces/srv/move_joint_target__type_support.o"
+	@echo "... rosidl_typesupport_c/soarm100_interfaces/srv/move_joint_target__type_support.i"
+	@echo "... rosidl_typesupport_c/soarm100_interfaces/srv/move_joint_target__type_support.s"
+	@echo "... rosidl_typesupport_c/soarm100_interfaces/srv/move_named_pose__type_support.o"
+	@echo "... rosidl_typesupport_c/soarm100_interfaces/srv/move_named_pose__type_support.i"
+	@echo "... rosidl_typesupport_c/soarm100_interfaces/srv/move_named_pose__type_support.s"
+	@echo "... rosidl_typesupport_c/soarm100_interfaces/srv/move_single_joint__type_support.o"
+	@echo "... rosidl_typesupport_c/soarm100_interfaces/srv/move_single_joint__type_support.i"
+	@echo "... rosidl_typesupport_c/soarm100_interfaces/srv/move_single_joint__type_support.s"
 	@echo "... rosidl_typesupport_c/soarm100_interfaces/srv/segment_target__type_support.o"
 	@echo "... rosidl_typesupport_c/soarm100_interfaces/srv/segment_target__type_support.i"
 	@echo "... rosidl_typesupport_c/soarm100_interfaces/srv/segment_target__type_support.s"
 	@echo "... rosidl_typesupport_c/soarm100_interfaces/srv/set_avoidance__type_support.o"
 	@echo "... rosidl_typesupport_c/soarm100_interfaces/srv/set_avoidance__type_support.i"
 	@echo "... rosidl_typesupport_c/soarm100_interfaces/srv/set_avoidance__type_support.s"
+	@echo "... rosidl_typesupport_c/soarm100_interfaces/srv/set_hardware_torque__type_support.o"
+	@echo "... rosidl_typesupport_c/soarm100_interfaces/srv/set_hardware_torque__type_support.i"
+	@echo "... rosidl_typesupport_c/soarm100_interfaces/srv/set_hardware_torque__type_support.s"
 	@echo "... rosidl_typesupport_cpp/soarm100_interfaces/action/execute_grasp__type_support.o"
 	@echo "... rosidl_typesupport_cpp/soarm100_interfaces/action/execute_grasp__type_support.i"
 	@echo "... rosidl_typesupport_cpp/soarm100_interfaces/action/execute_grasp__type_support.s"
@@ -1749,12 +2754,27 @@ help:
 	@echo "... rosidl_typesupport_cpp/soarm100_interfaces/msg/tracked_target2_d__type_support.o"
 	@echo "... rosidl_typesupport_cpp/soarm100_interfaces/msg/tracked_target2_d__type_support.i"
 	@echo "... rosidl_typesupport_cpp/soarm100_interfaces/msg/tracked_target2_d__type_support.s"
+	@echo "... rosidl_typesupport_cpp/soarm100_interfaces/srv/move_joint_delta__type_support.o"
+	@echo "... rosidl_typesupport_cpp/soarm100_interfaces/srv/move_joint_delta__type_support.i"
+	@echo "... rosidl_typesupport_cpp/soarm100_interfaces/srv/move_joint_delta__type_support.s"
+	@echo "... rosidl_typesupport_cpp/soarm100_interfaces/srv/move_joint_target__type_support.o"
+	@echo "... rosidl_typesupport_cpp/soarm100_interfaces/srv/move_joint_target__type_support.i"
+	@echo "... rosidl_typesupport_cpp/soarm100_interfaces/srv/move_joint_target__type_support.s"
+	@echo "... rosidl_typesupport_cpp/soarm100_interfaces/srv/move_named_pose__type_support.o"
+	@echo "... rosidl_typesupport_cpp/soarm100_interfaces/srv/move_named_pose__type_support.i"
+	@echo "... rosidl_typesupport_cpp/soarm100_interfaces/srv/move_named_pose__type_support.s"
+	@echo "... rosidl_typesupport_cpp/soarm100_interfaces/srv/move_single_joint__type_support.o"
+	@echo "... rosidl_typesupport_cpp/soarm100_interfaces/srv/move_single_joint__type_support.i"
+	@echo "... rosidl_typesupport_cpp/soarm100_interfaces/srv/move_single_joint__type_support.s"
 	@echo "... rosidl_typesupport_cpp/soarm100_interfaces/srv/segment_target__type_support.o"
 	@echo "... rosidl_typesupport_cpp/soarm100_interfaces/srv/segment_target__type_support.i"
 	@echo "... rosidl_typesupport_cpp/soarm100_interfaces/srv/segment_target__type_support.s"
 	@echo "... rosidl_typesupport_cpp/soarm100_interfaces/srv/set_avoidance__type_support.o"
 	@echo "... rosidl_typesupport_cpp/soarm100_interfaces/srv/set_avoidance__type_support.i"
 	@echo "... rosidl_typesupport_cpp/soarm100_interfaces/srv/set_avoidance__type_support.s"
+	@echo "... rosidl_typesupport_cpp/soarm100_interfaces/srv/set_hardware_torque__type_support.o"
+	@echo "... rosidl_typesupport_cpp/soarm100_interfaces/srv/set_hardware_torque__type_support.i"
+	@echo "... rosidl_typesupport_cpp/soarm100_interfaces/srv/set_hardware_torque__type_support.s"
 	@echo "... rosidl_typesupport_fastrtps_c/soarm100_interfaces/action/detail/execute_grasp__type_support_c.o"
 	@echo "... rosidl_typesupport_fastrtps_c/soarm100_interfaces/action/detail/execute_grasp__type_support_c.i"
 	@echo "... rosidl_typesupport_fastrtps_c/soarm100_interfaces/action/detail/execute_grasp__type_support_c.s"
@@ -1767,12 +2787,27 @@ help:
 	@echo "... rosidl_typesupport_fastrtps_c/soarm100_interfaces/msg/detail/tracked_target2_d__type_support_c.o"
 	@echo "... rosidl_typesupport_fastrtps_c/soarm100_interfaces/msg/detail/tracked_target2_d__type_support_c.i"
 	@echo "... rosidl_typesupport_fastrtps_c/soarm100_interfaces/msg/detail/tracked_target2_d__type_support_c.s"
+	@echo "... rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/move_joint_delta__type_support_c.o"
+	@echo "... rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/move_joint_delta__type_support_c.i"
+	@echo "... rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/move_joint_delta__type_support_c.s"
+	@echo "... rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/move_joint_target__type_support_c.o"
+	@echo "... rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/move_joint_target__type_support_c.i"
+	@echo "... rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/move_joint_target__type_support_c.s"
+	@echo "... rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/move_named_pose__type_support_c.o"
+	@echo "... rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/move_named_pose__type_support_c.i"
+	@echo "... rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/move_named_pose__type_support_c.s"
+	@echo "... rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/move_single_joint__type_support_c.o"
+	@echo "... rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/move_single_joint__type_support_c.i"
+	@echo "... rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/move_single_joint__type_support_c.s"
 	@echo "... rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/segment_target__type_support_c.o"
 	@echo "... rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/segment_target__type_support_c.i"
 	@echo "... rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/segment_target__type_support_c.s"
 	@echo "... rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/set_avoidance__type_support_c.o"
 	@echo "... rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/set_avoidance__type_support_c.i"
 	@echo "... rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/set_avoidance__type_support_c.s"
+	@echo "... rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/set_hardware_torque__type_support_c.o"
+	@echo "... rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/set_hardware_torque__type_support_c.i"
+	@echo "... rosidl_typesupport_fastrtps_c/soarm100_interfaces/srv/detail/set_hardware_torque__type_support_c.s"
 	@echo "... rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/action/detail/dds_fastrtps/execute_grasp__type_support.o"
 	@echo "... rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/action/detail/dds_fastrtps/execute_grasp__type_support.i"
 	@echo "... rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/action/detail/dds_fastrtps/execute_grasp__type_support.s"
@@ -1785,12 +2820,27 @@ help:
 	@echo "... rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/msg/detail/dds_fastrtps/tracked_target2_d__type_support.o"
 	@echo "... rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/msg/detail/dds_fastrtps/tracked_target2_d__type_support.i"
 	@echo "... rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/msg/detail/dds_fastrtps/tracked_target2_d__type_support.s"
+	@echo "... rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/move_joint_delta__type_support.o"
+	@echo "... rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/move_joint_delta__type_support.i"
+	@echo "... rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/move_joint_delta__type_support.s"
+	@echo "... rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/move_joint_target__type_support.o"
+	@echo "... rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/move_joint_target__type_support.i"
+	@echo "... rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/move_joint_target__type_support.s"
+	@echo "... rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/move_named_pose__type_support.o"
+	@echo "... rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/move_named_pose__type_support.i"
+	@echo "... rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/move_named_pose__type_support.s"
+	@echo "... rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/move_single_joint__type_support.o"
+	@echo "... rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/move_single_joint__type_support.i"
+	@echo "... rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/move_single_joint__type_support.s"
 	@echo "... rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/segment_target__type_support.o"
 	@echo "... rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/segment_target__type_support.i"
 	@echo "... rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/segment_target__type_support.s"
 	@echo "... rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/set_avoidance__type_support.o"
 	@echo "... rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/set_avoidance__type_support.i"
 	@echo "... rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/set_avoidance__type_support.s"
+	@echo "... rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/set_hardware_torque__type_support.o"
+	@echo "... rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/set_hardware_torque__type_support.i"
+	@echo "... rosidl_typesupport_fastrtps_cpp/soarm100_interfaces/srv/detail/dds_fastrtps/set_hardware_torque__type_support.s"
 	@echo "... rosidl_typesupport_introspection_c/soarm100_interfaces/action/detail/execute_grasp__type_support.o"
 	@echo "... rosidl_typesupport_introspection_c/soarm100_interfaces/action/detail/execute_grasp__type_support.i"
 	@echo "... rosidl_typesupport_introspection_c/soarm100_interfaces/action/detail/execute_grasp__type_support.s"
@@ -1803,12 +2853,27 @@ help:
 	@echo "... rosidl_typesupport_introspection_c/soarm100_interfaces/msg/detail/tracked_target2_d__type_support.o"
 	@echo "... rosidl_typesupport_introspection_c/soarm100_interfaces/msg/detail/tracked_target2_d__type_support.i"
 	@echo "... rosidl_typesupport_introspection_c/soarm100_interfaces/msg/detail/tracked_target2_d__type_support.s"
+	@echo "... rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/move_joint_delta__type_support.o"
+	@echo "... rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/move_joint_delta__type_support.i"
+	@echo "... rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/move_joint_delta__type_support.s"
+	@echo "... rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/move_joint_target__type_support.o"
+	@echo "... rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/move_joint_target__type_support.i"
+	@echo "... rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/move_joint_target__type_support.s"
+	@echo "... rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/move_named_pose__type_support.o"
+	@echo "... rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/move_named_pose__type_support.i"
+	@echo "... rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/move_named_pose__type_support.s"
+	@echo "... rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/move_single_joint__type_support.o"
+	@echo "... rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/move_single_joint__type_support.i"
+	@echo "... rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/move_single_joint__type_support.s"
 	@echo "... rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/segment_target__type_support.o"
 	@echo "... rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/segment_target__type_support.i"
 	@echo "... rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/segment_target__type_support.s"
 	@echo "... rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/set_avoidance__type_support.o"
 	@echo "... rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/set_avoidance__type_support.i"
 	@echo "... rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/set_avoidance__type_support.s"
+	@echo "... rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/set_hardware_torque__type_support.o"
+	@echo "... rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/set_hardware_torque__type_support.i"
+	@echo "... rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/set_hardware_torque__type_support.s"
 	@echo "... rosidl_typesupport_introspection_cpp/soarm100_interfaces/action/detail/execute_grasp__type_support.o"
 	@echo "... rosidl_typesupport_introspection_cpp/soarm100_interfaces/action/detail/execute_grasp__type_support.i"
 	@echo "... rosidl_typesupport_introspection_cpp/soarm100_interfaces/action/detail/execute_grasp__type_support.s"
@@ -1821,12 +2886,27 @@ help:
 	@echo "... rosidl_typesupport_introspection_cpp/soarm100_interfaces/msg/detail/tracked_target2_d__type_support.o"
 	@echo "... rosidl_typesupport_introspection_cpp/soarm100_interfaces/msg/detail/tracked_target2_d__type_support.i"
 	@echo "... rosidl_typesupport_introspection_cpp/soarm100_interfaces/msg/detail/tracked_target2_d__type_support.s"
+	@echo "... rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/move_joint_delta__type_support.o"
+	@echo "... rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/move_joint_delta__type_support.i"
+	@echo "... rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/move_joint_delta__type_support.s"
+	@echo "... rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/move_joint_target__type_support.o"
+	@echo "... rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/move_joint_target__type_support.i"
+	@echo "... rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/move_joint_target__type_support.s"
+	@echo "... rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/move_named_pose__type_support.o"
+	@echo "... rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/move_named_pose__type_support.i"
+	@echo "... rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/move_named_pose__type_support.s"
+	@echo "... rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/move_single_joint__type_support.o"
+	@echo "... rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/move_single_joint__type_support.i"
+	@echo "... rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/move_single_joint__type_support.s"
 	@echo "... rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/segment_target__type_support.o"
 	@echo "... rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/segment_target__type_support.i"
 	@echo "... rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/segment_target__type_support.s"
 	@echo "... rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/set_avoidance__type_support.o"
 	@echo "... rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/set_avoidance__type_support.i"
 	@echo "... rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/set_avoidance__type_support.s"
+	@echo "... rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/set_hardware_torque__type_support.o"
+	@echo "... rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/set_hardware_torque__type_support.i"
+	@echo "... rosidl_typesupport_introspection_cpp/soarm100_interfaces/srv/detail/set_hardware_torque__type_support.s"
 .PHONY : help
 
 

@@ -31,10 +31,10 @@ class MujocoRunnerConfig:
     target_pos: str = "0.42,0.08,0.021"
     object_settle_s: float = 0.75
     target_motion: str = "none"
-    target_motion_amplitude: float = 0.030
+    target_motion_amplitude: float = 0.050
     target_motion_travel_time: float = 2.0
     target_motion_dwell_time: float = 1.0
-    target_motion_delay: float = 2.0
+    target_motion_delay: float = 0.5
     enable_tracking: bool = True
     enable_obstacle: bool = False
     obstacle_mode: str = "static"
@@ -52,8 +52,10 @@ class MujocoRunnerConfig:
     sdf_inflate: float = 0.015
     replan_max_attempts: int = 2
     final_approach_timeout: float = 10.0
-    final_grasp_dist: float = 0.015
+    final_grasp_dist: float = 0.035
+    final_timeout_close_dist: float = 0.040
     final_stable_time: float = 0.20
+    track_max_delta: float = 0.080
     close_tracking_confidence: float = 0.45
     close_target_speed: float = 0.005
     return_home_on_failure: bool = True
@@ -188,7 +190,11 @@ class MujocoInProcessRunner:
                 float(self.cfg.final_approach_timeout), float(self.cfg.ctrl_dt)
             ),
             final_grasp_dist=max(float(self.cfg.final_grasp_dist), 0.0),
+            final_timeout_close_dist=max(
+                float(self.cfg.final_timeout_close_dist), 0.0
+            ),
             final_stable_time=max(float(self.cfg.final_stable_time), 0.0),
+            track_max_delta=max(float(self.cfg.track_max_delta), 0.0),
             close_tracking_confidence=max(
                 float(self.cfg.close_tracking_confidence), 0.0
             ),
@@ -196,10 +202,9 @@ class MujocoInProcessRunner:
         )
         sm = GraspStateMachine(thresholds, ctrl_dt=float(self.cfg.ctrl_dt))
         sm.reset(plan)
-        tracking_reference_world = np.asarray(
-            cmd.tracking_reference.pos if cmd.tracking_reference is not None else cmd.grasp.pos,
-            dtype=np.float64,
-        ).reshape(3)
+        # MuJoCo provides the exact object center only to bootstrap the wrist
+        # template. Subsequent motion is estimated from wrist RGB tracking.
+        tracking_reference_world = self._target_pos(mujoco, model, data)
 
         target_initial_z = self._target_z(mujoco, model, data)
         frozen_q = None
@@ -213,8 +218,9 @@ class MujocoInProcessRunner:
         current_obstacle_pos = obstacle_base_pos.copy()
         obstacle_step_velocity = np.zeros(3, dtype=np.float64)
         target_motion_anchor = self._target_pos(mujoco, model, data)
-        target_motion_epoch = float(data.time)
+        target_motion_epoch = 0.0
         target_motion_frozen = False
+        target_motion_armed = not bool(self.cfg.enable_tracking)
         target_motion_phase = "disabled"
         target_commanded_pos = target_motion_anchor.copy()
         target_velocity = np.zeros(3, dtype=np.float64)
@@ -243,6 +249,7 @@ class MujocoInProcessRunner:
             for step in range(total_step_budget):
                 native_stage(step, "loop_begin")
                 step_started = time.perf_counter()
+                control_time = float(step) * float(self.cfg.ctrl_dt)
                 if viewer is not None and not viewer.is_running():
                     return MujocoRunResult(
                         success=False,
@@ -259,29 +266,43 @@ class MujocoInProcessRunner:
                     str(self.cfg.target_motion).strip().lower() == "line"
                 )
                 if target_motion_enabled and target_motion_allowed:
-                    if target_motion_frozen:
-                        target_motion_anchor = self._target_pos(
-                            mujoco, model, data
+                    if not target_motion_armed:
+                        target_motion_phase = "waiting_for_tracking"
+                        target_commanded_pos = target_motion_anchor.copy()
+                        target_velocity = np.zeros(3, dtype=np.float64)
+                        self._set_target_body(
+                            mujoco,
+                            model,
+                            data,
+                            str(self.cfg.target_body),
+                            target_commanded_pos,
+                            reset_velocity=False,
                         )
-                        target_motion_epoch = float(data.time)
-                        self._target_motion_anchor = target_motion_anchor.copy()
-                    target_motion_frozen = False
-                    (
-                        target_commanded_pos,
-                        target_velocity,
-                        target_motion_phase,
-                    ) = self._target_motion_state(
-                        float(data.time) - target_motion_epoch,
-                        target_motion_anchor,
-                    )
-                    self._set_target_body(
-                        mujoco,
-                        model,
-                        data,
-                        str(self.cfg.target_body),
-                        target_commanded_pos,
-                        reset_velocity=False,
-                    )
+                        target_motion_frozen = False
+                    else:
+                        if target_motion_frozen:
+                            target_motion_anchor = self._target_pos(
+                                mujoco, model, data
+                            )
+                            target_motion_epoch = control_time
+                            self._target_motion_anchor = target_motion_anchor.copy()
+                        target_motion_frozen = False
+                        (
+                            target_commanded_pos,
+                            target_velocity,
+                            target_motion_phase,
+                        ) = self._target_motion_state(
+                            control_time - target_motion_epoch,
+                            target_motion_anchor,
+                        )
+                        self._set_target_body(
+                            mujoco,
+                            model,
+                            data,
+                            str(self.cfg.target_body),
+                            target_commanded_pos,
+                            reset_velocity=False,
+                        )
                 else:
                     if target_motion_enabled:
                         target_motion_phase = f"frozen_{sm.phase.value.lower()}"
@@ -376,6 +397,23 @@ class MujocoInProcessRunner:
                             constants,
                             tracking_reference_world,
                         )
+                    else:
+                        tracking_obs = TrackingObservation(
+                            valid=False,
+                            source="ros2_wrist_rgb",
+                            reason="tracking_sample_unavailable",
+                        )
+                if (
+                    target_motion_enabled
+                    and not target_motion_armed
+                    and tracking_obs is not None
+                    and tracking_obs.valid
+                ):
+                    target_motion_armed = True
+                    target_motion_anchor = self._target_pos(mujoco, model, data)
+                    target_motion_epoch = control_time
+                    self._target_motion_anchor = target_motion_anchor.copy()
+                    target_motion_phase = "tracking_acquired"
                 obs = GraspObservation(
                     tcp_pos=np.asarray(tcp_pos, dtype=np.float64),
                     dist_to_control=float(np.linalg.norm(np.asarray(tcp_pos) - current_target)),
@@ -437,12 +475,10 @@ class MujocoInProcessRunner:
                         gripper_width=float(new_cmd.gripper_width),
                     )
                     sm.accept_replan(plan)
-                    tracking_reference_world = np.asarray(
-                        new_cmd.tracking_reference.pos
-                        if new_cmd.tracking_reference is not None
-                        else new_cmd.grasp.pos,
-                        dtype=np.float64,
-                    ).reshape(3)
+                    tracking_reference_world = self._target_pos(
+                        mujoco, model, data
+                    )
+                    target_motion_armed = False
                     frozen_q = None
                     close_start_q = None
                     self._append_event_log(

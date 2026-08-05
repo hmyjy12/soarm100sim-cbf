@@ -1,0 +1,840 @@
+[0.006s] Invoking command in '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/build_287/orbbec_camera_msgs': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/src/OrbbecSDK_ROS2/orbbec_camera_msgs -DCMAKE_BUILD_TYPE=Release -DINSTALL_UDEV_RULES=OFF -DORBBEC_SDK_ROOT=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_sdk_2_8_7_root/opt/OrbbecSDK_v2.8.7 -DCMAKE_INSTALL_PREFIX=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs
+[0.066s] -- The C compiler identification is GNU 11.4.0
+[0.110s] -- The CXX compiler identification is GNU 11.4.0
+[0.115s] -- Detecting C compiler ABI info
+[0.191s] -- Detecting C compiler ABI info - done
+[0.200s] -- Check for working C compiler: /usr/bin/cc - skipped
+[0.200s] -- Detecting C compile features
+[0.201s] -- Detecting C compile features - done
+[0.204s] -- Detecting CXX compiler ABI info
+[0.289s] -- Detecting CXX compiler ABI info - done
+[0.294s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[0.294s] -- Detecting CXX compile features
+[0.295s] -- Detecting CXX compile features - done
+[0.296s] -- Found ament_cmake: 1.3.14 (/opt/ros/humble/share/ament_cmake/cmake)
+[0.432s] -- Found Python3: /usr/bin/python3 (found version "3.10.12") found components: Interpreter 
+[0.495s] -- Found rosidl_default_generators: 1.2.1 (/opt/ros/humble/share/rosidl_default_generators/cmake)
+[0.496s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[0.500s] -- Found rosidl_adapter: 3.1.8 (/opt/ros/humble/share/rosidl_adapter/cmake)
+[0.526s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[0.549s] -- Found sensor_msgs: 4.9.1 (/opt/ros/humble/share/sensor_msgs/cmake)
+[0.915s] -- Found ament_cmake_ros: 0.10.0 (/opt/ros/humble/share/ament_cmake_ros/cmake)
+[1.144s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[1.489s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[1.519s] -- Found PythonInterp: /usr/bin/python3 (found suitable version "3.10.12", minimum required is "3.6") 
+[1.519s] -- Found python_cmake_module: 0.10.0 (/opt/ros/humble/share/python_cmake_module/cmake)
+[1.542s] -- Found PythonLibs: /usr/lib/x86_64-linux-gnu/libpython3.10.so (found suitable version "3.10.12", minimum required is "3.5") 
+[1.542s] -- Using PYTHON_EXECUTABLE: /usr/bin/python3
+[1.542s] -- Using PYTHON_INCLUDE_DIRS: /usr/include/python3.10
+[1.542s] -- Using PYTHON_LIBRARIES: /usr/lib/x86_64-linux-gnu/libpython3.10.so
+[1.567s] -- Found PythonExtra: .so  
+[1.706s] -- Found ament_lint_auto: 0.12.15 (/opt/ros/humble/share/ament_lint_auto/cmake)
+[1.723s] -- Added test 'copyright' to check source files copyright and LICENSE
+[1.726s] -- Added test 'lint_cmake' to check CMake code style
+[1.727s] -- Added test 'xmllint' to check XML markup files
+[1.729s] -- Configuring done
+[1.777s] -- Generating done
+[1.779s] CMake Warning:
+[1.779s]   Manually-specified variables were not used by the project:
+[1.779s] 
+[1.779s]     INSTALL_UDEV_RULES
+[1.779s]     ORBBEC_SDK_ROOT
+[1.779s] 
+[1.779s] 
+[1.788s] -- Build files have been written to: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/build_287/orbbec_camera_msgs
+[31.530s] Invoked command in '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/build_287/orbbec_camera_msgs' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/src/OrbbecSDK_ROS2/orbbec_camera_msgs -DCMAKE_BUILD_TYPE=Release -DINSTALL_UDEV_RULES=OFF -DORBBEC_SDK_ROOT=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_sdk_2_8_7_root/opt/OrbbecSDK_v2.8.7 -DCMAKE_INSTALL_PREFIX=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs
+[31.531s] Invoking command in '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/build_287/orbbec_camera_msgs': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/build_287/orbbec_camera_msgs -- -j32 -l32
+[31.594s] [  0%] Generating C code for ROS interfaces
+[31.601s] [  1%] Generating Rust code for ROS interfaces
+[31.607s] [  1%] Built target ament_cmake_python_copy_orbbec_camera_msgs
+[31.608s] [  1%] Generating C++ code for ROS interfaces
+[31.781s] running egg_info
+[31.781s] creating orbbec_camera_msgs.egg-info
+[31.781s] writing orbbec_camera_msgs.egg-info/PKG-INFO
+[31.781s] writing dependency_links to orbbec_camera_msgs.egg-info/dependency_links.txt
+[31.782s] writing top-level names to orbbec_camera_msgs.egg-info/top_level.txt
+[31.782s] writing manifest file 'orbbec_camera_msgs.egg-info/SOURCES.txt'
+[31.783s] reading manifest file 'orbbec_camera_msgs.egg-info/SOURCES.txt'
+[31.783s] writing manifest file 'orbbec_camera_msgs.egg-info/SOURCES.txt'
+[31.801s] [  1%] Built target ament_cmake_python_build_orbbec_camera_msgs_egg
+[32.038s] [  1%] Built target orbbec_camera_msgs__rs
+[32.561s] [  1%] Built target orbbec_camera_msgs__cpp
+[32.569s] [  2%] Generating C++ introspection for ROS interfaces
+[32.571s] [  3%] Generating C++ type support for eProsima Fast-RTPS
+[32.571s] [  4%] Generating C++ type support dispatch for ROS interfaces
+[32.593s] [  4%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_generator_c.dir/rosidl_generator_c/orbbec_camera_msgs/msg/detail/device_status__functions.c.o
+[32.593s] [  5%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_generator_c.dir/rosidl_generator_c/orbbec_camera_msgs/msg/detail/device_info__functions.c.o
+[32.594s] [  5%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_generator_c.dir/rosidl_generator_c/orbbec_camera_msgs/msg/detail/imu_info__functions.c.o
+[32.594s] [  6%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_generator_c.dir/rosidl_generator_c/orbbec_camera_msgs/msg/detail/metadata__functions.c.o
+[32.594s] [  6%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_generator_c.dir/rosidl_generator_c/orbbec_camera_msgs/msg/detail/extrinsics__functions.c.o
+[32.594s] [  7%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_generator_c.dir/rosidl_generator_c/orbbec_camera_msgs/msg/detail/rgbd__functions.c.o
+[32.595s] [  8%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_generator_c.dir/rosidl_generator_c/orbbec_camera_msgs/msg/detail/depth_filter_param__functions.c.o
+[32.595s] [  8%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_generator_c.dir/rosidl_generator_c/orbbec_camera_msgs/msg/detail/depth_filter_state__functions.c.o
+[32.595s] [  9%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_generator_c.dir/rosidl_generator_c/orbbec_camera_msgs/msg/detail/depth_filters_status__functions.c.o
+[32.596s] [  9%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_generator_c.dir/rosidl_generator_c/orbbec_camera_msgs/srv/detail/get_int32__functions.c.o
+[32.597s] [ 10%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_generator_c.dir/rosidl_generator_c/orbbec_camera_msgs/srv/detail/get_bool__functions.c.o
+[32.597s] [ 12%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_generator_c.dir/rosidl_generator_c/orbbec_camera_msgs/srv/detail/get_camera_info__functions.c.o
+[32.597s] [ 12%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_generator_c.dir/rosidl_generator_c/orbbec_camera_msgs/srv/detail/set_user_calib_params__functions.c.o
+[32.597s] [ 11%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_generator_c.dir/rosidl_generator_c/orbbec_camera_msgs/srv/detail/set_filter__functions.c.o
+[32.597s] [ 12%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_generator_c.dir/rosidl_generator_c/orbbec_camera_msgs/srv/detail/get_device_info__functions.c.o
+[32.598s] [ 13%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_generator_c.dir/rosidl_generator_c/orbbec_camera_msgs/srv/detail/get_string__functions.c.o
+[32.598s] [ 13%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_generator_c.dir/rosidl_generator_c/orbbec_camera_msgs/srv/detail/get_user_calib_params__functions.c.o
+[32.598s] [ 15%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_generator_c.dir/rosidl_generator_c/orbbec_camera_msgs/srv/detail/set_arrays__functions.c.o
+[32.598s] [ 15%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_generator_c.dir/rosidl_generator_c/orbbec_camera_msgs/srv/detail/set_int32__functions.c.o
+[32.598s] [ 15%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_generator_c.dir/rosidl_generator_c/orbbec_camera_msgs/srv/detail/set_string__functions.c.o
+[32.732s] [ 16%] Linking C shared library liborbbec_camera_msgs__rosidl_generator_c.so
+[32.767s] [ 16%] Built target orbbec_camera_msgs__rosidl_generator_c
+[32.778s] [ 19%] Generating C introspection for ROS interfaces
+[32.778s] [ 19%] Generating C type support dispatch for ROS interfaces
+[32.778s] [ 19%] Generating C type support for eProsima Fast-RTPS
+[33.146s] [ 19%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/orbbec_camera_msgs/msg/device_info__type_support.cpp.o
+[33.148s] [ 20%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/orbbec_camera_msgs/msg/extrinsics__type_support.cpp.o
+[33.148s] [ 22%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/orbbec_camera_msgs/srv/get_int32__type_support.cpp.o
+[33.148s] [ 22%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/orbbec_camera_msgs/msg/device_status__type_support.cpp.o
+[33.148s] [ 22%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/orbbec_camera_msgs/msg/depth_filter_param__type_support.cpp.o
+[33.148s] [ 22%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/orbbec_camera_msgs/msg/depth_filters_status__type_support.cpp.o
+[33.149s] [ 23%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/orbbec_camera_msgs/msg/depth_filter_state__type_support.cpp.o
+[33.149s] [ 23%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/orbbec_camera_msgs/msg/metadata__type_support.cpp.o
+[33.149s] [ 24%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/orbbec_camera_msgs/msg/imu_info__type_support.cpp.o
+[33.149s] [ 24%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/orbbec_camera_msgs/msg/rgbd__type_support.cpp.o
+[33.150s] [ 27%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/orbbec_camera_msgs/srv/get_device_info__type_support.cpp.o
+[33.150s] [ 27%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/orbbec_camera_msgs/srv/set_filter__type_support.cpp.o
+[33.150s] [ 27%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/orbbec_camera_msgs/srv/get_bool__type_support.cpp.o
+[33.150s] [ 27%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/orbbec_camera_msgs/srv/get_camera_info__type_support.cpp.o
+[33.150s] [ 27%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/orbbec_camera_msgs/srv/set_user_calib_params__type_support.cpp.o
+[33.150s] [ 27%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/orbbec_camera_msgs/srv/get_string__type_support.cpp.o
+[33.150s] [ 28%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/orbbec_camera_msgs/srv/get_user_calib_params__type_support.cpp.o
+[33.150s] [ 28%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/orbbec_camera_msgs/srv/set_arrays__type_support.cpp.o
+[33.151s] [ 29%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/orbbec_camera_msgs/srv/set_int32__type_support.cpp.o
+[33.151s] [ 29%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/orbbec_camera_msgs/srv/set_string__type_support.cpp.o
+[33.299s] [ 29%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/orbbec_camera_msgs/msg/detail/depth_filters_status__type_support.cpp.o
+[33.299s] [ 29%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/orbbec_camera_msgs/msg/detail/device_info__type_support.cpp.o
+[33.299s] [ 31%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/orbbec_camera_msgs/msg/detail/extrinsics__type_support.cpp.o
+[33.299s] [ 31%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/orbbec_camera_msgs/msg/detail/device_status__type_support.cpp.o
+[33.300s] [ 31%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/orbbec_camera_msgs/msg/detail/metadata__type_support.cpp.o
+[33.302s] [ 33%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/orbbec_camera_msgs/msg/detail/imu_info__type_support.cpp.o
+[33.302s] [ 32%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/orbbec_camera_msgs/msg/detail/depth_filter_state__type_support.cpp.o
+[33.302s] [ 33%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/orbbec_camera_msgs/msg/detail/depth_filter_param__type_support.cpp.o
+[33.347s] [ 33%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/orbbec_camera_msgs/msg/detail/rgbd__type_support.cpp.o
+[33.347s] [ 34%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/orbbec_camera_msgs/srv/detail/get_bool__type_support.cpp.o
+[33.351s] [ 35%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/orbbec_camera_msgs/srv/detail/get_device_info__type_support.cpp.o
+[33.373s] [ 35%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/orbbec_camera_msgs/srv/detail/get_camera_info__type_support.cpp.o
+[33.410s] [ 36%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/orbbec_camera_msgs/srv/detail/get_int32__type_support.cpp.o
+[33.412s] [ 36%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/orbbec_camera_msgs/srv/detail/get_string__type_support.cpp.o
+[33.424s] [ 37%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/orbbec_camera_msgs/srv/detail/set_filter__type_support.cpp.o
+[33.425s] [ 37%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/orbbec_camera_msgs/srv/detail/set_int32__type_support.cpp.o
+[33.433s] [ 38%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/orbbec_camera_msgs/srv/detail/set_string__type_support.cpp.o
+[33.438s] [ 38%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/orbbec_camera_msgs/srv/detail/set_arrays__type_support.cpp.o
+[33.438s] [ 38%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/orbbec_camera_msgs/srv/detail/set_user_calib_params__type_support.cpp.o
+[33.438s] [ 39%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/orbbec_camera_msgs/srv/detail/get_user_calib_params__type_support.cpp.o
+[33.444s] [ 40%] Linking CXX shared library liborbbec_camera_msgs__rosidl_typesupport_cpp.so
+[33.463s] [ 40%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/orbbec_camera_msgs/msg/device_info__type_support.cpp.o
+[33.464s] [ 40%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/orbbec_camera_msgs/msg/metadata__type_support.cpp.o
+[33.464s] [ 40%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/orbbec_camera_msgs/msg/depth_filter_param__type_support.cpp.o
+[33.464s] [ 43%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/orbbec_camera_msgs/msg/extrinsics__type_support.cpp.o
+[33.464s] [ 43%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/orbbec_camera_msgs/msg/device_status__type_support.cpp.o
+[33.464s] [ 41%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/orbbec_camera_msgs/msg/depth_filters_status__type_support.cpp.o
+[33.464s] [ 43%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/orbbec_camera_msgs/msg/depth_filter_state__type_support.cpp.o
+[33.470s] [ 44%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/orbbec_camera_msgs/msg/imu_info__type_support.cpp.o
+[33.495s] [ 44%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/orbbec_camera_msgs/msg/rgbd__type_support.cpp.o
+[33.497s] [ 44%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/orbbec_camera_msgs/srv/get_device_info__type_support.cpp.o
+[33.497s] [ 45%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/orbbec_camera_msgs/srv/get_int32__type_support.cpp.o
+[33.497s] [ 45%] Built target orbbec_camera_msgs__rosidl_typesupport_cpp
+[33.497s] [ 46%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/orbbec_camera_msgs/srv/get_camera_info__type_support.cpp.o
+[33.498s] [ 46%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/orbbec_camera_msgs/srv/get_string__type_support.cpp.o
+[33.498s] [ 47%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/orbbec_camera_msgs/srv/get_bool__type_support.cpp.o
+[33.501s] [ 48%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/orbbec_camera_msgs/srv/set_filter__type_support.cpp.o
+[33.506s] [ 48%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/orbbec_camera_msgs/srv/set_int32__type_support.cpp.o
+[33.516s] [ 49%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/orbbec_camera_msgs/srv/set_string__type_support.cpp.o
+[33.531s] [ 49%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/orbbec_camera_msgs/srv/set_arrays__type_support.cpp.o
+[33.533s] [ 50%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/orbbec_camera_msgs/srv/get_user_calib_params__type_support.cpp.o
+[33.534s] [ 50%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/orbbec_camera_msgs/srv/set_user_calib_params__type_support.cpp.o
+[33.562s] [ 51%] Linking CXX shared library liborbbec_camera_msgs__rosidl_typesupport_c.so
+[33.601s] [ 51%] Built target orbbec_camera_msgs__rosidl_typesupport_c
+[33.618s] [ 52%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/orbbec_camera_msgs/msg/detail/dds_fastrtps/depth_filter_param__type_support.cpp.o
+[33.618s] [ 52%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/orbbec_camera_msgs/msg/detail/dds_fastrtps/device_info__type_support.cpp.o
+[33.618s] [ 53%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/orbbec_camera_msgs/msg/detail/dds_fastrtps/metadata__type_support.cpp.o
+[33.618s] [ 53%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/orbbec_camera_msgs/msg/detail/dds_fastrtps/depth_filters_status__type_support.cpp.o
+[33.618s] [ 53%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/orbbec_camera_msgs/msg/detail/dds_fastrtps/depth_filter_state__type_support.cpp.o
+[33.618s] [ 55%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/orbbec_camera_msgs/msg/detail/dds_fastrtps/imu_info__type_support.cpp.o
+[33.618s] [ 55%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/orbbec_camera_msgs/msg/detail/dds_fastrtps/extrinsics__type_support.cpp.o
+[33.619s] [ 55%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/orbbec_camera_msgs/msg/detail/dds_fastrtps/device_status__type_support.cpp.o
+[33.619s] [ 55%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/orbbec_camera_msgs/msg/detail/dds_fastrtps/rgbd__type_support.cpp.o
+[33.622s] [ 56%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/orbbec_camera_msgs/srv/detail/dds_fastrtps/get_bool__type_support.cpp.o
+[33.673s] [ 57%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/orbbec_camera_msgs/srv/detail/dds_fastrtps/get_device_info__type_support.cpp.o
+[33.683s] [ 57%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/orbbec_camera_msgs/srv/detail/dds_fastrtps/get_camera_info__type_support.cpp.o
+[33.695s] [ 58%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/orbbec_camera_msgs/srv/detail/dds_fastrtps/get_int32__type_support.cpp.o
+[33.704s] [ 58%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/orbbec_camera_msgs/srv/detail/dds_fastrtps/get_string__type_support.cpp.o
+[33.714s] [ 59%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/orbbec_camera_msgs/srv/detail/dds_fastrtps/set_filter__type_support.cpp.o
+[33.731s] [ 59%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/orbbec_camera_msgs/srv/detail/dds_fastrtps/set_int32__type_support.cpp.o
+[33.738s] [ 60%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/orbbec_camera_msgs/srv/detail/dds_fastrtps/set_string__type_support.cpp.o
+[33.799s] [ 60%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/orbbec_camera_msgs/srv/detail/dds_fastrtps/set_arrays__type_support.cpp.o
+[33.804s] [ 61%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/orbbec_camera_msgs/srv/detail/dds_fastrtps/get_user_calib_params__type_support.cpp.o
+[33.810s] [ 61%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/orbbec_camera_msgs/srv/detail/dds_fastrtps/set_user_calib_params__type_support.cpp.o
+[33.883s] [ 64%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/orbbec_camera_msgs/msg/detail/extrinsics__type_support.c.o
+[33.883s] [ 64%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/orbbec_camera_msgs/msg/detail/device_status__type_support.c.o
+[33.883s] [ 64%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/orbbec_camera_msgs/msg/detail/depth_filter_param__type_support.c.o
+[33.883s] [ 64%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/orbbec_camera_msgs/msg/detail/depth_filter_state__type_support.c.o
+[33.883s] [ 64%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/orbbec_camera_msgs/msg/detail/depth_filters_status__type_support.c.o
+[33.883s] [ 64%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/orbbec_camera_msgs/msg/detail/device_info__type_support.c.o
+[33.884s] [ 64%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/orbbec_camera_msgs/msg/detail/metadata__type_support.c.o
+[33.887s] [ 65%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/orbbec_camera_msgs/msg/detail/imu_info__type_support.c.o
+[33.895s] [ 65%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/orbbec_camera_msgs/msg/detail/rgbd__type_support.c.o
+[33.901s] [ 66%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/orbbec_camera_msgs/srv/detail/get_bool__type_support.c.o
+[33.906s] [ 67%] Linking CXX shared library liborbbec_camera_msgs__rosidl_typesupport_introspection_cpp.so
+[33.925s] [ 67%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/orbbec_camera_msgs/srv/detail/get_device_info__type_support.c.o
+[33.927s] [ 67%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/orbbec_camera_msgs/srv/detail/get_string__type_support.c.o
+[33.928s] [ 68%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/orbbec_camera_msgs/srv/detail/get_camera_info__type_support.c.o
+[33.928s] [ 69%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/orbbec_camera_msgs/srv/detail/get_int32__type_support.c.o
+[33.937s] [ 70%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/orbbec_camera_msgs/srv/detail/set_filter__type_support.c.o
+[33.939s] [ 70%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/orbbec_camera_msgs/srv/detail/set_int32__type_support.c.o
+[33.945s] [ 71%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/orbbec_camera_msgs/srv/detail/set_string__type_support.c.o
+[33.948s] [ 71%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/orbbec_camera_msgs/srv/detail/set_arrays__type_support.c.o
+[33.962s] [ 72%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/orbbec_camera_msgs/srv/detail/get_user_calib_params__type_support.c.o
+[33.966s] [ 72%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/orbbec_camera_msgs/srv/detail/set_user_calib_params__type_support.c.o
+[34.005s] [ 72%] Built target orbbec_camera_msgs__rosidl_typesupport_introspection_cpp
+[34.021s] [ 73%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/orbbec_camera_msgs/msg/detail/rgbd__type_support_c.cpp.o
+[34.021s] [ 73%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/orbbec_camera_msgs/msg/detail/depth_filter_state__type_support_c.cpp.o
+[34.021s] [ 73%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/orbbec_camera_msgs/msg/detail/device_info__type_support_c.cpp.o
+[34.022s] [ 74%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/orbbec_camera_msgs/msg/detail/extrinsics__type_support_c.cpp.o
+[34.022s] [ 73%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/orbbec_camera_msgs/msg/detail/depth_filter_param__type_support_c.cpp.o
+[34.022s] [ 75%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/orbbec_camera_msgs/msg/detail/imu_info__type_support_c.cpp.o
+[34.023s] [ 75%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/orbbec_camera_msgs/msg/detail/depth_filters_status__type_support_c.cpp.o
+[34.023s] [ 75%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/orbbec_camera_msgs/msg/detail/metadata__type_support_c.cpp.o
+[34.023s] [ 78%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/orbbec_camera_msgs/srv/detail/get_camera_info__type_support_c.cpp.o
+[34.023s] [ 78%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/orbbec_camera_msgs/msg/detail/device_status__type_support_c.cpp.o
+[34.023s] [ 78%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/orbbec_camera_msgs/srv/detail/get_device_info__type_support_c.cpp.o
+[34.023s] [ 78%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/orbbec_camera_msgs/srv/detail/get_bool__type_support_c.cpp.o
+[34.024s] [ 79%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/orbbec_camera_msgs/srv/detail/get_int32__type_support_c.cpp.o
+[34.033s] [ 79%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/orbbec_camera_msgs/srv/detail/get_string__type_support_c.cpp.o
+[34.033s] [ 80%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/orbbec_camera_msgs/srv/detail/set_filter__type_support_c.cpp.o
+[34.040s] [ 81%] Linking C shared library liborbbec_camera_msgs__rosidl_typesupport_introspection_c.so
+[34.049s] [ 81%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/orbbec_camera_msgs/srv/detail/set_int32__type_support_c.cpp.o
+[34.061s] [ 82%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/orbbec_camera_msgs/srv/detail/set_string__type_support_c.cpp.o
+[34.069s] [ 82%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/orbbec_camera_msgs/srv/detail/set_arrays__type_support_c.cpp.o
+[34.086s] [ 83%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/orbbec_camera_msgs/srv/detail/get_user_calib_params__type_support_c.cpp.o
+[34.089s] [ 83%] Building CXX object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/orbbec_camera_msgs/srv/detail/set_user_calib_params__type_support_c.cpp.o
+[34.092s] [ 83%] Built target orbbec_camera_msgs__rosidl_typesupport_introspection_c
+[34.290s] [ 84%] Linking CXX shared library liborbbec_camera_msgs__rosidl_typesupport_fastrtps_cpp.so
+[34.355s] [ 84%] Built target orbbec_camera_msgs__rosidl_typesupport_fastrtps_cpp
+[34.447s] [ 85%] Linking CXX shared library liborbbec_camera_msgs__rosidl_typesupport_fastrtps_c.so
+[34.511s] [ 85%] Built target orbbec_camera_msgs__rosidl_typesupport_fastrtps_c
+[34.534s] [ 85%] Built target orbbec_camera_msgs
+[34.566s] [ 86%] Generating Python code for ROS interfaces
+[36.312s] [ 86%] Built target orbbec_camera_msgs__py
+[36.334s] [ 86%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_generator_py.dir/rosidl_generator_py/orbbec_camera_msgs/msg/_rgbd_s.c.o
+[36.335s] [ 86%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_generator_py.dir/rosidl_generator_py/orbbec_camera_msgs/msg/_device_info_s.c.o
+[36.335s] [ 87%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_generator_py.dir/rosidl_generator_py/orbbec_camera_msgs/srv/_get_bool_s.c.o
+[36.335s] [ 88%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_generator_py.dir/rosidl_generator_py/orbbec_camera_msgs/srv/_get_device_info_s.c.o
+[36.335s] [ 89%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_generator_py.dir/rosidl_generator_py/orbbec_camera_msgs/msg/_device_status_s.c.o
+[36.335s] [ 89%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_generator_py.dir/rosidl_generator_py/orbbec_camera_msgs/msg/_depth_filter_param_s.c.o
+[36.336s] [ 91%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_generator_py.dir/rosidl_generator_py/orbbec_camera_msgs/msg/_depth_filters_status_s.c.o
+[36.336s] [ 91%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_generator_py.dir/rosidl_generator_py/orbbec_camera_msgs/msg/_depth_filter_state_s.c.o
+[36.336s] [ 91%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_generator_py.dir/rosidl_generator_py/orbbec_camera_msgs/srv/_get_int32_s.c.o
+[36.336s] [ 91%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_generator_py.dir/rosidl_generator_py/orbbec_camera_msgs/srv/_get_string_s.c.o
+[36.337s] [ 92%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_generator_py.dir/rosidl_generator_py/orbbec_camera_msgs/msg/_extrinsics_s.c.o
+[36.337s] [ 92%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_generator_py.dir/rosidl_generator_py/orbbec_camera_msgs/msg/_metadata_s.c.o
+[36.338s] [ 93%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_generator_py.dir/rosidl_generator_py/orbbec_camera_msgs/msg/_imu_info_s.c.o
+[36.338s] [ 93%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_generator_py.dir/rosidl_generator_py/orbbec_camera_msgs/srv/_set_arrays_s.c.o
+[36.338s] [ 94%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_generator_py.dir/rosidl_generator_py/orbbec_camera_msgs/srv/_get_user_calib_params_s.c.o
+[36.338s] [ 94%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_generator_py.dir/rosidl_generator_py/orbbec_camera_msgs/srv/_get_camera_info_s.c.o
+[36.339s] [ 94%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_generator_py.dir/rosidl_generator_py/orbbec_camera_msgs/srv/_set_user_calib_params_s.c.o
+[36.340s] [ 95%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_generator_py.dir/rosidl_generator_py/orbbec_camera_msgs/srv/_set_int32_s.c.o
+[36.341s] [ 95%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_generator_py.dir/rosidl_generator_py/orbbec_camera_msgs/srv/_set_filter_s.c.o
+[36.341s] [ 96%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_generator_py.dir/rosidl_generator_py/orbbec_camera_msgs/srv/_set_string_s.c.o
+[36.519s] [ 97%] Linking C shared library rosidl_generator_py/orbbec_camera_msgs/liborbbec_camera_msgs__rosidl_generator_py.so
+[36.558s] [ 97%] Built target orbbec_camera_msgs__rosidl_generator_py
+[36.580s] [ 97%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_fastrtps_c__pyext.dir/rosidl_generator_py/orbbec_camera_msgs/_orbbec_camera_msgs_s.ep.rosidl_typesupport_fastrtps_c.c.o
+[36.580s] [ 97%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_c__pyext.dir/rosidl_generator_py/orbbec_camera_msgs/_orbbec_camera_msgs_s.ep.rosidl_typesupport_c.c.o
+[36.580s] [ 97%] Building C object CMakeFiles/orbbec_camera_msgs__rosidl_typesupport_introspection_c__pyext.dir/rosidl_generator_py/orbbec_camera_msgs/_orbbec_camera_msgs_s.ep.rosidl_typesupport_introspection_c.c.o
+[36.883s] [ 98%] Linking C shared library rosidl_generator_py/orbbec_camera_msgs/orbbec_camera_msgs_s__rosidl_typesupport_fastrtps_c.cpython-310-x86_64-linux-gnu.so
+[36.893s] [ 99%] Linking C shared library rosidl_generator_py/orbbec_camera_msgs/orbbec_camera_msgs_s__rosidl_typesupport_introspection_c.cpython-310-x86_64-linux-gnu.so
+[36.899s] [100%] Linking C shared library rosidl_generator_py/orbbec_camera_msgs/orbbec_camera_msgs_s__rosidl_typesupport_c.cpython-310-x86_64-linux-gnu.so
+[36.921s] [100%] Built target orbbec_camera_msgs__rosidl_typesupport_fastrtps_c__pyext
+[36.932s] [100%] Built target orbbec_camera_msgs__rosidl_typesupport_introspection_c__pyext
+[36.936s] [100%] Built target orbbec_camera_msgs__rosidl_typesupport_c__pyext
+[61.556s] Invoked command in '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/build_287/orbbec_camera_msgs' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/build_287/orbbec_camera_msgs -- -j32 -l32
+[61.558s] Invoking command in '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/build_287/orbbec_camera_msgs': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/build_287/orbbec_camera_msgs
+[61.570s] -- Install configuration: "Release"
+[61.570s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/ament_index/resource_index/rosidl_interfaces/orbbec_camera_msgs
+[61.570s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs
+[61.571s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv
+[61.571s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail
+[61.571s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/get_bool__type_support.h
+[61.571s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/get_int32__functions.h
+[61.571s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/get_string__functions.c
+[61.571s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/set_arrays__functions.h
+[61.571s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/get_user_calib_params__functions.h
+[61.571s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/set_int32__struct.h
+[61.571s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/get_user_calib_params__struct.h
+[61.572s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/get_string__struct.h
+[61.572s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/set_string__functions.c
+[61.572s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/get_bool__functions.c
+[61.572s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/get_camera_info__struct.h
+[61.572s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/set_int32__functions.c
+[61.572s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/get_user_calib_params__functions.c
+[61.572s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/set_string__type_support.h
+[61.572s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/get_device_info__struct.h
+[61.572s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/set_arrays__struct.h
+[61.572s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/set_arrays__type_support.h
+[61.572s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/set_user_calib_params__type_support.h
+[61.572s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/get_bool__functions.h
+[61.573s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/set_string__functions.h
+[61.573s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/get_camera_info__type_support.h
+[61.573s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/get_device_info__functions.h
+[61.573s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/get_camera_info__functions.h
+[61.573s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/get_string__type_support.h
+[61.573s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/set_int32__functions.h
+[61.573s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/get_bool__struct.h
+[61.573s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/set_filter__functions.h
+[61.573s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/set_user_calib_params__struct.h
+[61.574s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/set_user_calib_params__functions.c
+[61.574s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/set_string__struct.h
+[61.574s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/set_int32__type_support.h
+[61.574s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/set_filter__struct.h
+[61.574s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/get_device_info__functions.c
+[61.574s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/set_filter__type_support.h
+[61.574s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/get_int32__struct.h
+[61.574s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/get_user_calib_params__type_support.h
+[61.574s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/get_camera_info__functions.c
+[61.574s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/get_int32__type_support.h
+[61.574s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/set_filter__functions.c
+[61.574s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/set_user_calib_params__functions.h
+[61.574s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/get_device_info__type_support.h
+[61.574s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/get_int32__functions.c
+[61.575s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/get_string__functions.h
+[61.575s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/set_arrays__functions.c
+[61.575s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/get_int32.h
+[61.575s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/set_user_calib_params.h
+[61.575s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/set_string.h
+[61.575s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/get_bool.h
+[61.575s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/get_string.h
+[61.575s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/get_device_info.h
+[61.575s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/set_filter.h
+[61.575s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/set_arrays.h
+[61.575s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/get_user_calib_params.h
+[61.575s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/set_int32.h
+[61.575s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/get_camera_info.h
+[61.575s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg
+[61.575s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/metadata.h
+[61.575s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail
+[61.576s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/depth_filter_state__functions.h
+[61.576s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/rgbd__struct.h
+[61.576s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/imu_info__functions.c
+[61.576s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/metadata__functions.c
+[61.576s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/rgbd__functions.h
+[61.576s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/extrinsics__type_support.h
+[61.576s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/imu_info__struct.h
+[61.576s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/metadata__functions.h
+[61.576s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/device_status__functions.h
+[61.576s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/device_info__struct.h
+[61.576s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/rgbd__functions.c
+[61.576s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/metadata__struct.h
+[61.576s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/depth_filters_status__functions.c
+[61.576s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/depth_filter_state__struct.h
+[61.576s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/depth_filter_state__type_support.h
+[61.577s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/metadata__type_support.h
+[61.577s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/imu_info__type_support.h
+[61.577s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/device_info__type_support.h
+[61.577s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/rgbd__type_support.h
+[61.577s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/depth_filter_param__struct.h
+[61.577s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/extrinsics__struct.h
+[61.577s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/imu_info__functions.h
+[61.577s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/depth_filter_param__functions.c
+[61.577s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/depth_filter_state__functions.c
+[61.577s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/depth_filters_status__struct.h
+[61.577s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/device_status__struct.h
+[61.577s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/depth_filters_status__type_support.h
+[61.577s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/device_info__functions.h
+[61.577s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/depth_filter_param__type_support.h
+[61.577s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/extrinsics__functions.c
+[61.577s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/extrinsics__functions.h
+[61.578s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/device_status__functions.c
+[61.578s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/device_info__functions.c
+[61.578s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/depth_filter_param__functions.h
+[61.578s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/depth_filters_status__functions.h
+[61.578s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/device_status__type_support.h
+[61.578s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/depth_filter_state.h
+[61.578s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/extrinsics.h
+[61.578s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/rgbd.h
+[61.578s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/device_info.h
+[61.578s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/imu_info.h
+[61.578s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/depth_filters_status.h
+[61.578s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/rosidl_generator_c__visibility_control.h
+[61.578s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/device_status.h
+[61.578s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/depth_filter_param.h
+[61.578s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/environment/library_path.sh
+[61.579s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/environment/library_path.dsv
+[61.579s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/lib/liborbbec_camera_msgs__rosidl_generator_c.so
+[61.579s] -- Set runtime path of "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/lib/liborbbec_camera_msgs__rosidl_generator_c.so" to ""
+[61.579s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs
+[61.579s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv
+[61.579s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail
+[61.579s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/set_int32__rosidl_typesupport_fastrtps_c.h
+[61.579s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/get_device_info__rosidl_typesupport_fastrtps_c.h
+[61.579s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/set_filter__rosidl_typesupport_fastrtps_c.h
+[61.579s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/get_camera_info__rosidl_typesupport_fastrtps_c.h
+[61.579s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/get_bool__rosidl_typesupport_fastrtps_c.h
+[61.579s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/get_string__rosidl_typesupport_fastrtps_c.h
+[61.579s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/set_arrays__rosidl_typesupport_fastrtps_c.h
+[61.579s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/set_string__rosidl_typesupport_fastrtps_c.h
+[61.579s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/get_int32__rosidl_typesupport_fastrtps_c.h
+[61.579s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/get_user_calib_params__rosidl_typesupport_fastrtps_c.h
+[61.579s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/set_user_calib_params__rosidl_typesupport_fastrtps_c.h
+[61.580s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg
+[61.580s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail
+[61.580s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/extrinsics__rosidl_typesupport_fastrtps_c.h
+[61.580s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/depth_filter_state__rosidl_typesupport_fastrtps_c.h
+[61.580s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/depth_filter_param__rosidl_typesupport_fastrtps_c.h
+[61.580s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/device_status__rosidl_typesupport_fastrtps_c.h
+[61.580s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/metadata__rosidl_typesupport_fastrtps_c.h
+[61.580s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/rgbd__rosidl_typesupport_fastrtps_c.h
+[61.580s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/imu_info__rosidl_typesupport_fastrtps_c.h
+[61.580s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/depth_filters_status__rosidl_typesupport_fastrtps_c.h
+[61.580s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/device_info__rosidl_typesupport_fastrtps_c.h
+[61.580s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/rosidl_typesupport_fastrtps_c__visibility_control.h
+[61.580s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/lib/liborbbec_camera_msgs__rosidl_typesupport_fastrtps_c.so
+[61.580s] -- Set runtime path of "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/lib/liborbbec_camera_msgs__rosidl_typesupport_fastrtps_c.so" to ""
+[61.580s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs
+[61.580s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv
+[61.580s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail
+[61.580s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/set_int32__type_support.c
+[61.581s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/set_arrays__rosidl_typesupport_introspection_c.h
+[61.581s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/set_int32__rosidl_typesupport_introspection_c.h
+[61.581s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/get_int32__rosidl_typesupport_introspection_c.h
+[61.581s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/get_user_calib_params__type_support.c
+[61.581s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/get_bool__rosidl_typesupport_introspection_c.h
+[61.581s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/set_arrays__type_support.c
+[61.581s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/get_bool__type_support.c
+[61.581s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/set_user_calib_params__type_support.c
+[61.581s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/set_string__type_support.c
+[61.581s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/set_user_calib_params__rosidl_typesupport_introspection_c.h
+[61.581s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/get_device_info__rosidl_typesupport_introspection_c.h
+[61.581s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/set_filter__type_support.c
+[61.581s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/get_device_info__type_support.c
+[61.581s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/get_camera_info__rosidl_typesupport_introspection_c.h
+[61.581s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/set_filter__rosidl_typesupport_introspection_c.h
+[61.581s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/set_string__rosidl_typesupport_introspection_c.h
+[61.581s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/get_string__type_support.c
+[61.581s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/get_string__rosidl_typesupport_introspection_c.h
+[61.582s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/get_user_calib_params__rosidl_typesupport_introspection_c.h
+[61.582s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/get_camera_info__type_support.c
+[61.582s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/get_int32__type_support.c
+[61.582s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg
+[61.582s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail
+[61.582s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/device_status__rosidl_typesupport_introspection_c.h
+[61.582s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/depth_filter_state__type_support.c
+[61.582s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/extrinsics__rosidl_typesupport_introspection_c.h
+[61.582s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/extrinsics__type_support.c
+[61.582s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/depth_filters_status__rosidl_typesupport_introspection_c.h
+[61.582s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/device_status__type_support.c
+[61.582s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/depth_filter_param__rosidl_typesupport_introspection_c.h
+[61.582s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/rgbd__rosidl_typesupport_introspection_c.h
+[61.582s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/metadata__rosidl_typesupport_introspection_c.h
+[61.582s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/depth_filter_param__type_support.c
+[61.582s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/imu_info__rosidl_typesupport_introspection_c.h
+[61.582s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/device_info__type_support.c
+[61.582s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/depth_filters_status__type_support.c
+[61.582s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/imu_info__type_support.c
+[61.582s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/rgbd__type_support.c
+[61.582s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/depth_filter_state__rosidl_typesupport_introspection_c.h
+[61.583s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/metadata__type_support.c
+[61.583s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/device_info__rosidl_typesupport_introspection_c.h
+[61.583s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/rosidl_typesupport_introspection_c__visibility_control.h
+[61.583s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/lib/liborbbec_camera_msgs__rosidl_typesupport_introspection_c.so
+[61.583s] -- Set runtime path of "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/lib/liborbbec_camera_msgs__rosidl_typesupport_introspection_c.so" to ""
+[61.583s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/lib/liborbbec_camera_msgs__rosidl_typesupport_c.so
+[61.583s] -- Set runtime path of "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/lib/liborbbec_camera_msgs__rosidl_typesupport_c.so" to ""
+[61.583s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs
+[61.583s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv
+[61.584s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail
+[61.584s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/set_filter__traits.hpp
+[61.584s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/set_arrays__struct.hpp
+[61.584s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/get_bool__struct.hpp
+[61.584s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/get_device_info__traits.hpp
+[61.584s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/get_int32__builder.hpp
+[61.584s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/get_camera_info__type_support.hpp
+[61.584s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/get_string__type_support.hpp
+[61.585s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/set_int32__traits.hpp
+[61.585s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/set_int32__type_support.hpp
+[61.585s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/set_user_calib_params__struct.hpp
+[61.585s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/set_string__builder.hpp
+[61.585s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/get_user_calib_params__type_support.hpp
+[61.585s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/set_user_calib_params__type_support.hpp
+[61.585s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/set_user_calib_params__builder.hpp
+[61.585s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/set_int32__builder.hpp
+[61.585s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/set_int32__struct.hpp
+[61.586s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/get_int32__struct.hpp
+[61.586s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/set_string__type_support.hpp
+[61.586s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/get_camera_info__traits.hpp
+[61.586s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/get_int32__traits.hpp
+[61.586s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/get_user_calib_params__traits.hpp
+[61.587s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/get_bool__builder.hpp
+[61.587s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/get_string__builder.hpp
+[61.587s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/get_device_info__struct.hpp
+[61.587s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/get_camera_info__struct.hpp
+[61.587s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/set_string__traits.hpp
+[61.587s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/get_user_calib_params__struct.hpp
+[61.587s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/get_int32__type_support.hpp
+[61.587s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/get_bool__type_support.hpp
+[61.587s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/get_string__struct.hpp
+[61.588s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/set_filter__builder.hpp
+[61.588s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/get_string__traits.hpp
+[61.588s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/get_user_calib_params__builder.hpp
+[61.588s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/set_filter__struct.hpp
+[61.588s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/set_user_calib_params__traits.hpp
+[61.588s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/set_arrays__traits.hpp
+[61.588s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/get_bool__traits.hpp
+[61.588s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/get_device_info__type_support.hpp
+[61.588s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/set_arrays__type_support.hpp
+[61.589s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/set_filter__type_support.hpp
+[61.589s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/get_camera_info__builder.hpp
+[61.589s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/set_arrays__builder.hpp
+[61.589s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/set_string__struct.hpp
+[61.589s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/get_device_info__builder.hpp
+[61.589s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/get_user_calib_params.hpp
+[61.589s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/get_device_info.hpp
+[61.589s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/set_string.hpp
+[61.589s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/set_arrays.hpp
+[61.589s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/get_camera_info.hpp
+[61.589s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/get_int32.hpp
+[61.590s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/get_bool.hpp
+[61.590s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/set_filter.hpp
+[61.590s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/set_user_calib_params.hpp
+[61.590s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/get_string.hpp
+[61.590s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/set_int32.hpp
+[61.590s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg
+[61.590s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail
+[61.590s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/rgbd__builder.hpp
+[61.590s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/depth_filters_status__struct.hpp
+[61.590s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/device_status__traits.hpp
+[61.590s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/rgbd__type_support.hpp
+[61.590s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/depth_filter_param__type_support.hpp
+[61.590s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/depth_filters_status__traits.hpp
+[61.590s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/metadata__traits.hpp
+[61.590s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/metadata__struct.hpp
+[61.591s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/imu_info__struct.hpp
+[61.591s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/device_info__type_support.hpp
+[61.591s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/depth_filter_param__traits.hpp
+[61.591s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/rgbd__traits.hpp
+[61.591s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/depth_filter_state__type_support.hpp
+[61.591s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/metadata__builder.hpp
+[61.591s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/extrinsics__traits.hpp
+[61.591s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/metadata__type_support.hpp
+[61.591s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/depth_filter_state__struct.hpp
+[61.591s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/device_status__builder.hpp
+[61.591s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/depth_filter_state__builder.hpp
+[61.591s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/extrinsics__type_support.hpp
+[61.591s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/imu_info__builder.hpp
+[61.591s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/depth_filter_param__builder.hpp
+[61.591s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/depth_filters_status__type_support.hpp
+[61.591s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/device_status__struct.hpp
+[61.591s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/extrinsics__struct.hpp
+[61.591s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/device_info__struct.hpp
+[61.591s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/depth_filters_status__builder.hpp
+[61.591s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/rgbd__struct.hpp
+[61.591s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/depth_filter_state__traits.hpp
+[61.591s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/depth_filter_param__struct.hpp
+[61.591s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/device_info__traits.hpp
+[61.591s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/device_info__builder.hpp
+[61.591s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/device_status__type_support.hpp
+[61.591s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/imu_info__type_support.hpp
+[61.591s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/extrinsics__builder.hpp
+[61.591s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/imu_info__traits.hpp
+[61.591s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/imu_info.hpp
+[61.591s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/depth_filters_status.hpp
+[61.591s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/extrinsics.hpp
+[61.591s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/metadata.hpp
+[61.591s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/device_status.hpp
+[61.591s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/rosidl_generator_cpp__visibility_control.hpp
+[61.592s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/rgbd.hpp
+[61.592s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/device_info.hpp
+[61.592s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/depth_filter_state.hpp
+[61.592s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/depth_filter_param.hpp
+[61.592s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs
+[61.592s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv
+[61.592s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail
+[61.592s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/set_arrays__rosidl_typesupport_fastrtps_cpp.hpp
+[61.592s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/get_int32__rosidl_typesupport_fastrtps_cpp.hpp
+[61.592s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/set_string__rosidl_typesupport_fastrtps_cpp.hpp
+[61.592s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/set_filter__rosidl_typesupport_fastrtps_cpp.hpp
+[61.592s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/get_device_info__rosidl_typesupport_fastrtps_cpp.hpp
+[61.592s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/get_user_calib_params__rosidl_typesupport_fastrtps_cpp.hpp
+[61.592s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/set_int32__rosidl_typesupport_fastrtps_cpp.hpp
+[61.592s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/get_camera_info__rosidl_typesupport_fastrtps_cpp.hpp
+[61.592s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/get_bool__rosidl_typesupport_fastrtps_cpp.hpp
+[61.592s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/get_string__rosidl_typesupport_fastrtps_cpp.hpp
+[61.592s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/set_user_calib_params__rosidl_typesupport_fastrtps_cpp.hpp
+[61.592s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/dds_fastrtps
+[61.592s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg
+[61.592s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail
+[61.592s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/extrinsics__rosidl_typesupport_fastrtps_cpp.hpp
+[61.592s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/metadata__rosidl_typesupport_fastrtps_cpp.hpp
+[61.592s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/rgbd__rosidl_typesupport_fastrtps_cpp.hpp
+[61.592s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/device_info__rosidl_typesupport_fastrtps_cpp.hpp
+[61.592s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/depth_filters_status__rosidl_typesupport_fastrtps_cpp.hpp
+[61.592s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/device_status__rosidl_typesupport_fastrtps_cpp.hpp
+[61.592s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/imu_info__rosidl_typesupport_fastrtps_cpp.hpp
+[61.592s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/depth_filter_state__rosidl_typesupport_fastrtps_cpp.hpp
+[61.592s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/depth_filter_param__rosidl_typesupport_fastrtps_cpp.hpp
+[61.592s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/dds_fastrtps
+[61.592s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/rosidl_typesupport_fastrtps_cpp__visibility_control.h
+[61.593s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/lib/liborbbec_camera_msgs__rosidl_typesupport_fastrtps_cpp.so
+[61.593s] -- Set runtime path of "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/lib/liborbbec_camera_msgs__rosidl_typesupport_fastrtps_cpp.so" to ""
+[61.593s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs
+[61.593s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv
+[61.593s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail
+[61.593s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/get_user_calib_params__type_support.cpp
+[61.593s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/set_arrays__rosidl_typesupport_introspection_cpp.hpp
+[61.593s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/get_string__type_support.cpp
+[61.593s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/set_string__rosidl_typesupport_introspection_cpp.hpp
+[61.593s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/get_bool__rosidl_typesupport_introspection_cpp.hpp
+[61.593s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/set_int32__rosidl_typesupport_introspection_cpp.hpp
+[61.593s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/set_int32__type_support.cpp
+[61.593s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/get_string__rosidl_typesupport_introspection_cpp.hpp
+[61.593s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/get_user_calib_params__rosidl_typesupport_introspection_cpp.hpp
+[61.593s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/get_int32__type_support.cpp
+[61.593s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/set_filter__type_support.cpp
+[61.593s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/set_arrays__type_support.cpp
+[61.593s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/get_camera_info__type_support.cpp
+[61.593s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/get_camera_info__rosidl_typesupport_introspection_cpp.hpp
+[61.593s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/set_user_calib_params__rosidl_typesupport_introspection_cpp.hpp
+[61.593s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/get_bool__type_support.cpp
+[61.593s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/set_user_calib_params__type_support.cpp
+[61.593s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/get_device_info__type_support.cpp
+[61.593s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/get_int32__rosidl_typesupport_introspection_cpp.hpp
+[61.593s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/get_device_info__rosidl_typesupport_introspection_cpp.hpp
+[61.593s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/set_filter__rosidl_typesupport_introspection_cpp.hpp
+[61.593s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/srv/detail/set_string__type_support.cpp
+[61.593s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg
+[61.593s] -- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail
+[61.593s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/device_info__rosidl_typesupport_introspection_cpp.hpp
+[61.593s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/rgbd__type_support.cpp
+[61.593s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/device_info__type_support.cpp
+[61.593s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/extrinsics__type_support.cpp
+[61.593s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/rgbd__rosidl_typesupport_introspection_cpp.hpp
+[61.594s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/depth_filter_state__rosidl_typesupport_introspection_cpp.hpp
+[61.594s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/depth_filter_param__rosidl_typesupport_introspection_cpp.hpp
+[61.594s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/device_status__rosidl_typesupport_introspection_cpp.hpp
+[61.594s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/device_status__type_support.cpp
+[61.594s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/imu_info__type_support.cpp
+[61.594s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/imu_info__rosidl_typesupport_introspection_cpp.hpp
+[61.594s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/metadata__type_support.cpp
+[61.594s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/depth_filters_status__rosidl_typesupport_introspection_cpp.hpp
+[61.594s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/depth_filters_status__type_support.cpp
+[61.594s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/depth_filter_param__type_support.cpp
+[61.594s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/depth_filter_state__type_support.cpp
+[61.594s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/extrinsics__rosidl_typesupport_introspection_cpp.hpp
+[61.594s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/include/orbbec_camera_msgs/orbbec_camera_msgs/msg/detail/metadata__rosidl_typesupport_introspection_cpp.hpp
+[61.594s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/lib/liborbbec_camera_msgs__rosidl_typesupport_introspection_cpp.so
+[61.595s] -- Set runtime path of "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/lib/liborbbec_camera_msgs__rosidl_typesupport_introspection_cpp.so" to ""
+[61.595s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/lib/liborbbec_camera_msgs__rosidl_typesupport_cpp.so
+[61.595s] -- Set runtime path of "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/lib/liborbbec_camera_msgs__rosidl_typesupport_cpp.so" to ""
+[61.595s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/environment/pythonpath.sh
+[61.595s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/environment/pythonpath.dsv
+[61.596s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/local/lib/python3.10/dist-packages/orbbec_camera_msgs-2.8.6-py3.10.egg-info
+[61.596s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/local/lib/python3.10/dist-packages/orbbec_camera_msgs-2.8.6-py3.10.egg-info/top_level.txt
+[61.596s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/local/lib/python3.10/dist-packages/orbbec_camera_msgs-2.8.6-py3.10.egg-info/dependency_links.txt
+[61.596s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/local/lib/python3.10/dist-packages/orbbec_camera_msgs-2.8.6-py3.10.egg-info/SOURCES.txt
+[61.596s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/local/lib/python3.10/dist-packages/orbbec_camera_msgs-2.8.6-py3.10.egg-info/PKG-INFO
+[61.596s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/local/lib/python3.10/dist-packages/orbbec_camera_msgs
+[61.596s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/local/lib/python3.10/dist-packages/orbbec_camera_msgs/__init__.py
+[61.596s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/local/lib/python3.10/dist-packages/orbbec_camera_msgs/_orbbec_camera_msgs_s.ep.rosidl_typesupport_fastrtps_c.c
+[61.596s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/local/lib/python3.10/dist-packages/orbbec_camera_msgs/srv
+[61.596s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/local/lib/python3.10/dist-packages/orbbec_camera_msgs/srv/_get_int32.py
+[61.596s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/local/lib/python3.10/dist-packages/orbbec_camera_msgs/srv/_set_arrays.py
+[61.596s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/local/lib/python3.10/dist-packages/orbbec_camera_msgs/srv/_set_user_calib_params_s.c
+[61.596s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/local/lib/python3.10/dist-packages/orbbec_camera_msgs/srv/_get_string_s.c
+[61.596s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/local/lib/python3.10/dist-packages/orbbec_camera_msgs/srv/_set_user_calib_params.py
+[61.597s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/local/lib/python3.10/dist-packages/orbbec_camera_msgs/srv/__init__.py
+[61.597s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/local/lib/python3.10/dist-packages/orbbec_camera_msgs/srv/_get_user_calib_params_s.c
+[61.597s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/local/lib/python3.10/dist-packages/orbbec_camera_msgs/srv/_get_device_info_s.c
+[61.597s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/local/lib/python3.10/dist-packages/orbbec_camera_msgs/srv/_set_filter_s.c
+[61.597s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/local/lib/python3.10/dist-packages/orbbec_camera_msgs/srv/_get_camera_info.py
+[61.597s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/local/lib/python3.10/dist-packages/orbbec_camera_msgs/srv/_get_bool_s.c
+[61.597s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/local/lib/python3.10/dist-packages/orbbec_camera_msgs/srv/_get_int32_s.c
+[61.597s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/local/lib/python3.10/dist-packages/orbbec_camera_msgs/srv/_get_string.py
+[61.597s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/local/lib/python3.10/dist-packages/orbbec_camera_msgs/srv/_set_filter.py
+[61.597s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/local/lib/python3.10/dist-packages/orbbec_camera_msgs/srv/_set_int32.py
+[61.597s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/local/lib/python3.10/dist-packages/orbbec_camera_msgs/srv/_set_string.py
+[61.597s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/local/lib/python3.10/dist-packages/orbbec_camera_msgs/srv/_get_device_info.py
+[61.597s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/local/lib/python3.10/dist-packages/orbbec_camera_msgs/srv/_get_user_calib_params.py
+[61.597s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/local/lib/python3.10/dist-packages/orbbec_camera_msgs/srv/_get_bool.py
+[61.597s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/local/lib/python3.10/dist-packages/orbbec_camera_msgs/srv/_set_arrays_s.c
+[61.597s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/local/lib/python3.10/dist-packages/orbbec_camera_msgs/srv/_set_int32_s.c
+[61.597s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/local/lib/python3.10/dist-packages/orbbec_camera_msgs/srv/_get_camera_info_s.c
+[61.597s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/local/lib/python3.10/dist-packages/orbbec_camera_msgs/srv/_set_string_s.c
+[61.597s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/local/lib/python3.10/dist-packages/orbbec_camera_msgs/orbbec_camera_msgs_s__rosidl_typesupport_fastrtps_c.cpython-310-x86_64-linux-gnu.so
+[61.597s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/local/lib/python3.10/dist-packages/orbbec_camera_msgs/msg
+[61.597s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/local/lib/python3.10/dist-packages/orbbec_camera_msgs/msg/_imu_info_s.c
+[61.597s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/local/lib/python3.10/dist-packages/orbbec_camera_msgs/msg/_depth_filter_param_s.c
+[61.598s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/local/lib/python3.10/dist-packages/orbbec_camera_msgs/msg/__init__.py
+[61.598s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/local/lib/python3.10/dist-packages/orbbec_camera_msgs/msg/_depth_filter_state_s.c
+[61.598s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/local/lib/python3.10/dist-packages/orbbec_camera_msgs/msg/_metadata_s.c
+[61.598s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/local/lib/python3.10/dist-packages/orbbec_camera_msgs/msg/_depth_filters_status_s.c
+[61.598s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/local/lib/python3.10/dist-packages/orbbec_camera_msgs/msg/_extrinsics_s.c
+[61.598s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/local/lib/python3.10/dist-packages/orbbec_camera_msgs/msg/_device_status.py
+[61.598s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/local/lib/python3.10/dist-packages/orbbec_camera_msgs/msg/_extrinsics.py
+[61.598s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/local/lib/python3.10/dist-packages/orbbec_camera_msgs/msg/_depth_filter_param.py
+[61.598s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/local/lib/python3.10/dist-packages/orbbec_camera_msgs/msg/_device_status_s.c
+[61.598s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/local/lib/python3.10/dist-packages/orbbec_camera_msgs/msg/_rgbd.py
+[61.598s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/local/lib/python3.10/dist-packages/orbbec_camera_msgs/msg/_device_info.py
+[61.598s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/local/lib/python3.10/dist-packages/orbbec_camera_msgs/msg/_imu_info.py
+[61.598s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/local/lib/python3.10/dist-packages/orbbec_camera_msgs/msg/_device_info_s.c
+[61.598s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/local/lib/python3.10/dist-packages/orbbec_camera_msgs/msg/_depth_filters_status.py
+[61.598s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/local/lib/python3.10/dist-packages/orbbec_camera_msgs/msg/_rgbd_s.c
+[61.598s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/local/lib/python3.10/dist-packages/orbbec_camera_msgs/msg/_depth_filter_state.py
+[61.598s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/local/lib/python3.10/dist-packages/orbbec_camera_msgs/msg/_metadata.py
+[61.598s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/local/lib/python3.10/dist-packages/orbbec_camera_msgs/_orbbec_camera_msgs_s.ep.rosidl_typesupport_c.c
+[61.598s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/local/lib/python3.10/dist-packages/orbbec_camera_msgs/_orbbec_camera_msgs_s.ep.rosidl_typesupport_introspection_c.c
+[61.599s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/local/lib/python3.10/dist-packages/orbbec_camera_msgs/orbbec_camera_msgs_s__rosidl_typesupport_introspection_c.cpython-310-x86_64-linux-gnu.so
+[61.599s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/local/lib/python3.10/dist-packages/orbbec_camera_msgs/orbbec_camera_msgs_s__rosidl_typesupport_c.cpython-310-x86_64-linux-gnu.so
+[61.599s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/local/lib/python3.10/dist-packages/orbbec_camera_msgs/liborbbec_camera_msgs__rosidl_generator_py.so
+[61.642s] Listing '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/local/lib/python3.10/dist-packages/orbbec_camera_msgs'...
+[61.642s] Compiling '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/local/lib/python3.10/dist-packages/orbbec_camera_msgs/__init__.py'...
+[61.642s] Listing '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/local/lib/python3.10/dist-packages/orbbec_camera_msgs/msg'...
+[61.642s] Compiling '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/local/lib/python3.10/dist-packages/orbbec_camera_msgs/msg/__init__.py'...
+[61.642s] Compiling '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/local/lib/python3.10/dist-packages/orbbec_camera_msgs/msg/_depth_filter_param.py'...
+[61.642s] Compiling '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/local/lib/python3.10/dist-packages/orbbec_camera_msgs/msg/_depth_filter_state.py'...
+[61.642s] Compiling '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/local/lib/python3.10/dist-packages/orbbec_camera_msgs/msg/_depth_filters_status.py'...
+[61.642s] Compiling '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/local/lib/python3.10/dist-packages/orbbec_camera_msgs/msg/_device_info.py'...
+[61.642s] Compiling '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/local/lib/python3.10/dist-packages/orbbec_camera_msgs/msg/_device_status.py'...
+[61.642s] Compiling '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/local/lib/python3.10/dist-packages/orbbec_camera_msgs/msg/_extrinsics.py'...
+[61.642s] Compiling '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/local/lib/python3.10/dist-packages/orbbec_camera_msgs/msg/_imu_info.py'...
+[61.642s] Compiling '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/local/lib/python3.10/dist-packages/orbbec_camera_msgs/msg/_metadata.py'...
+[61.642s] Compiling '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/local/lib/python3.10/dist-packages/orbbec_camera_msgs/msg/_rgbd.py'...
+[61.642s] Listing '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/local/lib/python3.10/dist-packages/orbbec_camera_msgs/srv'...
+[61.642s] Compiling '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/local/lib/python3.10/dist-packages/orbbec_camera_msgs/srv/__init__.py'...
+[61.642s] Compiling '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/local/lib/python3.10/dist-packages/orbbec_camera_msgs/srv/_get_bool.py'...
+[61.642s] Compiling '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/local/lib/python3.10/dist-packages/orbbec_camera_msgs/srv/_get_camera_info.py'...
+[61.642s] Compiling '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/local/lib/python3.10/dist-packages/orbbec_camera_msgs/srv/_get_device_info.py'...
+[61.642s] Compiling '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/local/lib/python3.10/dist-packages/orbbec_camera_msgs/srv/_get_int32.py'...
+[61.642s] Compiling '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/local/lib/python3.10/dist-packages/orbbec_camera_msgs/srv/_get_string.py'...
+[61.642s] Compiling '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/local/lib/python3.10/dist-packages/orbbec_camera_msgs/srv/_get_user_calib_params.py'...
+[61.642s] Compiling '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/local/lib/python3.10/dist-packages/orbbec_camera_msgs/srv/_set_arrays.py'...
+[61.642s] Compiling '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/local/lib/python3.10/dist-packages/orbbec_camera_msgs/srv/_set_filter.py'...
+[61.642s] Compiling '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/local/lib/python3.10/dist-packages/orbbec_camera_msgs/srv/_set_int32.py'...
+[61.642s] Compiling '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/local/lib/python3.10/dist-packages/orbbec_camera_msgs/srv/_set_string.py'...
+[61.642s] Compiling '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/local/lib/python3.10/dist-packages/orbbec_camera_msgs/srv/_set_user_calib_params.py'...
+[61.645s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/local/lib/python3.10/dist-packages/orbbec_camera_msgs/orbbec_camera_msgs_s__rosidl_typesupport_fastrtps_c.cpython-310-x86_64-linux-gnu.so
+[61.646s] -- Set runtime path of "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/local/lib/python3.10/dist-packages/orbbec_camera_msgs/orbbec_camera_msgs_s__rosidl_typesupport_fastrtps_c.cpython-310-x86_64-linux-gnu.so" to ""
+[61.646s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/local/lib/python3.10/dist-packages/orbbec_camera_msgs/orbbec_camera_msgs_s__rosidl_typesupport_introspection_c.cpython-310-x86_64-linux-gnu.so
+[61.646s] -- Set runtime path of "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/local/lib/python3.10/dist-packages/orbbec_camera_msgs/orbbec_camera_msgs_s__rosidl_typesupport_introspection_c.cpython-310-x86_64-linux-gnu.so" to ""
+[61.646s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/local/lib/python3.10/dist-packages/orbbec_camera_msgs/orbbec_camera_msgs_s__rosidl_typesupport_c.cpython-310-x86_64-linux-gnu.so
+[61.646s] -- Set runtime path of "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/local/lib/python3.10/dist-packages/orbbec_camera_msgs/orbbec_camera_msgs_s__rosidl_typesupport_c.cpython-310-x86_64-linux-gnu.so" to ""
+[61.646s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/lib/liborbbec_camera_msgs__rosidl_generator_py.so
+[61.647s] -- Set runtime path of "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/lib/liborbbec_camera_msgs__rosidl_generator_py.so" to ""
+[61.647s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/ament_index/resource_index/rust_packages/orbbec_camera_msgs
+[61.647s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/rust
+[61.647s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/rust/Cargo.toml
+[61.647s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/rust/src
+[61.647s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/rust/src/srv
+[61.647s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/rust/src/srv/rmw.rs
+[61.647s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/rust/src/lib.rs
+[61.647s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/rust/src/msg
+[61.647s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/rust/src/msg/rmw.rs
+[61.647s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/rust/src/msg.rs
+[61.647s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/rust/src/srv.rs
+[61.647s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/rust/build.rs
+[61.647s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/msg/DeviceInfo.idl
+[61.647s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/msg/DeviceStatus.idl
+[61.647s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/msg/DepthFilterParam.idl
+[61.647s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/msg/DepthFilterState.idl
+[61.647s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/msg/DepthFiltersStatus.idl
+[61.648s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/msg/Extrinsics.idl
+[61.648s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/msg/Metadata.idl
+[61.648s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/msg/IMUInfo.idl
+[61.648s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/msg/RGBD.idl
+[61.648s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/srv/GetBool.idl
+[61.648s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/srv/GetDeviceInfo.idl
+[61.648s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/srv/GetCameraInfo.idl
+[61.648s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/srv/GetInt32.idl
+[61.648s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/srv/GetString.idl
+[61.648s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/srv/SetFilter.idl
+[61.648s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/srv/SetInt32.idl
+[61.648s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/srv/SetString.idl
+[61.648s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/srv/SetArrays.idl
+[61.649s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/srv/GetUserCalibParams.idl
+[61.649s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/srv/SetUserCalibParams.idl
+[61.649s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/msg/DeviceInfo.msg
+[61.649s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/msg/DeviceStatus.msg
+[61.649s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/msg/DepthFilterParam.msg
+[61.649s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/msg/DepthFilterState.msg
+[61.649s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/msg/DepthFiltersStatus.msg
+[61.649s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/msg/Extrinsics.msg
+[61.649s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/msg/Metadata.msg
+[61.649s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/msg/IMUInfo.msg
+[61.649s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/msg/RGBD.msg
+[61.649s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/srv/GetBool.srv
+[61.650s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/srv/GetBool_Request.msg
+[61.650s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/srv/GetBool_Response.msg
+[61.650s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/srv/GetDeviceInfo.srv
+[61.650s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/srv/GetDeviceInfo_Request.msg
+[61.650s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/srv/GetDeviceInfo_Response.msg
+[61.650s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/srv/GetCameraInfo.srv
+[61.650s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/srv/GetCameraInfo_Request.msg
+[61.650s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/srv/GetCameraInfo_Response.msg
+[61.650s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/srv/GetInt32.srv
+[61.650s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/srv/GetInt32_Request.msg
+[61.650s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/srv/GetInt32_Response.msg
+[61.650s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/srv/GetString.srv
+[61.650s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/srv/GetString_Request.msg
+[61.650s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/srv/GetString_Response.msg
+[61.651s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/srv/SetFilter.srv
+[61.651s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/srv/SetFilter_Request.msg
+[61.651s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/srv/SetFilter_Response.msg
+[61.651s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/srv/SetInt32.srv
+[61.651s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/srv/SetInt32_Request.msg
+[61.651s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/srv/SetInt32_Response.msg
+[61.651s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/srv/SetString.srv
+[61.651s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/srv/SetString_Request.msg
+[61.651s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/srv/SetString_Response.msg
+[61.651s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/srv/SetArrays.srv
+[61.651s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/srv/SetArrays_Request.msg
+[61.651s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/srv/SetArrays_Response.msg
+[61.652s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/srv/GetUserCalibParams.srv
+[61.652s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/srv/GetUserCalibParams_Request.msg
+[61.652s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/srv/GetUserCalibParams_Response.msg
+[61.652s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/srv/SetUserCalibParams.srv
+[61.652s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/srv/SetUserCalibParams_Request.msg
+[61.652s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/srv/SetUserCalibParams_Response.msg
+[61.652s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/ament_index/resource_index/package_run_dependencies/orbbec_camera_msgs
+[61.652s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/ament_index/resource_index/parent_prefix_path/orbbec_camera_msgs
+[61.652s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/environment/ament_prefix_path.sh
+[61.652s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/environment/ament_prefix_path.dsv
+[61.652s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/environment/path.sh
+[61.652s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/environment/path.dsv
+[61.653s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/local_setup.bash
+[61.653s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/local_setup.sh
+[61.653s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/local_setup.zsh
+[61.653s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/local_setup.dsv
+[61.653s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/package.dsv
+[61.653s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/ament_index/resource_index/packages/orbbec_camera_msgs
+[61.653s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/cmake/export_orbbec_camera_msgs__rosidl_generator_cExport.cmake
+[61.653s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/cmake/export_orbbec_camera_msgs__rosidl_generator_cExport-release.cmake
+[61.653s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/cmake/export_orbbec_camera_msgs__rosidl_typesupport_fastrtps_cExport.cmake
+[61.653s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/cmake/export_orbbec_camera_msgs__rosidl_typesupport_fastrtps_cExport-release.cmake
+[61.653s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/cmake/orbbec_camera_msgs__rosidl_typesupport_introspection_cExport.cmake
+[61.654s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/cmake/orbbec_camera_msgs__rosidl_typesupport_introspection_cExport-release.cmake
+[61.654s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/cmake/orbbec_camera_msgs__rosidl_typesupport_cExport.cmake
+[61.654s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/cmake/orbbec_camera_msgs__rosidl_typesupport_cExport-release.cmake
+[61.654s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/cmake/export_orbbec_camera_msgs__rosidl_generator_cppExport.cmake
+[61.654s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/cmake/export_orbbec_camera_msgs__rosidl_typesupport_fastrtps_cppExport.cmake
+[61.654s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/cmake/export_orbbec_camera_msgs__rosidl_typesupport_fastrtps_cppExport-release.cmake
+[61.654s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/cmake/orbbec_camera_msgs__rosidl_typesupport_introspection_cppExport.cmake
+[61.654s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/cmake/orbbec_camera_msgs__rosidl_typesupport_introspection_cppExport-release.cmake
+[61.654s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/cmake/orbbec_camera_msgs__rosidl_typesupport_cppExport.cmake
+[61.654s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/cmake/orbbec_camera_msgs__rosidl_typesupport_cppExport-release.cmake
+[61.654s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/cmake/export_orbbec_camera_msgs__rosidl_generator_pyExport.cmake
+[61.655s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/cmake/export_orbbec_camera_msgs__rosidl_generator_pyExport-release.cmake
+[61.655s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/cmake/rosidl_cmake-extras.cmake
+[61.655s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/cmake/ament_cmake_export_dependencies-extras.cmake
+[61.655s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/cmake/ament_cmake_export_include_directories-extras.cmake
+[61.655s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/cmake/ament_cmake_export_libraries-extras.cmake
+[61.655s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/cmake/ament_cmake_export_targets-extras.cmake
+[61.655s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/cmake/rosidl_cmake_export_typesupport_targets-extras.cmake
+[61.655s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/cmake/rosidl_cmake_export_typesupport_libraries-extras.cmake
+[61.655s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/cmake/orbbec_camera_msgsConfig.cmake
+[61.655s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/cmake/orbbec_camera_msgsConfig-version.cmake
+[61.655s] -- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_287/orbbec_camera_msgs/share/orbbec_camera_msgs/package.xml
+[91.587s] Invoked command in '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/build_287/orbbec_camera_msgs' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/build_287/orbbec_camera_msgs

@@ -1,0 +1,19 @@
+// generated from rosidl_adapter/resource/srv.idl.em
+// with input from soarm100_interfaces/srv/SetHardwareTorque.srv
+// generated code does not contain a copyright notice
+
+
+module soarm100_interfaces {
+  module srv {
+    struct SetHardwareTorque_Request {
+      boolean enabled;
+
+      string confirmation;
+    };
+    struct SetHardwareTorque_Response {
+      boolean success;
+
+      string reason;
+    };
+  };
+};

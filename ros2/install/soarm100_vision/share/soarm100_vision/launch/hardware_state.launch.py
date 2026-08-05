@@ -1,0 +1,1 @@
+/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_vision/launch/hardware_state.launch.py

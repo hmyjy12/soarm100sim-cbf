@@ -15,6 +15,11 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   "action/PlanGrasp.action"
   "srv/SegmentTarget.srv"
   "srv/SetAvoidance.srv"
+  "srv/MoveSingleJoint.srv"
+  "srv/MoveJointDelta.srv"
+  "srv/MoveNamedPose.srv"
+  "srv/MoveJointTarget.srv"
+  "srv/SetHardwareTorque.srv"
   DEPENDENCIES builtin_interfaces geometry_msgs sensor_msgs std_msgs
 )
 

@@ -1,0 +1,2 @@
+/usr/bin/ar qc ../../lib/libob_examples_utils.a CMakeFiles/ob_examples_utils.dir/utils_c.c.o CMakeFiles/ob_examples_utils.dir/utils.cpp.o CMakeFiles/ob_examples_utils.dir/utils_opencv.cpp.o
+/usr/bin/ranlib ../../lib/libob_examples_utils.a

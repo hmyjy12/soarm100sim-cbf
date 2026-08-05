@@ -9,7 +9,12 @@ from sensor_msgs.msg import Image, RegionOfInterest
 from std_msgs.msg import String
 
 from soarm100_interfaces.msg import TrackedTarget2D
-from soarm100_vision.vision_utils import image_to_numpy
+from soarm100_vision.vision_utils import (
+    color_components,
+    hsv_color_mask,
+    image_to_numpy,
+    parse_rgb,
+)
 
 
 class WristTrackerNode(Node):
@@ -26,6 +31,13 @@ class WristTrackerNode(Node):
         self.declare_parameter("match_threshold", 0.45)
         self.declare_parameter("replan_lost_frames", 5)
         self.declare_parameter("template_update_alpha", 0.04)
+        self.declare_parameter("tracking_mode", "color")
+        self.declare_parameter("target_color_rgb", "255,0,0")
+        self.declare_parameter("color_hue_tolerance_deg", 18.0)
+        self.declare_parameter("color_saturation_min", 0.45)
+        self.declare_parameter("color_value_min", 0.30)
+        self.declare_parameter("color_min_area_px", 20)
+        self.declare_parameter("color_max_center_step_px", 96.0)
         self.declare_parameter("repo_root", str(Path(__file__).resolve().parents[3]))
         self.declare_parameter("save_failure_frames", True)
         self.declare_parameter(
@@ -55,6 +67,8 @@ class WristTrackerNode(Node):
         self.create_timer(1.0 / 30.0, self._tick)
         self.get_logger().info(
             "RGB wrist tracker ready: "
+            f"mode={self._param('tracking_mode')} "
+            f"color={self._param('target_color_rgb')} "
             f"rgb={self._param('rgb_topic')} hint={self._param('roi_hint_topic')} "
             f"tracked={self._param('tracked_topic')}"
         )
@@ -122,7 +136,11 @@ class WristTrackerNode(Node):
         try:
             import cv2
 
-            gray = self._gray(image_to_numpy(msg))
+            rgb = image_to_numpy(msg)
+            if str(self._param("tracking_mode")).strip().lower() == "color":
+                self._track_color(msg, rgb)
+                return
+            gray = self._gray(rgb)
             if self._template is None or self._bbox is None:
                 if not self._initialize(gray):
                     self._publish(msg, valid=False, reason="waiting_for_visible_roi")
@@ -132,10 +150,8 @@ class WristTrackerNode(Node):
             if hint is None:
                 self._lost(msg, "tracking_hint_missing")
                 return
-            x1 = int(hint.x_offset)
-            y1 = int(hint.y_offset)
-            x2 = int(hint.x_offset + hint.width)
-            y2 = int(hint.y_offset + hint.height)
+            previous_bbox = self._bbox
+            x1, y1, x2, y2 = previous_bbox
             expand = int(self._param("search_expand_px"))
             search_bbox = self._clip_bbox(
                 (x1 - expand, y1 - expand, x2 + expand, y2 + expand), gray.shape
@@ -182,6 +198,18 @@ class WristTrackerNode(Node):
             th, tw = matched_template.shape[:2]
             nx2, ny2 = nx1 + tw, ny1 + th
             self._bbox = (nx1, ny1, nx2, ny2)
+            previous_u = 0.5 * (previous_bbox[0] + previous_bbox[2])
+            previous_v = 0.5 * (previous_bbox[1] + previous_bbox[3])
+            current_u = 0.5 * (nx1 + nx2)
+            current_v = 0.5 * (ny1 + ny2)
+            reference_u = float(hint.x_offset + 0.5 * hint.width)
+            reference_v = float(hint.y_offset + 0.5 * hint.height)
+            frame_shift = float(
+                np.hypot(current_u - previous_u, current_v - previous_v)
+            )
+            reference_residual = float(
+                np.hypot(current_u - reference_u, current_v - reference_v)
+            )
             self._lost_frames = 0
             alpha = float(self._param("template_update_alpha"))
             patch = gray[ny1:ny2, nx1:nx2].astype(np.float32)
@@ -198,10 +226,78 @@ class WristTrackerNode(Node):
                 valid=True,
                 confidence=float(confidence),
                 bbox=self._bbox,
-                reason="track_ok",
+                reason=(
+                    f"track_ok frame_shift={frame_shift:.1f}px "
+                    f"reference_residual={reference_residual:.1f}px"
+                ),
             )
         except Exception as exc:
             self._lost(msg, f"tracker_error:{exc}")
+
+    def _track_color(self, msg: Image, rgb: np.ndarray) -> None:
+        hint = self._hint
+        if hint is None:
+            self._lost(msg, "tracking_hint_missing")
+            return
+        mask = hsv_color_mask(
+            rgb,
+            target_rgb=parse_rgb(str(self._param("target_color_rgb"))),
+            hue_tolerance_deg=float(self._param("color_hue_tolerance_deg")),
+            saturation_min=float(self._param("color_saturation_min")),
+            value_min=float(self._param("color_value_min")),
+        )
+        components = color_components(
+            mask, min_area=int(self._param("color_min_area_px"))
+        )
+        if not components:
+            self._lost(msg, "target_color_not_visible")
+            return
+        if self._bbox is None:
+            reference_u = float(hint.x_offset + 0.5 * hint.width)
+            reference_v = float(hint.y_offset + 0.5 * hint.height)
+        else:
+            reference_u = 0.5 * (self._bbox[0] + self._bbox[2])
+            reference_v = 0.5 * (self._bbox[1] + self._bbox[3])
+        selected = min(
+            components,
+            key=lambda item: (
+                float(item["u"]) - reference_u
+            ) ** 2
+            + (float(item["v"]) - reference_v) ** 2,
+        )
+        center_step = float(
+            np.hypot(
+                float(selected["u"]) - reference_u,
+                float(selected["v"]) - reference_v,
+            )
+        )
+        if (
+            self._bbox is not None
+            and center_step > float(self._param("color_max_center_step_px"))
+        ):
+            self._lost(msg, f"color_center_jump:{center_step:.1f}px")
+            return
+        self._bbox = tuple(int(x) for x in selected["bbox"])
+        self._lost_frames = 0
+        x1, y1, x2, y2 = self._bbox
+        fill = float(selected["area"]) / max((x2 - x1) * (y2 - y1), 1)
+        confidence = min(1.0, max(fill, 0.0))
+        hint_u = float(hint.x_offset + 0.5 * hint.width)
+        hint_v = float(hint.y_offset + 0.5 * hint.height)
+        residual = float(
+            np.hypot(float(selected["u"]) - hint_u, float(selected["v"]) - hint_v)
+        )
+        self._publish(
+            msg,
+            valid=True,
+            confidence=confidence,
+            bbox=self._bbox,
+            reason=(
+                f"color_track area={int(selected['area'])} "
+                f"frame_shift={center_step:.1f}px "
+                f"reference_residual={residual:.1f}px"
+            ),
+        )
 
     def _save_failure_frame(
         self,

@@ -1,0 +1,11 @@
+[INFO] [1785403553.116384653] [hardware_single_joint_service]: guarded single-joint service ready: /hardware/move_single_joint; max_delta=2deg, automatic return and torque-off
+[WARN] [1785403573.648884856] [hardware_single_joint_service]: executing guarded motion joint=wrist_roll delta=+1.00deg
+[ERROR] [1785403578.001591929] [hardware_single_joint_service]: guarded motion failed rc=1: ls/decorators.py", line 29, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/lerobot-main/src/lerobot/motors/motors_bus.py", line 1097, in write
+    self._write(addr, length, id_, int_value, num_retry=num_retry, raise_on_error=True, err_msg=err_msg)
+  File "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/lerobot-main/src/lerobot/motors/motors_bus.py", line 1121, in _write
+    raise ConnectionError(f"{err_msg} {self.packet_handler.getTxRxResult(comm)}")
+ConnectionError: Failed to write 'Torque_Enable' on id_=6 with '0' after 3 tries. [TxRxResult] Port is in use!
+ERROR conda.cli.main_run:execute(142): `conda run python /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/hardware/tools/test_single_joint.py --port /dev/ttyACM0 --calibration /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/hardware/calibration/lerobot/so100_plus_7dof.json --joint wrist_roll --delta-deg 1 --duration 1.5 --hold 0.5 --log /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/logs/hardware/ros2_single_joint_wrist_roll_20260730_172613_648242.jsonl --confirm MOVE_SINGLE_JOINT` failed. (See above for error)

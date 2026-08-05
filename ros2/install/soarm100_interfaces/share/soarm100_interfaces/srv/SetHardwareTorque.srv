@@ -1,0 +1,5 @@
+bool enabled
+string confirmation
+---
+bool success
+string reason

@@ -1,0 +1,1473 @@
+[0.000000] (-) TimerEvent: {}
+[0.000145] (-) JobUnselected: {'identifier': 'orbbec_camera_msgs'}
+[0.000464] (-) JobUnselected: {'identifier': 'orbbec_description'}
+[0.000493] (orbbec_camera) JobQueued: {'identifier': 'orbbec_camera', 'dependencies': OrderedDict([('orbbec_camera_msgs', '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera_msgs')])}
+[0.000558] (orbbec_camera) JobStarted: {'identifier': 'orbbec_camera'}
+[0.100078] (-) TimerEvent: {}
+[0.200367] (-) TimerEvent: {}
+[0.300678] (-) TimerEvent: {}
+[0.400946] (-) TimerEvent: {}
+[0.501161] (-) TimerEvent: {}
+[0.601417] (-) TimerEvent: {}
+[0.701693] (-) TimerEvent: {}
+[0.801947] (-) TimerEvent: {}
+[0.902117] (-) TimerEvent: {}
+[1.002383] (-) TimerEvent: {}
+[1.102602] (-) TimerEvent: {}
+[1.202827] (-) TimerEvent: {}
+[1.303107] (-) TimerEvent: {}
+[1.403357] (-) TimerEvent: {}
+[1.503537] (-) TimerEvent: {}
+[1.603744] (-) TimerEvent: {}
+[1.703972] (-) TimerEvent: {}
+[1.804204] (-) TimerEvent: {}
+[1.904405] (-) TimerEvent: {}
+[2.004616] (-) TimerEvent: {}
+[2.104847] (-) TimerEvent: {}
+[2.205114] (-) TimerEvent: {}
+[2.305374] (-) TimerEvent: {}
+[2.405586] (-) TimerEvent: {}
+[2.505802] (-) TimerEvent: {}
+[2.606000] (-) TimerEvent: {}
+[2.706204] (-) TimerEvent: {}
+[2.806467] (-) TimerEvent: {}
+[2.906656] (-) TimerEvent: {}
+[3.006925] (-) TimerEvent: {}
+[3.107173] (-) TimerEvent: {}
+[3.207427] (-) TimerEvent: {}
+[3.307691] (-) TimerEvent: {}
+[3.407938] (-) TimerEvent: {}
+[3.508167] (-) TimerEvent: {}
+[3.608461] (-) TimerEvent: {}
+[3.708691] (-) TimerEvent: {}
+[3.808953] (-) TimerEvent: {}
+[3.909207] (-) TimerEvent: {}
+[4.009528] (-) TimerEvent: {}
+[4.109787] (-) TimerEvent: {}
+[4.210031] (-) TimerEvent: {}
+[4.310293] (-) TimerEvent: {}
+[4.410543] (-) TimerEvent: {}
+[4.510807] (-) TimerEvent: {}
+[4.611087] (-) TimerEvent: {}
+[4.711368] (-) TimerEvent: {}
+[4.811613] (-) TimerEvent: {}
+[4.911842] (-) TimerEvent: {}
+[5.012156] (-) TimerEvent: {}
+[5.112428] (-) TimerEvent: {}
+[5.212644] (-) TimerEvent: {}
+[5.312865] (-) TimerEvent: {}
+[5.413142] (-) TimerEvent: {}
+[5.513434] (-) TimerEvent: {}
+[5.613672] (-) TimerEvent: {}
+[5.713906] (-) TimerEvent: {}
+[5.814122] (-) TimerEvent: {}
+[5.914393] (-) TimerEvent: {}
+[6.014619] (-) TimerEvent: {}
+[6.114874] (-) TimerEvent: {}
+[6.215107] (-) TimerEvent: {}
+[6.315312] (-) TimerEvent: {}
+[6.415564] (-) TimerEvent: {}
+[6.515818] (-) TimerEvent: {}
+[6.616042] (-) TimerEvent: {}
+[6.716226] (-) TimerEvent: {}
+[6.816438] (-) TimerEvent: {}
+[6.916658] (-) TimerEvent: {}
+[7.016920] (-) TimerEvent: {}
+[7.117186] (-) TimerEvent: {}
+[7.217495] (-) TimerEvent: {}
+[7.317745] (-) TimerEvent: {}
+[7.417977] (-) TimerEvent: {}
+[7.518227] (-) TimerEvent: {}
+[7.618499] (-) TimerEvent: {}
+[7.718710] (-) TimerEvent: {}
+[7.818921] (-) TimerEvent: {}
+[7.919166] (-) TimerEvent: {}
+[8.019402] (-) TimerEvent: {}
+[8.119630] (-) TimerEvent: {}
+[8.219927] (-) TimerEvent: {}
+[8.320249] (-) TimerEvent: {}
+[8.420451] (-) TimerEvent: {}
+[8.520640] (-) TimerEvent: {}
+[8.620853] (-) TimerEvent: {}
+[8.721008] (-) TimerEvent: {}
+[8.821271] (-) TimerEvent: {}
+[8.921516] (-) TimerEvent: {}
+[9.021743] (-) TimerEvent: {}
+[9.122043] (-) TimerEvent: {}
+[9.222367] (-) TimerEvent: {}
+[9.322640] (-) TimerEvent: {}
+[9.422901] (-) TimerEvent: {}
+[9.523198] (-) TimerEvent: {}
+[9.623520] (-) TimerEvent: {}
+[9.723780] (-) TimerEvent: {}
+[9.824080] (-) TimerEvent: {}
+[9.924392] (-) TimerEvent: {}
+[10.024657] (-) TimerEvent: {}
+[10.124930] (-) TimerEvent: {}
+[10.225230] (-) TimerEvent: {}
+[10.325584] (-) TimerEvent: {}
+[10.425811] (-) TimerEvent: {}
+[10.525975] (-) TimerEvent: {}
+[10.626142] (-) TimerEvent: {}
+[10.726321] (-) TimerEvent: {}
+[10.826540] (-) TimerEvent: {}
+[10.926747] (-) TimerEvent: {}
+[11.026980] (-) TimerEvent: {}
+[11.127203] (-) TimerEvent: {}
+[11.227446] (-) TimerEvent: {}
+[11.327694] (-) TimerEvent: {}
+[11.427921] (-) TimerEvent: {}
+[11.528099] (-) TimerEvent: {}
+[11.628312] (-) TimerEvent: {}
+[11.728527] (-) TimerEvent: {}
+[11.828702] (-) TimerEvent: {}
+[11.928922] (-) TimerEvent: {}
+[12.029200] (-) TimerEvent: {}
+[12.129465] (-) TimerEvent: {}
+[12.229697] (-) TimerEvent: {}
+[12.329909] (-) TimerEvent: {}
+[12.430116] (-) TimerEvent: {}
+[12.530390] (-) TimerEvent: {}
+[12.630609] (-) TimerEvent: {}
+[12.730822] (-) TimerEvent: {}
+[12.831200] (-) TimerEvent: {}
+[12.931420] (-) TimerEvent: {}
+[13.031624] (-) TimerEvent: {}
+[13.131853] (-) TimerEvent: {}
+[13.232043] (-) TimerEvent: {}
+[13.332245] (-) TimerEvent: {}
+[13.432442] (-) TimerEvent: {}
+[13.532657] (-) TimerEvent: {}
+[13.632878] (-) TimerEvent: {}
+[13.733073] (-) TimerEvent: {}
+[13.833287] (-) TimerEvent: {}
+[13.933541] (-) TimerEvent: {}
+[14.033776] (-) TimerEvent: {}
+[14.134031] (-) TimerEvent: {}
+[14.234235] (-) TimerEvent: {}
+[14.334432] (-) TimerEvent: {}
+[14.434646] (-) TimerEvent: {}
+[14.534903] (-) TimerEvent: {}
+[14.635099] (-) TimerEvent: {}
+[14.735282] (-) TimerEvent: {}
+[14.835484] (-) TimerEvent: {}
+[14.935676] (-) TimerEvent: {}
+[15.035887] (-) TimerEvent: {}
+[15.136094] (-) TimerEvent: {}
+[15.236369] (-) TimerEvent: {}
+[15.336564] (-) TimerEvent: {}
+[15.436779] (-) TimerEvent: {}
+[15.536899] (-) TimerEvent: {}
+[15.637065] (-) TimerEvent: {}
+[15.737266] (-) TimerEvent: {}
+[15.837495] (-) TimerEvent: {}
+[15.937708] (-) TimerEvent: {}
+[16.037919] (-) TimerEvent: {}
+[16.138145] (-) TimerEvent: {}
+[16.238357] (-) TimerEvent: {}
+[16.338560] (-) TimerEvent: {}
+[16.438781] (-) TimerEvent: {}
+[16.539010] (-) TimerEvent: {}
+[16.639236] (-) TimerEvent: {}
+[16.739435] (-) TimerEvent: {}
+[16.839647] (-) TimerEvent: {}
+[16.939899] (-) TimerEvent: {}
+[17.040100] (-) TimerEvent: {}
+[17.140309] (-) TimerEvent: {}
+[17.240537] (-) TimerEvent: {}
+[17.340776] (-) TimerEvent: {}
+[17.441023] (-) TimerEvent: {}
+[17.541250] (-) TimerEvent: {}
+[17.641483] (-) TimerEvent: {}
+[17.741665] (-) TimerEvent: {}
+[17.841869] (-) TimerEvent: {}
+[17.942077] (-) TimerEvent: {}
+[18.042334] (-) TimerEvent: {}
+[18.142639] (-) TimerEvent: {}
+[18.242901] (-) TimerEvent: {}
+[18.343156] (-) TimerEvent: {}
+[18.443515] (-) TimerEvent: {}
+[18.543723] (-) TimerEvent: {}
+[18.643945] (-) TimerEvent: {}
+[18.744168] (-) TimerEvent: {}
+[18.844345] (-) TimerEvent: {}
+[18.944533] (-) TimerEvent: {}
+[19.044731] (-) TimerEvent: {}
+[19.144939] (-) TimerEvent: {}
+[19.245214] (-) TimerEvent: {}
+[19.345545] (-) TimerEvent: {}
+[19.445876] (-) TimerEvent: {}
+[19.546216] (-) TimerEvent: {}
+[19.646584] (-) TimerEvent: {}
+[19.746779] (-) TimerEvent: {}
+[19.846986] (-) TimerEvent: {}
+[19.947237] (-) TimerEvent: {}
+[20.047575] (-) TimerEvent: {}
+[20.147827] (-) TimerEvent: {}
+[20.248099] (-) TimerEvent: {}
+[20.348397] (-) TimerEvent: {}
+[20.448650] (-) TimerEvent: {}
+[20.548887] (-) TimerEvent: {}
+[20.649134] (-) TimerEvent: {}
+[20.749427] (-) TimerEvent: {}
+[20.849668] (-) TimerEvent: {}
+[20.949887] (-) TimerEvent: {}
+[21.050184] (-) TimerEvent: {}
+[21.150470] (-) TimerEvent: {}
+[21.250680] (-) TimerEvent: {}
+[21.350874] (-) TimerEvent: {}
+[21.451118] (-) TimerEvent: {}
+[21.551390] (-) TimerEvent: {}
+[21.651614] (-) TimerEvent: {}
+[21.751863] (-) TimerEvent: {}
+[21.852151] (-) TimerEvent: {}
+[21.952356] (-) TimerEvent: {}
+[22.052597] (-) TimerEvent: {}
+[22.152800] (-) TimerEvent: {}
+[22.253025] (-) TimerEvent: {}
+[22.353275] (-) TimerEvent: {}
+[22.453577] (-) TimerEvent: {}
+[22.553867] (-) TimerEvent: {}
+[22.654100] (-) TimerEvent: {}
+[22.754328] (-) TimerEvent: {}
+[22.854548] (-) TimerEvent: {}
+[22.954766] (-) TimerEvent: {}
+[23.054989] (-) TimerEvent: {}
+[23.155219] (-) TimerEvent: {}
+[23.255409] (-) TimerEvent: {}
+[23.355604] (-) TimerEvent: {}
+[23.455835] (-) TimerEvent: {}
+[23.556045] (-) TimerEvent: {}
+[23.656286] (-) TimerEvent: {}
+[23.756537] (-) TimerEvent: {}
+[23.856795] (-) TimerEvent: {}
+[23.957025] (-) TimerEvent: {}
+[24.057310] (-) TimerEvent: {}
+[24.157634] (-) TimerEvent: {}
+[24.257952] (-) TimerEvent: {}
+[24.358192] (-) TimerEvent: {}
+[24.458476] (-) TimerEvent: {}
+[24.558725] (-) TimerEvent: {}
+[24.658988] (-) TimerEvent: {}
+[24.759250] (-) TimerEvent: {}
+[24.859517] (-) TimerEvent: {}
+[24.959746] (-) TimerEvent: {}
+[25.060003] (-) TimerEvent: {}
+[25.160324] (-) TimerEvent: {}
+[25.260713] (-) TimerEvent: {}
+[25.360979] (-) TimerEvent: {}
+[25.461393] (-) TimerEvent: {}
+[25.561674] (-) TimerEvent: {}
+[25.661951] (-) TimerEvent: {}
+[25.762217] (-) TimerEvent: {}
+[25.862532] (-) TimerEvent: {}
+[25.962797] (-) TimerEvent: {}
+[26.063057] (-) TimerEvent: {}
+[26.163373] (-) TimerEvent: {}
+[26.263712] (-) TimerEvent: {}
+[26.363950] (-) TimerEvent: {}
+[26.464199] (-) TimerEvent: {}
+[26.564485] (-) TimerEvent: {}
+[26.664747] (-) TimerEvent: {}
+[26.765023] (-) TimerEvent: {}
+[26.865298] (-) TimerEvent: {}
+[26.965589] (-) TimerEvent: {}
+[27.065851] (-) TimerEvent: {}
+[27.166071] (-) TimerEvent: {}
+[27.266366] (-) TimerEvent: {}
+[27.366650] (-) TimerEvent: {}
+[27.466910] (-) TimerEvent: {}
+[27.567148] (-) TimerEvent: {}
+[27.667403] (-) TimerEvent: {}
+[27.767656] (-) TimerEvent: {}
+[27.867912] (-) TimerEvent: {}
+[27.968169] (-) TimerEvent: {}
+[28.068403] (-) TimerEvent: {}
+[28.168586] (-) TimerEvent: {}
+[28.268807] (-) TimerEvent: {}
+[28.369088] (-) TimerEvent: {}
+[28.469327] (-) TimerEvent: {}
+[28.569539] (-) TimerEvent: {}
+[28.669760] (-) TimerEvent: {}
+[28.769981] (-) TimerEvent: {}
+[28.870263] (-) TimerEvent: {}
+[28.970514] (-) TimerEvent: {}
+[29.070729] (-) TimerEvent: {}
+[29.170952] (-) TimerEvent: {}
+[29.271183] (-) TimerEvent: {}
+[29.371445] (-) TimerEvent: {}
+[29.471677] (-) TimerEvent: {}
+[29.571924] (-) TimerEvent: {}
+[29.672154] (-) TimerEvent: {}
+[29.772366] (-) TimerEvent: {}
+[29.872540] (-) TimerEvent: {}
+[29.972692] (-) TimerEvent: {}
+[30.008525] (orbbec_camera) JobProgress: {'identifier': 'orbbec_camera', 'progress': 'cmake'}
+[30.009577] (orbbec_camera) Command: {'cmd': ['/usr/bin/cmake', '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/src/OrbbecSDK_ROS2/orbbec_camera', '-DCMAKE_BUILD_TYPE=Release', '-DINSTALL_UDEV_RULES=OFF', '-DPython3_EXECUTABLE=/usr/bin/python3', '-DCMAKE_INSTALL_PREFIX=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera'], 'cwd': '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/build_clean/orbbec_camera', 'env': OrderedDict([('USER', 'sophie'), ('SHLVL', '0'), ('LD_LIBRARY_PATH', '/usr/lib/x86_64-linux-gnu/gazebo-11/plugins:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib'), ('HOME', '/home/sophie'), ('ROS_PYTHON_VERSION', '3'), ('ROS_DISTRO', 'humble'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('ROS_LOCALHOST_ONLY', '0'), ('PATH', '/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'), ('LANG', 'C.UTF-8'), ('AMENT_PREFIX_PATH', '/opt/ros/humble'), ('PWD', '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/build_clean/orbbec_camera'), ('PYTHONPATH', '/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('COLCON', '1'), ('CMAKE_PREFIX_PATH', '/opt/ros/humble')]), 'shell': False}
+[30.072800] (-) TimerEvent: {}
+[30.083389] (orbbec_camera) StdoutLine: {'line': b'-- The C compiler identification is GNU 11.4.0\n'}
+[30.142733] (orbbec_camera) StdoutLine: {'line': b'-- The CXX compiler identification is GNU 11.4.0\n'}
+[30.147898] (orbbec_camera) StdoutLine: {'line': b'-- Detecting C compiler ABI info\n'}
+[30.172915] (-) TimerEvent: {}
+[30.202956] (orbbec_camera) StdoutLine: {'line': b'-- Detecting C compiler ABI info - done\n'}
+[30.211880] (orbbec_camera) StdoutLine: {'line': b'-- Check for working C compiler: /usr/bin/cc - skipped\n'}
+[30.212128] (orbbec_camera) StdoutLine: {'line': b'-- Detecting C compile features\n'}
+[30.212784] (orbbec_camera) StdoutLine: {'line': b'-- Detecting C compile features - done\n'}
+[30.216903] (orbbec_camera) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info\n'}
+[30.273031] (-) TimerEvent: {}
+[30.279073] (orbbec_camera) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info - done\n'}
+[30.284326] (orbbec_camera) StdoutLine: {'line': b'-- Check for working CXX compiler: /usr/bin/c++ - skipped\n'}
+[30.284517] (orbbec_camera) StdoutLine: {'line': b'-- Detecting CXX compile features\n'}
+[30.284774] (orbbec_camera) StdoutLine: {'line': b'-- Detecting CXX compile features - done\n'}
+[30.286407] (orbbec_camera) StdoutLine: {'line': b'-- Found ament_cmake: 1.3.14 (/opt/ros/humble/share/ament_cmake/cmake)\n'}
+[30.373167] (-) TimerEvent: {}
+[30.434828] (orbbec_camera) StdoutLine: {'line': b'-- Found Python3: /usr/bin/python3 (found version "3.10.12") found components: Interpreter \n'}
+[30.473245] (-) TimerEvent: {}
+[30.503702] (orbbec_camera) StdoutLine: {'line': b'-- Found ament_index_cpp: 1.4.1 (/opt/ros/humble/share/ament_index_cpp/cmake)\n'}
+[30.511148] (orbbec_camera) StdoutLine: {'line': b'-- Found builtin_interfaces: 1.2.2 (/opt/ros/humble/share/builtin_interfaces/cmake)\n'}
+[30.532804] (orbbec_camera) StdoutLine: {'line': b'-- Found rosidl_generator_c: 3.1.8 (/opt/ros/humble/share/rosidl_generator_c/cmake)\n'}
+[30.535789] (orbbec_camera) StdoutLine: {'line': b'-- Found rosidl_adapter: 3.1.8 (/opt/ros/humble/share/rosidl_adapter/cmake)\n'}
+[30.541089] (orbbec_camera) StdoutLine: {'line': b'-- Found rosidl_generator_cpp: 3.1.8 (/opt/ros/humble/share/rosidl_generator_cpp/cmake)\n'}
+[30.548626] (orbbec_camera) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c\n'}
+[30.558666] (orbbec_camera) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp\n'}
+[30.568051] (orbbec_camera) StdoutLine: {'line': b'-- Found cv_bridge: 3.2.1 (/opt/ros/humble/share/cv_bridge/cmake)\n'}
+[30.573348] (-) TimerEvent: {}
+[30.607032] (orbbec_camera) StdoutLine: {'line': b'-- Found camera_info_manager: 3.1.12 (/opt/ros/humble/share/camera_info_manager/cmake)\n'}
+[30.632070] (orbbec_camera) StdoutLine: {'line': b'-- Found rmw_implementation_cmake: 6.1.2 (/opt/ros/humble/share/rmw_implementation_cmake/cmake)\n'}
+[30.633666] (orbbec_camera) StdoutLine: {'line': b'-- Found rmw_fastrtps_cpp: 6.2.10 (/opt/ros/humble/share/rmw_fastrtps_cpp/cmake)\n'}
+[30.673520] (-) TimerEvent: {}
+[30.704651] (orbbec_camera) StdoutLine: {'line': b'-- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "3.0.2")  \n'}
+[30.725942] (orbbec_camera) StdoutLine: {'line': b'-- Found FastRTPS: /opt/ros/humble/include  \n'}
+[30.767133] (orbbec_camera) StdoutLine: {'line': b"-- Using RMW implementation 'rmw_fastrtps_cpp' as default\n"}
+[30.773570] (-) TimerEvent: {}
+[30.775378] (orbbec_camera) StdoutLine: {'line': b'-- Looking for pthread.h\n'}
+[30.850034] (orbbec_camera) StdoutLine: {'line': b'-- Looking for pthread.h - found\n'}
+[30.850394] (orbbec_camera) StdoutLine: {'line': b'-- Performing Test CMAKE_HAVE_LIBC_PTHREAD\n'}
+[30.873727] (-) TimerEvent: {}
+[30.931607] (orbbec_camera) StdoutLine: {'line': b'-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success\n'}
+[30.932370] (orbbec_camera) StdoutLine: {'line': b'-- Found Threads: TRUE  \n'}
+[30.964004] (orbbec_camera) StdoutLine: {'line': b'-- Found image_transport: 3.1.12 (/opt/ros/humble/share/image_transport/cmake)\n'}
+[30.973872] (-) TimerEvent: {}
+[30.984053] (orbbec_camera) StdoutLine: {'line': b'-- Found image_publisher: 3.0.9 (/opt/ros/humble/share/image_publisher/cmake)\n'}
+[31.001652] (orbbec_camera) StdoutLine: {'line': b'-- Found OpenCV: /usr (found version "4.5.4") \n'}
+[31.002524] (orbbec_camera) StdoutLine: {'line': b'-- Found orbbec_camera_msgs: 2.8.6 (/opt/ros/humble/share/orbbec_camera_msgs/cmake)\n'}
+[31.013972] (orbbec_camera) StdoutLine: {'line': b'-- Found std_srvs: 4.9.1 (/opt/ros/humble/share/std_srvs/cmake)\n'}
+[31.021013] (orbbec_camera) StdoutLine: {'line': b'-- Found tf2: 0.25.20 (/opt/ros/humble/share/tf2/cmake)\n'}
+[31.023856] (orbbec_camera) StdoutLine: {'line': b'-- Found tf2_msgs: 0.25.20 (/opt/ros/humble/share/tf2_msgs/cmake)\n'}
+[31.051076] (orbbec_camera) StdoutLine: {'line': b'-- Found tf2_ros: 0.25.20 (/opt/ros/humble/share/tf2_ros/cmake)\n'}
+[31.062997] (orbbec_camera) StdoutLine: {'line': b'-- Found tf2_sensor_msgs: 0.25.20 (/opt/ros/humble/share/tf2_sensor_msgs/cmake)\n'}
+[31.068378] (orbbec_camera) StdoutLine: {'line': b'-- Found diagnostic_updater: 4.0.7 (/opt/ros/humble/share/diagnostic_updater/cmake)\n'}
+[31.074034] (-) TimerEvent: {}
+[31.085144] (orbbec_camera) StdoutLine: {'line': b'-- Found PkgConfig: /usr/bin/pkg-config (found version "0.29.2") \n'}
+[31.094580] (orbbec_camera) StdoutLine: {'line': b'-- ORRBEC Machine : x86_64\n'}
+[31.094659] (orbbec_camera) StdoutLine: {'line': b'\n'}
+[31.094692] (orbbec_camera) StdoutLine: {'line': b'-- ORRBEC Machine Bits : 64\n'}
+[31.094718] (orbbec_camera) StdoutLine: {'line': b'\n'}
+[31.174174] (-) TimerEvent: {}
+[31.224708] (orbbec_camera) StdoutLine: {'line': b'-- Found ament_lint_auto: 0.12.15 (/opt/ros/humble/share/ament_lint_auto/cmake)\n'}
+[31.274303] (-) TimerEvent: {}
+[31.288184] (orbbec_camera) StdoutLine: {'line': b'-- Configuring done\n'}
+[31.374429] (-) TimerEvent: {}
+[31.448580] (orbbec_camera) StdoutLine: {'line': b'-- Generating done\n'}
+[31.474501] (-) TimerEvent: {}
+[31.489023] (orbbec_camera) StdoutLine: {'line': b'-- Build files have been written to: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/build_clean/orbbec_camera\n'}
+[31.574627] (-) TimerEvent: {}
+[31.674890] (-) TimerEvent: {}
+[31.775162] (-) TimerEvent: {}
+[31.875442] (-) TimerEvent: {}
+[31.975665] (-) TimerEvent: {}
+[32.075881] (-) TimerEvent: {}
+[32.176120] (-) TimerEvent: {}
+[32.276394] (-) TimerEvent: {}
+[32.376618] (-) TimerEvent: {}
+[32.476844] (-) TimerEvent: {}
+[32.577088] (-) TimerEvent: {}
+[32.677364] (-) TimerEvent: {}
+[32.777627] (-) TimerEvent: {}
+[32.877857] (-) TimerEvent: {}
+[32.978100] (-) TimerEvent: {}
+[33.078437] (-) TimerEvent: {}
+[33.178682] (-) TimerEvent: {}
+[33.278934] (-) TimerEvent: {}
+[33.379168] (-) TimerEvent: {}
+[33.479421] (-) TimerEvent: {}
+[33.579643] (-) TimerEvent: {}
+[33.679976] (-) TimerEvent: {}
+[33.780267] (-) TimerEvent: {}
+[33.880517] (-) TimerEvent: {}
+[33.980759] (-) TimerEvent: {}
+[34.081064] (-) TimerEvent: {}
+[34.181359] (-) TimerEvent: {}
+[34.281581] (-) TimerEvent: {}
+[34.381816] (-) TimerEvent: {}
+[34.482046] (-) TimerEvent: {}
+[34.582326] (-) TimerEvent: {}
+[34.682584] (-) TimerEvent: {}
+[34.782824] (-) TimerEvent: {}
+[34.883073] (-) TimerEvent: {}
+[34.983307] (-) TimerEvent: {}
+[35.083531] (-) TimerEvent: {}
+[35.183759] (-) TimerEvent: {}
+[35.284008] (-) TimerEvent: {}
+[35.384234] (-) TimerEvent: {}
+[35.484508] (-) TimerEvent: {}
+[35.584735] (-) TimerEvent: {}
+[35.684982] (-) TimerEvent: {}
+[35.785232] (-) TimerEvent: {}
+[35.885418] (-) TimerEvent: {}
+[35.985631] (-) TimerEvent: {}
+[36.085829] (-) TimerEvent: {}
+[36.186061] (-) TimerEvent: {}
+[36.286371] (-) TimerEvent: {}
+[36.386611] (-) TimerEvent: {}
+[36.486846] (-) TimerEvent: {}
+[36.587085] (-) TimerEvent: {}
+[36.687285] (-) TimerEvent: {}
+[36.787498] (-) TimerEvent: {}
+[36.887719] (-) TimerEvent: {}
+[36.987953] (-) TimerEvent: {}
+[37.088170] (-) TimerEvent: {}
+[37.188474] (-) TimerEvent: {}
+[37.288732] (-) TimerEvent: {}
+[37.388940] (-) TimerEvent: {}
+[37.489164] (-) TimerEvent: {}
+[37.589411] (-) TimerEvent: {}
+[37.689630] (-) TimerEvent: {}
+[37.789860] (-) TimerEvent: {}
+[37.890100] (-) TimerEvent: {}
+[37.990328] (-) TimerEvent: {}
+[38.090560] (-) TimerEvent: {}
+[38.190799] (-) TimerEvent: {}
+[38.291060] (-) TimerEvent: {}
+[38.391320] (-) TimerEvent: {}
+[38.491553] (-) TimerEvent: {}
+[38.591777] (-) TimerEvent: {}
+[38.692044] (-) TimerEvent: {}
+[38.792303] (-) TimerEvent: {}
+[38.892568] (-) TimerEvent: {}
+[38.992807] (-) TimerEvent: {}
+[39.093083] (-) TimerEvent: {}
+[39.193363] (-) TimerEvent: {}
+[39.293708] (-) TimerEvent: {}
+[39.393972] (-) TimerEvent: {}
+[39.494268] (-) TimerEvent: {}
+[39.594525] (-) TimerEvent: {}
+[39.694786] (-) TimerEvent: {}
+[39.795046] (-) TimerEvent: {}
+[39.895269] (-) TimerEvent: {}
+[39.995523] (-) TimerEvent: {}
+[40.095757] (-) TimerEvent: {}
+[40.196004] (-) TimerEvent: {}
+[40.296264] (-) TimerEvent: {}
+[40.396592] (-) TimerEvent: {}
+[40.496868] (-) TimerEvent: {}
+[40.597119] (-) TimerEvent: {}
+[40.697374] (-) TimerEvent: {}
+[40.797671] (-) TimerEvent: {}
+[40.897949] (-) TimerEvent: {}
+[40.998197] (-) TimerEvent: {}
+[41.098481] (-) TimerEvent: {}
+[41.198749] (-) TimerEvent: {}
+[41.299036] (-) TimerEvent: {}
+[41.399256] (-) TimerEvent: {}
+[41.499476] (-) TimerEvent: {}
+[41.599683] (-) TimerEvent: {}
+[41.699913] (-) TimerEvent: {}
+[41.800177] (-) TimerEvent: {}
+[41.900454] (-) TimerEvent: {}
+[42.000704] (-) TimerEvent: {}
+[42.100945] (-) TimerEvent: {}
+[42.201175] (-) TimerEvent: {}
+[42.301418] (-) TimerEvent: {}
+[42.401605] (-) TimerEvent: {}
+[42.501800] (-) TimerEvent: {}
+[42.602067] (-) TimerEvent: {}
+[42.702315] (-) TimerEvent: {}
+[42.802537] (-) TimerEvent: {}
+[42.902750] (-) TimerEvent: {}
+[43.002939] (-) TimerEvent: {}
+[43.103137] (-) TimerEvent: {}
+[43.203375] (-) TimerEvent: {}
+[43.303557] (-) TimerEvent: {}
+[43.403845] (-) TimerEvent: {}
+[43.504090] (-) TimerEvent: {}
+[43.604378] (-) TimerEvent: {}
+[43.704618] (-) TimerEvent: {}
+[43.804847] (-) TimerEvent: {}
+[43.905086] (-) TimerEvent: {}
+[44.005277] (-) TimerEvent: {}
+[44.105528] (-) TimerEvent: {}
+[44.205745] (-) TimerEvent: {}
+[44.305972] (-) TimerEvent: {}
+[44.406173] (-) TimerEvent: {}
+[44.506477] (-) TimerEvent: {}
+[44.606711] (-) TimerEvent: {}
+[44.706944] (-) TimerEvent: {}
+[44.807184] (-) TimerEvent: {}
+[44.907428] (-) TimerEvent: {}
+[45.007622] (-) TimerEvent: {}
+[45.107847] (-) TimerEvent: {}
+[45.208107] (-) TimerEvent: {}
+[45.308385] (-) TimerEvent: {}
+[45.408664] (-) TimerEvent: {}
+[45.508919] (-) TimerEvent: {}
+[45.609146] (-) TimerEvent: {}
+[45.709353] (-) TimerEvent: {}
+[45.809578] (-) TimerEvent: {}
+[45.909804] (-) TimerEvent: {}
+[46.010067] (-) TimerEvent: {}
+[46.110328] (-) TimerEvent: {}
+[46.210574] (-) TimerEvent: {}
+[46.310887] (-) TimerEvent: {}
+[46.411126] (-) TimerEvent: {}
+[46.511412] (-) TimerEvent: {}
+[46.611720] (-) TimerEvent: {}
+[46.711960] (-) TimerEvent: {}
+[46.812198] (-) TimerEvent: {}
+[46.912465] (-) TimerEvent: {}
+[47.012727] (-) TimerEvent: {}
+[47.112984] (-) TimerEvent: {}
+[47.213223] (-) TimerEvent: {}
+[47.313488] (-) TimerEvent: {}
+[47.413727] (-) TimerEvent: {}
+[47.513995] (-) TimerEvent: {}
+[47.614294] (-) TimerEvent: {}
+[47.714576] (-) TimerEvent: {}
+[47.814821] (-) TimerEvent: {}
+[47.915036] (-) TimerEvent: {}
+[48.015282] (-) TimerEvent: {}
+[48.115526] (-) TimerEvent: {}
+[48.215747] (-) TimerEvent: {}
+[48.316077] (-) TimerEvent: {}
+[48.416330] (-) TimerEvent: {}
+[48.516574] (-) TimerEvent: {}
+[48.616858] (-) TimerEvent: {}
+[48.717093] (-) TimerEvent: {}
+[48.817317] (-) TimerEvent: {}
+[48.917563] (-) TimerEvent: {}
+[49.017746] (-) TimerEvent: {}
+[49.117966] (-) TimerEvent: {}
+[49.218200] (-) TimerEvent: {}
+[49.318431] (-) TimerEvent: {}
+[49.418687] (-) TimerEvent: {}
+[49.518921] (-) TimerEvent: {}
+[49.619221] (-) TimerEvent: {}
+[49.719440] (-) TimerEvent: {}
+[49.819654] (-) TimerEvent: {}
+[49.919932] (-) TimerEvent: {}
+[50.020169] (-) TimerEvent: {}
+[50.120508] (-) TimerEvent: {}
+[50.220723] (-) TimerEvent: {}
+[50.320951] (-) TimerEvent: {}
+[50.421139] (-) TimerEvent: {}
+[50.521494] (-) TimerEvent: {}
+[50.621711] (-) TimerEvent: {}
+[50.721925] (-) TimerEvent: {}
+[50.822148] (-) TimerEvent: {}
+[50.922406] (-) TimerEvent: {}
+[51.022615] (-) TimerEvent: {}
+[51.122867] (-) TimerEvent: {}
+[51.223100] (-) TimerEvent: {}
+[51.323359] (-) TimerEvent: {}
+[51.423582] (-) TimerEvent: {}
+[51.523811] (-) TimerEvent: {}
+[51.624058] (-) TimerEvent: {}
+[51.724263] (-) TimerEvent: {}
+[51.824501] (-) TimerEvent: {}
+[51.924701] (-) TimerEvent: {}
+[52.024905] (-) TimerEvent: {}
+[52.125217] (-) TimerEvent: {}
+[52.225439] (-) TimerEvent: {}
+[52.325672] (-) TimerEvent: {}
+[52.425900] (-) TimerEvent: {}
+[52.526123] (-) TimerEvent: {}
+[52.626295] (-) TimerEvent: {}
+[52.726523] (-) TimerEvent: {}
+[52.826768] (-) TimerEvent: {}
+[52.927004] (-) TimerEvent: {}
+[53.027234] (-) TimerEvent: {}
+[53.127526] (-) TimerEvent: {}
+[53.227785] (-) TimerEvent: {}
+[53.328018] (-) TimerEvent: {}
+[53.428236] (-) TimerEvent: {}
+[53.528544] (-) TimerEvent: {}
+[53.628795] (-) TimerEvent: {}
+[53.728988] (-) TimerEvent: {}
+[53.829217] (-) TimerEvent: {}
+[53.929471] (-) TimerEvent: {}
+[54.029711] (-) TimerEvent: {}
+[54.129956] (-) TimerEvent: {}
+[54.230157] (-) TimerEvent: {}
+[54.330408] (-) TimerEvent: {}
+[54.430624] (-) TimerEvent: {}
+[54.530879] (-) TimerEvent: {}
+[54.631071] (-) TimerEvent: {}
+[54.731281] (-) TimerEvent: {}
+[54.831535] (-) TimerEvent: {}
+[54.931755] (-) TimerEvent: {}
+[55.031944] (-) TimerEvent: {}
+[55.132143] (-) TimerEvent: {}
+[55.232374] (-) TimerEvent: {}
+[55.332577] (-) TimerEvent: {}
+[55.432769] (-) TimerEvent: {}
+[55.532979] (-) TimerEvent: {}
+[55.633210] (-) TimerEvent: {}
+[55.733443] (-) TimerEvent: {}
+[55.833664] (-) TimerEvent: {}
+[55.933897] (-) TimerEvent: {}
+[56.034185] (-) TimerEvent: {}
+[56.134422] (-) TimerEvent: {}
+[56.234621] (-) TimerEvent: {}
+[56.334853] (-) TimerEvent: {}
+[56.435076] (-) TimerEvent: {}
+[56.535282] (-) TimerEvent: {}
+[56.635482] (-) TimerEvent: {}
+[56.735670] (-) TimerEvent: {}
+[56.835880] (-) TimerEvent: {}
+[56.936111] (-) TimerEvent: {}
+[57.036354] (-) TimerEvent: {}
+[57.136521] (-) TimerEvent: {}
+[57.236702] (-) TimerEvent: {}
+[57.336934] (-) TimerEvent: {}
+[57.437176] (-) TimerEvent: {}
+[57.537417] (-) TimerEvent: {}
+[57.637627] (-) TimerEvent: {}
+[57.737837] (-) TimerEvent: {}
+[57.838058] (-) TimerEvent: {}
+[57.938266] (-) TimerEvent: {}
+[58.038484] (-) TimerEvent: {}
+[58.138702] (-) TimerEvent: {}
+[58.238913] (-) TimerEvent: {}
+[58.339151] (-) TimerEvent: {}
+[58.439392] (-) TimerEvent: {}
+[58.539605] (-) TimerEvent: {}
+[58.639844] (-) TimerEvent: {}
+[58.740025] (-) TimerEvent: {}
+[58.840241] (-) TimerEvent: {}
+[58.940496] (-) TimerEvent: {}
+[59.040723] (-) TimerEvent: {}
+[59.140950] (-) TimerEvent: {}
+[59.241169] (-) TimerEvent: {}
+[59.341402] (-) TimerEvent: {}
+[59.441632] (-) TimerEvent: {}
+[59.541864] (-) TimerEvent: {}
+[59.642117] (-) TimerEvent: {}
+[59.742368] (-) TimerEvent: {}
+[59.842563] (-) TimerEvent: {}
+[59.942798] (-) TimerEvent: {}
+[60.036992] (orbbec_camera) CommandEnded: {'returncode': 0}
+[60.038091] (orbbec_camera) JobProgress: {'identifier': 'orbbec_camera', 'progress': 'build'}
+[60.039275] (orbbec_camera) Command: {'cmd': ['/usr/bin/cmake', '--build', '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/build_clean/orbbec_camera', '--', '-j32', '-l32'], 'cwd': '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/build_clean/orbbec_camera', 'env': OrderedDict([('USER', 'sophie'), ('SHLVL', '0'), ('LD_LIBRARY_PATH', '/usr/lib/x86_64-linux-gnu/gazebo-11/plugins:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib'), ('HOME', '/home/sophie'), ('ROS_PYTHON_VERSION', '3'), ('ROS_DISTRO', 'humble'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('ROS_LOCALHOST_ONLY', '0'), ('PATH', '/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'), ('LANG', 'C.UTF-8'), ('AMENT_PREFIX_PATH', '/opt/ros/humble'), ('PWD', '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/build_clean/orbbec_camera'), ('PYTHONPATH', '/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('COLCON', '1'), ('CMAKE_PREFIX_PATH', '/opt/ros/humble')]), 'shell': False}
+[60.042888] (-) TimerEvent: {}
+[60.101498] (orbbec_camera) StdoutLine: {'line': b'[  2%] Building CXX object CMakeFiles/orbbec_camera_node.dir/rclcpp_components/node_main_orbbec_camera_node.cpp.o\n'}
+[60.102060] (orbbec_camera) StdoutLine: {'line': b'[  4%] Building CXX object CMakeFiles/frame_latency_node.dir/rclcpp_components/node_main_frame_latency_node.cpp.o\n'}
+[60.102562] (orbbec_camera) StdoutLine: {'line': b'[  6%] Building CXX object CMakeFiles/orbbec_camera.dir/src/ob_camera_node.cpp.o\n'}
+[60.103352] (orbbec_camera) StdoutLine: {'line': b'[  8%] Building CXX object CMakeFiles/orbbec_camera.dir/src/ros_param_backend.cpp.o\n'}
+[60.103584] (orbbec_camera) StdoutLine: {'line': b'[ 10%] Building CXX object CMakeFiles/orbbec_camera.dir/src/image_publisher.cpp.o\n'}
+[60.103933] (orbbec_camera) StdoutLine: {'line': b'[ 14%] Building CXX object CMakeFiles/multi_save_rgbir.dir/tools/multi_save_rgbir.cpp.o\n'}
+[60.104364] (orbbec_camera) StdoutLine: {'line': b'[ 14%] Building CXX object CMakeFiles/orbbec_camera.dir/src/d2c_viewer.cpp.o\n'}
+[60.105249] (orbbec_camera) StdoutLine: {'line': b'[ 16%] Building CXX object CMakeFiles/orbbec_camera.dir/src/jpeg_decoder.cpp.o\n'}
+[60.105418] (orbbec_camera) StdoutLine: {'line': b'[ 18%] Building CXX object CMakeFiles/orbbec_camera.dir/src/dynamic_params.cpp.o\n'}
+[60.105477] (orbbec_camera) StdoutLine: {'line': b'[ 20%] Building CXX object CMakeFiles/multi_save_rgbir.dir/src/utils.cpp.o\n'}
+[60.105528] (orbbec_camera) StdoutLine: {'line': b'[ 26%] Building CXX object CMakeFiles/start_benchmark_node.dir/rclcpp_components/node_main_start_benchmark_node.cpp.o\n'}
+[60.105572] (orbbec_camera) StdoutLine: {'line': b'[ 26%] Building CXX object CMakeFiles/orbbec_camera.dir/src/utils.cpp.o\n'}
+[60.105742] (orbbec_camera) StdoutLine: {'line': b'[ 26%] Building CXX object CMakeFiles/orbbec_camera.dir/src/frame_timestamp_csv_logger.cpp.o\n'}
+[60.105788] (orbbec_camera) StdoutLine: {'line': b'[ 28%] Building CXX object CMakeFiles/frame_latency.dir/tools/frame_latency.cpp.o\n'}
+[60.105830] (orbbec_camera) StdoutLine: {'line': b'[ 32%] Building CXX object CMakeFiles/orbbec_camera.dir/src/ob_lidar_node.cpp.o\n'}
+[60.105946] (orbbec_camera) StdoutLine: {'line': b'[ 32%] Building CXX object CMakeFiles/orbbec_camera.dir/src/ob_camera_node_driver.cpp.o\n'}
+[60.105994] (orbbec_camera) StdoutLine: {'line': b'[ 34%] Building CXX object CMakeFiles/multi_save_rgbir_node.dir/rclcpp_components/node_main_multi_save_rgbir_node.cpp.o\n'}
+[60.106041] (orbbec_camera) StdoutLine: {'line': b'[ 38%] Building CXX object CMakeFiles/orbbec_camera.dir/src/ros_service.cpp.o\n'}
+[60.106086] (orbbec_camera) StdoutLine: {'line': b'[ 38%] Building CXX object CMakeFiles/start_benchmark.dir/tools/start_benchmark.cpp.o\n'}
+[60.106222] (orbbec_camera) StdoutLine: {'line': b'[ 40%] Building CXX object CMakeFiles/orbbec_camera.dir/src/synced_imu_publisher.cpp.o\n'}
+[60.143038] (-) TimerEvent: {}
+[60.243229] (-) TimerEvent: {}
+[60.343409] (-) TimerEvent: {}
+[60.443603] (-) TimerEvent: {}
+[60.543809] (-) TimerEvent: {}
+[60.644016] (-) TimerEvent: {}
+[60.744219] (-) TimerEvent: {}
+[60.844409] (-) TimerEvent: {}
+[60.944601] (-) TimerEvent: {}
+[61.044793] (-) TimerEvent: {}
+[61.144989] (-) TimerEvent: {}
+[61.245196] (-) TimerEvent: {}
+[61.345407] (-) TimerEvent: {}
+[61.445605] (-) TimerEvent: {}
+[61.545804] (-) TimerEvent: {}
+[61.645997] (-) TimerEvent: {}
+[61.746184] (-) TimerEvent: {}
+[61.846384] (-) TimerEvent: {}
+[61.946584] (-) TimerEvent: {}
+[62.046785] (-) TimerEvent: {}
+[62.146989] (-) TimerEvent: {}
+[62.247194] (-) TimerEvent: {}
+[62.347396] (-) TimerEvent: {}
+[62.395226] (orbbec_camera) StdoutLine: {'line': b'[ 42%] Linking CXX executable orbbec_camera_node\n'}
+[62.447512] (-) TimerEvent: {}
+[62.473776] (orbbec_camera) StdoutLine: {'line': b'[ 42%] Built target orbbec_camera_node\n'}
+[62.491134] (orbbec_camera) StdoutLine: {'line': b'[ 44%] Linking CXX executable multi_save_rgbir_node\n'}
+[62.547614] (-) TimerEvent: {}
+[62.577900] (orbbec_camera) StdoutLine: {'line': b'[ 44%] Built target multi_save_rgbir_node\n'}
+[62.647717] (-) TimerEvent: {}
+[62.747893] (-) TimerEvent: {}
+[62.848064] (-) TimerEvent: {}
+[62.948236] (-) TimerEvent: {}
+[63.048469] (-) TimerEvent: {}
+[63.148651] (-) TimerEvent: {}
+[63.248836] (-) TimerEvent: {}
+[63.349023] (-) TimerEvent: {}
+[63.387712] (orbbec_camera) StdoutLine: {'line': b'[ 46%] Linking CXX executable start_benchmark_node\n'}
+[63.449162] (-) TimerEvent: {}
+[63.498910] (orbbec_camera) StdoutLine: {'line': b'[ 46%] Built target start_benchmark_node\n'}
+[63.549301] (-) TimerEvent: {}
+[63.649500] (-) TimerEvent: {}
+[63.749690] (-) TimerEvent: {}
+[63.849872] (-) TimerEvent: {}
+[63.900144] (orbbec_camera) StdoutLine: {'line': b'[ 48%] Linking CXX executable frame_latency_node\n'}
+[63.950036] (-) TimerEvent: {}
+[64.009693] (orbbec_camera) StdoutLine: {'line': b'[ 48%] Built target frame_latency_node\n'}
+[64.050134] (-) TimerEvent: {}
+[64.150318] (-) TimerEvent: {}
+[64.250511] (-) TimerEvent: {}
+[64.350694] (-) TimerEvent: {}
+[64.450875] (-) TimerEvent: {}
+[64.551056] (-) TimerEvent: {}
+[64.651239] (-) TimerEvent: {}
+[64.751399] (-) TimerEvent: {}
+[64.851597] (-) TimerEvent: {}
+[64.951778] (-) TimerEvent: {}
+[65.051961] (-) TimerEvent: {}
+[65.152173] (-) TimerEvent: {}
+[65.252373] (-) TimerEvent: {}
+[65.352565] (-) TimerEvent: {}
+[65.452756] (-) TimerEvent: {}
+[65.552943] (-) TimerEvent: {}
+[65.653130] (-) TimerEvent: {}
+[65.753318] (-) TimerEvent: {}
+[65.853517] (-) TimerEvent: {}
+[65.953756] (-) TimerEvent: {}
+[66.053973] (-) TimerEvent: {}
+[66.154155] (-) TimerEvent: {}
+[66.254345] (-) TimerEvent: {}
+[66.354522] (-) TimerEvent: {}
+[66.454708] (-) TimerEvent: {}
+[66.554896] (-) TimerEvent: {}
+[66.655095] (-) TimerEvent: {}
+[66.755271] (-) TimerEvent: {}
+[66.855462] (-) TimerEvent: {}
+[66.955659] (-) TimerEvent: {}
+[67.055830] (-) TimerEvent: {}
+[67.156044] (-) TimerEvent: {}
+[67.256215] (-) TimerEvent: {}
+[67.356393] (-) TimerEvent: {}
+[67.456600] (-) TimerEvent: {}
+[67.556827] (-) TimerEvent: {}
+[67.657015] (-) TimerEvent: {}
+[67.757287] (-) TimerEvent: {}
+[67.857484] (-) TimerEvent: {}
+[67.957700] (-) TimerEvent: {}
+[68.057893] (-) TimerEvent: {}
+[68.158108] (-) TimerEvent: {}
+[68.258321] (-) TimerEvent: {}
+[68.358502] (-) TimerEvent: {}
+[68.458756] (-) TimerEvent: {}
+[68.558961] (-) TimerEvent: {}
+[68.659272] (-) TimerEvent: {}
+[68.759488] (-) TimerEvent: {}
+[68.859711] (-) TimerEvent: {}
+[68.959949] (-) TimerEvent: {}
+[69.060133] (-) TimerEvent: {}
+[69.160366] (-) TimerEvent: {}
+[69.260547] (-) TimerEvent: {}
+[69.360745] (-) TimerEvent: {}
+[69.460951] (-) TimerEvent: {}
+[69.561227] (-) TimerEvent: {}
+[69.661441] (-) TimerEvent: {}
+[69.761670] (-) TimerEvent: {}
+[69.861878] (-) TimerEvent: {}
+[69.962089] (-) TimerEvent: {}
+[70.062302] (-) TimerEvent: {}
+[70.162493] (-) TimerEvent: {}
+[70.262703] (-) TimerEvent: {}
+[70.362877] (-) TimerEvent: {}
+[70.463055] (-) TimerEvent: {}
+[70.563272] (-) TimerEvent: {}
+[70.663496] (-) TimerEvent: {}
+[70.763750] (-) TimerEvent: {}
+[70.864003] (-) TimerEvent: {}
+[70.964281] (-) TimerEvent: {}
+[71.064512] (-) TimerEvent: {}
+[71.164717] (-) TimerEvent: {}
+[71.264920] (-) TimerEvent: {}
+[71.365134] (-) TimerEvent: {}
+[71.465390] (-) TimerEvent: {}
+[71.565572] (-) TimerEvent: {}
+[71.665751] (-) TimerEvent: {}
+[71.765960] (-) TimerEvent: {}
+[71.866236] (-) TimerEvent: {}
+[71.966460] (-) TimerEvent: {}
+[72.066671] (-) TimerEvent: {}
+[72.166877] (-) TimerEvent: {}
+[72.267042] (-) TimerEvent: {}
+[72.367249] (-) TimerEvent: {}
+[72.467461] (-) TimerEvent: {}
+[72.567636] (-) TimerEvent: {}
+[72.667830] (-) TimerEvent: {}
+[72.768041] (-) TimerEvent: {}
+[72.868263] (-) TimerEvent: {}
+[72.968396] (-) TimerEvent: {}
+[73.068605] (-) TimerEvent: {}
+[73.168811] (-) TimerEvent: {}
+[73.269020] (-) TimerEvent: {}
+[73.369227] (-) TimerEvent: {}
+[73.469398] (-) TimerEvent: {}
+[73.569573] (-) TimerEvent: {}
+[73.669789] (-) TimerEvent: {}
+[73.770000] (-) TimerEvent: {}
+[73.870214] (-) TimerEvent: {}
+[73.970473] (-) TimerEvent: {}
+[74.070710] (-) TimerEvent: {}
+[74.170891] (-) TimerEvent: {}
+[74.271065] (-) TimerEvent: {}
+[74.371352] (-) TimerEvent: {}
+[74.471526] (-) TimerEvent: {}
+[74.571729] (-) TimerEvent: {}
+[74.671940] (-) TimerEvent: {}
+[74.772118] (-) TimerEvent: {}
+[74.872315] (-) TimerEvent: {}
+[74.972496] (-) TimerEvent: {}
+[75.072698] (-) TimerEvent: {}
+[75.172903] (-) TimerEvent: {}
+[75.273106] (-) TimerEvent: {}
+[75.373315] (-) TimerEvent: {}
+[75.473500] (-) TimerEvent: {}
+[75.573674] (-) TimerEvent: {}
+[75.673877] (-) TimerEvent: {}
+[75.774040] (-) TimerEvent: {}
+[75.874252] (-) TimerEvent: {}
+[75.974477] (-) TimerEvent: {}
+[76.074653] (-) TimerEvent: {}
+[76.174854] (-) TimerEvent: {}
+[76.275057] (-) TimerEvent: {}
+[76.375324] (-) TimerEvent: {}
+[76.475508] (-) TimerEvent: {}
+[76.575755] (-) TimerEvent: {}
+[76.676005] (-) TimerEvent: {}
+[76.776249] (-) TimerEvent: {}
+[76.786022] (orbbec_camera) StdoutLine: {'line': b'[ 50%] Linking CXX shared library libstart_benchmark.so\n'}
+[76.876457] (-) TimerEvent: {}
+[76.969401] (orbbec_camera) StdoutLine: {'line': b'[ 50%] Built target start_benchmark\n'}
+[76.976596] (-) TimerEvent: {}
+[77.076884] (-) TimerEvent: {}
+[77.177060] (-) TimerEvent: {}
+[77.277381] (-) TimerEvent: {}
+[77.377560] (-) TimerEvent: {}
+[77.477775] (-) TimerEvent: {}
+[77.577991] (-) TimerEvent: {}
+[77.678206] (-) TimerEvent: {}
+[77.778438] (-) TimerEvent: {}
+[77.878621] (-) TimerEvent: {}
+[77.978815] (-) TimerEvent: {}
+[78.078991] (-) TimerEvent: {}
+[78.179168] (-) TimerEvent: {}
+[78.274143] (orbbec_camera) StdoutLine: {'line': b'[ 52%] Linking CXX shared library libmulti_save_rgbir.so\n'}
+[78.279377] (-) TimerEvent: {}
+[78.379555] (-) TimerEvent: {}
+[78.479731] (-) TimerEvent: {}
+[78.514183] (orbbec_camera) StdoutLine: {'line': b'[ 52%] Built target multi_save_rgbir\n'}
+[78.579956] (-) TimerEvent: {}
+[78.680153] (-) TimerEvent: {}
+[78.780282] (-) TimerEvent: {}
+[78.880488] (-) TimerEvent: {}
+[78.980640] (-) TimerEvent: {}
+[79.080762] (-) TimerEvent: {}
+[79.180938] (-) TimerEvent: {}
+[79.281131] (-) TimerEvent: {}
+[79.381279] (-) TimerEvent: {}
+[79.481442] (-) TimerEvent: {}
+[79.581594] (-) TimerEvent: {}
+[79.681785] (-) TimerEvent: {}
+[79.781979] (-) TimerEvent: {}
+[79.882163] (-) TimerEvent: {}
+[79.982352] (-) TimerEvent: {}
+[80.082499] (-) TimerEvent: {}
+[80.182644] (-) TimerEvent: {}
+[80.282820] (-) TimerEvent: {}
+[80.382985] (-) TimerEvent: {}
+[80.483191] (-) TimerEvent: {}
+[80.583368] (-) TimerEvent: {}
+[80.683601] (-) TimerEvent: {}
+[80.783787] (-) TimerEvent: {}
+[80.883942] (-) TimerEvent: {}
+[80.984095] (-) TimerEvent: {}
+[81.084194] (-) TimerEvent: {}
+[81.184315] (-) TimerEvent: {}
+[81.284419] (-) TimerEvent: {}
+[81.384587] (-) TimerEvent: {}
+[81.484719] (-) TimerEvent: {}
+[81.584883] (-) TimerEvent: {}
+[81.685033] (-) TimerEvent: {}
+[81.785180] (-) TimerEvent: {}
+[81.885360] (-) TimerEvent: {}
+[81.985503] (-) TimerEvent: {}
+[82.085629] (-) TimerEvent: {}
+[82.185752] (-) TimerEvent: {}
+[82.285891] (-) TimerEvent: {}
+[82.386036] (-) TimerEvent: {}
+[82.486170] (-) TimerEvent: {}
+[82.586332] (-) TimerEvent: {}
+[82.686482] (-) TimerEvent: {}
+[82.786632] (-) TimerEvent: {}
+[82.886842] (-) TimerEvent: {}
+[82.986978] (-) TimerEvent: {}
+[83.087130] (-) TimerEvent: {}
+[83.187275] (-) TimerEvent: {}
+[83.287447] (-) TimerEvent: {}
+[83.387593] (-) TimerEvent: {}
+[83.487763] (-) TimerEvent: {}
+[83.587930] (-) TimerEvent: {}
+[83.688097] (-) TimerEvent: {}
+[83.788290] (-) TimerEvent: {}
+[83.888434] (-) TimerEvent: {}
+[83.988575] (-) TimerEvent: {}
+[84.088714] (-) TimerEvent: {}
+[84.188829] (-) TimerEvent: {}
+[84.288974] (-) TimerEvent: {}
+[84.389140] (-) TimerEvent: {}
+[84.489304] (-) TimerEvent: {}
+[84.589451] (-) TimerEvent: {}
+[84.625136] (orbbec_camera) StdoutLine: {'line': b'[ 54%] Linking CXX shared library libframe_latency.so\n'}
+[84.689565] (-) TimerEvent: {}
+[84.789744] (-) TimerEvent: {}
+[84.889927] (-) TimerEvent: {}
+[84.910829] (orbbec_camera) StdoutLine: {'line': b'[ 54%] Built target frame_latency\n'}
+[84.990022] (-) TimerEvent: {}
+[85.090217] (-) TimerEvent: {}
+[85.190418] (-) TimerEvent: {}
+[85.290552] (-) TimerEvent: {}
+[85.390697] (-) TimerEvent: {}
+[85.490874] (-) TimerEvent: {}
+[85.591054] (-) TimerEvent: {}
+[85.691201] (-) TimerEvent: {}
+[85.791447] (-) TimerEvent: {}
+[85.891660] (-) TimerEvent: {}
+[85.991878] (-) TimerEvent: {}
+[86.092062] (-) TimerEvent: {}
+[86.192253] (-) TimerEvent: {}
+[86.292382] (-) TimerEvent: {}
+[86.392524] (-) TimerEvent: {}
+[86.492755] (-) TimerEvent: {}
+[86.592943] (-) TimerEvent: {}
+[86.693193] (-) TimerEvent: {}
+[86.793397] (-) TimerEvent: {}
+[86.893549] (-) TimerEvent: {}
+[86.993714] (-) TimerEvent: {}
+[87.093887] (-) TimerEvent: {}
+[87.194040] (-) TimerEvent: {}
+[87.294196] (-) TimerEvent: {}
+[87.394377] (-) TimerEvent: {}
+[87.494561] (-) TimerEvent: {}
+[87.594728] (-) TimerEvent: {}
+[87.694926] (-) TimerEvent: {}
+[87.795104] (-) TimerEvent: {}
+[87.865213] (orbbec_camera) StdoutLine: {'line': b'[ 56%] Linking CXX shared library liborbbec_camera.so\n'}
+[87.895238] (-) TimerEvent: {}
+[87.995381] (-) TimerEvent: {}
+[88.095530] (-) TimerEvent: {}
+[88.195679] (-) TimerEvent: {}
+[88.213037] (orbbec_camera) StdoutLine: {'line': b'[ 56%] Built target orbbec_camera\n'}
+[88.229494] (orbbec_camera) StdoutLine: {'line': b'[ 58%] Building CXX object CMakeFiles/service_benchmark_node.dir/scripts/service_benchmark_node.cpp.o\n'}
+[88.230302] (orbbec_camera) StdoutLine: {'line': b'[ 60%] Building CXX object CMakeFiles/435le_example_node.dir/examples/Gemini_435Le_example_node/camera_example_node.cpp.o\n'}
+[88.231278] (orbbec_camera) StdoutLine: {'line': b'[ 62%] Building CXX object CMakeFiles/topic_statistics_node.dir/tools/topic_statistics.cpp.o\n'}
+[88.232269] (orbbec_camera) StdoutLine: {'line': b'[ 64%] Building CXX object CMakeFiles/set_device_ip.dir/tools/ip_config_tool.cpp.o\n'}
+[88.232569] (orbbec_camera) StdoutLine: {'line': b'[ 70%] Building CXX object CMakeFiles/list_depth_work_mode_node.dir/tools/list_depth_work_mode.cpp.o\n'}
+[88.232657] (orbbec_camera) StdoutLine: {'line': b'[ 70%] Building CXX object CMakeFiles/ob_benchmark_node.dir/tools/ob_benchmark.cpp.o\n'}
+[88.232724] (orbbec_camera) StdoutLine: {'line': b'[ 70%] Building CXX object CMakeFiles/list_camera_profile_mode_node.dir/tools/list_camera_profile.cpp.o\n'}
+[88.235113] (orbbec_camera) StdoutLine: {'line': b'[ 72%] Building CXX object CMakeFiles/list_devices_node.dir/tools/list_devices_node.cpp.o\n'}
+[88.235228] (orbbec_camera) StdoutLine: {'line': b'[ 74%] Building CXX object CMakeFiles/firmware_update_tool.dir/tools/firmware_update_tool.cpp.o\n'}
+[88.236875] (orbbec_camera) StdoutLine: {'line': b'[ 76%] Building CXX object CMakeFiles/ip_config_tool.dir/tools/ip_config_tool.cpp.o\n'}
+[88.237726] (orbbec_camera) StdoutLine: {'line': b'[ 78%] Building CXX object CMakeFiles/image_sync_example_node.dir/examples/multi_camera_time_sync/image_sync_example_node.cpp.o\n'}
+[88.295775] (-) TimerEvent: {}
+[88.395939] (-) TimerEvent: {}
+[88.496110] (-) TimerEvent: {}
+[88.596282] (-) TimerEvent: {}
+[88.696435] (-) TimerEvent: {}
+[88.796596] (-) TimerEvent: {}
+[88.896767] (-) TimerEvent: {}
+[88.996943] (-) TimerEvent: {}
+[89.097116] (-) TimerEvent: {}
+[89.197293] (-) TimerEvent: {}
+[89.297483] (-) TimerEvent: {}
+[89.397669] (-) TimerEvent: {}
+[89.497850] (-) TimerEvent: {}
+[89.598036] (-) TimerEvent: {}
+[89.698225] (-) TimerEvent: {}
+[89.798402] (-) TimerEvent: {}
+[89.898589] (-) TimerEvent: {}
+[89.998770] (-) TimerEvent: {}
+[90.098954] (-) TimerEvent: {}
+[90.199139] (-) TimerEvent: {}
+[90.299329] (-) TimerEvent: {}
+[90.399503] (-) TimerEvent: {}
+[90.499692] (-) TimerEvent: {}
+[90.599878] (-) TimerEvent: {}
+[90.700064] (-) TimerEvent: {}
+[90.800249] (-) TimerEvent: {}
+[90.900400] (-) TimerEvent: {}
+[91.000581] (-) TimerEvent: {}
+[91.100764] (-) TimerEvent: {}
+[91.200947] (-) TimerEvent: {}
+[91.301145] (-) TimerEvent: {}
+[91.401329] (-) TimerEvent: {}
+[91.501540] (-) TimerEvent: {}
+[91.601724] (-) TimerEvent: {}
+[91.701914] (-) TimerEvent: {}
+[91.802109] (-) TimerEvent: {}
+[91.902359] (-) TimerEvent: {}
+[92.002543] (-) TimerEvent: {}
+[92.102730] (-) TimerEvent: {}
+[92.202910] (-) TimerEvent: {}
+[92.303092] (-) TimerEvent: {}
+[92.403271] (-) TimerEvent: {}
+[92.503405] (-) TimerEvent: {}
+[92.603594] (-) TimerEvent: {}
+[92.703769] (-) TimerEvent: {}
+[92.803949] (-) TimerEvent: {}
+[92.904127] (-) TimerEvent: {}
+[92.989102] (orbbec_camera) StdoutLine: {'line': b'[ 80%] Linking CXX executable firmware_update_tool\n'}
+[93.004229] (-) TimerEvent: {}
+[93.104437] (-) TimerEvent: {}
+[93.141632] (orbbec_camera) StdoutLine: {'line': b'[ 80%] Built target firmware_update_tool\n'}
+[93.204541] (-) TimerEvent: {}
+[93.304730] (-) TimerEvent: {}
+[93.405010] (-) TimerEvent: {}
+[93.505227] (-) TimerEvent: {}
+[93.550030] (orbbec_camera) StdoutLine: {'line': b'[ 82%] Linking CXX executable list_depth_work_mode_node\n'}
+[93.605356] (-) TimerEvent: {}
+[93.705530] (-) TimerEvent: {}
+[93.712525] (orbbec_camera) StdoutLine: {'line': b'[ 82%] Built target list_depth_work_mode_node\n'}
+[93.805631] (-) TimerEvent: {}
+[93.905831] (-) TimerEvent: {}
+[94.006043] (-) TimerEvent: {}
+[94.106291] (-) TimerEvent: {}
+[94.174406] (orbbec_camera) StdoutLine: {'line': b'[ 84%] Linking CXX executable list_camera_profile_mode_node\n'}
+[94.206490] (-) TimerEvent: {}
+[94.306745] (-) TimerEvent: {}
+[94.407018] (-) TimerEvent: {}
+[94.507240] (-) TimerEvent: {}
+[94.548527] (orbbec_camera) StdoutLine: {'line': b'[ 84%] Built target list_camera_profile_mode_node\n'}
+[94.607381] (-) TimerEvent: {}
+[94.669090] (orbbec_camera) StdoutLine: {'line': b'[ 86%] Linking CXX executable set_device_ip\n'}
+[94.707485] (-) TimerEvent: {}
+[94.807659] (-) TimerEvent: {}
+[94.819618] (orbbec_camera) StdoutLine: {'line': b'[ 86%] Built target set_device_ip\n'}
+[94.907790] (-) TimerEvent: {}
+[95.007998] (-) TimerEvent: {}
+[95.108201] (-) TimerEvent: {}
+[95.208441] (-) TimerEvent: {}
+[95.308621] (-) TimerEvent: {}
+[95.408800] (-) TimerEvent: {}
+[95.509041] (-) TimerEvent: {}
+[95.609262] (-) TimerEvent: {}
+[95.709438] (-) TimerEvent: {}
+[95.809593] (-) TimerEvent: {}
+[95.883922] (orbbec_camera) StdoutLine: {'line': b'[ 88%] Linking CXX executable ip_config_tool\n'}
+[95.909700] (-) TimerEvent: {}
+[96.009909] (-) TimerEvent: {}
+[96.031543] (orbbec_camera) StdoutLine: {'line': b'[ 90%] Linking CXX executable list_devices_node\n'}
+[96.032286] (orbbec_camera) StdoutLine: {'line': b'[ 90%] Built target ip_config_tool\n'}
+[96.110035] (-) TimerEvent: {}
+[96.159027] (orbbec_camera) StdoutLine: {'line': b'[ 92%] Linking CXX executable ob_benchmark_node\n'}
+[96.210164] (-) TimerEvent: {}
+[96.294382] (orbbec_camera) StdoutLine: {'line': b'[ 92%] Built target ob_benchmark_node\n'}
+[96.310298] (-) TimerEvent: {}
+[96.379231] (orbbec_camera) StdoutLine: {'line': b'[ 92%] Built target list_devices_node\n'}
+[96.410468] (-) TimerEvent: {}
+[96.510640] (-) TimerEvent: {}
+[96.610866] (-) TimerEvent: {}
+[96.711060] (-) TimerEvent: {}
+[96.811266] (-) TimerEvent: {}
+[96.911396] (-) TimerEvent: {}
+[97.011663] (-) TimerEvent: {}
+[97.111903] (-) TimerEvent: {}
+[97.212107] (-) TimerEvent: {}
+[97.312357] (-) TimerEvent: {}
+[97.412541] (-) TimerEvent: {}
+[97.512728] (-) TimerEvent: {}
+[97.612935] (-) TimerEvent: {}
+[97.642376] (orbbec_camera) StdoutLine: {'line': b'[ 94%] Linking CXX executable 435le_example_node\n'}
+[97.713083] (-) TimerEvent: {}
+[97.808891] (orbbec_camera) StdoutLine: {'line': b'[ 94%] Built target 435le_example_node\n'}
+[97.813202] (-) TimerEvent: {}
+[97.913407] (-) TimerEvent: {}
+[98.013607] (-) TimerEvent: {}
+[98.035273] (orbbec_camera) StdoutLine: {'line': b'[ 96%] Linking CXX executable topic_statistics_node\n'}
+[98.113803] (-) TimerEvent: {}
+[98.213976] (-) TimerEvent: {}
+[98.216517] (orbbec_camera) StdoutLine: {'line': b'[ 96%] Built target topic_statistics_node\n'}
+[98.314079] (-) TimerEvent: {}
+[98.414264] (-) TimerEvent: {}
+[98.514442] (-) TimerEvent: {}
+[98.614589] (-) TimerEvent: {}
+[98.711807] (orbbec_camera) StdoutLine: {'line': b'[ 98%] Linking CXX executable image_sync_example_node\n'}
+[98.714736] (-) TimerEvent: {}
+[98.814982] (-) TimerEvent: {}
+[98.915130] (-) TimerEvent: {}
+[99.015326] (-) TimerEvent: {}
+[99.062914] (orbbec_camera) StdoutLine: {'line': b'[ 98%] Built target image_sync_example_node\n'}
+[99.115430] (-) TimerEvent: {}
+[99.215581] (-) TimerEvent: {}
+[99.315751] (-) TimerEvent: {}
+[99.415918] (-) TimerEvent: {}
+[99.516056] (-) TimerEvent: {}
+[99.616225] (-) TimerEvent: {}
+[99.716465] (-) TimerEvent: {}
+[99.816631] (-) TimerEvent: {}
+[99.916770] (-) TimerEvent: {}
+[100.016948] (-) TimerEvent: {}
+[100.117130] (-) TimerEvent: {}
+[100.217290] (-) TimerEvent: {}
+[100.317461] (-) TimerEvent: {}
+[100.417598] (-) TimerEvent: {}
+[100.517762] (-) TimerEvent: {}
+[100.617938] (-) TimerEvent: {}
+[100.718090] (-) TimerEvent: {}
+[100.818252] (-) TimerEvent: {}
+[100.918419] (-) TimerEvent: {}
+[101.018561] (-) TimerEvent: {}
+[101.118739] (-) TimerEvent: {}
+[101.190907] (orbbec_camera) StdoutLine: {'line': b'[100%] Linking CXX executable service_benchmark_node\n'}
+[101.218857] (-) TimerEvent: {}
+[101.319019] (-) TimerEvent: {}
+[101.352646] (orbbec_camera) StdoutLine: {'line': b'[100%] Built target service_benchmark_node\n'}
+[101.361483] (orbbec_camera) CommandEnded: {'returncode': 0}
+[101.362040] (orbbec_camera) JobProgress: {'identifier': 'orbbec_camera', 'progress': 'install'}
+[101.371504] (orbbec_camera) Command: {'cmd': ['/usr/bin/cmake', '--install', '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/build_clean/orbbec_camera'], 'cwd': '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/build_clean/orbbec_camera', 'env': OrderedDict([('USER', 'sophie'), ('SHLVL', '0'), ('LD_LIBRARY_PATH', '/usr/lib/x86_64-linux-gnu/gazebo-11/plugins:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib'), ('HOME', '/home/sophie'), ('ROS_PYTHON_VERSION', '3'), ('ROS_DISTRO', 'humble'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('ROS_LOCALHOST_ONLY', '0'), ('PATH', '/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'), ('LANG', 'C.UTF-8'), ('AMENT_PREFIX_PATH', '/opt/ros/humble'), ('PWD', '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/build_clean/orbbec_camera'), ('PYTHONPATH', '/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('COLCON', '1'), ('CMAKE_PREFIX_PATH', '/opt/ros/humble')]), 'shell': False}
+[101.381144] (orbbec_camera) StdoutLine: {'line': b'-- Install configuration: "Release"\n'}
+[101.381362] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/lib/orbbec_camera/orbbec_camera_node\n'}
+[101.381621] (orbbec_camera) StdoutLine: {'line': b'-- Set runtime path of "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/lib/orbbec_camera/orbbec_camera_node" to ":/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/src/OrbbecSDK_ROS2/orbbec_camera/SDK/lib/x64"\n'}
+[101.381863] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/lib/orbbec_camera/common_benchmark_node.py\n'}
+[101.381949] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/lib/orbbec_camera/service_benchmark_node.py\n'}
+[101.382002] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/lib/orbbec_camera/frame_latency_node\n'}
+[101.382119] (orbbec_camera) StdoutLine: {'line': b'-- Set runtime path of "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/lib/orbbec_camera/frame_latency_node" to ":/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/src/OrbbecSDK_ROS2/orbbec_camera/SDK/lib/x64"\n'}
+[101.382244] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/lib/orbbec_camera/start_benchmark_node\n'}
+[101.382433] (orbbec_camera) StdoutLine: {'line': b'-- Set runtime path of "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/lib/orbbec_camera/start_benchmark_node" to ":/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/src/OrbbecSDK_ROS2/orbbec_camera/SDK/lib/x64"\n'}
+[101.382547] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/lib/orbbec_camera/multi_save_rgbir_node\n'}
+[101.382764] (orbbec_camera) StdoutLine: {'line': b'-- Set runtime path of "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/lib/orbbec_camera/multi_save_rgbir_node" to ":/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/src/OrbbecSDK_ROS2/orbbec_camera/SDK/lib/x64"\n'}
+[101.382948] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/lib/liborbbec_camera.so\n'}
+[101.386577] (orbbec_camera) StdoutLine: {'line': b'-- Set runtime path of "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/lib/liborbbec_camera.so" to ":/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/src/OrbbecSDK_ROS2/orbbec_camera/SDK/lib/x64"\n'}
+[101.386647] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/lib/libframe_latency.so\n'}
+[101.390963] (orbbec_camera) StdoutLine: {'line': b'-- Set runtime path of "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/lib/libframe_latency.so" to ":/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/src/OrbbecSDK_ROS2/orbbec_camera/SDK/lib/x64"\n'}
+[101.391088] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/lib/libstart_benchmark.so\n'}
+[101.392580] (orbbec_camera) StdoutLine: {'line': b'-- Set runtime path of "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/lib/libstart_benchmark.so" to ":/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/src/OrbbecSDK_ROS2/orbbec_camera/SDK/lib/x64"\n'}
+[101.392648] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/lib/libmulti_save_rgbir.so\n'}
+[101.394224] (orbbec_camera) StdoutLine: {'line': b'-- Set runtime path of "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/lib/libmulti_save_rgbir.so" to ":/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/src/OrbbecSDK_ROS2/orbbec_camera/SDK/lib/x64"\n'}
+[101.394341] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/include\n'}
+[101.394385] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/include/orbbec_camera\n'}
+[101.394424] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/include/orbbec_camera/frame_timestamp_csv_logger.h\n'}
+[101.394508] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/include/orbbec_camera/dynamic_params.h\n'}
+[101.394604] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/include/orbbec_camera/ob_camera_node_driver.h\n'}
+[101.394643] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/include/orbbec_camera/jpeg_decoder.h\n'}
+[101.394724] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/include/orbbec_camera/ob_lidar_node.h\n'}
+[101.394805] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/include/orbbec_camera/synced_imu_publisher.h\n'}
+[101.394877] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/include/orbbec_camera/fps_counter.hpp\n'}
+[101.394918] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/include/orbbec_camera/jetson_nv_decoder.h\n'}
+[101.395115] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/include/orbbec_camera/image_publisher.h\n'}
+[101.395412] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/include/orbbec_camera/utils.h\n'}
+[101.395807] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/include/orbbec_camera/constants.h\n'}
+[101.395960] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/include/orbbec_camera/rk_mpp_decoder.h\n'}
+[101.396073] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/include/orbbec_camera/ros_param_backend.h\n'}
+[101.396146] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/include/orbbec_camera/fps_delay_status.hpp\n'}
+[101.396259] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/include/orbbec_camera/d2c_viewer.h\n'}
+[101.396329] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/include/orbbec_camera/ob_camera_node.h\n'}
+[101.396499] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/include/magic_enum\n'}
+[101.396565] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/include/magic_enum/magic_enum.hpp\n'}
+[101.396629] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//launch\n'}
+[101.396691] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//launch/gemini_intra_process_demo_launch.py\n'}
+[101.396755] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//launch/dabai_max_pro.launch.py\n'}
+[101.396888] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//launch/gemini345_lg.launch.py\n'}
+[101.396937] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//launch/gemini_330_series_low_cpu.launch.py\n'}
+[101.397012] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//launch/femto.launch.py\n'}
+[101.397104] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//launch/gemini435_le.launch.py\n'}
+[101.397198] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//launch/dabai_dcw2.launch.py\n'}
+[101.397267] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//launch/multi_camera.launch.py\n'}
+[101.397360] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//launch/gemini345.launch.py\n'}
+[101.397403] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//launch/orbbec_multicamera.launch.py\n'}
+[101.397586] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//launch/astra2.launch.py\n'}
+[101.397654] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//launch/femto_mega.launch.py\n'}
+[101.397747] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//launch/orbbec_camera.launch.py\n'}
+[101.397900] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//launch/gemini_330_series.launch.py\n'}
+[101.397955] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//launch/dabai_al.launch.py\n'}
+[101.398004] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//launch/astra.launch.py\n'}
+[101.398053] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//launch/gemini2.launch.py\n'}
+[101.398140] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//launch/gemini305.launch.py\n'}
+[101.398222] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//launch/multi_lidar.launch.py\n'}
+[101.398329] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//launch/gemini305_g.launch.py\n'}
+[101.398419] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//launch/dabai_a.launch.py\n'}
+[101.398480] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//launch/femto_bolt.launch.py\n'}
+[101.398548] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//launch/multi_camera_synced.launch.py\n'}
+[101.398603] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//launch/utils_yaml.py\n'}
+[101.398657] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//launch/gemini2L.launch.py\n'}
+[101.398713] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//launch/lidar.launch.py\n'}
+[101.398769] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//launch/gemini210.launch.py\n'}
+[101.398826] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//config\n'}
+[101.398916] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//config/gemini330_series.yaml\n'}
+[101.399024] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//config/camera_secondary_params.yaml\n'}
+[101.399085] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//config/depthfilter\n'}
+[101.399117] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//config/depthfilter/Gemini2_v1.7.json\n'}
+[101.399148] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//config/depthfilter/Openni_device.json\n'}
+[101.399179] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//config/gemini330Lg_series.yaml\n'}
+[101.399258] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//config/femto_bolt.yaml\n'}
+[101.399322] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//config/common.yaml\n'}
+[101.399360] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//config/tools\n'}
+[101.399418] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//config/tools/startbenchmark\n'}
+[101.399471] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//config/tools/startbenchmark/start_benchmark_params.json\n'}
+[101.399525] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//config/tools/multisavergbir\n'}
+[101.399551] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//config/tools/multisavergbir/multi_save_rgbir_params.json\n'}
+[101.399603] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//config/gemini305_dual_color.yaml\n'}
+[101.399629] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//config/gemini2.yaml\n'}
+[101.399654] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//config/.gitkeep\n'}
+[101.399704] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//config/astra2.yaml\n'}
+[101.399729] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//config/femto_mega.yaml\n'}
+[101.399780] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//config/femto.yaml\n'}
+[101.399834] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//config/gemini2L.yaml\n'}
+[101.399859] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//config/camera_params.yaml\n'}
+[101.399909] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//config/OrbbecSDKConfig_v2.0.xml\n'}
+[101.399934] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//config/gemini2L_dual_ir.yaml\n'}
+[101.399958] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples\n'}
+[101.400012] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/README.MD\n'}
+[101.400038] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool\n'}
+[101.400063] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/gemini_synced_verify.launch.py\n'}
+[101.400090] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync\n'}
+[101.400144] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/Python\n'}
+[101.400171] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/Python/README.md\n'}
+[101.400229] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/Python/SyncFramesMain.py\n'}
+[101.400259] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/Python/Config.ini\n'}
+[101.400283] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/Python/script\n'}
+[101.400339] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/Python/script/config_frameMatch-Astra2_new.py\n'}
+[101.400370] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/Python/script/config_frameMatch.py\n'}
+[101.400397] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/Python/script/config_frameMatch_Gemini2VL.py\n'}
+[101.400450] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/Python/script/config_frameMatch-systemTimestamp.py\n'}
+[101.400477] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/Python/script/config_frameMatch_g330.py\n'}
+[101.400530] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output\n'}
+[101.400555] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900\n'}
+[101.400583] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/results-2025-02-25_163648\n'}
+[101.400637] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/results-2025-02-25_163648/frameMatchLog.txt\n'}
+[101.400664] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/results-2025-02-25_163648/matchFrames\n'}
+[101.400717] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/results-2025-02-25_163648/matchFrames/2_color_SNCP1L44P00051_Index1_1739874543460_[0].jpg\n'}
+[101.400745] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/results-2025-02-25_163648/matchFrames/4_ir_left_SNCP1E5420006D_Index0_1739874543361_[1].jpg\n'}
+[101.400769] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/results-2025-02-25_163648/matchFrames/7_ir_left_SNCP1L44P00051_Index1_1739874543427_[0].jpg\n'}
+[101.400797] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/results-2025-02-25_163648/matchFrames/7_ir_left_SNCP1E5420006D_Index0_1739874543427_[0].jpg\n'}
+[101.400853] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/results-2025-02-25_163648/matchFrames/3_ir_left_SNCP1E5420006D_Index0_1739874543260_[0].jpg\n'}
+[101.400880] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/results-2025-02-25_163648/matchFrames/1_ir_left_SNCP1E5420006D_Index0_1739874543494_[0].jpg\n'}
+[101.400907] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/results-2025-02-25_163648/matchFrames/2_ir_left_SNCP1E5420006D_Index0_1739874543461_[1].jpg\n'}
+[101.400959] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/results-2025-02-25_163648/matchFrames/2_ir_left_SNCP1L44P00051_Index1_1739874543460_[0].jpg\n'}
+[101.400988] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/results-2025-02-25_163648/matchFrames/1_color_SNCP1E5420006D_Index0_1739874543494_[0].jpg\n'}
+[101.401041] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/results-2025-02-25_163648/matchFrames/9_ir_left_SNCP1L44P00051_Index1_1739874543394_[1].jpg\n'}
+[101.401067] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/results-2025-02-25_163648/matchFrames/6_ir_left_SNCP1E5420006D_Index0_1739874543561_[1].jpg\n'}
+[101.401091] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/results-2025-02-25_163648/matchFrames/10_ir_left_SNCP1L44P00051_Index1_1739874543227_[0].jpg\n'}
+[101.401121] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/results-2025-02-25_163648/matchFrames/0_color_SNCP1L44P00051_Index1_1739874543527_[0].jpg\n'}
+[101.401173] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/results-2025-02-25_163648/matchFrames/8_color_SNCP1L44P00051_Index1_1739874543293_[0].jpg\n'}
+[101.401199] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/results-2025-02-25_163648/matchFrames/0_ir_left_SNCP1L44P00051_Index1_1739874543527_[0].jpg\n'}
+[101.401252] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/results-2025-02-25_163648/matchFrames/8_color_SNCP1E5420006D_Index0_1739874543294_[1].jpg\n'}
+[101.401279] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/results-2025-02-25_163648/matchFrames/2_color_SNCP1E5420006D_Index0_1739874543461_[1].jpg\n'}
+[101.401306] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/results-2025-02-25_163648/matchFrames/4_ir_left_SNCP1L44P00051_Index1_1739874543360_[0].jpg\n'}
+[101.401330] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/results-2025-02-25_163648/matchFrames/6_color_SNCP1L44P00051_Index1_1739874543560_[0].jpg\n'}
+[101.401365] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/results-2025-02-25_163648/matchFrames/8_ir_left_SNCP1E5420006D_Index0_1739874543294_[1].jpg\n'}
+[101.401424] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/results-2025-02-25_163648/matchFrames/10_color_SNCP1E5420006D_Index0_1739874543227_[0].jpg\n'}
+[101.401451] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/results-2025-02-25_163648/matchFrames/1_color_SNCP1L44P00051_Index1_1739874543494_[0].jpg\n'}
+[101.401503] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/results-2025-02-25_163648/matchFrames/6_ir_left_SNCP1L44P00051_Index1_1739874543560_[0].jpg\n'}
+[101.401530] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/results-2025-02-25_163648/matchFrames/6_color_SNCP1E5420006D_Index0_1739874543561_[1].jpg\n'}
+[101.401554] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/results-2025-02-25_163648/matchFrames/4_color_SNCP1L44P00051_Index1_1739874543360_[0].jpg\n'}
+[101.401605] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/results-2025-02-25_163648/matchFrames/7_color_SNCP1L44P00051_Index1_1739874543427_[0].jpg\n'}
+[101.401631] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/results-2025-02-25_163648/matchFrames/10_color_SNCP1L44P00051_Index1_1739874543227_[0].jpg\n'}
+[101.401657] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/results-2025-02-25_163648/matchFrames/7_color_SNCP1E5420006D_Index0_1739874543427_[0].jpg\n'}
+[101.401684] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/results-2025-02-25_163648/matchFrames/9_color_SNCP1L44P00051_Index1_1739874543393_[0].jpg\n'}
+[101.401735] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/results-2025-02-25_163648/matchFrames/5_ir_left_SNCP1L44P00051_Index1_1739874543327_[0].jpg\n'}
+[101.401798] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/results-2025-02-25_163648/matchFrames/5_color_SNCP1E5420006D_Index0_1739874543327_[0].jpg\n'}
+[101.401905] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/results-2025-02-25_163648/matchFrames/10_ir_left_SNCP1E5420006D_Index0_1739874543227_[0].jpg\n'}
+[101.401974] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/results-2025-02-25_163648/matchFrames/3_color_SNCP1L44P00051_Index1_1739874543260_[0].jpg\n'}
+[101.402092] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/results-2025-02-25_163648/matchFrames/3_color_SNCP1E5420006D_Index0_1739874543260_[0].jpg\n'}
+[101.402210] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/results-2025-02-25_163648/matchFrames/0_ir_left_SNCP1E5420006D_Index0_1739874543527_[0].jpg\n'}
+[101.402275] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/results-2025-02-25_163648/matchFrames/0_color_SNCP1E5420006D_Index0_1739874543527_[0].jpg\n'}
+[101.402399] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/results-2025-02-25_163648/matchFrames/8_ir_left_SNCP1L44P00051_Index1_1739874543294_[1].jpg\n'}
+[101.402466] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/results-2025-02-25_163648/matchFrames/9_ir_left_SNCP1E5420006D_Index0_1739874543394_[1].jpg\n'}
+[101.402533] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/results-2025-02-25_163648/matchFrames/5_color_SNCP1L44P00051_Index1_1739874543327_[0].jpg\n'}
+[101.402652] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/results-2025-02-25_163648/matchFrames/1_ir_left_SNCP1L44P00051_Index1_1739874543494_[0].jpg\n'}
+[101.402742] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/results-2025-02-25_163648/matchFrames/5_ir_left_SNCP1E5420006D_Index0_1739874543327_[0].jpg\n'}
+[101.402806] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/results-2025-02-25_163648/matchFrames/4_color_SNCP1E5420006D_Index0_1739874543360_[0].jpg\n'}
+[101.403002] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/results-2025-02-25_163648/matchFrames/3_ir_left_SNCP1L44P00051_Index1_1739874543260_[0].jpg\n'}
+[101.403103] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/results-2025-02-25_163648/matchFrames/9_color_SNCP1E5420006D_Index0_1739874543394_[1].jpg\n'}
+[101.403171] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/DevicesInfo.txt\n'}
+[101.403234] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/TotalModeFrames\n'}
+[101.403297] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/TotalModeFrames/SNCP1L44P00051_Index1\n'}
+[101.403327] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/TotalModeFrames/SNCP1L44P00051_Index1/ir#left_SNCP1L44P00051_Index1_g1739874543394_f5_s1739874543661_e5000_d16_.jpg\n'}
+[101.403389] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/TotalModeFrames/SNCP1L44P00051_Index1/color_SNCP1L44P00051_Index1_g1739874543360_f4_s1739874543468_e50_d16_.jpg\n'}
+[101.403488] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/TotalModeFrames/SNCP1L44P00051_Index1/ir#left_SNCP1L44P00051_Index1_g1739874543294_f2_s1739874543319_e5000_d16_.jpg\n'}
+[101.403555] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/TotalModeFrames/SNCP1L44P00051_Index1/color_SNCP1L44P00051_Index1_g1739874543227_f0_s1739874543304_e50_d16_.jpg\n'}
+[101.403685] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/TotalModeFrames/SNCP1L44P00051_Index1/color_SNCP1L44P00051_Index1_g1739874543427_f6_s1739874543485_e50_d16_.jpg\n'}
+[101.403802] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/TotalModeFrames/SNCP1L44P00051_Index1/ir#left_SNCP1L44P00051_Index1_g1739874543360_f4_s1739874543460_e5000_d16_.jpg\n'}
+[101.403865] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/TotalModeFrames/SNCP1L44P00051_Index1/ir#left_SNCP1L44P00051_Index1_g1739874543527_f10_s1739874543687_e5000_d16_.jpg\n'}
+[101.403929] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/TotalModeFrames/SNCP1L44P00051_Index1/color_SNCP1L44P00051_Index1_g1739874543460_f7_s1739874543505_e50_d16_.jpg\n'}
+[101.404071] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/TotalModeFrames/SNCP1L44P00051_Index1/ir#left_SNCP1L44P00051_Index1_g1739874543327_f3_s1739874543460_e5000_d16_.jpg\n'}
+[101.404136] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/TotalModeFrames/SNCP1L44P00051_Index1/color_SNCP1L44P00051_Index1_g1739874543393_f5_s1739874543470_e50_d16_.jpg\n'}
+[101.404253] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/TotalModeFrames/SNCP1L44P00051_Index1/ir#left_SNCP1L44P00051_Index1_g1739874543494_f8_s1739874543687_e5000_d16_.jpg\n'}
+[101.404317] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/TotalModeFrames/SNCP1L44P00051_Index1/color_SNCP1L44P00051_Index1_g1739874543527_f9_s1739874543616_e50_d16_.jpg\n'}
+[101.404440] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/TotalModeFrames/SNCP1L44P00051_Index1/ir#left_SNCP1L44P00051_Index1_g1739874543260_f1_s1739874543294_e5000_d16_.jpg\n'}
+[101.404510] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/TotalModeFrames/SNCP1L44P00051_Index1/ir#left_SNCP1L44P00051_Index1_g1739874543560_f11_s1739874543687_e5000_d16_.jpg\n'}
+[101.404577] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/TotalModeFrames/SNCP1L44P00051_Index1/ir#left_SNCP1L44P00051_Index1_g1739874543227_f0_s1739874543250_e5000_d16_.jpg\n'}
+[101.404642] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/TotalModeFrames/SNCP1L44P00051_Index1/color_SNCP1L44P00051_Index1_g1739874543293_f2_s1739874543446_e50_d16_.jpg\n'}
+[101.404761] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/TotalModeFrames/SNCP1L44P00051_Index1/color_SNCP1L44P00051_Index1_g1739874543327_f3_s1739874543458_e50_d16_.jpg\n'}
+[101.404876] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/TotalModeFrames/SNCP1L44P00051_Index1/color_SNCP1L44P00051_Index1_g1739874543494_f8_s1739874543540_e50_d16_.jpg\n'}
+[101.405009] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/TotalModeFrames/SNCP1L44P00051_Index1/ir#left_SNCP1L44P00051_Index1_g1739874543427_f6_s1739874543684_e5000_d16_.jpg\n'}
+[101.405075] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/TotalModeFrames/SNCP1L44P00051_Index1/ir#left_SNCP1L44P00051_Index1_g1739874543460_f7_s1739874543685_e5000_d16_.jpg\n'}
+[101.405141] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/TotalModeFrames/SNCP1L44P00051_Index1/color_SNCP1L44P00051_Index1_g1739874543560_f10_s1739874543618_e50_d16_.jpg\n'}
+[101.405260] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/TotalModeFrames/SNCP1L44P00051_Index1/color_SNCP1L44P00051_Index1_g1739874543260_f1_s1739874543345_e50_d16_.jpg\n'}
+[101.405382] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/TotalModeFrames/SNCP1E5420006D_Index0\n'}
+[101.405442] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/TotalModeFrames/SNCP1E5420006D_Index0/ir#left_SNCP1E5420006D_Index0_g1739874543394_f5_s1739874543473_e5000_d16_.jpg\n'}
+[101.405494] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/TotalModeFrames/SNCP1E5420006D_Index0/ir#left_SNCP1E5420006D_Index0_g1739874543561_f10_s1739874543628_e5000_d16_.jpg\n'}
+[101.405558] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/TotalModeFrames/SNCP1E5420006D_Index0/color_SNCP1E5420006D_Index0_g1739874543427_f6_s1739874543518_e50_d16_.jpg\n'}
+[101.405692] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/TotalModeFrames/SNCP1E5420006D_Index0/ir#left_SNCP1E5420006D_Index0_g1739874543494_f8_s1739874543528_e5000_d16_.jpg\n'}
+[101.405744] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/TotalModeFrames/SNCP1E5420006D_Index0/color_SNCP1E5420006D_Index0_g1739874543394_f5_s1739874543506_e50_d16_.jpg\n'}
+[101.405855] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/TotalModeFrames/SNCP1E5420006D_Index0/color_SNCP1E5420006D_Index0_g1739874543294_f2_s1739874543359_e50_d16_.jpg\n'}
+[101.405967] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/TotalModeFrames/SNCP1E5420006D_Index0/ir#left_SNCP1E5420006D_Index0_g1739874543427_f6_s1739874543474_e5000_d16_.jpg\n'}
+[101.406033] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/TotalModeFrames/SNCP1E5420006D_Index0/color_SNCP1E5420006D_Index0_g1739874543527_f9_s1739874543603_e50_d16_.jpg\n'}
+[101.406148] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/TotalModeFrames/SNCP1E5420006D_Index0/color_SNCP1E5420006D_Index0_g1739874543494_f8_s1739874543548_e50_d16_.jpg\n'}
+[101.406260] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/TotalModeFrames/SNCP1E5420006D_Index0/color_SNCP1E5420006D_Index0_g1739874543327_f3_s1739874543441_e50_d16_.jpg\n'}
+[101.406385] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/TotalModeFrames/SNCP1E5420006D_Index0/ir#left_SNCP1E5420006D_Index0_g1739874543227_f0_s1739874543250_e5000_d16_.jpg\n'}
+[101.406448] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/TotalModeFrames/SNCP1E5420006D_Index0/ir#left_SNCP1E5420006D_Index0_g1739874543260_f1_s1739874543310_e5000_d16_.jpg\n'}
+[101.406514] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/TotalModeFrames/SNCP1E5420006D_Index0/ir#left_SNCP1E5420006D_Index0_g1739874543294_f2_s1739874543329_e5000_d16_.jpg\n'}
+[101.406579] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/TotalModeFrames/SNCP1E5420006D_Index0/color_SNCP1E5420006D_Index0_g1739874543461_f7_s1739874543520_e50_d16_.jpg\n'}
+[101.406694] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/TotalModeFrames/SNCP1E5420006D_Index0/ir#left_SNCP1E5420006D_Index0_g1739874543527_f9_s1739874543627_e5000_d16_.jpg\n'}
+[101.406758] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/TotalModeFrames/SNCP1E5420006D_Index0/ir#left_SNCP1E5420006D_Index0_g1739874543327_f3_s1739874543393_e5000_d16_.jpg\n'}
+[101.406823] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/TotalModeFrames/SNCP1E5420006D_Index0/color_SNCP1E5420006D_Index0_g1739874543360_f4_s1739874543442_e50_d16_.jpg\n'}
+[101.406937] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/TotalModeFrames/SNCP1E5420006D_Index0/ir#left_SNCP1E5420006D_Index0_g1739874543361_f4_s1739874543405_e5000_d16_.jpg\n'}
+[101.407002] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/TotalModeFrames/SNCP1E5420006D_Index0/color_SNCP1E5420006D_Index0_g1739874543227_f0_s1739874543327_e50_d16_.jpg\n'}
+[101.407123] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/TotalModeFrames/SNCP1E5420006D_Index0/color_SNCP1E5420006D_Index0_g1739874543561_f10_s1739874543648_e50_d16_.jpg\n'}
+[101.407239] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/TotalModeFrames/SNCP1E5420006D_Index0/color_SNCP1E5420006D_Index0_g1739874543260_f1_s1739874543351_e50_d16_.jpg\n'}
+[101.407356] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/TotalModeFrames/SNCP1E5420006D_Index0/ir#left_SNCP1E5420006D_Index0_g1739874543461_f7_s1739874543493_e5000_d16_.jpg\n'}
+[101.407422] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multicamera_sync/output/20250218102900/StreamProfileInfo.txt\n'}
+[101.407476] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/gemini_330_series_synced_verify.launch.py\n'}
+[101.407529] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_synced_verification_tool/multi_camera_synced_verify.launch.py\n'}
+[101.407601] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/benchmark\n'}
+[101.407653] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/benchmark/gemini_330_series_benchmark.launch.py\n'}
+[101.407705] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/benchmark/ob_benchmark_0.launch.py\n'}
+[101.407781] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/benchmark/ob_benchmark_1.launch.py\n'}
+[101.407852] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/lower_cpu_usage\n'}
+[101.407920] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/lower_cpu_usage/gemini_330_series_lower_cpu_usage.launch.py\n'}
+[101.407990] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/lower_cpu_usage/multi_camera_lower_cpu_usage.launch.py\n'}
+[101.408061] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/net_camera\n'}
+[101.408114] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/net_camera/multi_net_camera.launch.py\n'}
+[101.408142] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_time_sync\n'}
+[101.408199] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/multi_camera_time_sync/image_sync_example_node.cpp\n'}
+[101.408255] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/gmsl_camera\n'}
+[101.408282] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/gmsl_camera/multi_gmsl_camera.launch.py\n'}
+[101.408354] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/gmsl_camera/gemini_330_gmsl.launch.py\n'}
+[101.408413] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/gmsl_camera/multi_gmsl_camera_synced.launch.py\n'}
+[101.408479] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/Gemini_435Le_example_node\n'}
+[101.408533] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/Gemini_435Le_example_node/README.MD\n'}
+[101.408630] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera//examples/Gemini_435Le_example_node/camera_example_node.cpp\n'}
+[101.408877] (orbbec_camera) StdoutLine: {'line': b'-- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/include\n'}
+[101.409020] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/include/libobsensor\n'}
+[101.409119] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/include/libobsensor/ObSensor.h\n'}
+[101.409247] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/include/libobsensor/h\n'}
+[101.409383] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/include/libobsensor/h/Advanced.h\n'}
+[101.409540] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/include/libobsensor/h/Frame.h\n'}
+[101.409639] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/include/libobsensor/h/Device.h\n'}
+[101.409799] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/include/libobsensor/h/Pipeline.h\n'}
+[101.409962] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/include/libobsensor/h/Export.h\n'}
+[101.410034] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/include/libobsensor/h/MultipleDevices.h\n'}
+[101.410134] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/include/libobsensor/h/TypeHelper.h\n'}
+[101.410193] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/include/libobsensor/h/Context.h\n'}
+[101.410250] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/include/libobsensor/h/Sensor.h\n'}
+[101.410312] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/include/libobsensor/h/Version.h\n'}
+[101.410378] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/include/libobsensor/h/Filter.h\n'}
+[101.410437] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/include/libobsensor/h/StreamProfile.h\n'}
+[101.410495] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/include/libobsensor/h/RecordPlayback.h\n'}
+[101.410556] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/include/libobsensor/h/ObTypes.h\n'}
+[101.410614] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/include/libobsensor/h/Error.h\n'}
+[101.410671] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/include/libobsensor/h/Property.h\n'}
+[101.410727] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/include/libobsensor/h/Utils.h\n'}
+[101.410784] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/include/libobsensor/hpp\n'}
+[101.410840] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/include/libobsensor/hpp/Sensor.hpp\n'}
+[101.410898] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/include/libobsensor/hpp/Frame.hpp\n'}
+[101.410956] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/include/libobsensor/hpp/Utils.hpp\n'}
+[101.411010] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/include/libobsensor/hpp/Device.hpp\n'}
+[101.411068] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/include/libobsensor/hpp/Filter.hpp\n'}
+[101.411124] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/include/libobsensor/hpp/StreamProfile.hpp\n'}
+[101.411178] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/include/libobsensor/hpp/Version.hpp\n'}
+[101.411242] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/include/libobsensor/hpp/RecordPlayback.hpp\n'}
+[101.411299] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/include/libobsensor/hpp/Context.hpp\n'}
+[101.411363] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/include/libobsensor/hpp/Pipeline.hpp\n'}
+[101.411424] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/include/libobsensor/hpp/TypeHelper.hpp\n'}
+[101.411484] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/include/libobsensor/hpp/Error.hpp\n'}
+[101.411541] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/include/libobsensor/hpp/Types.hpp\n'}
+[101.411600] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/include/libobsensor/ObSensor.hpp\n'}
+[101.411657] (orbbec_camera) StdoutLine: {'line': b'-- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/lib/\n'}
+[101.411713] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/lib//libOrbbecSDK.so.2.8.6\n'}
+[101.417628] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/lib//libOrbbecSDK.so\n'}
+[101.417809] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/lib//libOrbbecSDK.so.2\n'}
+[101.417873] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/lib//extensions\n'}
+[101.417989] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/lib//extensions/frameprocessor\n'}
+[101.418049] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/lib//extensions/frameprocessor/libob_frame_processor.so\n'}
+[101.418112] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/lib//extensions/depthengine\n'}
+[101.418169] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/lib//extensions/depthengine/libdepthengine.so.2.0\n'}
+[101.418295] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/lib//extensions/depthengine/libdepthengine.so\n'}
+[101.418360] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/lib//extensions/filters\n'}
+[101.418419] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/lib//extensions/filters/libFilterProcessor.so\n'}
+[101.418544] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/lib//extensions/filters/libob_priv_filter.so\n'}
+[101.418702] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/lib//extensions/firmwareupdater\n'}
+[101.418790] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/lib//extensions/firmwareupdater/libfirmwareupdater.so\n'}
+[101.419093] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/lib/extensions/libdepthengine.so\n'}
+[101.419178] (-) TimerEvent: {}
+[101.419198] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/lib/extensions/libdepthengine.so.2.0\n'}
+[101.419543] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/lib/extensions/libFilterProcessor.so\n'}
+[101.419761] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/lib/extensions/libob_priv_filter.so\n'}
+[101.419899] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/lib/extensions/libfirmwareupdater.so\n'}
+[101.420164] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/lib/extensions/libob_frame_processor.so\n'}
+[101.420390] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/lib/orbbec_camera/list_devices_node\n'}
+[101.420556] (orbbec_camera) StdoutLine: {'line': b'-- Set runtime path of "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/lib/orbbec_camera/list_devices_node" to ":/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/src/OrbbecSDK_ROS2/orbbec_camera/SDK/lib/x64"\n'}
+[101.420653] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/lib/orbbec_camera/list_depth_work_mode_node\n'}
+[101.420743] (orbbec_camera) StdoutLine: {'line': b'-- Set runtime path of "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/lib/orbbec_camera/list_depth_work_mode_node" to ":/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/src/OrbbecSDK_ROS2/orbbec_camera/SDK/lib/x64"\n'}
+[101.420829] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/lib/orbbec_camera/list_camera_profile_mode_node\n'}
+[101.420923] (orbbec_camera) StdoutLine: {'line': b'-- Set runtime path of "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/lib/orbbec_camera/list_camera_profile_mode_node" to ":/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/src/OrbbecSDK_ROS2/orbbec_camera/SDK/lib/x64"\n'}
+[101.421018] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/lib/orbbec_camera/firmware_update_tool\n'}
+[101.421113] (orbbec_camera) StdoutLine: {'line': b'-- Set runtime path of "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/lib/orbbec_camera/firmware_update_tool" to ":/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/src/OrbbecSDK_ROS2/orbbec_camera/SDK/lib/x64"\n'}
+[101.421208] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/lib/orbbec_camera/topic_statistics_node\n'}
+[101.421870] (orbbec_camera) StdoutLine: {'line': b'-- Set runtime path of "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/lib/orbbec_camera/topic_statistics_node" to ":/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/src/OrbbecSDK_ROS2/orbbec_camera/SDK/lib/x64"\n'}
+[101.421954] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/lib/orbbec_camera/service_benchmark_node\n'}
+[101.422235] (orbbec_camera) StdoutLine: {'line': b'-- Set runtime path of "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/lib/orbbec_camera/service_benchmark_node" to ":/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/src/OrbbecSDK_ROS2/orbbec_camera/SDK/lib/x64"\n'}
+[101.422419] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/lib/orbbec_camera/ob_benchmark_node\n'}
+[101.422511] (orbbec_camera) StdoutLine: {'line': b'-- Set runtime path of "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/lib/orbbec_camera/ob_benchmark_node" to ":/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/src/OrbbecSDK_ROS2/orbbec_camera/SDK/lib/x64"\n'}
+[101.422606] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/lib/orbbec_camera/435le_example_node\n'}
+[101.423177] (orbbec_camera) StdoutLine: {'line': b'-- Set runtime path of "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/lib/orbbec_camera/435le_example_node" to ":/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/src/OrbbecSDK_ROS2/orbbec_camera/SDK/lib/x64"\n'}
+[101.423239] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/lib/orbbec_camera/ip_config_tool\n'}
+[101.423301] (orbbec_camera) StdoutLine: {'line': b'-- Set runtime path of "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/lib/orbbec_camera/ip_config_tool" to ":/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/src/OrbbecSDK_ROS2/orbbec_camera/SDK/lib/x64"\n'}
+[101.423385] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/lib/orbbec_camera/set_device_ip\n'}
+[101.423470] (orbbec_camera) StdoutLine: {'line': b'-- Set runtime path of "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/lib/orbbec_camera/set_device_ip" to ":/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/src/OrbbecSDK_ROS2/orbbec_camera/SDK/lib/x64"\n'}
+[101.423528] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/lib/orbbec_camera/image_sync_example_node\n'}
+[101.424093] (orbbec_camera) StdoutLine: {'line': b'-- Set runtime path of "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/lib/orbbec_camera/image_sync_example_node" to ":/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/src/OrbbecSDK_ROS2/orbbec_camera/SDK/lib/x64"\n'}
+[101.424154] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera/environment/library_path.sh\n'}
+[101.424181] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera/environment/library_path.dsv\n'}
+[101.424237] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/ament_index/resource_index/package_run_dependencies/orbbec_camera\n'}
+[101.424325] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/ament_index/resource_index/parent_prefix_path/orbbec_camera\n'}
+[101.424393] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera/environment/ament_prefix_path.sh\n'}
+[101.424451] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera/environment/ament_prefix_path.dsv\n'}
+[101.424514] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera/environment/path.sh\n'}
+[101.424577] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera/environment/path.dsv\n'}
+[101.424639] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera/local_setup.bash\n'}
+[101.424697] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera/local_setup.sh\n'}
+[101.424759] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera/local_setup.zsh\n'}
+[101.424827] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera/local_setup.dsv\n'}
+[101.424887] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera/package.dsv\n'}
+[101.424965] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/ament_index/resource_index/packages/orbbec_camera\n'}
+[101.425052] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/ament_index/resource_index/rclcpp_components/orbbec_camera\n'}
+[101.425146] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera/cmake/ament_cmake_export_include_directories-extras.cmake\n'}
+[101.425213] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera/cmake/ament_cmake_export_libraries-extras.cmake\n'}
+[101.425274] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera/cmake/ament_cmake_export_dependencies-extras.cmake\n'}
+[101.425336] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera/cmake/orbbec_cameraConfig.cmake\n'}
+[101.425396] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera/cmake/orbbec_cameraConfig-version.cmake\n'}
+[101.425456] (orbbec_camera) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_clean/orbbec_camera/share/orbbec_camera/package.xml\n'}
+[101.426648] (orbbec_camera) CommandEnded: {'returncode': 0}
+[101.438305] (orbbec_camera) JobEnded: {'identifier': 'orbbec_camera', 'rc': 0}
+[101.438565] (-) EventReactorShutdown: {}

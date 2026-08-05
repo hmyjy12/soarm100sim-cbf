@@ -1,0 +1,15 @@
+[INFO] [1785404871.916287335] [hardware_single_joint_service]: guarded single-joint service ready: /hardware/move_single_joint; max_delta=2deg, automatic return and torque-off
+[WARN] [1785404878.663999563] [hardware_single_joint_service]: executing guarded motion joint=wrist_roll delta=+1.00deg
+[ERROR] [1785404886.430897897] [hardware_single_joint_service]: guarded motion failed rc=1: 'wrist_flex': 0, 'wrist_yaw': 0, 'wrist_roll': 0, 'gripper': 0}
+Traceback (most recent call last):
+  File "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/hardware/tools/test_single_joint.py", line 365, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/hardware/tools/test_single_joint.py", line 321, in main
+    settle_at_target(
+  File "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/hardware/tools/test_single_joint.py", line 203, in settle_at_target
+    raise RuntimeError(
+RuntimeError: return_settle did not converge within 1.00s: goal=2257 pos=2263 error=-6 counts tolerance=3
+ERROR conda.cli.main_run:execute(142): `conda run python /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/hardware/tools/test_single_joint.py --port /dev/ttyACM0 --calibration /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/hardware/calibration/lerobot/so100_plus_7dof.json --joint wrist_roll --delta-deg 1 --duration 1.5 --hold 0.5 --log /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/logs/hardware/ros2_single_joint_wrist_roll_20260730_174758_663651.jsonl --confirm MOVE_SINGLE_JOINT` failed. (See above for error)
+[WARN] [1785405085.873034490] [hardware_single_joint_service]: executing guarded motion joint=wrist_roll delta=+1.00deg
+[INFO] [1785405092.675811367] [hardware_single_joint_service]: completed_and_returned; selected torque disabled

@@ -1,0 +1,22 @@
+{
+    "pattern": "checkerboard",
+    "inner_corners": {
+        "columns": 9,
+        "rows": 6
+    },
+    "squares": {
+        "columns": 10,
+        "rows": 7
+    },
+    "square_size_m": 0.02428,
+    "square_size_mm_measured": 24.28,
+    "board_size_m": {
+        "width": 0.2428,
+        "height": 0.16996
+    },
+    "notes": [
+        "Real camera calibration only; MuJoCo uses its separate simulation board specification.",
+        "Measured printed square size; verify with a ruler before final calibration.",
+        "Print scaling must remain 100 percent / actual size."
+    ]
+}

@@ -81,6 +81,11 @@ rosidl_typesupport_cpp/soarm100_interfaces/msg/tracked_target2_d__type_support.c
 rosidl_typesupport_cpp/soarm100_interfaces/msg/tracked_target2_d__type_support.cpp: rosidl_adapter/soarm100_interfaces/action/PlanGrasp.idl
 rosidl_typesupport_cpp/soarm100_interfaces/msg/tracked_target2_d__type_support.cpp: rosidl_adapter/soarm100_interfaces/srv/SegmentTarget.idl
 rosidl_typesupport_cpp/soarm100_interfaces/msg/tracked_target2_d__type_support.cpp: rosidl_adapter/soarm100_interfaces/srv/SetAvoidance.idl
+rosidl_typesupport_cpp/soarm100_interfaces/msg/tracked_target2_d__type_support.cpp: rosidl_adapter/soarm100_interfaces/srv/MoveSingleJoint.idl
+rosidl_typesupport_cpp/soarm100_interfaces/msg/tracked_target2_d__type_support.cpp: rosidl_adapter/soarm100_interfaces/srv/MoveJointDelta.idl
+rosidl_typesupport_cpp/soarm100_interfaces/msg/tracked_target2_d__type_support.cpp: rosidl_adapter/soarm100_interfaces/srv/MoveNamedPose.idl
+rosidl_typesupport_cpp/soarm100_interfaces/msg/tracked_target2_d__type_support.cpp: rosidl_adapter/soarm100_interfaces/srv/MoveJointTarget.idl
+rosidl_typesupport_cpp/soarm100_interfaces/msg/tracked_target2_d__type_support.cpp: rosidl_adapter/soarm100_interfaces/srv/SetHardwareTorque.idl
 rosidl_typesupport_cpp/soarm100_interfaces/msg/tracked_target2_d__type_support.cpp: /opt/ros/humble/share/builtin_interfaces/msg/Duration.idl
 rosidl_typesupport_cpp/soarm100_interfaces/msg/tracked_target2_d__type_support.cpp: /opt/ros/humble/share/builtin_interfaces/msg/Time.idl
 rosidl_typesupport_cpp/soarm100_interfaces/msg/tracked_target2_d__type_support.cpp: /opt/ros/humble/share/geometry_msgs/msg/Accel.idl
@@ -196,6 +201,21 @@ rosidl_typesupport_cpp/soarm100_interfaces/srv/segment_target__type_support.cpp:
 rosidl_typesupport_cpp/soarm100_interfaces/srv/set_avoidance__type_support.cpp: rosidl_typesupport_cpp/soarm100_interfaces/msg/tracked_target2_d__type_support.cpp
 	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_typesupport_cpp/soarm100_interfaces/srv/set_avoidance__type_support.cpp
 
+rosidl_typesupport_cpp/soarm100_interfaces/srv/move_single_joint__type_support.cpp: rosidl_typesupport_cpp/soarm100_interfaces/msg/tracked_target2_d__type_support.cpp
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_typesupport_cpp/soarm100_interfaces/srv/move_single_joint__type_support.cpp
+
+rosidl_typesupport_cpp/soarm100_interfaces/srv/move_joint_delta__type_support.cpp: rosidl_typesupport_cpp/soarm100_interfaces/msg/tracked_target2_d__type_support.cpp
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_typesupport_cpp/soarm100_interfaces/srv/move_joint_delta__type_support.cpp
+
+rosidl_typesupport_cpp/soarm100_interfaces/srv/move_named_pose__type_support.cpp: rosidl_typesupport_cpp/soarm100_interfaces/msg/tracked_target2_d__type_support.cpp
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_typesupport_cpp/soarm100_interfaces/srv/move_named_pose__type_support.cpp
+
+rosidl_typesupport_cpp/soarm100_interfaces/srv/move_joint_target__type_support.cpp: rosidl_typesupport_cpp/soarm100_interfaces/msg/tracked_target2_d__type_support.cpp
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_typesupport_cpp/soarm100_interfaces/srv/move_joint_target__type_support.cpp
+
+rosidl_typesupport_cpp/soarm100_interfaces/srv/set_hardware_torque__type_support.cpp: rosidl_typesupport_cpp/soarm100_interfaces/msg/tracked_target2_d__type_support.cpp
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_typesupport_cpp/soarm100_interfaces/srv/set_hardware_torque__type_support.cpp
+
 CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/msg/tracked_target2_d__type_support.cpp.o: CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/flags.make
 CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/msg/tracked_target2_d__type_support.cpp.o: rosidl_typesupport_cpp/soarm100_interfaces/msg/tracked_target2_d__type_support.cpp
 CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/msg/tracked_target2_d__type_support.cpp.o: CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/compiler_depend.ts
@@ -280,6 +300,76 @@ CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cp
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/set_avoidance__type_support.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_typesupport_cpp/soarm100_interfaces/srv/set_avoidance__type_support.cpp -o CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/set_avoidance__type_support.cpp.s
 
+CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/move_single_joint__type_support.cpp.o: CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/flags.make
+CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/move_single_joint__type_support.cpp.o: rosidl_typesupport_cpp/soarm100_interfaces/srv/move_single_joint__type_support.cpp
+CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/move_single_joint__type_support.cpp.o: CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/move_single_joint__type_support.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/move_single_joint__type_support.cpp.o -MF CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/move_single_joint__type_support.cpp.o.d -o CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/move_single_joint__type_support.cpp.o -c /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_typesupport_cpp/soarm100_interfaces/srv/move_single_joint__type_support.cpp
+
+CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/move_single_joint__type_support.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/move_single_joint__type_support.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_typesupport_cpp/soarm100_interfaces/srv/move_single_joint__type_support.cpp > CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/move_single_joint__type_support.cpp.i
+
+CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/move_single_joint__type_support.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/move_single_joint__type_support.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_typesupport_cpp/soarm100_interfaces/srv/move_single_joint__type_support.cpp -o CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/move_single_joint__type_support.cpp.s
+
+CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/move_joint_delta__type_support.cpp.o: CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/flags.make
+CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/move_joint_delta__type_support.cpp.o: rosidl_typesupport_cpp/soarm100_interfaces/srv/move_joint_delta__type_support.cpp
+CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/move_joint_delta__type_support.cpp.o: CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/move_joint_delta__type_support.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/move_joint_delta__type_support.cpp.o -MF CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/move_joint_delta__type_support.cpp.o.d -o CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/move_joint_delta__type_support.cpp.o -c /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_typesupport_cpp/soarm100_interfaces/srv/move_joint_delta__type_support.cpp
+
+CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/move_joint_delta__type_support.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/move_joint_delta__type_support.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_typesupport_cpp/soarm100_interfaces/srv/move_joint_delta__type_support.cpp > CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/move_joint_delta__type_support.cpp.i
+
+CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/move_joint_delta__type_support.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/move_joint_delta__type_support.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_typesupport_cpp/soarm100_interfaces/srv/move_joint_delta__type_support.cpp -o CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/move_joint_delta__type_support.cpp.s
+
+CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/move_named_pose__type_support.cpp.o: CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/flags.make
+CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/move_named_pose__type_support.cpp.o: rosidl_typesupport_cpp/soarm100_interfaces/srv/move_named_pose__type_support.cpp
+CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/move_named_pose__type_support.cpp.o: CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/move_named_pose__type_support.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/move_named_pose__type_support.cpp.o -MF CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/move_named_pose__type_support.cpp.o.d -o CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/move_named_pose__type_support.cpp.o -c /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_typesupport_cpp/soarm100_interfaces/srv/move_named_pose__type_support.cpp
+
+CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/move_named_pose__type_support.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/move_named_pose__type_support.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_typesupport_cpp/soarm100_interfaces/srv/move_named_pose__type_support.cpp > CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/move_named_pose__type_support.cpp.i
+
+CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/move_named_pose__type_support.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/move_named_pose__type_support.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_typesupport_cpp/soarm100_interfaces/srv/move_named_pose__type_support.cpp -o CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/move_named_pose__type_support.cpp.s
+
+CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/move_joint_target__type_support.cpp.o: CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/flags.make
+CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/move_joint_target__type_support.cpp.o: rosidl_typesupport_cpp/soarm100_interfaces/srv/move_joint_target__type_support.cpp
+CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/move_joint_target__type_support.cpp.o: CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/move_joint_target__type_support.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/move_joint_target__type_support.cpp.o -MF CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/move_joint_target__type_support.cpp.o.d -o CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/move_joint_target__type_support.cpp.o -c /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_typesupport_cpp/soarm100_interfaces/srv/move_joint_target__type_support.cpp
+
+CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/move_joint_target__type_support.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/move_joint_target__type_support.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_typesupport_cpp/soarm100_interfaces/srv/move_joint_target__type_support.cpp > CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/move_joint_target__type_support.cpp.i
+
+CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/move_joint_target__type_support.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/move_joint_target__type_support.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_typesupport_cpp/soarm100_interfaces/srv/move_joint_target__type_support.cpp -o CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/move_joint_target__type_support.cpp.s
+
+CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/set_hardware_torque__type_support.cpp.o: CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/flags.make
+CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/set_hardware_torque__type_support.cpp.o: rosidl_typesupport_cpp/soarm100_interfaces/srv/set_hardware_torque__type_support.cpp
+CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/set_hardware_torque__type_support.cpp.o: CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/set_hardware_torque__type_support.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/set_hardware_torque__type_support.cpp.o -MF CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/set_hardware_torque__type_support.cpp.o.d -o CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/set_hardware_torque__type_support.cpp.o -c /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_typesupport_cpp/soarm100_interfaces/srv/set_hardware_torque__type_support.cpp
+
+CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/set_hardware_torque__type_support.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/set_hardware_torque__type_support.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_typesupport_cpp/soarm100_interfaces/srv/set_hardware_torque__type_support.cpp > CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/set_hardware_torque__type_support.cpp.i
+
+CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/set_hardware_torque__type_support.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/set_hardware_torque__type_support.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_typesupport_cpp/soarm100_interfaces/srv/set_hardware_torque__type_support.cpp -o CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/set_hardware_torque__type_support.cpp.s
+
 # Object files for target soarm100_interfaces__rosidl_typesupport_cpp
 soarm100_interfaces__rosidl_typesupport_cpp_OBJECTS = \
 "CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/msg/tracked_target2_d__type_support.cpp.o" \
@@ -287,7 +377,12 @@ soarm100_interfaces__rosidl_typesupport_cpp_OBJECTS = \
 "CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/action/execute_planned_grasp__type_support.cpp.o" \
 "CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/action/plan_grasp__type_support.cpp.o" \
 "CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/segment_target__type_support.cpp.o" \
-"CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/set_avoidance__type_support.cpp.o"
+"CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/set_avoidance__type_support.cpp.o" \
+"CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/move_single_joint__type_support.cpp.o" \
+"CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/move_joint_delta__type_support.cpp.o" \
+"CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/move_named_pose__type_support.cpp.o" \
+"CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/move_joint_target__type_support.cpp.o" \
+"CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/set_hardware_torque__type_support.cpp.o"
 
 # External object files for target soarm100_interfaces__rosidl_typesupport_cpp
 soarm100_interfaces__rosidl_typesupport_cpp_EXTERNAL_OBJECTS =
@@ -298,6 +393,11 @@ libsoarm100_interfaces__rosidl_typesupport_cpp.so: CMakeFiles/soarm100_interface
 libsoarm100_interfaces__rosidl_typesupport_cpp.so: CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/action/plan_grasp__type_support.cpp.o
 libsoarm100_interfaces__rosidl_typesupport_cpp.so: CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/segment_target__type_support.cpp.o
 libsoarm100_interfaces__rosidl_typesupport_cpp.so: CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/set_avoidance__type_support.cpp.o
+libsoarm100_interfaces__rosidl_typesupport_cpp.so: CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/move_single_joint__type_support.cpp.o
+libsoarm100_interfaces__rosidl_typesupport_cpp.so: CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/move_joint_delta__type_support.cpp.o
+libsoarm100_interfaces__rosidl_typesupport_cpp.so: CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/move_named_pose__type_support.cpp.o
+libsoarm100_interfaces__rosidl_typesupport_cpp.so: CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/move_joint_target__type_support.cpp.o
+libsoarm100_interfaces__rosidl_typesupport_cpp.so: CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/soarm100_interfaces/srv/set_hardware_torque__type_support.cpp.o
 libsoarm100_interfaces__rosidl_typesupport_cpp.so: CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/build.make
 libsoarm100_interfaces__rosidl_typesupport_cpp.so: /opt/ros/humble/lib/libsensor_msgs__rosidl_typesupport_cpp.so
 libsoarm100_interfaces__rosidl_typesupport_cpp.so: /opt/ros/humble/lib/libaction_msgs__rosidl_typesupport_cpp.so
@@ -310,7 +410,7 @@ libsoarm100_interfaces__rosidl_typesupport_cpp.so: /opt/ros/humble/lib/librosidl
 libsoarm100_interfaces__rosidl_typesupport_cpp.so: /opt/ros/humble/lib/librosidl_runtime_c.so
 libsoarm100_interfaces__rosidl_typesupport_cpp.so: /opt/ros/humble/lib/librcutils.so
 libsoarm100_interfaces__rosidl_typesupport_cpp.so: CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Linking CXX shared library libsoarm100_interfaces__rosidl_typesupport_cpp.so"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Linking CXX shared library libsoarm100_interfaces__rosidl_typesupport_cpp.so"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -325,8 +425,13 @@ CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/depend: rosidl_typesu
 CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/depend: rosidl_typesupport_cpp/soarm100_interfaces/action/execute_planned_grasp__type_support.cpp
 CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/depend: rosidl_typesupport_cpp/soarm100_interfaces/action/plan_grasp__type_support.cpp
 CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/depend: rosidl_typesupport_cpp/soarm100_interfaces/msg/tracked_target2_d__type_support.cpp
+CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/depend: rosidl_typesupport_cpp/soarm100_interfaces/srv/move_joint_delta__type_support.cpp
+CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/depend: rosidl_typesupport_cpp/soarm100_interfaces/srv/move_joint_target__type_support.cpp
+CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/depend: rosidl_typesupport_cpp/soarm100_interfaces/srv/move_named_pose__type_support.cpp
+CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/depend: rosidl_typesupport_cpp/soarm100_interfaces/srv/move_single_joint__type_support.cpp
 CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/depend: rosidl_typesupport_cpp/soarm100_interfaces/srv/segment_target__type_support.cpp
 CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/depend: rosidl_typesupport_cpp/soarm100_interfaces/srv/set_avoidance__type_support.cpp
+CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/depend: rosidl_typesupport_cpp/soarm100_interfaces/srv/set_hardware_torque__type_support.cpp
 	cd /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/soarm100_interfaces /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/soarm100_interfaces /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/soarm100_interfaces__rosidl_typesupport_cpp.dir/depend
 

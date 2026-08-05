@@ -1,0 +1,5 @@
+1785407950.1007838 [INFO] [launch]: All log files can be found below /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/logs/hardware/ros2/2026-07-30-18-39-10-100190-sophie-Legion-Y7000P-IRX10-1083846
+1785407950.1037500 [INFO] [launch]: Default logging verbosity is set to INFO
+1785407950.1348062 [INFO] [hardware_single_joint_service_node-1]: process started with pid [1083847]
+1785408409.0350375 [WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
+1785408409.1686261 [INFO] [hardware_single_joint_service_node-1]: process has finished cleanly [pid 1083847]

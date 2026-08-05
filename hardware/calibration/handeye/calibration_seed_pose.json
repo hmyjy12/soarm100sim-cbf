@@ -1,0 +1,30 @@
+{
+  "schema": "soarm100_real_handeye_seed_pose_v1",
+  "name": "handeye_tabletop_seed_candidate",
+  "purpose": "Candidate viewing pose for a checkerboard lying on the table; not a recovery pose.",
+  "policy_joint_order": [
+    "shoulder_rotation_joint",
+    "shoulder_pitch_joint",
+    "ellbow_joint",
+    "wrist_pitch_joint",
+    "wrist_jaw_joint",
+    "wrist_roll_joint",
+    "gripper_joint"
+  ],
+  "policy_position_rad": [
+    0.124283,
+    -1.638308,
+    1.630636,
+    0.056771,
+    -0.047565,
+    0.136558,
+    0.043196
+  ],
+  "approval_required": true,
+  "collision_certified": false,
+  "notes": [
+    "This pose is intentionally separate from hardware_safe_pose.json.",
+    "Confirm the tabletop checkerboard is visible after moving here before pressing START.",
+    "If the camera still points away from the board, edit this file and retry with small changes."
+  ]
+}

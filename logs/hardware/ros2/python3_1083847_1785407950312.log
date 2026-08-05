@@ -1,0 +1,3 @@
+[INFO] [1785407950.359502346] [hardware_single_joint_service]: guarded single-joint service ready: /hardware/move_single_joint; max_delta=2deg, automatic return and torque-off
+[WARN] [1785407957.051737968] [hardware_single_joint_service]: executing guarded synchronized motion delta_rad=[0.0, 0.0349066, 0.0, 0.0, 0.0, 0.0, 0.0]
+[INFO] [1785407964.114687822] [hardware_single_joint_service]: synchronized motion converged, target retained, all torque disabled

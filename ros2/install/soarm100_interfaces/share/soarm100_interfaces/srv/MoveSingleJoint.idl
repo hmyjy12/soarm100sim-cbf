@@ -1,0 +1,27 @@
+// generated from rosidl_adapter/resource/srv.idl.em
+// with input from soarm100_interfaces/srv/MoveSingleJoint.srv
+// generated code does not contain a copyright notice
+
+
+module soarm100_interfaces {
+  module srv {
+    struct MoveSingleJoint_Request {
+      string joint;
+
+      double delta_deg;
+
+      double duration;
+
+      double hold;
+
+      string confirmation;
+    };
+    struct MoveSingleJoint_Response {
+      boolean success;
+
+      string reason;
+
+      string log_path;
+    };
+  };
+};

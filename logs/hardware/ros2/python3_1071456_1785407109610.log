@@ -1,0 +1,19 @@
+[INFO] [1785407109.658348253] [hardware_single_joint_service]: guarded single-joint service ready: /hardware/move_single_joint; max_delta=2deg, automatic return and torque-off
+[WARN] [1785407128.462887970] [hardware_single_joint_service]: executing guarded synchronized motion delta_rad=[0.0, 0.0174533, -0.0174533, 0.0, 0.0, 0.0, 0.0]
+[ERROR] [1785407131.958714024] [hardware_single_joint_service]: synchronized motion failed rc=1: Traceback (most recent call last):
+  File "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/hardware/tools/test_multi_joint_delta.py", line 347, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/hardware/tools/test_multi_joint_delta.py", line 265, in main
+    raise RuntimeError(
+RuntimeError: shoulder_pitch_joint target -3.2258 outside policy limit [-3.1416, +0.2000]
+ERROR conda.cli.main_run:execute(142): `conda run python /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/hardware/tools/test_multi_joint_delta.py --port /dev/ttyACM0 --calibration /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/hardware/calibration/lerobot/so100_plus_7dof.json --mapping /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/hardware/calibration/policy_joint_mapping.json --deltas-rad 0,0.0174533,-0.0174533,0,0,0,0 --duration 2.5 --hold 0.5 --log /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/logs/hardware/ros2_multi_joint_20260730_182528_462547.jsonl --confirm MOVE_MULTI_JOINT` failed. (See above for error)
+[WARN] [1785407287.886956625] [hardware_single_joint_service]: executing guarded synchronized motion delta_rad=[0.0, 0.0174533, -0.0174533, 0.0, 0.0, 0.0, 0.0]
+[ERROR] [1785407291.345047364] [hardware_single_joint_service]: synchronized motion failed rc=1: Traceback (most recent call last):
+  File "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/hardware/tools/test_multi_joint_delta.py", line 381, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/hardware/tools/test_multi_joint_delta.py", line 315, in main
+    raise RuntimeError(
+RuntimeError: shoulder_lift start/target outside safe raw interval [1056, 3254]: 988 -> 999
+ERROR conda.cli.main_run:execute(142): `conda run python /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/hardware/tools/test_multi_joint_delta.py --port /dev/ttyACM0 --calibration /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/hardware/calibration/lerobot/so100_plus_7dof.json --mapping /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/hardware/calibration/policy_joint_mapping.json --deltas-rad 0,0.0174533,-0.0174533,0,0,0,0 --duration 2.5 --hold 0.5 --log /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/logs/hardware/ros2_multi_joint_20260730_182807_886646.jsonl --confirm MOVE_MULTI_JOINT` failed. (See above for error)

@@ -1,0 +1,118 @@
+[0.071s] colcon DEBUG Command line arguments: ['/usr/bin/colcon', '--log-base', 'log_driver', 'build', '--base-paths', 'src/OrbbecSDK_ROS2', '--build-base', 'build_driver', '--install-base', 'install_driver', '--packages-select', 'orbbec_camera', '--event-handlers', 'console_direct+', '--cmake-args', '-DCMAKE_BUILD_TYPE=Release', '-DINSTALL_UDEV_RULES=OFF', '-DPython3_EXECUTABLE=/usr/bin/python3', '-DPYTHON_EXECUTABLE=/usr/bin/python3']
+[0.071s] colcon DEBUG Parsed command line arguments: Namespace(log_base='log_driver', log_level=None, verb_name='build', build_base='/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/build_driver', install_base='/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_driver', merge_install=False, symlink_install=False, test_result_base=None, continue_on_error=False, executor='parallel', parallel_workers=32, event_handlers=['console_direct+'], ignore_user_meta=False, metas=['./colcon.meta'], base_paths=['src/OrbbecSDK_ROS2'], packages_ignore=None, packages_ignore_regex=None, paths=None, packages_up_to=None, packages_up_to_regex=None, packages_above=None, packages_above_and_dependencies=None, packages_above_depth=None, packages_select_by_dep=None, packages_skip_by_dep=None, packages_skip_up_to=None, packages_select_build_failed=False, packages_skip_build_finished=False, packages_select_test_failures=False, packages_skip_test_passed=False, packages_select=['orbbec_camera'], packages_skip=None, packages_select_regex=None, packages_skip_regex=None, packages_start=None, packages_end=None, allow_overriding=[], cmake_args=['-DCMAKE_BUILD_TYPE=Release', '-DINSTALL_UDEV_RULES=OFF', '-DPython3_EXECUTABLE=/usr/bin/python3', '-DPYTHON_EXECUTABLE=/usr/bin/python3'], cmake_target=None, cmake_target_skip_unavailable=False, cmake_clean_cache=False, cmake_clean_first=False, cmake_force_configure=False, ament_cmake_args=None, catkin_cmake_args=None, catkin_skip_building_tests=False, verb_parser=<colcon_defaults.argument_parser.defaults.DefaultArgumentsDecorator object at 0x79287fd46050>, verb_extension=<colcon_core.verb.build.BuildVerb object at 0x79287fd45bd0>, main=<bound method BuildVerb.main of <colcon_core.verb.build.BuildVerb object at 0x79287fd45bd0>>)
+[0.180s] colcon.colcon_core.package_discovery Level 1 discover_packages(colcon_meta) check parameters
+[0.180s] colcon.colcon_core.package_discovery Level 1 discover_packages(recursive) check parameters
+[0.180s] colcon.colcon_core.package_discovery Level 1 discover_packages(ignore) check parameters
+[0.180s] colcon.colcon_core.package_discovery Level 1 discover_packages(path) check parameters
+[0.180s] colcon.colcon_core.package_discovery Level 1 discover_packages(recursive) discover
+[0.180s] colcon.colcon_core.package_discovery INFO Crawling recursively for packages in '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/src/OrbbecSDK_ROS2'
+[0.180s] colcon.colcon_core.package_identification Level 1 _identify(src/OrbbecSDK_ROS2) by extensions ['ignore', 'ignore_ament_install']
+[0.180s] colcon.colcon_core.package_identification Level 1 _identify(src/OrbbecSDK_ROS2) by extension 'ignore'
+[0.180s] colcon.colcon_core.package_identification Level 1 _identify(src/OrbbecSDK_ROS2) by extension 'ignore_ament_install'
+[0.180s] colcon.colcon_core.package_identification Level 1 _identify(src/OrbbecSDK_ROS2) by extensions ['colcon_pkg']
+[0.180s] colcon.colcon_core.package_identification Level 1 _identify(src/OrbbecSDK_ROS2) by extension 'colcon_pkg'
+[0.180s] colcon.colcon_core.package_identification Level 1 _identify(src/OrbbecSDK_ROS2) by extensions ['colcon_meta']
+[0.180s] colcon.colcon_core.package_identification Level 1 _identify(src/OrbbecSDK_ROS2) by extension 'colcon_meta'
+[0.180s] colcon.colcon_core.package_identification Level 1 _identify(src/OrbbecSDK_ROS2) by extensions ['ros']
+[0.180s] colcon.colcon_core.package_identification Level 1 _identify(src/OrbbecSDK_ROS2) by extension 'ros'
+[0.203s] colcon.colcon_core.package_identification Level 1 _identify(src/OrbbecSDK_ROS2) by extensions ['cmake', 'python']
+[0.203s] colcon.colcon_core.package_identification Level 1 _identify(src/OrbbecSDK_ROS2) by extension 'cmake'
+[0.203s] colcon.colcon_core.package_identification Level 1 _identify(src/OrbbecSDK_ROS2) by extension 'python'
+[0.203s] colcon.colcon_core.package_identification Level 1 _identify(src/OrbbecSDK_ROS2) by extensions ['python_setup_py']
+[0.204s] colcon.colcon_core.package_identification Level 1 _identify(src/OrbbecSDK_ROS2) by extension 'python_setup_py'
+[0.204s] colcon.colcon_core.package_identification Level 1 _identify(src/OrbbecSDK_ROS2/orbbec_camera) by extensions ['ignore', 'ignore_ament_install']
+[0.204s] colcon.colcon_core.package_identification Level 1 _identify(src/OrbbecSDK_ROS2/orbbec_camera) by extension 'ignore'
+[0.204s] colcon.colcon_core.package_identification Level 1 _identify(src/OrbbecSDK_ROS2/orbbec_camera) by extension 'ignore_ament_install'
+[0.204s] colcon.colcon_core.package_identification Level 1 _identify(src/OrbbecSDK_ROS2/orbbec_camera) by extensions ['colcon_pkg']
+[0.204s] colcon.colcon_core.package_identification Level 1 _identify(src/OrbbecSDK_ROS2/orbbec_camera) by extension 'colcon_pkg'
+[0.204s] colcon.colcon_core.package_identification Level 1 _identify(src/OrbbecSDK_ROS2/orbbec_camera) by extensions ['colcon_meta']
+[0.204s] colcon.colcon_core.package_identification Level 1 _identify(src/OrbbecSDK_ROS2/orbbec_camera) by extension 'colcon_meta'
+[0.204s] colcon.colcon_core.package_identification Level 1 _identify(src/OrbbecSDK_ROS2/orbbec_camera) by extensions ['ros']
+[0.204s] colcon.colcon_core.package_identification Level 1 _identify(src/OrbbecSDK_ROS2/orbbec_camera) by extension 'ros'
+[0.207s] colcon.colcon_core.package_identification DEBUG Package 'src/OrbbecSDK_ROS2/orbbec_camera' with type 'ros.ament_cmake' and name 'orbbec_camera'
+[0.207s] colcon.colcon_core.package_identification Level 1 _identify(src/OrbbecSDK_ROS2/orbbec_camera_msgs) by extensions ['ignore', 'ignore_ament_install']
+[0.207s] colcon.colcon_core.package_identification Level 1 _identify(src/OrbbecSDK_ROS2/orbbec_camera_msgs) by extension 'ignore'
+[0.207s] colcon.colcon_core.package_identification Level 1 _identify(src/OrbbecSDK_ROS2/orbbec_camera_msgs) by extension 'ignore_ament_install'
+[0.207s] colcon.colcon_core.package_identification Level 1 _identify(src/OrbbecSDK_ROS2/orbbec_camera_msgs) by extensions ['colcon_pkg']
+[0.207s] colcon.colcon_core.package_identification Level 1 _identify(src/OrbbecSDK_ROS2/orbbec_camera_msgs) by extension 'colcon_pkg'
+[0.207s] colcon.colcon_core.package_identification Level 1 _identify(src/OrbbecSDK_ROS2/orbbec_camera_msgs) by extensions ['colcon_meta']
+[0.207s] colcon.colcon_core.package_identification Level 1 _identify(src/OrbbecSDK_ROS2/orbbec_camera_msgs) by extension 'colcon_meta'
+[0.207s] colcon.colcon_core.package_identification Level 1 _identify(src/OrbbecSDK_ROS2/orbbec_camera_msgs) by extensions ['ros']
+[0.207s] colcon.colcon_core.package_identification Level 1 _identify(src/OrbbecSDK_ROS2/orbbec_camera_msgs) by extension 'ros'
+[0.207s] colcon.colcon_core.package_identification DEBUG Package 'src/OrbbecSDK_ROS2/orbbec_camera_msgs' with type 'ros.ament_cmake' and name 'orbbec_camera_msgs'
+[0.208s] colcon.colcon_core.package_identification Level 1 _identify(src/OrbbecSDK_ROS2/orbbec_description) by extensions ['ignore', 'ignore_ament_install']
+[0.208s] colcon.colcon_core.package_identification Level 1 _identify(src/OrbbecSDK_ROS2/orbbec_description) by extension 'ignore'
+[0.208s] colcon.colcon_core.package_identification Level 1 _identify(src/OrbbecSDK_ROS2/orbbec_description) by extension 'ignore_ament_install'
+[0.208s] colcon.colcon_core.package_identification Level 1 _identify(src/OrbbecSDK_ROS2/orbbec_description) by extensions ['colcon_pkg']
+[0.208s] colcon.colcon_core.package_identification Level 1 _identify(src/OrbbecSDK_ROS2/orbbec_description) by extension 'colcon_pkg'
+[0.208s] colcon.colcon_core.package_identification Level 1 _identify(src/OrbbecSDK_ROS2/orbbec_description) by extensions ['colcon_meta']
+[0.208s] colcon.colcon_core.package_identification Level 1 _identify(src/OrbbecSDK_ROS2/orbbec_description) by extension 'colcon_meta'
+[0.208s] colcon.colcon_core.package_identification Level 1 _identify(src/OrbbecSDK_ROS2/orbbec_description) by extensions ['ros']
+[0.208s] colcon.colcon_core.package_identification Level 1 _identify(src/OrbbecSDK_ROS2/orbbec_description) by extension 'ros'
+[0.208s] colcon.colcon_core.package_identification DEBUG Package 'src/OrbbecSDK_ROS2/orbbec_description' with type 'ros.ament_cmake' and name 'orbbec_description'
+[0.208s] colcon.colcon_core.package_discovery Level 1 discover_packages(recursive) using defaults
+[0.218s] colcon.colcon_core.package_selection INFO Skipping not selected package 'orbbec_camera_msgs' in 'src/OrbbecSDK_ROS2/orbbec_camera_msgs'
+[0.218s] colcon.colcon_core.package_selection INFO Skipping not selected package 'orbbec_description' in 'src/OrbbecSDK_ROS2/orbbec_description'
+[0.218s] colcon.colcon_core.package_discovery Level 1 discover_packages(prefix_path) check parameters
+[0.218s] colcon.colcon_core.package_discovery Level 1 discover_packages(prefix_path) discover
+[0.220s] colcon.colcon_installed_package_information.package_discovery DEBUG Found 380 installed packages in /opt/ros/humble
+[0.221s] colcon.colcon_core.package_discovery Level 1 discover_packages(prefix_path) using defaults
+[0.247s] colcon.colcon_core.verb Level 5 set package 'orbbec_camera' build argument 'cmake_args' from command line to '['-DCMAKE_BUILD_TYPE=Release', '-DINSTALL_UDEV_RULES=OFF', '-DPython3_EXECUTABLE=/usr/bin/python3', '-DPYTHON_EXECUTABLE=/usr/bin/python3']'
+[0.247s] colcon.colcon_core.verb Level 5 set package 'orbbec_camera' build argument 'cmake_target' from command line to 'None'
+[0.247s] colcon.colcon_core.verb Level 5 set package 'orbbec_camera' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.247s] colcon.colcon_core.verb Level 5 set package 'orbbec_camera' build argument 'cmake_clean_cache' from command line to 'False'
+[0.247s] colcon.colcon_core.verb Level 5 set package 'orbbec_camera' build argument 'cmake_clean_first' from command line to 'False'
+[0.247s] colcon.colcon_core.verb Level 5 set package 'orbbec_camera' build argument 'cmake_force_configure' from command line to 'False'
+[0.247s] colcon.colcon_core.verb Level 5 set package 'orbbec_camera' build argument 'ament_cmake_args' from command line to 'None'
+[0.247s] colcon.colcon_core.verb Level 5 set package 'orbbec_camera' build argument 'catkin_cmake_args' from command line to 'None'
+[0.247s] colcon.colcon_core.verb Level 5 set package 'orbbec_camera' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.247s] colcon.colcon_core.verb DEBUG Building package 'orbbec_camera' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/build_driver/orbbec_camera', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': ['-DCMAKE_BUILD_TYPE=Release', '-DINSTALL_UDEV_RULES=OFF', '-DPython3_EXECUTABLE=/usr/bin/python3', '-DPYTHON_EXECUTABLE=/usr/bin/python3'], 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_driver/orbbec_camera', 'merge_install': False, 'path': '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/src/OrbbecSDK_ROS2/orbbec_camera', 'symlink_install': False, 'test_result_base': None}
+[0.247s] colcon.colcon_core.executor INFO Executing jobs using 'parallel' executor
+[0.248s] colcon.colcon_parallel_executor.executor.parallel DEBUG run_until_complete
+[0.248s] colcon.colcon_ros.task.ament_cmake.build INFO Building ROS package in '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/src/OrbbecSDK_ROS2/orbbec_camera' with build type 'ament_cmake'
+[0.248s] colcon.colcon_cmake.task.cmake.build INFO Building CMake package in '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/src/OrbbecSDK_ROS2/orbbec_camera'
+[0.249s] colcon.colcon_core.plugin_system INFO Skipping extension 'colcon_core.shell.bat': Not used on non-Windows systems
+[0.250s] colcon.colcon_core.shell INFO Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[0.250s] colcon.colcon_core.shell DEBUG Skip shell extension 'dsv' for command environment
+[0.251s] colcon.colcon_core.shell WARNING The following packages are in the workspace but haven't been built:
+- orbbec_camera_msgs
+They are being used from the following locations instead:
+- /opt/ros/humble
+To suppress this warning ignore these packages in the workspace:
+--packages-ignore orbbec_camera_msgs
+[0.256s] colcon.colcon_core.event_handler.log_command DEBUG Invoking command in '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/build_driver/orbbec_camera': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/src/OrbbecSDK_ROS2/orbbec_camera -DCMAKE_BUILD_TYPE=Release -DINSTALL_UDEV_RULES=OFF -DPython3_EXECUTABLE=/usr/bin/python3 -DPYTHON_EXECUTABLE=/usr/bin/python3 -DCMAKE_INSTALL_PREFIX=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_driver/orbbec_camera
+[30.277s] colcon.colcon_core.event_handler.log_command DEBUG Invoked command in '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/build_driver/orbbec_camera' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/src/OrbbecSDK_ROS2/orbbec_camera -DCMAKE_BUILD_TYPE=Release -DINSTALL_UDEV_RULES=OFF -DPython3_EXECUTABLE=/usr/bin/python3 -DPYTHON_EXECUTABLE=/usr/bin/python3 -DCMAKE_INSTALL_PREFIX=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_driver/orbbec_camera
+[30.281s] colcon.colcon_core.event_handler.log_command DEBUG Invoking command in '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/build_driver/orbbec_camera': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/build_driver/orbbec_camera -- -j32 -l32
+[71.155s] colcon.colcon_core.event_handler.log_command DEBUG Invoked command in '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/build_driver/orbbec_camera' returned '2': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/build_driver/orbbec_camera -- -j32 -l32
+[71.156s] colcon.colcon_core.environment Level 1 create_environment_scripts_only(orbbec_camera)
+[71.158s] colcon.colcon_core.environment Level 1 checking '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_driver/orbbec_camera' for CMake module files
+[71.158s] colcon.colcon_core.environment Level 1 checking '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_driver/orbbec_camera' for CMake config files
+[71.159s] colcon.colcon_core.environment Level 1 checking '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_driver/orbbec_camera/bin'
+[71.159s] colcon.colcon_core.environment Level 1 checking '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_driver/orbbec_camera/lib/pkgconfig/orbbec_camera.pc'
+[71.159s] colcon.colcon_core.environment Level 1 checking '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_driver/orbbec_camera/lib/python3.10/site-packages'
+[71.159s] colcon.colcon_core.environment Level 1 checking '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_driver/orbbec_camera/bin'
+[71.160s] colcon.colcon_core.shell INFO Creating package script '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_driver/orbbec_camera/share/orbbec_camera/package.ps1'
+[71.161s] colcon.colcon_core.shell INFO Creating package descriptor '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_driver/orbbec_camera/share/orbbec_camera/package.dsv'
+[71.162s] colcon.colcon_core.shell INFO Creating package script '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_driver/orbbec_camera/share/orbbec_camera/package.sh'
+[71.163s] colcon.colcon_core.shell INFO Creating package script '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_driver/orbbec_camera/share/orbbec_camera/package.bash'
+[71.164s] colcon.colcon_core.shell INFO Creating package script '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_driver/orbbec_camera/share/orbbec_camera/package.zsh'
+[71.164s] colcon.colcon_core.environment Level 1 create_file_with_runtime_dependencies(/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_driver/orbbec_camera/share/colcon-core/packages/orbbec_camera)
+[71.175s] colcon.colcon_parallel_executor.executor.parallel DEBUG closing loop
+[71.175s] colcon.colcon_parallel_executor.executor.parallel DEBUG loop closed
+[71.175s] colcon.colcon_parallel_executor.executor.parallel DEBUG run_until_complete finished with '2'
+[71.175s] colcon.colcon_core.event_reactor DEBUG joining thread
+[71.183s] colcon.colcon_core.plugin_system INFO Skipping extension 'colcon_notification.desktop_notification.terminal_notifier': Not used on non-Darwin systems
+[71.183s] colcon.colcon_core.plugin_system INFO Skipping extension 'colcon_notification.desktop_notification.win32': Not used on non-Windows systems
+[71.183s] colcon.colcon_notification.desktop_notification INFO Sending desktop notification using 'notify2'
+[71.183s] colcon.colcon_notification.desktop_notification.notify2 DEBUG Failed to initialize notify2: org.freedesktop.DBus.Error.AccessDenied: Failed to connect to socket /run/user/1000/bus: Operation not permitted
+[71.183s] colcon.colcon_core.event_reactor DEBUG joined thread
+[71.184s] colcon.colcon_core.shell INFO Creating prefix script '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_driver/local_setup.ps1'
+[71.185s] colcon.colcon_core.shell INFO Creating prefix util module '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_driver/_local_setup_util_ps1.py'
+[71.187s] colcon.colcon_core.shell INFO Creating prefix chain script '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_driver/setup.ps1'
+[71.189s] colcon.colcon_core.shell INFO Creating prefix script '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_driver/local_setup.sh'
+[71.190s] colcon.colcon_core.shell INFO Creating prefix util module '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_driver/_local_setup_util_sh.py'
+[71.190s] colcon.colcon_core.shell INFO Creating prefix chain script '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_driver/setup.sh'
+[71.192s] colcon.colcon_core.shell INFO Creating prefix script '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_driver/local_setup.bash'
+[71.192s] colcon.colcon_core.shell INFO Creating prefix chain script '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_driver/setup.bash'
+[71.194s] colcon.colcon_core.shell INFO Creating prefix script '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_driver/local_setup.zsh'
+[71.194s] colcon.colcon_core.shell INFO Creating prefix chain script '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/install_driver/setup.zsh'

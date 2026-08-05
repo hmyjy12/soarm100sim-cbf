@@ -1,1 +1,1 @@
-geometry_msgs:rclpy:sensor_msgs:soarm100_interfaces:std_msgs
+geometry_msgs:python3-opencv:rclpy:robot_state_publisher:rviz2:sensor_msgs:so100_plus_description:soarm100_interfaces:std_msgs:std_srvs:tf2_ros_py

@@ -1,0 +1,19 @@
+%YAML:1.0
+---
+method: Tsai
+base_frame: base
+gripper_frame: wrist_roll
+camera_frame: wrist_camera_optical_frame
+T_gripper_camera: !!opencv-matrix
+   rows: 4
+   cols: 4
+   dt: d
+   data: [ -7.9973082111271410e-02, 9.4519906110817908e-01,
+       3.1654863926076299e-01, -1.0545758158460775e-02,
+       -9.9672564840904743e-01, -7.9628184707349892e-02,
+       -1.4047562200474992e-02, 1.6427265722471643e-03,
+       1.1928450913168550e-02, -3.1663557456550745e-01,
+       9.4847225841264460e-01, 1.8164726352980613e-02, 0., 0., 0., 1. ]
+sample_count: 26
+fixed_board_translation_rms_mm: 1.7440688805898869e+01
+fixed_board_rotation_rms_deg: 5.8512851218562956e+00
