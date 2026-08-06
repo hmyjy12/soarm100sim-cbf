@@ -1,0 +1,23 @@
+[INFO] [1785924688.148709121] [so100_plus_policy_reach]: policy reach ready: checkpoint loaded, MuJoCo FK only, target=(+0.350,+0.020,+0.260), rate=10.0Hz max_step=0.020rad start_on_launch=True
+[WARN] [1785924688.248977677] [so100_plus_policy_reach]: starting from a hardware-safe pose outside the MuJoCo training range; policy success is not guaranteed: shoulder_pitch_joint=-3.2678rad outside training [-3.1416,+0.2000]
+[INFO] [1785924689.150472738] [so100_plus_policy_reach]: recovery tick=10 max_joint_error=0.1102rad
+[INFO] [1785924690.150936948] [so100_plus_policy_reach]: recovery tick=20 max_joint_error=0.0412rad
+[INFO] [1785924691.150217885] [so100_plus_policy_reach]: recovery tick=30 max_joint_error=0.0412rad
+[INFO] [1785924692.151729122] [so100_plus_policy_reach]: recovery tick=40 max_joint_error=0.0412rad
+[INFO] [1785924693.150561171] [so100_plus_policy_reach]: recovery tick=50 max_joint_error=0.0412rad
+[INFO] [1785924694.150500566] [so100_plus_policy_reach]: recovery tick=60 max_joint_error=0.0412rad
+[INFO] [1785924695.149514061] [so100_plus_policy_reach]: recovery tick=70 max_joint_error=0.0412rad
+[INFO] [1785924696.150418510] [so100_plus_policy_reach]: recovery tick=80 max_joint_error=0.0412rad
+[INFO] [1785924697.150593906] [so100_plus_policy_reach]: recovery tick=90 max_joint_error=0.0412rad
+[INFO] [1785924698.150592624] [so100_plus_policy_reach]: recovery tick=100 max_joint_error=0.0412rad
+[INFO] [1785924699.150692752] [so100_plus_policy_reach]: recovery tick=110 max_joint_error=0.0412rad
+[INFO] [1785924700.150682807] [so100_plus_policy_reach]: recovery tick=120 max_joint_error=0.0412rad
+[INFO] [1785924701.150509098] [so100_plus_policy_reach]: recovery tick=130 max_joint_error=0.0412rad
+[INFO] [1785924702.150724834] [so100_plus_policy_reach]: recovery tick=140 max_joint_error=0.0412rad
+[INFO] [1785924703.150319806] [so100_plus_policy_reach]: recovery tick=150 max_joint_error=0.0412rad
+[INFO] [1785924704.149415475] [so100_plus_policy_reach]: recovery tick=160 max_joint_error=0.0412rad
+[INFO] [1785924705.150612380] [so100_plus_policy_reach]: recovery tick=170 max_joint_error=0.0412rad
+[INFO] [1785924706.149499885] [so100_plus_policy_reach]: recovery tick=180 max_joint_error=0.0412rad
+[INFO] [1785924707.150943768] [so100_plus_policy_reach]: recovery tick=190 max_joint_error=0.0412rad
+[INFO] [1785924708.149619393] [so100_plus_policy_reach]: recovery tick=200 max_joint_error=0.0412rad
+[WARN] [1785924708.250677909] [so100_plus_policy_reach]: policy reach stopped: TIMEOUT {'pos_err_m': 0.237745858063773, 'orientation_err_deg': 77.93099838238768}

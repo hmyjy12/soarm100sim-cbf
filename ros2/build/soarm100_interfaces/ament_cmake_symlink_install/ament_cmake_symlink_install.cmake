@@ -387,6 +387,21 @@ ament_cmake_symlink_install_files("/home/sophie/isaac_lab/isaac_ws/rl_code/soarm
 # install(FILES "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_adapter/soarm100_interfaces/srv/SetAvoidance.idl" "DESTINATION" "share/soarm100_interfaces/srv")
 ament_cmake_symlink_install_files("/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/soarm100_interfaces" FILES "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_adapter/soarm100_interfaces/srv/SetAvoidance.idl" "DESTINATION" "share/soarm100_interfaces/srv")
 
+# install(FILES "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_adapter/soarm100_interfaces/srv/MoveSingleJoint.idl" "DESTINATION" "share/soarm100_interfaces/srv")
+ament_cmake_symlink_install_files("/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/soarm100_interfaces" FILES "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_adapter/soarm100_interfaces/srv/MoveSingleJoint.idl" "DESTINATION" "share/soarm100_interfaces/srv")
+
+# install(FILES "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_adapter/soarm100_interfaces/srv/MoveJointDelta.idl" "DESTINATION" "share/soarm100_interfaces/srv")
+ament_cmake_symlink_install_files("/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/soarm100_interfaces" FILES "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_adapter/soarm100_interfaces/srv/MoveJointDelta.idl" "DESTINATION" "share/soarm100_interfaces/srv")
+
+# install(FILES "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_adapter/soarm100_interfaces/srv/MoveNamedPose.idl" "DESTINATION" "share/soarm100_interfaces/srv")
+ament_cmake_symlink_install_files("/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/soarm100_interfaces" FILES "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_adapter/soarm100_interfaces/srv/MoveNamedPose.idl" "DESTINATION" "share/soarm100_interfaces/srv")
+
+# install(FILES "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_adapter/soarm100_interfaces/srv/MoveJointTarget.idl" "DESTINATION" "share/soarm100_interfaces/srv")
+ament_cmake_symlink_install_files("/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/soarm100_interfaces" FILES "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_adapter/soarm100_interfaces/srv/MoveJointTarget.idl" "DESTINATION" "share/soarm100_interfaces/srv")
+
+# install(FILES "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_adapter/soarm100_interfaces/srv/SetHardwareTorque.idl" "DESTINATION" "share/soarm100_interfaces/srv")
+ament_cmake_symlink_install_files("/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/soarm100_interfaces" FILES "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_adapter/soarm100_interfaces/srv/SetHardwareTorque.idl" "DESTINATION" "share/soarm100_interfaces/srv")
+
 # install(FILES "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/soarm100_interfaces/msg/TrackedTarget2D.msg" "DESTINATION" "share/soarm100_interfaces/msg")
 ament_cmake_symlink_install_files("/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/soarm100_interfaces" FILES "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/soarm100_interfaces/msg/TrackedTarget2D.msg" "DESTINATION" "share/soarm100_interfaces/msg")
 
@@ -416,6 +431,51 @@ ament_cmake_symlink_install_files("/home/sophie/isaac_lab/isaac_ws/rl_code/soarm
 
 # install(FILES "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_cmake/srv/SetAvoidance_Response.msg" "DESTINATION" "share/soarm100_interfaces/srv")
 ament_cmake_symlink_install_files("/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/soarm100_interfaces" FILES "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_cmake/srv/SetAvoidance_Response.msg" "DESTINATION" "share/soarm100_interfaces/srv")
+
+# install(FILES "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/soarm100_interfaces/srv/MoveSingleJoint.srv" "DESTINATION" "share/soarm100_interfaces/srv")
+ament_cmake_symlink_install_files("/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/soarm100_interfaces" FILES "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/soarm100_interfaces/srv/MoveSingleJoint.srv" "DESTINATION" "share/soarm100_interfaces/srv")
+
+# install(FILES "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_cmake/srv/MoveSingleJoint_Request.msg" "DESTINATION" "share/soarm100_interfaces/srv")
+ament_cmake_symlink_install_files("/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/soarm100_interfaces" FILES "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_cmake/srv/MoveSingleJoint_Request.msg" "DESTINATION" "share/soarm100_interfaces/srv")
+
+# install(FILES "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_cmake/srv/MoveSingleJoint_Response.msg" "DESTINATION" "share/soarm100_interfaces/srv")
+ament_cmake_symlink_install_files("/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/soarm100_interfaces" FILES "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_cmake/srv/MoveSingleJoint_Response.msg" "DESTINATION" "share/soarm100_interfaces/srv")
+
+# install(FILES "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/soarm100_interfaces/srv/MoveJointDelta.srv" "DESTINATION" "share/soarm100_interfaces/srv")
+ament_cmake_symlink_install_files("/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/soarm100_interfaces" FILES "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/soarm100_interfaces/srv/MoveJointDelta.srv" "DESTINATION" "share/soarm100_interfaces/srv")
+
+# install(FILES "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_cmake/srv/MoveJointDelta_Request.msg" "DESTINATION" "share/soarm100_interfaces/srv")
+ament_cmake_symlink_install_files("/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/soarm100_interfaces" FILES "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_cmake/srv/MoveJointDelta_Request.msg" "DESTINATION" "share/soarm100_interfaces/srv")
+
+# install(FILES "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_cmake/srv/MoveJointDelta_Response.msg" "DESTINATION" "share/soarm100_interfaces/srv")
+ament_cmake_symlink_install_files("/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/soarm100_interfaces" FILES "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_cmake/srv/MoveJointDelta_Response.msg" "DESTINATION" "share/soarm100_interfaces/srv")
+
+# install(FILES "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/soarm100_interfaces/srv/MoveNamedPose.srv" "DESTINATION" "share/soarm100_interfaces/srv")
+ament_cmake_symlink_install_files("/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/soarm100_interfaces" FILES "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/soarm100_interfaces/srv/MoveNamedPose.srv" "DESTINATION" "share/soarm100_interfaces/srv")
+
+# install(FILES "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_cmake/srv/MoveNamedPose_Request.msg" "DESTINATION" "share/soarm100_interfaces/srv")
+ament_cmake_symlink_install_files("/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/soarm100_interfaces" FILES "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_cmake/srv/MoveNamedPose_Request.msg" "DESTINATION" "share/soarm100_interfaces/srv")
+
+# install(FILES "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_cmake/srv/MoveNamedPose_Response.msg" "DESTINATION" "share/soarm100_interfaces/srv")
+ament_cmake_symlink_install_files("/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/soarm100_interfaces" FILES "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_cmake/srv/MoveNamedPose_Response.msg" "DESTINATION" "share/soarm100_interfaces/srv")
+
+# install(FILES "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/soarm100_interfaces/srv/MoveJointTarget.srv" "DESTINATION" "share/soarm100_interfaces/srv")
+ament_cmake_symlink_install_files("/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/soarm100_interfaces" FILES "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/soarm100_interfaces/srv/MoveJointTarget.srv" "DESTINATION" "share/soarm100_interfaces/srv")
+
+# install(FILES "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_cmake/srv/MoveJointTarget_Request.msg" "DESTINATION" "share/soarm100_interfaces/srv")
+ament_cmake_symlink_install_files("/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/soarm100_interfaces" FILES "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_cmake/srv/MoveJointTarget_Request.msg" "DESTINATION" "share/soarm100_interfaces/srv")
+
+# install(FILES "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_cmake/srv/MoveJointTarget_Response.msg" "DESTINATION" "share/soarm100_interfaces/srv")
+ament_cmake_symlink_install_files("/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/soarm100_interfaces" FILES "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_cmake/srv/MoveJointTarget_Response.msg" "DESTINATION" "share/soarm100_interfaces/srv")
+
+# install(FILES "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/soarm100_interfaces/srv/SetHardwareTorque.srv" "DESTINATION" "share/soarm100_interfaces/srv")
+ament_cmake_symlink_install_files("/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/soarm100_interfaces" FILES "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/soarm100_interfaces/srv/SetHardwareTorque.srv" "DESTINATION" "share/soarm100_interfaces/srv")
+
+# install(FILES "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_cmake/srv/SetHardwareTorque_Request.msg" "DESTINATION" "share/soarm100_interfaces/srv")
+ament_cmake_symlink_install_files("/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/soarm100_interfaces" FILES "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_cmake/srv/SetHardwareTorque_Request.msg" "DESTINATION" "share/soarm100_interfaces/srv")
+
+# install(FILES "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_cmake/srv/SetHardwareTorque_Response.msg" "DESTINATION" "share/soarm100_interfaces/srv")
+ament_cmake_symlink_install_files("/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/soarm100_interfaces" FILES "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_cmake/srv/SetHardwareTorque_Response.msg" "DESTINATION" "share/soarm100_interfaces/srv")
 
 # install(FILES "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/ament_cmake_index/share/ament_index/resource_index/package_run_dependencies/soarm100_interfaces" "DESTINATION" "share/ament_index/resource_index/package_run_dependencies")
 ament_cmake_symlink_install_files("/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/soarm100_interfaces" FILES "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/ament_cmake_index/share/ament_index/resource_index/package_run_dependencies/soarm100_interfaces" "DESTINATION" "share/ament_index/resource_index/package_run_dependencies")

@@ -1,12 +1,1 @@
-// generated from rosidl_generator_cpp/resource/idl.hpp.em
-// generated code does not contain a copyright notice
-
-#ifndef SOARM100_INTERFACES__SRV__MOVE_NAMED_POSE_HPP_
-#define SOARM100_INTERFACES__SRV__MOVE_NAMED_POSE_HPP_
-
-#include "soarm100_interfaces/srv/detail/move_named_pose__struct.hpp"
-#include "soarm100_interfaces/srv/detail/move_named_pose__builder.hpp"
-#include "soarm100_interfaces/srv/detail/move_named_pose__traits.hpp"
-#include "soarm100_interfaces/srv/detail/move_named_pose__type_support.hpp"
-
-#endif  // SOARM100_INTERFACES__SRV__MOVE_NAMED_POSE_HPP_
+/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_generator_cpp/soarm100_interfaces/srv/move_named_pose.hpp

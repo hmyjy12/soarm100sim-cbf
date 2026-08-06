@@ -1,3 +1,1 @@
-float64[7] position_rad
-float64 duration
-string confirmation
+/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_cmake/srv/MoveJointTarget_Request.msg

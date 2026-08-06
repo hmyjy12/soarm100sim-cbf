@@ -20,6 +20,9 @@ def generate_launch_description():
                 default_value="hardware/calibration/lerobot/so100_plus_new_arm.json",
             ),
             DeclareLaunchArgument("shoulder_lift_p", default_value="16"),
+            DeclareLaunchArgument("feedback_rate_hz", default_value="20.0"),
+            DeclareLaunchArgument("driver_rate_hz", default_value="20.0"),
+            DeclareLaunchArgument("max_stream_command_delta_rad", default_value="0.25"),
             Node(
                 package="soarm100_vision",
                 executable="hardware_controller_node",
@@ -34,6 +37,18 @@ def generate_launch_description():
                         "shoulder_lift_p": ParameterValue(
                             LaunchConfiguration("shoulder_lift_p"),
                             value_type=int,
+                        ),
+                        "feedback_rate_hz": ParameterValue(
+                            LaunchConfiguration("feedback_rate_hz"),
+                            value_type=float,
+                        ),
+                        "driver_rate_hz": ParameterValue(
+                            LaunchConfiguration("driver_rate_hz"),
+                            value_type=float,
+                        ),
+                        "max_stream_command_delta_rad": ParameterValue(
+                            LaunchConfiguration("max_stream_command_delta_rad"),
+                            value_type=float,
                         ),
                     }
                 ],

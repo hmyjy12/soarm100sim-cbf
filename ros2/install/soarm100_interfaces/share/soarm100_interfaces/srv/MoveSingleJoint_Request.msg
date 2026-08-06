@@ -1,5 +1,1 @@
-string joint
-float64 delta_deg
-float64 duration
-float64 hold
-string confirmation
+/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_cmake/srv/MoveSingleJoint_Request.msg

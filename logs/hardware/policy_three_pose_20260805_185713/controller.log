@@ -1,0 +1,25 @@
+[hardware_controller] Starting persistent seven-axis hold controller.
+[hardware_controller] shoulder_lift_p=16 (baseline restore=16)
+[hardware_controller] calibration=hardware/calibration/lerobot/so100_plus_new_arm.json
+[hardware_controller] Ctrl+C performs verified all-axis torque-off.
+[INFO] [launch]: All log files can be found below /home/sophie/.ros/log/2026-08-05-18-57-14-461854-sophie-Legion-Y7000P-IRX10-3065746
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [hardware_controller_node-1]: process started with pid [3065792]
+[INFO] [robot_state_publisher-2]: process started with pid [3065794]
+[robot_state_publisher-2] [INFO] [1785927434.535477102] [hardware_robot_state_publisher]: got segment base
+[robot_state_publisher-2] [INFO] [1785927434.535529734] [hardware_robot_state_publisher]: got segment ellbow
+[robot_state_publisher-2] [INFO] [1785927434.535534724] [hardware_robot_state_publisher]: got segment gripper
+[robot_state_publisher-2] [INFO] [1785927434.535537506] [hardware_robot_state_publisher]: got segment shoulder_pitch
+[robot_state_publisher-2] [INFO] [1785927434.535540223] [hardware_robot_state_publisher]: got segment shoulder_rotation
+[robot_state_publisher-2] [INFO] [1785927434.535542795] [hardware_robot_state_publisher]: got segment wrist_jaw
+[robot_state_publisher-2] [INFO] [1785927434.535545308] [hardware_robot_state_publisher]: got segment wrist_pitch
+[robot_state_publisher-2] [INFO] [1785927434.535547715] [hardware_robot_state_publisher]: got segment wrist_roll
+[hardware_controller_node-1] [INFO] [1785927437.521501833] [hardware_controller]: hardware controller ready; current seven-axis position is powered and held; services=/hardware/move_joint_target,/hardware/set_torque stream_topic=/hardware/joint_target
+[hardware_controller_node-1] [ERROR] [1785927441.137508400] [hardware_controller]: stream target rejected: elbow_flex current raw 3106 outside calibrated hard interval [899, 3105]
+[hardware_controller_node-1] [ERROR] [1785927442.236345948] [hardware_controller]: stream target rejected: elbow_flex current raw 3106 outside calibrated hard interval [899, 3105]
+[hardware_controller_node-1] [ERROR] [1785927443.334429891] [hardware_controller]: stream target rejected: elbow_flex current raw 3106 outside calibrated hard interval [899, 3105]
+[hardware_controller_node-1] [ERROR] [1785927444.335148446] [hardware_controller]: stream target rejected: elbow_flex current raw 3106 outside calibrated hard interval [899, 3105]
+[hardware_controller_node-1] [ERROR] [1785927445.433533637] [hardware_controller]: stream target rejected: elbow_flex current raw 3106 outside calibrated hard interval [899, 3105]
+[hardware_controller_node-1] [ERROR] [1785927446.533048832] [hardware_controller]: stream target rejected: elbow_flex current raw 3106 outside calibrated hard interval [899, 3105]
+[hardware_controller_node-1] [ERROR] [1785927447.535481685] [hardware_controller]: stream target rejected: elbow_flex current raw 3106 outside calibrated hard interval [899, 3105]
+[hardware_controller_node-1] [ERROR] [1785927448.536823570] [hardware_controller]: stream target rejected: elbow_flex current raw 3106 outside calibrated hard interval [899, 3105]

@@ -1,0 +1,1871 @@
+[0.000000] (-) TimerEvent: {}
+[0.000125] (-) JobUnselected: {'identifier': 'so100_plus_description'}
+[0.000158] (soarm100_interfaces) JobQueued: {'identifier': 'soarm100_interfaces', 'dependencies': OrderedDict()}
+[0.000220] (soarm100_vision) JobQueued: {'identifier': 'soarm100_vision', 'dependencies': OrderedDict([('so100_plus_description', '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/so100_plus_description'), ('soarm100_interfaces', '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces')])}
+[0.000256] (soarm100_interfaces) JobStarted: {'identifier': 'soarm100_interfaces'}
+[0.005429] (soarm100_interfaces) JobProgress: {'identifier': 'soarm100_interfaces', 'progress': 'cmake'}
+[0.005953] (soarm100_interfaces) JobProgress: {'identifier': 'soarm100_interfaces', 'progress': 'build'}
+[0.006677] (soarm100_interfaces) Command: {'cmd': ['/usr/bin/cmake', '--build', '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces', '--', '-j32', '-l32'], 'cwd': '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces', 'env': OrderedDict([('GJS_DEBUG_TOPICS', 'JS ERROR;JS LOG'), ('LESSOPEN', '| /usr/bin/lesspipe %s'), ('VSCODE_CWD', '/home/sophie'), ('CURSOR_EXTENSION_HOST_ROLE', 'user'), ('VSCODE_ESM_ENTRYPOINT', 'vs/workbench/api/node/extensionHostProcess'), ('CONDA_PROMPT_MODIFIER', '(base)'), ('CODEX_CI', '1'), ('LANGUAGE', 'zh_CN:zh:en_US:en'), ('USER', 'sophie'), ('LC_TIME', 'zh_CN.UTF-8'), ('CODEX_INTERNAL_ORIGINATOR_OVERRIDE', 'codex_vscode'), ('VSCODE_NLS_CONFIG', '{"userLocale":"zh-cn","osLocale":"zh-cn","resolvedLanguage":"en","defaultMessagesFile":"/usr/share/cursor/resources/app/out/nls.messages.json","locale":"zh-cn","availableLanguages":{}}'), ('CXXFLAGS', '-fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/sophie/miniconda3/include  -I/home/sophie/miniconda3/targets/x86_64-linux/include  -L/home/sophie/miniconda3/targets/x86_64-linux/lib -L/home/sophie/miniconda3/targets/x86_64-linux/lib/stubs'), ('VSCODE_HANDLES_UNCAUGHT_ERRORS', 'true'), ('GCC_RANLIB', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-gcc-ranlib'), ('XDG_SESSION_TYPE', 'x11'), ('OBJCOPY', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-objcopy'), ('DEBUG', 'release'), ('DEBUG_CXXFLAGS', '-fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-all -fno-plt -Og -g -Wall -Wextra -fvar-tracking-assignments -ffunction-sections -pipe -isystem /home/sophie/miniconda3/include'), ('SIZE', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-size'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/usr/local/cuda-11.0/lib64:/usr/lib/x86_64-linux-gnu/gazebo-11/plugins:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib:/home/sophie/.mujoco/mujoco-3.3.4/bin'), ('HOME', '/home/sophie'), ('CHROME_DESKTOP', 'cursor.desktop'), ('CC_FOR_BUILD', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-cc'), ('CONDA_SHLVL', '1'), ('OLDPWD', '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim'), ('DESKTOP_SESSION', 'ubuntu'), ('CONDA_TOOLCHAIN_BUILD', 'x86_64-conda-linux-gnu'), ('VSCODE_IPC_HOOK', '/run/user/1000/vscode-b77d059a-3.13-main.sock'), ('GIO_LAUNCHED_DESKTOP_FILE', '/usr/share/applications/cursor.desktop'), ('ROS_DOMAINID', '7'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('LDFLAGS', '-Wl,-O2 -Wl,--sort-common -Wl,--as-needed -Wl,-z,relro -Wl,-z,now -Wl,--disable-new-dtags -Wl,--gc-sections -Wl,-rpath,/home/sophie/miniconda3/lib -Wl,-rpath-link,/home/sophie/miniconda3/lib -L/home/sophie/miniconda3/lib  -L/home/sophie/miniconda3/targets/x86_64-linux/lib -L/home/sophie/miniconda3/targets/x86_64-linux/lib/stubs'), ('PAGER', 'cat'), ('STRINGS', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-strings'), ('LC_MONETARY', 'zh_CN.UTF-8'), ('CURSOR_WORKSPACE_LABEL', 'soarm100sim'), ('MANAGERPID', '1459'), ('LC_CTYPE', 'C.UTF-8'), ('SYSTEMD_EXEC_PID', '1837'), ('NO_COLOR', '1'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('COLORTERM', ''), ('CPP', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-cpp'), ('_CONDA_ROOT', '/home/sophie/miniconda3'), ('GIO_LAUNCHED_DESKTOP_FILE_PID', '7052'), ('VSCODE_CRASH_REPORTER_PROCESS_TYPE', 'extensionHost'), ('IM_CONFIG_PHASE', '1'), ('NVCC_PREPEND_FLAGS', ' -ccbin=/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-c++'), ('ELFEDIT', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-elfedit'), ('VSCODE_L10N_BUNDLE_LOCATION', ''), ('CODEX_PERMISSION_PROFILE', ':workspace'), ('STRIP', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-strip'), ('ROS_DISTRO', 'humble'), ('GTK_IM_MODULE', 'fcitx'), ('LOGNAME', 'sophie'), ('GCC', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-gcc'), ('JOURNAL_STREAM', '8:16592'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('CURSOR_LAYOUT', 'unifiedAgent'), ('READELF', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-readelf'), ('XDG_SESSION_CLASS', 'user'), ('AR', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-ar'), ('RUST_LOG', 'warn'), ('USERNAME', 'sophie'), ('GXX', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-g++'), ('TERM', 'dumb'), ('AS', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-as'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('FC_FONTATIONS', '1'), ('ROS_LOCALHOST_ONLY', '0'), ('CXXFILT', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-c++filt'), ('WINDOWPATH', '2'), ('BUILD', 'x86_64-conda-linux-gnu'), ('PATH', '/home/sophie/.local/bin:/home/sophie/.codex/tmp/arg0/codex-arg0c35c8A:/home/sophie/.local/bin:/usr/local/cuda-11.0/bin:/home/sophie/miniconda3/bin:/home/sophie/miniconda3/condabin:/opt/ros/humble/bin:/home/sophie/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin:/home/sophie/.cursor/extensions/openai.chatgpt-26.721.30844-linux-x64/bin/linux-x86_64'), ('SESSION_MANAGER', 'local/sophie-Legion-Y7000P-IRX10:@/tmp/.ICE-unix/1790,unix/sophie-Legion-Y7000P-IRX10:/tmp/.ICE-unix/1790'), ('INVOCATION_ID', 'a9d6127a82b246578841dca28b488137'), ('XDG_MENU_PREFIX', 'gnome-'), ('build_alias', 'x86_64-conda-linux-gnu'), ('LC_ADDRESS', 'zh_CN.UTF-8'), ('VSCODE_PROCESS_TITLE', 'extension-host (user) soarm100sim [1-2]'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('GDK_BACKEND', 'x11'), ('CFLAGS', '-march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/sophie/miniconda3/include  -I/home/sophie/miniconda3/targets/x86_64-linux/include  -L/home/sophie/miniconda3/targets/x86_64-linux/lib -L/home/sophie/miniconda3/targets/x86_64-linux/lib/stubs'), ('MUJOCO_PY_MUJOCO_PATH', '/home/sophie/.mujoco/mujoco-3.3.4'), ('GCC_AR', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-gcc-ar'), ('DISPLAY', ':0'), ('CODEX_SANDBOX_NETWORK_DISABLED', '1'), ('LANG', 'zh_CN.UTF-8'), ('DEBUG_CFLAGS', '-march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-all -fno-plt -Og -g -Wall -Wextra -fvar-tracking-assignments -ffunction-sections -pipe -isystem /home/sophie/miniconda3/include'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('LC_TELEPHONE', 'zh_CN.UTF-8'), ('_CONDA_PYTHON_SYSCONFIGDATA_NAME', '_sysconfigdata_x86_64_conda_linux_gnu'), ('XMODIFIERS', '@im=fcitx'), ('GH_PAGER', 'cat'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/gdm/Xauthority'), ('MESON_ARGS', '-Dbuildtype=release'), ('CURSOR_SPAWNED_BY_EXTENSION_ID', 'openai.chatgpt'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('AMENT_PREFIX_PATH', '/opt/ros/humble'), ('CPPFLAGS', '-DNDEBUG -D_FORTIFY_SOURCE=2 -O2 -isystem /home/sophie/miniconda3/include  -I/home/sophie/miniconda3/targets/x86_64-linux/include  -L/home/sophie/miniconda3/targets/x86_64-linux/lib -L/home/sophie/miniconda3/targets/x86_64-linux/lib/stubs'), ('CONDA_PYTHON_EXE', '/home/sophie/miniconda3/bin/python'), ('SHELL', '/bin/bash'), ('CMAKE_ARGS', '-DCMAKE_AR=/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-ar -DCMAKE_CXX_COMPILER_AR=/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-gcc-ar -DCMAKE_C_COMPILER_AR=/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-gcc-ar -DCMAKE_RANLIB=/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-ranlib -DCMAKE_CXX_COMPILER_RANLIB=/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-gcc-ranlib -DCMAKE_C_COMPILER_RANLIB=/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-gcc-ranlib -DCMAKE_LINKER=/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-ld -DCMAKE_STRIP=/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-strip -DCMAKE_BUILD_TYPE=Release'), ('LC_NAME', 'zh_CN.UTF-8'), ('HOST', 'x86_64-conda-linux-gnu'), ('QT_ACCESSIBILITY', '1'), ('ELECTRON_RUN_AS_NODE', '1'), ('CXX', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-c++'), ('DEBUG_CPPFLAGS', '-D_DEBUG -D_FORTIFY_SOURCE=2 -Og -isystem /home/sophie/miniconda3/include'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('CONDA_DEFAULT_ENV', 'base'), ('CODEX_THREAD_ID', '019f5a48-96e5-7af0-8a1e-65bfcfd09744'), ('LC_MEASUREMENT', 'zh_CN.UTF-8'), ('CURSOR_SPAWN_CHAIN', 'openai.chatgpt'), ('GPG_AGENT_INFO', '/run/user/1000/gnupg/S.gpg-agent:0:1'), ('GJS_DEBUG_OUTPUT', 'stderr'), ('_CONDA_EXE', '/home/sophie/miniconda3/bin/conda'), ('ADDR2LINE', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-addr2line'), ('LC_IDENTIFICATION', 'zh_CN.UTF-8'), ('GCC_NM', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-gcc-nm'), ('CONDA_BUILD_SYSROOT', '/home/sophie/miniconda3/x86_64-conda-linux-gnu/sysroot'), ('GIT_PAGER', 'cat'), ('QT_IM_MODULE', 'fcitx'), ('PWD', '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces'), ('LC_ALL', 'C.UTF-8'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('CONDA_EXE', '/home/sophie/miniconda3/bin/conda'), ('VSCODE_CODE_CACHE_PATH', '/home/sophie/.config/Cursor/CachedData/55434bd8062ece6fee083b82beed2aee42d253f0'), ('LD', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-ld'), ('CLUTTER_IM_MODULE', 'fcitx'), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/share/gnome:/home/sophie/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('PYTHONPATH', '/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('LC_NUMERIC', 'zh_CN.UTF-8'), ('GPROF', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-gprof'), ('CONDA_PREFIX', '/home/sophie/miniconda3'), ('CONDA_TOOLCHAIN_HOST', 'x86_64-conda-linux-gnu'), ('LC_PAPER', 'zh_CN.UTF-8'), ('host_alias', 'x86_64-conda-linux-gnu'), ('CC', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-cc'), ('RANLIB', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-ranlib'), ('COLCON', '1'), ('CXX_FOR_BUILD', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-c++'), ('CMAKE_PREFIX_PATH', '/home/sophie/miniconda3:/home/sophie/miniconda3/x86_64-conda-linux-gnu/sysroot/usr:/opt/ros/humble'), ('VSCODE_PID', '7052'), ('NM', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-nm'), ('OBJDUMP', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-objdump')]), 'shell': False}
+[0.066588] (soarm100_interfaces) StdoutLine: {'line': b'[  1%] Built target soarm100_interfaces__rs\n'}
+[0.069051] (soarm100_interfaces) StdoutLine: {'line': b'[  1%] Built target soarm100_interfaces__cpp\n'}
+[0.070144] (soarm100_interfaces) StdoutLine: {'line': b'[ 13%] Built target soarm100_interfaces__rosidl_generator_c\n'}
+[0.072978] (soarm100_interfaces) StdoutLine: {'line': b'[ 13%] Built target ament_cmake_python_symlink_soarm100_interfaces\n'}
+[0.092987] (soarm100_interfaces) StdoutLine: {'line': b'[ 29%] Built target soarm100_interfaces__rosidl_typesupport_c\n'}
+[0.093167] (soarm100_interfaces) StdoutLine: {'line': b'[ 36%] Built target soarm100_interfaces__rosidl_typesupport_cpp\n'}
+[0.093631] (soarm100_interfaces) StdoutLine: {'line': b'[ 47%] Built target soarm100_interfaces__rosidl_typesupport_introspection_c\n'}
+[0.094604] (soarm100_interfaces) StdoutLine: {'line': b'[ 58%] Built target soarm100_interfaces__rosidl_typesupport_fastrtps_c\n'}
+[0.094988] (soarm100_interfaces) StdoutLine: {'line': b'[ 70%] Built target soarm100_interfaces__rosidl_typesupport_introspection_cpp\n'}
+[0.095924] (soarm100_interfaces) StdoutLine: {'line': b'[ 82%] Built target soarm100_interfaces__rosidl_typesupport_fastrtps_cpp\n'}
+[0.099505] (-) TimerEvent: {}
+[0.116160] (soarm100_interfaces) StdoutLine: {'line': b'[ 82%] Built target soarm100_interfaces\n'}
+[0.133886] (soarm100_interfaces) StdoutLine: {'line': b'[ 83%] Built target soarm100_interfaces__py\n'}
+[0.155563] (soarm100_interfaces) StdoutLine: {'line': b'[ 94%] Built target soarm100_interfaces__rosidl_generator_py\n'}
+[0.173541] (soarm100_interfaces) StdoutLine: {'line': b'[ 96%] Built target soarm100_interfaces__rosidl_typesupport_introspection_c__pyext\n'}
+[0.174726] (soarm100_interfaces) StdoutLine: {'line': b'[ 98%] Built target soarm100_interfaces__rosidl_typesupport_fastrtps_c__pyext\n'}
+[0.176020] (soarm100_interfaces) StdoutLine: {'line': b'[100%] Built target soarm100_interfaces__rosidl_typesupport_c__pyext\n'}
+[0.199587] (-) TimerEvent: {}
+[0.240565] (soarm100_interfaces) StdoutLine: {'line': b'running egg_info\n'}
+[0.241031] (soarm100_interfaces) StdoutLine: {'line': b'writing soarm100_interfaces.egg-info/PKG-INFO\n'}
+[0.241108] (soarm100_interfaces) StdoutLine: {'line': b'writing dependency_links to soarm100_interfaces.egg-info/dependency_links.txt\n'}
+[0.241187] (soarm100_interfaces) StdoutLine: {'line': b'writing top-level names to soarm100_interfaces.egg-info/top_level.txt\n'}
+[0.242833] (soarm100_interfaces) StdoutLine: {'line': b"reading manifest file 'soarm100_interfaces.egg-info/SOURCES.txt'\n"}
+[0.243335] (soarm100_interfaces) StdoutLine: {'line': b"writing manifest file 'soarm100_interfaces.egg-info/SOURCES.txt'\n"}
+[0.260582] (soarm100_interfaces) StdoutLine: {'line': b'[100%] Built target ament_cmake_python_build_soarm100_interfaces_egg\n'}
+[0.299731] (-) TimerEvent: {}
+[0.399965] (-) TimerEvent: {}
+[0.500155] (-) TimerEvent: {}
+[0.600391] (-) TimerEvent: {}
+[0.700573] (-) TimerEvent: {}
+[0.800753] (-) TimerEvent: {}
+[0.900956] (-) TimerEvent: {}
+[1.001211] (-) TimerEvent: {}
+[1.101464] (-) TimerEvent: {}
+[1.201664] (-) TimerEvent: {}
+[1.301930] (-) TimerEvent: {}
+[1.402300] (-) TimerEvent: {}
+[1.502544] (-) TimerEvent: {}
+[1.602760] (-) TimerEvent: {}
+[1.702942] (-) TimerEvent: {}
+[1.803169] (-) TimerEvent: {}
+[1.903576] (-) TimerEvent: {}
+[2.003845] (-) TimerEvent: {}
+[2.104117] (-) TimerEvent: {}
+[2.204406] (-) TimerEvent: {}
+[2.304702] (-) TimerEvent: {}
+[2.404983] (-) TimerEvent: {}
+[2.505303] (-) TimerEvent: {}
+[2.605566] (-) TimerEvent: {}
+[2.705817] (-) TimerEvent: {}
+[2.806045] (-) TimerEvent: {}
+[2.906352] (-) TimerEvent: {}
+[3.006630] (-) TimerEvent: {}
+[3.106909] (-) TimerEvent: {}
+[3.207200] (-) TimerEvent: {}
+[3.307508] (-) TimerEvent: {}
+[3.407804] (-) TimerEvent: {}
+[3.508169] (-) TimerEvent: {}
+[3.608401] (-) TimerEvent: {}
+[3.708560] (-) TimerEvent: {}
+[3.808733] (-) TimerEvent: {}
+[3.908976] (-) TimerEvent: {}
+[4.009303] (-) TimerEvent: {}
+[4.109544] (-) TimerEvent: {}
+[4.209778] (-) TimerEvent: {}
+[4.309993] (-) TimerEvent: {}
+[4.410333] (-) TimerEvent: {}
+[4.510728] (-) TimerEvent: {}
+[4.611086] (-) TimerEvent: {}
+[4.711471] (-) TimerEvent: {}
+[4.811647] (-) TimerEvent: {}
+[4.911846] (-) TimerEvent: {}
+[5.012080] (-) TimerEvent: {}
+[5.112249] (-) TimerEvent: {}
+[5.212427] (-) TimerEvent: {}
+[5.312573] (-) TimerEvent: {}
+[5.412841] (-) TimerEvent: {}
+[5.513099] (-) TimerEvent: {}
+[5.613459] (-) TimerEvent: {}
+[5.713712] (-) TimerEvent: {}
+[5.813930] (-) TimerEvent: {}
+[5.914244] (-) TimerEvent: {}
+[6.014555] (-) TimerEvent: {}
+[6.114846] (-) TimerEvent: {}
+[6.215238] (-) TimerEvent: {}
+[6.315542] (-) TimerEvent: {}
+[6.415785] (-) TimerEvent: {}
+[6.516076] (-) TimerEvent: {}
+[6.616329] (-) TimerEvent: {}
+[6.716538] (-) TimerEvent: {}
+[6.816744] (-) TimerEvent: {}
+[6.916991] (-) TimerEvent: {}
+[7.017251] (-) TimerEvent: {}
+[7.117515] (-) TimerEvent: {}
+[7.217769] (-) TimerEvent: {}
+[7.318067] (-) TimerEvent: {}
+[7.418383] (-) TimerEvent: {}
+[7.518664] (-) TimerEvent: {}
+[7.618946] (-) TimerEvent: {}
+[7.719225] (-) TimerEvent: {}
+[7.819514] (-) TimerEvent: {}
+[7.919777] (-) TimerEvent: {}
+[8.020027] (-) TimerEvent: {}
+[8.120290] (-) TimerEvent: {}
+[8.220532] (-) TimerEvent: {}
+[8.320803] (-) TimerEvent: {}
+[8.421094] (-) TimerEvent: {}
+[8.521356] (-) TimerEvent: {}
+[8.621608] (-) TimerEvent: {}
+[8.721886] (-) TimerEvent: {}
+[8.822135] (-) TimerEvent: {}
+[8.922347] (-) TimerEvent: {}
+[9.022639] (-) TimerEvent: {}
+[9.122935] (-) TimerEvent: {}
+[9.223221] (-) TimerEvent: {}
+[9.323510] (-) TimerEvent: {}
+[9.423825] (-) TimerEvent: {}
+[9.524112] (-) TimerEvent: {}
+[9.624350] (-) TimerEvent: {}
+[9.724515] (-) TimerEvent: {}
+[9.824724] (-) TimerEvent: {}
+[9.924998] (-) TimerEvent: {}
+[10.025309] (-) TimerEvent: {}
+[10.125560] (-) TimerEvent: {}
+[10.225852] (-) TimerEvent: {}
+[10.326124] (-) TimerEvent: {}
+[10.426323] (-) TimerEvent: {}
+[10.526539] (-) TimerEvent: {}
+[10.626871] (-) TimerEvent: {}
+[10.727124] (-) TimerEvent: {}
+[10.827445] (-) TimerEvent: {}
+[10.927672] (-) TimerEvent: {}
+[11.027992] (-) TimerEvent: {}
+[11.128305] (-) TimerEvent: {}
+[11.228576] (-) TimerEvent: {}
+[11.328737] (-) TimerEvent: {}
+[11.428949] (-) TimerEvent: {}
+[11.529197] (-) TimerEvent: {}
+[11.629457] (-) TimerEvent: {}
+[11.729741] (-) TimerEvent: {}
+[11.829946] (-) TimerEvent: {}
+[11.930213] (-) TimerEvent: {}
+[12.030449] (-) TimerEvent: {}
+[12.130682] (-) TimerEvent: {}
+[12.231035] (-) TimerEvent: {}
+[12.331379] (-) TimerEvent: {}
+[12.431627] (-) TimerEvent: {}
+[12.531880] (-) TimerEvent: {}
+[12.632191] (-) TimerEvent: {}
+[12.732535] (-) TimerEvent: {}
+[12.832786] (-) TimerEvent: {}
+[12.933021] (-) TimerEvent: {}
+[13.033230] (-) TimerEvent: {}
+[13.133520] (-) TimerEvent: {}
+[13.233800] (-) TimerEvent: {}
+[13.334049] (-) TimerEvent: {}
+[13.434309] (-) TimerEvent: {}
+[13.534542] (-) TimerEvent: {}
+[13.634775] (-) TimerEvent: {}
+[13.735037] (-) TimerEvent: {}
+[13.835321] (-) TimerEvent: {}
+[13.935593] (-) TimerEvent: {}
+[14.035867] (-) TimerEvent: {}
+[14.136138] (-) TimerEvent: {}
+[14.236480] (-) TimerEvent: {}
+[14.336790] (-) TimerEvent: {}
+[14.437106] (-) TimerEvent: {}
+[14.537446] (-) TimerEvent: {}
+[14.637754] (-) TimerEvent: {}
+[14.738052] (-) TimerEvent: {}
+[14.838290] (-) TimerEvent: {}
+[14.938543] (-) TimerEvent: {}
+[15.038814] (-) TimerEvent: {}
+[15.139063] (-) TimerEvent: {}
+[15.239356] (-) TimerEvent: {}
+[15.339614] (-) TimerEvent: {}
+[15.439884] (-) TimerEvent: {}
+[15.540184] (-) TimerEvent: {}
+[15.640409] (-) TimerEvent: {}
+[15.740640] (-) TimerEvent: {}
+[15.841030] (-) TimerEvent: {}
+[15.941428] (-) TimerEvent: {}
+[16.041748] (-) TimerEvent: {}
+[16.142108] (-) TimerEvent: {}
+[16.242435] (-) TimerEvent: {}
+[16.342794] (-) TimerEvent: {}
+[16.443085] (-) TimerEvent: {}
+[16.543352] (-) TimerEvent: {}
+[16.643596] (-) TimerEvent: {}
+[16.743824] (-) TimerEvent: {}
+[16.844044] (-) TimerEvent: {}
+[16.944337] (-) TimerEvent: {}
+[17.044601] (-) TimerEvent: {}
+[17.144867] (-) TimerEvent: {}
+[17.245208] (-) TimerEvent: {}
+[17.345507] (-) TimerEvent: {}
+[17.445841] (-) TimerEvent: {}
+[17.546129] (-) TimerEvent: {}
+[17.646355] (-) TimerEvent: {}
+[17.746544] (-) TimerEvent: {}
+[17.846795] (-) TimerEvent: {}
+[17.947082] (-) TimerEvent: {}
+[18.047361] (-) TimerEvent: {}
+[18.147560] (-) TimerEvent: {}
+[18.247809] (-) TimerEvent: {}
+[18.348054] (-) TimerEvent: {}
+[18.448408] (-) TimerEvent: {}
+[18.548682] (-) TimerEvent: {}
+[18.648945] (-) TimerEvent: {}
+[18.749218] (-) TimerEvent: {}
+[18.849471] (-) TimerEvent: {}
+[18.949760] (-) TimerEvent: {}
+[19.050055] (-) TimerEvent: {}
+[19.150375] (-) TimerEvent: {}
+[19.250631] (-) TimerEvent: {}
+[19.350926] (-) TimerEvent: {}
+[19.451192] (-) TimerEvent: {}
+[19.551454] (-) TimerEvent: {}
+[19.651759] (-) TimerEvent: {}
+[19.752030] (-) TimerEvent: {}
+[19.852305] (-) TimerEvent: {}
+[19.952610] (-) TimerEvent: {}
+[20.052888] (-) TimerEvent: {}
+[20.153221] (-) TimerEvent: {}
+[20.253515] (-) TimerEvent: {}
+[20.353788] (-) TimerEvent: {}
+[20.454105] (-) TimerEvent: {}
+[20.554304] (-) TimerEvent: {}
+[20.654513] (-) TimerEvent: {}
+[20.754791] (-) TimerEvent: {}
+[20.855098] (-) TimerEvent: {}
+[20.955489] (-) TimerEvent: {}
+[21.055777] (-) TimerEvent: {}
+[21.156094] (-) TimerEvent: {}
+[21.256353] (-) TimerEvent: {}
+[21.356620] (-) TimerEvent: {}
+[21.456933] (-) TimerEvent: {}
+[21.557245] (-) TimerEvent: {}
+[21.657521] (-) TimerEvent: {}
+[21.757781] (-) TimerEvent: {}
+[21.858172] (-) TimerEvent: {}
+[21.958505] (-) TimerEvent: {}
+[22.058820] (-) TimerEvent: {}
+[22.159184] (-) TimerEvent: {}
+[22.259392] (-) TimerEvent: {}
+[22.359598] (-) TimerEvent: {}
+[22.459855] (-) TimerEvent: {}
+[22.560097] (-) TimerEvent: {}
+[22.660427] (-) TimerEvent: {}
+[22.760714] (-) TimerEvent: {}
+[22.861034] (-) TimerEvent: {}
+[22.961321] (-) TimerEvent: {}
+[23.061544] (-) TimerEvent: {}
+[23.161807] (-) TimerEvent: {}
+[23.262164] (-) TimerEvent: {}
+[23.362448] (-) TimerEvent: {}
+[23.462667] (-) TimerEvent: {}
+[23.562949] (-) TimerEvent: {}
+[23.663290] (-) TimerEvent: {}
+[23.763561] (-) TimerEvent: {}
+[23.863810] (-) TimerEvent: {}
+[23.964060] (-) TimerEvent: {}
+[24.064318] (-) TimerEvent: {}
+[24.164587] (-) TimerEvent: {}
+[24.264881] (-) TimerEvent: {}
+[24.365149] (-) TimerEvent: {}
+[24.465373] (-) TimerEvent: {}
+[24.565660] (-) TimerEvent: {}
+[24.665940] (-) TimerEvent: {}
+[24.766339] (-) TimerEvent: {}
+[24.866617] (-) TimerEvent: {}
+[24.966917] (-) TimerEvent: {}
+[25.067270] (-) TimerEvent: {}
+[25.167526] (-) TimerEvent: {}
+[25.267877] (-) TimerEvent: {}
+[25.368163] (-) TimerEvent: {}
+[25.468392] (-) TimerEvent: {}
+[25.568636] (-) TimerEvent: {}
+[25.668888] (-) TimerEvent: {}
+[25.769194] (-) TimerEvent: {}
+[25.869379] (-) TimerEvent: {}
+[25.969653] (-) TimerEvent: {}
+[26.069952] (-) TimerEvent: {}
+[26.170220] (-) TimerEvent: {}
+[26.270596] (-) TimerEvent: {}
+[26.370865] (-) TimerEvent: {}
+[26.471108] (-) TimerEvent: {}
+[26.571441] (-) TimerEvent: {}
+[26.671712] (-) TimerEvent: {}
+[26.772007] (-) TimerEvent: {}
+[26.872325] (-) TimerEvent: {}
+[26.972552] (-) TimerEvent: {}
+[27.072823] (-) TimerEvent: {}
+[27.173141] (-) TimerEvent: {}
+[27.273448] (-) TimerEvent: {}
+[27.373728] (-) TimerEvent: {}
+[27.473942] (-) TimerEvent: {}
+[27.574301] (-) TimerEvent: {}
+[27.674622] (-) TimerEvent: {}
+[27.774978] (-) TimerEvent: {}
+[27.875318] (-) TimerEvent: {}
+[27.975600] (-) TimerEvent: {}
+[28.075817] (-) TimerEvent: {}
+[28.176072] (-) TimerEvent: {}
+[28.276435] (-) TimerEvent: {}
+[28.376733] (-) TimerEvent: {}
+[28.477026] (-) TimerEvent: {}
+[28.577386] (-) TimerEvent: {}
+[28.677657] (-) TimerEvent: {}
+[28.777973] (-) TimerEvent: {}
+[28.878297] (-) TimerEvent: {}
+[28.978592] (-) TimerEvent: {}
+[29.078907] (-) TimerEvent: {}
+[29.179342] (-) TimerEvent: {}
+[29.279612] (-) TimerEvent: {}
+[29.379919] (-) TimerEvent: {}
+[29.480293] (-) TimerEvent: {}
+[29.580792] (-) TimerEvent: {}
+[29.681051] (-) TimerEvent: {}
+[29.781349] (-) TimerEvent: {}
+[29.881590] (-) TimerEvent: {}
+[29.981839] (-) TimerEvent: {}
+[30.031452] (soarm100_interfaces) CommandEnded: {'returncode': 0}
+[30.033681] (soarm100_interfaces) JobProgress: {'identifier': 'soarm100_interfaces', 'progress': 'install'}
+[30.046630] (soarm100_interfaces) Command: {'cmd': ['/usr/bin/cmake', '--install', '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces'], 'cwd': '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces', 'env': OrderedDict([('GJS_DEBUG_TOPICS', 'JS ERROR;JS LOG'), ('LESSOPEN', '| /usr/bin/lesspipe %s'), ('VSCODE_CWD', '/home/sophie'), ('CURSOR_EXTENSION_HOST_ROLE', 'user'), ('VSCODE_ESM_ENTRYPOINT', 'vs/workbench/api/node/extensionHostProcess'), ('CONDA_PROMPT_MODIFIER', '(base)'), ('CODEX_CI', '1'), ('LANGUAGE', 'zh_CN:zh:en_US:en'), ('USER', 'sophie'), ('LC_TIME', 'zh_CN.UTF-8'), ('CODEX_INTERNAL_ORIGINATOR_OVERRIDE', 'codex_vscode'), ('VSCODE_NLS_CONFIG', '{"userLocale":"zh-cn","osLocale":"zh-cn","resolvedLanguage":"en","defaultMessagesFile":"/usr/share/cursor/resources/app/out/nls.messages.json","locale":"zh-cn","availableLanguages":{}}'), ('CXXFLAGS', '-fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/sophie/miniconda3/include  -I/home/sophie/miniconda3/targets/x86_64-linux/include  -L/home/sophie/miniconda3/targets/x86_64-linux/lib -L/home/sophie/miniconda3/targets/x86_64-linux/lib/stubs'), ('VSCODE_HANDLES_UNCAUGHT_ERRORS', 'true'), ('GCC_RANLIB', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-gcc-ranlib'), ('XDG_SESSION_TYPE', 'x11'), ('OBJCOPY', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-objcopy'), ('DEBUG', 'release'), ('DEBUG_CXXFLAGS', '-fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-all -fno-plt -Og -g -Wall -Wextra -fvar-tracking-assignments -ffunction-sections -pipe -isystem /home/sophie/miniconda3/include'), ('SIZE', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-size'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/usr/local/cuda-11.0/lib64:/usr/lib/x86_64-linux-gnu/gazebo-11/plugins:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib:/home/sophie/.mujoco/mujoco-3.3.4/bin'), ('HOME', '/home/sophie'), ('CHROME_DESKTOP', 'cursor.desktop'), ('CC_FOR_BUILD', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-cc'), ('CONDA_SHLVL', '1'), ('OLDPWD', '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim'), ('DESKTOP_SESSION', 'ubuntu'), ('CONDA_TOOLCHAIN_BUILD', 'x86_64-conda-linux-gnu'), ('VSCODE_IPC_HOOK', '/run/user/1000/vscode-b77d059a-3.13-main.sock'), ('GIO_LAUNCHED_DESKTOP_FILE', '/usr/share/applications/cursor.desktop'), ('ROS_DOMAINID', '7'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('LDFLAGS', '-Wl,-O2 -Wl,--sort-common -Wl,--as-needed -Wl,-z,relro -Wl,-z,now -Wl,--disable-new-dtags -Wl,--gc-sections -Wl,-rpath,/home/sophie/miniconda3/lib -Wl,-rpath-link,/home/sophie/miniconda3/lib -L/home/sophie/miniconda3/lib  -L/home/sophie/miniconda3/targets/x86_64-linux/lib -L/home/sophie/miniconda3/targets/x86_64-linux/lib/stubs'), ('PAGER', 'cat'), ('STRINGS', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-strings'), ('LC_MONETARY', 'zh_CN.UTF-8'), ('CURSOR_WORKSPACE_LABEL', 'soarm100sim'), ('MANAGERPID', '1459'), ('LC_CTYPE', 'C.UTF-8'), ('SYSTEMD_EXEC_PID', '1837'), ('NO_COLOR', '1'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('COLORTERM', ''), ('CPP', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-cpp'), ('_CONDA_ROOT', '/home/sophie/miniconda3'), ('GIO_LAUNCHED_DESKTOP_FILE_PID', '7052'), ('VSCODE_CRASH_REPORTER_PROCESS_TYPE', 'extensionHost'), ('IM_CONFIG_PHASE', '1'), ('NVCC_PREPEND_FLAGS', ' -ccbin=/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-c++'), ('ELFEDIT', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-elfedit'), ('VSCODE_L10N_BUNDLE_LOCATION', ''), ('CODEX_PERMISSION_PROFILE', ':workspace'), ('STRIP', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-strip'), ('ROS_DISTRO', 'humble'), ('GTK_IM_MODULE', 'fcitx'), ('LOGNAME', 'sophie'), ('GCC', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-gcc'), ('JOURNAL_STREAM', '8:16592'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('CURSOR_LAYOUT', 'unifiedAgent'), ('READELF', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-readelf'), ('XDG_SESSION_CLASS', 'user'), ('AR', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-ar'), ('RUST_LOG', 'warn'), ('USERNAME', 'sophie'), ('GXX', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-g++'), ('TERM', 'dumb'), ('AS', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-as'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('FC_FONTATIONS', '1'), ('ROS_LOCALHOST_ONLY', '0'), ('CXXFILT', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-c++filt'), ('WINDOWPATH', '2'), ('BUILD', 'x86_64-conda-linux-gnu'), ('PATH', '/home/sophie/.local/bin:/home/sophie/.codex/tmp/arg0/codex-arg0c35c8A:/home/sophie/.local/bin:/usr/local/cuda-11.0/bin:/home/sophie/miniconda3/bin:/home/sophie/miniconda3/condabin:/opt/ros/humble/bin:/home/sophie/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin:/home/sophie/.cursor/extensions/openai.chatgpt-26.721.30844-linux-x64/bin/linux-x86_64'), ('SESSION_MANAGER', 'local/sophie-Legion-Y7000P-IRX10:@/tmp/.ICE-unix/1790,unix/sophie-Legion-Y7000P-IRX10:/tmp/.ICE-unix/1790'), ('INVOCATION_ID', 'a9d6127a82b246578841dca28b488137'), ('XDG_MENU_PREFIX', 'gnome-'), ('build_alias', 'x86_64-conda-linux-gnu'), ('LC_ADDRESS', 'zh_CN.UTF-8'), ('VSCODE_PROCESS_TITLE', 'extension-host (user) soarm100sim [1-2]'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('GDK_BACKEND', 'x11'), ('CFLAGS', '-march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/sophie/miniconda3/include  -I/home/sophie/miniconda3/targets/x86_64-linux/include  -L/home/sophie/miniconda3/targets/x86_64-linux/lib -L/home/sophie/miniconda3/targets/x86_64-linux/lib/stubs'), ('MUJOCO_PY_MUJOCO_PATH', '/home/sophie/.mujoco/mujoco-3.3.4'), ('GCC_AR', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-gcc-ar'), ('DISPLAY', ':0'), ('CODEX_SANDBOX_NETWORK_DISABLED', '1'), ('LANG', 'zh_CN.UTF-8'), ('DEBUG_CFLAGS', '-march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-all -fno-plt -Og -g -Wall -Wextra -fvar-tracking-assignments -ffunction-sections -pipe -isystem /home/sophie/miniconda3/include'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('LC_TELEPHONE', 'zh_CN.UTF-8'), ('_CONDA_PYTHON_SYSCONFIGDATA_NAME', '_sysconfigdata_x86_64_conda_linux_gnu'), ('XMODIFIERS', '@im=fcitx'), ('GH_PAGER', 'cat'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/gdm/Xauthority'), ('MESON_ARGS', '-Dbuildtype=release'), ('CURSOR_SPAWNED_BY_EXTENSION_ID', 'openai.chatgpt'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('AMENT_PREFIX_PATH', '/opt/ros/humble'), ('CPPFLAGS', '-DNDEBUG -D_FORTIFY_SOURCE=2 -O2 -isystem /home/sophie/miniconda3/include  -I/home/sophie/miniconda3/targets/x86_64-linux/include  -L/home/sophie/miniconda3/targets/x86_64-linux/lib -L/home/sophie/miniconda3/targets/x86_64-linux/lib/stubs'), ('CONDA_PYTHON_EXE', '/home/sophie/miniconda3/bin/python'), ('SHELL', '/bin/bash'), ('CMAKE_ARGS', '-DCMAKE_AR=/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-ar -DCMAKE_CXX_COMPILER_AR=/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-gcc-ar -DCMAKE_C_COMPILER_AR=/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-gcc-ar -DCMAKE_RANLIB=/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-ranlib -DCMAKE_CXX_COMPILER_RANLIB=/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-gcc-ranlib -DCMAKE_C_COMPILER_RANLIB=/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-gcc-ranlib -DCMAKE_LINKER=/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-ld -DCMAKE_STRIP=/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-strip -DCMAKE_BUILD_TYPE=Release'), ('LC_NAME', 'zh_CN.UTF-8'), ('HOST', 'x86_64-conda-linux-gnu'), ('QT_ACCESSIBILITY', '1'), ('ELECTRON_RUN_AS_NODE', '1'), ('CXX', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-c++'), ('DEBUG_CPPFLAGS', '-D_DEBUG -D_FORTIFY_SOURCE=2 -Og -isystem /home/sophie/miniconda3/include'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('CONDA_DEFAULT_ENV', 'base'), ('CODEX_THREAD_ID', '019f5a48-96e5-7af0-8a1e-65bfcfd09744'), ('LC_MEASUREMENT', 'zh_CN.UTF-8'), ('CURSOR_SPAWN_CHAIN', 'openai.chatgpt'), ('GPG_AGENT_INFO', '/run/user/1000/gnupg/S.gpg-agent:0:1'), ('GJS_DEBUG_OUTPUT', 'stderr'), ('_CONDA_EXE', '/home/sophie/miniconda3/bin/conda'), ('ADDR2LINE', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-addr2line'), ('LC_IDENTIFICATION', 'zh_CN.UTF-8'), ('GCC_NM', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-gcc-nm'), ('CONDA_BUILD_SYSROOT', '/home/sophie/miniconda3/x86_64-conda-linux-gnu/sysroot'), ('GIT_PAGER', 'cat'), ('QT_IM_MODULE', 'fcitx'), ('PWD', '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces'), ('LC_ALL', 'C.UTF-8'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('CONDA_EXE', '/home/sophie/miniconda3/bin/conda'), ('VSCODE_CODE_CACHE_PATH', '/home/sophie/.config/Cursor/CachedData/55434bd8062ece6fee083b82beed2aee42d253f0'), ('LD', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-ld'), ('CLUTTER_IM_MODULE', 'fcitx'), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/share/gnome:/home/sophie/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('PYTHONPATH', '/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('LC_NUMERIC', 'zh_CN.UTF-8'), ('GPROF', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-gprof'), ('CONDA_PREFIX', '/home/sophie/miniconda3'), ('CONDA_TOOLCHAIN_HOST', 'x86_64-conda-linux-gnu'), ('LC_PAPER', 'zh_CN.UTF-8'), ('host_alias', 'x86_64-conda-linux-gnu'), ('CC', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-cc'), ('RANLIB', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-ranlib'), ('COLCON', '1'), ('CXX_FOR_BUILD', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-c++'), ('CMAKE_PREFIX_PATH', '/home/sophie/miniconda3:/home/sophie/miniconda3/x86_64-conda-linux-gnu/sysroot/usr:/opt/ros/humble'), ('VSCODE_PID', '7052'), ('NM', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-nm'), ('OBJDUMP', '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-objdump')]), 'shell': False}
+[30.058469] (soarm100_interfaces) StdoutLine: {'line': b'-- Install configuration: ""\n'}
+[30.059574] (soarm100_interfaces) StdoutLine: {'line': b'-- Execute custom install script\n'}
+[30.059963] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/ament_index/resource_index/rosidl_interfaces/soarm100_interfaces\n'}
+[30.060841] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/detail/execute_grasp__functions.h\n'}
+[30.061163] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/detail/execute_grasp__struct.h\n'}
+[30.061506] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/detail/execute_grasp__type_support.h\n'}
+[30.061914] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/detail/execute_planned_grasp__functions.h\n'}
+[30.062096] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/detail/execute_planned_grasp__struct.h\n'}
+[30.062213] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/detail/execute_planned_grasp__type_support.h\n'}
+[30.062347] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/detail/plan_grasp__functions.h\n'}
+[30.062456] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/detail/plan_grasp__struct.h\n'}
+[30.062563] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/detail/plan_grasp__type_support.h\n'}
+[30.062667] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/execute_grasp.h\n'}
+[30.062773] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/execute_planned_grasp.h\n'}
+[30.062879] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/plan_grasp.h\n'}
+[30.062984] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/msg/detail/tracked_target2_d__functions.h\n'}
+[30.063094] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/msg/detail/tracked_target2_d__struct.h\n'}
+[30.063197] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/msg/detail/tracked_target2_d__type_support.h\n'}
+[30.063309] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/msg/rosidl_generator_c__visibility_control.h\n'}
+[30.063410] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/msg/tracked_target2_d.h\n'}
+[30.063469] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/move_joint_delta__functions.h\n'}
+[30.063609] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/move_joint_delta__struct.h\n'}
+[30.063668] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/move_joint_delta__type_support.h\n'}
+[30.063806] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/move_joint_target__functions.h\n'}
+[30.063863] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/move_joint_target__struct.h\n'}
+[30.063963] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/move_joint_target__type_support.h\n'}
+[30.064062] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/move_named_pose__functions.h\n'}
+[30.064164] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/move_named_pose__struct.h\n'}
+[30.064268] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/move_named_pose__type_support.h\n'}
+[30.064379] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/move_single_joint__functions.h\n'}
+[30.064437] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/move_single_joint__struct.h\n'}
+[30.064538] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/move_single_joint__type_support.h\n'}
+[30.064640] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/segment_target__functions.h\n'}
+[30.064742] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/segment_target__struct.h\n'}
+[30.064846] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/segment_target__type_support.h\n'}
+[30.064945] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/set_avoidance__functions.h\n'}
+[30.065048] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/set_avoidance__struct.h\n'}
+[30.065153] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/set_avoidance__type_support.h\n'}
+[30.065257] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/set_hardware_torque__functions.h\n'}
+[30.065370] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/set_hardware_torque__struct.h\n'}
+[30.065474] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/set_hardware_torque__type_support.h\n'}
+[30.065579] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/move_joint_delta.h\n'}
+[30.065636] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/move_joint_target.h\n'}
+[30.065691] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/move_named_pose.h\n'}
+[30.065791] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/move_single_joint.h\n'}
+[30.065846] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/segment_target.h\n'}
+[30.065947] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/set_avoidance.h\n'}
+[30.066000] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/set_hardware_torque.h\n'}
+[30.066058] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/environment/library_path.sh\n'}
+[30.066114] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/environment/library_path.dsv\n'}
+[30.066736] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/detail/execute_grasp__rosidl_typesupport_fastrtps_c.h\n'}
+[30.066825] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/detail/execute_planned_grasp__rosidl_typesupport_fastrtps_c.h\n'}
+[30.066900] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/detail/plan_grasp__rosidl_typesupport_fastrtps_c.h\n'}
+[30.066974] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/msg/detail/tracked_target2_d__rosidl_typesupport_fastrtps_c.h\n'}
+[30.067047] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/msg/rosidl_typesupport_fastrtps_c__visibility_control.h\n'}
+[30.067118] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/move_joint_delta__rosidl_typesupport_fastrtps_c.h\n'}
+[30.067187] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/move_joint_target__rosidl_typesupport_fastrtps_c.h\n'}
+[30.067254] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/move_named_pose__rosidl_typesupport_fastrtps_c.h\n'}
+[30.067341] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/move_single_joint__rosidl_typesupport_fastrtps_c.h\n'}
+[30.067420] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/segment_target__rosidl_typesupport_fastrtps_c.h\n'}
+[30.067497] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/set_avoidance__rosidl_typesupport_fastrtps_c.h\n'}
+[30.067574] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/set_hardware_torque__rosidl_typesupport_fastrtps_c.h\n'}
+[30.067994] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/detail/execute_grasp__rosidl_typesupport_introspection_c.h\n'}
+[30.068075] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/detail/execute_planned_grasp__rosidl_typesupport_introspection_c.h\n'}
+[30.068149] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/detail/plan_grasp__rosidl_typesupport_introspection_c.h\n'}
+[30.068223] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/msg/detail/tracked_target2_d__rosidl_typesupport_introspection_c.h\n'}
+[30.068298] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/msg/rosidl_typesupport_introspection_c__visibility_control.h\n'}
+[30.068408] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/move_joint_delta__rosidl_typesupport_introspection_c.h\n'}
+[30.068489] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/move_joint_target__rosidl_typesupport_introspection_c.h\n'}
+[30.068572] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/move_named_pose__rosidl_typesupport_introspection_c.h\n'}
+[30.068651] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/move_single_joint__rosidl_typesupport_introspection_c.h\n'}
+[30.068722] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/segment_target__rosidl_typesupport_introspection_c.h\n'}
+[30.068793] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/set_avoidance__rosidl_typesupport_introspection_c.h\n'}
+[30.068864] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/set_hardware_torque__rosidl_typesupport_introspection_c.h\n'}
+[30.069473] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/detail/execute_grasp__builder.hpp\n'}
+[30.069539] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/detail/execute_grasp__struct.hpp\n'}
+[30.069603] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/detail/execute_grasp__traits.hpp\n'}
+[30.069665] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/detail/execute_grasp__type_support.hpp\n'}
+[30.069728] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/detail/execute_planned_grasp__builder.hpp\n'}
+[30.069790] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/detail/execute_planned_grasp__struct.hpp\n'}
+[30.069851] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/detail/execute_planned_grasp__traits.hpp\n'}
+[30.069915] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/detail/execute_planned_grasp__type_support.hpp\n'}
+[30.070028] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/detail/plan_grasp__builder.hpp\n'}
+[30.070179] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/detail/plan_grasp__struct.hpp\n'}
+[30.070256] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/detail/plan_grasp__traits.hpp\n'}
+[30.070327] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/detail/plan_grasp__type_support.hpp\n'}
+[30.070503] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/execute_grasp.hpp\n'}
+[30.070578] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/execute_planned_grasp.hpp\n'}
+[30.070639] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/plan_grasp.hpp\n'}
+[30.070699] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/msg/detail/tracked_target2_d__builder.hpp\n'}
+[30.070760] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/msg/detail/tracked_target2_d__struct.hpp\n'}
+[30.070819] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/msg/detail/tracked_target2_d__traits.hpp\n'}
+[30.070896] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/msg/detail/tracked_target2_d__type_support.hpp\n'}
+[30.070955] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/msg/rosidl_generator_cpp__visibility_control.hpp\n'}
+[30.071015] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/msg/tracked_target2_d.hpp\n'}
+[30.071073] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/move_joint_delta__builder.hpp\n'}
+[30.071132] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/move_joint_delta__struct.hpp\n'}
+[30.071191] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/move_joint_delta__traits.hpp\n'}
+[30.071252] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/move_joint_delta__type_support.hpp\n'}
+[30.071315] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/move_joint_target__builder.hpp\n'}
+[30.071375] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/move_joint_target__struct.hpp\n'}
+[30.071431] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/move_joint_target__traits.hpp\n'}
+[30.071488] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/move_joint_target__type_support.hpp\n'}
+[30.071545] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/move_named_pose__builder.hpp\n'}
+[30.071579] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/move_named_pose__struct.hpp\n'}
+[30.071660] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/move_named_pose__traits.hpp\n'}
+[30.071729] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/move_named_pose__type_support.hpp\n'}
+[30.071803] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/move_single_joint__builder.hpp\n'}
+[30.071865] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/move_single_joint__struct.hpp\n'}
+[30.071924] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/move_single_joint__traits.hpp\n'}
+[30.071983] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/move_single_joint__type_support.hpp\n'}
+[30.072039] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/segment_target__builder.hpp\n'}
+[30.072098] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/segment_target__struct.hpp\n'}
+[30.072156] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/segment_target__traits.hpp\n'}
+[30.072193] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/segment_target__type_support.hpp\n'}
+[30.072288] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/set_avoidance__builder.hpp\n'}
+[30.072349] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/set_avoidance__struct.hpp\n'}
+[30.072383] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/set_avoidance__traits.hpp\n'}
+[30.072473] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/set_avoidance__type_support.hpp\n'}
+[30.072534] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/set_hardware_torque__builder.hpp\n'}
+[30.072592] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/set_hardware_torque__struct.hpp\n'}
+[30.072625] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/set_hardware_torque__traits.hpp\n'}
+[30.072685] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/set_hardware_torque__type_support.hpp\n'}
+[30.072745] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/move_joint_delta.hpp\n'}
+[30.072804] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/move_joint_target.hpp\n'}
+[30.072883] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/move_named_pose.hpp\n'}
+[30.072913] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/move_single_joint.hpp\n'}
+[30.072968] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/segment_target.hpp\n'}
+[30.073021] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/set_avoidance.hpp\n'}
+[30.073051] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/set_hardware_torque.hpp\n'}
+[30.073580] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/detail/execute_grasp__rosidl_typesupport_fastrtps_cpp.hpp\n'}
+[30.073667] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/detail/execute_planned_grasp__rosidl_typesupport_fastrtps_cpp.hpp\n'}
+[30.073720] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/detail/plan_grasp__rosidl_typesupport_fastrtps_cpp.hpp\n'}
+[30.073775] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/msg/detail/tracked_target2_d__rosidl_typesupport_fastrtps_cpp.hpp\n'}
+[30.073829] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/msg/rosidl_typesupport_fastrtps_cpp__visibility_control.h\n'}
+[30.073884] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/move_joint_delta__rosidl_typesupport_fastrtps_cpp.hpp\n'}
+[30.073938] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/move_joint_target__rosidl_typesupport_fastrtps_cpp.hpp\n'}
+[30.073992] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/move_named_pose__rosidl_typesupport_fastrtps_cpp.hpp\n'}
+[30.074023] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/move_single_joint__rosidl_typesupport_fastrtps_cpp.hpp\n'}
+[30.074079] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/segment_target__rosidl_typesupport_fastrtps_cpp.hpp\n'}
+[30.074131] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/set_avoidance__rosidl_typesupport_fastrtps_cpp.hpp\n'}
+[30.074183] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/set_hardware_torque__rosidl_typesupport_fastrtps_cpp.hpp\n'}
+[30.074440] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/detail/execute_grasp__rosidl_typesupport_introspection_cpp.hpp\n'}
+[30.074502] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/detail/execute_planned_grasp__rosidl_typesupport_introspection_cpp.hpp\n'}
+[30.074596] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/action/detail/plan_grasp__rosidl_typesupport_introspection_cpp.hpp\n'}
+[30.075061] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/msg/detail/tracked_target2_d__rosidl_typesupport_introspection_cpp.hpp\n'}
+[30.075176] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/move_joint_delta__rosidl_typesupport_introspection_cpp.hpp\n'}
+[30.075311] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/move_joint_target__rosidl_typesupport_introspection_cpp.hpp\n'}
+[30.075425] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/move_named_pose__rosidl_typesupport_introspection_cpp.hpp\n'}
+[30.075525] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/move_single_joint__rosidl_typesupport_introspection_cpp.hpp\n'}
+[30.075597] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/segment_target__rosidl_typesupport_introspection_cpp.hpp\n'}
+[30.075645] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/set_avoidance__rosidl_typesupport_introspection_cpp.hpp\n'}
+[30.075692] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/include/soarm100_interfaces/soarm100_interfaces/srv/detail/set_hardware_torque__rosidl_typesupport_introspection_cpp.hpp\n'}
+[30.075743] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/environment/pythonpath.sh\n'}
+[30.075791] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/environment/pythonpath.dsv\n'}
+[30.075838] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces-0.1.0-py3.10.egg-info/PKG-INFO\n'}
+[30.075886] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces-0.1.0-py3.10.egg-info/SOURCES.txt\n'}
+[30.075932] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces-0.1.0-py3.10.egg-info/dependency_links.txt\n'}
+[30.075983] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces-0.1.0-py3.10.egg-info/top_level.txt\n'}
+[30.076132] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces/__init__.py\n'}
+[30.076228] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces/_soarm100_interfaces_s.ep.rosidl_typesupport_c.c\n'}
+[30.076305] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces/_soarm100_interfaces_s.ep.rosidl_typesupport_fastrtps_c.c\n'}
+[30.076378] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces/_soarm100_interfaces_s.ep.rosidl_typesupport_introspection_c.c\n'}
+[30.076465] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces/action/__init__.py\n'}
+[30.076537] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces/action/_execute_grasp.py\n'}
+[30.076609] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces/action/_execute_grasp_s.c\n'}
+[30.076696] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces/action/_execute_planned_grasp.py\n'}
+[30.076767] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces/action/_execute_planned_grasp_s.c\n'}
+[30.076835] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces/action/_plan_grasp.py\n'}
+[30.076921] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces/action/_plan_grasp_s.c\n'}
+[30.076994] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces/libsoarm100_interfaces__rosidl_generator_py.so\n'}
+[30.077085] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces/msg/__init__.py\n'}
+[30.077160] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces/msg/_tracked_target2_d.py\n'}
+[30.077232] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces/msg/_tracked_target2_d_s.c\n'}
+[30.077327] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces/soarm100_interfaces_s__rosidl_typesupport_c.cpython-310-x86_64-linux-gnu.so\n'}
+[30.077400] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces/soarm100_interfaces_s__rosidl_typesupport_fastrtps_c.cpython-310-x86_64-linux-gnu.so\n'}
+[30.077492] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces/soarm100_interfaces_s__rosidl_typesupport_introspection_c.cpython-310-x86_64-linux-gnu.so\n'}
+[30.077565] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces/srv/__init__.py\n'}
+[30.077637] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces/srv/_move_joint_delta.py\n'}
+[30.077725] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces/srv/_move_joint_delta_s.c\n'}
+[30.077799] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces/srv/_move_joint_target.py\n'}
+[30.077891] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces/srv/_move_joint_target_s.c\n'}
+[30.077961] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces/srv/_move_named_pose.py\n'}
+[30.078009] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces/srv/_move_named_pose_s.c\n'}
+[30.078060] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces/srv/_move_single_joint.py\n'}
+[30.078132] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces/srv/_move_single_joint_s.c\n'}
+[30.078180] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces/srv/_segment_target.py\n'}
+[30.078230] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces/srv/_segment_target_s.c\n'}
+[30.078304] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces/srv/_set_avoidance.py\n'}
+[30.078351] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces/srv/_set_avoidance_s.c\n'}
+[30.078424] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces/srv/_set_hardware_torque.py\n'}
+[30.078472] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces/srv/_set_hardware_torque_s.c\n'}
+[30.078539] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces/soarm100_interfaces_s__rosidl_typesupport_fastrtps_c.cpython-310-x86_64-linux-gnu.so\n'}
+[30.078587] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces/soarm100_interfaces_s__rosidl_typesupport_introspection_c.cpython-310-x86_64-linux-gnu.so\n'}
+[30.078635] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces/soarm100_interfaces_s__rosidl_typesupport_c.cpython-310-x86_64-linux-gnu.so\n'}
+[30.078682] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/ament_index/resource_index/rust_packages/soarm100_interfaces\n'}
+[30.078757] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/rust/Cargo.toml\n'}
+[30.078829] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/rust/build.rs\n'}
+[30.078899] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/rust/src/action.rs\n'}
+[30.078992] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/rust/src/action/rmw.rs\n'}
+[30.079065] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/rust/src/lib.rs\n'}
+[30.079138] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/rust/src/msg.rs\n'}
+[30.079225] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/rust/src/msg/rmw.rs\n'}
+[30.079276] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/rust/src/srv.rs\n'}
+[30.079349] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/rust/src/srv/rmw.rs\n'}
+[30.079420] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/msg/TrackedTarget2D.idl\n'}
+[30.079494] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/action/ExecuteGrasp.idl\n'}
+[30.079545] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/action/ExecutePlannedGrasp.idl\n'}
+[30.079613] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/action/PlanGrasp.idl\n'}
+[30.079685] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/srv/SegmentTarget.idl\n'}
+[30.079756] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/srv/SetAvoidance.idl\n'}
+[30.079825] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/srv/MoveSingleJoint.idl\n'}
+[30.079906] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/srv/MoveJointDelta.idl\n'}
+[30.079987] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/srv/MoveNamedPose.idl\n'}
+[30.080058] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/srv/MoveJointTarget.idl\n'}
+[30.080138] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/srv/SetHardwareTorque.idl\n'}
+[30.080217] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/msg/TrackedTarget2D.msg\n'}
+[30.080300] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/action/ExecuteGrasp.action\n'}
+[30.080374] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/action/ExecutePlannedGrasp.action\n'}
+[30.080452] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/action/PlanGrasp.action\n'}
+[30.080532] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/srv/SegmentTarget.srv\n'}
+[30.080610] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/srv/SegmentTarget_Request.msg\n'}
+[30.080689] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/srv/SegmentTarget_Response.msg\n'}
+[30.080760] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/srv/SetAvoidance.srv\n'}
+[30.080838] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/srv/SetAvoidance_Request.msg\n'}
+[30.080915] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/srv/SetAvoidance_Response.msg\n'}
+[30.080987] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/srv/MoveSingleJoint.srv\n'}
+[30.081057] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/srv/MoveSingleJoint_Request.msg\n'}
+[30.081135] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/srv/MoveSingleJoint_Response.msg\n'}
+[30.081212] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/srv/MoveJointDelta.srv\n'}
+[30.081294] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/srv/MoveJointDelta_Request.msg\n'}
+[30.081368] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/srv/MoveJointDelta_Response.msg\n'}
+[30.081441] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/srv/MoveNamedPose.srv\n'}
+[30.081513] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/srv/MoveNamedPose_Request.msg\n'}
+[30.081590] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/srv/MoveNamedPose_Response.msg\n'}
+[30.081660] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/srv/MoveJointTarget.srv\n'}
+[30.081737] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/srv/MoveJointTarget_Request.msg\n'}
+[30.081816] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/srv/MoveJointTarget_Response.msg\n'}
+[30.081868] (-) TimerEvent: {}
+[30.082095] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/srv/SetHardwareTorque.srv\n'}
+[30.082186] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/srv/SetHardwareTorque_Request.msg\n'}
+[30.082253] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/srv/SetHardwareTorque_Response.msg\n'}
+[30.082294] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/ament_index/resource_index/package_run_dependencies/soarm100_interfaces\n'}
+[30.082358] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/ament_index/resource_index/parent_prefix_path/soarm100_interfaces\n'}
+[30.082393] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/environment/ament_prefix_path.sh\n'}
+[30.082456] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/environment/ament_prefix_path.dsv\n'}
+[30.082517] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/environment/path.sh\n'}
+[30.082592] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/environment/path.dsv\n'}
+[30.082679] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/local_setup.bash\n'}
+[30.082764] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/local_setup.sh\n'}
+[30.082883] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/local_setup.zsh\n'}
+[30.082952] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/local_setup.dsv\n'}
+[30.083020] (soarm100_interfaces) StdoutLine: {'line': b'-- Symlinking: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/package.dsv\n'}
+[30.089592] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/ament_index/resource_index/packages/soarm100_interfaces\n'}
+[30.089689] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/cmake/rosidl_cmake-extras.cmake\n'}
+[30.089779] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/cmake/ament_cmake_export_dependencies-extras.cmake\n'}
+[30.089868] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/cmake/ament_cmake_export_include_directories-extras.cmake\n'}
+[30.089951] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/cmake/ament_cmake_export_libraries-extras.cmake\n'}
+[30.090032] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/cmake/ament_cmake_export_targets-extras.cmake\n'}
+[30.090110] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/cmake/rosidl_cmake_export_typesupport_targets-extras.cmake\n'}
+[30.090191] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/cmake/rosidl_cmake_export_typesupport_libraries-extras.cmake\n'}
+[30.090273] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/cmake/soarm100_interfacesConfig.cmake\n'}
+[30.090331] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/cmake/soarm100_interfacesConfig-version.cmake\n'}
+[30.090409] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date symlink: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/package.xml\n'}
+[30.090610] (soarm100_interfaces) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/lib/libsoarm100_interfaces__rosidl_generator_c.so\n'}
+[30.091054] (soarm100_interfaces) StdoutLine: {'line': b'-- Set runtime path of "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/lib/libsoarm100_interfaces__rosidl_generator_c.so" to ""\n'}
+[30.091160] (soarm100_interfaces) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/lib/libsoarm100_interfaces__rosidl_typesupport_fastrtps_c.so\n'}
+[30.091343] (soarm100_interfaces) StdoutLine: {'line': b'-- Set runtime path of "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/lib/libsoarm100_interfaces__rosidl_typesupport_fastrtps_c.so" to ""\n'}
+[30.091426] (soarm100_interfaces) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/lib/libsoarm100_interfaces__rosidl_typesupport_introspection_c.so\n'}
+[30.091706] (soarm100_interfaces) StdoutLine: {'line': b'-- Set runtime path of "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/lib/libsoarm100_interfaces__rosidl_typesupport_introspection_c.so" to ""\n'}
+[30.095093] (soarm100_interfaces) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/lib/libsoarm100_interfaces__rosidl_typesupport_c.so\n'}
+[30.095218] (soarm100_interfaces) StdoutLine: {'line': b'-- Set runtime path of "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/lib/libsoarm100_interfaces__rosidl_typesupport_c.so" to ""\n'}
+[30.095311] (soarm100_interfaces) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/lib/libsoarm100_interfaces__rosidl_typesupport_fastrtps_cpp.so\n'}
+[30.095558] (soarm100_interfaces) StdoutLine: {'line': b'-- Set runtime path of "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/lib/libsoarm100_interfaces__rosidl_typesupport_fastrtps_cpp.so" to ""\n'}
+[30.095669] (soarm100_interfaces) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/lib/libsoarm100_interfaces__rosidl_typesupport_introspection_cpp.so\n'}
+[30.095896] (soarm100_interfaces) StdoutLine: {'line': b'-- Set runtime path of "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/lib/libsoarm100_interfaces__rosidl_typesupport_introspection_cpp.so" to ""\n'}
+[30.095993] (soarm100_interfaces) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/lib/libsoarm100_interfaces__rosidl_typesupport_cpp.so\n'}
+[30.096177] (soarm100_interfaces) StdoutLine: {'line': b'-- Set runtime path of "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/lib/libsoarm100_interfaces__rosidl_typesupport_cpp.so" to ""\n'}
+[30.126622] (soarm100_interfaces) StdoutLine: {'line': b"Listing '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces'...\n"}
+[30.126740] (soarm100_interfaces) StdoutLine: {'line': b"Listing '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces/action'...\n"}
+[30.126785] (soarm100_interfaces) StdoutLine: {'line': b"Listing '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces/msg'...\n"}
+[30.126823] (soarm100_interfaces) StdoutLine: {'line': b"Listing '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages/soarm100_interfaces/srv'...\n"}
+[30.130589] (soarm100_interfaces) StdoutLine: {'line': b'-- Installing: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/lib/libsoarm100_interfaces__rosidl_generator_py.so\n'}
+[30.130917] (soarm100_interfaces) StdoutLine: {'line': b'-- Set runtime path of "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/lib/libsoarm100_interfaces__rosidl_generator_py.so" to ""\n'}
+[30.130987] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/cmake/export_soarm100_interfaces__rosidl_generator_cExport.cmake\n'}
+[30.131059] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/cmake/export_soarm100_interfaces__rosidl_generator_cExport-noconfig.cmake\n'}
+[30.131155] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/cmake/export_soarm100_interfaces__rosidl_typesupport_fastrtps_cExport.cmake\n'}
+[30.131187] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/cmake/export_soarm100_interfaces__rosidl_typesupport_fastrtps_cExport-noconfig.cmake\n'}
+[30.131289] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/cmake/soarm100_interfaces__rosidl_typesupport_introspection_cExport.cmake\n'}
+[30.131359] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/cmake/soarm100_interfaces__rosidl_typesupport_introspection_cExport-noconfig.cmake\n'}
+[30.131388] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/cmake/soarm100_interfaces__rosidl_typesupport_cExport.cmake\n'}
+[30.131419] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/cmake/soarm100_interfaces__rosidl_typesupport_cExport-noconfig.cmake\n'}
+[30.131453] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/cmake/export_soarm100_interfaces__rosidl_generator_cppExport.cmake\n'}
+[30.131483] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/cmake/export_soarm100_interfaces__rosidl_typesupport_fastrtps_cppExport.cmake\n'}
+[30.131511] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/cmake/export_soarm100_interfaces__rosidl_typesupport_fastrtps_cppExport-noconfig.cmake\n'}
+[30.131539] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/cmake/soarm100_interfaces__rosidl_typesupport_introspection_cppExport.cmake\n'}
+[30.131568] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/cmake/soarm100_interfaces__rosidl_typesupport_introspection_cppExport-noconfig.cmake\n'}
+[30.131598] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/cmake/soarm100_interfaces__rosidl_typesupport_cppExport.cmake\n'}
+[30.131631] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/cmake/soarm100_interfaces__rosidl_typesupport_cppExport-noconfig.cmake\n'}
+[30.131662] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/cmake/export_soarm100_interfaces__rosidl_generator_pyExport.cmake\n'}
+[30.131691] (soarm100_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/share/soarm100_interfaces/cmake/export_soarm100_interfaces__rosidl_generator_pyExport-noconfig.cmake\n'}
+[30.182009] (-) TimerEvent: {}
+[30.282228] (-) TimerEvent: {}
+[30.382474] (-) TimerEvent: {}
+[30.482641] (-) TimerEvent: {}
+[30.582809] (-) TimerEvent: {}
+[30.683015] (-) TimerEvent: {}
+[30.783254] (-) TimerEvent: {}
+[30.883424] (-) TimerEvent: {}
+[30.983639] (-) TimerEvent: {}
+[31.083899] (-) TimerEvent: {}
+[31.184054] (-) TimerEvent: {}
+[31.284240] (-) TimerEvent: {}
+[31.384522] (-) TimerEvent: {}
+[31.484725] (-) TimerEvent: {}
+[31.584960] (-) TimerEvent: {}
+[31.685146] (-) TimerEvent: {}
+[31.785395] (-) TimerEvent: {}
+[31.885595] (-) TimerEvent: {}
+[31.985803] (-) TimerEvent: {}
+[32.086130] (-) TimerEvent: {}
+[32.186437] (-) TimerEvent: {}
+[32.286708] (-) TimerEvent: {}
+[32.386987] (-) TimerEvent: {}
+[32.487224] (-) TimerEvent: {}
+[32.587462] (-) TimerEvent: {}
+[32.687656] (-) TimerEvent: {}
+[32.787896] (-) TimerEvent: {}
+[32.888210] (-) TimerEvent: {}
+[32.988533] (-) TimerEvent: {}
+[33.088778] (-) TimerEvent: {}
+[33.189038] (-) TimerEvent: {}
+[33.289331] (-) TimerEvent: {}
+[33.389570] (-) TimerEvent: {}
+[33.489840] (-) TimerEvent: {}
+[33.590130] (-) TimerEvent: {}
+[33.690380] (-) TimerEvent: {}
+[33.790602] (-) TimerEvent: {}
+[33.890843] (-) TimerEvent: {}
+[33.991103] (-) TimerEvent: {}
+[34.091332] (-) TimerEvent: {}
+[34.191547] (-) TimerEvent: {}
+[34.291853] (-) TimerEvent: {}
+[34.392114] (-) TimerEvent: {}
+[34.492378] (-) TimerEvent: {}
+[34.592658] (-) TimerEvent: {}
+[34.692908] (-) TimerEvent: {}
+[34.793237] (-) TimerEvent: {}
+[34.893557] (-) TimerEvent: {}
+[34.993899] (-) TimerEvent: {}
+[35.094169] (-) TimerEvent: {}
+[35.194463] (-) TimerEvent: {}
+[35.294783] (-) TimerEvent: {}
+[35.395074] (-) TimerEvent: {}
+[35.495390] (-) TimerEvent: {}
+[35.595630] (-) TimerEvent: {}
+[35.695855] (-) TimerEvent: {}
+[35.796130] (-) TimerEvent: {}
+[35.896369] (-) TimerEvent: {}
+[35.996621] (-) TimerEvent: {}
+[36.096898] (-) TimerEvent: {}
+[36.197220] (-) TimerEvent: {}
+[36.297518] (-) TimerEvent: {}
+[36.397794] (-) TimerEvent: {}
+[36.498079] (-) TimerEvent: {}
+[36.598386] (-) TimerEvent: {}
+[36.698622] (-) TimerEvent: {}
+[36.798813] (-) TimerEvent: {}
+[36.899037] (-) TimerEvent: {}
+[36.999291] (-) TimerEvent: {}
+[37.099509] (-) TimerEvent: {}
+[37.199855] (-) TimerEvent: {}
+[37.300237] (-) TimerEvent: {}
+[37.400533] (-) TimerEvent: {}
+[37.500793] (-) TimerEvent: {}
+[37.601087] (-) TimerEvent: {}
+[37.701352] (-) TimerEvent: {}
+[37.801565] (-) TimerEvent: {}
+[37.901860] (-) TimerEvent: {}
+[38.002198] (-) TimerEvent: {}
+[38.102513] (-) TimerEvent: {}
+[38.202801] (-) TimerEvent: {}
+[38.303085] (-) TimerEvent: {}
+[38.403326] (-) TimerEvent: {}
+[38.503575] (-) TimerEvent: {}
+[38.603828] (-) TimerEvent: {}
+[38.704109] (-) TimerEvent: {}
+[38.804339] (-) TimerEvent: {}
+[38.904606] (-) TimerEvent: {}
+[39.004858] (-) TimerEvent: {}
+[39.105107] (-) TimerEvent: {}
+[39.205387] (-) TimerEvent: {}
+[39.305662] (-) TimerEvent: {}
+[39.405997] (-) TimerEvent: {}
+[39.506229] (-) TimerEvent: {}
+[39.606478] (-) TimerEvent: {}
+[39.706724] (-) TimerEvent: {}
+[39.806996] (-) TimerEvent: {}
+[39.907257] (-) TimerEvent: {}
+[40.007537] (-) TimerEvent: {}
+[40.107783] (-) TimerEvent: {}
+[40.208065] (-) TimerEvent: {}
+[40.308318] (-) TimerEvent: {}
+[40.408691] (-) TimerEvent: {}
+[40.509058] (-) TimerEvent: {}
+[40.609361] (-) TimerEvent: {}
+[40.709539] (-) TimerEvent: {}
+[40.809785] (-) TimerEvent: {}
+[40.910143] (-) TimerEvent: {}
+[41.010455] (-) TimerEvent: {}
+[41.110704] (-) TimerEvent: {}
+[41.211071] (-) TimerEvent: {}
+[41.311444] (-) TimerEvent: {}
+[41.411790] (-) TimerEvent: {}
+[41.512126] (-) TimerEvent: {}
+[41.612452] (-) TimerEvent: {}
+[41.712714] (-) TimerEvent: {}
+[41.812916] (-) TimerEvent: {}
+[41.913179] (-) TimerEvent: {}
+[42.013515] (-) TimerEvent: {}
+[42.113825] (-) TimerEvent: {}
+[42.214056] (-) TimerEvent: {}
+[42.314342] (-) TimerEvent: {}
+[42.414652] (-) TimerEvent: {}
+[42.514965] (-) TimerEvent: {}
+[42.615300] (-) TimerEvent: {}
+[42.715542] (-) TimerEvent: {}
+[42.815766] (-) TimerEvent: {}
+[42.916055] (-) TimerEvent: {}
+[43.016360] (-) TimerEvent: {}
+[43.116652] (-) TimerEvent: {}
+[43.216966] (-) TimerEvent: {}
+[43.317253] (-) TimerEvent: {}
+[43.417551] (-) TimerEvent: {}
+[43.517859] (-) TimerEvent: {}
+[43.618173] (-) TimerEvent: {}
+[43.718536] (-) TimerEvent: {}
+[43.818818] (-) TimerEvent: {}
+[43.919167] (-) TimerEvent: {}
+[44.019485] (-) TimerEvent: {}
+[44.119790] (-) TimerEvent: {}
+[44.220130] (-) TimerEvent: {}
+[44.320573] (-) TimerEvent: {}
+[44.420892] (-) TimerEvent: {}
+[44.521184] (-) TimerEvent: {}
+[44.621499] (-) TimerEvent: {}
+[44.721782] (-) TimerEvent: {}
+[44.822048] (-) TimerEvent: {}
+[44.922340] (-) TimerEvent: {}
+[45.022788] (-) TimerEvent: {}
+[45.123017] (-) TimerEvent: {}
+[45.223323] (-) TimerEvent: {}
+[45.323614] (-) TimerEvent: {}
+[45.423909] (-) TimerEvent: {}
+[45.524185] (-) TimerEvent: {}
+[45.624488] (-) TimerEvent: {}
+[45.724693] (-) TimerEvent: {}
+[45.825018] (-) TimerEvent: {}
+[45.925325] (-) TimerEvent: {}
+[46.025565] (-) TimerEvent: {}
+[46.125797] (-) TimerEvent: {}
+[46.226156] (-) TimerEvent: {}
+[46.326399] (-) TimerEvent: {}
+[46.426697] (-) TimerEvent: {}
+[46.526957] (-) TimerEvent: {}
+[46.627179] (-) TimerEvent: {}
+[46.727404] (-) TimerEvent: {}
+[46.827598] (-) TimerEvent: {}
+[46.927871] (-) TimerEvent: {}
+[47.028134] (-) TimerEvent: {}
+[47.128397] (-) TimerEvent: {}
+[47.228663] (-) TimerEvent: {}
+[47.328963] (-) TimerEvent: {}
+[47.429228] (-) TimerEvent: {}
+[47.529478] (-) TimerEvent: {}
+[47.629724] (-) TimerEvent: {}
+[47.730001] (-) TimerEvent: {}
+[47.830342] (-) TimerEvent: {}
+[47.930567] (-) TimerEvent: {}
+[48.030766] (-) TimerEvent: {}
+[48.130972] (-) TimerEvent: {}
+[48.231214] (-) TimerEvent: {}
+[48.331459] (-) TimerEvent: {}
+[48.431708] (-) TimerEvent: {}
+[48.532017] (-) TimerEvent: {}
+[48.632314] (-) TimerEvent: {}
+[48.732526] (-) TimerEvent: {}
+[48.832767] (-) TimerEvent: {}
+[48.933009] (-) TimerEvent: {}
+[49.033240] (-) TimerEvent: {}
+[49.133484] (-) TimerEvent: {}
+[49.233733] (-) TimerEvent: {}
+[49.333966] (-) TimerEvent: {}
+[49.434204] (-) TimerEvent: {}
+[49.534447] (-) TimerEvent: {}
+[49.634687] (-) TimerEvent: {}
+[49.734934] (-) TimerEvent: {}
+[49.835227] (-) TimerEvent: {}
+[49.935483] (-) TimerEvent: {}
+[50.035745] (-) TimerEvent: {}
+[50.136041] (-) TimerEvent: {}
+[50.236335] (-) TimerEvent: {}
+[50.336582] (-) TimerEvent: {}
+[50.436839] (-) TimerEvent: {}
+[50.537120] (-) TimerEvent: {}
+[50.637500] (-) TimerEvent: {}
+[50.737778] (-) TimerEvent: {}
+[50.838072] (-) TimerEvent: {}
+[50.938410] (-) TimerEvent: {}
+[51.038688] (-) TimerEvent: {}
+[51.138965] (-) TimerEvent: {}
+[51.239313] (-) TimerEvent: {}
+[51.339588] (-) TimerEvent: {}
+[51.439899] (-) TimerEvent: {}
+[51.540211] (-) TimerEvent: {}
+[51.640554] (-) TimerEvent: {}
+[51.740834] (-) TimerEvent: {}
+[51.841148] (-) TimerEvent: {}
+[51.941451] (-) TimerEvent: {}
+[52.041753] (-) TimerEvent: {}
+[52.141993] (-) TimerEvent: {}
+[52.242286] (-) TimerEvent: {}
+[52.342549] (-) TimerEvent: {}
+[52.442735] (-) TimerEvent: {}
+[52.543061] (-) TimerEvent: {}
+[52.643395] (-) TimerEvent: {}
+[52.743684] (-) TimerEvent: {}
+[52.843966] (-) TimerEvent: {}
+[52.944220] (-) TimerEvent: {}
+[53.044509] (-) TimerEvent: {}
+[53.144776] (-) TimerEvent: {}
+[53.245007] (-) TimerEvent: {}
+[53.345227] (-) TimerEvent: {}
+[53.445477] (-) TimerEvent: {}
+[53.545750] (-) TimerEvent: {}
+[53.646046] (-) TimerEvent: {}
+[53.746424] (-) TimerEvent: {}
+[53.846621] (-) TimerEvent: {}
+[53.946872] (-) TimerEvent: {}
+[54.047147] (-) TimerEvent: {}
+[54.147374] (-) TimerEvent: {}
+[54.247631] (-) TimerEvent: {}
+[54.347870] (-) TimerEvent: {}
+[54.448127] (-) TimerEvent: {}
+[54.548400] (-) TimerEvent: {}
+[54.648639] (-) TimerEvent: {}
+[54.748880] (-) TimerEvent: {}
+[54.849115] (-) TimerEvent: {}
+[54.949370] (-) TimerEvent: {}
+[55.049617] (-) TimerEvent: {}
+[55.149896] (-) TimerEvent: {}
+[55.250164] (-) TimerEvent: {}
+[55.350404] (-) TimerEvent: {}
+[55.450625] (-) TimerEvent: {}
+[55.550908] (-) TimerEvent: {}
+[55.651187] (-) TimerEvent: {}
+[55.751486] (-) TimerEvent: {}
+[55.851779] (-) TimerEvent: {}
+[55.952038] (-) TimerEvent: {}
+[56.052361] (-) TimerEvent: {}
+[56.152593] (-) TimerEvent: {}
+[56.252818] (-) TimerEvent: {}
+[56.353055] (-) TimerEvent: {}
+[56.453318] (-) TimerEvent: {}
+[56.553578] (-) TimerEvent: {}
+[56.653867] (-) TimerEvent: {}
+[56.754131] (-) TimerEvent: {}
+[56.854367] (-) TimerEvent: {}
+[56.954635] (-) TimerEvent: {}
+[57.054908] (-) TimerEvent: {}
+[57.155199] (-) TimerEvent: {}
+[57.255452] (-) TimerEvent: {}
+[57.355679] (-) TimerEvent: {}
+[57.455922] (-) TimerEvent: {}
+[57.556212] (-) TimerEvent: {}
+[57.656592] (-) TimerEvent: {}
+[57.756843] (-) TimerEvent: {}
+[57.857197] (-) TimerEvent: {}
+[57.957495] (-) TimerEvent: {}
+[58.057776] (-) TimerEvent: {}
+[58.158052] (-) TimerEvent: {}
+[58.258322] (-) TimerEvent: {}
+[58.358672] (-) TimerEvent: {}
+[58.458971] (-) TimerEvent: {}
+[58.559286] (-) TimerEvent: {}
+[58.659518] (-) TimerEvent: {}
+[58.759808] (-) TimerEvent: {}
+[58.860123] (-) TimerEvent: {}
+[58.960437] (-) TimerEvent: {}
+[59.060798] (-) TimerEvent: {}
+[59.161149] (-) TimerEvent: {}
+[59.261370] (-) TimerEvent: {}
+[59.361609] (-) TimerEvent: {}
+[59.461853] (-) TimerEvent: {}
+[59.562145] (-) TimerEvent: {}
+[59.662401] (-) TimerEvent: {}
+[59.762662] (-) TimerEvent: {}
+[59.862935] (-) TimerEvent: {}
+[59.963292] (-) TimerEvent: {}
+[60.061921] (soarm100_interfaces) CommandEnded: {'returncode': 0}
+[60.063333] (-) TimerEvent: {}
+[60.083700] (soarm100_interfaces) JobEnded: {'identifier': 'soarm100_interfaces', 'rc': 0}
+[60.084248] (soarm100_vision) JobStarted: {'identifier': 'soarm100_vision'}
+[60.163423] (-) TimerEvent: {}
+[60.263624] (-) TimerEvent: {}
+[60.363861] (-) TimerEvent: {}
+[60.464182] (-) TimerEvent: {}
+[60.564427] (-) TimerEvent: {}
+[60.664635] (-) TimerEvent: {}
+[60.764937] (-) TimerEvent: {}
+[60.865135] (-) TimerEvent: {}
+[60.965312] (-) TimerEvent: {}
+[61.065544] (-) TimerEvent: {}
+[61.165803] (-) TimerEvent: {}
+[61.266037] (-) TimerEvent: {}
+[61.366249] (-) TimerEvent: {}
+[61.466393] (-) TimerEvent: {}
+[61.566575] (-) TimerEvent: {}
+[61.666820] (-) TimerEvent: {}
+[61.767070] (-) TimerEvent: {}
+[61.867320] (-) TimerEvent: {}
+[61.967559] (-) TimerEvent: {}
+[62.067837] (-) TimerEvent: {}
+[62.168106] (-) TimerEvent: {}
+[62.268393] (-) TimerEvent: {}
+[62.368655] (-) TimerEvent: {}
+[62.468891] (-) TimerEvent: {}
+[62.569143] (-) TimerEvent: {}
+[62.669409] (-) TimerEvent: {}
+[62.769650] (-) TimerEvent: {}
+[62.869941] (-) TimerEvent: {}
+[62.970237] (-) TimerEvent: {}
+[63.070526] (-) TimerEvent: {}
+[63.170800] (-) TimerEvent: {}
+[63.271155] (-) TimerEvent: {}
+[63.371435] (-) TimerEvent: {}
+[63.471722] (-) TimerEvent: {}
+[63.571985] (-) TimerEvent: {}
+[63.672231] (-) TimerEvent: {}
+[63.772498] (-) TimerEvent: {}
+[63.872781] (-) TimerEvent: {}
+[63.973114] (-) TimerEvent: {}
+[64.073504] (-) TimerEvent: {}
+[64.173827] (-) TimerEvent: {}
+[64.274141] (-) TimerEvent: {}
+[64.374494] (-) TimerEvent: {}
+[64.474808] (-) TimerEvent: {}
+[64.575131] (-) TimerEvent: {}
+[64.675472] (-) TimerEvent: {}
+[64.775785] (-) TimerEvent: {}
+[64.876093] (-) TimerEvent: {}
+[64.976367] (-) TimerEvent: {}
+[65.076661] (-) TimerEvent: {}
+[65.177026] (-) TimerEvent: {}
+[65.277345] (-) TimerEvent: {}
+[65.377622] (-) TimerEvent: {}
+[65.477883] (-) TimerEvent: {}
+[65.578131] (-) TimerEvent: {}
+[65.678461] (-) TimerEvent: {}
+[65.778742] (-) TimerEvent: {}
+[65.879032] (-) TimerEvent: {}
+[65.979337] (-) TimerEvent: {}
+[66.079636] (-) TimerEvent: {}
+[66.179955] (-) TimerEvent: {}
+[66.280172] (-) TimerEvent: {}
+[66.380346] (-) TimerEvent: {}
+[66.480615] (-) TimerEvent: {}
+[66.580923] (-) TimerEvent: {}
+[66.681283] (-) TimerEvent: {}
+[66.781604] (-) TimerEvent: {}
+[66.881876] (-) TimerEvent: {}
+[66.982242] (-) TimerEvent: {}
+[67.082542] (-) TimerEvent: {}
+[67.182845] (-) TimerEvent: {}
+[67.283147] (-) TimerEvent: {}
+[67.383437] (-) TimerEvent: {}
+[67.483712] (-) TimerEvent: {}
+[67.583974] (-) TimerEvent: {}
+[67.684218] (-) TimerEvent: {}
+[67.784480] (-) TimerEvent: {}
+[67.884772] (-) TimerEvent: {}
+[67.985069] (-) TimerEvent: {}
+[68.085408] (-) TimerEvent: {}
+[68.185684] (-) TimerEvent: {}
+[68.285965] (-) TimerEvent: {}
+[68.386237] (-) TimerEvent: {}
+[68.486524] (-) TimerEvent: {}
+[68.586828] (-) TimerEvent: {}
+[68.687198] (-) TimerEvent: {}
+[68.787453] (-) TimerEvent: {}
+[68.887790] (-) TimerEvent: {}
+[68.988096] (-) TimerEvent: {}
+[69.088459] (-) TimerEvent: {}
+[69.188801] (-) TimerEvent: {}
+[69.289115] (-) TimerEvent: {}
+[69.389384] (-) TimerEvent: {}
+[69.489711] (-) TimerEvent: {}
+[69.589959] (-) TimerEvent: {}
+[69.690209] (-) TimerEvent: {}
+[69.790515] (-) TimerEvent: {}
+[69.890843] (-) TimerEvent: {}
+[69.991141] (-) TimerEvent: {}
+[70.091521] (-) TimerEvent: {}
+[70.191830] (-) TimerEvent: {}
+[70.292220] (-) TimerEvent: {}
+[70.392529] (-) TimerEvent: {}
+[70.492818] (-) TimerEvent: {}
+[70.593096] (-) TimerEvent: {}
+[70.693393] (-) TimerEvent: {}
+[70.793646] (-) TimerEvent: {}
+[70.893964] (-) TimerEvent: {}
+[70.994402] (-) TimerEvent: {}
+[71.094833] (-) TimerEvent: {}
+[71.195170] (-) TimerEvent: {}
+[71.295479] (-) TimerEvent: {}
+[71.395778] (-) TimerEvent: {}
+[71.496053] (-) TimerEvent: {}
+[71.596317] (-) TimerEvent: {}
+[71.696584] (-) TimerEvent: {}
+[71.796848] (-) TimerEvent: {}
+[71.897245] (-) TimerEvent: {}
+[71.997580] (-) TimerEvent: {}
+[72.097905] (-) TimerEvent: {}
+[72.198295] (-) TimerEvent: {}
+[72.298621] (-) TimerEvent: {}
+[72.398933] (-) TimerEvent: {}
+[72.499201] (-) TimerEvent: {}
+[72.599422] (-) TimerEvent: {}
+[72.699732] (-) TimerEvent: {}
+[72.800059] (-) TimerEvent: {}
+[72.900410] (-) TimerEvent: {}
+[73.000719] (-) TimerEvent: {}
+[73.100975] (-) TimerEvent: {}
+[73.201277] (-) TimerEvent: {}
+[73.301564] (-) TimerEvent: {}
+[73.401848] (-) TimerEvent: {}
+[73.502164] (-) TimerEvent: {}
+[73.602475] (-) TimerEvent: {}
+[73.702681] (-) TimerEvent: {}
+[73.802895] (-) TimerEvent: {}
+[73.903135] (-) TimerEvent: {}
+[74.003406] (-) TimerEvent: {}
+[74.103662] (-) TimerEvent: {}
+[74.203947] (-) TimerEvent: {}
+[74.304425] (-) TimerEvent: {}
+[74.404706] (-) TimerEvent: {}
+[74.504999] (-) TimerEvent: {}
+[74.605309] (-) TimerEvent: {}
+[74.705516] (-) TimerEvent: {}
+[74.805737] (-) TimerEvent: {}
+[74.905970] (-) TimerEvent: {}
+[75.006183] (-) TimerEvent: {}
+[75.106412] (-) TimerEvent: {}
+[75.206652] (-) TimerEvent: {}
+[75.306926] (-) TimerEvent: {}
+[75.407238] (-) TimerEvent: {}
+[75.507519] (-) TimerEvent: {}
+[75.607751] (-) TimerEvent: {}
+[75.707976] (-) TimerEvent: {}
+[75.808233] (-) TimerEvent: {}
+[75.908536] (-) TimerEvent: {}
+[76.008844] (-) TimerEvent: {}
+[76.109136] (-) TimerEvent: {}
+[76.209381] (-) TimerEvent: {}
+[76.309565] (-) TimerEvent: {}
+[76.409806] (-) TimerEvent: {}
+[76.510084] (-) TimerEvent: {}
+[76.610384] (-) TimerEvent: {}
+[76.710610] (-) TimerEvent: {}
+[76.810823] (-) TimerEvent: {}
+[76.911067] (-) TimerEvent: {}
+[77.011337] (-) TimerEvent: {}
+[77.111586] (-) TimerEvent: {}
+[77.211810] (-) TimerEvent: {}
+[77.312128] (-) TimerEvent: {}
+[77.412393] (-) TimerEvent: {}
+[77.512673] (-) TimerEvent: {}
+[77.612952] (-) TimerEvent: {}
+[77.713204] (-) TimerEvent: {}
+[77.813429] (-) TimerEvent: {}
+[77.913715] (-) TimerEvent: {}
+[78.013916] (-) TimerEvent: {}
+[78.114106] (-) TimerEvent: {}
+[78.214386] (-) TimerEvent: {}
+[78.314625] (-) TimerEvent: {}
+[78.414884] (-) TimerEvent: {}
+[78.515228] (-) TimerEvent: {}
+[78.615487] (-) TimerEvent: {}
+[78.715689] (-) TimerEvent: {}
+[78.815906] (-) TimerEvent: {}
+[78.916250] (-) TimerEvent: {}
+[79.016593] (-) TimerEvent: {}
+[79.116891] (-) TimerEvent: {}
+[79.217131] (-) TimerEvent: {}
+[79.317489] (-) TimerEvent: {}
+[79.417829] (-) TimerEvent: {}
+[79.518210] (-) TimerEvent: {}
+[79.618519] (-) TimerEvent: {}
+[79.718848] (-) TimerEvent: {}
+[79.819043] (-) TimerEvent: {}
+[79.919362] (-) TimerEvent: {}
+[80.019607] (-) TimerEvent: {}
+[80.119901] (-) TimerEvent: {}
+[80.220299] (-) TimerEvent: {}
+[80.320554] (-) TimerEvent: {}
+[80.420773] (-) TimerEvent: {}
+[80.521014] (-) TimerEvent: {}
+[80.621370] (-) TimerEvent: {}
+[80.721599] (-) TimerEvent: {}
+[80.821809] (-) TimerEvent: {}
+[80.922074] (-) TimerEvent: {}
+[81.022481] (-) TimerEvent: {}
+[81.122786] (-) TimerEvent: {}
+[81.223082] (-) TimerEvent: {}
+[81.323358] (-) TimerEvent: {}
+[81.423601] (-) TimerEvent: {}
+[81.523887] (-) TimerEvent: {}
+[81.624275] (-) TimerEvent: {}
+[81.724627] (-) TimerEvent: {}
+[81.824854] (-) TimerEvent: {}
+[81.925091] (-) TimerEvent: {}
+[82.025438] (-) TimerEvent: {}
+[82.125649] (-) TimerEvent: {}
+[82.225909] (-) TimerEvent: {}
+[82.326233] (-) TimerEvent: {}
+[82.426496] (-) TimerEvent: {}
+[82.526753] (-) TimerEvent: {}
+[82.626991] (-) TimerEvent: {}
+[82.727280] (-) TimerEvent: {}
+[82.827434] (-) TimerEvent: {}
+[82.927636] (-) TimerEvent: {}
+[83.027907] (-) TimerEvent: {}
+[83.128148] (-) TimerEvent: {}
+[83.228391] (-) TimerEvent: {}
+[83.328685] (-) TimerEvent: {}
+[83.428952] (-) TimerEvent: {}
+[83.529194] (-) TimerEvent: {}
+[83.629397] (-) TimerEvent: {}
+[83.729549] (-) TimerEvent: {}
+[83.829771] (-) TimerEvent: {}
+[83.930032] (-) TimerEvent: {}
+[84.030394] (-) TimerEvent: {}
+[84.130618] (-) TimerEvent: {}
+[84.230968] (-) TimerEvent: {}
+[84.331233] (-) TimerEvent: {}
+[84.431504] (-) TimerEvent: {}
+[84.531784] (-) TimerEvent: {}
+[84.632034] (-) TimerEvent: {}
+[84.732359] (-) TimerEvent: {}
+[84.832569] (-) TimerEvent: {}
+[84.932851] (-) TimerEvent: {}
+[85.033120] (-) TimerEvent: {}
+[85.133507] (-) TimerEvent: {}
+[85.233765] (-) TimerEvent: {}
+[85.334047] (-) TimerEvent: {}
+[85.434328] (-) TimerEvent: {}
+[85.534573] (-) TimerEvent: {}
+[85.634871] (-) TimerEvent: {}
+[85.735181] (-) TimerEvent: {}
+[85.835432] (-) TimerEvent: {}
+[85.935777] (-) TimerEvent: {}
+[86.036058] (-) TimerEvent: {}
+[86.136368] (-) TimerEvent: {}
+[86.236667] (-) TimerEvent: {}
+[86.336942] (-) TimerEvent: {}
+[86.437334] (-) TimerEvent: {}
+[86.537562] (-) TimerEvent: {}
+[86.637839] (-) TimerEvent: {}
+[86.738106] (-) TimerEvent: {}
+[86.838356] (-) TimerEvent: {}
+[86.938582] (-) TimerEvent: {}
+[87.038848] (-) TimerEvent: {}
+[87.139119] (-) TimerEvent: {}
+[87.239363] (-) TimerEvent: {}
+[87.339593] (-) TimerEvent: {}
+[87.439864] (-) TimerEvent: {}
+[87.540138] (-) TimerEvent: {}
+[87.640355] (-) TimerEvent: {}
+[87.740545] (-) TimerEvent: {}
+[87.840754] (-) TimerEvent: {}
+[87.941034] (-) TimerEvent: {}
+[88.041306] (-) TimerEvent: {}
+[88.141542] (-) TimerEvent: {}
+[88.241804] (-) TimerEvent: {}
+[88.342062] (-) TimerEvent: {}
+[88.442286] (-) TimerEvent: {}
+[88.542507] (-) TimerEvent: {}
+[88.642755] (-) TimerEvent: {}
+[88.743000] (-) TimerEvent: {}
+[88.843204] (-) TimerEvent: {}
+[88.943427] (-) TimerEvent: {}
+[89.043635] (-) TimerEvent: {}
+[89.143855] (-) TimerEvent: {}
+[89.244099] (-) TimerEvent: {}
+[89.344372] (-) TimerEvent: {}
+[89.444600] (-) TimerEvent: {}
+[89.544860] (-) TimerEvent: {}
+[89.645230] (-) TimerEvent: {}
+[89.745569] (-) TimerEvent: {}
+[89.845858] (-) TimerEvent: {}
+[89.946219] (-) TimerEvent: {}
+[90.046530] (-) TimerEvent: {}
+[90.146800] (-) TimerEvent: {}
+[90.246966] (-) TimerEvent: {}
+[90.347140] (-) TimerEvent: {}
+[90.447372] (-) TimerEvent: {}
+[90.547543] (-) TimerEvent: {}
+[90.647718] (-) TimerEvent: {}
+[90.747913] (-) TimerEvent: {}
+[90.848163] (-) TimerEvent: {}
+[90.948367] (-) TimerEvent: {}
+[91.048551] (-) TimerEvent: {}
+[91.148728] (-) TimerEvent: {}
+[91.248908] (-) TimerEvent: {}
+[91.349142] (-) TimerEvent: {}
+[91.449387] (-) TimerEvent: {}
+[91.549580] (-) TimerEvent: {}
+[91.649792] (-) TimerEvent: {}
+[91.750052] (-) TimerEvent: {}
+[91.850293] (-) TimerEvent: {}
+[91.950477] (-) TimerEvent: {}
+[92.050661] (-) TimerEvent: {}
+[92.150869] (-) TimerEvent: {}
+[92.251132] (-) TimerEvent: {}
+[92.351318] (-) TimerEvent: {}
+[92.451495] (-) TimerEvent: {}
+[92.551728] (-) TimerEvent: {}
+[92.651991] (-) TimerEvent: {}
+[92.752323] (-) TimerEvent: {}
+[92.852499] (-) TimerEvent: {}
+[92.952719] (-) TimerEvent: {}
+[93.052972] (-) TimerEvent: {}
+[93.153180] (-) TimerEvent: {}
+[93.253348] (-) TimerEvent: {}
+[93.353598] (-) TimerEvent: {}
+[93.453883] (-) TimerEvent: {}
+[93.554129] (-) TimerEvent: {}
+[93.654468] (-) TimerEvent: {}
+[93.754737] (-) TimerEvent: {}
+[93.854992] (-) TimerEvent: {}
+[93.955286] (-) TimerEvent: {}
+[94.055538] (-) TimerEvent: {}
+[94.155789] (-) TimerEvent: {}
+[94.256055] (-) TimerEvent: {}
+[94.356330] (-) TimerEvent: {}
+[94.456604] (-) TimerEvent: {}
+[94.556927] (-) TimerEvent: {}
+[94.657225] (-) TimerEvent: {}
+[94.757600] (-) TimerEvent: {}
+[94.857891] (-) TimerEvent: {}
+[94.958216] (-) TimerEvent: {}
+[95.058490] (-) TimerEvent: {}
+[95.158794] (-) TimerEvent: {}
+[95.259106] (-) TimerEvent: {}
+[95.359442] (-) TimerEvent: {}
+[95.459741] (-) TimerEvent: {}
+[95.560041] (-) TimerEvent: {}
+[95.660374] (-) TimerEvent: {}
+[95.760678] (-) TimerEvent: {}
+[95.860896] (-) TimerEvent: {}
+[95.961152] (-) TimerEvent: {}
+[96.061476] (-) TimerEvent: {}
+[96.161764] (-) TimerEvent: {}
+[96.262087] (-) TimerEvent: {}
+[96.362401] (-) TimerEvent: {}
+[96.462721] (-) TimerEvent: {}
+[96.563076] (-) TimerEvent: {}
+[96.663418] (-) TimerEvent: {}
+[96.763693] (-) TimerEvent: {}
+[96.864194] (-) TimerEvent: {}
+[96.964480] (-) TimerEvent: {}
+[97.064837] (-) TimerEvent: {}
+[97.165135] (-) TimerEvent: {}
+[97.265357] (-) TimerEvent: {}
+[97.365610] (-) TimerEvent: {}
+[97.465884] (-) TimerEvent: {}
+[97.566170] (-) TimerEvent: {}
+[97.666411] (-) TimerEvent: {}
+[97.766696] (-) TimerEvent: {}
+[97.867036] (-) TimerEvent: {}
+[97.967401] (-) TimerEvent: {}
+[98.067757] (-) TimerEvent: {}
+[98.168097] (-) TimerEvent: {}
+[98.268415] (-) TimerEvent: {}
+[98.368820] (-) TimerEvent: {}
+[98.469165] (-) TimerEvent: {}
+[98.569621] (-) TimerEvent: {}
+[98.669959] (-) TimerEvent: {}
+[98.770323] (-) TimerEvent: {}
+[98.870616] (-) TimerEvent: {}
+[98.970916] (-) TimerEvent: {}
+[99.071188] (-) TimerEvent: {}
+[99.171469] (-) TimerEvent: {}
+[99.271729] (-) TimerEvent: {}
+[99.372024] (-) TimerEvent: {}
+[99.472329] (-) TimerEvent: {}
+[99.572622] (-) TimerEvent: {}
+[99.672900] (-) TimerEvent: {}
+[99.773295] (-) TimerEvent: {}
+[99.873673] (-) TimerEvent: {}
+[99.973944] (-) TimerEvent: {}
+[100.074328] (-) TimerEvent: {}
+[100.174580] (-) TimerEvent: {}
+[100.274841] (-) TimerEvent: {}
+[100.375102] (-) TimerEvent: {}
+[100.475400] (-) TimerEvent: {}
+[100.575704] (-) TimerEvent: {}
+[100.675970] (-) TimerEvent: {}
+[100.776231] (-) TimerEvent: {}
+[100.876543] (-) TimerEvent: {}
+[100.976829] (-) TimerEvent: {}
+[101.077125] (-) TimerEvent: {}
+[101.177340] (-) TimerEvent: {}
+[101.277570] (-) TimerEvent: {}
+[101.377837] (-) TimerEvent: {}
+[101.478187] (-) TimerEvent: {}
+[101.578481] (-) TimerEvent: {}
+[101.678771] (-) TimerEvent: {}
+[101.779084] (-) TimerEvent: {}
+[101.879379] (-) TimerEvent: {}
+[101.979757] (-) TimerEvent: {}
+[102.080088] (-) TimerEvent: {}
+[102.180398] (-) TimerEvent: {}
+[102.280683] (-) TimerEvent: {}
+[102.380947] (-) TimerEvent: {}
+[102.481191] (-) TimerEvent: {}
+[102.581424] (-) TimerEvent: {}
+[102.681698] (-) TimerEvent: {}
+[102.781961] (-) TimerEvent: {}
+[102.882314] (-) TimerEvent: {}
+[102.982571] (-) TimerEvent: {}
+[103.082826] (-) TimerEvent: {}
+[103.183052] (-) TimerEvent: {}
+[103.283320] (-) TimerEvent: {}
+[103.383532] (-) TimerEvent: {}
+[103.483785] (-) TimerEvent: {}
+[103.584112] (-) TimerEvent: {}
+[103.684390] (-) TimerEvent: {}
+[103.784605] (-) TimerEvent: {}
+[103.884816] (-) TimerEvent: {}
+[103.985089] (-) TimerEvent: {}
+[104.085378] (-) TimerEvent: {}
+[104.185604] (-) TimerEvent: {}
+[104.285861] (-) TimerEvent: {}
+[104.386170] (-) TimerEvent: {}
+[104.486458] (-) TimerEvent: {}
+[104.586745] (-) TimerEvent: {}
+[104.686986] (-) TimerEvent: {}
+[104.787225] (-) TimerEvent: {}
+[104.887495] (-) TimerEvent: {}
+[104.987734] (-) TimerEvent: {}
+[105.087947] (-) TimerEvent: {}
+[105.188151] (-) TimerEvent: {}
+[105.288343] (-) TimerEvent: {}
+[105.388658] (-) TimerEvent: {}
+[105.488915] (-) TimerEvent: {}
+[105.589310] (-) TimerEvent: {}
+[105.689546] (-) TimerEvent: {}
+[105.789795] (-) TimerEvent: {}
+[105.890118] (-) TimerEvent: {}
+[105.990454] (-) TimerEvent: {}
+[106.090762] (-) TimerEvent: {}
+[106.191068] (-) TimerEvent: {}
+[106.291453] (-) TimerEvent: {}
+[106.391721] (-) TimerEvent: {}
+[106.491919] (-) TimerEvent: {}
+[106.592139] (-) TimerEvent: {}
+[106.692327] (-) TimerEvent: {}
+[106.792558] (-) TimerEvent: {}
+[106.892814] (-) TimerEvent: {}
+[106.993093] (-) TimerEvent: {}
+[107.093349] (-) TimerEvent: {}
+[107.193600] (-) TimerEvent: {}
+[107.293850] (-) TimerEvent: {}
+[107.394131] (-) TimerEvent: {}
+[107.494451] (-) TimerEvent: {}
+[107.594709] (-) TimerEvent: {}
+[107.694900] (-) TimerEvent: {}
+[107.795163] (-) TimerEvent: {}
+[107.895396] (-) TimerEvent: {}
+[107.995695] (-) TimerEvent: {}
+[108.095949] (-) TimerEvent: {}
+[108.196245] (-) TimerEvent: {}
+[108.296507] (-) TimerEvent: {}
+[108.396744] (-) TimerEvent: {}
+[108.496952] (-) TimerEvent: {}
+[108.597166] (-) TimerEvent: {}
+[108.697349] (-) TimerEvent: {}
+[108.797552] (-) TimerEvent: {}
+[108.897790] (-) TimerEvent: {}
+[108.998027] (-) TimerEvent: {}
+[109.098275] (-) TimerEvent: {}
+[109.198506] (-) TimerEvent: {}
+[109.298762] (-) TimerEvent: {}
+[109.398958] (-) TimerEvent: {}
+[109.499150] (-) TimerEvent: {}
+[109.599368] (-) TimerEvent: {}
+[109.699511] (-) TimerEvent: {}
+[109.799766] (-) TimerEvent: {}
+[109.900026] (-) TimerEvent: {}
+[110.000315] (-) TimerEvent: {}
+[110.100580] (-) TimerEvent: {}
+[110.200819] (-) TimerEvent: {}
+[110.301091] (-) TimerEvent: {}
+[110.401360] (-) TimerEvent: {}
+[110.501603] (-) TimerEvent: {}
+[110.601799] (-) TimerEvent: {}
+[110.702002] (-) TimerEvent: {}
+[110.802286] (-) TimerEvent: {}
+[110.902480] (-) TimerEvent: {}
+[111.002671] (-) TimerEvent: {}
+[111.102881] (-) TimerEvent: {}
+[111.203059] (-) TimerEvent: {}
+[111.303284] (-) TimerEvent: {}
+[111.403597] (-) TimerEvent: {}
+[111.503936] (-) TimerEvent: {}
+[111.604252] (-) TimerEvent: {}
+[111.704803] (-) TimerEvent: {}
+[111.805119] (-) TimerEvent: {}
+[111.905456] (-) TimerEvent: {}
+[112.005752] (-) TimerEvent: {}
+[112.106092] (-) TimerEvent: {}
+[112.206453] (-) TimerEvent: {}
+[112.306721] (-) TimerEvent: {}
+[112.406942] (-) TimerEvent: {}
+[112.507157] (-) TimerEvent: {}
+[112.607304] (-) TimerEvent: {}
+[112.707482] (-) TimerEvent: {}
+[112.807722] (-) TimerEvent: {}
+[112.908012] (-) TimerEvent: {}
+[113.008344] (-) TimerEvent: {}
+[113.108587] (-) TimerEvent: {}
+[113.208839] (-) TimerEvent: {}
+[113.309149] (-) TimerEvent: {}
+[113.409365] (-) TimerEvent: {}
+[113.509599] (-) TimerEvent: {}
+[113.609847] (-) TimerEvent: {}
+[113.710129] (-) TimerEvent: {}
+[113.810352] (-) TimerEvent: {}
+[113.910593] (-) TimerEvent: {}
+[114.010863] (-) TimerEvent: {}
+[114.111097] (-) TimerEvent: {}
+[114.211372] (-) TimerEvent: {}
+[114.311642] (-) TimerEvent: {}
+[114.411952] (-) TimerEvent: {}
+[114.512255] (-) TimerEvent: {}
+[114.612584] (-) TimerEvent: {}
+[114.712833] (-) TimerEvent: {}
+[114.813081] (-) TimerEvent: {}
+[114.913504] (-) TimerEvent: {}
+[115.013787] (-) TimerEvent: {}
+[115.114067] (-) TimerEvent: {}
+[115.214397] (-) TimerEvent: {}
+[115.314639] (-) TimerEvent: {}
+[115.414891] (-) TimerEvent: {}
+[115.515175] (-) TimerEvent: {}
+[115.615429] (-) TimerEvent: {}
+[115.715733] (-) TimerEvent: {}
+[115.815978] (-) TimerEvent: {}
+[115.916202] (-) TimerEvent: {}
+[116.016396] (-) TimerEvent: {}
+[116.116607] (-) TimerEvent: {}
+[116.216824] (-) TimerEvent: {}
+[116.317038] (-) TimerEvent: {}
+[116.417306] (-) TimerEvent: {}
+[116.517555] (-) TimerEvent: {}
+[116.617809] (-) TimerEvent: {}
+[116.718032] (-) TimerEvent: {}
+[116.818255] (-) TimerEvent: {}
+[116.918597] (-) TimerEvent: {}
+[117.018882] (-) TimerEvent: {}
+[117.119325] (-) TimerEvent: {}
+[117.219566] (-) TimerEvent: {}
+[117.319846] (-) TimerEvent: {}
+[117.420085] (-) TimerEvent: {}
+[117.520400] (-) TimerEvent: {}
+[117.620658] (-) TimerEvent: {}
+[117.720861] (-) TimerEvent: {}
+[117.821073] (-) TimerEvent: {}
+[117.921472] (-) TimerEvent: {}
+[118.021706] (-) TimerEvent: {}
+[118.121927] (-) TimerEvent: {}
+[118.222310] (-) TimerEvent: {}
+[118.322553] (-) TimerEvent: {}
+[118.422820] (-) TimerEvent: {}
+[118.523067] (-) TimerEvent: {}
+[118.623328] (-) TimerEvent: {}
+[118.723638] (-) TimerEvent: {}
+[118.823825] (-) TimerEvent: {}
+[118.924012] (-) TimerEvent: {}
+[119.024239] (-) TimerEvent: {}
+[119.124472] (-) TimerEvent: {}
+[119.224720] (-) TimerEvent: {}
+[119.324987] (-) TimerEvent: {}
+[119.425277] (-) TimerEvent: {}
+[119.525525] (-) TimerEvent: {}
+[119.625796] (-) TimerEvent: {}
+[119.726063] (-) TimerEvent: {}
+[119.826343] (-) TimerEvent: {}
+[119.926587] (-) TimerEvent: {}
+[120.026859] (-) TimerEvent: {}
+[120.127095] (-) TimerEvent: {}
+[120.227313] (-) TimerEvent: {}
+[120.327459] (-) TimerEvent: {}
+[120.384265] (soarm100_vision) Command: {'cmd': ['/usr/bin/python3', '-W', 'ignore:setup.py install is deprecated', '-W', 'ignore:easy_install command is deprecated', 'setup.py', 'develop', '--editable', '--build-directory', '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_vision/build', '--no-deps', 'symlink_data'], 'cwd': '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_vision', 'env': {'GJS_DEBUG_TOPICS': 'JS ERROR;JS LOG', 'LESSOPEN': '| /usr/bin/lesspipe %s', 'VSCODE_CWD': '/home/sophie', 'CURSOR_EXTENSION_HOST_ROLE': 'user', 'VSCODE_ESM_ENTRYPOINT': 'vs/workbench/api/node/extensionHostProcess', 'CONDA_PROMPT_MODIFIER': '(base)', 'CODEX_CI': '1', 'LANGUAGE': 'zh_CN:zh:en_US:en', 'USER': 'sophie', 'LC_TIME': 'zh_CN.UTF-8', 'CODEX_INTERNAL_ORIGINATOR_OVERRIDE': 'codex_vscode', 'VSCODE_NLS_CONFIG': '{"userLocale":"zh-cn","osLocale":"zh-cn","resolvedLanguage":"en","defaultMessagesFile":"/usr/share/cursor/resources/app/out/nls.messages.json","locale":"zh-cn","availableLanguages":{}}', 'CXXFLAGS': '-fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/sophie/miniconda3/include  -I/home/sophie/miniconda3/targets/x86_64-linux/include  -L/home/sophie/miniconda3/targets/x86_64-linux/lib -L/home/sophie/miniconda3/targets/x86_64-linux/lib/stubs', 'VSCODE_HANDLES_UNCAUGHT_ERRORS': 'true', 'GCC_RANLIB': '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-gcc-ranlib', 'XDG_SESSION_TYPE': 'x11', 'OBJCOPY': '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-objcopy', 'DEBUG': 'release', 'DEBUG_CXXFLAGS': '-fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-all -fno-plt -Og -g -Wall -Wextra -fvar-tracking-assignments -ffunction-sections -pipe -isystem /home/sophie/miniconda3/include', 'SIZE': '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-size', 'SHLVL': '1', 'LD_LIBRARY_PATH': '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/lib:/usr/local/cuda-11.0/lib64:/usr/lib/x86_64-linux-gnu/gazebo-11/plugins:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib:/home/sophie/.mujoco/mujoco-3.3.4/bin', 'HOME': '/home/sophie', 'CHROME_DESKTOP': 'cursor.desktop', 'CC_FOR_BUILD': '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-cc', 'CONDA_SHLVL': '1', 'OLDPWD': '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim', 'DESKTOP_SESSION': 'ubuntu', 'CONDA_TOOLCHAIN_BUILD': 'x86_64-conda-linux-gnu', 'VSCODE_IPC_HOOK': '/run/user/1000/vscode-b77d059a-3.13-main.sock', 'GIO_LAUNCHED_DESKTOP_FILE': '/usr/share/applications/cursor.desktop', 'ROS_DOMAINID': '7', 'ROS_PYTHON_VERSION': '3', 'GNOME_SHELL_SESSION_MODE': 'ubuntu', 'GTK_MODULES': 'gail:atk-bridge', 'LDFLAGS': '-Wl,-O2 -Wl,--sort-common -Wl,--as-needed -Wl,-z,relro -Wl,-z,now -Wl,--disable-new-dtags -Wl,--gc-sections -Wl,-rpath,/home/sophie/miniconda3/lib -Wl,-rpath-link,/home/sophie/miniconda3/lib -L/home/sophie/miniconda3/lib  -L/home/sophie/miniconda3/targets/x86_64-linux/lib -L/home/sophie/miniconda3/targets/x86_64-linux/lib/stubs', 'PAGER': 'cat', 'STRINGS': '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-strings', 'LC_MONETARY': 'zh_CN.UTF-8', 'CURSOR_WORKSPACE_LABEL': 'soarm100sim', 'MANAGERPID': '1459', 'LC_CTYPE': 'C.UTF-8', 'SYSTEMD_EXEC_PID': '1837', 'NO_COLOR': '1', 'DBUS_SESSION_BUS_ADDRESS': 'unix:path=/run/user/1000/bus', 'COLORTERM': '', 'CPP': '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-cpp', '_CONDA_ROOT': '/home/sophie/miniconda3', 'GIO_LAUNCHED_DESKTOP_FILE_PID': '7052', 'VSCODE_CRASH_REPORTER_PROCESS_TYPE': 'extensionHost', 'IM_CONFIG_PHASE': '1', 'NVCC_PREPEND_FLAGS': ' -ccbin=/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-c++', 'ELFEDIT': '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-elfedit', 'VSCODE_L10N_BUNDLE_LOCATION': '', 'CODEX_PERMISSION_PROFILE': ':workspace', 'STRIP': '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-strip', 'ROS_DISTRO': 'humble', 'GTK_IM_MODULE': 'fcitx', 'LOGNAME': 'sophie', 'GCC': '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-gcc', 'JOURNAL_STREAM': '8:16592', '_': '/usr/bin/colcon', 'ROS_VERSION': '2', 'CURSOR_LAYOUT': 'unifiedAgent', 'READELF': '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-readelf', 'XDG_SESSION_CLASS': 'user', 'AR': '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-ar', 'RUST_LOG': 'warn', 'USERNAME': 'sophie', 'GXX': '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-g++', 'TERM': 'dumb', 'AS': '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-as', 'GNOME_DESKTOP_SESSION_ID': 'this-is-deprecated', 'FC_FONTATIONS': '1', 'ROS_LOCALHOST_ONLY': '0', 'CXXFILT': '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-c++filt', 'WINDOWPATH': '2', 'BUILD': 'x86_64-conda-linux-gnu', 'PATH': '/home/sophie/.local/bin:/home/sophie/.codex/tmp/arg0/codex-arg0c35c8A:/home/sophie/.local/bin:/usr/local/cuda-11.0/bin:/home/sophie/miniconda3/bin:/home/sophie/miniconda3/condabin:/opt/ros/humble/bin:/home/sophie/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin:/home/sophie/.cursor/extensions/openai.chatgpt-26.721.30844-linux-x64/bin/linux-x86_64', 'SESSION_MANAGER': 'local/sophie-Legion-Y7000P-IRX10:@/tmp/.ICE-unix/1790,unix/sophie-Legion-Y7000P-IRX10:/tmp/.ICE-unix/1790', 'INVOCATION_ID': 'a9d6127a82b246578841dca28b488137', 'XDG_MENU_PREFIX': 'gnome-', 'build_alias': 'x86_64-conda-linux-gnu', 'LC_ADDRESS': 'zh_CN.UTF-8', 'VSCODE_PROCESS_TITLE': 'extension-host (user) soarm100sim [1-2]', 'XDG_RUNTIME_DIR': '/run/user/1000', 'GDK_BACKEND': 'x11', 'CFLAGS': '-march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/sophie/miniconda3/include  -I/home/sophie/miniconda3/targets/x86_64-linux/include  -L/home/sophie/miniconda3/targets/x86_64-linux/lib -L/home/sophie/miniconda3/targets/x86_64-linux/lib/stubs', 'MUJOCO_PY_MUJOCO_PATH': '/home/sophie/.mujoco/mujoco-3.3.4', 'GCC_AR': '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-gcc-ar', 'DISPLAY': ':0', 'CODEX_SANDBOX_NETWORK_DISABLED': '1', 'LANG': 'zh_CN.UTF-8', 'DEBUG_CFLAGS': '-march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-all -fno-plt -Og -g -Wall -Wextra -fvar-tracking-assignments -ffunction-sections -pipe -isystem /home/sophie/miniconda3/include', 'XDG_CURRENT_DESKTOP': 'ubuntu:GNOME', 'LC_TELEPHONE': 'zh_CN.UTF-8', '_CONDA_PYTHON_SYSCONFIGDATA_NAME': '_sysconfigdata_x86_64_conda_linux_gnu', 'XMODIFIERS': '@im=fcitx', 'GH_PAGER': 'cat', 'XDG_SESSION_DESKTOP': 'ubuntu', 'XAUTHORITY': '/run/user/1000/gdm/Xauthority', 'MESON_ARGS': '-Dbuildtype=release', 'CURSOR_SPAWNED_BY_EXTENSION_ID': 'openai.chatgpt', 'SSH_AGENT_LAUNCHER': 'gnome-keyring', 'SSH_AUTH_SOCK': '/run/user/1000/keyring/ssh', 'AMENT_PREFIX_PATH': '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces:/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/so100_plus_description:/opt/ros/humble', 'CPPFLAGS': '-DNDEBUG -D_FORTIFY_SOURCE=2 -O2 -isystem /home/sophie/miniconda3/include  -I/home/sophie/miniconda3/targets/x86_64-linux/include  -L/home/sophie/miniconda3/targets/x86_64-linux/lib -L/home/sophie/miniconda3/targets/x86_64-linux/lib/stubs', 'CONDA_PYTHON_EXE': '/home/sophie/miniconda3/bin/python', 'SHELL': '/bin/bash', 'CMAKE_ARGS': '-DCMAKE_AR=/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-ar -DCMAKE_CXX_COMPILER_AR=/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-gcc-ar -DCMAKE_C_COMPILER_AR=/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-gcc-ar -DCMAKE_RANLIB=/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-ranlib -DCMAKE_CXX_COMPILER_RANLIB=/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-gcc-ranlib -DCMAKE_C_COMPILER_RANLIB=/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-gcc-ranlib -DCMAKE_LINKER=/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-ld -DCMAKE_STRIP=/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-strip -DCMAKE_BUILD_TYPE=Release', 'LC_NAME': 'zh_CN.UTF-8', 'HOST': 'x86_64-conda-linux-gnu', 'QT_ACCESSIBILITY': '1', 'ELECTRON_RUN_AS_NODE': '1', 'CXX': '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-c++', 'DEBUG_CPPFLAGS': '-D_DEBUG -D_FORTIFY_SOURCE=2 -Og -isystem /home/sophie/miniconda3/include', 'GDMSESSION': 'ubuntu', 'LESSCLOSE': '/usr/bin/lesspipe %s %s', 'CONDA_DEFAULT_ENV': 'base', 'CODEX_THREAD_ID': '019f5a48-96e5-7af0-8a1e-65bfcfd09744', 'LC_MEASUREMENT': 'zh_CN.UTF-8', 'CURSOR_SPAWN_CHAIN': 'openai.chatgpt', 'GPG_AGENT_INFO': '/run/user/1000/gnupg/S.gpg-agent:0:1', 'GJS_DEBUG_OUTPUT': 'stderr', '_CONDA_EXE': '/home/sophie/miniconda3/bin/conda', 'ADDR2LINE': '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-addr2line', 'LC_IDENTIFICATION': 'zh_CN.UTF-8', 'GCC_NM': '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-gcc-nm', 'CONDA_BUILD_SYSROOT': '/home/sophie/miniconda3/x86_64-conda-linux-gnu/sysroot', 'GIT_PAGER': 'cat', 'QT_IM_MODULE': 'fcitx', 'PWD': '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_vision', 'LC_ALL': 'C.UTF-8', 'XDG_CONFIG_DIRS': '/etc/xdg/xdg-ubuntu:/etc/xdg', 'CONDA_EXE': '/home/sophie/miniconda3/bin/conda', 'VSCODE_CODE_CACHE_PATH': '/home/sophie/.config/Cursor/CachedData/55434bd8062ece6fee083b82beed2aee42d253f0', 'LD': '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-ld', 'CLUTTER_IM_MODULE': 'fcitx', 'XDG_DATA_DIRS': '/usr/share/ubuntu:/usr/share/gnome:/home/sophie/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop', 'PYTHONPATH': '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_vision/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/python3.10/site-packages:/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages:/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages', 'LC_NUMERIC': 'zh_CN.UTF-8', 'GPROF': '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-gprof', 'CONDA_PREFIX': '/home/sophie/miniconda3', 'CONDA_TOOLCHAIN_HOST': 'x86_64-conda-linux-gnu', 'LC_PAPER': 'zh_CN.UTF-8', 'host_alias': 'x86_64-conda-linux-gnu', 'CC': '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-cc', 'RANLIB': '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-ranlib', 'COLCON': '1', 'CXX_FOR_BUILD': '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-c++', 'CMAKE_PREFIX_PATH': '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces:/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/so100_plus_description:/home/sophie/miniconda3:/home/sophie/miniconda3/x86_64-conda-linux-gnu/sysroot/usr', 'VSCODE_PID': '7052', 'NM': '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-nm', 'OBJDUMP': '/home/sophie/miniconda3/bin/x86_64-conda-linux-gnu-objdump'}, 'shell': False}
+[120.427540] (-) TimerEvent: {}
+[120.527796] (-) TimerEvent: {}
+[120.559928] (soarm100_vision) StdoutLine: {'line': b'running develop\n'}
+[120.627910] (-) TimerEvent: {}
+[120.679498] (soarm100_vision) StdoutLine: {'line': b'running egg_info\n'}
+[120.679854] (soarm100_vision) StdoutLine: {'line': b'writing soarm100_vision.egg-info/PKG-INFO\n'}
+[120.679965] (soarm100_vision) StdoutLine: {'line': b'writing dependency_links to soarm100_vision.egg-info/dependency_links.txt\n'}
+[120.680036] (soarm100_vision) StdoutLine: {'line': b'writing entry points to soarm100_vision.egg-info/entry_points.txt\n'}
+[120.680103] (soarm100_vision) StdoutLine: {'line': b'writing requirements to soarm100_vision.egg-info/requires.txt\n'}
+[120.680168] (soarm100_vision) StdoutLine: {'line': b'writing top-level names to soarm100_vision.egg-info/top_level.txt\n'}
+[120.681408] (soarm100_vision) StdoutLine: {'line': b"reading manifest file 'soarm100_vision.egg-info/SOURCES.txt'\n"}
+[120.682102] (soarm100_vision) StdoutLine: {'line': b"writing manifest file 'soarm100_vision.egg-info/SOURCES.txt'\n"}
+[120.682986] (soarm100_vision) StdoutLine: {'line': b'running build_ext\n'}
+[120.683116] (soarm100_vision) StdoutLine: {'line': b'Creating /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/python3.10/site-packages/soarm100-vision.egg-link (link to .)\n'}
+[120.683563] (soarm100_vision) StdoutLine: {'line': b'Installing anygrasp_planner_node script to /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/soarm100_vision\n'}
+[120.683715] (soarm100_vision) StdoutLine: {'line': b'Installing debug_viewer_node script to /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/soarm100_vision\n'}
+[120.683857] (soarm100_vision) StdoutLine: {'line': b'Installing grasp_orchestrator_node script to /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/soarm100_vision\n'}
+[120.684016] (soarm100_vision) StdoutLine: {'line': b'Installing hardware_controller_node script to /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/soarm100_vision\n'}
+[120.684150] (soarm100_vision) StdoutLine: {'line': b'Installing hardware_joint_state_node script to /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/soarm100_vision\n'}
+[120.684304] (soarm100_vision) StdoutLine: {'line': b'Installing hardware_single_joint_service_node script to /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/soarm100_vision\n'}
+[120.684419] (soarm100_vision) StdoutLine: {'line': b'Installing mujoco_camera_publisher_node script to /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/soarm100_vision\n'}
+[120.684498] (soarm100_vision) StdoutLine: {'line': b'Installing mujoco_mirror_viewer_node script to /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/soarm100_vision\n'}
+[120.684680] (soarm100_vision) StdoutLine: {'line': b'Installing mujoco_policy_backend_node script to /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/soarm100_vision\n'}
+[120.684745] (soarm100_vision) StdoutLine: {'line': b'Installing obstacle_cloud_node script to /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/soarm100_vision\n'}
+[120.684810] (soarm100_vision) StdoutLine: {'line': b'Installing orbbec_eye_to_hand_calibrator_node script to /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/soarm100_vision\n'}
+[120.684874] (soarm100_vision) StdoutLine: {'line': b'Installing policy_reach_node script to /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/soarm100_vision\n'}
+[120.684938] (soarm100_vision) StdoutLine: {'line': b'Installing sdf_cbf_backend_node script to /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/soarm100_vision\n'}
+[120.685009] (soarm100_vision) StdoutLine: {'line': b'Installing send_execute_grasp script to /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/soarm100_vision\n'}
+[120.685074] (soarm100_vision) StdoutLine: {'line': b'Installing send_planned_grasp script to /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/soarm100_vision\n'}
+[120.685139] (soarm100_vision) StdoutLine: {'line': b'Installing target_segmenter_node script to /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/soarm100_vision\n'}
+[120.685204] (soarm100_vision) StdoutLine: {'line': b'Installing wrist_handeye_calibrator_node script to /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/soarm100_vision\n'}
+[120.685274] (soarm100_vision) StdoutLine: {'line': b'Installing wrist_handeye_pose_sequence_node script to /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/soarm100_vision\n'}
+[120.685348] (soarm100_vision) StdoutLine: {'line': b'Installing wrist_tracker_node script to /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/soarm100_vision\n'}
+[120.685417] (soarm100_vision) StdoutLine: {'line': b'\n'}
+[120.685482] (soarm100_vision) StdoutLine: {'line': b'Installed /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_vision\n'}
+[120.685547] (soarm100_vision) StdoutLine: {'line': b'running symlink_data\n'}
+[120.728016] (-) TimerEvent: {}
+[120.828313] (-) TimerEvent: {}
+[120.928496] (-) TimerEvent: {}
+[121.028708] (-) TimerEvent: {}
+[121.128995] (-) TimerEvent: {}
+[121.229196] (-) TimerEvent: {}
+[121.329399] (-) TimerEvent: {}
+[121.429643] (-) TimerEvent: {}
+[121.529935] (-) TimerEvent: {}
+[121.630239] (-) TimerEvent: {}
+[121.730487] (-) TimerEvent: {}
+[121.830819] (-) TimerEvent: {}
+[121.931104] (-) TimerEvent: {}
+[122.031494] (-) TimerEvent: {}
+[122.131761] (-) TimerEvent: {}
+[122.232040] (-) TimerEvent: {}
+[122.332378] (-) TimerEvent: {}
+[122.432657] (-) TimerEvent: {}
+[122.532994] (-) TimerEvent: {}
+[122.633333] (-) TimerEvent: {}
+[122.733585] (-) TimerEvent: {}
+[122.833832] (-) TimerEvent: {}
+[122.934248] (-) TimerEvent: {}
+[123.034564] (-) TimerEvent: {}
+[123.134871] (-) TimerEvent: {}
+[123.235172] (-) TimerEvent: {}
+[123.335447] (-) TimerEvent: {}
+[123.435733] (-) TimerEvent: {}
+[123.536030] (-) TimerEvent: {}
+[123.636352] (-) TimerEvent: {}
+[123.736580] (-) TimerEvent: {}
+[123.836842] (-) TimerEvent: {}
+[123.937135] (-) TimerEvent: {}
+[124.037433] (-) TimerEvent: {}
+[124.137785] (-) TimerEvent: {}
+[124.238099] (-) TimerEvent: {}
+[124.338395] (-) TimerEvent: {}
+[124.438667] (-) TimerEvent: {}
+[124.538996] (-) TimerEvent: {}
+[124.639310] (-) TimerEvent: {}
+[124.739580] (-) TimerEvent: {}
+[124.839952] (-) TimerEvent: {}
+[124.940322] (-) TimerEvent: {}
+[125.040639] (-) TimerEvent: {}
+[125.140910] (-) TimerEvent: {}
+[125.241199] (-) TimerEvent: {}
+[125.341473] (-) TimerEvent: {}
+[125.441741] (-) TimerEvent: {}
+[125.542027] (-) TimerEvent: {}
+[125.642378] (-) TimerEvent: {}
+[125.742657] (-) TimerEvent: {}
+[125.842943] (-) TimerEvent: {}
+[125.943394] (-) TimerEvent: {}
+[126.043670] (-) TimerEvent: {}
+[126.143960] (-) TimerEvent: {}
+[126.244382] (-) TimerEvent: {}
+[126.344667] (-) TimerEvent: {}
+[126.444999] (-) TimerEvent: {}
+[126.545371] (-) TimerEvent: {}
+[126.645648] (-) TimerEvent: {}
+[126.745958] (-) TimerEvent: {}
+[126.846315] (-) TimerEvent: {}
+[126.946567] (-) TimerEvent: {}
+[127.046827] (-) TimerEvent: {}
+[127.147176] (-) TimerEvent: {}
+[127.247500] (-) TimerEvent: {}
+[127.347799] (-) TimerEvent: {}
+[127.448082] (-) TimerEvent: {}
+[127.548403] (-) TimerEvent: {}
+[127.648712] (-) TimerEvent: {}
+[127.748985] (-) TimerEvent: {}
+[127.849287] (-) TimerEvent: {}
+[127.949580] (-) TimerEvent: {}
+[128.049884] (-) TimerEvent: {}
+[128.150169] (-) TimerEvent: {}
+[128.250505] (-) TimerEvent: {}
+[128.350757] (-) TimerEvent: {}
+[128.451046] (-) TimerEvent: {}
+[128.551365] (-) TimerEvent: {}
+[128.651655] (-) TimerEvent: {}
+[128.751956] (-) TimerEvent: {}
+[128.852252] (-) TimerEvent: {}
+[128.952591] (-) TimerEvent: {}
+[129.052883] (-) TimerEvent: {}
+[129.153186] (-) TimerEvent: {}
+[129.253469] (-) TimerEvent: {}
+[129.353725] (-) TimerEvent: {}
+[129.454101] (-) TimerEvent: {}
+[129.554359] (-) TimerEvent: {}
+[129.654688] (-) TimerEvent: {}
+[129.755056] (-) TimerEvent: {}
+[129.855377] (-) TimerEvent: {}
+[129.955607] (-) TimerEvent: {}
+[130.055810] (-) TimerEvent: {}
+[130.156034] (-) TimerEvent: {}
+[130.256341] (-) TimerEvent: {}
+[130.356587] (-) TimerEvent: {}
+[130.456809] (-) TimerEvent: {}
+[130.557064] (-) TimerEvent: {}
+[130.657329] (-) TimerEvent: {}
+[130.757551] (-) TimerEvent: {}
+[130.857793] (-) TimerEvent: {}
+[130.958094] (-) TimerEvent: {}
+[131.058418] (-) TimerEvent: {}
+[131.158663] (-) TimerEvent: {}
+[131.258936] (-) TimerEvent: {}
+[131.359213] (-) TimerEvent: {}
+[131.459437] (-) TimerEvent: {}
+[131.559671] (-) TimerEvent: {}
+[131.659936] (-) TimerEvent: {}
+[131.760250] (-) TimerEvent: {}
+[131.860510] (-) TimerEvent: {}
+[131.960776] (-) TimerEvent: {}
+[132.061005] (-) TimerEvent: {}
+[132.161257] (-) TimerEvent: {}
+[132.261540] (-) TimerEvent: {}
+[132.361801] (-) TimerEvent: {}
+[132.462054] (-) TimerEvent: {}
+[132.562340] (-) TimerEvent: {}
+[132.662556] (-) TimerEvent: {}
+[132.762778] (-) TimerEvent: {}
+[132.863048] (-) TimerEvent: {}
+[132.963373] (-) TimerEvent: {}
+[133.063700] (-) TimerEvent: {}
+[133.163946] (-) TimerEvent: {}
+[133.264152] (-) TimerEvent: {}
+[133.364463] (-) TimerEvent: {}
+[133.464699] (-) TimerEvent: {}
+[133.564984] (-) TimerEvent: {}
+[133.665253] (-) TimerEvent: {}
+[133.765486] (-) TimerEvent: {}
+[133.865808] (-) TimerEvent: {}
+[133.966062] (-) TimerEvent: {}
+[134.066287] (-) TimerEvent: {}
+[134.166527] (-) TimerEvent: {}
+[134.266802] (-) TimerEvent: {}
+[134.367064] (-) TimerEvent: {}
+[134.467291] (-) TimerEvent: {}
+[134.567520] (-) TimerEvent: {}
+[134.667789] (-) TimerEvent: {}
+[134.768063] (-) TimerEvent: {}
+[134.868351] (-) TimerEvent: {}
+[134.968556] (-) TimerEvent: {}
+[135.068832] (-) TimerEvent: {}
+[135.169213] (-) TimerEvent: {}
+[135.269513] (-) TimerEvent: {}
+[135.369847] (-) TimerEvent: {}
+[135.470138] (-) TimerEvent: {}
+[135.570482] (-) TimerEvent: {}
+[135.670810] (-) TimerEvent: {}
+[135.771069] (-) TimerEvent: {}
+[135.871486] (-) TimerEvent: {}
+[135.971790] (-) TimerEvent: {}
+[136.071977] (-) TimerEvent: {}
+[136.172171] (-) TimerEvent: {}
+[136.272449] (-) TimerEvent: {}
+[136.372693] (-) TimerEvent: {}
+[136.472975] (-) TimerEvent: {}
+[136.573402] (-) TimerEvent: {}
+[136.673709] (-) TimerEvent: {}
+[136.774026] (-) TimerEvent: {}
+[136.874406] (-) TimerEvent: {}
+[136.974697] (-) TimerEvent: {}
+[137.075010] (-) TimerEvent: {}
+[137.175329] (-) TimerEvent: {}
+[137.275601] (-) TimerEvent: {}
+[137.375919] (-) TimerEvent: {}
+[137.476117] (-) TimerEvent: {}
+[137.576395] (-) TimerEvent: {}
+[137.676713] (-) TimerEvent: {}
+[137.777069] (-) TimerEvent: {}
+[137.877400] (-) TimerEvent: {}
+[137.977655] (-) TimerEvent: {}
+[138.077903] (-) TimerEvent: {}
+[138.178152] (-) TimerEvent: {}
+[138.278324] (-) TimerEvent: {}
+[138.378615] (-) TimerEvent: {}
+[138.478894] (-) TimerEvent: {}
+[138.579161] (-) TimerEvent: {}
+[138.679413] (-) TimerEvent: {}
+[138.779662] (-) TimerEvent: {}
+[138.879911] (-) TimerEvent: {}
+[138.980207] (-) TimerEvent: {}
+[139.080471] (-) TimerEvent: {}
+[139.180713] (-) TimerEvent: {}
+[139.280967] (-) TimerEvent: {}
+[139.381195] (-) TimerEvent: {}
+[139.481398] (-) TimerEvent: {}
+[139.581559] (-) TimerEvent: {}
+[139.681845] (-) TimerEvent: {}
+[139.782099] (-) TimerEvent: {}
+[139.882339] (-) TimerEvent: {}
+[139.982554] (-) TimerEvent: {}
+[140.082827] (-) TimerEvent: {}
+[140.183109] (-) TimerEvent: {}
+[140.283406] (-) TimerEvent: {}
+[140.383684] (-) TimerEvent: {}
+[140.483924] (-) TimerEvent: {}
+[140.584154] (-) TimerEvent: {}
+[140.684375] (-) TimerEvent: {}
+[140.784584] (-) TimerEvent: {}
+[140.884820] (-) TimerEvent: {}
+[140.985047] (-) TimerEvent: {}
+[141.085299] (-) TimerEvent: {}
+[141.185553] (-) TimerEvent: {}
+[141.285822] (-) TimerEvent: {}
+[141.386064] (-) TimerEvent: {}
+[141.486337] (-) TimerEvent: {}
+[141.586569] (-) TimerEvent: {}
+[141.686783] (-) TimerEvent: {}
+[141.787017] (-) TimerEvent: {}
+[141.887292] (-) TimerEvent: {}
+[141.987529] (-) TimerEvent: {}
+[142.087795] (-) TimerEvent: {}
+[142.188086] (-) TimerEvent: {}
+[142.288404] (-) TimerEvent: {}
+[142.388827] (-) TimerEvent: {}
+[142.489188] (-) TimerEvent: {}
+[142.589483] (-) TimerEvent: {}
+[142.689756] (-) TimerEvent: {}
+[142.790116] (-) TimerEvent: {}
+[142.890375] (-) TimerEvent: {}
+[142.990701] (-) TimerEvent: {}
+[143.090979] (-) TimerEvent: {}
+[143.191328] (-) TimerEvent: {}
+[143.291594] (-) TimerEvent: {}
+[143.391870] (-) TimerEvent: {}
+[143.492160] (-) TimerEvent: {}
+[143.592469] (-) TimerEvent: {}
+[143.692742] (-) TimerEvent: {}
+[143.793040] (-) TimerEvent: {}
+[143.893346] (-) TimerEvent: {}
+[143.993552] (-) TimerEvent: {}
+[144.093747] (-) TimerEvent: {}
+[144.194111] (-) TimerEvent: {}
+[144.294402] (-) TimerEvent: {}
+[144.394700] (-) TimerEvent: {}
+[144.495011] (-) TimerEvent: {}
+[144.595323] (-) TimerEvent: {}
+[144.695655] (-) TimerEvent: {}
+[144.795986] (-) TimerEvent: {}
+[144.896307] (-) TimerEvent: {}
+[144.996562] (-) TimerEvent: {}
+[145.096800] (-) TimerEvent: {}
+[145.197058] (-) TimerEvent: {}
+[145.297344] (-) TimerEvent: {}
+[145.397580] (-) TimerEvent: {}
+[145.497825] (-) TimerEvent: {}
+[145.598074] (-) TimerEvent: {}
+[145.698336] (-) TimerEvent: {}
+[145.798546] (-) TimerEvent: {}
+[145.898803] (-) TimerEvent: {}
+[145.999054] (-) TimerEvent: {}
+[146.099468] (-) TimerEvent: {}
+[146.199688] (-) TimerEvent: {}
+[146.299884] (-) TimerEvent: {}
+[146.400119] (-) TimerEvent: {}
+[146.500387] (-) TimerEvent: {}
+[146.600667] (-) TimerEvent: {}
+[146.700894] (-) TimerEvent: {}
+[146.801092] (-) TimerEvent: {}
+[146.901378] (-) TimerEvent: {}
+[147.001660] (-) TimerEvent: {}
+[147.101933] (-) TimerEvent: {}
+[147.202169] (-) TimerEvent: {}
+[147.302451] (-) TimerEvent: {}
+[147.402740] (-) TimerEvent: {}
+[147.503083] (-) TimerEvent: {}
+[147.603334] (-) TimerEvent: {}
+[147.703523] (-) TimerEvent: {}
+[147.803741] (-) TimerEvent: {}
+[147.904045] (-) TimerEvent: {}
+[148.004296] (-) TimerEvent: {}
+[148.104554] (-) TimerEvent: {}
+[148.204833] (-) TimerEvent: {}
+[148.305114] (-) TimerEvent: {}
+[148.405332] (-) TimerEvent: {}
+[148.505551] (-) TimerEvent: {}
+[148.605770] (-) TimerEvent: {}
+[148.705997] (-) TimerEvent: {}
+[148.806203] (-) TimerEvent: {}
+[148.906480] (-) TimerEvent: {}
+[149.006747] (-) TimerEvent: {}
+[149.107020] (-) TimerEvent: {}
+[149.207246] (-) TimerEvent: {}
+[149.307570] (-) TimerEvent: {}
+[149.407827] (-) TimerEvent: {}
+[149.508168] (-) TimerEvent: {}
+[149.608439] (-) TimerEvent: {}
+[149.708627] (-) TimerEvent: {}
+[149.808829] (-) TimerEvent: {}
+[149.909074] (-) TimerEvent: {}
+[150.011931] (-) TimerEvent: {}
+[150.112230] (-) TimerEvent: {}
+[150.174743] (soarm100_vision) CommandEnded: {'returncode': 0}
+[150.185801] (soarm100_vision) JobEnded: {'identifier': 'soarm100_vision', 'rc': 0}
+[150.186250] (-) EventReactorShutdown: {}

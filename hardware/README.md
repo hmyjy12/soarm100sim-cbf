@@ -9,6 +9,26 @@ hardware/so100_plus/config.py
 
 ## 当前工具
 
+### 0. 七轴保持下的交互式逐关节检查
+
+该工具启动时让七个舵机共同保持当前姿态。终端中选择电机 ID，再输入相对
+角度；完成后保持新姿态并继续接受下一项检查。输入 `q`、按 `Ctrl+C` 或发生
+未捕获异常时都会关闭并核验七轴力矩。
+
+```bash
+conda activate lerobot
+python hardware/tools/interactive_joint_check.py \
+  --port /dev/ttyACM0 \
+  --calibration hardware/calibration/lerobot/so100_plus_new_arm.json \
+  --max-angle-deg 20 \
+  --speed-deg-s 5 \
+  --log logs/hardware/interactive_joint_check.jsonl \
+  --confirm RUN_INTERACTIVE_JOINT_CHECK
+```
+
+每条命令仍须通过标定范围内缩 `100 counts` 后的软限位检查。角度是相对当前
+保持目标的舵机轴角度，不是 policy/MuJoCo 关节角，也不是 TCP 位移。
+
 ### 1. 通信与位置只读扫描
 
 ```bash

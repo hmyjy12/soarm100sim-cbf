@@ -1,4 +1,1 @@
-
-bool success
-string reason
-string log_path
+/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_cmake/srv/MoveJointDelta_Response.msg

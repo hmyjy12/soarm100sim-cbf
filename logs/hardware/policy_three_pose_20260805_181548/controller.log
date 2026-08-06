@@ -1,0 +1,37 @@
+[hardware_controller] Starting persistent seven-axis hold controller.
+[hardware_controller] shoulder_lift_p=16 (baseline restore=16)
+[hardware_controller] calibration=hardware/calibration/lerobot/so100_plus_new_arm.json
+[hardware_controller] Ctrl+C performs verified all-axis torque-off.
+[INFO] [launch]: All log files can be found below /home/sophie/.ros/log/2026-08-05-18-15-49-037990-sophie-Legion-Y7000P-IRX10-2952831
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [hardware_controller_node-1]: process started with pid [2952897]
+[INFO] [robot_state_publisher-2]: process started with pid [2952899]
+[robot_state_publisher-2] [INFO] [1785924949.112453514] [hardware_robot_state_publisher]: got segment base
+[robot_state_publisher-2] [INFO] [1785924949.112509301] [hardware_robot_state_publisher]: got segment ellbow
+[robot_state_publisher-2] [INFO] [1785924949.112514660] [hardware_robot_state_publisher]: got segment gripper
+[robot_state_publisher-2] [INFO] [1785924949.112517490] [hardware_robot_state_publisher]: got segment shoulder_pitch
+[robot_state_publisher-2] [INFO] [1785924949.112520126] [hardware_robot_state_publisher]: got segment shoulder_rotation
+[robot_state_publisher-2] [INFO] [1785924949.112522591] [hardware_robot_state_publisher]: got segment wrist_jaw
+[robot_state_publisher-2] [INFO] [1785924949.112525090] [hardware_robot_state_publisher]: got segment wrist_pitch
+[robot_state_publisher-2] [INFO] [1785924949.112527458] [hardware_robot_state_publisher]: got segment wrist_roll
+[hardware_controller_node-1] [INFO] [1785924952.601319043] [hardware_controller]: hardware controller ready; current seven-axis position is powered and held; services=/hardware/move_joint_target,/hardware/set_torque stream_topic=/hardware/joint_target
+[hardware_controller_node-1] [ERROR] [1785924956.602792400] [hardware_controller]: stream target rejected: wrist_roll current raw 1046 outside calibrated hard interval [1051, 3150]
+[hardware_controller_node-1] [ERROR] [1785924957.603572970] [hardware_controller]: stream target rejected: wrist_roll current raw 1046 outside calibrated hard interval [1051, 3150]
+[hardware_controller_node-1] [ERROR] [1785924958.700521293] [hardware_controller]: stream target rejected: wrist_roll current raw 1046 outside calibrated hard interval [1051, 3150]
+[hardware_controller_node-1] [ERROR] [1785924959.803112681] [hardware_controller]: stream target rejected: wrist_roll current raw 1046 outside calibrated hard interval [1051, 3150]
+[hardware_controller_node-1] [ERROR] [1785924960.901799461] [hardware_controller]: stream target rejected: wrist_roll current raw 1046 outside calibrated hard interval [1051, 3150]
+[hardware_controller_node-1] [ERROR] [1785924962.001653397] [hardware_controller]: stream target rejected: wrist_roll current raw 1046 outside calibrated hard interval [1051, 3150]
+[hardware_controller_node-1] [ERROR] [1785924963.100202949] [hardware_controller]: stream target rejected: wrist_roll current raw 1046 outside calibrated hard interval [1051, 3150]
+[robot_state_publisher-2] [WARN] [1785924963.222058869] [hardware_robot_state_publisher]: Moved backwards in time, re-publishing joint transforms!
+[hardware_controller_node-1] [ERROR] [1785924964.102192002] [hardware_controller]: stream target rejected: wrist_roll current raw 1046 outside calibrated hard interval [1051, 3150]
+[hardware_controller_node-1] [ERROR] [1785924965.202213790] [hardware_controller]: stream target rejected: wrist_roll current raw 1046 outside calibrated hard interval [1051, 3150]
+[hardware_controller_node-1] [ERROR] [1785924966.303781749] [hardware_controller]: stream target rejected: wrist_roll current raw 1046 outside calibrated hard interval [1051, 3150]
+[hardware_controller_node-1] [ERROR] [1785924967.400978586] [hardware_controller]: stream target rejected: wrist_roll current raw 1046 outside calibrated hard interval [1051, 3150]
+[hardware_controller_node-1] [ERROR] [1785924968.401504058] [hardware_controller]: stream target rejected: wrist_roll current raw 1046 outside calibrated hard interval [1051, 3150]
+[hardware_controller_node-1] [ERROR] [1785924969.401514390] [hardware_controller]: stream target rejected: wrist_roll current raw 1046 outside calibrated hard interval [1051, 3150]
+[hardware_controller_node-1] [ERROR] [1785924970.402402036] [hardware_controller]: stream target rejected: wrist_roll current raw 1046 outside calibrated hard interval [1051, 3150]
+[hardware_controller_node-1] [ERROR] [1785924971.404018430] [hardware_controller]: stream target rejected: wrist_roll current raw 1046 outside calibrated hard interval [1051, 3150]
+[hardware_controller_node-1] [ERROR] [1785924972.501164960] [hardware_controller]: stream target rejected: wrist_roll current raw 1046 outside calibrated hard interval [1051, 3150]
+[hardware_controller_node-1] [ERROR] [1785924973.599873921] [hardware_controller]: stream target rejected: wrist_roll current raw 1046 outside calibrated hard interval [1051, 3150]
+[hardware_controller_node-1] [ERROR] [1785924974.608820979] [hardware_controller]: stream target rejected: wrist_roll current raw 1046 outside calibrated hard interval [1051, 3150]
+[hardware_controller_node-1] [ERROR] [1785924975.703121857] [hardware_controller]: stream target rejected: wrist_roll current raw 1046 outside calibrated hard interval [1051, 3150]

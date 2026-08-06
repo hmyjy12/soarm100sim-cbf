@@ -1,0 +1,22 @@
+[INFO] [1785927700.965307224] [so100_plus_policy_reach]: policy reach ready: checkpoint loaded, MuJoCo FK only, target=(+0.350,+0.020,+0.260), rate=10.0Hz max_step=0.020rad start_on_launch=True
+[INFO] [1785927701.968073962] [so100_plus_policy_reach]: reach tick=10 pos_err=124.6mm ori_err=29.2deg |dq|=0.0455
+[INFO] [1785927702.970544235] [so100_plus_policy_reach]: reach tick=20 pos_err=125.0mm ori_err=27.3deg |dq|=0.0402
+[INFO] [1785927703.969160545] [so100_plus_policy_reach]: reach tick=30 pos_err=124.7mm ori_err=26.8deg |dq|=0.0391
+[INFO] [1785927704.969696509] [so100_plus_policy_reach]: reach tick=40 pos_err=124.9mm ori_err=26.8deg |dq|=0.0348
+[INFO] [1785927705.968624561] [so100_plus_policy_reach]: reach tick=50 pos_err=124.9mm ori_err=26.7deg |dq|=0.0348
+[INFO] [1785927706.968643054] [so100_plus_policy_reach]: reach tick=60 pos_err=124.9mm ori_err=26.7deg |dq|=0.0347
+[INFO] [1785927707.969000351] [so100_plus_policy_reach]: reach tick=70 pos_err=124.9mm ori_err=26.7deg |dq|=0.0347
+[INFO] [1785927708.968538067] [so100_plus_policy_reach]: reach tick=80 pos_err=124.9mm ori_err=26.7deg |dq|=0.0347
+[INFO] [1785927709.969524922] [so100_plus_policy_reach]: reach tick=90 pos_err=124.9mm ori_err=26.7deg |dq|=0.0347
+[INFO] [1785927710.966663541] [so100_plus_policy_reach]: reach tick=100 pos_err=124.9mm ori_err=26.7deg |dq|=0.0347
+[INFO] [1785927711.968993017] [so100_plus_policy_reach]: reach tick=110 pos_err=124.9mm ori_err=26.7deg |dq|=0.0347
+[INFO] [1785927712.970801430] [so100_plus_policy_reach]: reach tick=120 pos_err=124.9mm ori_err=26.7deg |dq|=0.0347
+[INFO] [1785927713.969411095] [so100_plus_policy_reach]: reach tick=130 pos_err=124.9mm ori_err=26.7deg |dq|=0.0347
+[INFO] [1785927714.969745024] [so100_plus_policy_reach]: reach tick=140 pos_err=124.9mm ori_err=26.7deg |dq|=0.0347
+[INFO] [1785927715.971153687] [so100_plus_policy_reach]: reach tick=150 pos_err=124.9mm ori_err=26.7deg |dq|=0.0347
+[INFO] [1785927716.969874347] [so100_plus_policy_reach]: reach tick=160 pos_err=124.9mm ori_err=26.7deg |dq|=0.0347
+[INFO] [1785927717.971315977] [so100_plus_policy_reach]: reach tick=170 pos_err=124.9mm ori_err=26.7deg |dq|=0.0347
+[INFO] [1785927718.970185601] [so100_plus_policy_reach]: reach tick=180 pos_err=124.9mm ori_err=26.7deg |dq|=0.0347
+[INFO] [1785927719.970580807] [so100_plus_policy_reach]: reach tick=190 pos_err=124.9mm ori_err=26.7deg |dq|=0.0347
+[INFO] [1785927720.969453439] [so100_plus_policy_reach]: reach tick=200 pos_err=124.9mm ori_err=26.7deg |dq|=0.0347
+[WARN] [1785927721.167203892] [so100_plus_policy_reach]: policy reach stopped: TIMEOUT {'pos_err_m': 0.12490795478131653, 'orientation_err_deg': 26.67223374705629}

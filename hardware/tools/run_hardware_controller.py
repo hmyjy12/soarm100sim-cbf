@@ -33,6 +33,7 @@ MAX_COMMAND_DELTA_RAD = math.radians(20.0)
 MAX_SPEED_RAD_S = math.radians(20.0)
 SAFE_POSE_MAX_DELTA_RAD = math.radians(120.0)
 SAFE_POSE_MAX_SPEED_RAD_S = math.radians(10.0)
+STREAM_COMMAND_TIMEOUT_S = 0.5
 POSITION_TOLERANCE = 12
 TEMPERATURE_LIMIT_C = 55
 SHOULDER_LIFT = "shoulder_lift"
@@ -54,12 +55,15 @@ def parse_args() -> argparse.Namespace:
         default=Path("hardware/calibration/hardware_safe_pose.json"),
     )
     parser.add_argument("--rate", type=float, default=20.0)
+    parser.add_argument("--max-stream-command-delta-rad", type=float, default=0.25)
     parser.add_argument("--shoulder-lift-p", type=int, default=16)
     parser.add_argument("--baseline-shoulder-lift-p", type=int, default=16)
     parser.add_argument("--log", type=Path, required=True)
     args = parser.parse_args()
     if not 10.0 <= args.rate <= 50.0:
         parser.error("--rate must be within [10, 50]")
+    if not 0.02 <= args.max_stream_command_delta_rad <= 0.35:
+        parser.error("--max-stream-command-delta-rad must be within [0.02, 0.35]")
     if not 1 <= args.shoulder_lift_p <= 64:
         parser.error("--shoulder-lift-p must be within [1, 64]")
     if not 1 <= args.baseline_shoulder_lift_p <= 64:
@@ -91,11 +95,17 @@ class Controller:
             raise RuntimeError("hardware_safe pose is not fully approved")
         self.bus = FeetechMotorsBus(args.port, MOTORS, self.calibration)
         self.rate = args.rate
+        self.max_stream_command_delta_rad = args.max_stream_command_delta_rad
         self.shoulder_lift_p = args.shoulder_lift_p
         self.baseline_shoulder_lift_p = args.baseline_shoulder_lift_p
         self.log_path = args.log
         self.log_file = None
         self.torque_enabled = False
+        self.stream_target_raw: dict[str, int] | None = None
+        self.stream_last_command_time: float | None = None
+        self.stream_last_stale_log_time = 0.0
+        self.stream_sequence = 0
+        self._last_health_time = 0.0
 
     def connect_and_hold(self) -> None:
         self.bus.connect(handshake=True)
@@ -135,6 +145,8 @@ class Controller:
         self.bus.sync_write("Goal_Position", goals, normalize=False)
         self.bus.enable_torque(list(MOTOR_ORDER), num_retry=3)
         self.torque_enabled = True
+        self.stream_target_raw = goals.copy()
+        self.stream_last_command_time = None
         time.sleep(0.3)
         self.log_path.parent.mkdir(parents=True, exist_ok=True)
         self.log_file = self.log_path.open("a", encoding="utf-8")
@@ -250,6 +262,103 @@ class Controller:
             "final_error_counts": errors,
         }
 
+    def set_stream_target(self, target_values: list[float]) -> dict:
+        """Accept one small, non-blocking policy target and keep holding it.
+
+        This is deliberately stricter than the manual move service. A policy
+        control loop may only advance a few degrees from the measured position
+        in one update; stale commands simply leave the last safe goal held.
+        """
+        if not self.torque_enabled:
+            raise RuntimeError("torque is disabled")
+        if len(target_values) != 7 or not all(map(math.isfinite, target_values)):
+            raise RuntimeError("stream target must contain seven finite policy radians")
+
+        names = list(self.mapping.policy_joint_names)
+        target_policy = dict(zip(names, (float(value) for value in target_values)))
+        current_policy, current_raw = self.current_policy()
+        for _motor, joint in zip(MOTOR_ORDER, names):
+            target = target_policy[joint]
+            delta = target - current_policy[joint]
+            if abs(delta) > self.max_stream_command_delta_rad + 1e-9:
+                raise RuntimeError(
+                    f"{joint} stream delta {math.degrees(delta):+.2f}deg exceeds "
+                    f"{math.degrees(self.max_stream_command_delta_rad):.1f}deg limit"
+                )
+
+        target_raw = normalized_to_raw(
+            policy_to_normalized(self.mapping, target_policy), self.calibration
+        )
+        for motor in MOTOR_ORDER:
+            hard_low = self.calibration[motor].range_min
+            hard_high = self.calibration[motor].range_max
+            soft_low = hard_low + RAW_MARGIN
+            soft_high = hard_high - RAW_MARGIN
+            current = int(current_raw[motor])
+            target = int(target_raw[motor])
+            if not hard_low <= current <= hard_high:
+                raise RuntimeError(
+                    f"{motor} current raw {current} outside calibrated hard interval "
+                    f"[{hard_low}, {hard_high}]"
+                )
+
+            if current < soft_low:
+                # Already near the low mechanical endpoint: allow only recovery
+                # toward the interior and hold this joint against outward motion.
+                if target < current:
+                    raise RuntimeError(
+                        f"{motor} is below safe interval at raw {current}; refusing "
+                        f"outward stream target {target}"
+                    )
+                target = min(target, soft_low)
+            elif current > soft_high:
+                # Already near the high mechanical endpoint: allow only recovery
+                # toward the interior and hold this joint against outward motion.
+                if target > current:
+                    raise RuntimeError(
+                        f"{motor} is above safe interval at raw {current}; refusing "
+                        f"outward stream target {target}"
+                    )
+                target = max(target, soft_high)
+            else:
+                if not soft_low <= target <= soft_high:
+                    raise RuntimeError(
+                        f"{motor} stream target raw {target} outside safe interval "
+                        f"[{soft_low}, {soft_high}]"
+                    )
+            target_raw[motor] = target
+        self.stream_target_raw = {name: int(target_raw[name]) for name in MOTOR_ORDER}
+        self.stream_last_command_time = time.monotonic()
+        self.stream_sequence += 1
+        self._log(
+            "stream_target",
+            sequence=self.stream_sequence,
+            target_policy_rad=target_policy,
+            current_policy_rad=current_policy,
+            target_raw=self.stream_target_raw,
+            current_raw=current_raw,
+        )
+        return {"target_policy_rad": target_policy, "target_raw": self.stream_target_raw}
+
+    def tick_stream(self) -> None:
+        """Refresh the held target and run bounded-rate health checks."""
+        if not self.torque_enabled or self.stream_target_raw is None:
+            return
+        self.bus.sync_write("Goal_Position", self.stream_target_raw, normalize=False)
+        now = time.monotonic()
+        if self.stream_last_command_time is not None and (
+            now - self.stream_last_command_time > STREAM_COMMAND_TIMEOUT_S
+        ) and now - self.stream_last_stale_log_time > STREAM_COMMAND_TIMEOUT_S:
+            self._log(
+                "stream_watchdog_hold",
+                age_s=now - self.stream_last_command_time,
+                goal_raw=self.stream_target_raw,
+            )
+            self.stream_last_stale_log_time = now
+        if now - self._last_health_time >= 0.25:
+            self._check_health(self.stream_target_raw, "stream_health")
+            self._last_health_time = now
+
     def _check_health(self, goals: dict[str, int], phase: str) -> dict:
         position = self.bus.sync_read(
             "Present_Position", normalize=False, num_retry=3
@@ -310,6 +419,7 @@ class Controller:
             self.bus.disable_torque(num_retry=5)
             torque = self.bus.sync_read("Torque_Enable", normalize=False, num_retry=3)
             self.torque_enabled = False
+            self.stream_target_raw = None
             self.bus.write(
                 "P_Coefficient", SHOULDER_LIFT,
                 self.baseline_shoulder_lift_p, normalize=False, num_retry=3,
@@ -357,10 +467,9 @@ def main() -> int:
         controller.connect_and_hold()
         emit(event="ready", success=True, reason="current position held")
         while not stopping:
-            readable, _, _ = select.select([sys.stdin], [], [], 0.5)
+            readable, _, _ = select.select([sys.stdin], [], [], 1.0 / args.rate)
             if not readable:
-                _policy, current_raw = controller.current_policy()
-                controller._check_health(current_raw, "idle_health")
+                controller.tick_stream()
                 continue
             line = sys.stdin.readline()
             if not line:
@@ -373,6 +482,11 @@ def main() -> int:
                     result = controller.move(
                         [float(v) for v in request["position_rad"]],
                         float(request.get("duration", 3.0)),
+                    )
+                    emit(request_id=request_id, success=True, result=result)
+                elif action == "stream":
+                    result = controller.set_stream_target(
+                        [float(v) for v in request["position_rad"]]
                     )
                     emit(request_id=request_id, success=True, result=result)
                 elif action == "disable":
@@ -391,6 +505,10 @@ def main() -> int:
                 if "temperature protection" in str(exc):
                     controller.disable()
                 emit(request_id=request_id, success=False, reason=str(exc))
+            # A busy ROS node continuously requests status and sends stream
+            # targets. Do not let readable stdin starve the periodic actuator
+            # refresh that actually applies an already accepted stream goal.
+            controller.tick_stream()
     except Exception as exc:
         emit(event="fatal", success=False, reason=str(exc))
         return 1

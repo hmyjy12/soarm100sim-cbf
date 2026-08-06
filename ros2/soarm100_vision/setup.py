@@ -37,6 +37,7 @@ setup(
             "hardware_joint_state_node = soarm100_vision.hardware_joint_state_node:main",
             "hardware_single_joint_service_node = soarm100_vision.hardware_single_joint_service_node:main",
             "hardware_controller_node = soarm100_vision.hardware_controller_node:main",
+            "policy_reach_node = soarm100_vision.policy_reach_node:main",
             "wrist_handeye_calibrator_node = soarm100_vision.wrist_handeye_calibrator_node:main",
             "wrist_handeye_pose_sequence_node = soarm100_vision.wrist_handeye_pose_sequence_node:main",
             "orbbec_eye_to_hand_calibrator_node = soarm100_vision.orbbec_eye_to_hand_calibrator_node:main",

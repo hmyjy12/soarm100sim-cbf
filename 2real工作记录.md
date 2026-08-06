@@ -2,6 +2,308 @@
 
 本文记录 SO-ARM100 Plus 从仿真迁移到真机过程中已经确认的硬件版本、设备编号、相机标定流程和验证结果。设备节点（如 `/dev/video8`）可能在重新插拔或重启后变化，实际部署应优先使用 VID:PID 和序列号识别设备。
 
+## 0. 2Real 代码边界
+
+真机算法与仿真环境采用分离原则：
+
+- `mujoco/` 保留独立的仿真场景、`play.py` 和回归实验；不作为真机控制入口。
+- `ros2/soarm100_vision/` 是当前可部署控制、感知、SDF-CBF-QP 与硬件节点的实现包。
+- `ros2/config/real/` 用于真实相机、外参、工作空间与安全参数；不得把机器相关数值散落在节点源码中。
+- `ros2/scripts/real/` 是后续真机到达/避障的一键启动入口；`ros2/scripts/sim/` 仅用于 ROS2 算法经过 MuJoCo 后端的回归，不影响 `mujoco/play.py`。
+
+本阶段不拆分现有 ROS2 Python 包，以免破坏已经验证过的硬件控制与相机标定入口；新文件依职责放入 `perception`、`safety`、`control`、`hardware` 对应模块，稳定后再做专门的多包重构。
+
+### 0.1 MuJoCo 严格只读关节映射验证
+
+在启用真机 policy 主动控制前，先用 MuJoCo GUI 检查七个真机关节的
+名称、方向、零点和大致转动幅度是否与仿真模型一致。该链路严格只读：
+真机端只读取 Feetech 编码器，通过 UDP 发送 policy 关节角；MuJoCo 端只
+更新 `qpos` 并调用 `mj_forward()` 显示姿态，不执行 `mj_step()`，也没有反向
+下发电机命令的通道。
+
+相关文件：
+
+- `hardware/tools/stream_policy_joint_udp.py`：读取编码器，执行 LeRobot 标定和关节映射，发送 UDP 并写日志。
+- `hardware/tools/show_policy_joint_mirror.py`：接收 UDP 关节角并在 MuJoCo GUI 中显示。
+- `hardware/calibration/lerobot/so100_plus_new_arm.json`：当前新机械臂的 LeRobot 标定。
+- `hardware/calibration/policy_joint_mapping.json`：真机关节到 policy/MuJoCo 关节的名称、符号和零点映射。
+
+验证前必须确认七轴力矩全部关闭，且串口没有被其他进程占用：
+
+```bash
+sudo fuser -v /dev/ttyACM0
+```
+
+无输出表示当前没有进程占用串口。若任一电机的 `Torque_Enable` 不为 `0`，
+只读发送端应拒绝继续运行。
+
+终端 A 启动 MuJoCo 映射窗口：
+
+```bash
+cd /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim
+conda activate base
+
+python hardware/tools/show_policy_joint_mirror.py \
+  --mjcf SO-ARM100/Simulation/SO100/mujoco/so100_plus.xml \
+  --host 127.0.0.1 \
+  --udp-port 15001
+```
+
+终端 B 启动真机严格只读发送：
+
+```bash
+cd /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim
+conda activate lerobot
+
+python hardware/tools/stream_policy_joint_udp.py \
+  --port /dev/ttyACM0 \
+  --calibration hardware/calibration/lerobot/so100_plus_new_arm.json \
+  --mapping hardware/calibration/policy_joint_mapping.json \
+  --host 127.0.0.1 \
+  --udp-port 15001 \
+  --rate 20 \
+  --print-period 3 \
+  --log logs/hardware/new_arm_policy_joint_mirror.jsonl
+```
+
+启动顺序为终端 A、终端 B。在真机断力矩状态下，每次只缓慢转动一个
+关节，观察 MuJoCo 中对应关节的方向和大致幅度。依次检查五个臂关节、
+`wrist_roll` 和夹爪；`wrist_roll` 只能在线缆安全的有限范围内转动。
+
+通过条件：
+
+- 七个关节一一对应，真机与 MuJoCo 转动方向一致。
+- 真机静止时，MuJoCo 姿态稳定，没有跳变或持续漂移。
+- 真机小幅转动时，MuJoCo 中只有对应关节产生同向变化。
+- 夹爪开合方向一致，手腕 roll 方向与线缆安全范围一致。
+- 发送端日志持续更新，接收端显示数据为 `LIVE`。
+
+该测试只验证关节映射、方向和粗略零点，不能代替 TCP/FK 精度验证、
+相机内参或手眼标定。MuJoCo 显示端会将超出 MJCF 限位的值裁剪到模型范围，
+因此应在正常工作区间内进行映射检查，不使用该窗口判断真机机械限位。
+任一终端均可使用 `Ctrl+C` 结束；该链路不会给机械臂上电。
+
+### 0.2 七轴保持下的交互式逐关节检测（2026-08-06）
+
+#### 0.2.1 目的与适用边界
+
+真机 policy 位姿到达测试中观察到 TCP 存在额外的 Y/Z 偏移，并怀疑第三轴
+`elbow_flex` 在机械臂自重下抬升能力不足。为区分 policy、TCP/FK 与舵机运控层
+问题，新增独立硬件诊断工具：
+
+```text
+hardware/tools/interactive_joint_check.py
+```
+
+该工具不加载 PPO，不计算 TCP，不调用 AnyGrasp、视觉或避障。启动后七个舵机
+共同保持当前姿态，用户在同一个终端内反复选择一个电机 ID 和相对角度；每次只
+修改该轴目标，其余六轴持续保持。动作结束后不自动返回，而是保持新的七轴姿态，
+继续等待下一项检查。输入 `q`、按 `Ctrl+C`、终端输入关闭或发生未捕获的通信/
+温度异常时，统一关闭并核验七轴力矩。
+
+该测试回答的是“某个舵机在整机真实负载下能否跟随一个小角度位置命令”，不能
+单独证明 policy、关节映射、TCP 标定或笛卡尔轨迹正确。
+
+#### 0.2.2 电机 ID
+
+| ID | 硬件名称 | policy/MuJoCo 名称 |
+|---:|---|---|
+| 1 | `shoulder_pan` | `shoulder_rotation_joint` |
+| 2 | `shoulder_lift` | `shoulder_pitch_joint` |
+| 3 | `elbow_flex` | `ellbow_joint` |
+| 4 | `wrist_flex` | `wrist_pitch_joint` |
+| 5 | `wrist_yaw` | `wrist_jaw_joint` |
+| 6 | `wrist_roll` | `wrist_roll_joint` |
+| 7 | `gripper` | `gripper_joint` |
+
+交互输入的角度是**舵机编码器轴相对角度**，不是 TCP 位移，也没有经过 policy
+关节符号映射。此前方向验证结果为 `elbow_flex` 正方向向下，因此检查第三轴抬升
+能力时使用负角度。
+
+#### 0.2.3 运行方式
+
+启动前确认串口没有被其他硬件控制器或残留进程占用：
+
+```bash
+sudo fuser -v /dev/ttyACM0
+```
+
+无输出后运行：
+
+```bash
+cd /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim
+conda activate lerobot
+
+python hardware/tools/interactive_joint_check.py \
+  --port /dev/ttyACM0 \
+  --calibration hardware/calibration/lerobot/so100_plus_new_arm.json \
+  --max-angle-deg 20 \
+  --speed-deg-s 5 \
+  --log logs/hardware/interactive_joint_check.jsonl \
+  --confirm RUN_INTERACTIVE_JOINT_CHECK
+```
+
+第三轴建议先分段验证，不直接从未知负载姿态一次走满：
+
+```text
+Motor ID [1-7, q]: 3
+Relative angle ...: -10
+
+# 第一段正常后，再次选择 ID 3；第二个 -10° 相对当前保持目标累计到 -20°
+Motor ID [1-7, q]: 3
+Relative angle ...: -10
+```
+
+测试完成输入：
+
+```text
+Motor ID [1-7, q]: q
+```
+
+随后必须看到七个 `Torque_Enable` 均为 `0` 的核验输出。
+
+#### 0.2.4 当前安全规则
+
+- 启动时要求七轴原本全部断力矩、全部处于位置模式。
+- 上电前先把七轴 `Goal_Position` 写为各自实测位置，避免上电跳变。
+- 单条相对角命令必须有限、非零且位于 `±20 deg` 内。
+- 默认速度为 `5 deg/s`，20 deg 动作至少插值执行 4 s。
+- 目标必须位于当前新机械臂 LeRobot 标定范围内缩 `100 counts` 后的软区间。
+- 若目标越界或实测位置与当前保持目标相差超过 `80 counts`，打印
+  `REFUSE ANGLE`，不执行该命令，并继续等待输入。
+- 等待终端输入期间仍每秒刷新七轴保持目标并记录健康状态。
+- 动作和等待期间记录七轴位置误差、电流、负载与温度；任一轴达到
+  `55 C` 时按安全异常退出并断电。
+- 选中轴在目标附近连续三帧达到默认 `15 counts` 容差时打印 `PASS`；超时则
+  打印 `NOT_CONVERGED`，但保留目标继续保持，供观察静态下坠和稳态误差。
+
+日志默认保存到：
+
+```text
+logs/hardware/interactive_joint_check.jsonl
+```
+
+关键阶段包括 `startup_hold`、`command`、`motion`、`settle`、`result`、
+`idle_health` 和 `torque_off_verification`。分析第三轴时重点比较
+`goal_raw`、`position_raw`、`error_counts`、`current_raw` 与 `load_raw`：若小角度
+开始就持续落后，优先检查舵机、机械阻力或供电；若只有负载较大或角度较大时
+失去跟随，则更像负载能力不足。
+
+**当前状态：** 工具已完成 Python 静态编译与参数入口检查，真机动态结果待本轮
+`interactive_joint_check.jsonl` 产生后确认。
+
+### 0.3 真机 policy 位姿到达（首版）
+
+首版不依赖相机、YOLO、SAM、AnyGrasp 或避障。目标 TCP 位姿以 `base` 坐标系
+写入：
+
+```text
+ros2/config/real/policy_reach_target.json
+```
+
+字段 `position_m` 单位为 m，四元数为 `quaternion_wxyz`。后续 AnyGrasp 只需向
+同一输入接口提供 `base` 下 TCP pose；不应把 AnyGrasp 相机系位姿直接传给 policy。
+
+控制链为：
+
+```text
+/joint_states -> 27D training observation -> PPO mean action
+-> action scale/filter -> per-step clamp -> /hardware/joint_target
+-> Feetech streaming safety validation -> motor bus
+```
+
+**同步过渡层（2026-08-06）：** 电机内部位置环并不是 `10 Hz`；原来的
+`10 Hz` 是 ROS2 `/joint_states` 反馈发布频率，底层驱动原本已以 `20 Hz`
+重复写入最新 `Goal_Position`。现在默认将反馈、policy 和驱动上位机循环
+统一设为 `20 Hz`，并改为每收到一帧新关节反馈才计算和发送一次 policy
+目标。反馈断流时 watchdog 仅负责停止，不使用旧状态继续生成命令。
+
+独立整形模块：
+
+```text
+ros2/soarm100_vision/soarm100_vision/control/policy_command_shaper.py
+```
+
+当前默认功能和保守参数：
+
+- 使用每帧实际 `dt` 计算 action 和编码器速度低通，不假设计时器绝对准时。
+- 独立维护连续 `q_ref`，不再把每帧编码器量化波动直接复制到新目标。
+- 最大参考速度 `0.20 rad/s`。
+- 最大参考加速度 `0.80 rad/s^2`，正反方向切换必须经过连续过渡。
+- `q_ref` 与实测关节的最大跟踪误差默认设为 `0.25 rad`（约 `14.3°`）；该值是参考关节位置相对实测关节位置的最大允许偏差，不是单步转角。可通过 `run_policy_reach.sh --max-tracking-error-rad` 显式覆盖
+  （约 `5.7 deg`），使肩部/肘部负载轴可以建立足够的位置环误差；硬件驱动
+  仍以独立的 `6 deg` 流式目标限制兜底。
+- 夹爪在位姿到达阶段仍冻结在实测初始位置。
+
+一键脚本参数 `--rate` 会同时传递给反馈、policy 和底层驱动：
+
+```bash
+./ros2/scripts/real/run_policy_reach.sh \
+  --rate 20 \
+  --confirm RUN_POLICY_REACH
+```
+
+`--rate 20` 表示上位机每秒使用新反馈执行约 20 次 policy 推理和关节目标下发，
+即周期约 `50 ms`；它不是舵机内部位置环频率。当前允许范围为 `5～30 Hz`。
+
+相对 TCP 测试目标使用独立限制，默认允许三维位移向量的欧氏范数不超过
+`0.10 m`。例如 `--relative-delta 0.08,0,0` 的范数为 `0.08 m`，允许执行；
+同时生成后的绝对目标还必须满足 base 工作空间：
+
+```text
+x: [0.08, 0.45] m
+y: [-0.30, 0.30] m
+z: [0.05, 0.45] m
+```
+
+需要采用更小的实验上限时可以显式指定：
+
+```bash
+./ros2/scripts/real/run_policy_reach.sh \
+  --relative-delta 0.04,0,0 \
+  --max-relative-delta-m 0.05 \
+  --rate 20 \
+  --confirm RUN_POLICY_REACH
+```
+
+不能仅根据设定值宣称实际频率已达到 `20 Hz`。新 policy JSONL 日志会逐帧记录
+`raw_dt_s`、`dt_s`、`qvel_raw`、`qvel_filtered`、`filtered_action`、
+`desired_velocity_rad_s`、`reference_velocity_rad_s`、`q_ref` 和 `tracking_error_rad`。
+底层 `controller_*.jsonl` 新增每条成功接收的 `stream_target`，可以对照
+policy 发送值、映射后编码器目标和当时编码器反馈。首轮真机试验应先统计
+`raw_dt_s` 的平均值、P95、最大值和丢帧，确认 `20 Hz` 串口链路稳定后再考虑
+提升到训练频率 `30 Hz`。
+
+MuJoCo 在该链路中仅用于与训练一致的 FK、TCP 定义和 observation 构造，不启动
+物理仿真、GUI 或 `mujoco/play.py`。硬件侧额外执行关节模型限位、原始编码器安全
+区间、单次流式目标最大 6 deg、温度保护、串口断开保护和 0.5 s 无新命令保持。
+
+初次运行命令：
+
+```bash
+./ros2/scripts/real/run_policy_reach.sh \
+  --build \
+  --confirm RUN_POLICY_REACH
+```
+
+该脚本退出时会请求 `/hardware/set_torque` 关闭全部力矩。初次调试目标仅相对已批准
+安全姿态 TCP 移动约 23 mm，并保持原姿态；确认物理方向、TCP 与动作尺度后，才可
+编辑 `policy_reach_target.json` 增大范围。
+
+**首轮联调诊断（2026-08-05）：** 若启动日志显示策略持续输出 `dq_cmd`，但 TCP
+误差完全不变，应先检查硬件控制器日志中是否出现 `stream target rejected`。首次实测
+中 `shoulder_pitch_joint=-3.2448 rad` 低于 MuJoCo 训练下限 `-pi`，旧逻辑裁剪回模型边界后
+形成 `+5.91 deg` 指令跳变，被当时的硬件 `3 deg` 流式限幅拒绝。现在改为从真机实测角度
+先从真机实测角度小步恢复到 policy 训练范围内侧，再积分 PPO 输出；超出训练范围会记录
+泛化风险警告，但不拒绝启动，也不要求回到某个固定的 `hardware_safe_pose`。真机
+是否允许执行仅由标定编码器安全区间、单步限幅、温度和电流保护决定。
+若启动时已处于编码器端点预留区，该关节只允许向安全区内恢复，向外的指令分量保持在当前位置。
+
+启动脚本还会在上电前拒绝以下残留状态：串口被占用、`run_hardware_controller.py` 或
+`hardware_controller_node` 仍在运行、已有 `/hardware/set_torque` 或
+`/hardware/move_joint_target` service。它不会自动结束未知进程；先明确打印 PID，
+避免新 policy 错误接入早期遗留的 ROS2 controller。脚本仅清理自身创建的控制器进程组。
+
 ## 1. 主摄像头
 
 ### 1.1 设备信息
@@ -759,4 +1061,3 @@ logs/hardware/orbbec_handeye/20260805_143740/orbbec_eye_to_hand_tsai.yaml
 3. 采完一条先 `m` 下电再挪臂，避免带力换姿。
 4. 关闭官方 Orbbec Viewer 后再跑脚本（USB 独占）。
 5. 若相邻采集后 board_in_gripper 仍大幅跳变，优先查夹持而非继续堆样本。
-

@@ -1,0 +1,7 @@
+{
+  "frame_id": "base",
+  "position_m": [0.375, 0.022, 0.275],
+  "quaternion_wxyz": [0.359634, 0.737692, 0.238924, 0.519027],
+  "description": "First real-policy reach target. It is a 23 mm displacement from the approved hardware-safe pose TCP and preserves that pose orientation.",
+  "edit_note": "Replace position_m and quaternion_wxyz with a future AnyGrasp or manually specified TCP pose in the base frame. Units are meters and wxyz."
+}
