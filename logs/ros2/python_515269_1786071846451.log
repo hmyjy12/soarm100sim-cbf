@@ -1,0 +1,2 @@
+[INFO] [1786071849.238186509] [target_segmenter]: yolo_lite classes=jpgCat,Chiikawa,tissue
+[INFO] [1786071849.245581326] [target_segmenter]: target segmenter ready: mode=yolo_lite_sam color=255,0,0 rgb=/camera/color/image_raw depth=/camera/depth/image_rect_raw mask=/target/mask cloud=/target/cloud

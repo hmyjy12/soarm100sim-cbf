@@ -1,0 +1,22 @@
+{
+  "world_frame": "base",
+  "convention": {
+    "input_frame": "ROS optical: +X right, +Y down, +Z forward",
+    "backend_mount_frame": "MuJoCo camera: +X right, +Y up, -Z forward",
+    "conversion": "T_parent_cam = T_base_camera_optical * diag(1,-1,-1,1)"
+  },
+  "source_handeye": "hardware/calibration/camera/orbbec_eye_to_hand_current.json",
+  "mounts": {
+    "scene_depth": {
+      "camera": "scene_depth",
+      "parent_body": "base",
+      "T_parent_cam": [
+        [-0.01337692705782123, 0.7483161935249252, -0.6632073072055649, -0.03142970001981146],
+        [-0.9992873627548398, -0.03341774073145887, -0.017550533977132465, 0.02052585516736956],
+        [-0.03529623862350206, 0.6624999087643497, 0.7482299422144645, 0.4402145046130379],
+        [0.0, 0.0, 0.0, 1.0]
+      ]
+    }
+  },
+  "fixed_cameras": ["scene_depth"]
+}

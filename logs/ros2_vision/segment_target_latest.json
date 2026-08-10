@@ -1,0 +1,27 @@
+{
+  "ok": true,
+  "target_prompt": "jpgCat",
+  "segmentation_mode": "fixed_yolo_sam",
+  "target_color_rgb": "255,0,0",
+  "selected_class": "jpgCat",
+  "bbox_xyxy": [
+    812.7783203125,
+    310.4619140625,
+    923.9061889648438,
+    389.25494384765625
+  ],
+  "score": 0.1805831491947174,
+  "fallback_red_mask": false,
+  "mask_pixels": 5453,
+  "expanded_mask_pixels": 9213,
+  "mask_expand_ratio": 0.05,
+  "use_expanded_mask_for_target_cloud": false,
+  "n_points": 5397,
+  "n_roi_points": 9153,
+  "center_camera": [
+    0.18226920068264008,
+    -0.010603716596961021,
+    0.5600000023841858
+  ],
+  "stamp_s": 1786348911.6745398
+}

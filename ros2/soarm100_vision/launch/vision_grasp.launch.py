@@ -17,6 +17,11 @@ def generate_launch_description():
     camera_info_topic = LaunchConfiguration("camera_info_topic")
     wrist_rgb_topic = LaunchConfiguration("wrist_rgb_topic")
     yolo_model = LaunchConfiguration("yolo_model")
+    fixed_yolo_model = LaunchConfiguration("fixed_yolo_model")
+    fixed_yolo_target_class = LaunchConfiguration("fixed_yolo_target_class")
+    fixed_yolo_conf = LaunchConfiguration("fixed_yolo_conf")
+    fixed_yolo_iou = LaunchConfiguration("fixed_yolo_iou")
+    fixed_yolo_device = LaunchConfiguration("fixed_yolo_device")
     sam_model = LaunchConfiguration("sam_model")
     anygrasp_sdk_root = LaunchConfiguration("anygrasp_sdk_root")
     anygrasp_checkpoint = LaunchConfiguration("anygrasp_checkpoint")
@@ -55,6 +60,7 @@ def generate_launch_description():
     mujoco_backend_mode = LaunchConfiguration("mujoco_backend_mode")
     mujoco_inprocess_viewer = LaunchConfiguration("mujoco_inprocess_viewer")
     use_sim_camera_extrinsics = LaunchConfiguration("use_sim_camera_extrinsics")
+    calib_json = LaunchConfiguration("calib_json")
     mujoco_internal_tracking = LaunchConfiguration("mujoco_internal_tracking")
     mujoco_track_source = LaunchConfiguration("mujoco_track_source")
     mujoco_replan_attempts = LaunchConfiguration("mujoco_replan_attempts")
@@ -88,6 +94,13 @@ def generate_launch_description():
             DeclareLaunchArgument("camera_info_topic", default_value="/camera/color/camera_info"),
             DeclareLaunchArgument("wrist_rgb_topic", default_value="/wrist/color/image_raw"),
             DeclareLaunchArgument("yolo_model", default_value="models/vision/yolov8s-world.pt"),
+            DeclareLaunchArgument(
+                "fixed_yolo_model", default_value="models/vision/yolowork_fixed_best.pt"
+            ),
+            DeclareLaunchArgument("fixed_yolo_target_class", default_value=""),
+            DeclareLaunchArgument("fixed_yolo_conf", default_value="0.01"),
+            DeclareLaunchArgument("fixed_yolo_iou", default_value="0.70"),
+            DeclareLaunchArgument("fixed_yolo_device", default_value="auto"),
             DeclareLaunchArgument("sam_model", default_value="models/vision/mobile_sam.pt"),
             DeclareLaunchArgument("anygrasp_sdk_root", default_value="anygrasp_sdk"),
             DeclareLaunchArgument("anygrasp_checkpoint", default_value="anygrasp_sdk/grasp_detection/log/checkpoint_detection.tar"),
@@ -126,6 +139,10 @@ def generate_launch_description():
             DeclareLaunchArgument("mujoco_backend_mode", default_value="subprocess"),
             DeclareLaunchArgument("mujoco_inprocess_viewer", default_value="false"),
             DeclareLaunchArgument("use_sim_camera_extrinsics", default_value="true"),
+            DeclareLaunchArgument(
+                "calib_json",
+                default_value="hardware/calibration/camera/real_camera_calib.json",
+            ),
             DeclareLaunchArgument("mujoco_internal_tracking", default_value="true"),
             DeclareLaunchArgument("mujoco_track_source", default_value="wrist"),
             DeclareLaunchArgument("mujoco_replan_attempts", default_value="2"),
@@ -159,6 +176,17 @@ def generate_launch_description():
                         "depth_topic": depth_topic,
                         "camera_info_topic": camera_info_topic,
                         "yolo_model": yolo_model,
+                        "fixed_yolo_model": fixed_yolo_model,
+                        "fixed_yolo_target_class": fixed_yolo_target_class,
+                        "fixed_yolo_conf": ParameterValue(
+                            fixed_yolo_conf, value_type=float
+                        ),
+                        "fixed_yolo_iou": ParameterValue(
+                            fixed_yolo_iou, value_type=float
+                        ),
+                        "fixed_yolo_device": ParameterValue(
+                            fixed_yolo_device, value_type=str
+                        ),
                         "sam_model": sam_model,
                         "segmentation_mode": target_segmentation_mode,
                         "target_color_rgb": target_color_rgb,
@@ -183,6 +211,7 @@ def generate_launch_description():
                         "repo_root": repo_root,
                         "mjcf": mujoco_mjcf,
                         "use_sim_camera_extrinsics": use_sim_camera_extrinsics,
+                        "calib_json": calib_json,
                     }
                 ],
             ),
@@ -227,6 +256,7 @@ def generate_launch_description():
                         "repo_root": repo_root,
                         "mjcf": mujoco_mjcf,
                         "use_sim_camera_extrinsics": use_sim_camera_extrinsics,
+                        "calib_json": calib_json,
                         "enable_ik_filter": True,
                         "ik_position_tolerance_m": 0.005,
                         "ik_rotation_tolerance_deg": 3.0,
@@ -264,6 +294,7 @@ def generate_launch_description():
                         "backend_mode": mujoco_backend_mode,
                         "inprocess_viewer": False,
                         "use_sim_camera_extrinsics": use_sim_camera_extrinsics,
+                        "calib_json": calib_json,
                         "default_target_object": mujoco_target_object,
                         "default_target_pos": mujoco_target_pos,
                         "target_motion": mujoco_target_motion,

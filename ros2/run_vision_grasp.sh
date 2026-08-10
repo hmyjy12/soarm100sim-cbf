@@ -75,6 +75,11 @@ DEPTH_TOPIC="/camera/depth/image_rect_raw"
 CAMERA_INFO_TOPIC="/camera/color/camera_info"
 WRIST_RGB_TOPIC="/wrist/color/image_raw"
 YOLO_MODEL="$ROOT_DIR/models/vision/yolov8s-world.pt"
+FIXED_YOLO_MODEL="$ROOT_DIR/models/vision/yolowork_fixed_best.pt"
+FIXED_YOLO_TARGET_CLASS=""
+FIXED_YOLO_CONF="0.25"
+FIXED_YOLO_IOU="0.70"
+FIXED_YOLO_DEVICE="auto"
 SAM_MODEL="$ROOT_DIR/models/vision/mobile_sam.pt"
 ANYGRASP_SDK_ROOT="$ROOT_DIR/anygrasp_sdk"
 ANYGRASP_CHECKPOINT="$ROOT_DIR/anygrasp_sdk/grasp_detection/log/checkpoint_detection.tar"
@@ -94,7 +99,7 @@ Usage:
 Options:
   --build                         Run colcon build before launch.
   --target TEXT                   Target prompt for later action/service calls. Default: "red cube".
-  --target-segmentation MODE      Target mask/tracking source: color/yolo_sam. Default: color.
+  --target-segmentation MODE      Target mask source: color/yolo_sam/fixed_yolo_sam. Default: color.
   --target-color-rgb R,G,B        Target color used by color mode. Default: 255,0,0.
   --color-hue-tolerance DEG       Circular HSV hue tolerance. Default: 18 degrees.
   --avoidance on|off              Default avoidance flag for orchestrator. Default: off.
@@ -156,6 +161,11 @@ Options:
   --camera-info-topic TOPIC       Main camera_info topic.
   --wrist-rgb-topic TOPIC         Wrist RGB tracking topic.
   --yolo-model PATH               YOLO-World model path.
+  --fixed-yolo-model PATH         Fixed-class YOLO detector checkpoint.
+  --fixed-yolo-class NAME         Fixed detector class; action target is used when omitted.
+  --fixed-yolo-conf SCORE         Fixed detector confidence threshold. Default: 0.25.
+  --fixed-yolo-iou SCORE          Fixed detector NMS IoU threshold. Default: 0.70.
+  --fixed-yolo-device DEVICE      auto/cpu/CUDA index. Default: auto.
   --sam-model PATH                MobileSAM model path.
   --anygrasp-sdk-root PATH        AnyGrasp SDK root. Default: ./anygrasp_sdk.
   --anygrasp-checkpoint PATH      AnyGrasp checkpoint tar.
@@ -182,8 +192,8 @@ while [[ $# -gt 0 ]]; do
       ;;
     --target-segmentation)
       case "$2" in
-        color|yolo_sam) TARGET_SEGMENTATION_MODE="$2" ;;
-        *) echo "[ERROR] --target-segmentation must be color/yolo_sam" >&2; exit 2 ;;
+        color|yolo_sam|fixed_yolo_sam) TARGET_SEGMENTATION_MODE="$2" ;;
+        *) echo "[ERROR] --target-segmentation must be color/yolo_sam/fixed_yolo_sam" >&2; exit 2 ;;
       esac
       shift 2
       ;;
@@ -464,6 +474,26 @@ while [[ $# -gt 0 ]]; do
       YOLO_MODEL="$2"
       shift 2
       ;;
+    --fixed-yolo-model)
+      FIXED_YOLO_MODEL="$2"
+      shift 2
+      ;;
+    --fixed-yolo-class)
+      FIXED_YOLO_TARGET_CLASS="$2"
+      shift 2
+      ;;
+    --fixed-yolo-conf)
+      FIXED_YOLO_CONF="$2"
+      shift 2
+      ;;
+    --fixed-yolo-iou)
+      FIXED_YOLO_IOU="$2"
+      shift 2
+      ;;
+    --fixed-yolo-device)
+      FIXED_YOLO_DEVICE="$2"
+      shift 2
+      ;;
     --sam-model)
       SAM_MODEL="$2"
       shift 2
@@ -650,6 +680,9 @@ echo "[soarm100_ros2] mujoco_python=$MUJOCO_PYTHON"
 if [[ "$TARGET_SEGMENTATION_MODE" == "yolo_sam" ]]; then
   echo "[soarm100_ros2] yolo=$YOLO_MODEL"
   echo "[soarm100_ros2] sam=$SAM_MODEL"
+elif [[ "$TARGET_SEGMENTATION_MODE" == "fixed_yolo_sam" ]]; then
+  echo "[soarm100_ros2] fixed_yolo=$FIXED_YOLO_MODEL class=${FIXED_YOLO_TARGET_CLASS:-action_target} conf=$FIXED_YOLO_CONF iou=$FIXED_YOLO_IOU device=$FIXED_YOLO_DEVICE"
+  echo "[soarm100_ros2] sam=$SAM_MODEL"
 else
   echo "[soarm100_ros2] YOLO-World/SAM skipped (color segmentation active)"
 fi
@@ -718,6 +751,11 @@ ros2 launch soarm100_vision vision_grasp.launch.py \
   camera_info_topic:="$CAMERA_INFO_TOPIC" \
   wrist_rgb_topic:="$WRIST_RGB_TOPIC" \
   yolo_model:="$YOLO_MODEL" \
+  fixed_yolo_model:="$FIXED_YOLO_MODEL" \
+  fixed_yolo_target_class:="$FIXED_YOLO_TARGET_CLASS" \
+  fixed_yolo_conf:="$FIXED_YOLO_CONF" \
+  fixed_yolo_iou:="$FIXED_YOLO_IOU" \
+  fixed_yolo_device:="$FIXED_YOLO_DEVICE" \
   sam_model:="$SAM_MODEL" \
   enable_mujoco_backend:="$ENABLE_MUJOCO_BACKEND" \
   enable_mujoco_camera:="false" \

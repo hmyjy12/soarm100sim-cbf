@@ -1,0 +1,76 @@
+[orbbec_rgbd] workspace=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_293_ws
+[orbbec_rgbd] color=1280x720@30 depth=1280x720@30
+[orbbec_rgbd] depth registration enabled; point cloud disabled
+[orbbec_rgbd] topics=/camera/color/image_raw /camera/depth/image_raw /camera/color/camera_info
+[INFO] [launch]: All log files can be found below /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/logs/ros2/fixed_yolo_sam/2026-08-07-14-36-44-778451-sophie-Legion-Y7000P-IRX10-981718
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [component_container-1]: process started with pid [981783]
+[component_container-1] [INFO] [1786084605.112950571] [camera.camera_container]: Load Library: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_293_ws/install/orbbec_camera/lib/liborbbec_camera.so
+[component_container-1] [INFO] [1786084605.153804828] [camera.camera_container]: Found class: rclcpp_components::NodeFactoryTemplate<orbbec_camera::OBCameraNodeDriver>
+[component_container-1] [INFO] [1786084605.153845968] [camera.camera_container]: Instantiate class: rclcpp_components::NodeFactoryTemplate<orbbec_camera::OBCameraNodeDriver>
+[component_container-1] [INFO] [1786084605.155867173] [camera.camera]: SDK log file path set to: /home/sophie/.ros/Log/camera/OrbbecSDK_20260807_143645.log
+[component_container-1] [INFO] [1786084605.159723298] [camera.camera]: Device access mode: Default (4)
+[component_container-1] [INFO] [1786084605.159741801] [camera.camera]: Set UVC backend to libuvc
+[component_container-1] [INFO] [1786084606.226646772] [camera.camera]: startDevice called
+[INFO] [launch_ros.actions.load_composable_nodes]: Loaded node '/camera/camera' in container '/camera/camera_container'
+[component_container-1] [INFO] [1786084606.236803500] [camera.camera]: Connecting to the default device
+[component_container-1] [INFO] [1786084606.480617685] [camera.camera]: OBCameraNode: use_intra_process: OFF
+[component_container-1] [INFO] [1786084606.483533208] [camera.camera]: Current time domain: global
+[component_container-1] [INFO] [1786084606.483572704] [camera.camera]: Loaded device preset: Default
+[component_container-1] [INFO] [1786084606.628411370] [camera.camera]: Current heartbeat: OFF
+[component_container-1] [INFO] [1786084606.629384355] [camera.camera]: Current fps boost: OFF
+[component_container-1] [INFO] [1786084606.629422029] [camera.camera]: Set firmware log to OFF
+[component_container-1] [INFO] [1786084606.629456491] [camera.camera]: set align mode to SW
+[component_container-1] [INFO] [1786084606.629638427] [camera.camera]: Disparity to depth mode: HW
+[component_container-1] [INFO] [1786084606.630296892] [camera.camera]: Current LDP: OFF
+[component_container-1] [INFO] [1786084606.630647668] [camera.camera]: Current G300 laser control: ON
+[component_container-1] [INFO] [1786084606.632182932] [camera.camera]: Current sync mode: OB_MULTI_DEVICE_SYNC_MODE_STANDALONE
+[component_container-1] [INFO] [1786084606.632222005] [camera.camera]: Current color mirror: OFF
+[component_container-1] [INFO] [1786084606.632233493] [camera.camera]: Current color flip: OFF
+[component_container-1] [INFO] [1786084606.632245596] [camera.camera]: Current depth mirror: OFF
+[component_container-1] [INFO] [1786084606.632255602] [camera.camera]: Current depth flip: OFF
+[component_container-1] [INFO] [1786084606.633350061] [camera.camera]: Current color auto white balance: ON
+[component_container-1] [INFO] [1786084606.633671784] [camera.camera]: Current color preset: Default
+[component_container-1] [INFO] [1786084606.633965205] [camera.camera]: Current color auto exposure priority: OFF
+[component_container-1] [INFO] [1786084606.634266793] [camera.camera]: Current color auto exposure: ON
+[component_container-1] [INFO] [1786084606.634988783] [camera.camera]: Current color anti-flicker to OFF
+[component_container-1] [INFO] [1786084606.635496605] [camera.camera]: Current depth auto exposure priority: OFF
+[component_container-1] [INFO] [1786084606.639976630] [camera.camera]: Current IR auto exposure: ON
+[component_container-1] [INFO] [1786084606.640008759] [camera.camera]: Current noise_removal_filter_min_diff: 256
+[component_container-1] [INFO] [1786084606.640019046] [camera.camera]: Current noise_removal_filter_max_size: 80
+[component_container-1] [INFO] [1786084606.640028777] [camera.camera]: Set noise removal filter to true
+[component_container-1] [INFO] [1786084606.640587811] [camera.camera]: Set hardware noise removal filter to false
+[component_container-1] [INFO] [1786084606.640614779] [camera.camera]: Current accel data correction: ON
+[component_container-1] [INFO] [1786084606.640624129] [camera.camera]: Current gyro data correction: ON
+[component_container-1] [INFO] [1786084606.640690537] [camera.camera]: Set depth filter DecimationFilter to disabled
+[component_container-1] [INFO] [1786084606.640707230] [camera.camera]: Set depth filter ThresholdFilter to disabled
+[component_container-1] [INFO] [1786084606.640715489] [camera.camera]: Set depth filter HDRMerge to disabled
+[component_container-1] [INFO] [1786084606.640723356] [camera.camera]: Set depth filter SequenceIdFilter to disabled
+[component_container-1] [INFO] [1786084606.640730828] [camera.camera]: Set depth filter SpatialFastFilter to disabled
+[component_container-1] [INFO] [1786084606.640746330] [camera.camera]: Set depth filter SpatialModerateFilter to disabled
+[component_container-1] [INFO] [1786084606.640755223] [camera.camera]: Set depth filter SpatialAdvancedFilter to disabled
+[component_container-1] [INFO] [1786084606.640762861] [camera.camera]: Set depth filter TemporalFilter to disabled
+[component_container-1] [INFO] [1786084606.640770535] [camera.camera]: Set depth filter HoleFillingFilter to disabled
+[component_container-1] [INFO] [1786084606.640778045] [camera.camera]: Set depth filter FalsePositiveFilter to disabled
+[component_container-1] [INFO] [1786084606.640785681] [camera.camera]: Set depth filter DisparityTransform to enabled
+[component_container-1] [INFO] [1786084606.641249326] [camera.camera]: Set color filter DecimationFilter to disabled
+[component_container-1] [INFO] [1786084606.736703354] [camera.camera]: Publish diagnostics every 1 seconds
+[component_container-1] [INFO] [1786084606.737315687] [camera.camera]: Device Orbbec Gemini 336 connected
+[component_container-1] [INFO] [1786084606.737330610] [camera.camera]: Serial number: CP9KB53000JX
+[component_container-1] [INFO] [1786084606.737336621] [camera.camera]: Firmware version: 1.8.10
+[component_container-1] [INFO] [1786084606.737340404] [camera.camera]: ROS Wrapper version: 2.9.3
+[component_container-1] [INFO] [1786084606.737348652] [camera.camera]: SDK version: 2.9.3
+[component_container-1] [INFO] [1786084606.737353469] [camera.camera]: Hardware version: 0.1
+[component_container-1] [INFO] [1786084606.737359585] [camera.camera]: ISP firmware version: 20260620
+[component_container-1] [INFO] [1786084606.737363156] [camera.camera]: ISP needed version: 20250930
+[component_container-1] [INFO] [1786084606.737366549] [camera.camera]: usb connect type: USB3.2
+[component_container-1] [INFO] [1786084606.737369671] [camera.camera]: device unique id: 2-8-49
+[component_container-1] [INFO] [1786084606.737374323] [camera.camera]: Current node pid: 981783
+[component_container-1] [INFO] [1786084606.739969627] [camera.camera]: Enable frame sync
+[component_container-1] [INFO] [1786084607.294746315] [camera.camera]: Set depth AE ROI to 0, 1279, 0, 719
+[component_container-1] [INFO] [1786084607.298016268] [camera.camera]: Set color AE ROI to 0, 1279, 0, 719
+[component_container-1] [INFO] [1786084607.308834786] [camera.camera]: color Frame - Width: 1280 Height: 720 fps: 30 Format: MJPG
+[component_container-1] [INFO] [1786084607.308855141] [camera.camera]: depth Frame - Width: 1280 Height: 720 fps: 30 Format: Y16
+[component_container-1] [INFO] [1786084607.740046008] [camera.camera]: current interleave_ae_mode_: laser
+[component_container-1] [INFO] [1786084607.741780771] [camera.camera]: Enable enable_interleave_depth_frame to false
+[component_container-1] [INFO] [1786084607.741805929] [camera.camera]: Initialize device cost: 1261 ms

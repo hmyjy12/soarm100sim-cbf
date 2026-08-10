@@ -1,0 +1,12 @@
+[INFO] [1786087315.861323682] [fixed_yolo_tracker]: fixed YOLO tracking ready: rgb=/camera/color/image_raw model=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/models/vision/yolowork_fixed_best.pt classes={0: 'jpgCat', 1: 'Chiikawa', 2: 'tissue'} selected=all tracker=botsort.yaml device=0
+[INFO] [1786087316.694844429] [fixed_yolo_tracker]: first RGB frame received; CUDA/tracker warm-up may take a while
+[INFO] [1786087317.621904079] [fixed_yolo_tracker]: tracking fps=1.3 inference=772.4ms objects=1 [tissue:0.70]
+[INFO] [1786087320.630020443] [fixed_yolo_tracker]: tracking fps=50.3 inference=18.7ms objects=1 [tissue:0.72]
+[INFO] [1786087323.823321917] [fixed_yolo_tracker]: tracking fps=51.3 inference=18.2ms objects=1 [tissue:0.72]
+[INFO] [1786087326.966644826] [fixed_yolo_tracker]: tracking fps=52.5 inference=18.5ms objects=1 [tissue:0.65]
+[INFO] [1786087330.065962867] [fixed_yolo_tracker]: tracking fps=50.4 inference=18.9ms objects=1 [tissue:0.71]
+[INFO] [1786087333.066138844] [fixed_yolo_tracker]: tracking fps=50.7 inference=18.9ms objects=1 [tissue:0.68]
+[INFO] [1786087336.473585241] [fixed_yolo_tracker]: tracking fps=48.8 inference=26.0ms objects=1 [tissue:0.73]
+[INFO] [1786087339.633620295] [fixed_yolo_tracker]: tracking fps=47.6 inference=18.6ms objects=1 [tissue:0.73]
+[INFO] [1786087343.440266827] [fixed_yolo_tracker]: tracking fps=49.0 inference=24.3ms objects=1 [tissue:0.70]
+[INFO] [1786087344.636677574] [fixed_yolo_tracker]: viewer requested shutdown

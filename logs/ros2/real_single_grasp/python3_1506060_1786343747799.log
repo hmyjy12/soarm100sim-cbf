@@ -1,0 +1,2 @@
+[INFO] [1786343750.521381168] [hardware_controller]: hardware controller ready; current seven-axis position is powered and held; services=/hardware/move_joint_target,/hardware/set_torque stream_topic=/hardware/joint_target
+[ERROR] [1786343771.122219132] [hardware_controller]: stream target rejected: ellbow_joint stream delta -14.41deg exceeds 14.3deg limit

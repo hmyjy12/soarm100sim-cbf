@@ -1,0 +1,2 @@
+[INFO] [1786346425.261065104] [fixed_yolo_sam_segmenter]: fixed_yolo classes=jpgCat,Chiikawa,tissue
+[INFO] [1786346425.267726917] [fixed_yolo_sam_segmenter]: target segmenter ready: mode=fixed_yolo_sam color=255,0,0 rgb=/camera/color/image_raw depth=/camera/depth/image_raw mask=/target/mask cloud=/target/cloud

@@ -26,6 +26,36 @@ from soarm100_vision.hardware_joint_bridge import (
     JOINT_NAMES,
     decode_hardware_joint_packet,
 )
+from soarm100_vision.target_segmenter_node import (
+    normalize_model_names,
+    resolve_fixed_class_id,
+)
+
+
+def test_fixed_detector_class_names_support_dict_and_list():
+    assert normalize_model_names({0: "jpgCat", 1: "Chiikawa"}) == {
+        0: "jpgCat",
+        1: "Chiikawa",
+    }
+    assert normalize_model_names(["jpgCat", "Chiikawa"]) == {
+        0: "jpgCat",
+        1: "Chiikawa",
+    }
+
+
+def test_fixed_detector_class_resolution_is_case_insensitive():
+    assert resolve_fixed_class_id(
+        {0: "jpgCat", 1: "Chiikawa", 2: "tissue"}, "chiikawa"
+    ) == (1, "Chiikawa")
+
+
+def test_fixed_detector_unknown_class_reports_available_names():
+    import pytest
+
+    with pytest.raises(RuntimeError, match="available=jpgCat,Chiikawa,tissue"):
+        resolve_fixed_class_id(
+            {0: "jpgCat", 1: "Chiikawa", 2: "tissue"}, "cube"
+        )
 
 
 def test_hardware_joint_packet_decode_orders_policy_joints():

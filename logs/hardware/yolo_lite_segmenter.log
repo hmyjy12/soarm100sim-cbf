@@ -1,0 +1,65 @@
+QFontDatabase: Cannot find font directory /home/sophie/miniconda3/envs/vision_seg/lib/python3.10/site-packages/cv2/qt/fonts.
+Note that Qt no longer ships fonts. Deploy some (from https://dejavu-fonts.github.io/ for example) or switch to fontconfig.
+QFontDatabase: Cannot find font directory /home/sophie/miniconda3/envs/vision_seg/lib/python3.10/site-packages/cv2/qt/fonts.
+Note that Qt no longer ships fonts. Deploy some (from https://dejavu-fonts.github.io/ for example) or switch to fontconfig.
+QFontDatabase: Cannot find font directory /home/sophie/miniconda3/envs/vision_seg/lib/python3.10/site-packages/cv2/qt/fonts.
+Note that Qt no longer ships fonts. Deploy some (from https://dejavu-fonts.github.io/ for example) or switch to fontconfig.
+QFontDatabase: Cannot find font directory /home/sophie/miniconda3/envs/vision_seg/lib/python3.10/site-packages/cv2/qt/fonts.
+Note that Qt no longer ships fonts. Deploy some (from https://dejavu-fonts.github.io/ for example) or switch to fontconfig.
+QFontDatabase: Cannot find font directory /home/sophie/miniconda3/envs/vision_seg/lib/python3.10/site-packages/cv2/qt/fonts.
+Note that Qt no longer ships fonts. Deploy some (from https://dejavu-fonts.github.io/ for example) or switch to fontconfig.
+[INFO] [1786081101.330088505] [soarm100_debug_viewer]: debug viewer ready: rgb=/camera/color/image_raw mask=/target/mask overlay=/debug/target_overlay show_window=True
+[INFO] [1786081103.195993056] [soarm100_target_segmenter]: yolo_lite classes=jpgCat,Chiikawa,tissue
+[INFO] [1786081103.202134444] [soarm100_target_segmenter]: target segmenter ready: mode=yolo_lite_sam color=255,0,0 rgb=/camera/color/image_raw depth=/camera/depth/image_raw mask=/target/mask cloud=/target/cloud
+Traceback (most recent call last):
+  File "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_vision/soarm100_vision/target_segmenter_node.py", line 399, in main
+    rclpy.spin(node)
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/__init__.py", line 229, in spin
+    executor.spin_once()
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 808, in spin_once
+    self._spin_once_impl(timeout_sec)
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 797, in _spin_once_impl
+    handler, entity, node = self.wait_for_ready_callbacks(timeout_sec=timeout_sec)
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 780, in wait_for_ready_callbacks
+    return next(self._cb_iter)
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 681, in _wait_for_ready_callbacks
+    raise ExternalShutdownException()
+rclpy.executors.ExternalShutdownException
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/sophie/miniconda3/envs/vision_seg/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/home/sophie/miniconda3/envs/vision_seg/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_vision/soarm100_vision/target_segmenter_node.py", line 406, in <module>
+    main()
+  File "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_vision/soarm100_vision/target_segmenter_node.py", line 402, in main
+    rclpy.shutdown()
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/__init__.py", line 130, in shutdown
+    _shutdown(context=context)
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/utilities.py", line 58, in shutdown
+    return context.shutdown()
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/context.py", line 102, in shutdown
+    self.__context.shutdown()
+rclpy._rclpy_pybind11.RCLError: failed to shutdown: rcl_shutdown already called on the given context, at ./src/rcl/init.c:241
+[WARN] [1786081113.366666257] [soarm100_debug_viewer]: debug overlay failed: Failed to publish: publisher's context is invalid, at ./src/rcl/publisher.c:389
+Failed to publish log message to rosout: publisher's context is invalid, at ./src/rcl/publisher.c:389
+Traceback (most recent call last):
+  File "/home/sophie/miniconda3/envs/vision_seg/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/home/sophie/miniconda3/envs/vision_seg/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_vision/soarm100_vision/debug_viewer_node.py", line 140, in <module>
+    main()
+  File "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_vision/soarm100_vision/debug_viewer_node.py", line 136, in main
+    rclpy.shutdown()
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/__init__.py", line 130, in shutdown
+    _shutdown(context=context)
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/utilities.py", line 58, in shutdown
+    return context.shutdown()
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/context.py", line 102, in shutdown
+    self.__context.shutdown()
+rclpy._rclpy_pybind11.RCLError: failed to shutdown: rcl_shutdown already called on the given context, at ./src/rcl/init.c:241
+[ERROR] [1786081113.410126879] [rclpy.signals]: rcl_trigger_guard_condition() failed: guard condition implementation is invalid, at ./src/rcl/guard_condition.c:172

@@ -1,0 +1,11 @@
+[INFO] [1786342885.095744966] [real_anygrasp_planner]: AnyGrasp planner ready: action=plan_grasp
+[INFO] [1786342901.055829130] [real_anygrasp_planner]: AnyGrasp candidate[00] frame=camera_color_optical_frame score=0.035 width=38.3mm pos=(-0.027,+0.013,+0.564) approach=(+0.35,-0.20,+0.92)
+[INFO] [1786342901.056098922] [real_anygrasp_planner]: AnyGrasp candidate[01] frame=camera_color_optical_frame score=0.033 width=15.0mm pos=(+0.004,-0.010,+0.600) approach=(-0.90,-0.13,-0.42)
+[INFO] [1786342901.056304918] [real_anygrasp_planner]: AnyGrasp candidate[02] frame=camera_color_optical_frame score=0.030 width=48.0mm pos=(-0.021,+0.007,+0.563) approach=(+0.24,-0.04,+0.97)
+[INFO] [1786342901.056500255] [real_anygrasp_planner]: AnyGrasp candidate[03] frame=camera_color_optical_frame score=0.030 width=80.5mm pos=(-0.017,+0.021,+0.572) approach=(+0.14,-0.28,+0.95)
+[INFO] [1786342901.056697278] [real_anygrasp_planner]: AnyGrasp candidate[04] frame=camera_color_optical_frame score=0.030 width=28.1mm pos=(-0.027,-0.002,+0.599) approach=(+0.83,-0.31,+0.46)
+[INFO] [1786342901.056892210] [real_anygrasp_planner]: AnyGrasp candidate[05] frame=camera_color_optical_frame score=0.029 width=43.1mm pos=(-0.022,-0.000,+0.585) approach=(+0.75,+0.09,+0.66)
+[INFO] [1786342901.057082316] [real_anygrasp_planner]: AnyGrasp candidate[06] frame=camera_color_optical_frame score=0.028 width=15.0mm pos=(+0.005,-0.011,+0.600) approach=(-0.90,-0.13,-0.42)
+[INFO] [1786342901.057273172] [real_anygrasp_planner]: AnyGrasp candidate[07] frame=camera_color_optical_frame score=0.027 width=46.3mm pos=(+0.010,+0.005,+0.577) approach=(-0.40,-0.09,+0.91)
+[INFO] [1786342901.058879662] [real_anygrasp_planner]: AnyGrasp base[00] workspace=True raw=(+0.333,+0.058,+0.011) approach=(+0.75,-0.34,-0.57) offset=-40.0mm offset_world=(-0.030,+0.013,+0.023) final=(+0.303,+0.071,+0.033) pre=(+0.251,+0.095,+0.073)
+[INFO] [1786342901.515468233] [real_anygrasp_planner]: AnyGrasp IK[00] pass=True reason=ok pre_err=1.1mm/0.0deg final_err=1.4mm/0.0deg joint_margin=0.181rad q_final=[ 0.481,-1.076, 2.46 , 1.078, 0.374, 0.305]

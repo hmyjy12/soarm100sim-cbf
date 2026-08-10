@@ -1,0 +1,2 @@
+[INFO] [1786329300.219072994] [real_grasp_orchestrator]: grasp orchestrator ready: action=execute_grasp service=set_avoidance
+[INFO] [1786329314.355505167] [real_grasp_orchestrator]: AnyGrasp selected pose forwarded to policy: pregrasp[frame=camera_color_optical_frame pos=(+0.011,+0.046,+0.530) quat=(+0.628,+0.493,+0.372,+0.474)] grasp[frame=camera_color_optical_frame pos=(+0.076,+0.027,+0.547) quat=(+0.628,+0.493,+0.372,+0.474)] score=0.037 width=15.0mm candidates=20

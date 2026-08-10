@@ -1,0 +1,1 @@
+[INFO] [1786085935.062253617] [fixed_yolo_tracker]: fixed YOLO tracking ready: rgb=/camera/color/image_raw model=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/models/vision/yolowork_fixed_best.pt classes={0: 'jpgCat', 1: 'Chiikawa', 2: 'tissue'} selected=all tracker=botsort.yaml device=0

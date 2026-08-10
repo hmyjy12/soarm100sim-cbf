@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Launch Orbbec Gemini 330-series RGB for eye-to-hand calibration.
+# Launch the Orbbec Gemini 330-series RGB stream.
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -23,7 +23,7 @@ source_relaxed /opt/ros/humble/setup.bash
 source_relaxed "$ORBBEC_WS/install/setup.bash"
 
 echo "[orbbec_camera] workspace=$ORBBEC_WS"
-echo "[orbbec_camera] RGB ${COLOR_WIDTH}x${COLOR_HEIGHT}; depth disabled for hand-eye"
+echo "[orbbec_camera] RGB ${COLOR_WIDTH}x${COLOR_HEIGHT}; depth disabled"
 echo "[orbbec_camera] topics=/camera/color/image_raw /camera/color/camera_info"
 
 # Close any leftover Orbbec Viewer first (exclusive USB access).

@@ -1,0 +1,5 @@
+1786083913.0706041 [INFO] [launch]: All log files can be found below /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/logs/ros2/fixed_yolo_sam/2026-08-07-14-25-13-069701-sophie-Legion-Y7000P-IRX10-952579
+1786083913.0707257 [INFO] [launch]: Default logging verbosity is set to INFO
+1786083913.1189313 [INFO] [target_segmenter_node-1]: process started with pid [952615]
+1786083913.1192012 [INFO] [debug_viewer_node-2]: process started with pid [952617]
+1786083913.9089887 [ERROR] [target_segmenter_node-1]: process has died [pid 952615, exit code 1, cmd '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/soarm100_vision/target_segmenter_node --ros-args -r __node:=fixed_yolo_sam_segmenter --params-file /tmp/launch_params_mqoimd_f'].

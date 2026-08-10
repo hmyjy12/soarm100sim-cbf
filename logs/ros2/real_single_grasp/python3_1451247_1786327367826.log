@@ -1,0 +1,4 @@
+[INFO] [1786327367.884837753] [soarm100_send_execute_grasp]: execute grasp goal accepted
+[INFO] [1786327367.885521896] [soarm100_send_execute_grasp]: feedback stage=SEGMENTING grasp=0.000 replan=False cbf=False reason=attempt=1
+[INFO] [1786327368.633993023] [soarm100_send_execute_grasp]: feedback stage=SEGMENT_FAILED grasp=0.000 replan=False cbf=False reason=segment_failed:segment_failed:no_fixed_yolo_detection:jpgCat
+[INFO] [1786327368.634575173] [soarm100_send_execute_grasp]: result success=False attempts=1 lift=0.0000 reason=segment_failed:segment_failed:no_fixed_yolo_detection:jpgCat final=(+0.420,+0.080,+0.022) quat=(+1.000,+0.000,+0.000,+0.000)

@@ -1,0 +1,258 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1,
+						2
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-56d2a19967b23aa5a4f8.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.12"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						5,
+						6,
+						7,
+						8,
+						9,
+						10,
+						11,
+						12,
+						13,
+						14,
+						15,
+						17,
+						18
+					]
+				},
+				{
+					"build" : "soarm100_interfaces__py",
+					"jsonFile" : "directory-soarm100_interfaces__py-85c05ec7b4b61c4ec4e4.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.12"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/soarm100_interfaces__py",
+					"targetIndexes" : 
+					[
+						4
+					]
+				},
+				{
+					"build" : "soarm100_interfaces__rs",
+					"jsonFile" : "directory-soarm100_interfaces__rs-9760db68f33cfb973050.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.12"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/soarm100_interfaces__rs",
+					"targetIndexes" : 
+					[
+						16
+					]
+				}
+			],
+			"name" : "",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0,
+						1,
+						2
+					],
+					"name" : "soarm100_interfaces",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5,
+						6,
+						7,
+						8,
+						9,
+						10,
+						11,
+						12,
+						13,
+						14,
+						15,
+						16,
+						17,
+						18
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "ament_cmake_python_build_soarm100_interfaces_egg::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ament_cmake_python_build_soarm100_interfaces_egg-4e740e99c4a735070984.json",
+					"name" : "ament_cmake_python_build_soarm100_interfaces_egg",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "ament_cmake_python_symlink_soarm100_interfaces::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ament_cmake_python_symlink_soarm100_interfaces-a1c9bf405430d8293f46.json",
+					"name" : "ament_cmake_python_symlink_soarm100_interfaces",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "soarm100_interfaces::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-soarm100_interfaces-fbdcb5b0bca65828180d.json",
+					"name" : "soarm100_interfaces",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "soarm100_interfaces__cpp::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-soarm100_interfaces__cpp-ae21b75a47de21598587.json",
+					"name" : "soarm100_interfaces__cpp",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "soarm100_interfaces__py::@ad4402706c3dacd75352",
+					"jsonFile" : "target-soarm100_interfaces__py-92c23171d86dc1fd81f4.json",
+					"name" : "soarm100_interfaces__py",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "soarm100_interfaces__rosidl_generator_c::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-soarm100_interfaces__rosidl_generator_c-ea1992b4ec3c2316a617.json",
+					"name" : "soarm100_interfaces__rosidl_generator_c",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "soarm100_interfaces__rosidl_generator_py::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-soarm100_interfaces__rosidl_generator_py-8c5fe7f571543f42c3f3.json",
+					"name" : "soarm100_interfaces__rosidl_generator_py",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "soarm100_interfaces__rosidl_typesupport_c::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-soarm100_interfaces__rosidl_typesupport_c-2db543bfa7429ff432bf.json",
+					"name" : "soarm100_interfaces__rosidl_typesupport_c",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "soarm100_interfaces__rosidl_typesupport_c__pyext::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-soarm100_interfaces__rosidl_typesupport_c__pyext-2d8a4c9edb1d801c8fa4.json",
+					"name" : "soarm100_interfaces__rosidl_typesupport_c__pyext",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "soarm100_interfaces__rosidl_typesupport_cpp::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-soarm100_interfaces__rosidl_typesupport_cpp-5b34cacc1a5478ee2f1f.json",
+					"name" : "soarm100_interfaces__rosidl_typesupport_cpp",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "soarm100_interfaces__rosidl_typesupport_fastrtps_c::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-soarm100_interfaces__rosidl_typesupport_fastrtps_c-f9b89ca38320690972d0.json",
+					"name" : "soarm100_interfaces__rosidl_typesupport_fastrtps_c",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "soarm100_interfaces__rosidl_typesupport_fastrtps_c__pyext::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-soarm100_interfaces__rosidl_typesupport_fastrtps_c__pyext-7efc4c0b8b812d9bbaaa.json",
+					"name" : "soarm100_interfaces__rosidl_typesupport_fastrtps_c__pyext",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "soarm100_interfaces__rosidl_typesupport_fastrtps_cpp::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-soarm100_interfaces__rosidl_typesupport_fastrtps_cpp-4cd55e4cae1b4c367c40.json",
+					"name" : "soarm100_interfaces__rosidl_typesupport_fastrtps_cpp",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "soarm100_interfaces__rosidl_typesupport_introspection_c::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-soarm100_interfaces__rosidl_typesupport_introspection_c-9285fa069eaf1730fe42.json",
+					"name" : "soarm100_interfaces__rosidl_typesupport_introspection_c",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "soarm100_interfaces__rosidl_typesupport_introspection_c__pyext::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-soarm100_interfaces__rosidl_typesupport_introspection_c__pyext-e473e193a15be521801b.json",
+					"name" : "soarm100_interfaces__rosidl_typesupport_introspection_c__pyext",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "soarm100_interfaces__rosidl_typesupport_introspection_cpp::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-soarm100_interfaces__rosidl_typesupport_introspection_cpp-917396b6349e4e0b9e7b.json",
+					"name" : "soarm100_interfaces__rosidl_typesupport_introspection_cpp",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "soarm100_interfaces__rs::@8398571827bc5758f4d3",
+					"jsonFile" : "target-soarm100_interfaces__rs-d9c135d45b7680d2ff98.json",
+					"name" : "soarm100_interfaces__rs",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "soarm100_interfaces_uninstall::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-soarm100_interfaces_uninstall-5a7782d4bc8494e5e8a4.json",
+					"name" : "soarm100_interfaces_uninstall",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "uninstall::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-uninstall-28999ca21a2b18cec20c.json",
+					"name" : "uninstall",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces",
+		"source" : "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/soarm100_interfaces"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 3
+	}
+}

@@ -87,8 +87,10 @@ class PolicyReachNode(Node):
         self.declare_parameter("max_joint_velocity_rad_s", 0.20)
         self.declare_parameter("max_joint_acceleration_rad_s2", 0.80)
         self.declare_parameter("max_tracking_error_rad", 0.25)
+        self.declare_parameter("workspace_min_z_m", 0.05)
         self.declare_parameter("action_deadband", 0.01)
         self.declare_parameter("freeze_gripper", True)
+        self.declare_parameter("frozen_gripper_target_rad", -999.0)
         self.declare_parameter("success_position_m", 0.015)
         self.declare_parameter("success_orientation_deg", 10.0)
         self.declare_parameter("success_consecutive_ticks", 5)
@@ -178,7 +180,8 @@ class PolicyReachNode(Node):
         quat = np.asarray(payload.get("quaternion_wxyz"), dtype=np.float64).reshape(4)
         if not np.all(np.isfinite(pos)) or not np.all(np.isfinite(quat)):
             raise ValueError("target pose contains non-finite values")
-        if not (0.08 <= pos[0] <= 0.45 and -0.30 <= pos[1] <= 0.30 and 0.05 <= pos[2] <= 0.45):
+        min_z = float(self.get_parameter("workspace_min_z_m").value)
+        if not (0.08 <= pos[0] <= 0.45 and -0.30 <= pos[1] <= 0.30 and min_z <= pos[2] <= 0.45):
             raise ValueError(f"target position outside conservative workspace: {pos.tolist()}")
         quat /= max(float(np.linalg.norm(quat)), 1e-12)
         return pos, quat, bool(payload.get("hold_current", False))
@@ -358,6 +361,19 @@ class PolicyReachNode(Node):
             q, raw_action, recovery_low, recovery_high, timing["dt_s"], frozen
         )
         q_cmd = shaped["q_ref"]
+        frozen_gripper_target = float(
+            self.get_parameter("frozen_gripper_target_rad").value
+        )
+        if bool(self.get_parameter("freeze_gripper").value) and frozen_gripper_target > -900.0:
+            # Preserve a close command during lift instead of replacing it with
+            # the measured, object-blocked finger position.
+            q_cmd[6] = float(
+                np.clip(
+                    frozen_gripper_target,
+                    q[6] - self.shaper.cfg.max_tracking_error_rad,
+                    q[6] + self.shaper.cfg.max_tracking_error_rad,
+                )
+            )
         dq_cmd = q_cmd - q
 
         if pos_err <= float(self.get_parameter("success_position_m").value) and ori_err <= float(self.get_parameter("success_orientation_deg").value):

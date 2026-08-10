@@ -1,0 +1,348 @@
+[0.075s] colcon DEBUG Command line arguments: ['/usr/bin/colcon', 'build', '--packages-select', 'soarm100_vision', '--symlink-install']
+[0.075s] colcon DEBUG Parsed command line arguments: Namespace(log_base=None, log_level=None, verb_name='build', build_base='build', install_base='install', merge_install=False, symlink_install=True, test_result_base=None, continue_on_error=False, executor='parallel', parallel_workers=32, event_handlers=None, ignore_user_meta=False, metas=['./colcon.meta'], base_paths=['.'], packages_ignore=None, packages_ignore_regex=None, paths=None, packages_up_to=None, packages_up_to_regex=None, packages_above=None, packages_above_and_dependencies=None, packages_above_depth=None, packages_select_by_dep=None, packages_skip_by_dep=None, packages_skip_up_to=None, packages_select_build_failed=False, packages_skip_build_finished=False, packages_select_test_failures=False, packages_skip_test_passed=False, packages_select=['soarm100_vision'], packages_skip=None, packages_select_regex=None, packages_skip_regex=None, packages_start=None, packages_end=None, allow_overriding=[], cmake_args=None, cmake_target=None, cmake_target_skip_unavailable=False, cmake_clean_cache=False, cmake_clean_first=False, cmake_force_configure=False, ament_cmake_args=None, catkin_cmake_args=None, catkin_skip_building_tests=False, verb_parser=<colcon_defaults.argument_parser.defaults.DefaultArgumentsDecorator object at 0x7a533f5fb0a0>, verb_extension=<colcon_core.verb.build.BuildVerb object at 0x7a533f5fab90>, main=<bound method BuildVerb.main of <colcon_core.verb.build.BuildVerb object at 0x7a533f5fab90>>)
+[0.190s] colcon.colcon_core.package_discovery Level 1 discover_packages(colcon_meta) check parameters
+[0.190s] colcon.colcon_core.package_discovery Level 1 discover_packages(recursive) check parameters
+[0.190s] colcon.colcon_core.package_discovery Level 1 discover_packages(ignore) check parameters
+[0.190s] colcon.colcon_core.package_discovery Level 1 discover_packages(path) check parameters
+[0.190s] colcon.colcon_core.package_discovery Level 1 discover_packages(colcon_meta) discover
+[0.190s] colcon.colcon_core.package_discovery Level 1 discover_packages(recursive) discover
+[0.190s] colcon.colcon_core.package_discovery INFO Crawling recursively for packages in '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2'
+[0.190s] colcon.colcon_core.package_identification Level 1 _identify(.) by extensions ['ignore', 'ignore_ament_install']
+[0.190s] colcon.colcon_core.package_identification Level 1 _identify(.) by extension 'ignore'
+[0.190s] colcon.colcon_core.package_identification Level 1 _identify(.) by extension 'ignore_ament_install'
+[0.190s] colcon.colcon_core.package_identification Level 1 _identify(.) by extensions ['colcon_pkg']
+[0.190s] colcon.colcon_core.package_identification Level 1 _identify(.) by extension 'colcon_pkg'
+[0.190s] colcon.colcon_core.package_identification Level 1 _identify(.) by extensions ['colcon_meta']
+[0.190s] colcon.colcon_core.package_identification Level 1 _identify(.) by extension 'colcon_meta'
+[0.190s] colcon.colcon_core.package_identification Level 1 _identify(.) by extensions ['ros']
+[0.190s] colcon.colcon_core.package_identification Level 1 _identify(.) by extension 'ros'
+[0.214s] colcon.colcon_core.package_identification Level 1 _identify(.) by extensions ['cmake', 'python']
+[0.214s] colcon.colcon_core.package_identification Level 1 _identify(.) by extension 'cmake'
+[0.214s] colcon.colcon_core.package_identification Level 1 _identify(.) by extension 'python'
+[0.214s] colcon.colcon_core.package_identification Level 1 _identify(.) by extensions ['python_setup_py']
+[0.214s] colcon.colcon_core.package_identification Level 1 _identify(.) by extension 'python_setup_py'
+[0.214s] colcon.colcon_core.package_identification Level 1 _identify(build) by extensions ['ignore', 'ignore_ament_install']
+[0.214s] colcon.colcon_core.package_identification Level 1 _identify(build) by extension 'ignore'
+[0.214s] colcon.colcon_core.package_identification Level 1 _identify(build) ignored
+[0.214s] colcon.colcon_core.package_identification Level 1 _identify(config) by extensions ['ignore', 'ignore_ament_install']
+[0.214s] colcon.colcon_core.package_identification Level 1 _identify(config) by extension 'ignore'
+[0.214s] colcon.colcon_core.package_identification Level 1 _identify(config) by extension 'ignore_ament_install'
+[0.214s] colcon.colcon_core.package_identification Level 1 _identify(config) by extensions ['colcon_pkg']
+[0.214s] colcon.colcon_core.package_identification Level 1 _identify(config) by extension 'colcon_pkg'
+[0.214s] colcon.colcon_core.package_identification Level 1 _identify(config) by extensions ['colcon_meta']
+[0.214s] colcon.colcon_core.package_identification Level 1 _identify(config) by extension 'colcon_meta'
+[0.214s] colcon.colcon_core.package_identification Level 1 _identify(config) by extensions ['ros']
+[0.214s] colcon.colcon_core.package_identification Level 1 _identify(config) by extension 'ros'
+[0.214s] colcon.colcon_core.package_identification Level 1 _identify(config) by extensions ['cmake', 'python']
+[0.214s] colcon.colcon_core.package_identification Level 1 _identify(config) by extension 'cmake'
+[0.214s] colcon.colcon_core.package_identification Level 1 _identify(config) by extension 'python'
+[0.215s] colcon.colcon_core.package_identification Level 1 _identify(config) by extensions ['python_setup_py']
+[0.215s] colcon.colcon_core.package_identification Level 1 _identify(config) by extension 'python_setup_py'
+[0.215s] colcon.colcon_core.package_identification Level 1 _identify(config/experiments) by extensions ['ignore', 'ignore_ament_install']
+[0.215s] colcon.colcon_core.package_identification Level 1 _identify(config/experiments) by extension 'ignore'
+[0.215s] colcon.colcon_core.package_identification Level 1 _identify(config/experiments) by extension 'ignore_ament_install'
+[0.215s] colcon.colcon_core.package_identification Level 1 _identify(config/experiments) by extensions ['colcon_pkg']
+[0.215s] colcon.colcon_core.package_identification Level 1 _identify(config/experiments) by extension 'colcon_pkg'
+[0.215s] colcon.colcon_core.package_identification Level 1 _identify(config/experiments) by extensions ['colcon_meta']
+[0.215s] colcon.colcon_core.package_identification Level 1 _identify(config/experiments) by extension 'colcon_meta'
+[0.215s] colcon.colcon_core.package_identification Level 1 _identify(config/experiments) by extensions ['ros']
+[0.215s] colcon.colcon_core.package_identification Level 1 _identify(config/experiments) by extension 'ros'
+[0.215s] colcon.colcon_core.package_identification Level 1 _identify(config/experiments) by extensions ['cmake', 'python']
+[0.215s] colcon.colcon_core.package_identification Level 1 _identify(config/experiments) by extension 'cmake'
+[0.215s] colcon.colcon_core.package_identification Level 1 _identify(config/experiments) by extension 'python'
+[0.215s] colcon.colcon_core.package_identification Level 1 _identify(config/experiments) by extensions ['python_setup_py']
+[0.215s] colcon.colcon_core.package_identification Level 1 _identify(config/experiments) by extension 'python_setup_py'
+[0.215s] colcon.colcon_core.package_identification Level 1 _identify(config/real) by extensions ['ignore', 'ignore_ament_install']
+[0.215s] colcon.colcon_core.package_identification Level 1 _identify(config/real) by extension 'ignore'
+[0.215s] colcon.colcon_core.package_identification Level 1 _identify(config/real) by extension 'ignore_ament_install'
+[0.215s] colcon.colcon_core.package_identification Level 1 _identify(config/real) by extensions ['colcon_pkg']
+[0.215s] colcon.colcon_core.package_identification Level 1 _identify(config/real) by extension 'colcon_pkg'
+[0.215s] colcon.colcon_core.package_identification Level 1 _identify(config/real) by extensions ['colcon_meta']
+[0.215s] colcon.colcon_core.package_identification Level 1 _identify(config/real) by extension 'colcon_meta'
+[0.215s] colcon.colcon_core.package_identification Level 1 _identify(config/real) by extensions ['ros']
+[0.215s] colcon.colcon_core.package_identification Level 1 _identify(config/real) by extension 'ros'
+[0.215s] colcon.colcon_core.package_identification Level 1 _identify(config/real) by extensions ['cmake', 'python']
+[0.215s] colcon.colcon_core.package_identification Level 1 _identify(config/real) by extension 'cmake'
+[0.215s] colcon.colcon_core.package_identification Level 1 _identify(config/real) by extension 'python'
+[0.215s] colcon.colcon_core.package_identification Level 1 _identify(config/real) by extensions ['python_setup_py']
+[0.215s] colcon.colcon_core.package_identification Level 1 _identify(config/real) by extension 'python_setup_py'
+[0.215s] colcon.colcon_core.package_identification Level 1 _identify(config/sim) by extensions ['ignore', 'ignore_ament_install']
+[0.215s] colcon.colcon_core.package_identification Level 1 _identify(config/sim) by extension 'ignore'
+[0.215s] colcon.colcon_core.package_identification Level 1 _identify(config/sim) by extension 'ignore_ament_install'
+[0.215s] colcon.colcon_core.package_identification Level 1 _identify(config/sim) by extensions ['colcon_pkg']
+[0.215s] colcon.colcon_core.package_identification Level 1 _identify(config/sim) by extension 'colcon_pkg'
+[0.215s] colcon.colcon_core.package_identification Level 1 _identify(config/sim) by extensions ['colcon_meta']
+[0.215s] colcon.colcon_core.package_identification Level 1 _identify(config/sim) by extension 'colcon_meta'
+[0.216s] colcon.colcon_core.package_identification Level 1 _identify(config/sim) by extensions ['ros']
+[0.216s] colcon.colcon_core.package_identification Level 1 _identify(config/sim) by extension 'ros'
+[0.216s] colcon.colcon_core.package_identification Level 1 _identify(config/sim) by extensions ['cmake', 'python']
+[0.216s] colcon.colcon_core.package_identification Level 1 _identify(config/sim) by extension 'cmake'
+[0.216s] colcon.colcon_core.package_identification Level 1 _identify(config/sim) by extension 'python'
+[0.216s] colcon.colcon_core.package_identification Level 1 _identify(config/sim) by extensions ['python_setup_py']
+[0.216s] colcon.colcon_core.package_identification Level 1 _identify(config/sim) by extension 'python_setup_py'
+[0.216s] colcon.colcon_core.package_identification Level 1 _identify(docs) by extensions ['ignore', 'ignore_ament_install']
+[0.216s] colcon.colcon_core.package_identification Level 1 _identify(docs) by extension 'ignore'
+[0.216s] colcon.colcon_core.package_identification Level 1 _identify(docs) by extension 'ignore_ament_install'
+[0.216s] colcon.colcon_core.package_identification Level 1 _identify(docs) by extensions ['colcon_pkg']
+[0.216s] colcon.colcon_core.package_identification Level 1 _identify(docs) by extension 'colcon_pkg'
+[0.216s] colcon.colcon_core.package_identification Level 1 _identify(docs) by extensions ['colcon_meta']
+[0.216s] colcon.colcon_core.package_identification Level 1 _identify(docs) by extension 'colcon_meta'
+[0.216s] colcon.colcon_core.package_identification Level 1 _identify(docs) by extensions ['ros']
+[0.216s] colcon.colcon_core.package_identification Level 1 _identify(docs) by extension 'ros'
+[0.216s] colcon.colcon_core.package_identification Level 1 _identify(docs) by extensions ['cmake', 'python']
+[0.216s] colcon.colcon_core.package_identification Level 1 _identify(docs) by extension 'cmake'
+[0.216s] colcon.colcon_core.package_identification Level 1 _identify(docs) by extension 'python'
+[0.216s] colcon.colcon_core.package_identification Level 1 _identify(docs) by extensions ['python_setup_py']
+[0.216s] colcon.colcon_core.package_identification Level 1 _identify(docs) by extension 'python_setup_py'
+[0.216s] colcon.colcon_core.package_identification Level 1 _identify(install) by extensions ['ignore', 'ignore_ament_install']
+[0.216s] colcon.colcon_core.package_identification Level 1 _identify(install) by extension 'ignore'
+[0.216s] colcon.colcon_core.package_identification Level 1 _identify(install) ignored
+[0.216s] colcon.colcon_core.package_identification Level 1 _identify(log) by extensions ['ignore', 'ignore_ament_install']
+[0.216s] colcon.colcon_core.package_identification Level 1 _identify(log) by extension 'ignore'
+[0.216s] colcon.colcon_core.package_identification Level 1 _identify(log) ignored
+[0.216s] colcon.colcon_core.package_identification Level 1 _identify(logs) by extensions ['ignore', 'ignore_ament_install']
+[0.216s] colcon.colcon_core.package_identification Level 1 _identify(logs) by extension 'ignore'
+[0.216s] colcon.colcon_core.package_identification Level 1 _identify(logs) by extension 'ignore_ament_install'
+[0.216s] colcon.colcon_core.package_identification Level 1 _identify(logs) by extensions ['colcon_pkg']
+[0.216s] colcon.colcon_core.package_identification Level 1 _identify(logs) by extension 'colcon_pkg'
+[0.217s] colcon.colcon_core.package_identification Level 1 _identify(logs) by extensions ['colcon_meta']
+[0.217s] colcon.colcon_core.package_identification Level 1 _identify(logs) by extension 'colcon_meta'
+[0.217s] colcon.colcon_core.package_identification Level 1 _identify(logs) by extensions ['ros']
+[0.217s] colcon.colcon_core.package_identification Level 1 _identify(logs) by extension 'ros'
+[0.217s] colcon.colcon_core.package_identification Level 1 _identify(logs) by extensions ['cmake', 'python']
+[0.217s] colcon.colcon_core.package_identification Level 1 _identify(logs) by extension 'cmake'
+[0.217s] colcon.colcon_core.package_identification Level 1 _identify(logs) by extension 'python'
+[0.217s] colcon.colcon_core.package_identification Level 1 _identify(logs) by extensions ['python_setup_py']
+[0.217s] colcon.colcon_core.package_identification Level 1 _identify(logs) by extension 'python_setup_py'
+[0.217s] colcon.colcon_core.package_identification Level 1 _identify(logs/ros2_tracking_failures) by extensions ['ignore', 'ignore_ament_install']
+[0.217s] colcon.colcon_core.package_identification Level 1 _identify(logs/ros2_tracking_failures) by extension 'ignore'
+[0.217s] colcon.colcon_core.package_identification Level 1 _identify(logs/ros2_tracking_failures) by extension 'ignore_ament_install'
+[0.217s] colcon.colcon_core.package_identification Level 1 _identify(logs/ros2_tracking_failures) by extensions ['colcon_pkg']
+[0.217s] colcon.colcon_core.package_identification Level 1 _identify(logs/ros2_tracking_failures) by extension 'colcon_pkg'
+[0.217s] colcon.colcon_core.package_identification Level 1 _identify(logs/ros2_tracking_failures) by extensions ['colcon_meta']
+[0.217s] colcon.colcon_core.package_identification Level 1 _identify(logs/ros2_tracking_failures) by extension 'colcon_meta'
+[0.217s] colcon.colcon_core.package_identification Level 1 _identify(logs/ros2_tracking_failures) by extensions ['ros']
+[0.217s] colcon.colcon_core.package_identification Level 1 _identify(logs/ros2_tracking_failures) by extension 'ros'
+[0.217s] colcon.colcon_core.package_identification Level 1 _identify(logs/ros2_tracking_failures) by extensions ['cmake', 'python']
+[0.217s] colcon.colcon_core.package_identification Level 1 _identify(logs/ros2_tracking_failures) by extension 'cmake'
+[0.217s] colcon.colcon_core.package_identification Level 1 _identify(logs/ros2_tracking_failures) by extension 'python'
+[0.217s] colcon.colcon_core.package_identification Level 1 _identify(logs/ros2_tracking_failures) by extensions ['python_setup_py']
+[0.217s] colcon.colcon_core.package_identification Level 1 _identify(logs/ros2_tracking_failures) by extension 'python_setup_py'
+[0.217s] colcon.colcon_core.package_identification Level 1 _identify(logs/ros2_vision) by extensions ['ignore', 'ignore_ament_install']
+[0.217s] colcon.colcon_core.package_identification Level 1 _identify(logs/ros2_vision) by extension 'ignore'
+[0.217s] colcon.colcon_core.package_identification Level 1 _identify(logs/ros2_vision) by extension 'ignore_ament_install'
+[0.217s] colcon.colcon_core.package_identification Level 1 _identify(logs/ros2_vision) by extensions ['colcon_pkg']
+[0.217s] colcon.colcon_core.package_identification Level 1 _identify(logs/ros2_vision) by extension 'colcon_pkg'
+[0.217s] colcon.colcon_core.package_identification Level 1 _identify(logs/ros2_vision) by extensions ['colcon_meta']
+[0.217s] colcon.colcon_core.package_identification Level 1 _identify(logs/ros2_vision) by extension 'colcon_meta'
+[0.217s] colcon.colcon_core.package_identification Level 1 _identify(logs/ros2_vision) by extensions ['ros']
+[0.217s] colcon.colcon_core.package_identification Level 1 _identify(logs/ros2_vision) by extension 'ros'
+[0.217s] colcon.colcon_core.package_identification Level 1 _identify(logs/ros2_vision) by extensions ['cmake', 'python']
+[0.217s] colcon.colcon_core.package_identification Level 1 _identify(logs/ros2_vision) by extension 'cmake'
+[0.217s] colcon.colcon_core.package_identification Level 1 _identify(logs/ros2_vision) by extension 'python'
+[0.217s] colcon.colcon_core.package_identification Level 1 _identify(logs/ros2_vision) by extensions ['python_setup_py']
+[0.217s] colcon.colcon_core.package_identification Level 1 _identify(logs/ros2_vision) by extension 'python_setup_py'
+[0.217s] colcon.colcon_core.package_identification Level 1 _identify(scripts) by extensions ['ignore', 'ignore_ament_install']
+[0.218s] colcon.colcon_core.package_identification Level 1 _identify(scripts) by extension 'ignore'
+[0.218s] colcon.colcon_core.package_identification Level 1 _identify(scripts) by extension 'ignore_ament_install'
+[0.218s] colcon.colcon_core.package_identification Level 1 _identify(scripts) by extensions ['colcon_pkg']
+[0.218s] colcon.colcon_core.package_identification Level 1 _identify(scripts) by extension 'colcon_pkg'
+[0.218s] colcon.colcon_core.package_identification Level 1 _identify(scripts) by extensions ['colcon_meta']
+[0.218s] colcon.colcon_core.package_identification Level 1 _identify(scripts) by extension 'colcon_meta'
+[0.218s] colcon.colcon_core.package_identification Level 1 _identify(scripts) by extensions ['ros']
+[0.218s] colcon.colcon_core.package_identification Level 1 _identify(scripts) by extension 'ros'
+[0.218s] colcon.colcon_core.package_identification Level 1 _identify(scripts) by extensions ['cmake', 'python']
+[0.218s] colcon.colcon_core.package_identification Level 1 _identify(scripts) by extension 'cmake'
+[0.218s] colcon.colcon_core.package_identification Level 1 _identify(scripts) by extension 'python'
+[0.218s] colcon.colcon_core.package_identification Level 1 _identify(scripts) by extensions ['python_setup_py']
+[0.218s] colcon.colcon_core.package_identification Level 1 _identify(scripts) by extension 'python_setup_py'
+[0.218s] colcon.colcon_core.package_identification Level 1 _identify(scripts/calibration) by extensions ['ignore', 'ignore_ament_install']
+[0.218s] colcon.colcon_core.package_identification Level 1 _identify(scripts/calibration) by extension 'ignore'
+[0.218s] colcon.colcon_core.package_identification Level 1 _identify(scripts/calibration) by extension 'ignore_ament_install'
+[0.218s] colcon.colcon_core.package_identification Level 1 _identify(scripts/calibration) by extensions ['colcon_pkg']
+[0.218s] colcon.colcon_core.package_identification Level 1 _identify(scripts/calibration) by extension 'colcon_pkg'
+[0.218s] colcon.colcon_core.package_identification Level 1 _identify(scripts/calibration) by extensions ['colcon_meta']
+[0.218s] colcon.colcon_core.package_identification Level 1 _identify(scripts/calibration) by extension 'colcon_meta'
+[0.218s] colcon.colcon_core.package_identification Level 1 _identify(scripts/calibration) by extensions ['ros']
+[0.218s] colcon.colcon_core.package_identification Level 1 _identify(scripts/calibration) by extension 'ros'
+[0.218s] colcon.colcon_core.package_identification Level 1 _identify(scripts/calibration) by extensions ['cmake', 'python']
+[0.218s] colcon.colcon_core.package_identification Level 1 _identify(scripts/calibration) by extension 'cmake'
+[0.218s] colcon.colcon_core.package_identification Level 1 _identify(scripts/calibration) by extension 'python'
+[0.218s] colcon.colcon_core.package_identification Level 1 _identify(scripts/calibration) by extensions ['python_setup_py']
+[0.218s] colcon.colcon_core.package_identification Level 1 _identify(scripts/calibration) by extension 'python_setup_py'
+[0.218s] colcon.colcon_core.package_identification Level 1 _identify(scripts/real) by extensions ['ignore', 'ignore_ament_install']
+[0.218s] colcon.colcon_core.package_identification Level 1 _identify(scripts/real) by extension 'ignore'
+[0.218s] colcon.colcon_core.package_identification Level 1 _identify(scripts/real) by extension 'ignore_ament_install'
+[0.218s] colcon.colcon_core.package_identification Level 1 _identify(scripts/real) by extensions ['colcon_pkg']
+[0.218s] colcon.colcon_core.package_identification Level 1 _identify(scripts/real) by extension 'colcon_pkg'
+[0.218s] colcon.colcon_core.package_identification Level 1 _identify(scripts/real) by extensions ['colcon_meta']
+[0.218s] colcon.colcon_core.package_identification Level 1 _identify(scripts/real) by extension 'colcon_meta'
+[0.218s] colcon.colcon_core.package_identification Level 1 _identify(scripts/real) by extensions ['ros']
+[0.218s] colcon.colcon_core.package_identification Level 1 _identify(scripts/real) by extension 'ros'
+[0.218s] colcon.colcon_core.package_identification Level 1 _identify(scripts/real) by extensions ['cmake', 'python']
+[0.218s] colcon.colcon_core.package_identification Level 1 _identify(scripts/real) by extension 'cmake'
+[0.218s] colcon.colcon_core.package_identification Level 1 _identify(scripts/real) by extension 'python'
+[0.218s] colcon.colcon_core.package_identification Level 1 _identify(scripts/real) by extensions ['python_setup_py']
+[0.219s] colcon.colcon_core.package_identification Level 1 _identify(scripts/real) by extension 'python_setup_py'
+[0.219s] colcon.colcon_core.package_identification Level 1 _identify(scripts/real/__pycache__) by extensions ['ignore', 'ignore_ament_install']
+[0.219s] colcon.colcon_core.package_identification Level 1 _identify(scripts/real/__pycache__) by extension 'ignore'
+[0.219s] colcon.colcon_core.package_identification Level 1 _identify(scripts/real/__pycache__) by extension 'ignore_ament_install'
+[0.219s] colcon.colcon_core.package_identification Level 1 _identify(scripts/real/__pycache__) by extensions ['colcon_pkg']
+[0.219s] colcon.colcon_core.package_identification Level 1 _identify(scripts/real/__pycache__) by extension 'colcon_pkg'
+[0.219s] colcon.colcon_core.package_identification Level 1 _identify(scripts/real/__pycache__) by extensions ['colcon_meta']
+[0.219s] colcon.colcon_core.package_identification Level 1 _identify(scripts/real/__pycache__) by extension 'colcon_meta'
+[0.219s] colcon.colcon_core.package_identification Level 1 _identify(scripts/real/__pycache__) by extensions ['ros']
+[0.219s] colcon.colcon_core.package_identification Level 1 _identify(scripts/real/__pycache__) by extension 'ros'
+[0.219s] colcon.colcon_core.package_identification Level 1 _identify(scripts/real/__pycache__) by extensions ['cmake', 'python']
+[0.219s] colcon.colcon_core.package_identification Level 1 _identify(scripts/real/__pycache__) by extension 'cmake'
+[0.219s] colcon.colcon_core.package_identification Level 1 _identify(scripts/real/__pycache__) by extension 'python'
+[0.219s] colcon.colcon_core.package_identification Level 1 _identify(scripts/real/__pycache__) by extensions ['python_setup_py']
+[0.219s] colcon.colcon_core.package_identification Level 1 _identify(scripts/real/__pycache__) by extension 'python_setup_py'
+[0.219s] colcon.colcon_core.package_identification Level 1 _identify(scripts/sim) by extensions ['ignore', 'ignore_ament_install']
+[0.219s] colcon.colcon_core.package_identification Level 1 _identify(scripts/sim) by extension 'ignore'
+[0.219s] colcon.colcon_core.package_identification Level 1 _identify(scripts/sim) by extension 'ignore_ament_install'
+[0.219s] colcon.colcon_core.package_identification Level 1 _identify(scripts/sim) by extensions ['colcon_pkg']
+[0.219s] colcon.colcon_core.package_identification Level 1 _identify(scripts/sim) by extension 'colcon_pkg'
+[0.219s] colcon.colcon_core.package_identification Level 1 _identify(scripts/sim) by extensions ['colcon_meta']
+[0.219s] colcon.colcon_core.package_identification Level 1 _identify(scripts/sim) by extension 'colcon_meta'
+[0.219s] colcon.colcon_core.package_identification Level 1 _identify(scripts/sim) by extensions ['ros']
+[0.219s] colcon.colcon_core.package_identification Level 1 _identify(scripts/sim) by extension 'ros'
+[0.219s] colcon.colcon_core.package_identification Level 1 _identify(scripts/sim) by extensions ['cmake', 'python']
+[0.219s] colcon.colcon_core.package_identification Level 1 _identify(scripts/sim) by extension 'cmake'
+[0.219s] colcon.colcon_core.package_identification Level 1 _identify(scripts/sim) by extension 'python'
+[0.219s] colcon.colcon_core.package_identification Level 1 _identify(scripts/sim) by extensions ['python_setup_py']
+[0.219s] colcon.colcon_core.package_identification Level 1 _identify(scripts/sim) by extension 'python_setup_py'
+[0.219s] colcon.colcon_core.package_identification Level 1 _identify(so100_plus_description) by extensions ['ignore', 'ignore_ament_install']
+[0.219s] colcon.colcon_core.package_identification Level 1 _identify(so100_plus_description) by extension 'ignore'
+[0.219s] colcon.colcon_core.package_identification Level 1 _identify(so100_plus_description) by extension 'ignore_ament_install'
+[0.219s] colcon.colcon_core.package_identification Level 1 _identify(so100_plus_description) by extensions ['colcon_pkg']
+[0.219s] colcon.colcon_core.package_identification Level 1 _identify(so100_plus_description) by extension 'colcon_pkg'
+[0.219s] colcon.colcon_core.package_identification Level 1 _identify(so100_plus_description) by extensions ['colcon_meta']
+[0.219s] colcon.colcon_core.package_identification Level 1 _identify(so100_plus_description) by extension 'colcon_meta'
+[0.219s] colcon.colcon_core.package_identification Level 1 _identify(so100_plus_description) by extensions ['ros']
+[0.219s] colcon.colcon_core.package_identification Level 1 _identify(so100_plus_description) by extension 'ros'
+[0.221s] colcon.colcon_core.package_identification DEBUG Package 'so100_plus_description' with type 'ros.ament_cmake' and name 'so100_plus_description'
+[0.221s] colcon.colcon_core.package_identification Level 1 _identify(soarm100_interfaces) by extensions ['ignore', 'ignore_ament_install']
+[0.221s] colcon.colcon_core.package_identification Level 1 _identify(soarm100_interfaces) by extension 'ignore'
+[0.221s] colcon.colcon_core.package_identification Level 1 _identify(soarm100_interfaces) by extension 'ignore_ament_install'
+[0.221s] colcon.colcon_core.package_identification Level 1 _identify(soarm100_interfaces) by extensions ['colcon_pkg']
+[0.221s] colcon.colcon_core.package_identification Level 1 _identify(soarm100_interfaces) by extension 'colcon_pkg'
+[0.221s] colcon.colcon_core.package_identification Level 1 _identify(soarm100_interfaces) by extensions ['colcon_meta']
+[0.221s] colcon.colcon_core.package_identification Level 1 _identify(soarm100_interfaces) by extension 'colcon_meta'
+[0.221s] colcon.colcon_core.package_identification Level 1 _identify(soarm100_interfaces) by extensions ['ros']
+[0.221s] colcon.colcon_core.package_identification Level 1 _identify(soarm100_interfaces) by extension 'ros'
+[0.222s] colcon.colcon_core.package_identification DEBUG Package 'soarm100_interfaces' with type 'ros.ament_cmake' and name 'soarm100_interfaces'
+[0.222s] colcon.colcon_core.package_identification Level 1 _identify(soarm100_vision) by extensions ['ignore', 'ignore_ament_install']
+[0.222s] colcon.colcon_core.package_identification Level 1 _identify(soarm100_vision) by extension 'ignore'
+[0.222s] colcon.colcon_core.package_identification Level 1 _identify(soarm100_vision) by extension 'ignore_ament_install'
+[0.222s] colcon.colcon_core.package_identification Level 1 _identify(soarm100_vision) by extensions ['colcon_pkg']
+[0.222s] colcon.colcon_core.package_identification Level 1 _identify(soarm100_vision) by extension 'colcon_pkg'
+[0.222s] colcon.colcon_core.package_identification Level 1 _identify(soarm100_vision) by extensions ['colcon_meta']
+[0.222s] colcon.colcon_core.package_identification Level 1 _identify(soarm100_vision) by extension 'colcon_meta'
+[0.222s] colcon.colcon_core.package_identification Level 1 _identify(soarm100_vision) by extensions ['ros']
+[0.222s] colcon.colcon_core.package_identification Level 1 _identify(soarm100_vision) by extension 'ros'
+[0.223s] colcon.colcon_core.package_identification DEBUG Package 'soarm100_vision' with type 'ros.ament_python' and name 'soarm100_vision'
+[0.223s] colcon.colcon_core.package_discovery Level 1 discover_packages(recursive) using defaults
+[0.223s] colcon.colcon_core.package_discovery Level 1 discover_packages(ignore) discover
+[0.223s] colcon.colcon_core.package_discovery Level 1 discover_packages(ignore) using defaults
+[0.223s] colcon.colcon_core.package_discovery Level 1 discover_packages(path) discover
+[0.223s] colcon.colcon_core.package_discovery Level 1 discover_packages(path) using defaults
+[0.233s] colcon.colcon_core.package_selection INFO Skipping not selected package 'so100_plus_description' in 'so100_plus_description'
+[0.233s] colcon.colcon_core.package_selection INFO Skipping not selected package 'soarm100_interfaces' in 'soarm100_interfaces'
+[0.233s] colcon.colcon_core.package_discovery Level 1 discover_packages(prefix_path) check parameters
+[0.233s] colcon.colcon_core.package_discovery Level 1 discover_packages(prefix_path) discover
+[0.234s] colcon.colcon_installed_package_information.package_discovery DEBUG Found 3 installed packages in /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install
+[0.235s] colcon.colcon_installed_package_information.package_discovery DEBUG Found 382 installed packages in /opt/ros/humble
+[0.236s] colcon.colcon_core.package_discovery Level 1 discover_packages(prefix_path) using defaults
+[0.264s] colcon.colcon_core.verb Level 5 set package 'soarm100_vision' build argument 'cmake_args' from command line to 'None'
+[0.264s] colcon.colcon_core.verb Level 5 set package 'soarm100_vision' build argument 'cmake_target' from command line to 'None'
+[0.264s] colcon.colcon_core.verb Level 5 set package 'soarm100_vision' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.264s] colcon.colcon_core.verb Level 5 set package 'soarm100_vision' build argument 'cmake_clean_cache' from command line to 'False'
+[0.264s] colcon.colcon_core.verb Level 5 set package 'soarm100_vision' build argument 'cmake_clean_first' from command line to 'False'
+[0.264s] colcon.colcon_core.verb Level 5 set package 'soarm100_vision' build argument 'cmake_force_configure' from command line to 'False'
+[0.264s] colcon.colcon_core.verb Level 5 set package 'soarm100_vision' build argument 'ament_cmake_args' from command line to 'None'
+[0.264s] colcon.colcon_core.verb Level 5 set package 'soarm100_vision' build argument 'catkin_cmake_args' from command line to 'None'
+[0.264s] colcon.colcon_core.verb Level 5 set package 'soarm100_vision' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.264s] colcon.colcon_core.verb DEBUG Building package 'soarm100_vision' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_vision', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision', 'merge_install': False, 'path': '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/soarm100_vision', 'symlink_install': True, 'test_result_base': None}
+[0.265s] colcon.colcon_core.executor INFO Executing jobs using 'parallel' executor
+[0.266s] colcon.colcon_parallel_executor.executor.parallel DEBUG run_until_complete
+[0.266s] colcon.colcon_ros.task.ament_python.build INFO Building ROS package in '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/soarm100_vision' with build type 'ament_python'
+[0.266s] colcon.colcon_core.shell Level 1 create_environment_hook('soarm100_vision', 'ament_prefix_path')
+[0.267s] colcon.colcon_core.plugin_system INFO Skipping extension 'colcon_core.shell.bat': Not used on non-Windows systems
+[0.267s] colcon.colcon_core.shell INFO Creating environment hook '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/share/soarm100_vision/hook/ament_prefix_path.ps1'
+[0.268s] colcon.colcon_core.shell INFO Creating environment descriptor '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/share/soarm100_vision/hook/ament_prefix_path.dsv'
+[0.268s] colcon.colcon_core.shell INFO Creating environment hook '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/share/soarm100_vision/hook/ament_prefix_path.sh'
+[0.268s] colcon.colcon_core.shell INFO Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[0.268s] colcon.colcon_core.shell DEBUG Skip shell extension 'dsv' for command environment
+[0.465s] colcon.colcon_core.task.python.build INFO Building Python package in '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/soarm100_vision'
+[0.465s] colcon.colcon_core.shell INFO Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[0.465s] colcon.colcon_core.shell DEBUG Skip shell extension 'dsv' for command environment
+[0.721s] colcon.colcon_core.task.python.build DEBUG While undoing a previous installation files outside the Python library path are being ignored: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/share/ament_index/resource_index/packages/soarm100_vision
+[0.721s] colcon.colcon_core.task.python.build DEBUG While undoing a previous installation files outside the Python library path are being ignored: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/share/soarm100_vision/package.xml
+[0.721s] colcon.colcon_core.task.python.build DEBUG While undoing a previous installation files outside the Python library path are being ignored: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/share/soarm100_vision/launch/vision_grasp.launch.py
+[0.721s] colcon.colcon_core.task.python.build DEBUG While undoing a previous installation files outside the Python library path are being ignored: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/share/soarm100_vision/launch/hardware_state.launch.py
+[0.721s] colcon.colcon_core.task.python.build DEBUG While undoing a previous installation files outside the Python library path are being ignored: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/share/soarm100_vision/launch/hardware_single_joint.launch.py
+[0.721s] colcon.colcon_core.task.python.build DEBUG While undoing a previous installation files outside the Python library path are being ignored: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/share/soarm100_vision/launch/hardware_controller.launch.py
+[0.722s] colcon.colcon_core.task.python.build DEBUG While undoing a previous installation files outside the Python library path are being ignored: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/soarm100_vision/anygrasp_planner_node
+[0.722s] colcon.colcon_core.task.python.build DEBUG While undoing a previous installation files outside the Python library path are being ignored: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/soarm100_vision/debug_viewer_node
+[0.722s] colcon.colcon_core.task.python.build DEBUG While undoing a previous installation files outside the Python library path are being ignored: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/soarm100_vision/grasp_orchestrator_node
+[0.722s] colcon.colcon_core.task.python.build DEBUG While undoing a previous installation files outside the Python library path are being ignored: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/soarm100_vision/hardware_controller_node
+[0.722s] colcon.colcon_core.task.python.build DEBUG While undoing a previous installation files outside the Python library path are being ignored: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/soarm100_vision/hardware_joint_state_node
+[0.722s] colcon.colcon_core.task.python.build DEBUG While undoing a previous installation files outside the Python library path are being ignored: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/soarm100_vision/hardware_single_joint_service_node
+[0.722s] colcon.colcon_core.task.python.build DEBUG While undoing a previous installation files outside the Python library path are being ignored: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/soarm100_vision/mujoco_camera_publisher_node
+[0.722s] colcon.colcon_core.task.python.build DEBUG While undoing a previous installation files outside the Python library path are being ignored: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/soarm100_vision/mujoco_mirror_viewer_node
+[0.722s] colcon.colcon_core.task.python.build DEBUG While undoing a previous installation files outside the Python library path are being ignored: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/soarm100_vision/mujoco_policy_backend_node
+[0.722s] colcon.colcon_core.task.python.build DEBUG While undoing a previous installation files outside the Python library path are being ignored: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/soarm100_vision/obstacle_cloud_node
+[0.722s] colcon.colcon_core.task.python.build DEBUG While undoing a previous installation files outside the Python library path are being ignored: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/soarm100_vision/orbbec_eye_to_hand_calibrator_node
+[0.722s] colcon.colcon_core.task.python.build DEBUG While undoing a previous installation files outside the Python library path are being ignored: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/soarm100_vision/policy_reach_node
+[0.722s] colcon.colcon_core.task.python.build DEBUG While undoing a previous installation files outside the Python library path are being ignored: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/soarm100_vision/sdf_cbf_backend_node
+[0.722s] colcon.colcon_core.task.python.build DEBUG While undoing a previous installation files outside the Python library path are being ignored: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/soarm100_vision/send_execute_grasp
+[0.722s] colcon.colcon_core.task.python.build DEBUG While undoing a previous installation files outside the Python library path are being ignored: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/soarm100_vision/send_planned_grasp
+[0.722s] colcon.colcon_core.task.python.build DEBUG While undoing a previous installation files outside the Python library path are being ignored: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/soarm100_vision/target_segmenter_node
+[0.722s] colcon.colcon_core.task.python.build DEBUG While undoing a previous installation files outside the Python library path are being ignored: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/soarm100_vision/wrist_handeye_calibrator_node
+[0.722s] colcon.colcon_core.task.python.build DEBUG While undoing a previous installation files outside the Python library path are being ignored: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/soarm100_vision/wrist_handeye_pose_sequence_node
+[0.722s] colcon.colcon_core.task.python.build DEBUG While undoing a previous installation files outside the Python library path are being ignored: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/soarm100_vision/wrist_tracker_node
+[0.722s] colcon.colcon_core.task.python.build DEBUG While undoing a previous installation files outside the Python library path are being ignored: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/soarm100_vision/wrist_tracking_roi_node
+[0.724s] colcon.colcon_core.event_handler.log_command DEBUG Invoking command in '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_vision': CONDA_PROMPT_MODIFIER=(base) PYTHONPATH=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_vision/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_vision/build --no-deps symlink_data --force
+[1.047s] colcon.colcon_core.shell Level 1 create_environment_hook('soarm100_vision', 'pythonpath_develop')
+[1.047s] colcon.colcon_core.shell INFO Creating environment hook '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_vision/share/soarm100_vision/hook/pythonpath_develop.ps1'
+[1.048s] colcon.colcon_core.event_handler.log_command DEBUG Invoked command in '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_vision' returned '0': CONDA_PROMPT_MODIFIER=(base) PYTHONPATH=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_vision/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_vision/build --no-deps symlink_data --force
+[1.048s] colcon.colcon_core.shell INFO Creating environment descriptor '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_vision/share/soarm100_vision/hook/pythonpath_develop.dsv'
+[1.049s] colcon.colcon_core.shell INFO Creating environment hook '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_vision/share/soarm100_vision/hook/pythonpath_develop.sh'
+[1.050s] colcon.colcon_core.environment Level 1 checking '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision' for CMake module files
+[1.050s] colcon.colcon_core.environment Level 1 checking '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision' for CMake config files
+[1.051s] colcon.colcon_core.environment Level 1 checking '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib'
+[1.051s] colcon.colcon_core.environment Level 1 checking '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/bin'
+[1.051s] colcon.colcon_core.environment Level 1 checking '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/pkgconfig/soarm100_vision.pc'
+[1.051s] colcon.colcon_core.environment Level 1 checking '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/python3.10/site-packages'
+[1.051s] colcon.colcon_core.shell Level 1 create_environment_hook('soarm100_vision', 'pythonpath')
+[1.051s] colcon.colcon_core.shell INFO Creating environment hook '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/share/soarm100_vision/hook/pythonpath.ps1'
+[1.052s] colcon.colcon_core.shell INFO Creating environment descriptor '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/share/soarm100_vision/hook/pythonpath.dsv'
+[1.052s] colcon.colcon_core.shell INFO Creating environment hook '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/share/soarm100_vision/hook/pythonpath.sh'
+[1.052s] colcon.colcon_core.environment Level 1 checking '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/bin'
+[1.052s] colcon.colcon_core.environment Level 1 create_environment_scripts_only(soarm100_vision)
+[1.053s] colcon.colcon_core.shell INFO Creating package script '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/share/soarm100_vision/package.ps1'
+[1.053s] colcon.colcon_core.shell INFO Creating package descriptor '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/share/soarm100_vision/package.dsv'
+[1.054s] colcon.colcon_core.shell INFO Creating package script '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/share/soarm100_vision/package.sh'
+[1.054s] colcon.colcon_core.shell INFO Creating package script '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/share/soarm100_vision/package.bash'
+[1.054s] colcon.colcon_core.shell INFO Creating package script '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/share/soarm100_vision/package.zsh'
+[1.055s] colcon.colcon_core.environment Level 1 create_file_with_runtime_dependencies(/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/share/colcon-core/packages/soarm100_vision)
+[1.055s] colcon.colcon_parallel_executor.executor.parallel DEBUG closing loop
+[1.055s] colcon.colcon_parallel_executor.executor.parallel DEBUG loop closed
+[1.055s] colcon.colcon_parallel_executor.executor.parallel DEBUG run_until_complete finished with '0'
+[1.055s] colcon.colcon_core.event_reactor DEBUG joining thread
+[1.060s] colcon.colcon_core.plugin_system INFO Skipping extension 'colcon_notification.desktop_notification.terminal_notifier': Not used on non-Darwin systems
+[1.060s] colcon.colcon_core.plugin_system INFO Skipping extension 'colcon_notification.desktop_notification.win32': Not used on non-Windows systems
+[1.060s] colcon.colcon_notification.desktop_notification INFO Sending desktop notification using 'notify2'
+[1.060s] colcon.colcon_notification.desktop_notification.notify2 DEBUG Failed to initialize notify2: org.freedesktop.DBus.Error.FileNotFound: Failed to connect to socket /run/user/1000/bus: No such file or directory
+[1.060s] colcon.colcon_core.event_reactor DEBUG joined thread
+[1.060s] colcon.colcon_core.shell INFO Creating prefix script '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/local_setup.ps1'
+[1.061s] colcon.colcon_core.shell INFO Creating prefix util module '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/_local_setup_util_ps1.py'
+[1.062s] colcon.colcon_core.shell INFO Creating prefix chain script '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/setup.ps1'
+[1.062s] colcon.colcon_core.shell INFO Creating prefix script '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/local_setup.sh'
+[1.063s] colcon.colcon_core.shell INFO Creating prefix util module '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/_local_setup_util_sh.py'
+[1.063s] colcon.colcon_core.shell INFO Creating prefix chain script '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/setup.sh'
+[1.064s] colcon.colcon_core.shell INFO Creating prefix script '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/local_setup.bash'
+[1.064s] colcon.colcon_core.shell INFO Creating prefix chain script '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/setup.bash'
+[1.064s] colcon.colcon_core.shell INFO Creating prefix script '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/local_setup.zsh'
+[1.065s] colcon.colcon_core.shell INFO Creating prefix chain script '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/setup.zsh'

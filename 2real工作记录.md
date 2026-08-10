@@ -1020,7 +1020,7 @@ logs/hardware/orbbec_handeye/20260805_140910/
 
 分析：PnP 极好但「棋盘在夹爪系」几乎每相邻两帧跳变 100–300 mm / 十余～数十度，leave-one-out 去掉单帧几乎救不了全局 RMS。说明整场「板相对指尖刚体固定」假设不成立（滑动 / 重夹 / 开合变化），或外参整体解歪；不是个别「倒霉姿态」问题。
 
-**第二轮（20260805_143740，22 样本）— 当前采用版**
+**第二轮（20260805_143740，22 样本）— 历史采用版**
 
 ```text
 logs/hardware/orbbec_handeye/20260805_143740/
@@ -1044,15 +1044,35 @@ logs/hardware/orbbec_handeye/20260805_143740/
 
 第二轮相对首轮明显改善；相邻帧 board_in_gripper 中位跳变约 70 mm / 9 deg，仍高于腕部标定水平。现场操作已认为夹持足够稳，进一步提升空间有限。
 
-**结论（工程取舍）：** 采纳 **20260805_143740** 作为当前 2Real Orbbec 眼在手外外参。精度低于腕部 eye-in-hand，但 PnP 与姿态覆盖可支撑联调与粗抓取；高精度终版抓取前可再复标。理论目标仍为 board_in_gripper 平移 RMS &lt; 20–30 mm、旋转 RMS &lt; 5 deg。
+**历史结论：** **20260805_143740** 曾作为 2Real Orbbec 眼在手外外参，已于 2026-08-07 因相机高度调整而废止。
 
-下游优先加载：
+该历史结果位于：
 
 ```text
 logs/hardware/orbbec_handeye/20260805_143740/orbbec_eye_to_hand_tsai.yaml
 ```
 
-或同目录 `orbbec_eye_to_hand_tsai.json` 中的 `T_base_camera`（`X_base = R · X_camera + t`，frame：`camera_color_optical_frame` → `base`）。深度若已与 RGB 对齐，可共用此外参。
+或同目录 `orbbec_eye_to_hand_tsai.json`。
+
+**第三轮（20260807_155222，17 样本）— 当前采用版**
+
+本轮在 Orbbec 主相机物理高度下降后重新标定。平移 RMS `14.1 mm`、平移最大误差 `25.4 mm`、旋转 RMS `2.80 deg`、旋转最大误差 `7.20 deg`、PnP 重投影 RMS `0.259 px`。样本平移覆盖 X/Y/Z 约 `170/284/133 mm`，姿态两两差异中位数 `57.1 deg`。
+
+原始结果：
+
+```text
+logs/hardware/orbbec_handeye/20260807_155222/
+```
+
+当前稳定配置：
+
+```text
+hardware/calibration/camera/orbbec_eye_to_hand_current.json
+hardware/calibration/camera/orbbec_eye_to_hand_current.yaml
+hardware/calibration/camera/real_camera_calib.json
+```
+
+`orbbec_eye_to_hand_current.*` 保存原始 `camera_color_optical_frame -> base` 外参。`real_camera_calib.json` 是现有 ROS2 后端可直接读取的坐标约定适配版。真机启动时使用 `use_sim_camera_extrinsics:=false`；MuJoCo 仍使用 `true`，不受此配置影响。
 
 #### 3.15.5 复标注意点
 
@@ -1061,3 +1081,108 @@ logs/hardware/orbbec_handeye/20260805_143740/orbbec_eye_to_hand_tsai.yaml
 3. 采完一条先 `m` 下电再挪臂，避免带力换姿。
 4. 关闭官方 Orbbec Viewer 后再跑脚本（USB 独占）。
 5. 若相邻采集后 board_in_gripper 仍大幅跳变，优先查夹持而非继续堆样本。
+
+### 3.16 固定类别视觉模型接入（2026-08-07）
+
+目标识别新增 `fixed_yolo_sam` 可选链路，第一版只验证主摄目标检测、SAM
+遮罩和目标点云，不启动真机运动：
+
+```text
+Gemini 336 RGB-D（depth registration）
+  -> 固定类别 YOLO：jpgCat / Chiikawa / tissue
+  -> MobileSAM：bbox prompt -> 原始目标 mask
+  -> mask + 对齐 depth + color CameraInfo -> camera optical frame 目标点云
+```
+
+一键启动：
+
+```bash
+./ros2/scripts/real/run_fixed_yolo_sam_mask.sh \
+  --build \
+  --class jpgCat \
+  --device 0
+```
+
+输出协议与原抓取链路一致：`/target/mask`、`/target/mask_expanded`、
+`/target/cloud`、`/target/cloud_roi`、`/target/center` 和
+`/target/segmentation_status`。因此后续可以直接接 AnyGrasp，而无需修改抓取
+规划接口。此阶段仍需人工用叠加窗口确认 bbox 与 SAM mask 是否正确覆盖目标。
+
+2026-08-07 首次真机调用已成功：`jpgCat` 置信度 `0.4758`，SAM mask
+`2908 px`，有效目标深度点 `2850`，主相机光学系中心为
+`(0.2375, 0.0675, 0.4950) m`。该结果证明 RGB-D topic、固定类别检测、SAM
+和 mask-depth 反投影链路已连通；下一步仍需在有窗口模式下人工检查遮罩边界。
+
+### 3.17 2Real 单次规划抓取闭环（2026-08-07）
+
+本轮只验证最小真机抓取闭环：
+
+```text
+Orbbec RGB-D
+  -> 固定类别 YOLO（jpgCat）
+  -> MobileSAM 原始 mask
+  -> mask + aligned depth + CameraInfo
+  -> /target/cloud（camera_color_optical_frame）
+  -> AnyGrasp top_k=45
+  -> 真机外参 camera_color_optical_frame -> base
+  -> pregrasp/final IK + 关节限位筛选
+  -> policy: OPEN -> PREGRASP -> FINAL -> CLOSE -> LIFT
+```
+
+本轮固定边界：
+
+- `use_sim_camera_extrinsics=false`，使用
+  `hardware/calibration/camera/real_camera_calib.json`。
+- 目标类别默认 `jpgCat`，同类多实例选置信度最高的 bbox。
+- 固定类别 YOLO 默认置信度门槛为 `0.01`（可用 `--conf` 修改），不再用 `0.25` 预先截断；同类保留框中仍选择最高分 bbox。
+- AnyGrasp 只请求一次；不启用 replan。
+- 真机 planner 将候选从相机光学系转换到 `base` 后，沿 base approach 应用 `-0.040 m` 深度补偿，再从补偿后的 final 后退 `0.070 m` 计算 pregrasp。补偿后的 pregrasp/final 必须同时位于 policy 工作空间，之后才进入 IK；不满足的候选会被跳过而非留到 policy 执行阶段失败。
+- 不启用腕部 tracking，CLOSE/LIFT 期间也不做位置修正。
+- 不启用 SDF-CBF-QP 避障。
+- SAM 原始 mask 生成目标点云；5% 外扩 mask 不送入 AnyGrasp。
+- pregrasp、final 和 lift 都使用同一个已验证 policy 和真机命令整形层。
+- 默认夹爪打开目标 `+0.45 rad`，闭合目标 `-0.15 rad`，闭合时允许因物体阻挡而不到位。lift policy 保留闭合目标，不会将其替换为被物体阻挡后的实测位置。
+- lift 默认沿 base `+Z` 移动 `0.05 m`。
+
+新增文件：
+
+```text
+ros2/soarm100_vision/soarm100_vision/real_policy_grasp_backend_node.py
+ros2/soarm100_vision/launch/real_single_grasp.launch.py
+ros2/scripts/real/run_single_grasp_2real.sh
+```
+
+一键运行：
+
+```bash
+cd /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim
+
+./ros2/scripts/real/run_single_grasp_2real.sh \
+  --class jpgCat \
+  --device 0 \
+  --show-window on \
+  --confirm RUN_SINGLE_GRASP
+```
+
+首次或修改 ROS2 代码后增加 `--build`。脚本启动前检查串口占用，依次启动 Orbbec、`vision_seg` 中的 YOLO+SAM、持久硬件控制器、AnyGrasp planner、真机 policy backend 和 orchestrator。成功、失败或 Ctrl+C 都会请求七轴断力并清理所有子进程。
+
+发送抓取 action 前，脚本不仅检查 topic/service/action 名称，还会分别读取一帧 RGB、对齐深度和 color CameraInfo。任何一路只有 topic 名但没有实际消息时，都会在机械臂运动前停止。YOLO 与 SAM 在 `vision_seg` 中执行；AnyGrasp worker 由 planner 单次调用 `graspnet_gpu`，本阶段不会循环推理。
+
+终端 action feedback 会依次显示 `SEGMENTING`、`PLANNING_GRASP`、`OPEN`、`MOVE_TO_PREGRASP`、`FINAL_APPROACH`、`CLOSE` 和 `LIFT`。某阶段不继续时，以最后一个 stage 和 reason 为准，并结合对应 JSON/JSONL 日志定位。
+
+首次联调曾因命令行 `--device 0` 被 ROS2 推断成整数、而参数声明为字符串，导致分割节点启动失败并假性停在 `SEGMENTING`。脚本现将数字 GPU 编号规范化为字符串 `cuda:0`，监控视觉/core 子进程是否存活，并为 segmentation、planning、policy 三类 ROS future 增加显式超时；节点崩溃不会再被 Viewer 或 DDS 残留名称掩盖。
+
+第二次联调暴露 ROS2 Humble action 回调并不运行在标准 `asyncio` event loop 中，不能用 `asyncio.sleep()` 轮询 rclpy Future。超时实现已改为直接 `await rclpy Future`，由独立定时器在超时点取消 Future；该修复不改变 YOLO、SAM 或 AnyGrasp 算法。
+
+主要日志：
+
+```text
+logs/hardware/real_grasp_orbbec.log
+logs/hardware/real_grasp_vision.log
+logs/hardware/real_grasp_controller.log
+logs/hardware/real_grasp_nodes.log
+logs/hardware/real_single_grasp/
+logs/ros2_vision/fixed_yolo_sam/segment_target_latest.json
+```
+
+安全终止规则：任一阶段无新鲜关节反馈、policy timeout、目标超工作空间、外参转换失败、IK 无解或串口驱动拒绝命令时，当次抓取立即失败，不会自动进入下一阶段或二次规划。

@@ -1,0 +1,57 @@
+{
+  "stage": "PREGRASP",
+  "status": "TIMEOUT",
+  "returncode": 0,
+  "target": [
+    0.2506124660557118,
+    0.09470430248895079,
+    0.07293118150927419
+  ],
+  "quat": [
+    0.3858222424295243,
+    -0.15511858911866105,
+    0.8709767987619434,
+    -0.2616846127973263
+  ],
+  "log_path": "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/logs/hardware/real_single_grasp/policy_pregrasp_20260810_142142_528236316.jsonl",
+  "stdout_tail": "err=82.7deg |dq|=0.5666\n[INFO] [1786342917.181147174] [so100_plus_policy_reach]: reach tick=270 pos_err=119.8mm ori_err=82.7deg |dq|=0.5666\n[INFO] [1786342917.681191924] [so100_plus_policy_reach]: reach tick=280 pos_err=119.8mm ori_err=82.7deg |dq|=0.5666\n[INFO] [1786342918.181233138] [so100_plus_policy_reach]: reach tick=290 pos_err=119.8mm ori_err=82.7deg |dq|=0.5666\n[INFO] [1786342918.681162163] [so100_plus_policy_reach]: reach tick=300 pos_err=119.8mm ori_err=82.7deg |dq|=0.5666\n[INFO] [1786342919.182379097] [so100_plus_policy_reach]: reach tick=310 pos_err=119.8mm ori_err=82.7deg |dq|=0.5666\n[INFO] [1786342919.681154143] [so100_plus_policy_reach]: reach tick=320 pos_err=119.8mm ori_err=82.7deg |dq|=0.5666\n[INFO] [1786342920.182443926] [so100_plus_policy_reach]: reach tick=330 pos_err=119.8mm ori_err=82.7deg |dq|=0.5666\n[INFO] [1786342920.680672760] [so100_plus_policy_reach]: reach tick=340 pos_err=119.8mm ori_err=82.7deg |dq|=0.5666\n[INFO] [1786342921.181717939] [so100_plus_policy_reach]: reach tick=350 pos_err=119.8mm ori_err=82.7deg |dq|=0.5666\n[INFO] [1786342921.682424498] [so100_plus_policy_reach]: reach tick=360 pos_err=119.8mm ori_err=82.7deg |dq|=0.5666\n[INFO] [1786342922.180946810] [so100_plus_policy_reach]: reach tick=370 pos_err=119.8mm ori_err=82.7deg |dq|=0.5666\n[INFO] [1786342922.680937902] [so100_plus_policy_reach]: reach tick=380 pos_err=119.8mm ori_err=82.7deg |dq|=0.5666\n[INFO] [1786342923.182235416] [so100_plus_policy_reach]: reach tick=390 pos_err=119.8mm ori_err=82.7deg |dq|=0.5666\n[INFO] [1786342923.681248126] [so100_plus_policy_reach]: reach tick=400 pos_err=119.8mm ori_err=82.7deg |dq|=0.5666\n[INFO] [1786342924.181998185] [so100_plus_policy_reach]: reach tick=410 pos_err=119.8mm ori_err=82.7deg |dq|=0.5666\n[INFO] [1786342924.681526166] [so100_plus_policy_reach]: reach tick=420 pos_err=119.8mm ori_err=82.7deg |dq|=0.5666\n[INFO] [1786342925.181935440] [so100_plus_policy_reach]: reach tick=430 pos_err=119.8mm ori_err=82.7deg |dq|=0.5666\n[INFO] [1786342925.681025858] [so100_plus_policy_reach]: reach tick=440 pos_err=119.8mm ori_err=82.7deg |dq|=0.5666\n[INFO] [1786342926.181481350] [so100_plus_policy_reach]: reach tick=450 pos_err=119.8mm ori_err=82.7deg |dq|=0.5666\n[INFO] [1786342926.681426066] [so100_plus_policy_reach]: reach tick=460 pos_err=119.8mm ori_err=82.7deg |dq|=0.5666\n[INFO] [1786342927.182300495] [so100_plus_policy_reach]: reach tick=470 pos_err=119.8mm ori_err=82.7deg |dq|=0.5666\n[INFO] [1786342927.681484350] [so100_plus_policy_reach]: reach tick=480 pos_err=119.8mm ori_err=82.7deg |dq|=0.5666\n[INFO] [1786342928.181198587] [so100_plus_policy_reach]: reach tick=490 pos_err=119.8mm ori_err=82.7deg |dq|=0.5666\n[INFO] [1786342928.680653856] [so100_plus_policy_reach]: reach tick=500 pos_err=119.8mm ori_err=82.7deg |dq|=0.5666\n[WARN] [1786342928.729901610] [so100_plus_policy_reach]: policy reach stopped: TIMEOUT pos_err_m=0.11981360644496945 orientation_err_deg=82.72462543198617 offset_xyz_mm=(-40.30,-112.72,+5.12)\n",
+  "terminal": {
+    "wall_time": 1786342928.729589,
+    "event": "status",
+    "status": "TIMEOUT",
+    "pos_err_m": 0.11981360644496945,
+    "orientation_err_deg": 82.72462543198617,
+    "tcp_pos_m": [
+      0.21031316912543813,
+      -0.018012332417555895,
+      0.07805242858678745
+    ],
+    "target_pos_m": [
+      0.2506124660557118,
+      0.09470430248895079,
+      0.07293118150927419
+    ],
+    "offset_xyz_m": [
+      -0.040299296930273676,
+      -0.11271663490650669,
+      0.005121247077513255
+    ],
+    "offset_xyz_mm": [
+      -40.29929693027368,
+      -112.71663490650668,
+      5.121247077513255
+    ],
+    "tcp_quat_wxyz": [
+      0.5232357113525327,
+      0.46997480359814026,
+      0.7108158355997525,
+      -0.009429857311987826
+    ],
+    "target_quat_wxyz": [
+      0.3858222424295243,
+      -0.15511858911866105,
+      0.8709767987619434,
+      -0.2616846127973263
+    ]
+  }
+}
