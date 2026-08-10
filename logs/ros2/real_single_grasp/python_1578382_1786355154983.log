@@ -1,0 +1,16 @@
+[INFO] [1786355156.240309663] [so100_plus_policy_reach]: policy reach ready: checkpoint loaded, MuJoCo FK only, target=(+0.310,+0.056,+0.101), feedback-driven rate=20.0Hz vmax=0.200rad/s amax=0.800rad/s2 tracking_limit=0.250rad start_on_launch=True
+[INFO] [1786355156.694427347] [so100_plus_policy_reach]: reach tick=10 pos_err=58.0mm ori_err=25.9deg |dq|=0.2045
+[INFO] [1786355157.193454255] [so100_plus_policy_reach]: reach tick=20 pos_err=58.0mm ori_err=25.9deg |dq|=0.4447
+[INFO] [1786355157.693376217] [so100_plus_policy_reach]: reach tick=30 pos_err=58.0mm ori_err=25.9deg |dq|=0.6150
+[INFO] [1786355158.193526908] [so100_plus_policy_reach]: reach tick=40 pos_err=58.0mm ori_err=25.9deg |dq|=0.6150
+[INFO] [1786355158.693843494] [so100_plus_policy_reach]: reach tick=50 pos_err=58.0mm ori_err=25.9deg |dq|=0.6150
+[INFO] [1786355159.194936832] [so100_plus_policy_reach]: reach tick=60 pos_err=58.0mm ori_err=25.9deg |dq|=0.6150
+[INFO] [1786355159.694227111] [so100_plus_policy_reach]: reach tick=70 pos_err=58.0mm ori_err=25.9deg |dq|=0.6150
+[INFO] [1786355160.194872526] [so100_plus_policy_reach]: reach tick=80 pos_err=58.0mm ori_err=25.9deg |dq|=0.6150
+[INFO] [1786355160.693867829] [so100_plus_policy_reach]: reach tick=90 pos_err=58.0mm ori_err=25.9deg |dq|=0.6150
+[INFO] [1786355161.193705587] [so100_plus_policy_reach]: reach tick=100 pos_err=58.0mm ori_err=25.9deg |dq|=0.6150
+[INFO] [1786355161.694069172] [so100_plus_policy_reach]: reach tick=110 pos_err=58.0mm ori_err=25.9deg |dq|=0.6150
+[INFO] [1786355162.193564394] [so100_plus_policy_reach]: reach tick=120 pos_err=58.0mm ori_err=25.9deg |dq|=0.6150
+[INFO] [1786355162.693749041] [so100_plus_policy_reach]: reach tick=130 pos_err=58.0mm ori_err=25.9deg |dq|=0.6150
+[INFO] [1786355163.195061273] [so100_plus_policy_reach]: reach tick=140 pos_err=58.0mm ori_err=25.9deg |dq|=0.6150
+[INFO] [1786355163.695160157] [so100_plus_policy_reach]: reach tick=150 pos_err=58.0mm ori_err=25.9deg |dq|=0.6150

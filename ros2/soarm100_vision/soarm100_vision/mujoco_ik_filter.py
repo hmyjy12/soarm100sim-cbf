@@ -105,21 +105,15 @@ class MujocoCandidateIkFilter:
         data.qpos[:] = self.home_data.qpos
         data.qvel[:] = 0.0
         self._set_q(data, seed)
-        target_approach = self._quat_rotate(
-            target_quat, np.array([0.0, 0.0, 1.0], dtype=np.float64)
-        )
 
         for _ in range(self.max_iterations):
             tcp_pos, tcp_quat = self.runtime.tcp_pose_w(data, self.ids)
             pos_err = target_pos - np.asarray(tcp_pos, dtype=np.float64)
-            tcp_approach = self._quat_rotate(
-                tcp_quat, np.array([0.0, 0.0, 1.0], dtype=np.float64)
-            )
-            rot_err = np.cross(tcp_approach, target_approach)
-            approach_err_deg = self._axis_angle_deg(tcp_approach, target_approach)
+            rot_err = self._quat_error_rotvec(target_quat, tcp_quat)
+            orientation_err_deg = self._quat_angle_deg(tcp_quat, target_quat)
             if (
                 np.linalg.norm(pos_err) <= self.position_tolerance_m
-                and approach_err_deg <= self.rotation_tolerance_deg
+                and orientation_err_deg <= self.rotation_tolerance_deg
             ):
                 break
 
@@ -152,10 +146,7 @@ class MujocoCandidateIkFilter:
 
         tcp_pos, tcp_quat = self.runtime.tcp_pose_w(data, self.ids)
         pos_err_m = float(np.linalg.norm(target_pos - np.asarray(tcp_pos, dtype=np.float64)))
-        rot_err_deg = self._axis_angle_deg(
-            self._quat_rotate(tcp_quat, np.array([0.0, 0.0, 1.0], dtype=np.float64)),
-            target_approach,
-        )
+        rot_err_deg = self._quat_angle_deg(tcp_quat, target_quat)
         q = self.runtime.joint_pos(data, self.ids)
         within_limits = bool(
             np.all(q[: self.n_arm] >= self.ids.q_low[: self.n_arm] - 1.0e-8)
@@ -251,20 +242,20 @@ class MujocoCandidateIkFilter:
         )
 
     @classmethod
-    def _quat_rotate(cls, q, vector) -> np.ndarray:
-        quat = cls._normalize_quat(q)
-        pure = np.concatenate(([0.0], np.asarray(vector, dtype=np.float64).reshape(3)))
-        return cls._quat_multiply(
-            cls._quat_multiply(quat, pure), cls._quat_conjugate(quat)
-        )[1:]
+    def _quat_error_rotvec(cls, desired, current) -> np.ndarray:
+        """Return the shortest world-frame rotation taking current to desired."""
+        error = cls._quat_multiply(
+            cls._normalize_quat(desired),
+            cls._quat_conjugate(cls._normalize_quat(current)),
+        )
+        return cls._quat_to_rotvec(error)
 
-    @staticmethod
-    def _axis_angle_deg(a, b) -> float:
-        lhs = np.asarray(a, dtype=np.float64).reshape(3)
-        rhs = np.asarray(b, dtype=np.float64).reshape(3)
-        lhs /= max(float(np.linalg.norm(lhs)), 1.0e-12)
-        rhs /= max(float(np.linalg.norm(rhs)), 1.0e-12)
-        return float(np.degrees(np.arccos(np.clip(float(np.dot(lhs, rhs)), -1.0, 1.0))))
+    @classmethod
+    def _quat_angle_deg(cls, a, b) -> float:
+        lhs = cls._normalize_quat(a)
+        rhs = cls._normalize_quat(b)
+        dot = abs(float(np.dot(lhs, rhs)))
+        return float(np.degrees(2.0 * np.arccos(np.clip(dot, 0.0, 1.0))))
 
     @classmethod
     def _quat_to_rotvec(cls, q) -> np.ndarray:

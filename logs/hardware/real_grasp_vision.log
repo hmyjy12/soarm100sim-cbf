@@ -8,9 +8,9 @@ QFontDatabase: Cannot find font directory /home/sophie/miniconda3/envs/vision_se
 Note that Qt no longer ships fonts. Deploy some (from https://dejavu-fonts.github.io/ for example) or switch to fontconfig.
 QFontDatabase: Cannot find font directory /home/sophie/miniconda3/envs/vision_seg/lib/python3.10/site-packages/cv2/qt/fonts.
 Note that Qt no longer ships fonts. Deploy some (from https://dejavu-fonts.github.io/ for example) or switch to fontconfig.
-[INFO] [1786348897.326577499] [fixed_yolo_sam_viewer]: debug viewer ready: rgb=/camera/color/image_raw mask=/target/mask overlay=/debug/target_overlay show_window=True
-[INFO] [1786348899.337681262] [fixed_yolo_sam_segmenter]: fixed_yolo classes=jpgCat,Chiikawa,tissue
-[INFO] [1786348899.343988852] [fixed_yolo_sam_segmenter]: target segmenter ready: mode=fixed_yolo_sam color=255,0,0 rgb=/camera/color/image_raw depth=/camera/depth/image_raw mask=/target/mask cloud=/target/cloud
+[INFO] [1786355118.186371541] [fixed_yolo_sam_viewer]: debug viewer ready: rgb=/camera/color/image_raw mask=/target/mask overlay=/debug/target_overlay show_window=True
+[INFO] [1786355120.118010586] [fixed_yolo_sam_segmenter]: fixed_yolo classes=jpgCat,Chiikawa,tissue
+[INFO] [1786355120.124399203] [fixed_yolo_sam_segmenter]: target segmenter ready: mode=fixed_yolo_sam color=255,0,0 rgb=/camera/color/image_raw depth=/camera/depth/image_raw mask=/target/mask cloud=/target/cloud
 Traceback (most recent call last):
   File "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/soarm100_vision/soarm100_vision/target_segmenter_node.py", line 392, in <module>
     main()
@@ -27,5 +27,5 @@ Traceback (most recent call last):
   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 681, in _wait_for_ready_callbacks
     raise ExternalShutdownException()
 rclpy.executors.ExternalShutdownException
-[WARN] [1786348948.281301138] [fixed_yolo_sam_viewer]: debug overlay failed: Failed to publish: publisher's context is invalid, at ./src/rcl/publisher.c:389
+[WARN] [1786355163.840149525] [fixed_yolo_sam_viewer]: debug overlay failed: Failed to publish: publisher's context is invalid, at ./src/rcl/publisher.c:389
 Failed to publish log message to rosout: publisher's context is invalid, at ./src/rcl/publisher.c:389

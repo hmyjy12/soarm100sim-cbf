@@ -5,23 +5,23 @@
   "target_color_rgb": "255,0,0",
   "selected_class": "jpgCat",
   "bbox_xyxy": [
-    812.7783203125,
-    310.4619140625,
-    923.9061889648438,
-    389.25494384765625
+    559.2314453125,
+    340.7781677246094,
+    666.5899047851562,
+    416.66766357421875
   ],
-  "score": 0.1805831491947174,
+  "score": 0.2561435401439667,
   "fallback_red_mask": false,
-  "mask_pixels": 5453,
-  "expanded_mask_pixels": 9213,
+  "mask_pixels": 5391,
+  "expanded_mask_pixels": 8214,
   "mask_expand_ratio": 0.05,
   "use_expanded_mask_for_target_cloud": false,
-  "n_points": 5397,
-  "n_roi_points": 9153,
+  "n_points": 5298,
+  "n_roi_points": 7863,
   "center_camera": [
-    0.18226920068264008,
-    -0.010603716596961021,
-    0.5600000023841858
+    -0.02389843389391899,
+    0.012484835460782051,
+    0.5509999990463257
   ],
-  "stamp_s": 1786348911.6745398
+  "stamp_s": 1786355130.969555
 }

@@ -1,0 +1,57 @@
+{
+  "stage": "PREGRASP",
+  "status": "SUCCESS",
+  "returncode": 0,
+  "target": [
+    0.28677804985282884,
+    0.059029915292316784,
+    0.08288941147320128
+  ],
+  "quat": [
+    0.08057665650201674,
+    0.9437293182499038,
+    0.11467002915024908,
+    0.2995549377279718
+  ],
+  "log_path": "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/logs/hardware/real_single_grasp/policy_pregrasp_20260810_174536_953603297.jsonl",
+  "stdout_tail": "[INFO] [1786355138.478844860] [so100_plus_policy_reach]: policy reach ready: checkpoint loaded, MuJoCo FK only, target=(+0.287,+0.059,+0.083), feedback-driven rate=20.0Hz vmax=0.200rad/s amax=0.800rad/s2 tracking_limit=0.250rad start_on_launch=True\n[INFO] [1786355138.945385590] [so100_plus_policy_reach]: reach tick=10 pos_err=92.9mm ori_err=98.7deg |dq|=0.0715\n[INFO] [1786355139.444290638] [so100_plus_policy_reach]: reach tick=20 pos_err=71.3mm ori_err=96.0deg |dq|=0.0509\n[INFO] [1786355139.944237025] [so100_plus_policy_reach]: reach tick=30 pos_err=54.5mm ori_err=95.0deg |dq|=0.1214\n[INFO] [1786355140.444015404] [so100_plus_policy_reach]: reach tick=40 pos_err=38.6mm ori_err=94.2deg |dq|=0.1228\n[INFO] [1786355140.944548982] [so100_plus_policy_reach]: reach tick=50 pos_err=28.4mm ori_err=92.6deg |dq|=0.1038\n[INFO] [1786355141.443833977] [so100_plus_policy_reach]: reach tick=60 pos_err=23.3mm ori_err=86.6deg |dq|=0.0934\n[INFO] [1786355141.943376626] [so100_plus_policy_reach]: reach tick=70 pos_err=16.3mm ori_err=84.9deg |dq|=0.0456\n[INFO] [1786355142.443889882] [so100_plus_policy_reach]: reach tick=80 pos_err=10.6mm ori_err=80.8deg |dq|=0.0719\n[INFO] [1786355142.943702890] [so100_plus_policy_reach]: reach tick=90 pos_err=17.5mm ori_err=72.0deg |dq|=0.0885\n[INFO] [1786355143.443637446] [so100_plus_policy_reach]: reach tick=100 pos_err=12.3mm ori_err=70.3deg |dq|=0.0758\n[INFO] [1786355143.943528856] [so100_plus_policy_reach]: reach tick=110 pos_err=12.2mm ori_err=67.6deg |dq|=0.0512\n[INFO] [1786355144.444501283] [so100_plus_policy_reach]: reach tick=120 pos_err=18.5mm ori_err=59.0deg |dq|=0.0694\n[INFO] [1786355144.944145227] [so100_plus_policy_reach]: reach tick=130 pos_err=10.5mm ori_err=55.5deg |dq|=0.0822\n[INFO] [1786355145.444718357] [so100_plus_policy_reach]: reach tick=140 pos_err=7.9mm ori_err=52.8deg |dq|=0.0449\n[INFO] [1786355145.944480594] [so100_plus_policy_reach]: reach tick=150 pos_err=13.3mm ori_err=45.1deg |dq|=0.0460\n[INFO] [1786355146.443980086] [so100_plus_policy_reach]: reach tick=160 pos_err=7.7mm ori_err=40.9deg |dq|=0.0946\n[INFO] [1786355146.944786094] [so100_plus_policy_reach]: reach tick=170 pos_err=13.4mm ori_err=34.2deg |dq|=0.0916\n[INFO] [1786355147.443615729] [so100_plus_policy_reach]: reach tick=180 pos_err=1.7mm ori_err=31.4deg |dq|=0.0411\n[INFO] [1786355147.943964706] [so100_plus_policy_reach]: reach tick=190 pos_err=14.5mm ori_err=27.4deg |dq|=0.0688\n[INFO] [1786355148.444399045] [so100_plus_policy_reach]: reach tick=200 pos_err=11.2mm ori_err=17.2deg |dq|=0.1514\n[INFO] [1786355148.944459506] [so100_plus_policy_reach]: reach tick=210 pos_err=18.8mm ori_err=16.3deg |dq|=0.0835\n[WARN] [1786355149.444761212] [so100_plus_policy_reach]: policy reach stopped: SUCCESS pos_err_m=0.01691050959706709 orientation_err_deg=10.798570985549885 offset_xyz_mm=(-5.90,-13.22,-8.74)\n",
+  "terminal": {
+    "wall_time": 1786355149.4442525,
+    "event": "status",
+    "status": "SUCCESS",
+    "pos_err_m": 0.01691050959706709,
+    "orientation_err_deg": 10.798570985549885,
+    "tcp_pos_m": [
+      0.2808804580696894,
+      0.04581104317000838,
+      0.07414611885508525
+    ],
+    "target_pos_m": [
+      0.28677804985282884,
+      0.059029915292316784,
+      0.08288941147320128
+    ],
+    "offset_xyz_m": [
+      -0.005897591783139422,
+      -0.013218872122308406,
+      -0.00874329261811603
+    ],
+    "offset_xyz_mm": [
+      -5.897591783139422,
+      -13.218872122308406,
+      -8.74329261811603
+    ],
+    "tcp_quat_wxyz": [
+      0.08254388303972322,
+      0.9538904477016567,
+      0.17593421428716097,
+      0.22875024240296854
+    ],
+    "target_quat_wxyz": [
+      0.08057665650201674,
+      0.9437293182499038,
+      0.11467002915024908,
+      0.2995549377279718
+    ]
+  }
+}

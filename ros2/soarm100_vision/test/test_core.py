@@ -20,6 +20,7 @@ from soarm100_vision.mujoco_inprocess_runner import (
     MujocoInProcessRunner,
     MujocoRunnerConfig,
 )
+from soarm100_vision.mujoco_ik_filter import MujocoCandidateIkFilter
 from soarm100_vision.sdf_cbf_core import TableFilter, VoxelPersistence, WorkspaceCrop
 from soarm100_vision.vision_utils import color_components, hsv_color_mask, parse_rgb
 from soarm100_vision.hardware_joint_bridge import (
@@ -30,6 +31,20 @@ from soarm100_vision.target_segmenter_node import (
     normalize_model_names,
     resolve_fixed_class_id,
 )
+
+
+def test_full_quaternion_error_uses_shortest_rotation():
+    identity = np.array([1.0, 0.0, 0.0, 0.0])
+    roll_90 = np.array([np.sqrt(0.5), 0.0, 0.0, np.sqrt(0.5)])
+
+    assert MujocoCandidateIkFilter._quat_angle_deg(identity, -identity) == 0.0
+    assert np.isclose(
+        MujocoCandidateIkFilter._quat_angle_deg(identity, roll_90), 90.0
+    )
+    assert np.allclose(
+        MujocoCandidateIkFilter._quat_error_rotvec(-roll_90, identity),
+        np.array([0.0, 0.0, np.pi / 2.0]),
+    )
 
 
 def test_fixed_detector_class_names_support_dict_and_list():

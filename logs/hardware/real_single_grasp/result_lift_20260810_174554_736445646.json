@@ -1,0 +1,23 @@
+{
+  "stage": "LIFT",
+  "status": "RUNNING",
+  "returncode": 0,
+  "target": [
+    0.31013313022965505,
+    0.0556945089190258,
+    0.10058747213642157
+  ],
+  "quat": [
+    0.08057665650201674,
+    0.9437293182499038,
+    0.11467002915024908,
+    0.2995549377279718
+  ],
+  "log_path": "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/logs/hardware/real_single_grasp/policy_lift_20260810_174554_736445646.jsonl",
+  "stdout_tail": "[INFO] [1786355156.240309663] [so100_plus_policy_reach]: policy reach ready: checkpoint loaded, MuJoCo FK only, target=(+0.310,+0.056,+0.101), feedback-driven rate=20.0Hz vmax=0.200rad/s amax=0.800rad/s2 tracking_limit=0.250rad start_on_launch=True\n[INFO] [1786355156.694427347] [so100_plus_policy_reach]: reach tick=10 pos_err=58.0mm ori_err=25.9deg |dq|=0.2045\n[INFO] [1786355157.193454255] [so100_plus_policy_reach]: reach tick=20 pos_err=58.0mm ori_err=25.9deg |dq|=0.4447\n[INFO] [1786355157.693376217] [so100_plus_policy_reach]: reach tick=30 pos_err=58.0mm ori_err=25.9deg |dq|=0.6150\n[INFO] [1786355158.193526908] [so100_plus_policy_reach]: reach tick=40 pos_err=58.0mm ori_err=25.9deg |dq|=0.6150\n[INFO] [1786355158.693843494] [so100_plus_policy_reach]: reach tick=50 pos_err=58.0mm ori_err=25.9deg |dq|=0.6150\n[INFO] [1786355159.194936832] [so100_plus_policy_reach]: reach tick=60 pos_err=58.0mm ori_err=25.9deg |dq|=0.6150\n[INFO] [1786355159.694227111] [so100_plus_policy_reach]: reach tick=70 pos_err=58.0mm ori_err=25.9deg |dq|=0.6150\n[INFO] [1786355160.194872526] [so100_plus_policy_reach]: reach tick=80 pos_err=58.0mm ori_err=25.9deg |dq|=0.6150\n[INFO] [1786355160.693867829] [so100_plus_policy_reach]: reach tick=90 pos_err=58.0mm ori_err=25.9deg |dq|=0.6150\n[INFO] [1786355161.193705587] [so100_plus_policy_reach]: reach tick=100 pos_err=58.0mm ori_err=25.9deg |dq|=0.6150\n[INFO] [1786355161.694069172] [so100_plus_policy_reach]: reach tick=110 pos_err=58.0mm ori_err=25.9deg |dq|=0.6150\n[INFO] [1786355162.193564394] [so100_plus_policy_reach]: reach tick=120 pos_err=58.0mm ori_err=25.9deg |dq|=0.6150\n[INFO] [1786355162.693749041] [so100_plus_policy_reach]: reach tick=130 pos_err=58.0mm ori_err=25.9deg |dq|=0.6150\n[INFO] [1786355163.195061273] [so100_plus_policy_reach]: reach tick=140 pos_err=58.0mm ori_err=25.9deg |dq|=0.6150\n[INFO] [1786355163.695160157] [so100_plus_policy_reach]: reach tick=150 pos_err=58.0mm ori_err=25.9deg |dq|=0.6150\n",
+  "terminal": {
+    "wall_time": 1786355156.2412047,
+    "event": "status",
+    "status": "RUNNING"
+  }
+}

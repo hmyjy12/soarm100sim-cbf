@@ -1125,7 +1125,7 @@ Orbbec RGB-D
   -> /target/cloud（camera_color_optical_frame）
   -> AnyGrasp top_k=45
   -> 真机外参 camera_color_optical_frame -> base
-  -> pregrasp/final IK + 关节限位筛选
+  -> pregrasp/final 完整四元数 IK + MuJoCo/真机 raw 关节限位筛选
   -> policy: OPEN -> PREGRASP -> FINAL -> CLOSE -> LIFT
 ```
 
@@ -1143,6 +1143,49 @@ Orbbec RGB-D
 - pregrasp、final 和 lift 都使用同一个已验证 policy 和真机命令整形层。
 - 默认夹爪打开目标 `+0.45 rad`，闭合目标 `-0.15 rad`，闭合时允许因物体阻挡而不到位。lift policy 保留闭合目标，不会将其替换为被物体阻挡后的实测位置。
 - lift 默认沿 base `+Z` 移动 `0.05 m`。
+
+#### 3.17.1 完整四元数 IK 筛选修正（2026-08-10）
+
+此前 `MujocoCandidateIkFilter` 的姿态 IK 只比较夹爪 approach 轴。两个姿态即使
+绕 approach 轴的 roll 相差很大，只要进刀方向一致，也可能被判定为 IK 可达。
+这会出现以下不一致：
+
+```text
+候选筛选：approach error 接近 0 deg，认为可达
+policy 执行：追踪完整 AnyGrasp 四元数，wrist_roll 大幅旋转
+真机安全层：中间目标越过 wrist_roll raw 限位，拒绝命令并停止在 PREGRASP
+```
+
+现已将 IK 旋转残差改为完整四元数误差：
+
+```text
+q_error = q_target * conjugate(q_current)
+rotation_error = shortest_rotation_vector(q_error)
+```
+
+求解器的三维旋转残差现在同时约束 roll、pitch 和 yaw；候选只有在位置误差不超过
+`0.005 m`、完整姿态误差不超过 `3 deg`，并满足 MuJoCo 关节限位时才算 IK
+可达。pregrasp 和 final 均执行相同检查，之后再经过真机标定映射对应的 raw
+安全限位筛选。
+
+四元数误差采用最短旋转路径，`q` 与 `-q` 被视为相同姿态，因此不会把同一姿态
+误判为接近 360 度的旋转。候选排序仍依次考虑：是否可达、位置误差、完整姿态
+误差、关节余量。
+
+代码与测试位置：
+
+```text
+ros2/soarm100_vision/soarm100_vision/mujoco_ik_filter.py
+ros2/soarm100_vision/test/test_core.py
+```
+
+离线验证结果：`q/-q` 等价检查通过、90 度 roll 可被完整识别、MuJoCo home
+pose 的 pregrasp/final IK 均得到 `0 mm / 0 deg`，ROS2 包构建返回码为 0。
+
+这一修正会使通过筛选的 AnyGrasp 候选数量减少，这是预期行为：以前仅进刀方向
+正确但 roll 不可执行的候选现在会被提前剔除。后续真机日志应重点观察
+`ik=...pre_err=.../...deg final_err=.../...deg`、候选剩余数量，以及是否仍出现
+`wrist_roll stream target raw ... outside safe interval`。
 
 新增文件：
 
