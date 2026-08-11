@@ -1,0 +1,20 @@
+[hardware_controller] Starting persistent seven-axis hold controller.
+[hardware_controller] shoulder_lift_p=16 (baseline restore=16)
+[hardware_controller] calibration=hardware/calibration/lerobot/so100_plus_new_arm.json
+[hardware_controller] feedback/driver rate=20.000000Hz
+[hardware_controller] stream command delta limit=0.250000rad
+[hardware_controller] raw safety margin=0 counts (calibrated hard limits remain active)
+[hardware_controller] Ctrl+C performs verified all-axis torque-off.
+[INFO] [launch]: All log files can be found below /home/sophie/.ros/log/2026-08-11-18-54-57-201150-sophie-Legion-Y7000P-IRX10-1790198
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [hardware_controller_node-1]: process started with pid [1790216]
+[INFO] [robot_state_publisher-2]: process started with pid [1790218]
+[robot_state_publisher-2] [INFO] [1786445697.259422013] [hardware_robot_state_publisher]: got segment base
+[robot_state_publisher-2] [INFO] [1786445697.259479432] [hardware_robot_state_publisher]: got segment ellbow
+[robot_state_publisher-2] [INFO] [1786445697.259484763] [hardware_robot_state_publisher]: got segment gripper
+[robot_state_publisher-2] [INFO] [1786445697.259487689] [hardware_robot_state_publisher]: got segment shoulder_pitch
+[robot_state_publisher-2] [INFO] [1786445697.259490368] [hardware_robot_state_publisher]: got segment shoulder_rotation
+[robot_state_publisher-2] [INFO] [1786445697.259492922] [hardware_robot_state_publisher]: got segment wrist_jaw
+[robot_state_publisher-2] [INFO] [1786445697.259495613] [hardware_robot_state_publisher]: got segment wrist_pitch
+[robot_state_publisher-2] [INFO] [1786445697.259498026] [hardware_robot_state_publisher]: got segment wrist_roll
+[hardware_controller_node-1] [INFO] [1786445701.016881456] [hardware_controller]: hardware controller ready; current seven-axis position is powered and held; services=/hardware/move_joint_target,/hardware/set_torque stream_topic=/hardware/joint_target

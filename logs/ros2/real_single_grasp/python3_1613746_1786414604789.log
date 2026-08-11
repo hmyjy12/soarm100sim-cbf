@@ -1,0 +1,26 @@
+[INFO] [1786414607.732612087] [hardware_controller]: hardware controller ready; current seven-axis position is powered and held; services=/hardware/move_joint_target,/hardware/set_torque stream_topic=/hardware/joint_target
+[ERROR] [1786414622.224584467] [hardware_controller]: stream target rejected: elbow_flex is above safe interval at raw 3097; refusing outward stream target 3098
+[ERROR] [1786414623.226442943] [hardware_controller]: stream target rejected: elbow_flex is above safe interval at raw 3097; refusing outward stream target 3166
+[ERROR] [1786414624.227690375] [hardware_controller]: stream target rejected: elbow_flex is above safe interval at raw 3097; refusing outward stream target 3166
+[ERROR] [1786414625.276178463] [hardware_controller]: stream target rejected: elbow_flex is above safe interval at raw 3097; refusing outward stream target 3166
+[ERROR] [1786414626.276601256] [hardware_controller]: stream target rejected: elbow_flex is above safe interval at raw 3097; refusing outward stream target 3166
+[ERROR] [1786414627.326247664] [hardware_controller]: stream target rejected: elbow_flex is above safe interval at raw 3097; refusing outward stream target 3166
+[ERROR] [1786414628.376428058] [hardware_controller]: stream target rejected: elbow_flex is above safe interval at raw 3097; refusing outward stream target 3166
+[ERROR] [1786414629.424813966] [hardware_controller]: stream target rejected: elbow_flex is above safe interval at raw 3097; refusing outward stream target 3166
+[ERROR] [1786414630.476028959] [hardware_controller]: stream target rejected: elbow_flex is above safe interval at raw 3097; refusing outward stream target 3166
+[ERROR] [1786414631.476334290] [hardware_controller]: stream target rejected: elbow_flex is above safe interval at raw 3097; refusing outward stream target 3166
+[ERROR] [1786414632.526060404] [hardware_controller]: stream target rejected: elbow_flex is above safe interval at raw 3097; refusing outward stream target 3166
+[ERROR] [1786414633.574924142] [hardware_controller]: stream target rejected: elbow_flex is above safe interval at raw 3097; refusing outward stream target 3166
+[ERROR] [1786414634.624382360] [hardware_controller]: stream target rejected: elbow_flex is above safe interval at raw 3097; refusing outward stream target 3166
+[ERROR] [1786414635.676089700] [hardware_controller]: stream target rejected: elbow_flex is above safe interval at raw 3097; refusing outward stream target 3166
+[ERROR] [1786414636.725638001] [hardware_controller]: stream target rejected: elbow_flex is above safe interval at raw 3097; refusing outward stream target 3166
+[ERROR] [1786414637.725718203] [hardware_controller]: stream target rejected: elbow_flex is above safe interval at raw 3097; refusing outward stream target 3166
+[ERROR] [1786414638.774384074] [hardware_controller]: stream target rejected: elbow_flex is above safe interval at raw 3097; refusing outward stream target 3166
+[ERROR] [1786414639.774461053] [hardware_controller]: stream target rejected: elbow_flex is above safe interval at raw 3097; refusing outward stream target 3166
+[ERROR] [1786414640.828039688] [hardware_controller]: stream target rejected: elbow_flex is above safe interval at raw 3097; refusing outward stream target 3166
+[ERROR] [1786414641.877163233] [hardware_controller]: stream target rejected: elbow_flex is above safe interval at raw 3097; refusing outward stream target 3166
+[ERROR] [1786414642.927138278] [hardware_controller]: stream target rejected: elbow_flex is above safe interval at raw 3097; refusing outward stream target 3166
+[ERROR] [1786414643.974006067] [hardware_controller]: stream target rejected: elbow_flex is above safe interval at raw 3097; refusing outward stream target 3166
+[ERROR] [1786414644.978361214] [hardware_controller]: stream target rejected: elbow_flex is above safe interval at raw 3097; refusing outward stream target 3166
+[ERROR] [1786414646.025088855] [hardware_controller]: stream target rejected: elbow_flex is above safe interval at raw 3097; refusing outward stream target 3166
+[ERROR] [1786414647.025704710] [hardware_controller]: stream target rejected: elbow_flex is above safe interval at raw 3097; refusing outward stream target 3166

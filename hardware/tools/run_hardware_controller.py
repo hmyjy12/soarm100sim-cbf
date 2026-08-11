@@ -28,7 +28,6 @@ from hardware.tools.test_multi_joint_delta import (
 )
 
 
-RAW_MARGIN = 100
 MAX_COMMAND_DELTA_RAD = math.radians(20.0)
 MAX_SPEED_RAD_S = math.radians(20.0)
 SAFE_POSE_MAX_DELTA_RAD = math.radians(120.0)
@@ -56,6 +55,7 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument("--rate", type=float, default=20.0)
     parser.add_argument("--max-stream-command-delta-rad", type=float, default=0.25)
+    parser.add_argument("--raw-margin-counts", type=int, default=0)
     parser.add_argument("--shoulder-lift-p", type=int, default=16)
     parser.add_argument("--baseline-shoulder-lift-p", type=int, default=16)
     parser.add_argument("--log", type=Path, required=True)
@@ -64,6 +64,8 @@ def parse_args() -> argparse.Namespace:
         parser.error("--rate must be within [10, 50]")
     if not 0.02 <= args.max_stream_command_delta_rad <= 0.35:
         parser.error("--max-stream-command-delta-rad must be within [0.02, 0.35]")
+    if not 0 <= args.raw_margin_counts <= 300:
+        parser.error("--raw-margin-counts must be within [0, 300]")
     if not 1 <= args.shoulder_lift_p <= 64:
         parser.error("--shoulder-lift-p must be within [1, 64]")
     if not 1 <= args.baseline_shoulder_lift_p <= 64:
@@ -96,6 +98,7 @@ class Controller:
         self.bus = FeetechMotorsBus(args.port, MOTORS, self.calibration)
         self.rate = args.rate
         self.max_stream_command_delta_rad = args.max_stream_command_delta_rad
+        self.raw_margin_counts = args.raw_margin_counts
         self.shoulder_lift_p = args.shoulder_lift_p
         self.baseline_shoulder_lift_p = args.baseline_shoulder_lift_p
         self.log_path = args.log
@@ -213,8 +216,8 @@ class Controller:
             policy_to_normalized(self.mapping, target_policy), self.calibration
         )
         for motor in MOTOR_ORDER:
-            low = self.calibration[motor].range_min + RAW_MARGIN
-            high = self.calibration[motor].range_max - RAW_MARGIN
+            low = self.calibration[motor].range_min + self.raw_margin_counts
+            high = self.calibration[motor].range_max - self.raw_margin_counts
             if not low <= target_raw[motor] <= high:
                 raise RuntimeError(
                     f"{motor} raw target {target_raw[motor]} outside "
@@ -292,8 +295,8 @@ class Controller:
         for motor in MOTOR_ORDER:
             hard_low = self.calibration[motor].range_min
             hard_high = self.calibration[motor].range_max
-            soft_low = hard_low + RAW_MARGIN
-            soft_high = hard_high - RAW_MARGIN
+            soft_low = hard_low + self.raw_margin_counts
+            soft_high = hard_high - self.raw_margin_counts
             current = int(current_raw[motor])
             target = int(target_raw[motor])
             if not hard_low <= current <= hard_high:

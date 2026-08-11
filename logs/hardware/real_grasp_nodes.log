@@ -1,50 +1,35 @@
-[INFO] [1786355118.123289566] [real_grasp_orchestrator]: grasp orchestrator ready: action=execute_grasp service=set_avoidance
-[INFO] [1786355118.126761598] [real_anygrasp_planner]: AnyGrasp planner ready: action=plan_grasp
-[INFO] [1786355118.137670238] [real_policy_grasp_backend]: real policy grasp backend ready: single plan, tracking=OFF, replan=OFF, avoidance=OFF
-[INFO] [1786355134.883719301] [real_anygrasp_planner]: AnyGrasp candidate[00] frame=camera_color_optical_frame score=0.034 width=62.0mm pos=(-0.003,+0.029,+0.547) approach=(-0.70,-0.22,+0.68)
-[INFO] [1786355134.884068418] [real_anygrasp_planner]: AnyGrasp candidate[01] frame=camera_color_optical_frame score=0.029 width=27.7mm pos=(-0.067,+0.007,+0.588) approach=(+0.83,-0.31,+0.46)
-[INFO] [1786355134.884416202] [real_anygrasp_planner]: AnyGrasp candidate[02] frame=camera_color_optical_frame score=0.027 width=64.9mm pos=(-0.022,+0.008,+0.558) approach=(+0.10,+0.10,+0.99)
-[INFO] [1786355134.884657489] [real_anygrasp_planner]: AnyGrasp candidate[03] frame=camera_color_optical_frame score=0.027 width=78.7mm pos=(-0.049,-0.000,+0.579) approach=(+0.43,+0.30,+0.85)
-[INFO] [1786355134.884857440] [real_anygrasp_planner]: AnyGrasp candidate[04] frame=camera_color_optical_frame score=0.026 width=73.7mm pos=(-0.014,+0.030,+0.547) approach=(-0.34,-0.34,+0.88)
-[INFO] [1786355134.885061469] [real_anygrasp_planner]: AnyGrasp candidate[05] frame=camera_color_optical_frame score=0.025 width=87.2mm pos=(-0.019,-0.002,+0.559) approach=(+0.10,+0.10,+0.99)
-[INFO] [1786355134.885257591] [real_anygrasp_planner]: AnyGrasp candidate[06] frame=camera_color_optical_frame score=0.023 width=61.2mm pos=(-0.048,+0.004,+0.576) approach=(+0.43,+0.30,+0.85)
-[INFO] [1786355134.885451276] [real_anygrasp_planner]: AnyGrasp candidate[07] frame=camera_color_optical_frame score=0.023 width=83.4mm pos=(-0.039,+0.019,+0.549) approach=(-0.02,-0.18,+0.98)
-[INFO] [1786355134.886719548] [real_anygrasp_planner]: AnyGrasp base[00] workspace=True raw=(+0.310,+0.034,+0.012) approach=(+0.62,+0.70,-0.34) offset=-40.0mm offset_world=(-0.025,-0.028,+0.014) final=(+0.285,+0.006,+0.025) pre=(+0.260,-0.022,+0.039)
-[INFO] [1786355135.663791082] [real_anygrasp_planner]: AnyGrasp IK[00] pass=True reason=ok pre_err=0.7mm/0.0deg final_err=0.7mm/0.0deg joint_margin=0.289rad q_final=[-0.162,-1.5  , 2.408, 0.111,-0.382, 2.853]
-[INFO] [1786355135.664312244] [real_anygrasp_planner]: AnyGrasp HW[00] pass=False pre=pregrasp:wrist_roll=338 notin[1151,3050] raw={'shoulder_pan': 2290, 'shoulder_lift': 1793, 'elbow_flex': 2796, 'wrist_flex': 2185, 'wrist_yaw': 1691, 'wrist_roll': 338, 'gripper': 2355} final=final:wrist_roll=228 notin[1151,3050] raw={'shoulder_pan': 2156, 'shoulder_lift': 1938, 'elbow_flex': 2720, 'wrist_flex': 2069, 'wrist_yaw': 1781, 'wrist_roll': 228, 'gripper': 2355}
-[INFO] [1786355135.665106007] [real_anygrasp_planner]: AnyGrasp base[01] workspace=False raw=(+0.354,+0.098,-0.002) approach=(+0.53,-0.83,-0.17) offset=-40.0mm offset_world=(-0.021,+0.033,+0.007) final=(+0.333,+0.131,+0.005) pre=(+0.312,+0.164,+0.011)
-[INFO] [1786355135.665911384] [real_anygrasp_planner]: AnyGrasp base[02] workspace=True raw=(+0.333,+0.052,+0.018) approach=(+0.58,-0.08,-0.81) offset=-40.0mm offset_world=(-0.023,+0.003,+0.032) final=(+0.310,+0.056,+0.051) pre=(+0.287,+0.059,+0.083)
-[INFO] [1786355135.939169862] [real_anygrasp_planner]: AnyGrasp IK[02] pass=True reason=ok pre_err=0.5mm/2.8deg final_err=2.4mm/0.0deg joint_margin=0.545rad q_final=[ 0.383,-1.438, 2.451, 0.585, 0.281, 0.94 ]
-[INFO] [1786355135.939468813] [real_anygrasp_planner]: AnyGrasp HW[02] pass=True pre=pregrasp:ok raw={'shoulder_pan': 1748, 'shoulder_lift': 1726, 'elbow_flex': 2843, 'wrist_flex': 1926, 'wrist_yaw': 2265, 'wrist_roll': 1482, 'gripper': 2355} final=final:ok raw={'shoulder_pan': 1801, 'shoulder_lift': 1978, 'elbow_flex': 2749, 'wrist_flex': 1760, 'wrist_yaw': 2213, 'wrist_roll': 1475, 'gripper': 2355}
-[INFO] [1786355135.941884873] [real_grasp_orchestrator]: AnyGrasp selected pose forwarded to policy: pregrasp[frame=base pos=(+0.287,+0.059,+0.083) quat=(+0.081,+0.944,+0.115,+0.300)] grasp[frame=base pos=(+0.310,+0.056,+0.051) quat=(+0.081,+0.944,+0.115,+0.300)] score=0.027 width=64.9mm candidates=26
-[INFO] [1786355135.945843985] [real_policy_grasp_backend]: single grasp target=jpgCat pre=[0.28677804985282884, 0.059029915292316784, 0.08288941147320128] grasp=[0.31013313022965505, 0.0556945089190258, 0.05058747213642156] width=64.9mm
-[INFO] [1786355135.946378616] [real_policy_grasp_backend]: stage=OPEN reason=opening gripper before policy motion
-[INFO] [1786355136.953551808] [real_policy_grasp_backend]: stage=MOVE_TO_PREGRASP reason={"start_rad": 0.4386371171193928, "target_rad": 0.45, "held_target_rad": 0.45, "measured_rad": 0.4386371171193928, "error_rad": 0.011362882880607217}
-[INFO] [1786355149.784679895] [real_policy_grasp_backend]: stage=FINAL_APPROACH reason=pregrasp reached
-[INFO] [1786355153.037403126] [real_policy_grasp_backend]: stage=CLOSE reason=final pose reached; tracking remains disabled
-[INFO] [1786355154.736368095] [real_policy_grasp_backend]: stage=LIFT reason={"start_rad": 0.44010280665969914, "target_rad": -0.15, "held_target_rad": -0.15, "measured_rad": -0.0934081860118531, "error_rad": -0.05659181398814689}
+[INFO] [1786428077.301565714] [real_anygrasp_planner]: AnyGrasp planner ready: action=plan_grasp
+[INFO] [1786428077.302039329] [real_policy_grasp_backend]: real policy grasp backend ready: single plan, tracking=OFF, replan=OFF, avoidance=OFF
+[INFO] [1786428077.305874763] [real_grasp_orchestrator]: grasp orchestrator ready: action=execute_grasp service=set_avoidance
+[INFO] [1786428093.216623338] [real_anygrasp_planner]: AnyGrasp candidate[00] frame=camera_color_optical_frame score=0.034 width=76.0mm pos=(-0.067,+0.060,+0.534) approach=(+0.65,-0.31,+0.69)
+[INFO] [1786428093.217032459] [real_anygrasp_planner]: AnyGrasp candidate[01] frame=camera_color_optical_frame score=0.027 width=97.5mm pos=(-0.059,+0.044,+0.528) approach=(+0.32,+0.13,+0.94)
+[INFO] [1786428093.217376709] [real_anygrasp_planner]: AnyGrasp candidate[02] frame=camera_color_optical_frame score=0.026 width=81.0mm pos=(-0.066,+0.058,+0.532) approach=(+0.65,-0.31,+0.69)
+[INFO] [1786428093.217657879] [real_anygrasp_planner]: AnyGrasp candidate[03] frame=camera_color_optical_frame score=0.024 width=66.7mm pos=(-0.037,+0.053,+0.520) approach=(-0.23,-0.14,+0.96)
+[INFO] [1786428093.217868591] [real_anygrasp_planner]: AnyGrasp candidate[04] frame=camera_color_optical_frame score=0.024 width=75.6mm pos=(-0.041,+0.046,+0.523) approach=(+0.10,+0.10,+0.99)
+[INFO] [1786428093.218056908] [real_anygrasp_planner]: AnyGrasp candidate[05] frame=camera_color_optical_frame score=0.023 width=84.3mm pos=(-0.054,+0.052,+0.528) approach=(+0.24,-0.04,+0.97)
+[INFO] [1786428093.218243559] [real_anygrasp_planner]: AnyGrasp candidate[06] frame=camera_color_optical_frame score=0.020 width=74.5mm pos=(-0.054,+0.075,+0.524) approach=(+0.20,-0.55,+0.81)
+[INFO] [1786428093.218428201] [real_anygrasp_planner]: AnyGrasp candidate[07] frame=camera_color_optical_frame score=0.018 width=72.7mm pos=(-0.059,+0.049,+0.527) approach=(+0.32,+0.13,+0.94)
+[INFO] [1786428093.219373067] [real_anygrasp_planner]: AnyGrasp base[00] workspace=True raw=(+0.279,+0.099,+0.003) approach=(+0.68,-0.65,-0.33) offset=-40.0mm offset_world=(-0.027,+0.026,+0.013) final=(+0.252,+0.125,+0.017) pre=(+0.224,+0.151,+0.030)
+[INFO] [1786428094.020847010] [real_anygrasp_planner]: AnyGrasp IK[00] pass=True reason=ok pre_err=3.0mm/0.8deg final_err=1.9mm/0.1deg joint_margin=0.000rad q_final=[ 0.866,-0.481, 0.811,-1.87 , 0.723,-0.802]
+[INFO] [1786428094.021357296] [real_anygrasp_planner]: AnyGrasp HW[00] pass=False pre=pregrasp:wrist_flex=3387 notin[1214,2960] raw={'shoulder_pan': 1356, 'shoulder_lift': 2613, 'elbow_flex': 1633, 'wrist_flex': 3387, 'wrist_yaw': 2495, 'wrist_roll': 2465, 'gripper': 2040} final=final:wrist_flex=3302 notin[1214,2960] raw={'shoulder_pan': 1451, 'shoulder_lift': 2634, 'elbow_flex': 1648, 'wrist_flex': 3302, 'wrist_yaw': 2554, 'wrist_roll': 2558, 'gripper': 2040}
+[INFO] [1786428094.022151111] [real_anygrasp_planner]: AnyGrasp base[01] workspace=True raw=(+0.286,+0.090,+0.018) approach=(+0.52,-0.30,-0.80) offset=-40.0mm offset_world=(-0.021,+0.012,+0.032) final=(+0.266,+0.102,+0.050) pre=(+0.245,+0.115,+0.082)
+[INFO] [1786428094.528973462] [real_anygrasp_planner]: AnyGrasp IK[01] pass=True reason=ok pre_err=2.6mm/0.0deg final_err=1.5mm/0.0deg joint_margin=0.666rad q_final=[ 0.489,-1.332, 1.696,-1.157, 0.071,-1.06 ]
+[INFO] [1786428094.529276782] [real_anygrasp_planner]: AnyGrasp HW[01] pass=True pre=pregrasp:ok raw={'shoulder_pan': 1630, 'shoulder_lift': 1969, 'elbow_flex': 2224, 'wrist_flex': 2953, 'wrist_yaw': 2132, 'wrist_roll': 2660, 'gripper': 2040} final=final:ok raw={'shoulder_pan': 1696, 'shoulder_lift': 2079, 'elbow_flex': 2225, 'wrist_flex': 2838, 'wrist_yaw': 2129, 'wrist_roll': 2726, 'gripper': 2040}
+[INFO] [1786428094.531402573] [real_grasp_orchestrator]: AnyGrasp selected pose forwarded to policy: pregrasp[frame=base pos=(+0.245,+0.115,+0.082) quat=(+0.305,+0.252,+0.915,-0.081)] grasp[frame=base pos=(+0.266,+0.102,+0.050) quat=(+0.305,+0.252,+0.915,-0.081)] score=0.027 width=97.5mm candidates=19
+[INFO] [1786428094.535432035] [real_policy_grasp_backend]: single grasp target=jpgCat pre=[0.24489190487037835, 0.11454310749201001, 0.08182453878091941] grasp=[0.2655669686562307, 0.10243946748594075, 0.04979262288357701] width=97.5mm
+[INFO] [1786428094.537216479] [real_policy_grasp_backend]: stage=OPEN reason=opening gripper before policy motion
 Traceback (most recent call last):
   File "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/soarm100_vision/soarm100_vision/anygrasp_planner_node.py", line 473, in main
     rclpy.spin(node)
   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/__init__.py", line 229, in spin
     executor.spin_once()
   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 808, in spin_once
-Traceback (most recent call last):
-  File "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/soarm100_vision/soarm100_vision/grasp_orchestrator_node.py", line 313, in main
     self._spin_once_impl(timeout_sec)
   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 797, in _spin_once_impl
-    rclpy.spin(node)
-  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/__init__.py", line 229, in spin
     handler, entity, node = self.wait_for_ready_callbacks(timeout_sec=timeout_sec)
   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 780, in wait_for_ready_callbacks
-    executor.spin_once()
-  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 808, in spin_once
     return next(self._cb_iter)
   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 681, in _wait_for_ready_callbacks
-    self._spin_once_impl(timeout_sec)
-  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 797, in _spin_once_impl
-    handler, entity, node = self.wait_for_ready_callbacks(timeout_sec=timeout_sec)
-  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 780, in wait_for_ready_callbacks
     raise ExternalShutdownException()
 rclpy.executors.ExternalShutdownException
 
@@ -52,10 +37,44 @@ During handling of the above exception, another exception occurred:
 
 Traceback (most recent call last):
   File "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/soarm100_vision/soarm100_vision/anygrasp_planner_node.py", line 480, in <module>
-    return next(self._cb_iter)
-  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 681, in _wait_for_ready_callbacks
+Traceback (most recent call last):
     main()
   File "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/soarm100_vision/soarm100_vision/anygrasp_planner_node.py", line 476, in main
+  File "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/soarm100_vision/soarm100_vision/real_policy_grasp_backend_node.py", line 303, in <module>
+    rclpy.shutdown()
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/__init__.py", line 130, in shutdown
+    _shutdown(context=context)
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/utilities.py", line 58, in shutdown
+    return context.shutdown()
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/context.py", line 102, in shutdown
+    self.__context.shutdown()
+    main()
+rclpy._rclpy_pybind11.RCLError: failed to shutdown: rcl_shutdown already called on the given context, at ./src/rcl/init.c:241
+  File "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/soarm100_vision/soarm100_vision/real_policy_grasp_backend_node.py", line 292, in main
+    executor.spin()
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 323, in spin
+    self.spin_once()
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 863, in spin_once
+    self._spin_once_impl(timeout_sec)
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 844, in _spin_once_impl
+    handler, entity, node = self.wait_for_ready_callbacks(
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 780, in wait_for_ready_callbacks
+    return next(self._cb_iter)
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 653, in _wait_for_ready_callbacks
+    wait_set = _rclpy.WaitSet(
+rclpy._rclpy_pybind11.RCLError: failed to initialize wait set: the given context is not valid, either rcl_init() was not called or rcl_shutdown() was called., at ./src/rcl/wait.c:130
+Traceback (most recent call last):
+  File "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/soarm100_vision/soarm100_vision/grasp_orchestrator_node.py", line 313, in main
+    rclpy.spin(node)
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/__init__.py", line 229, in spin
+    executor.spin_once()
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 808, in spin_once
+    self._spin_once_impl(timeout_sec)
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 797, in _spin_once_impl
+    handler, entity, node = self.wait_for_ready_callbacks(timeout_sec=timeout_sec)
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 780, in wait_for_ready_callbacks
+    return next(self._cb_iter)
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 681, in _wait_for_ready_callbacks
     raise ExternalShutdownException()
 rclpy.executors.ExternalShutdownException
 
@@ -67,42 +86,9 @@ Traceback (most recent call last):
   File "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/soarm100_vision/soarm100_vision/grasp_orchestrator_node.py", line 316, in main
     rclpy.shutdown()
   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/__init__.py", line 130, in shutdown
-    rclpy.shutdown()
-  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/__init__.py", line 130, in shutdown
     _shutdown(context=context)
   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/utilities.py", line 58, in shutdown
-    return context.shutdown()
-    _shutdown(context=context)
-  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/context.py", line 102, in shutdown
-  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/utilities.py", line 58, in shutdown
-    self.__context.shutdown()
-rclpy._rclpy_pybind11.RCLError: failed to shutdown: rcl_shutdown already called on the given context, at ./src/rcl/init.c:241
     return context.shutdown()
   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/context.py", line 102, in shutdown
     self.__context.shutdown()
 rclpy._rclpy_pybind11.RCLError: failed to shutdown: rcl_shutdown already called on the given context, at ./src/rcl/init.c:241
-[ERROR] [1786355164.202918027] [real_policy_grasp_backend]: Error raised in execute callback: Failed get goal status array: feedback publisher is invalid, at ./src/rcl_action/action_server.c:919
-Failed to publish log message to rosout: publisher's context is invalid, at ./src/rcl/publisher.c:389
-Traceback (most recent call last):
-  File "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/soarm100_vision/soarm100_vision/real_policy_grasp_backend_node.py", line 262, in _execute
-    self._run_policy_pose(lift_pos, grasp_quat, "LIFT", close_q)
-  File "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/soarm100_vision/soarm100_vision/real_policy_grasp_backend_node.py", line 226, in _run_policy_pose
-    raise RuntimeError(
-RuntimeError: policy_lift_failed:status=RUNNING:rc=0:log=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/logs/hardware/real_single_grasp/policy_lift_20260810_174554_736445646.jsonl
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/action/server.py", line 337, in _execute_goal
-    execute_result = await await_or_execute(execute_callback, goal_handle)
-  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 110, in await_or_execute
-    return callback(*args)
-  File "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/soarm100_vision/soarm100_vision/real_policy_grasp_backend_node.py", line 276, in _execute
-    goal_handle.abort()
-  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/action/server.py", line 153, in abort
-    self._update_state(_rclpy.GoalEvent.ABORT)
-  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/action/server.py", line 117, in _update_state
-    self._action_server._handle.publish_status()
-rclpy._rclpy_pybind11.RCLError: Failed get goal status array: feedback publisher is invalid, at ./src/rcl_action/action_server.c:919
-[WARN] [1786355164.203701910] [real_policy_grasp_backend]: Failed to send result response (the client may have gone away)
-Failed to publish log message to rosout: publisher's context is invalid, at ./src/rcl/publisher.c:389

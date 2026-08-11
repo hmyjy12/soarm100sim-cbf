@@ -1,0 +1,93 @@
+{
+  "schema_version": 1,
+  "timestamp": "2026-08-11T15:58:39.573985+08:00",
+  "mode": "STRICT_READ_ONLY",
+  "reference_pose": "policy_home",
+  "policy_joint_order": [
+    "shoulder_rotation_joint",
+    "shoulder_pitch_joint",
+    "ellbow_joint",
+    "wrist_pitch_joint",
+    "wrist_jaw_joint",
+    "wrist_roll_joint",
+    "gripper_joint"
+  ],
+  "approved": false,
+  "motors": {
+    "shoulder_pan": {
+      "id": 1,
+      "policy_joint": "shoulder_rotation_joint",
+      "raw_position": 1969,
+      "lerobot_value": -5.318681318681318,
+      "lerobot_unit": "degree",
+      "policy_home_rad": 0.0,
+      "policy_sign": null,
+      "policy_zero_offset_rad": null
+    },
+    "shoulder_lift": {
+      "id": 2,
+      "policy_joint": "shoulder_pitch_joint",
+      "raw_position": 2121,
+      "lerobot_value": 10.54945054945055,
+      "lerobot_unit": "degree",
+      "policy_home_rad": -1.5707963267948966,
+      "policy_sign": null,
+      "policy_zero_offset_rad": null
+    },
+    "elbow_flex": {
+      "id": 3,
+      "policy_joint": "ellbow_joint",
+      "raw_position": 1964,
+      "lerobot_value": -0.5714285714285714,
+      "lerobot_unit": "degree",
+      "policy_home_rad": 1.5707963267948966,
+      "policy_sign": null,
+      "policy_zero_offset_rad": null
+    },
+    "wrist_flex": {
+      "id": 4,
+      "policy_joint": "wrist_pitch_joint",
+      "raw_position": 1968,
+      "lerobot_value": -10.461538461538462,
+      "lerobot_unit": "degree",
+      "policy_home_rad": 0.0,
+      "policy_sign": null,
+      "policy_zero_offset_rad": null
+    },
+    "wrist_yaw": {
+      "id": 5,
+      "policy_joint": "wrist_jaw_joint",
+      "raw_position": 2046,
+      "lerobot_value": -2.4175824175824174,
+      "lerobot_unit": "degree",
+      "policy_home_rad": 0.0,
+      "policy_sign": null,
+      "policy_zero_offset_rad": null
+    },
+    "wrist_roll": {
+      "id": 6,
+      "policy_joint": "wrist_roll_joint",
+      "raw_position": 3112,
+      "lerobot_value": 89.93406593406593,
+      "lerobot_unit": "degree",
+      "policy_home_rad": 0.0,
+      "policy_sign": null,
+      "policy_zero_offset_rad": null
+    },
+    "gripper": {
+      "id": 7,
+      "policy_joint": "gripper_joint",
+      "raw_position": 1610,
+      "lerobot_value": 3.373015873015873,
+      "lerobot_unit": "percent",
+      "policy_home_rad": 0.0,
+      "policy_sign": null,
+      "policy_zero_offset_rad": null
+    }
+  },
+  "notes": [
+    "The arm was manually aligned to MuJoCo policy HOME_QPOS.",
+    "Signs must be confirmed before zero offsets are computed.",
+    "Gripper uses LeRobot range percent rather than motor degrees."
+  ]
+}

@@ -1,0 +1,68 @@
+[INFO] [1786356053.293877365] [camera.camera_container]: Load Library: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_293_ws/install/orbbec_camera/lib/liborbbec_camera.so
+[INFO] [1786356053.357925763] [camera.camera_container]: Found class: rclcpp_components::NodeFactoryTemplate<orbbec_camera::OBCameraNodeDriver>
+[INFO] [1786356053.357980916] [camera.camera_container]: Instantiate class: rclcpp_components::NodeFactoryTemplate<orbbec_camera::OBCameraNodeDriver>
+[INFO] [1786356053.363478423] [camera.camera]: SDK log file path set to: /home/sophie/.ros/Log/camera/OrbbecSDK_20260810_180053.log
+[INFO] [1786356053.370985267] [camera.camera]: Device access mode: Default (4)
+[INFO] [1786356053.371521115] [camera.camera]: Set UVC backend to libuvc
+[INFO] [1786356054.379447258] [camera.camera]: startDevice called
+[INFO] [1786356054.389583661] [camera.camera]: Connecting to the default device
+[INFO] [1786356054.626955054] [camera.camera]: OBCameraNode: use_intra_process: OFF
+[INFO] [1786356054.630941761] [camera.camera]: Current time domain: global
+[INFO] [1786356054.630987364] [camera.camera]: Loaded device preset: Default
+[INFO] [1786356054.775919464] [camera.camera]: Current heartbeat: OFF
+[INFO] [1786356054.776611565] [camera.camera]: Current fps boost: OFF
+[INFO] [1786356054.776659480] [camera.camera]: Set firmware log to OFF
+[INFO] [1786356054.776694453] [camera.camera]: set align mode to SW
+[INFO] [1786356054.778210328] [camera.camera]: Disparity to depth mode: HW
+[INFO] [1786356054.778867715] [camera.camera]: Current LDP: OFF
+[INFO] [1786356054.779357508] [camera.camera]: Current G300 laser control: ON
+[INFO] [1786356054.780376681] [camera.camera]: Current sync mode: OB_MULTI_DEVICE_SYNC_MODE_STANDALONE
+[INFO] [1786356054.780415980] [camera.camera]: Current color mirror: OFF
+[INFO] [1786356054.780428019] [camera.camera]: Current color flip: OFF
+[INFO] [1786356054.780440850] [camera.camera]: Current depth mirror: OFF
+[INFO] [1786356054.780450833] [camera.camera]: Current depth flip: OFF
+[INFO] [1786356054.781565442] [camera.camera]: Current color auto white balance: ON
+[INFO] [1786356054.781898722] [camera.camera]: Current color preset: Default
+[INFO] [1786356054.782038429] [camera.camera]: Current color auto exposure priority: OFF
+[INFO] [1786356054.782507552] [camera.camera]: Current color auto exposure: ON
+[INFO] [1786356054.783030861] [camera.camera]: Current color anti-flicker to OFF
+[INFO] [1786356054.783341180] [camera.camera]: Current depth auto exposure priority: OFF
+[INFO] [1786356054.785678641] [camera.camera]: Current IR auto exposure: ON
+[INFO] [1786356054.785699987] [camera.camera]: Current noise_removal_filter_min_diff: 256
+[INFO] [1786356054.785710672] [camera.camera]: Current noise_removal_filter_max_size: 80
+[INFO] [1786356054.785720169] [camera.camera]: Set noise removal filter to true
+[INFO] [1786356054.786074470] [camera.camera]: Set hardware noise removal filter to false
+[INFO] [1786356054.786085134] [camera.camera]: Current accel data correction: ON
+[INFO] [1786356054.786093971] [camera.camera]: Current gyro data correction: ON
+[INFO] [1786356054.786157842] [camera.camera]: Set depth filter DecimationFilter to disabled
+[INFO] [1786356054.786175213] [camera.camera]: Set depth filter ThresholdFilter to disabled
+[INFO] [1786356054.786196881] [camera.camera]: Set depth filter HDRMerge to disabled
+[INFO] [1786356054.786205024] [camera.camera]: Set depth filter SequenceIdFilter to disabled
+[INFO] [1786356054.786212822] [camera.camera]: Set depth filter SpatialFastFilter to disabled
+[INFO] [1786356054.786220674] [camera.camera]: Set depth filter SpatialModerateFilter to disabled
+[INFO] [1786356054.786229581] [camera.camera]: Set depth filter SpatialAdvancedFilter to disabled
+[INFO] [1786356054.786237625] [camera.camera]: Set depth filter TemporalFilter to disabled
+[INFO] [1786356054.786245286] [camera.camera]: Set depth filter HoleFillingFilter to disabled
+[INFO] [1786356054.786252867] [camera.camera]: Set depth filter FalsePositiveFilter to disabled
+[INFO] [1786356054.786260585] [camera.camera]: Set depth filter DisparityTransform to enabled
+[INFO] [1786356054.787016052] [camera.camera]: Set color filter DecimationFilter to disabled
+[INFO] [1786356054.838485709] [camera.camera]: Publish diagnostics every 1 seconds
+[INFO] [1786356054.839539992] [camera.camera]: Device Orbbec Gemini 336 connected
+[INFO] [1786356054.839563730] [camera.camera]: Serial number: CP9KB53000JX
+[INFO] [1786356054.839577108] [camera.camera]: Firmware version: 1.8.10
+[INFO] [1786356054.839587245] [camera.camera]: ROS Wrapper version: 2.9.3
+[INFO] [1786356054.839604882] [camera.camera]: SDK version: 2.9.3
+[INFO] [1786356054.839617133] [camera.camera]: Hardware version: 0.1
+[INFO] [1786356054.839629980] [camera.camera]: ISP firmware version: 20260620
+[INFO] [1786356054.839639818] [camera.camera]: ISP needed version: 20250930
+[INFO] [1786356054.839649202] [camera.camera]: usb connect type: USB3.2
+[INFO] [1786356054.839658461] [camera.camera]: device unique id: 2-8-76
+[INFO] [1786356054.839669899] [camera.camera]: Current node pid: 1590049
+[INFO] [1786356054.843417077] [camera.camera]: Enable frame sync
+[INFO] [1786356055.401361467] [camera.camera]: Set depth AE ROI to 0, 1279, 0, 719
+[INFO] [1786356055.404684947] [camera.camera]: Set color AE ROI to 0, 1279, 0, 719
+[INFO] [1786356055.414824253] [camera.camera]: color Frame - Width: 1280 Height: 720 fps: 30 Format: MJPG
+[INFO] [1786356055.414842909] [camera.camera]: depth Frame - Width: 1280 Height: 720 fps: 30 Format: Y16
+[INFO] [1786356055.843521756] [camera.camera]: current interleave_ae_mode_: laser
+[INFO] [1786356055.844613403] [camera.camera]: Enable enable_interleave_depth_frame to false
+[INFO] [1786356055.844652680] [camera.camera]: Initialize device cost: 1217 ms

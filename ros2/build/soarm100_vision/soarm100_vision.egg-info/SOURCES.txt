@@ -47,4 +47,5 @@ soarm100_vision.egg-info/requires.txt
 soarm100_vision.egg-info/top_level.txt
 soarm100_vision.egg-info/zip-safe
 soarm100_vision/control/__init__.py
+soarm100_vision/control/joint_limit_cbf.py
 soarm100_vision/control/policy_command_shaper.py

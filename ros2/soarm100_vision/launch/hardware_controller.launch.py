@@ -23,6 +23,7 @@ def generate_launch_description():
             DeclareLaunchArgument("feedback_rate_hz", default_value="20.0"),
             DeclareLaunchArgument("driver_rate_hz", default_value="20.0"),
             DeclareLaunchArgument("max_stream_command_delta_rad", default_value="0.25"),
+            DeclareLaunchArgument("raw_margin_counts", default_value="0"),
             Node(
                 package="soarm100_vision",
                 executable="hardware_controller_node",
@@ -49,6 +50,10 @@ def generate_launch_description():
                         "max_stream_command_delta_rad": ParameterValue(
                             LaunchConfiguration("max_stream_command_delta_rad"),
                             value_type=float,
+                        ),
+                        "raw_margin_counts": ParameterValue(
+                            LaunchConfiguration("raw_margin_counts"),
+                            value_type=int,
                         ),
                     }
                 ],

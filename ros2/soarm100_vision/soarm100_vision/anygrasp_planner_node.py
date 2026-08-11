@@ -131,7 +131,7 @@ class AnyGraspPlannerNode(Node):
         self.declare_parameter("max_width", 0.10)
         self.declare_parameter("pregrasp_distance", 0.07)
         self.declare_parameter("grasp_approach_offset_m", 0.0)
-        self.declare_parameter("policy_workspace_min", [0.08, -0.30, 0.05])
+        self.declare_parameter("policy_workspace_min", [0.08, -0.30, 0.01])
         self.declare_parameter("policy_workspace_max", [0.45, 0.30, 0.45])
         self.declare_parameter("timeout_s", 60.0)
         self.declare_parameter("repo_root", str(Path(__file__).resolve().parents[3]))

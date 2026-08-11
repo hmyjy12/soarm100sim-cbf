@@ -101,3 +101,34 @@ class HardwareJointLimitFilter:
         reason = f"{stage}:" + ("ok" if not failures else ";".join(failures))
         return HardwareLimitCheck(not failures, reason, raw)
 
+    def policy_safe_bounds(self) -> tuple[np.ndarray, np.ndarray]:
+        """Return calibrated safe intervals in policy radians."""
+        low = np.empty(len(MOTOR_ORDER), dtype=np.float64)
+        high = np.empty(len(MOTOR_ORDER), dtype=np.float64)
+        for index, motor in enumerate(MOTOR_ORDER):
+            cfg = self.mapping["joints"][motor]
+            cal = self.calibration[motor]
+            raw_low = int(cal["range_min"]) + self.margin_counts
+            raw_high = int(cal["range_max"]) - self.margin_counts
+            if raw_low >= raw_high:
+                raise ValueError(f"empty hardware safe interval: {motor}")
+            if motor == "gripper":
+                span = int(cal["range_max"]) - int(cal["range_min"])
+                values = [
+                    (raw - int(cal["range_min"])) / span * 100.0
+                    * float(cfg["scale_rad_per_percent"])
+                    + float(cfg["zero_offset_rad"])
+                    for raw in (raw_low, raw_high)
+                ]
+            else:
+                midpoint = 0.5 * (
+                    int(cal["range_min"]) + int(cal["range_max"])
+                )
+                values = [
+                    float(cfg["sign"])
+                    * math.radians((raw - midpoint) * 360.0 / COUNTS_PER_TURN)
+                    + float(cfg["zero_offset_rad"])
+                    for raw in (raw_low, raw_high)
+                ]
+            low[index], high[index] = min(values), max(values)
+        return low, high

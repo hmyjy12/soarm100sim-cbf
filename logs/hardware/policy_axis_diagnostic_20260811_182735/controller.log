@@ -1,0 +1,39 @@
+[hardware_controller] Starting persistent seven-axis hold controller.
+[hardware_controller] shoulder_lift_p=16 (baseline restore=16)
+[hardware_controller] calibration=hardware/calibration/lerobot/so100_plus_new_arm.json
+[hardware_controller] feedback/driver rate=20.000000Hz
+[hardware_controller] stream command delta limit=0.250000rad
+[hardware_controller] Ctrl+C performs verified all-axis torque-off.
+[INFO] [launch]: All log files can be found below /home/sophie/.ros/log/2026-08-11-18-27-36-578069-sophie-Legion-Y7000P-IRX10-1746590
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [hardware_controller_node-1]: process started with pid [1746618]
+[INFO] [robot_state_publisher-2]: process started with pid [1746620]
+[robot_state_publisher-2] [INFO] [1786444056.640202789] [hardware_robot_state_publisher]: got segment base
+[robot_state_publisher-2] [INFO] [1786444056.640254788] [hardware_robot_state_publisher]: got segment ellbow
+[robot_state_publisher-2] [INFO] [1786444056.640260089] [hardware_robot_state_publisher]: got segment gripper
+[robot_state_publisher-2] [INFO] [1786444056.640262800] [hardware_robot_state_publisher]: got segment shoulder_pitch
+[robot_state_publisher-2] [INFO] [1786444056.640265471] [hardware_robot_state_publisher]: got segment shoulder_rotation
+[robot_state_publisher-2] [INFO] [1786444056.640268051] [hardware_robot_state_publisher]: got segment wrist_jaw
+[robot_state_publisher-2] [INFO] [1786444056.640270620] [hardware_robot_state_publisher]: got segment wrist_pitch
+[robot_state_publisher-2] [INFO] [1786444056.640273009] [hardware_robot_state_publisher]: got segment wrist_roll
+[hardware_controller_node-1] [INFO] [1786444060.608280638] [hardware_controller]: hardware controller ready; current seven-axis position is powered and held; services=/hardware/move_joint_target,/hardware/set_torque stream_topic=/hardware/joint_target
+[hardware_controller_node-1] [ERROR] [1786444067.160314047] [hardware_controller]: stream target rejected: wrist_roll is above safe interval at raw 3065; refusing outward stream target 3066
+[hardware_controller_node-1] [ERROR] [1786444068.210207488] [hardware_controller]: stream target rejected: wrist_roll is above safe interval at raw 3065; refusing outward stream target 3195
+[hardware_controller_node-1] [ERROR] [1786444069.214398951] [hardware_controller]: stream target rejected: wrist_roll is above safe interval at raw 3065; refusing outward stream target 3227
+[hardware_controller_node-1] [ERROR] [1786444070.261565435] [hardware_controller]: stream target rejected: wrist_roll is above safe interval at raw 3065; refusing outward stream target 3227
+[hardware_controller_node-1] [ERROR] [1786444071.261767351] [hardware_controller]: stream target rejected: wrist_roll is above safe interval at raw 3065; refusing outward stream target 3227
+[hardware_controller_node-1] [ERROR] [1786444072.263355873] [hardware_controller]: stream target rejected: wrist_roll is above safe interval at raw 3065; refusing outward stream target 3227
+[hardware_controller_node-1] [ERROR] [1786444073.265449996] [hardware_controller]: stream target rejected: wrist_roll is above safe interval at raw 3065; refusing outward stream target 3227
+[hardware_controller_node-1] [ERROR] [1786444074.314587262] [hardware_controller]: stream target rejected: wrist_roll is above safe interval at raw 3065; refusing outward stream target 3227
+[hardware_controller_node-1] [ERROR] [1786444075.315808828] [hardware_controller]: stream target rejected: wrist_roll is above safe interval at raw 3065; refusing outward stream target 3227
+[hardware_controller_node-1] [ERROR] [1786444076.363403529] [hardware_controller]: stream target rejected: wrist_roll is above safe interval at raw 3065; refusing outward stream target 3227
+[hardware_controller_node-1] [ERROR] [1786444077.416394657] [hardware_controller]: stream target rejected: wrist_roll is above safe interval at raw 3065; refusing outward stream target 3227
+[hardware_controller_node-1] [ERROR] [1786444078.459213902] [hardware_controller]: stream target rejected: wrist_roll is above safe interval at raw 3065; refusing outward stream target 3227
+[hardware_controller_node-1] [ERROR] [1786444079.513767752] [hardware_controller]: stream target rejected: wrist_roll is above safe interval at raw 3065; refusing outward stream target 3227
+[hardware_controller_node-1] [ERROR] [1786444080.563488754] [hardware_controller]: stream target rejected: wrist_roll is above safe interval at raw 3065; refusing outward stream target 3227
+[hardware_controller_node-1] [ERROR] [1786444081.564471424] [hardware_controller]: stream target rejected: wrist_roll is above safe interval at raw 3065; refusing outward stream target 3227
+[hardware_controller_node-1] [ERROR] [1786444082.565201029] [hardware_controller]: stream target rejected: wrist_roll is above safe interval at raw 3065; refusing outward stream target 3227
+[hardware_controller_node-1] [ERROR] [1786444083.565312255] [hardware_controller]: stream target rejected: wrist_roll is above safe interval at raw 3065; refusing outward stream target 3227
+[hardware_controller_node-1] [ERROR] [1786444084.615362702] [hardware_controller]: stream target rejected: wrist_roll is above safe interval at raw 3065; refusing outward stream target 3227
+[hardware_controller_node-1] [ERROR] [1786444085.662126922] [hardware_controller]: stream target rejected: wrist_roll is above safe interval at raw 3065; refusing outward stream target 3227
+[hardware_controller_node-1] [ERROR] [1786444086.712156805] [hardware_controller]: stream target rejected: wrist_roll is above safe interval at raw 3065; refusing outward stream target 3227

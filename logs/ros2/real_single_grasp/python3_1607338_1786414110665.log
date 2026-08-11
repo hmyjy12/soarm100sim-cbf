@@ -1,0 +1,9 @@
+[INFO] [1786414111.763484082] [soarm100_send_execute_grasp]: execute grasp goal accepted
+[INFO] [1786414111.764191047] [soarm100_send_execute_grasp]: feedback stage=SEGMENTING grasp=0.000 replan=False cbf=False reason=attempt=1
+[INFO] [1786414112.822640867] [soarm100_send_execute_grasp]: feedback stage=SEGMENTING grasp=0.000 replan=False cbf=False reason=attempt=1
+[INFO] [1786414112.823090785] [soarm100_send_execute_grasp]: feedback stage=PLANNING_GRASP grasp=0.000 replan=False cbf=False reason=attempt=1 cloud_points=5025
+[INFO] [1786414121.812228394] [soarm100_send_execute_grasp]: feedback stage=READY_TO_EXECUTE_POLICY grasp=0.022 replan=False cbf=False reason=planned score=0.022 width=68.0mm candidates=21 grasp[frame=base pos=(+0.247,+0.104,+0.035) quat=(+0.355,+0.863,+0.137,+0.332)]
+[INFO] [1786414121.812688241] [soarm100_send_execute_grasp]: feedback stage=EXECUTING_POLICY grasp=0.022 replan=False cbf=False reason=sending planned grasp to MuJoCo/policy backend
+[INFO] [1786414121.814748495] [soarm100_send_execute_grasp]: feedback stage=OPEN grasp=0.022 replan=False cbf=False reason=opening gripper before policy motion
+[INFO] [1786414122.822444276] [soarm100_send_execute_grasp]: feedback stage=MOVE_TO_PREGRASP grasp=0.022 replan=False cbf=False reason={"start_rad": 0.4386371171193928, "target_rad": 0.45, "held_target_rad": 0.45, "measured_rad": 0.4386371171193928, "error_rad": 0.011362882880607217}
+[INFO] [1786414149.418434422] [soarm100_send_execute_grasp]: result success=False attempts=1 lift=0.0000 reason=policy_pregrasp_failed:status=TIMEOUT:rc=0:log=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/logs/hardware/real_single_grasp/policy_pregrasp_20260811_100842_821509560.jsonl final=(+0.247,+0.104,+0.035) quat=(+0.355,+0.863,+0.137,+0.332)

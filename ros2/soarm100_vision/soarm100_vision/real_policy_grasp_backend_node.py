@@ -43,6 +43,8 @@ class RealPolicyGraspBackendNode(Node):
         self.declare_parameter("mjcf", "SO-ARM100/Simulation/SO100/mujoco/scene_plus_norod.xml")
         self.declare_parameter("control_rate_hz", 20.0)
         self.declare_parameter("max_tracking_error_rad", 0.25)
+        self.declare_parameter("enable_joint_limit_cbf", False)
+        self.declare_parameter("hardware_limit_margin_counts", 100)
         self.declare_parameter("workspace_min_z_m", 0.01)
         self.declare_parameter("reach_timeout_s", 25.0)
         self.declare_parameter("success_position_m", 0.020)
@@ -193,6 +195,8 @@ class RealPolicyGraspBackendNode(Node):
             "-p", f"target_config:={target_path.relative_to(self.repo)}",
             "-p", f"control_rate_hz:={float(self._param('control_rate_hz')):.6f}",
             "-p", f"max_tracking_error_rad:={float(self._param('max_tracking_error_rad')):.6f}",
+            "-p", f"enable_joint_limit_cbf:={str(bool(self._param('enable_joint_limit_cbf'))).lower()}",
+            "-p", f"hardware_limit_margin_counts:={int(self._param('hardware_limit_margin_counts'))}",
             "-p", f"workspace_min_z_m:={float(self._param('workspace_min_z_m')):.6f}",
             "-p", f"timeout_s:={float(self._param('reach_timeout_s')):.6f}",
             "-p", f"success_position_m:={float(self._param('success_position_m')):.6f}",

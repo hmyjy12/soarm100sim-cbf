@@ -1,0 +1,128 @@
+1786414658.8910518 [INFO] [launch]: All log files can be found below /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/logs/ros2/real_single_grasp/2026-08-11-10-17-38-890377-sophie-Legion-Y7000P-IRX10-1620784
+1786414658.8911457 [INFO] [launch]: Default logging verbosity is set to INFO
+1786414659.0115132 [INFO] [component_container-1]: process started with pid [1620953]
+1786414659.2655952 [component_container-1] [INFO] [1786414659.264657743] [camera.camera_container]: Load Library: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_293_ws/install/orbbec_camera/lib/liborbbec_camera.so
+1786414659.3310356 [component_container-1] [INFO] [1786414659.330796444] [camera.camera_container]: Found class: rclcpp_components::NodeFactoryTemplate<orbbec_camera::OBCameraNodeDriver>
+1786414659.3318808 [component_container-1] [INFO] [1786414659.331344027] [camera.camera_container]: Instantiate class: rclcpp_components::NodeFactoryTemplate<orbbec_camera::OBCameraNodeDriver>
+1786414659.3397245 [component_container-1] [INFO] [1786414659.336901388] [camera.camera]: SDK log file path set to: /home/sophie/.ros/Log/camera/OrbbecSDK_20260811_101739.log
+1786414659.3425760 [component_container-1] [08/11 10:17:39.342426][info][1620953][HostTimestampProvider.cpp:36] Update clock type to: realtime(0)
+1786414659.3456330 [component_container-1] [INFO] [1786414659.345505700] [camera.camera]: Device access mode: Default (4)
+1786414659.3460228 [component_container-1] [INFO] [1786414659.345927334] [camera.camera]: Set UVC backend to libuvc
+1786414659.4027750 [component_container-1] [08/11 10:17:39.402483][info][1620953][LinuxUsbPal.cpp:334] Create PollingDeviceWatcher!
+1786414659.4031026 [component_container-1] [08/11 10:17:39.403031][info][1620953][DeviceManager.cpp:25] Current found device(s): (1)
+1786414659.4032815 [component_container-1] [08/11 10:17:39.403227][info][1620953][DeviceManager.cpp:34] 	- Name: Gemini 336, PID: 0x0803, SN/ID: CP9KB53000JX, Connection: USB3.2
+1786414659.4034507 [component_container-1] [08/11 10:17:39.403400][info][1620953][DeviceManager.cpp:463] Enable net device enumeration: true
+1786414660.4078569 [component_container-1] [08/11 10:17:40.407564][info][1620953][DeviceManager.cpp:25] Current device(s) list: (1)
+1786414660.4079654 [component_container-1] [08/11 10:17:40.407584][info][1620953][DeviceManager.cpp:34] 	- Name: Gemini 336, PID: 0x0803, SN/ID: CP9KB53000JX, Connection: USB3.2
+1786414660.4080062 [component_container-1] [08/11 10:17:40.407589][info][1620953][DeviceManager.cpp:463] Enable net device enumeration: true
+1786414660.4095623 [component_container-1] [INFO] [1786414660.409335683] [camera.camera]: startDevice called
+1786414660.4102736 [INFO] [launch_ros.actions.load_composable_nodes]: Loaded node '/camera/camera' in container '/camera/camera_container'
+1786414660.4196754 [component_container-1] [INFO] [1786414660.419471050] [camera.camera]: Connecting to the default device
+1786414660.4209814 [component_container-1] [08/11 10:17:40.420863][info][1621417][G330Device.cpp:630] UVCAutoRebootOnFault=true for device: Gemini 336
+1786414660.4219229 [component_container-1] [08/11 10:17:40.421771][info][1621417][DeviceBase.cpp:742] key: AppSlot,value:1
+1786414660.4220510 [component_container-1] [08/11 10:17:40.421782][info][1621417][DeviceBase.cpp:742] key: HwType,value:R1
+1786414660.4221218 [component_container-1] [08/11 10:17:40.421783][info][1621417][DeviceBase.cpp:742] key: HwVer,value:V1.1
+1786414660.4222014 [component_container-1] [08/11 10:17:40.421785][info][1621417][DeviceBase.cpp:742] key: IspFwVer,value:20260620
+1786414660.4222624 [component_container-1] [08/11 10:17:40.421786][info][1621417][DeviceBase.cpp:742] key: IspNeedVer,value:20250930
+1786414660.4223299 [component_container-1] [08/11 10:17:40.421787][info][1621417][DeviceBase.cpp:742] key: PresetVer,value:3.0.7
+1786414660.5792649 [component_container-1] [08/11 10:17:40.579091][warning][1621417][PropertyServer.cpp:55] [CP9KB53000JX] Property not found to register callback, propertyId: 277
+1786414660.5794613 [component_container-1] [08/11 10:17:40.579309][warning][1621417][PropertyConfigHandler.hpp:53] Unsupported property '223', skipping getting, return nullvalue
+1786414660.5956233 [component_container-1] [08/11 10:17:40.595323][warning][1621417][PropertyConfigHandler.hpp:95] Exporting property '190' while stream is not active; the value may differ from what will be applied after streaming starts
+1786414660.5968280 [component_container-1] [08/11 10:17:40.596644][warning][1621417][PresetHandler.cpp:337] Exporting ROI property '1061' while stream is not active; the value may differ from what will be applied after streaming starts
+1786414660.5973802 [component_container-1] [08/11 10:17:40.597205][warning][1621417][PresetHandler.cpp:710] Exporting disparity search properties while stream is not active; the values may differ from what will be applied after streaming starts
+1786414660.6505330 [component_container-1] [08/11 10:17:40.650255][warning][1621417][PropertyConfigHandler.hpp:95] Exporting property '189' while stream is not active; the value may differ from what will be applied after streaming starts
+1786414660.6520517 [component_container-1] [08/11 10:17:40.651858][warning][1621417][PropertyConfigHandler.hpp:53] Unsupported property '277', skipping getting, return nullvalue
+1786414660.6522040 [component_container-1] [08/11 10:17:40.652160][warning][1621417][PresetHandler.cpp:337] Exporting ROI property '1060' while stream is not active; the value may differ from what will be applied after streaming starts
+1786414660.6524749 [component_container-1] [08/11 10:17:40.652302][info][1621417][DeviceManager.cpp:200] Device created successfully! Name: Gemini 336, PID: 0x0803, SN/ID: CP9KB53000JX FW: 1.8.10
+1786414660.6525931 [component_container-1] [INFO] [1786414660.652402671] [camera.camera]: OBCameraNode: use_intra_process: OFF
+1786414660.6528947 [component_container-1] OBFormatFromString: ANY
+1786414660.6530993 [component_container-1] OBFormatFromString: ANY
+1786414660.6532090 [component_container-1] OBFormatFromString: Y16
+1786414660.6534989 [component_container-1] OBFormatFromString: ANY
+1786414660.6536140 [component_container-1] OBFormatFromString: ANY
+1786414660.6567864 [component_container-1] [INFO] [1786414660.656574357] [camera.camera]: Current time domain: global
+1786414660.6568599 [component_container-1] [INFO] [1786414660.656620487] [camera.camera]: Loaded device preset: Default
+1786414660.6882443 [component_container-1] [08/11 10:17:40.687996][warning][1621417][SensorBase.cpp:153] [CP9KB53000JX] Failed to update default stream profile for sensor due to no matching stream profile found
+1786414660.6893177 [component_container-1] [08/11 10:17:40.689147][warning][1621417][SensorBase.cpp:153] [CP9KB53000JX] Failed to update default stream profile for sensor due to no matching stream profile found
+1786414660.8031578 [component_container-1] [INFO] [1786414660.802904687] [camera.camera]: Current heartbeat: OFF
+1786414660.8037579 [component_container-1] [INFO] [1786414660.803591711] [camera.camera]: Current fps boost: OFF
+1786414660.8038871 [component_container-1] [INFO] [1786414660.803624222] [camera.camera]: Set firmware log to OFF
+1786414660.8039489 [component_container-1] [INFO] [1786414660.803658224] [camera.camera]: set align mode to SW
+1786414660.8041480 [component_container-1] [INFO] [1786414660.803831655] [camera.camera]: Disparity to depth mode: HW
+1786414660.8045065 [component_container-1] [INFO] [1786414660.804430298] [camera.camera]: Current LDP: OFF
+1786414660.8048849 [component_container-1] [INFO] [1786414660.804801498] [camera.camera]: Current G300 laser control: ON
+1786414660.8059106 [component_container-1] [INFO] [1786414660.805788309] [camera.camera]: Current sync mode: OB_MULTI_DEVICE_SYNC_MODE_STANDALONE
+1786414660.8059576 [component_container-1] [INFO] [1786414660.805809622] [camera.camera]: Current color mirror: OFF
+1786414660.8059976 [component_container-1] [INFO] [1786414660.805820153] [camera.camera]: Current color flip: OFF
+1786414660.8060324 [component_container-1] [INFO] [1786414660.805831827] [camera.camera]: Current depth mirror: OFF
+1786414660.8060741 [component_container-1] [INFO] [1786414660.805841506] [camera.camera]: Current depth flip: OFF
+1786414660.8063011 [component_container-1] [INFO] [1786414660.806212666] [camera.camera]: Current color auto white balance: ON
+1786414660.8065178 [component_container-1] [INFO] [1786414660.806394994] [camera.camera]: Current color preset: Default
+1786414660.8067346 [component_container-1] [INFO] [1786414660.806524373] [camera.camera]: Current color auto exposure priority: OFF
+1786414660.8069010 [component_container-1] [INFO] [1786414660.806830036] [camera.camera]: Current color auto exposure: ON
+1786414660.8074138 [component_container-1] [INFO] [1786414660.807344110] [camera.camera]: Current color anti-flicker to OFF
+1786414660.8077695 [component_container-1] [INFO] [1786414660.807701198] [camera.camera]: Current depth auto exposure priority: OFF
+1786414660.8101125 [component_container-1] [INFO] [1786414660.810009420] [camera.camera]: Current IR auto exposure: ON
+1786414660.8101592 [component_container-1] [INFO] [1786414660.810025722] [camera.camera]: Current noise_removal_filter_min_diff: 256
+1786414660.8102052 [component_container-1] [INFO] [1786414660.810035390] [camera.camera]: Current noise_removal_filter_max_size: 80
+1786414660.8102400 [component_container-1] [INFO] [1786414660.810043981] [camera.camera]: Set noise removal filter to true
+1786414660.8111768 [component_container-1] [INFO] [1786414660.810524237] [camera.camera]: Set hardware noise removal filter to false
+1786414660.8112619 [component_container-1] [INFO] [1786414660.810538845] [camera.camera]: Current accel data correction: ON
+1786414660.8113089 [component_container-1] [INFO] [1786414660.810547575] [camera.camera]: Current gyro data correction: ON
+1786414660.8113458 [component_container-1] [INFO] [1786414660.810609525] [camera.camera]: Set depth filter DecimationFilter to disabled
+1786414660.8113790 [component_container-1] [INFO] [1786414660.810626323] [camera.camera]: Set depth filter ThresholdFilter to disabled
+1786414660.8114097 [component_container-1] [INFO] [1786414660.810634395] [camera.camera]: Set depth filter HDRMerge to disabled
+1786414660.8114405 [component_container-1] [INFO] [1786414660.810642240] [camera.camera]: Set depth filter SequenceIdFilter to disabled
+1786414660.8114698 [component_container-1] [INFO] [1786414660.810650048] [camera.camera]: Set depth filter SpatialFastFilter to disabled
+1786414660.8114994 [component_container-1] [INFO] [1786414660.810657628] [camera.camera]: Set depth filter SpatialModerateFilter to disabled
+1786414660.8115289 [component_container-1] [INFO] [1786414660.810674784] [camera.camera]: Set depth filter SpatialAdvancedFilter to disabled
+1786414660.8115578 [component_container-1] [INFO] [1786414660.810682696] [camera.camera]: Set depth filter TemporalFilter to disabled
+1786414660.8115871 [component_container-1] [INFO] [1786414660.810690579] [camera.camera]: Set depth filter HoleFillingFilter to disabled
+1786414660.8116195 [component_container-1] [INFO] [1786414660.810698395] [camera.camera]: Set depth filter FalsePositiveFilter to disabled
+1786414660.8116498 [component_container-1] [INFO] [1786414660.810706350] [camera.camera]: Set depth filter DisparityTransform to enabled
+1786414660.8148179 [component_container-1] [INFO] [1786414660.812138223] [camera.camera]: Set color filter DecimationFilter to disabled
+1786414660.8601041 [component_container-1] [INFO] [1786414660.859916206] [camera.camera]: Publish diagnostics every 1 seconds
+1786414660.8606639 [component_container-1] [INFO] [1786414660.860589221] [camera.camera]: Device Orbbec Gemini 336 connected
+1786414660.8607976 [component_container-1] [INFO] [1786414660.860604598] [camera.camera]: Serial number: CP9KB53000JX
+1786414660.8608346 [component_container-1] [INFO] [1786414660.860610048] [camera.camera]: Firmware version: 1.8.10
+1786414660.8608615 [component_container-1] [INFO] [1786414660.860613583] [camera.camera]: ROS Wrapper version: 2.9.3
+1786414660.8608830 [component_container-1] [INFO] [1786414660.860621884] [camera.camera]: SDK version: 2.9.3
+1786414660.8609109 [component_container-1] [INFO] [1786414660.860626499] [camera.camera]: Hardware version: 0.1
+1786414660.8609943 [component_container-1] [INFO] [1786414660.860632066] [camera.camera]: ISP firmware version: 20260620
+1786414660.8610239 [component_container-1] [INFO] [1786414660.860635676] [camera.camera]: ISP needed version: 20250930
+1786414660.8610473 [component_container-1] [INFO] [1786414660.860639097] [camera.camera]: usb connect type: USB3.2
+1786414660.8610685 [component_container-1] [INFO] [1786414660.860642179] [camera.camera]: device unique id: 2-8-79
+1786414660.8610890 [component_container-1] [INFO] [1786414660.860646650] [camera.camera]: Current node pid: 1620953
+1786414660.8611610 [component_container-1] [08/11 10:17:40.860683][info][1621417][Pipeline.cpp:54] [CP9KB53000JX] Pipeline created with device: {name: Gemini 336, sn: CP9KB53000JX}, @0x7D0808DAE0A0
+1786414660.8612230 [component_container-1] [08/11 10:17:40.860754][info][1621417][Pipeline.cpp:228] [CP9KB53000JX] Check and set config done!
+1786414660.8612418 [component_container-1] [08/11 10:17:40.860901][info][1621417][Pipeline.cpp:266] [CP9KB53000JX] Try to start streams!
+1786414660.8612573 [component_container-1] [08/11 10:17:40.860907][info][1621417][VideoSensor.cpp:61] [CP9KB53000JX] Try to start stream: {type: Color, format: MJPG, width: 1280, height: 720, fps: 30}
+1786414660.8612704 [component_container-1] [08/11 10:17:40.860914][info][1621417][SensorBase.cpp:216] [CP9KB53000JX] Stream state changed from STOPPED to STARTING@Color
+1786414660.8612876 [component_container-1] [08/11 10:17:40.860917][info][1621417][VideoSensor.cpp:130] [CP9KB53000JX] Start backend stream: {type: Color, format: MJPG, width: 1280, height: 720, fps: 30}
+1786414660.8621230 [component_container-1] [08/11 10:17:40.861972][info][1621417][VideoSensor.cpp:61] [CP9KB53000JX] Try to start stream: {type: Depth, format: Y16, width: 1280, height: 720, fps: 30}
+1786414660.8621740 [component_container-1] [08/11 10:17:40.861984][info][1621417][SensorBase.cpp:216] [CP9KB53000JX] Stream state changed from STOPPED to STARTING@Depth
+1786414660.8621945 [component_container-1] [08/11 10:17:40.861988][info][1621417][VideoSensor.cpp:130] [CP9KB53000JX] Start backend stream: {type: Depth, format: Z16, width: 1280, height: 720, fps: 30}
+1786414660.8631485 [component_container-1] [08/11 10:17:40.863056][info][1621417][Pipeline.cpp:293] [CP9KB53000JX] Start streams done!
+1786414660.8631773 [component_container-1] [08/11 10:17:40.863060][info][1621417][Pipeline.cpp:250] [CP9KB53000JX] Pipeline start done!
+1786414660.8632529 [component_container-1] [INFO] [1786414660.863091418] [camera.camera]: Enable frame sync
+1786414660.9487174 [component_container-1] [08/11 10:17:40.948444][info][1621830][SensorBase.cpp:216] [CP9KB53000JX] Stream state changed from STARTING to STREAMING@Depth
+1786414661.4182467 [component_container-1] [08/11 10:17:41.417921][info][1621825][SensorBase.cpp:216] [CP9KB53000JX] Stream state changed from STARTING to STREAMING@Color
+1786414661.4216723 [component_container-1] [INFO] [1786414661.421418405] [camera.camera]: Set depth AE ROI to 0, 1279, 0, 719
+1786414661.4285817 [component_container-1] [INFO] [1786414661.428251787] [camera.camera]: Set color AE ROI to 0, 1279, 0, 719
+1786414661.4447179 [component_container-1] [INFO] [1786414661.444432744] [camera.camera]: color Frame - Width: 1280 Height: 720 fps: 30 Format: MJPG
+1786414661.4448342 [component_container-1] [INFO] [1786414661.444485634] [camera.camera]: depth Frame - Width: 1280 Height: 720 fps: 30 Format: Y16
+1786414661.8634179 [component_container-1] [INFO] [1786414661.863192787] [camera.camera]: current interleave_ae_mode_: laser
+1786414661.8644619 [component_container-1] [INFO] [1786414661.864278167] [camera.camera]: Enable enable_interleave_depth_frame to false
+1786414661.8645840 [component_container-1] [INFO] [1786414661.864307122] [camera.camera]: Initialize device cost: 1211 ms
+1786414665.9559722 [component_container-1] [08/11 10:17:45.955616][info][1621830][VideoSensor.cpp:180] [CP9KB53000JX] Depth backend frame callback, frameRate=30.169830fps
+1786414665.9639666 [component_container-1] [08/11 10:17:45.963659][info][1621905][SensorBase.cpp:405] [CP9KB53000JX] Depth Streaming... frameRate=30.169830fps
+1786414666.4522593 [component_container-1] [08/11 10:17:46.451982][info][1621825][VideoSensor.cpp:180] [CP9KB53000JX] Color backend frame callback, frameRate=30.007948fps
+1786414666.4523859 [component_container-1] [08/11 10:17:46.452046][info][1621970][SensorBase.cpp:405] [CP9KB53000JX] Color Streaming... frameRate=30.169830fps
+1786414670.9640789 [component_container-1] [08/11 10:17:50.963817][info][1621830][VideoSensor.cpp:180] [CP9KB53000JX] Depth backend frame callback, frameRate=29.970030fps
+1786414670.9720187 [component_container-1] [08/11 10:17:50.971723][info][1621905][SensorBase.cpp:405] [CP9KB53000JX] Depth Streaming... frameRate=29.970030fps
+1786414671.4605215 [component_container-1] [08/11 10:17:51.460204][info][1621825][VideoSensor.cpp:180] [CP9KB53000JX] Color backend frame callback, frameRate=29.964043fps
+1786414671.4606385 [component_container-1] [08/11 10:17:51.460271][info][1621970][SensorBase.cpp:405] [CP9KB53000JX] Color Streaming... frameRate=29.964043fps
+1786414675.9728799 [component_container-1] [08/11 10:17:55.972519][info][1621830][VideoSensor.cpp:180] [CP9KB53000JX] Depth backend frame callback, frameRate=29.958059fps
+1786414675.9811227 [component_container-1] [08/11 10:17:55.980854][info][1621905][SensorBase.cpp:405] [CP9KB53000JX] Depth Streaming... frameRate=29.958059fps
+1786414676.4690163 [component_container-1] [08/11 10:17:56.468739][info][1621825][VideoSensor.cpp:180] [CP9KB53000JX] Color backend frame callback, frameRate=29.964043fps
+1786414676.4691353 [component_container-1] [08/11 10:17:56.468842][info][1621970][SensorBase.cpp:405] [CP9KB53000JX] Color Streaming... frameRate=29.964043fps

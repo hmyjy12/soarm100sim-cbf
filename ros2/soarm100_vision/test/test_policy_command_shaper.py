@@ -4,6 +4,10 @@ from soarm100_vision.control.policy_command_shaper import (
     PolicyCommandShaper,
     ShaperConfig,
 )
+from soarm100_vision.control.joint_limit_cbf import (
+    JointLimitCbfConfig,
+    JointLimitCbfFilter,
+)
 
 
 def make_shaper() -> PolicyCommandShaper:
@@ -66,3 +70,47 @@ def test_tracking_error_is_bounded_and_frozen_joint_holds_measurement():
         <= shaper.cfg.max_tracking_error_rad + 1e-12
     )
     assert result["q_ref"][6] == 0.0
+
+
+def test_joint_limit_cbf_tightens_velocity_toward_upper_limit():
+    cbf = JointLimitCbfFilter(JointLimitCbfConfig(alpha=4.0))
+    q = np.array([0.99, 0.0])
+    bounds = cbf.velocity_bounds(q, np.array([-1.0, -1.0]), np.array([1.0, 1.0]))
+
+    assert np.isclose(bounds["velocity_high_rad_s"][0], 0.04)
+    assert bounds["velocity_high_rad_s"][1] == 4.0
+    assert bounds["active"].tolist() == [True, False]
+
+
+def test_joint_limit_cbf_requires_recovery_when_outside():
+    cbf = JointLimitCbfFilter(
+        JointLimitCbfConfig(alpha=4.0, recovery_velocity_rad_s=0.05)
+    )
+    bounds = cbf.velocity_bounds(
+        np.array([1.01]), np.array([-1.0]), np.array([1.0])
+    )
+
+    assert bounds["outside"].tolist() == [True]
+    assert bounds["velocity_high_rad_s"][0] <= -0.05
+
+
+def test_shaper_applies_external_safety_velocity_bounds_before_integration():
+    shaper = make_shaper()
+    q = np.zeros(7)
+    limits = np.full(7, 3.0)
+    obs = shaper.observe(q, 1.0)
+    velocity_low = np.full(7, -1.0)
+    velocity_high = np.full(7, 1.0)
+    velocity_high[2] = 0.01
+    result = shaper.shape(
+        q,
+        np.ones(7),
+        -limits,
+        limits,
+        obs["dt_s"],
+        safety_velocity_low=velocity_low,
+        safety_velocity_high=velocity_high,
+    )
+
+    assert result["reference_velocity_rad_s"][2] <= 0.01 + 1e-12
+    assert result["safety_velocity_clamped"][2]

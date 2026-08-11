@@ -13,6 +13,7 @@ CONTROLLER_PID=""
 CONTROL_RATE_HZ="20.0"
 MAX_RELATIVE_DELTA_M="0.10"
 MAX_TRACKING_ERROR_RAD="0.25"
+ENABLE_JOINT_LIMIT_CBF="false"
 
 source_relaxed() {
   set +u
@@ -88,6 +89,7 @@ while [[ $# -gt 0 ]]; do
     --rate) CONTROL_RATE_HZ="$2"; shift 2 ;;
     --max-relative-delta-m) MAX_RELATIVE_DELTA_M="$2"; shift 2 ;;
     --max-tracking-error-rad) MAX_TRACKING_ERROR_RAD="$2"; shift 2 ;;
+    --joint-limit-cbf) ENABLE_JOINT_LIMIT_CBF="$2"; shift 2 ;;
     --confirm) CONFIRM="$2"; shift 2 ;;
     *) echo "[ERROR] unknown option: $1" >&2; exit 2 ;;
   esac
@@ -114,6 +116,13 @@ if ! [[ "$MAX_TRACKING_ERROR_RAD" =~ ^[0-9]+([.][0-9]+)?$ ]] || \
 fi
 printf -v CONTROL_RATE_PARAM "%.6f" "$CONTROL_RATE_HZ"
 printf -v MAX_TRACKING_ERROR_PARAM "%.6f" "$MAX_TRACKING_ERROR_RAD"
+if [[ "$ENABLE_JOINT_LIMIT_CBF" != "true" && "$ENABLE_JOINT_LIMIT_CBF" != "false" && \
+      "$ENABLE_JOINT_LIMIT_CBF" != "on" && "$ENABLE_JOINT_LIMIT_CBF" != "off" ]]; then
+  echo "[ERROR] --joint-limit-cbf must be on/off or true/false" >&2
+  exit 2
+fi
+if [[ "$ENABLE_JOINT_LIMIT_CBF" == "on" ]]; then ENABLE_JOINT_LIMIT_CBF="true"; fi
+if [[ "$ENABLE_JOINT_LIMIT_CBF" == "off" ]]; then ENABLE_JOINT_LIMIT_CBF="false"; fi
 if [[ ! -r "$PORT" || ! -w "$PORT" ]]; then
   echo "[ERROR] serial port is not readable/writable: $PORT" >&2
   exit 1
@@ -141,6 +150,7 @@ if [[ -n "$RELATIVE_DELTA" ]]; then
   echo "[policy_reach] relative target norm limit=${MAX_RELATIVE_DELTA_M}m; final target must remain inside base workspace."
 fi
 echo "[policy_reach] transition layer: feedback/policy/driver=${CONTROL_RATE_PARAM}Hz, vmax=0.20rad/s, amax=0.80rad/s^2, tracking=${MAX_TRACKING_ERROR_PARAM}rad, driver_limit=${MAX_TRACKING_ERROR_PARAM}rad."
+echo "[policy_reach] calibrated joint-limit CBF=$ENABLE_JOINT_LIMIT_CBF margin=100 counts."
 mkdir -p "$ROOT_DIR/logs/hardware"
 setsid "$ROOT_DIR/ros2/run_hardware_controller.sh" --port "$PORT" --rate "$CONTROL_RATE_PARAM" \
   --max-stream-command-delta-rad "$MAX_TRACKING_ERROR_PARAM" \
@@ -183,4 +193,5 @@ conda run --no-capture-output -n "$VISION_ENV" python \
   -p target_config:="$TARGET_CONFIG" \
   -p control_rate_hz:="$CONTROL_RATE_PARAM" \
   -p max_tracking_error_rad:="$MAX_TRACKING_ERROR_PARAM" \
+  -p enable_joint_limit_cbf:="$ENABLE_JOINT_LIMIT_CBF" \
   -p start_on_launch:=true

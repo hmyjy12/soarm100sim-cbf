@@ -1,0 +1,11 @@
+[INFO] [1786437322.050456017] [hardware_joint_state]: read-only hardware joint bridge listening on udp://127.0.0.1:15001; publishing /joint_states
+[INFO] [1786437322.141471300] [hardware_joint_state]: hardware_joint_state=STALE seq=None age=infs dropped=0 invalid=0
+[INFO] [1786437324.741457150] [hardware_joint_state]: hardware_joint_state=LIVE seq=0 age=0.020s dropped=0 invalid=0
+[INFO] [1786437327.741864054] [hardware_joint_state]: hardware_joint_state=LIVE seq=60 age=0.020s dropped=0 invalid=0
+[INFO] [1786437330.742045551] [hardware_joint_state]: hardware_joint_state=LIVE seq=120 age=0.010s dropped=0 invalid=0
+[INFO] [1786437333.842096329] [hardware_joint_state]: hardware_joint_state=LIVE seq=182 age=0.010s dropped=0 invalid=0
+[INFO] [1786437336.842269125] [hardware_joint_state]: hardware_joint_state=LIVE seq=242 age=0.000s dropped=0 invalid=0
+[INFO] [1786437339.942166312] [hardware_joint_state]: hardware_joint_state=LIVE seq=304 age=0.000s dropped=0 invalid=0
+[INFO] [1786437343.042165133] [hardware_joint_state]: hardware_joint_state=LIVE seq=365 age=0.040s dropped=0 invalid=0
+[INFO] [1786437346.141903205] [hardware_joint_state]: hardware_joint_state=LIVE seq=427 age=0.030s dropped=0 invalid=0
+[INFO] [1786437349.142094718] [hardware_joint_state]: hardware_joint_state=LIVE seq=487 age=0.030s dropped=0 invalid=0

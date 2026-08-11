@@ -13,7 +13,177 @@
 
 本阶段不拆分现有 ROS2 Python 包，以免破坏已经验证过的硬件控制与相机标定入口；新文件依职责放入 `perception`、`safety`、`control`、`hardware` 对应模块，稳定后再做专门的多包重构。
 
-### 0.1 MuJoCo 严格只读关节映射验证
+### 0.1 真机七轴校准教程
+
+#### 0.1.1 先区分三类数据
+
+真机调试中容易把下面三件事统称为“校准”，但它们不能互相替代：
+
+1. **LeRobot 电机校准**：建立各舵机原始编码器值与 LeRobot 角度之间的关系，
+   记录 `range_min`、`range_max`、`homing_offset`。当前文件是
+   `hardware/calibration/lerobot/so100_plus_new_arm.json`。
+2. **Policy/MuJoCo 关节映射**：把 LeRobot 角度转换成 policy 使用的七关节角，
+   包括关节名称、方向符号和 policy 零点。当前文件是
+   `hardware/calibration/policy_joint_mapping.json`。
+3. **安全姿态**：只是一组允许上电保持或返回的关节目标，不决定编码器范围、
+   关节正负方向或 policy 零点。
+
+重新做 LeRobot 校准后，即使七个舵机型号和 ID 没变，归一化角度和零点也可能
+变化。因此必须重新采集 policy home 并完成 MuJoCo 只读映射验证，不能直接恢复
+policy 抓取。
+
+七个电机 ID 为：`shoulder_pan=1`、`shoulder_lift=2`、`elbow_flex=3`、
+`wrist_flex=4`、`wrist_yaw=5`、`wrist_roll=6`、`gripper=7`。
+
+#### 0.1.2 校准前检查与备份
+
+校准期间机械臂必须断力矩并由人托住，周围不得有碰撞物。先进入项目和 LeRobot
+环境：
+
+```bash
+cd /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim
+conda activate lerobot
+```
+
+检查串口权限和占用：
+
+```bash
+id -nG
+test -r /dev/ttyACM0 && echo "串口可读" || echo "串口不可读"
+test -w /dev/ttyACM0 && echo "串口可写" || echo "串口不可写"
+sudo fuser -v /dev/ttyACM0
+```
+
+`fuser` 无输出才表示串口空闲。若有输出，应先识别并正常停止对应的硬件节点；
+不要使用无范围的 `pkill python`。随后只读检查七轴状态：
+
+```bash
+python hardware/tools/read_feetech7.py \
+  --port /dev/ttyACM0 \
+  --samples 3 \
+  --period 0.2 \
+  --log logs/hardware/new_arm_pre_calibration_read.jsonl
+```
+
+七个 `Torque_Enable` 必须全部为 `0`。如果不是，执行显式断力矩：
+
+```bash
+python hardware/tools/disable_all_torque.py \
+  --port /dev/ttyACM0 \
+  --calibration hardware/calibration/lerobot/so100_plus_new_arm.json \
+  --confirm DISABLE_ALL_TORQUE
+```
+
+保存校准前寄存器快照并备份当前 JSON：
+
+```bash
+python hardware/tools/snapshot_feetech7.py \
+  --port /dev/ttyACM0 \
+  --output logs/hardware/new_arm_register_before_recalibration.json
+
+cp hardware/calibration/lerobot/so100_plus_new_arm.json \
+  hardware/calibration/lerobot/so100_plus_new_arm.before_recalibration.json
+```
+
+#### 0.1.3 怀疑单个关节时先做只读审计
+
+如果只是怀疑第三轴 `elbow_flex` 的校准上限不合理，先不要直接重写寄存器。断力矩
+并托住机械臂，运行较长时间的只读记录：
+
+```bash
+python hardware/tools/read_feetech7.py \
+  --port /dev/ttyACM0 \
+  --samples 400 \
+  --period 0.05 \
+  --log logs/hardware/elbow_range_audit.jsonl
+```
+
+记录期间只缓慢转动第三轴，覆盖机械结构允许的完整安全范围，不顶机械限位。
+当前校准中 `elbow_flex` 的范围是 `[899, 3105]` counts；真机流式控制还会在
+两端保留安全余量。如果肉眼觉得没有越界，但日志中的原始编码器确实超过当前
+范围，才说明校准范围可能需要重做。负载、电流或目测角度不能代替原始编码器值。
+
+当前工程只有 `wrist_roll` 专用的有限范围重校工具，没有 elbow 单轴写入工具；
+不要把 `recalibrate_wrist_roll_range.py` 用于第三轴。官方 LeRobot 校准是七轴全量
+校准，执行时七个轴都必须完整活动。
+
+#### 0.1.4 执行官方七轴校准
+
+确认机械臂断力矩、串口空闲并有人托住后运行：
+
+```bash
+cd /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim
+conda activate lerobot
+
+lerobot-calibrate \
+  --robot.type=so101_follower \
+  --robot.port=/dev/ttyACM0 \
+  --robot.id=so100_plus_new_arm \
+  --robot.calibration_dir="$PWD/hardware/calibration/lerobot"
+```
+
+如果终端提示使用已有校准文件或重新校准，输入小写 `c` 再按 Enter，才会进入
+重新采集；直接按 Enter 表示把已有 JSON 再写回电机，并不会重新测量范围。
+
+正式采集顺序：
+
+1. 先把七个关节手动放到各自安全活动范围的大致中间位置，再按 Enter。
+2. 进入 `Recording positions` 后，依次让每个关节缓慢覆盖完整安全范围。
+3. `wrist_roll` 只能覆盖线缆允许的有限范围，禁止为了接近 `0..4095` 而绕线。
+4. 夹爪也要从安全全开移动到安全全闭。
+5. 七个轴全部完成后按 Enter 结束，确认文件保存到
+   `hardware/calibration/lerobot/so100_plus_new_arm.json`。
+
+不要只活动 elbow：未活动的轴会被记录成很窄或错误的范围，随后所有真机控制都
+可能被错误拒绝。
+
+#### 0.1.5 校准后核验
+
+先保持断力矩，再读取并保存校准后的寄存器：
+
+```bash
+python hardware/tools/snapshot_feetech7.py \
+  --port /dev/ttyACM0 \
+  --output logs/hardware/new_arm_register_after_recalibration.json
+
+python hardware/tools/read_feetech7.py \
+  --port /dev/ttyACM0 \
+  --samples 20 \
+  --period 0.2 \
+  --log logs/hardware/new_arm_after_recalibration_read.jsonl
+```
+
+检查项：七轴 `Torque_Enable=0`；当前位置位于各自 `Min/Max_Position_Limit`
+之间；电压约为 12 V；温度无异常；`wrist_roll` 范围没有超过线缆安全区。
+
+然后把断力矩机械臂手动放到 MuJoCo/policy 的标准 home 姿态，采集该姿态的真机
+编码器对应值：
+
+```bash
+python hardware/tools/capture_policy_home.py \
+  --port /dev/ttyACM0 \
+  --calibration hardware/calibration/lerobot/so100_plus_new_arm.json \
+  --output hardware/calibration/policy_home_capture_new_arm.json
+```
+
+该命令**只采集并输出对照数据，不会自动更新**
+`hardware/calibration/policy_joint_mapping.json`。必须比较新的 home 采集结果，确认
+七轴符号仍正确并更新必要的零点偏置，然后执行下一节的 MuJoCo 严格只读映射
+验证。映射未通过前，不运行 policy、抓取、回原点或多关节上电动作。
+
+如果新校准明显错误，可用备份 JSON 恢复文件；但只复制 JSON 不等于恢复电机
+寄存器。需要再次运行 `lerobot-calibrate`，在提示处直接按 Enter，才会把该 ID
+关联的已有校准写回电机。执行恢复前仍需断力矩、托住机械臂并保存当前快照。
+
+完整通过条件：
+
+- 七轴原始范围覆盖真实安全活动范围，不触碰机械止挡或拉扯线缆。
+- 当前位置和常用安全姿态位于校准范围内部，而不是紧贴端点。
+- policy home 对照完成，名称、方向和零点映射均已复核。
+- 下一节 MuJoCo 镜像中七轴一一对应、方向一致且静止无跳变。
+- 最后再进行 `interactive_joint_check.py` 的低速小角度上电验证。
+
+### 0.2 MuJoCo 严格只读关节映射验证
 
 在启用真机 policy 主动控制前，先用 MuJoCo GUI 检查七个真机关节的
 名称、方向、零点和大致转动幅度是否与仿真模型一致。该链路严格只读：
@@ -83,9 +253,9 @@ python hardware/tools/stream_policy_joint_udp.py \
 因此应在正常工作区间内进行映射检查，不使用该窗口判断真机机械限位。
 任一终端均可使用 `Ctrl+C` 结束；该链路不会给机械臂上电。
 
-### 0.2 七轴保持下的交互式逐关节检测（2026-08-06）
+### 0.3 七轴保持下的交互式逐关节检测（2026-08-06）
 
-#### 0.2.1 目的与适用边界
+#### 0.3.1 目的与适用边界
 
 真机 policy 位姿到达测试中观察到 TCP 存在额外的 Y/Z 偏移，并怀疑第三轴
 `elbow_flex` 在机械臂自重下抬升能力不足。为区分 policy、TCP/FK 与舵机运控层
@@ -104,7 +274,7 @@ hardware/tools/interactive_joint_check.py
 该测试回答的是“某个舵机在整机真实负载下能否跟随一个小角度位置命令”，不能
 单独证明 policy、关节映射、TCP 标定或笛卡尔轨迹正确。
 
-#### 0.2.2 电机 ID
+#### 0.3.2 电机 ID
 
 | ID | 硬件名称 | policy/MuJoCo 名称 |
 |---:|---|---|
@@ -120,7 +290,7 @@ hardware/tools/interactive_joint_check.py
 关节符号映射。此前方向验证结果为 `elbow_flex` 正方向向下，因此检查第三轴抬升
 能力时使用负角度。
 
-#### 0.2.3 运行方式
+#### 0.3.3 运行方式
 
 启动前确认串口没有被其他硬件控制器或残留进程占用：
 
@@ -162,7 +332,7 @@ Motor ID [1-7, q]: q
 
 随后必须看到七个 `Torque_Enable` 均为 `0` 的核验输出。
 
-#### 0.2.4 当前安全规则
+#### 0.3.4 当前安全规则
 
 - 启动时要求七轴原本全部断力矩、全部处于位置模式。
 - 上电前先把七轴 `Goal_Position` 写为各自实测位置，避免上电跳变。
@@ -192,7 +362,7 @@ logs/hardware/interactive_joint_check.jsonl
 **当前状态：** 工具已完成 Python 静态编译与参数入口检查，真机动态结果待本轮
 `interactive_joint_check.jsonl` 产生后确认。
 
-### 0.3 真机 policy 位姿到达（首版）
+### 0.4 真机 policy 位姿到达（首版）
 
 首版不依赖相机、YOLO、SAM、AnyGrasp 或避障。目标 TCP 位姿以 `base` 坐标系
 写入：
@@ -211,6 +381,65 @@ ros2/config/real/policy_reach_target.json
 -> action scale/filter -> per-step clamp -> /hardware/joint_target
 -> Feetech streaming safety validation -> motor bus
 ```
+
+#### 0.4.1 关节限位 CBF-QP 安全过滤（2026-08-11）
+
+为避免 policy 在接近关节边界时反复生成越界目标、最终被硬件层整帧拒绝，
+在命令整形器生成参考速度后、积分得到 `q_ref` 前加入关节空间 CBF。它读取
+当前 LeRobot 校准和 `policy_joint_mapping.json`，把内缩后的 raw 安全范围转换为
+policy radians。对每个关节施加：
+
+```text
+-alpha * (q - q_safe_min) <= qdot
+qdot <= alpha * (q_safe_max - q)
+```
+
+远离边界时该约束不改变 policy；越靠近边界，继续向外的允许速度越小；已经位于
+软边界外时，只允许以恢复速度返回安全区。该凸 QP 的目标是最小化安全速度与
+policy 参考速度的差，当前独立盒约束具有闭式投影解，因此不依赖外部 QP 求解器。
+
+实现文件：
+
+- `control/joint_limit_cbf.py`：生成线性 CBF 速度上下界。
+- `control/policy_command_shaper.py`：在参考速度积分前执行最小修改投影。
+- `hardware_joint_limit_filter.py`：将真机 raw 安全范围转换为 policy radians。
+- `policy_reach_node.py`：接入过滤、逐帧日志和无进展判定。
+
+默认参数：
+
+- `enable_joint_limit_cbf=true`
+- `hardware_limit_margin_counts=100`
+- `joint_limit_cbf_alpha=4.0`
+- `joint_limit_cbf_activation_margin_rad=0.25`
+- `joint_limit_cbf_recovery_velocity_rad_s=0.05`
+- 连续受限 `2.0 s` 且 TCP 最佳误差改善不足 `0.003 m` 时返回
+  `JOINT_LIMIT_STALLED`，不再等待完整 policy timeout。
+
+完整抓取默认开启。显式对比开关：
+
+```bash
+./ros2/scripts/real/run_single_grasp_2real.sh \
+  --class jpgCat \
+  --device 0 \
+  --show-window on \
+  --joint-limit-cbf on \
+  --max-tracking-error-rad 0.25 \
+  --confirm RUN_SINGLE_GRASP
+```
+
+单独 policy 到达也可使用：
+
+```bash
+./ros2/scripts/real/run_policy_reach.sh \
+  --relative-delta 0.02,0,0 \
+  --rate 20 \
+  --joint-limit-cbf on \
+  --confirm RUN_POLICY_REACH
+```
+
+回归对比时可传 `--joint-limit-cbf off`，但硬件控制器的 raw 限位始终保留，
+不能通过该开关关闭。CBF只能平滑避免关节撞向边界；如果目标本身对 policy
+不可达，最终会返回 `JOINT_LIMIT_STALLED`，应换 AnyGrasp 候选。
 
 **同步过渡层（2026-08-06）：** 电机内部位置环并不是 `10 Hz`；原来的
 `10 Hz` 是 ROS2 `/joint_states` 反馈发布频率，底层驱动原本已以 `20 Hz`

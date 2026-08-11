@@ -7,6 +7,7 @@ ROS_SETUP="${ROS_SETUP:-/opt/ros/humble/setup.bash}"
 LEROBOT_ENV="${LEROBOT_ENV:-lerobot}"
 ROS_LOG_DIR="${ROS_LOG_DIR:-$ROOT_DIR/logs/hardware/ros2}"
 PORT="/dev/ttyACM0"
+CALIBRATION="hardware/calibration/lerobot/so100_plus_new_arm.json"
 UDP_PORT="15001"
 RATE="20"
 USE_RVIZ="true"
@@ -29,6 +30,7 @@ motor command and the hardware reader refuses to start if any torque is enabled.
 Options:
   --build              Build the required ROS2 packages first.
   --port DEVICE        Feetech serial port. Default: /dev/ttyACM0.
+  --calibration FILE   LeRobot calibration JSON. Default: new-arm calibration.
   --udp-port PORT      Local bridge UDP port. Default: 15001.
   --rate HZ            Hardware read rate, 1..50. Default: 20.
   --rviz on|off        Start RViz. Default: on.
@@ -41,6 +43,7 @@ while [[ $# -gt 0 ]]; do
   case "$1" in
     --build) BUILD_FIRST="true"; shift ;;
     --port) PORT="$2"; shift 2 ;;
+    --calibration) CALIBRATION="$2"; shift 2 ;;
     --udp-port) UDP_PORT="$2"; shift 2 ;;
     --rate) RATE="$2"; shift 2 ;;
     --rviz)
@@ -60,6 +63,14 @@ done
 if [[ ! -r "$PORT" || ! -w "$PORT" ]]; then
   echo "[ERROR] serial port is not readable/writable: $PORT" >&2
   echo "Run 'newgrp dialout' in this terminal or log in with dialout active." >&2
+  exit 1
+fi
+
+if [[ "$CALIBRATION" != /* ]]; then
+  CALIBRATION="$ROOT_DIR/$CALIBRATION"
+fi
+if [[ ! -f "$CALIBRATION" ]]; then
+  echo "[ERROR] calibration file not found: $CALIBRATION" >&2
   exit 1
 fi
 
@@ -84,12 +95,13 @@ cleanup() {
 trap cleanup EXIT INT TERM
 
 echo "[hardware_state] mode=STRICT_READ_ONLY port=$PORT rate=${RATE}Hz udp=$UDP_PORT"
+echo "[hardware_state] calibration=$CALIBRATION"
 echo "[hardware_state] rviz=$USE_RVIZ topic=/joint_states stale=/hardware/joint_state_stale"
 
 conda run --no-capture-output -n "$LEROBOT_ENV" \
   python "$ROOT_DIR/hardware/tools/stream_policy_joint_udp.py" \
   --port "$PORT" \
-  --calibration "$ROOT_DIR/hardware/calibration/lerobot/so100_plus_7dof.json" \
+  --calibration "$CALIBRATION" \
   --mapping "$ROOT_DIR/hardware/calibration/policy_joint_mapping.json" \
   --host 127.0.0.1 \
   --udp-port "$UDP_PORT" \

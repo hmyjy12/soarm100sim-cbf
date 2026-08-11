@@ -12,6 +12,7 @@ DEVICE="0"
 DEVICE_PARAM=""
 SHOW_WINDOW="true"
 MAX_TRACKING_ERROR_RAD="0.25"
+ENABLE_JOINT_LIMIT_CBF="false"
 BUILD="false"
 CONFIRM=""
 PIDS=()
@@ -31,6 +32,7 @@ Options:
   --show-window on|off       Show YOLO+SAM mask preview. Default: on.
   --max-tracking-error-rad R Maximum policy-reference error per joint.
                              Default: 0.25 rad.
+  --joint-limit-cbf on|off   Smooth calibrated joint-limit CBF. Default: off.
   --confirm RUN_SINGLE_GRASP Required physical-motion confirmation.
 
 This v1 always uses real camera extrinsics, one AnyGrasp plan, no wrist
@@ -130,6 +132,7 @@ while [[ $# -gt 0 ]]; do
     --device) DEVICE="$2"; shift 2 ;;
     --show-window) SHOW_WINDOW="$(parse_bool "$2")"; shift 2 ;;
     --max-tracking-error-rad) MAX_TRACKING_ERROR_RAD="$2"; shift 2 ;;
+    --joint-limit-cbf) ENABLE_JOINT_LIMIT_CBF="$(parse_bool "$2")"; shift 2 ;;
     --confirm) CONFIRM="$2"; shift 2 ;;
     -h|--help) usage; exit 0 ;;
     *) echo "[ERROR] unknown option: $1" >&2; usage >&2; exit 2 ;;
@@ -191,6 +194,7 @@ export ROS_LOG_DIR="$ROOT_DIR/logs/ros2/real_single_grasp"
 echo "[2real_grasp] preflight: real_extrinsics=false(sim flag), class=$TARGET_CLASS yolo_conf=$YOLO_CONF"
 echo "[2real_grasp] phase policy: one plan; tracking=off replan=off avoidance=off"
 echo "[2real_grasp] joint tracking limit=$MAX_TRACKING_ERROR_RAD rad"
+echo "[2real_grasp] joint-limit CBF=$ENABLE_JOINT_LIMIT_CBF margin=100 counts"
 
 setsid "$ROOT_DIR/ros2/scripts/real/run_orbbec_rgbd.sh" \
   >"$ROOT_DIR/logs/hardware/real_grasp_orbbec.log" 2>&1 &
@@ -266,7 +270,9 @@ setsid bash -lc "
     -p calib_json:=hardware/calibration/camera/real_camera_calib.json \
     -p python_executable:='$HOME/miniconda3/envs/$VISION_ENV/bin/python' \
     -p workspace_min_z_m:=0.010 \
-    -p max_tracking_error_rad:=$MAX_TRACKING_ERROR_RAD &
+    -p max_tracking_error_rad:=$MAX_TRACKING_ERROR_RAD \
+    -p enable_joint_limit_cbf:=$ENABLE_JOINT_LIMIT_CBF \
+    -p hardware_limit_margin_counts:=100 &
   BACKEND_PID=\$!
   python '$ROOT_DIR/ros2/soarm100_vision/soarm100_vision/grasp_orchestrator_node.py' \
     --ros-args -r __node:=real_grasp_orchestrator \

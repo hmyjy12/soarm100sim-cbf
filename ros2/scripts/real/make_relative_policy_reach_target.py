@@ -155,7 +155,7 @@ def main() -> int:
     if not (
         0.08 <= target[0] <= 0.45
         and -0.30 <= target[1] <= 0.30
-        and 0.05 <= target[2] <= 0.45
+        and 0.01 <= target[2] <= 0.45
     ):
         raise SystemExit(
             f"[ERROR] relative target outside conservative workspace: {target.tolist()}"

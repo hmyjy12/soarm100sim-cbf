@@ -2,18 +2,18 @@
 [hardware_controller] shoulder_lift_p=16 (baseline restore=16)
 [hardware_controller] calibration=hardware/calibration/lerobot/so100_plus_new_arm.json
 [hardware_controller] feedback/driver rate=20.000000Hz
-[hardware_controller] stream command delta limit=0.350000rad
+[hardware_controller] stream command delta limit=0.250000rad
 [hardware_controller] Ctrl+C performs verified all-axis torque-off.
-[INFO] [launch]: All log files can be found below /home/sophie/.ros/log/2026-08-06-18-25-58-538852-sophie-Legion-Y7000P-IRX10-306546
+[INFO] [launch]: All log files can be found below /home/sophie/.ros/log/2026-08-11-16-55-55-601693-sophie-Legion-Y7000P-IRX10-1686611
 [INFO] [launch]: Default logging verbosity is set to INFO
-[INFO] [hardware_controller_node-1]: process started with pid [306551]
-[INFO] [robot_state_publisher-2]: process started with pid [306553]
-[robot_state_publisher-2] [INFO] [1786011958.604894896] [hardware_robot_state_publisher]: got segment base
-[robot_state_publisher-2] [INFO] [1786011958.604965538] [hardware_robot_state_publisher]: got segment ellbow
-[robot_state_publisher-2] [INFO] [1786011958.604971943] [hardware_robot_state_publisher]: got segment gripper
-[robot_state_publisher-2] [INFO] [1786011958.604975516] [hardware_robot_state_publisher]: got segment shoulder_pitch
-[robot_state_publisher-2] [INFO] [1786011958.604978999] [hardware_robot_state_publisher]: got segment shoulder_rotation
-[robot_state_publisher-2] [INFO] [1786011958.604982275] [hardware_robot_state_publisher]: got segment wrist_jaw
-[robot_state_publisher-2] [INFO] [1786011958.604985504] [hardware_robot_state_publisher]: got segment wrist_pitch
-[robot_state_publisher-2] [INFO] [1786011958.604988607] [hardware_robot_state_publisher]: got segment wrist_roll
-[hardware_controller_node-1] [INFO] [1786011961.454122771] [hardware_controller]: hardware controller ready; current seven-axis position is powered and held; services=/hardware/move_joint_target,/hardware/set_torque stream_topic=/hardware/joint_target
+[INFO] [hardware_controller_node-1]: process started with pid [1686622]
+[INFO] [robot_state_publisher-2]: process started with pid [1686624]
+[robot_state_publisher-2] [INFO] [1786438555.667378667] [hardware_robot_state_publisher]: got segment base
+[robot_state_publisher-2] [INFO] [1786438555.667429497] [hardware_robot_state_publisher]: got segment ellbow
+[robot_state_publisher-2] [INFO] [1786438555.667434465] [hardware_robot_state_publisher]: got segment gripper
+[robot_state_publisher-2] [INFO] [1786438555.667437310] [hardware_robot_state_publisher]: got segment shoulder_pitch
+[robot_state_publisher-2] [INFO] [1786438555.667440062] [hardware_robot_state_publisher]: got segment shoulder_rotation
+[robot_state_publisher-2] [INFO] [1786438555.667442557] [hardware_robot_state_publisher]: got segment wrist_jaw
+[robot_state_publisher-2] [INFO] [1786438555.667445077] [hardware_robot_state_publisher]: got segment wrist_pitch
+[robot_state_publisher-2] [INFO] [1786438555.667447458] [hardware_robot_state_publisher]: got segment wrist_roll
+[hardware_controller_node-1] [INFO] [1786438559.548556040] [hardware_controller]: hardware controller ready; current seven-axis position is powered and held; services=/hardware/move_joint_target,/hardware/set_torque stream_topic=/hardware/joint_target

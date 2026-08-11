@@ -34,6 +34,7 @@ class HardwareControllerNode(Node):
         self.declare_parameter("feedback_rate_hz", 20.0)
         self.declare_parameter("driver_rate_hz", 20.0)
         self.declare_parameter("max_stream_command_delta_rad", 0.25)
+        self.declare_parameter("raw_margin_counts", 0)
         self.declare_parameter("command_timeout", 20.0)
         self._command_lock = threading.Lock()
         self._responses: queue.Queue[dict] = queue.Queue()
@@ -125,6 +126,8 @@ class HardwareControllerNode(Node):
             str(float(self.get_parameter("driver_rate_hz").value)),
             "--max-stream-command-delta-rad",
             str(float(self.get_parameter("max_stream_command_delta_rad").value)),
+            "--raw-margin-counts",
+            str(int(self.get_parameter("raw_margin_counts").value)),
             "--log",
             self._driver_log_path,
         ]
