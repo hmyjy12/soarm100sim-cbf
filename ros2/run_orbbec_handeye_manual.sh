@@ -196,13 +196,13 @@ power_on_hold() {
     return 1
   fi
   echo "[orbbec_handeye] powering ON and holding current pose (NO capture yet)"
-  : >"$ROOT_DIR/logs/hardware/orbbec_handeye_controller.log"
+  : >"$ROOT_DIR/log/runtime/hardware/orbbec_handeye_controller.log"
   setsid "$ROOT_DIR/ros2/run_hardware_controller.sh" \
-    >"$ROOT_DIR/logs/hardware/orbbec_handeye_controller.log" 2>&1 &
+    >"$ROOT_DIR/log/runtime/hardware/orbbec_handeye_controller.log" 2>&1 &
   CONTROLLER_PID="$!"
   if ! wait_for_topic "/joint_states" 25; then
     echo "[orbbec_handeye] ERROR: /joint_states unavailable after power-on" >&2
-    echo "[orbbec_handeye] see logs/hardware/orbbec_handeye_controller.log" >&2
+    echo "[orbbec_handeye] see log/runtime/hardware/orbbec_handeye_controller.log" >&2
     stop_controller_only
     return 1
   fi
@@ -269,11 +269,11 @@ Cycle:
 Notes:
   - gripper_frame=wrist_roll; do not change gripper opening mid-session
   - duplicate rejection DISABLED
-  - outputs: logs/hardware/orbbec_handeye/<timestamp>/
+  - outputs: log/runtime/hardware/orbbec_handeye/<timestamp>/
 EOF
 }
 
-mkdir -p "$ROOT_DIR/logs/hardware"
+mkdir -p "$ROOT_DIR/log/runtime/hardware"
 source_relaxed /opt/ros/humble/setup.bash
 source_relaxed "$ORBBEC_WS/install/setup.bash"
 source_relaxed "$ROS_WS/install/setup.bash"
@@ -292,22 +292,22 @@ fi
 
 echo "[orbbec_handeye] Starting Orbbec RGB + eye-to-hand Viewer; robot UNPOWERED."
 setsid "$ROOT_DIR/ros2/run_orbbec_camera.sh" \
-  >"$ROOT_DIR/logs/hardware/orbbec_handeye_camera.log" 2>&1 &
+  >"$ROOT_DIR/log/runtime/hardware/orbbec_handeye_camera.log" 2>&1 &
 CAMERA_PID="$!"
 
 echo "[orbbec_handeye] waiting for /camera/color/image_raw ..."
 if ! wait_for_topic "/camera/color/image_raw" 40; then
-  echo "[orbbec_handeye] ERROR: Orbbec RGB not publishing. See logs/hardware/orbbec_handeye_camera.log" >&2
+  echo "[orbbec_handeye] ERROR: Orbbec RGB not publishing. See log/runtime/hardware/orbbec_handeye_camera.log" >&2
   exit 1
 fi
 
 setsid "$ROOT_DIR/ros2/run_orbbec_handeye.sh" \
-  >"$ROOT_DIR/logs/hardware/orbbec_handeye_viewer.log" 2>&1 &
+  >"$ROOT_DIR/log/runtime/hardware/orbbec_handeye_viewer.log" 2>&1 &
 VIEWER_PID="$!"
 sleep 2
 
 if ! wait_for_service "/orbbec_handeye/capture" 25; then
-  echo "[orbbec_handeye] ERROR: Viewer/capture service failed. See logs/hardware/orbbec_handeye_viewer.log" >&2
+  echo "[orbbec_handeye] ERROR: Viewer/capture service failed. See log/runtime/hardware/orbbec_handeye_viewer.log" >&2
   exit 1
 fi
 

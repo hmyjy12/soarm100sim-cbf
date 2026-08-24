@@ -64,8 +64,8 @@ import sys
 
 root = Path(sys.argv[1])
 started = float(sys.argv[2])
-controller = root / "logs/hardware/real_grasp_controller.log"
-nodes = root / "logs/hardware/real_grasp_nodes.log"
+controller = root / "log/runtime/hardware/real_grasp_controller.log"
+nodes = root / "log/runtime/hardware/real_grasp_nodes.log"
 
 if controller.is_file():
     rejected = [
@@ -79,7 +79,7 @@ if controller.is_file():
         raise SystemExit
 
 logs = sorted(
-    (root / "logs/hardware/real_single_grasp").glob("policy_*.jsonl"),
+    (root / "log/runtime/hardware/real_single_grasp").glob("policy_*.jsonl"),
     key=lambda path: path.stat().st_mtime,
     reverse=True,
 )
@@ -188,16 +188,16 @@ if [[ "$BUILD" == "true" ]]; then
     --packages-select soarm100_interfaces soarm100_vision --symlink-install)
 fi
 source_relaxed "$ROS2_WS/install/setup.bash"
-mkdir -p "$ROOT_DIR/logs/hardware" "$ROOT_DIR/logs/ros2/real_single_grasp"
-export ROS_LOG_DIR="$ROOT_DIR/logs/ros2/real_single_grasp"
+mkdir -p "$ROOT_DIR/log/runtime/hardware" "$ROOT_DIR/log/runtime/ros2/real_single_grasp"
+export ROS_LOG_DIR="$ROOT_DIR/log/runtime/ros2/real_single_grasp"
 
 echo "[2real_grasp] preflight: real_extrinsics=false(sim flag), class=$TARGET_CLASS yolo_conf=$YOLO_CONF"
 echo "[2real_grasp] phase policy: one plan; tracking=off replan=off avoidance=off"
 echo "[2real_grasp] joint tracking limit=$MAX_TRACKING_ERROR_RAD rad"
-echo "[2real_grasp] joint-limit CBF=$ENABLE_JOINT_LIMIT_CBF margin=100 counts"
+echo "[2real_grasp] joint-limit CBF=$ENABLE_JOINT_LIMIT_CBF raw_margin=0 counts"
 
 setsid "$ROOT_DIR/ros2/scripts/real/run_orbbec_rgbd.sh" \
-  >"$ROOT_DIR/logs/hardware/real_grasp_orbbec.log" 2>&1 &
+  >"$ROOT_DIR/log/runtime/hardware/real_grasp_orbbec.log" 2>&1 &
 PIDS+=("$!")
 
 # Vision and policy dependencies are both verified in vision_seg. Launch the
@@ -234,14 +234,15 @@ setsid bash -lc "
   else
     wait \$SEG_PID
   fi
-" >"$ROOT_DIR/logs/hardware/real_grasp_vision.log" 2>&1 &
+" >"$ROOT_DIR/log/runtime/hardware/real_grasp_vision.log" 2>&1 &
 VISION_PID="$!"
 PIDS+=("$VISION_PID")
 
 setsid "$ROOT_DIR/ros2/run_hardware_controller.sh" \
   --port "$PORT" --rate 20.0 \
   --max-stream-command-delta-rad "$MAX_TRACKING_ERROR_RAD" \
-  >"$ROOT_DIR/logs/hardware/real_grasp_controller.log" 2>&1 &
+  --raw-margin-counts 0 \
+  >"$ROOT_DIR/log/runtime/hardware/real_grasp_controller.log" 2>&1 &
 PIDS+=("$!")
 
 setsid bash -lc "
@@ -262,7 +263,7 @@ setsid bash -lc "
     -p enable_hardware_limit_filter:=true \
     -p hardware_calibration_json:=hardware/calibration/lerobot/so100_plus_new_arm.json \
     -p hardware_mapping_json:=hardware/calibration/policy_joint_mapping.json \
-    -p hardware_limit_margin_counts:=100 &
+    -p hardware_limit_margin_counts:=0 &
   PLAN_PID=\$!
   python '$ROOT_DIR/ros2/soarm100_vision/soarm100_vision/real_policy_grasp_backend_node.py' \
     --ros-args -r __node:=real_policy_grasp_backend \
@@ -272,7 +273,7 @@ setsid bash -lc "
     -p workspace_min_z_m:=0.010 \
     -p max_tracking_error_rad:=$MAX_TRACKING_ERROR_RAD \
     -p enable_joint_limit_cbf:=$ENABLE_JOINT_LIMIT_CBF \
-    -p hardware_limit_margin_counts:=100 &
+    -p hardware_limit_margin_counts:=0 &
   BACKEND_PID=\$!
   python '$ROOT_DIR/ros2/soarm100_vision/soarm100_vision/grasp_orchestrator_node.py' \
     --ros-args -r __node:=real_grasp_orchestrator \
@@ -284,7 +285,7 @@ setsid bash -lc "
   kill \$PLAN_PID \$BACKEND_PID \$ORCH_PID 2>/dev/null || true
   wait \$PLAN_PID \$BACKEND_PID \$ORCH_PID 2>/dev/null || true
   exit \$RC
-" >"$ROOT_DIR/logs/hardware/real_grasp_nodes.log" 2>&1 &
+" >"$ROOT_DIR/log/runtime/hardware/real_grasp_nodes.log" 2>&1 &
 CORE_PID="$!"
 PIDS+=("$CORE_PID")
 
@@ -292,12 +293,12 @@ echo "[2real_grasp] waiting for RGB-D, segmentation, hardware and actions"
 for _ in $(seq 1 180); do
   if ! kill -0 "$VISION_PID" 2>/dev/null; then
     echo "[ERROR] YOLO/SAM process exited during startup" >&2
-    tail -n 40 "$ROOT_DIR/logs/hardware/real_grasp_vision.log" >&2 || true
+    tail -n 40 "$ROOT_DIR/log/runtime/hardware/real_grasp_vision.log" >&2 || true
     exit 1
   fi
   if ! kill -0 "$CORE_PID" 2>/dev/null; then
     echo "[ERROR] grasp planner/backend/orchestrator process exited during startup" >&2
-    tail -n 40 "$ROOT_DIR/logs/hardware/real_grasp_nodes.log" >&2 || true
+    tail -n 40 "$ROOT_DIR/log/runtime/hardware/real_grasp_nodes.log" >&2 || true
     exit 1
   fi
   if ros2 topic list 2>/dev/null | grep -qx '/camera/color/image_raw' && \
@@ -314,9 +315,9 @@ for _ in $(seq 1 180); do
 done
 if [[ "$TORQUE_ACTIVE" != "true" ]]; then
   echo "[ERROR] stack did not become ready" >&2
-  echo "  vision:     logs/hardware/real_grasp_vision.log" >&2
-  echo "  controller: logs/hardware/real_grasp_controller.log" >&2
-  echo "  nodes:      logs/hardware/real_grasp_nodes.log" >&2
+  echo "  vision:     log/runtime/hardware/real_grasp_vision.log" >&2
+  echo "  controller: log/runtime/hardware/real_grasp_controller.log" >&2
+  echo "  nodes:      log/runtime/hardware/real_grasp_nodes.log" >&2
   exit 1
 fi
 
@@ -330,7 +331,7 @@ for topic in \
   if ! timeout 12s ros2 topic echo "$topic" --once \
       --qos-reliability best_effort >/dev/null 2>&1; then
     echo "[ERROR] no live message received from $topic" >&2
-    echo "  Orbbec log: logs/hardware/real_grasp_orbbec.log" >&2
+    echo "  Orbbec log: log/runtime/hardware/real_grasp_orbbec.log" >&2
     exit 1
   fi
 done

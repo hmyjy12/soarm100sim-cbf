@@ -1,4 +1,0 @@
-[INFO] [1786094948.803340369] [soarm100_send_execute_grasp]: execute grasp goal accepted
-[INFO] [1786094948.803957231] [soarm100_send_execute_grasp]: feedback stage=SEGMENTING grasp=0.000 replan=False cbf=False reason=attempt=1
-[INFO] [1786095039.436274251] [soarm100_send_execute_grasp]: feedback stage=SEGMENT_FAILED grasp=0.000 replan=False cbf=False reason=segment_failed:segment_service_unavailable
-[INFO] [1786095039.436852650] [soarm100_send_execute_grasp]: result success=False attempts=1 lift=0.0000 reason=segment_failed:segment_service_unavailable final=(+0.420,+0.080,+0.022) quat=(+1.000,+0.000,+0.000,+0.000)

@@ -85,7 +85,7 @@ def main(argv: list[str] | None = None) -> None:
     parser.add_argument("--target-prompt", default="red cube")
     parser.add_argument("--target-object", default="cube")
     parser.add_argument("--target-pos", default="0.42,0.08,0.021")
-    parser.add_argument("--traj-log", default="logs/ros2_inprocess_grasp.jsonl")
+    parser.add_argument("--traj-log", default="log/runtime/ros2_inprocess_grasp.jsonl")
     parser.add_argument("--enable-avoidance", action="store_true")
     parser.add_argument("--wait-timeout", type=float, default=20.0)
     args = parser.parse_args(argv)

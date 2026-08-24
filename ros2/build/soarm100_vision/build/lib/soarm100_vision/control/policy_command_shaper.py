@@ -111,6 +111,8 @@ class PolicyCommandShaper:
         q_high: np.ndarray,
         dt_s: float,
         frozen_mask: np.ndarray | None = None,
+        safety_velocity_low: np.ndarray | None = None,
+        safety_velocity_high: np.ndarray | None = None,
     ) -> dict:
         q = np.asarray(measured_q, dtype=np.float64).reshape(self.n)
         raw = np.clip(np.asarray(raw_action, dtype=np.float64).reshape(self.n), -1.0, 1.0)
@@ -136,6 +138,18 @@ class PolicyCommandShaper:
             desired_velocity - self.reference_velocity, -max_dv, max_dv
         )
         shaped_velocity = self.reference_velocity + velocity_delta
+
+        unconstrained_velocity = shaped_velocity.copy()
+        safety_clamped = np.zeros(self.n, dtype=bool)
+        if safety_velocity_low is not None or safety_velocity_high is not None:
+            if safety_velocity_low is None or safety_velocity_high is None:
+                raise ValueError("both safety velocity bounds are required")
+            safety_low = np.asarray(safety_velocity_low, dtype=np.float64).reshape(self.n)
+            safety_high = np.asarray(safety_velocity_high, dtype=np.float64).reshape(self.n)
+            if np.any(safety_low > safety_high):
+                raise ValueError("invalid safety velocity bounds")
+            shaped_velocity = np.clip(shaped_velocity, safety_low, safety_high)
+            safety_clamped = np.abs(shaped_velocity - unconstrained_velocity) > 1.0e-9
 
         mask = (
             np.zeros(self.n, dtype=bool)
@@ -173,6 +187,8 @@ class PolicyCommandShaper:
             "requested_dq": requested_dq,
             "desired_velocity_rad_s": desired_velocity,
             "reference_velocity_rad_s": shaped_velocity,
+            "unconstrained_velocity_rad_s": unconstrained_velocity,
+            "safety_velocity_clamped": safety_clamped,
             "tracking_error_rad": q_ref_next - q,
             "tracking_clamped": tracking_clamped,
             "action_filter_alpha": action_alpha,

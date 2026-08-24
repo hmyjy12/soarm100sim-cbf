@@ -3,7 +3,7 @@
 
   cd soarm100sim
   python mujoco/vision_obstacle_smoke.py
-  python mujoco/vision_obstacle_smoke.py --calib-json logs/calib/camera_calib.json
+  python mujoco/vision_obstacle_smoke.py --calib-json log/runtime/calib/camera_calib.json
   python mujoco/vision_obstacle_smoke.py --use-sim-cam   # 对比：MuJoCo 真值内外参
 """
 

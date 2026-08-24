@@ -333,7 +333,7 @@ def main() -> int:
     p.add_argument("--checkpoint", type=str, default=str(DEFAULT_CHECKPOINT))
     p.add_argument("--mjcf", type=str, default=str(DEFAULT_MJCF))
     p.add_argument("--npz", type=str, default=str(DEFAULT_NPZ_TEST))
-    p.add_argument("--out-dir", type=str, default="logs/eval/sdf_challenge")
+    p.add_argument("--out-dir", type=str, default="log/runtime/eval/sdf_challenge")
     p.add_argument("--seed", type=int, default=42)
     p.add_argument("--scan-count", type=int, default=512)
     p.add_argument("--max-challenges", type=int, default=64)

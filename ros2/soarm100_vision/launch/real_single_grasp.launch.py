@@ -32,7 +32,7 @@ def generate_launch_description():
                 "enable_hardware_limit_filter": True,
                 "hardware_calibration_json": "hardware/calibration/lerobot/so100_plus_new_arm.json",
                 "hardware_mapping_json": "hardware/calibration/policy_joint_mapping.json",
-                "hardware_limit_margin_counts": 100,
+                "hardware_limit_margin_counts": 0,
             }],
         ),
         Node(

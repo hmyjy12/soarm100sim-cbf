@@ -1,4 +1,0 @@
-[INFO] [1786342885.135738329] [real_policy_grasp_backend]: real policy grasp backend ready: single plan, tracking=OFF, replan=OFF, avoidance=OFF
-[INFO] [1786342901.520795331] [real_policy_grasp_backend]: single grasp target=jpgCat pre=[0.2506124660557118, 0.09470430248895079, 0.07293118150927419] grasp=[0.30334127779041664, 0.0711740790669016, 0.03335845101522686] width=38.3mm
-[INFO] [1786342901.521449887] [real_policy_grasp_backend]: stage=OPEN reason=opening gripper before policy motion
-[INFO] [1786342902.528184931] [real_policy_grasp_backend]: stage=MOVE_TO_PREGRASP reason={"start_rad": 0.4386371171193928, "target_rad": 0.45, "held_target_rad": 0.45, "measured_rad": 0.4386371171193928, "error_rad": 0.011362882880607217}

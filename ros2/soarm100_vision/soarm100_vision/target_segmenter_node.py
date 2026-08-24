@@ -1,11 +1,15 @@
 from __future__ import annotations
 
+from collections import deque
+import threading
 import time
 from pathlib import Path
 
 import numpy as np
 import rclpy
 from geometry_msgs.msg import PoseStamped
+from rclpy.callback_groups import MutuallyExclusiveCallbackGroup, ReentrantCallbackGroup
+from rclpy.executors import MultiThreadedExecutor
 from rclpy.node import Node
 from rclpy.qos import qos_profile_sensor_data
 from sensor_msgs.msg import CameraInfo, Image, PointCloud2
@@ -68,10 +72,12 @@ class TargetSegmenterNode(Node):
         self.declare_parameter("camera_info_topic", "/camera/color/camera_info")
         self.declare_parameter("mask_topic", "/target/mask")
         self.declare_parameter("expanded_mask_topic", "/target/mask_expanded")
+        self.declare_parameter("synchronized_depth_topic", "")
         self.declare_parameter("target_cloud_topic", "/target/cloud")
         self.declare_parameter("target_roi_cloud_topic", "/target/cloud_roi")
         self.declare_parameter("target_center_topic", "/target/center")
         self.declare_parameter("status_topic", "/target/segmentation_status")
+        self.declare_parameter("segment_service", "/segment_target")
         self.declare_parameter("yolo_model", "models/vision/yolov8s-world.pt")
         self.declare_parameter("fixed_yolo_model", "models/vision/yolowork_fixed_best.pt")
         self.declare_parameter("fixed_yolo_target_class", "")
@@ -80,7 +86,7 @@ class TargetSegmenterNode(Node):
         self.declare_parameter("fixed_yolo_imgsz", 640)
         self.declare_parameter("fixed_yolo_device", "auto")
         self.declare_parameter("sam_model", "models/vision/mobile_sam.pt")
-        self.declare_parameter("debug_dir", "logs/ros2_vision")
+        self.declare_parameter("debug_dir", "log/runtime/ros2_vision")
         self.declare_parameter("min_points", 30)
         self.declare_parameter("mask_expand_ratio", 0.05)
         self.declare_parameter("use_expanded_mask_for_target_cloud", False)
@@ -91,10 +97,19 @@ class TargetSegmenterNode(Node):
         self.declare_parameter("color_saturation_min", 0.45)
         self.declare_parameter("color_value_min", 0.30)
         self.declare_parameter("color_min_area_px", 40)
+        self.declare_parameter("auto_segment_hz", 0.0)
+        self.declare_parameter("auto_target_prompt", "")
+        self.declare_parameter("rgb_depth_sync_tolerance_s", 0.10)
+        self.declare_parameter("rgb_depth_buffer_size", 60)
 
         self._rgb: Image | None = None
         self._depth: Image | None = None
         self._info: CameraInfo | None = None
+        buffer_size = max(int(self._param("rgb_depth_buffer_size")), 2)
+        self._rgb_buffer: deque[Image] = deque(maxlen=buffer_size)
+        self._depth_buffer: deque[Image] = deque(maxlen=buffer_size)
+        self._synced_bundle: tuple[Image, Image, CameraInfo, float] | None = None
+        self._frame_lock = threading.Lock()
         self._detector = None
         self._sam = None
         self._detector_prompt = ""
@@ -104,26 +119,47 @@ class TargetSegmenterNode(Node):
             "fixed_yolo_sam",
         ):
             self._load_models()
+            if self._model_error:
+                self.get_logger().error(self._model_error)
 
         self._mask_pub = self.create_publisher(Image, self._param("mask_topic"), 1)
         self._expanded_mask_pub = self.create_publisher(Image, self._param("expanded_mask_topic"), 1)
+        synced_depth_topic = str(self._param("synchronized_depth_topic")).strip()
+        self._synced_depth_pub = (
+            self.create_publisher(Image, synced_depth_topic, 1)
+            if synced_depth_topic
+            else None
+        )
         self._cloud_pub = self.create_publisher(PointCloud2, self._param("target_cloud_topic"), 1)
         self._roi_cloud_pub = self.create_publisher(PointCloud2, self._param("target_roi_cloud_topic"), 1)
         self._center_pub = self.create_publisher(PoseStamped, self._param("target_center_topic"), 1)
         self._status_pub = self.create_publisher(String, self._param("status_topic"), 1)
+        sensor_group = ReentrantCallbackGroup()
+        inference_group = MutuallyExclusiveCallbackGroup()
         self.create_subscription(
-            Image, self._param("rgb_topic"), self._on_rgb, qos_profile_sensor_data
+            Image, self._param("rgb_topic"), self._on_rgb, qos_profile_sensor_data,
+            callback_group=sensor_group,
         )
         self.create_subscription(
-            Image, self._param("depth_topic"), self._on_depth, qos_profile_sensor_data
+            Image, self._param("depth_topic"), self._on_depth, qos_profile_sensor_data,
+            callback_group=sensor_group,
         )
         self.create_subscription(
             CameraInfo,
             self._param("camera_info_topic"),
             self._on_info,
             qos_profile_sensor_data,
+            callback_group=sensor_group,
         )
-        self.create_service(SegmentTarget, "segment_target", self._on_segment)
+        self.create_service(
+            SegmentTarget, str(self._param("segment_service")), self._on_segment,
+            callback_group=inference_group,
+        )
+        auto_hz = float(self._param("auto_segment_hz"))
+        if auto_hz > 0.0:
+            self.create_timer(
+                1.0 / auto_hz, self._auto_segment, callback_group=inference_group
+            )
         self.get_logger().info(
             "target segmenter ready: "
             f"mode={self._param('segmentation_mode')} "
@@ -159,19 +195,59 @@ class TargetSegmenterNode(Node):
             self._model_error = f"model load failed: {exc}"
 
     def _on_rgb(self, msg: Image) -> None:
-        self._rgb = msg
+        with self._frame_lock:
+            self._rgb = msg
+            self._rgb_buffer.append(msg)
+            self._update_synced_bundle_locked()
 
     def _on_depth(self, msg: Image) -> None:
-        self._depth = msg
+        with self._frame_lock:
+            self._depth = msg
+            self._depth_buffer.append(msg)
+            self._update_synced_bundle_locked()
 
     def _on_info(self, msg: CameraInfo) -> None:
-        self._info = msg
+        with self._frame_lock:
+            self._info = msg
+            self._update_synced_bundle_locked()
+
+    @staticmethod
+    def _stamp_s(msg) -> float:
+        return float(msg.header.stamp.sec) + float(msg.header.stamp.nanosec) * 1.0e-9
+
+    def _update_synced_bundle_locked(self) -> None:
+        if not self._rgb_buffer or not self._depth_buffer or self._info is None:
+            return
+        depth = self._depth_buffer[-1]
+        depth_stamp = self._stamp_s(depth)
+        rgb = min(
+            self._rgb_buffer,
+            key=lambda candidate: abs(self._stamp_s(candidate) - depth_stamp),
+        )
+        sync_delta = abs(self._stamp_s(rgb) - depth_stamp)
+        if sync_delta <= float(self._param("rgb_depth_sync_tolerance_s")):
+            self._synced_bundle = (rgb, depth, self._info, sync_delta)
+
+    def _auto_segment(self) -> None:
+        request = SegmentTarget.Request()
+        request.target_prompt = str(self._param("auto_target_prompt"))
+        request.force_yolo = True
+        response = self._on_segment(request, SegmentTarget.Response())
+        if not response.success:
+            self._status_pub.publish(String(data=f"failed reason={response.reason}"))
+            self.get_logger().warning(
+                f"automatic target segmentation failed: {response.reason}",
+                throttle_duration_sec=1.0,
+            )
 
     def _on_segment(self, request: SegmentTarget.Request, response: SegmentTarget.Response):
-        if self._rgb is None or self._depth is None or self._info is None:
+        with self._frame_lock:
+            bundle = self._synced_bundle
+        if bundle is None:
             response.success = False
-            response.reason = "waiting_for_rgb_depth_camera_info"
+            response.reason = "waiting_for_synchronized_rgb_depth_camera_info"
             return response
+        rgb_msg, depth_msg, info_msg, sync_delta_s = bundle
         mode = str(self._param("segmentation_mode")).strip().lower()
         if mode in ("yolo_sam", "fixed_yolo_sam") and (
             self._detector is None or self._sam is None
@@ -181,8 +257,9 @@ class TargetSegmenterNode(Node):
             return response
 
         try:
-            rgb = image_to_numpy(self._rgb)
-            depth = image_to_numpy(self._depth)
+            inference_started = time.perf_counter()
+            rgb = image_to_numpy(rgb_msg)
+            depth = image_to_numpy(depth_msg)
             used_fallback = False
             selected_class = ""
             if mode == "color":
@@ -211,21 +288,25 @@ class TargetSegmenterNode(Node):
                 raise RuntimeError(f"unsupported_segmentation_mode:{mode}")
             expanded_mask = expand_mask_bbox(mask, float(self._param("mask_expand_ratio")))
             cloud_mask = expanded_mask if bool(self._param("use_expanded_mask_for_target_cloud")) else mask
-            points = masked_depth_to_points(depth, cloud_mask, self._info)
-            roi_points = masked_depth_to_points(depth, expanded_mask, self._info)
+            points = masked_depth_to_points(depth, cloud_mask, info_msg)
+            roi_points = masked_depth_to_points(depth, expanded_mask, info_msg)
             if points.shape[0] < int(self._param("min_points")):
                 response.success = False
                 response.reason = f"target_points_too_few:{points.shape[0]}"
                 return response
             center = np.nanmedian(points, axis=0)
-            stamp = self._rgb.header.stamp
-            frame_id = self._rgb.header.frame_id
+            # The mask is consumed together with depth, so bind it to the
+            # synchronized depth frame rather than the inference finish time.
+            stamp = depth_msg.header.stamp
+            frame_id = rgb_msg.header.frame_id
             mask_msg = numpy_to_mask_msg(mask, stamp=stamp, frame_id=frame_id)
             expanded_mask_msg = numpy_to_mask_msg(expanded_mask, stamp=stamp, frame_id=frame_id)
             cloud_msg = pointcloud2_xyz(points, stamp=stamp, frame_id=frame_id)
             roi_cloud_msg = pointcloud2_xyz(roi_points, stamp=stamp, frame_id=frame_id)
             center_msg = pose_from_xyz(center, stamp=stamp, frame_id=frame_id)
             self._mask_pub.publish(mask_msg)
+            if self._synced_depth_pub is not None:
+                self._synced_depth_pub.publish(depth_msg)
             self._expanded_mask_pub.publish(expanded_mask_msg)
             self._cloud_pub.publish(cloud_msg)
             self._roi_cloud_pub.publish(roi_cloud_msg)
@@ -250,6 +331,8 @@ class TargetSegmenterNode(Node):
                     "n_points": int(points.shape[0]),
                     "n_roi_points": int(roi_points.shape[0]),
                     "center_camera": [float(x) for x in center],
+                    "rgb_depth_sync_delta_s": float(sync_delta_s),
+                    "inference_latency_s": float(time.perf_counter() - inference_started),
                     "stamp_s": float(time.time()),
                 },
             )
@@ -268,7 +351,8 @@ class TargetSegmenterNode(Node):
                         f"bbox={','.join(f'{float(x):.1f}' for x in bbox)} "
                         f"roi_points={roi_points.shape[0]} mask_px={int(np.count_nonzero(mask))} "
                         f"expanded_px={int(np.count_nonzero(expanded_mask))} score={score:.3f} "
-                        f"fallback_red={used_fallback}"
+                        f"fallback_red={used_fallback} sync_dt={sync_delta_s:.4f}s "
+                        f"inference_s={time.perf_counter() - inference_started:.3f}"
                     )
                 )
             )
@@ -380,9 +464,12 @@ class TargetSegmenterNode(Node):
 def main() -> None:
     rclpy.init()
     node = TargetSegmenterNode()
+    executor = MultiThreadedExecutor(num_threads=3)
+    executor.add_node(node)
     try:
-        rclpy.spin(node)
+        executor.spin()
     finally:
+        executor.shutdown()
         node.destroy_node()
         if rclpy.ok():
             rclpy.shutdown()

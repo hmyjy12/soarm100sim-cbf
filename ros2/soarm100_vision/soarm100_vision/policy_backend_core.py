@@ -40,7 +40,7 @@ class MujocoExternalGraspConfig:
     python_executable: str = "python"
     target_object: str = "cube"
     target_pos: str = "0.42,0.08,0.021"
-    traj_log: str = "logs/ros2_policy_backend_grasp.jsonl"
+    traj_log: str = "log/runtime/ros2_policy_backend_grasp.jsonl"
     speed: float = 1.0
     headless: bool = False
     enable_avoidance: bool = False

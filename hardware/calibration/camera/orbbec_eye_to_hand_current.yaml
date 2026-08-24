@@ -2,7 +2,7 @@
 ---
 method: Tsai_eye_to_hand
 configuration: eye_to_hand
-source_session: "logs/hardware/orbbec_handeye/20260807_155222"
+source_session: "log/runtime/hardware/orbbec_handeye/20260807_155222"
 base_frame: base
 gripper_frame: wrist_roll
 camera_frame: camera_color_optical_frame

@@ -1,3 +1,0 @@
-[INFO] [1786095446.299388598] [soarm100_send_execute_grasp]: execute grasp goal accepted
-[INFO] [1786095446.300019352] [soarm100_send_execute_grasp]: feedback stage=SEGMENTING grasp=0.000 replan=False cbf=False reason=attempt=1
-[INFO] [1786095446.300487194] [soarm100_send_execute_grasp]: result success=False attempts=0 lift=0.0000 reason= final=(+0.000,+0.000,+0.000) quat=(+1.000,+0.000,+0.000,+0.000)

@@ -1,4 +1,0 @@
-1786084606.2034500 [INFO] [launch]: All log files can be found below /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/logs/ros2/fixed_yolo_sam/2026-08-07-14-36-46-202581-sophie-Legion-Y7000P-IRX10-982633
-1786084606.2035701 [INFO] [launch]: Default logging verbosity is set to INFO
-1786084606.2543507 [INFO] [target_segmenter_node-1]: process started with pid [982695]
-1786084606.2546818 [INFO] [debug_viewer_node-2]: process started with pid [982700]

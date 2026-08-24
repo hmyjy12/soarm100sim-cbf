@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import argparse
+import re
+import subprocess
 import sys
 import time
 from pathlib import Path
@@ -10,11 +12,7 @@ import torch
 from ultralytics import YOLO
 
 
-EXPECTED_CLASS_NAMES = {
-    0: "jpgCat",
-    1: "Chiikawa",
-    2: "tissue",
-}
+EXPECTED_CLASS_COUNT = 3
 
 
 def parse_arguments() -> argparse.Namespace:
@@ -34,9 +32,13 @@ def parse_arguments() -> argparse.Namespace:
 
     parser.add_argument(
         "--camera",
-        type=int,
-        default=0,
-        help="Webcam index. Usually 0 for the default camera.",
+        type=str,
+        default="0",
+        help=(
+            "Camera source: index (0), device path (/dev/video6), "
+            "or 'orbbec' to auto-pick Orbbec Gemini RGB. "
+            "Note: Orbbec /dev/video0 is usually depth, not RGB."
+        ),
     )
 
     parser.add_argument(
@@ -132,15 +134,14 @@ def validate_trained_model(
 ) -> dict[int, str]:
     model_names = normalize_model_names(model.names)
 
-    if model_names != EXPECTED_CLASS_NAMES:
+    if len(model_names) != EXPECTED_CLASS_COUNT:
         raise ValueError(
-            "Loaded checkpoint does not match the expected trained "
-            "three-class model.\n"
+            "Loaded checkpoint does not contain the expected number "
+            "of classes.\n"
             f"Model path: {model_path}\n"
-            f"Expected classes: {EXPECTED_CLASS_NAMES}\n"
+            f"Expected class count: {EXPECTED_CLASS_COUNT}\n"
             f"Loaded classes: {model_names}\n"
-            "Use your trained best.pt file, not the base pretrained "
-            "YOLO checkpoint."
+            "Use a trained three-class YOLO checkpoint."
         )
 
     return model_names
@@ -159,26 +160,177 @@ def select_device(requested_device: str) -> str | int:
     return 0 if torch.cuda.is_available() else "cpu"
 
 
+def list_v4l_devices() -> list[tuple[int, str]]:
+    root = Path("/sys/class/video4linux")
+    if not root.exists():
+        return []
+
+    devices: list[tuple[int, str]] = []
+    for path in sorted(root.glob("video*")):
+        match = re.fullmatch(r"video(\d+)", path.name)
+        if match is None:
+            continue
+
+        name_path = path / "name"
+        name = (
+            name_path.read_text(encoding="utf-8", errors="ignore").strip()
+            if name_path.exists()
+            else "unknown"
+        )
+        devices.append((int(match.group(1)), name))
+
+    return devices
+
+
+def v4l_pixel_format(device_index: int) -> str:
+    try:
+        output = subprocess.check_output(
+            [
+                "v4l2-ctl",
+                "-d",
+                f"/dev/video{device_index}",
+                "--get-fmt-video",
+            ],
+            text=True,
+            stderr=subprocess.DEVNULL,
+            timeout=2,
+        )
+    except (FileNotFoundError, subprocess.SubprocessError, OSError):
+        return ""
+
+    match = re.search(r"Pixel Format:\s+'([^']+)'", output)
+    return match.group(1) if match else ""
+
+
+def find_orbbec_rgb_camera() -> int:
+    orbbec_devices = [
+        (index, name)
+        for index, name in list_v4l_devices()
+        if "orbbec" in name.lower()
+    ]
+    if not orbbec_devices:
+        raise RuntimeError(
+            "No Orbbec V4L2 device found. "
+            "Check USB connection, or use the ROS driver: "
+            "ros2/run_orbbec_camera.sh"
+        )
+
+    preferred: list[int] = []
+    fallback: list[int] = []
+
+    for index, _name in orbbec_devices:
+        pixel_format = v4l_pixel_format(index)
+        if pixel_format in {"YUYV", "MJPG"}:
+            preferred.append(index)
+        else:
+            fallback.append(index)
+
+    for index in preferred + fallback:
+        capture = _open_capture_backend(index)
+        if not capture.isOpened():
+            capture.release()
+            continue
+
+        frame = None
+        for _ in range(8):
+            success, candidate = capture.read()
+            if (
+                success
+                and candidate is not None
+                and candidate.ndim == 3
+                and candidate.shape[2] == 3
+                and float(candidate.std()) > 1.0
+            ):
+                frame = candidate
+                break
+
+        capture.release()
+
+        if frame is None:
+            continue
+
+        # IR/Bayer nodes often appear as odd 400-tall frames under OpenCV.
+        if frame.shape[0] == 400:
+            continue
+
+        print(
+            f"Using Orbbec RGB camera index {index} "
+            f"(/dev/video{index})"
+        )
+        return index
+
+    available = ", ".join(
+        f"{index}:{name}" for index, name in orbbec_devices
+    )
+    raise RuntimeError(
+        "Found Orbbec devices but could not open an RGB stream. "
+        f"Available: {available}. "
+        "Try --camera 6, close OrbbecViewer, and avoid opening "
+        "depth nodes (often index 0)."
+    )
+
+
+def resolve_camera_source(camera: str) -> int | str:
+    value = camera.strip()
+    lowered = value.lower()
+
+    if lowered in {"orbbec", "gemini", "gemini336"}:
+        return find_orbbec_rgb_camera()
+
+    if value.startswith("/dev/"):
+        return value
+
+    try:
+        return int(value)
+    except ValueError as error:
+        raise ValueError(
+            "--camera must be an index, /dev/videoN path, or 'orbbec'."
+        ) from error
+
+
+def _open_capture_backend(camera_source: int | str) -> cv2.VideoCapture:
+    if sys.platform.startswith("win"):
+        return cv2.VideoCapture(camera_source, cv2.CAP_DSHOW)
+
+    if sys.platform.startswith("linux"):
+        capture = cv2.VideoCapture(camera_source, cv2.CAP_V4L2)
+        if hasattr(cv2, "CAP_PROP_OPEN_TIMEOUT_MSEC"):
+            capture.set(cv2.CAP_PROP_OPEN_TIMEOUT_MSEC, 3000)
+        if hasattr(cv2, "CAP_PROP_READ_TIMEOUT_MSEC"):
+            capture.set(cv2.CAP_PROP_READ_TIMEOUT_MSEC, 3000)
+        return capture
+
+    return cv2.VideoCapture(camera_source)
+
+
 def open_camera(
-    camera_index: int,
+    camera_source: int | str,
     width: int,
     height: int,
 ) -> cv2.VideoCapture:
-    # CAP_DSHOW can reduce camera startup delay on Windows.
-    if sys.platform.startswith("win"):
-        capture = cv2.VideoCapture(
-            camera_index,
-            cv2.CAP_DSHOW,
-        )
-    else:
-        capture = cv2.VideoCapture(camera_index)
+    capture = _open_capture_backend(camera_source)
 
     if not capture.isOpened():
+        devices = list_v4l_devices()
+        hint = ""
+        if devices:
+            listing = ", ".join(
+                f"{index}:{name}" for index, name in devices
+            )
+            hint = (
+                f" Visible V4L2 devices: {listing}. "
+                "For Orbbec Gemini RGB use --camera orbbec "
+                "(depth is usually index 0; RGB is often index 6)."
+            )
         raise RuntimeError(
-            f"Could not open camera index {camera_index}. "
-            "Try --camera 1 or check camera permissions."
+            f"Could not open camera {camera_source}.{hint}"
         )
 
+    # Prefer uncompressed YUYV for Orbbec UVC RGB when possible.
+    capture.set(
+        cv2.CAP_PROP_FOURCC,
+        cv2.VideoWriter_fourcc(*"YUYV"),
+    )
     capture.set(
         cv2.CAP_PROP_FRAME_WIDTH,
         width,
@@ -352,8 +504,11 @@ def main() -> None:
 
     print("Classes:", model_names)
 
+    camera_source = resolve_camera_source(args.camera)
+    print(f"Camera source: {camera_source}")
+
     capture = open_camera(
-        camera_index=args.camera,
+        camera_source=camera_source,
         width=args.width,
         height=args.height,
     )

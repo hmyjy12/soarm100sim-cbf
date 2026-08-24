@@ -70,13 +70,13 @@ uv run python main.py --model model/best.pt
 ## 常用参数
 
 ```bash
-python main.py --model model/best.pt --camera 0 --conf 0.25 --iou 0.70
+python main.py --model model/best.pt --camera orbbec --conf 0.25 --iou 0.70
 ```
 
 参数说明：
 
 - `--model`：模型文件路径，默认是 `model/best.pt`
-- `--camera`：摄像头编号，默认是 `0`
+- `--camera`：摄像头来源。可用编号（如 `0`）、设备路径（如 `/dev/video6`），或 `orbbec` 自动选择 Orbbec Gemini 的 RGB 节点。注意：Orbbec 的 `0` 通常是深度流，不是 RGB
 - `--conf`：检测置信度阈值，默认是 `0.25`
 - `--iou`：IoU 阈值，默认是 `0.70`
 - `--imgsz`：YOLO 推理图片尺寸，默认是 `640`
@@ -104,5 +104,15 @@ python main.py --model model/best.pt --save --output tracked_output.mp4
 ```bash
 python main.py --camera 1
 ```
+
+使用 Orbbec Gemini 深度相机时，不要用默认的 `--camera 0`（那是深度节点）。应使用：
+
+```bash
+python main.py --camera orbbec
+# 或直接指定 RGB 节点，当前机器上常见为：
+python main.py --camera 6
+```
+
+也可用项目里的 ROS 路径（更稳定）：`./ros2/scripts/real/run_fixed_yolo_tracking.sh`。
 
 如果提示模型类别不匹配，请确认加载的是本项目训练得到的 `best.pt`，不是 YOLO 官方预训练模型。

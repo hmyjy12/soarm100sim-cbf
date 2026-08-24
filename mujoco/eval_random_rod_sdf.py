@@ -130,7 +130,7 @@ def main() -> int:
     p.add_argument("--checkpoint", type=str, default=str(ev.DEFAULT_CHECKPOINT))
     p.add_argument("--mjcf", type=str, default=str(ev.DEFAULT_MJCF))
     p.add_argument("--npz", type=str, default=str(ev.DEFAULT_NPZ_TEST))
-    p.add_argument("--out-dir", type=str, default="logs/eval/random_rod_sdf")
+    p.add_argument("--out-dir", type=str, default="log/runtime/eval/random_rod_sdf")
     p.add_argument("--seed", type=int, default=7)
     p.add_argument("--rounds", type=int, default=5)
     p.add_argument("--scan-count", type=int, default=256)

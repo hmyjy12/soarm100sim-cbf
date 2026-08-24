@@ -9,7 +9,7 @@
   python mujoco/play.py --episodes 1 --hold-home 30   # 先停 30s 看 3D 里相机装位
   python mujoco/play.py --enable-cbf --verbose     # 开启全身 CBF-QP 避障
   python mujoco/play.py --enable-cbf --obstacle-source vision --vision-debug  # 视觉障碍
-  python mujoco/play.py --enable-cbf --cbf-log logs/mujoco_cbf.jsonl
+  python mujoco/play.py --enable-cbf --cbf-log log/runtime/mujoco_cbf.jsonl
 """
 
 from __future__ import annotations
@@ -3047,7 +3047,7 @@ def build_parser() -> argparse.ArgumentParser:
         "--cam-save-dir",
         type=str,
         default="",
-        help="cam-backend=save 时的输出目录（默认 logs/vision_preview）",
+        help="cam-backend=save 时的输出目录（默认 log/runtime/vision_preview）",
     )
     p.add_argument(
         "--realtime",
@@ -3277,7 +3277,7 @@ def build_parser() -> argparse.ArgumentParser:
         help="候选 grasp center 允许超出目标半径的距离 (m)",
     )
     p.add_argument("--anygrasp-target-roi-radius", type=float, default=0.10, help="以目标中心裁剪 AnyGrasp 输入点云的半径 (m)")
-    p.add_argument("--anygrasp-debug-log", type=str, default="logs/anygrasp_debug.jsonl", help="AnyGrasp mask/candidate/selected JSONL 诊断日志")
+    p.add_argument("--anygrasp-debug-log", type=str, default="log/runtime/anygrasp_debug.jsonl", help="AnyGrasp mask/candidate/selected JSONL 诊断日志")
     p.add_argument("--debug-anygrasp-frame", action="store_true", help="只显示/记录 AnyGrasp mask 与候选坐标，不执行机械臂动作")
     p.add_argument("--debug-anygrasp-frame-preview-time", type=float, default=5.0, help="debug-anygrasp-frame + show-cam 时保存相机预览前持续刷新仿真的时间 (s)")
     p.add_argument("--debug-anygrasp-axes", action="store_true", help="打印 AnyGrasp 候选三列旋转轴与候选->目标中心方向的夹角")
@@ -3343,7 +3343,7 @@ def build_parser() -> argparse.ArgumentParser:
         "--cbf-log",
         type=str,
         default="",
-        help="CBF 逐步 JSONL 日志路径（例：logs/mujoco_cbf.jsonl）",
+        help="CBF 逐步 JSONL 日志路径（例：log/runtime/mujoco_cbf.jsonl）",
     )
     p.add_argument(
         "--traj-log",
@@ -3377,7 +3377,7 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument(
         "--calib-json",
         type=str,
-        default="logs/calib/camera_calib.json",
+        default="log/runtime/calib/camera_calib.json",
         help="vision 模式：相机标定 JSON（内参 K + mounts.T_parent_cam）",
     )
     p.add_argument(

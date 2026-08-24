@@ -5,7 +5,7 @@ ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 ROS_WS="$ROOT_DIR/ros2"
 ROS_SETUP="${ROS_SETUP:-/opt/ros/humble/setup.bash}"
 LEROBOT_ENV="${LEROBOT_ENV:-lerobot}"
-ROS_LOG_DIR="${ROS_LOG_DIR:-$ROOT_DIR/logs/hardware/ros2}"
+ROS_LOG_DIR="${ROS_LOG_DIR:-$ROOT_DIR/log/runtime/hardware/ros2}"
 PORT="/dev/ttyACM0"
 CALIBRATION="hardware/calibration/lerobot/so100_plus_new_arm.json"
 UDP_PORT="15001"
@@ -107,7 +107,7 @@ conda run --no-capture-output -n "$LEROBOT_ENV" \
   --udp-port "$UDP_PORT" \
   --rate "$RATE" \
   --print-period 3 \
-  --log "$ROOT_DIR/logs/hardware/policy_joint_ros2_stream.jsonl" &
+  --log "$ROOT_DIR/log/runtime/hardware/policy_joint_ros2_stream.jsonl" &
 reader_pid=$!
 
 ros2 launch soarm100_vision hardware_state.launch.py \

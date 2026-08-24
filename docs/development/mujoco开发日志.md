@@ -1,0 +1,648 @@
+# SO-ARM100 MuJoCo 开发日志
+
+更新时间：2026-07-18
+
+本文档记录当前 MuJoCo 抓取、AnyGrasp、SDF-CBF-QP 避障相关开发主线、支线、运行选项和关键阈值。后续调试时优先看这里，避免参数和分支混乱。
+
+## 当前主线
+
+当前主线是：
+
+```text
+MuJoCo 静态目标物体
+→ scene_depth 相机获取目标 mask 点云
+→ AnyGrasp 生成候选
+→ 轻量 IK/reachability 筛选
+→ policy 到达 pregrasp
+→ policy 到达 final grasp
+→ 夹爪位置伺服 close
+→ lift 验证是否抓起
+```
+
+目前抓取阶段默认不启用避障、不加载障碍物；避障作为支线通过显式开关打开。
+
+## 场景文件
+
+当前自动选择逻辑：
+
+```text
+--enable-grasp-chain，不开 --enable-obstacle
+→ SO-ARM100/Simulation/SO100/mujoco/scene_plus_norod.xml
+
+--enable-grasp-chain，同时开 --enable-obstacle
+→ SO-ARM100/Simulation/SO100/mujoco/scene_plus_grasp_obstacle.xml
+
+不启用抓取链路
+→ SO-ARM100/Simulation/SO100/mujoco/scene_plus.xml
+```
+
+场景说明：
+
+```text
+scene_plus_norod.xml
+  有 target_object / target_bottle / target_sphere
+  无 obstacle_rod
+  用于纯抓取调试
+
+scene_plus_grasp_obstacle.xml
+  有 target_object / target_bottle / target_sphere
+  有 obstacle_rod
+  用于抓取 + 障碍物 / 抓取 + SDF-CBF-QP 支线
+
+scene_plus.xml
+  旧 reach/避障场景
+  有 obstacle_rod
+  没有抓取目标物体
+```
+
+## 抓取目标
+
+可选目标：
+
+```text
+--grasp-target-object cube    默认方块
+--grasp-target-object bottle  红色圆柱瓶
+--grasp-target-object sphere  红色球
+--grasp-target-object custom  自定义 --target-body / --target-geom
+```
+
+默认 body/geom：
+
+```text
+--target-body target_object
+--target-geom target_object_geom
+```
+
+显式指定目标位置：
+
+```bash
+--grasp-target-pos 0.42,0.08,0.021
+```
+
+如果不指定 `--grasp-target-pos`，抓取目标会根据 target bank 和 floor 逻辑放置。
+
+## 抓取状态机
+
+状态顺序：
+
+```text
+MOVE_TO_PREGRASP
+→ FINAL_APPROACH
+→ CLOSE
+→ LIFT
+→ VERIFY
+```
+
+失败/扰动时可能进入：
+
+```text
+REPLAN_GRASP
+```
+
+当前已删除/收敛掉的旧分支：
+
+```text
+geometry grasp fallback
+bank orientation fallback
+top/side/score grasp preference
+horizontal/vertical roll override
+cartesian / position controller 分支
+skip-pregrasp 诊断入口
+final retreat / approach offset 人工补偿
+wrist fallback 合成 grasp
+```
+
+当前控制器固定为：
+
+```text
+pregrasp: policy
+final:    policy
+lift:     policy
+roll:     AnyGrasp 原始 roll
+approach: AnyGrasp raw x 映射到 policy TCP +z
+```
+
+## 抓取关键阈值
+
+基础仿真：
+
+```text
+SIM_DT                1/60 s
+DECIMATION            2
+control dt            1/30 s
+ACTION_SCALE          0.25
+ACTION_FILTER_TAU     0.08
+EPISODE_LENGTH_S      10.0
+grasp episode scale   --grasp-episode-time-scale 2.0
+```
+
+Pregrasp：
+
+```text
+--pregrasp-distance                 0.040 m
+--pregrasp-success-dist             0.035 m
+--pregrasp-approach-success-deg     60 deg
+--pregrasp-stable-time              0.05 s
+```
+
+Final / close：
+
+```text
+--final-grasp-dist                  0.010 m
+--grasp-final-stable-time           0.10 s
+--grasp-final-stable-steps          0
+--grasp-final-timeout-scale         2.0
+--grasp-close-on-timeout            True
+--grasp-close-on-contact            False
+--grasp-close-contact-count         1
+--grasp-close-contact-max-dist      0.030 m
+```
+
+夹爪与 lift：
+
+```text
+--grasp-open-q                      1.2
+--grasp-close-q                    -0.2
+--grasp-close-time                  0.8 s
+--grasp-lift-height                 0.035 m
+--grasp-lift-time                   0.8 s
+--grasp-lift-success-height         0.015 m
+```
+
+TCP 偏置：
+
+```text
+--ee-tcp-offset 0,0,0
+```
+
+说明：这是机器人 EE/TCP 局部坐标下的 TCP 定义偏置，作用于当前 robot TCP pose，不移动 AnyGrasp 输出的目标位姿。
+
+## AnyGrasp 链路
+
+AnyGrasp 运行环境：
+
+```text
+--anygrasp-conda-env graspnet_gpu
+--anygrasp-checkpoint anygrasp_sdk/grasp_detection/log/checkpoint_detection.tar
+```
+
+候选和过滤：
+
+```text
+--anygrasp-top-k                         45
+--anygrasp-min-score                     0.01
+--anygrasp-max-width                     0.10 m
+--anygrasp-collision-detection           True
+--anygrasp-candidate-center-tolerance    0.03 m
+--anygrasp-target-roi-radius             0.10 m
+AnyGrasp world ROI                       x=[0.02,0.65], y=[-0.30,0.30], z=[0.00,0.50]
+```
+
+Mask：
+
+```text
+--anygrasp-mask-source target_geom_seg
+--anygrasp-target-mask-dilate-px 0
+--anygrasp-target-mask-expand-ratio 0.0
+```
+
+当前默认用 MuJoCo target geom segmentation 得到目标 mask。后续真实视觉链路可替换为 SAM mask，但当前抓取验证阶段先用固定目标 mask，减少变量。
+
+注意：AnyGrasp world ROI 是反投影后的世界坐标点云裁剪，不是相机图像范围，也不是目标 mask。本阶段 `target_geom_seg` 已经先把输入限制到目标物体，ROI 只作为宽松工作空间边界，避免目标被推远后从点云里被误删。
+
+IK/reachability：
+
+```text
+--anygrasp-ik-filter              True
+--anygrasp-ik-steps               80
+--anygrasp-ik-pos-tol             0.005 m
+--anygrasp-ik-approach-tol-deg    3 deg
+```
+
+选择逻辑：
+
+```text
+候选先按 target center tolerance 过滤
+→ 每个候选映射到 policy TCP frame
+→ 做数值 IK + 关节限位检查
+→ reachable 优先
+→ AnyGrasp score 高者优先
+→ 若没有候选通过 IK 阈值，则退回到 IK 位置/姿态残差最小的候选
+→ dist_to_target 小者作为次级 tie-break
+```
+
+重要：当前没有 top/side 人工偏好，也没有 roll override。
+
+IK 筛选说明：这里不使用 policy rollout，也不是用 Cartesian pose servo 追踪一段后估计可达性；当前实现是在临时 MuJoCo state 中对 6 个臂关节做 bounded DLS 数值逆解，夹爪关节不参与。筛选日志会打印 `ik_pos`、`ik_app`、`limit_margin` 和 `hit_limit`，用于判断候选是位姿误差不过，还是靠近/撞到关节限位。
+
+## Tracking 与 Replan
+
+Tracking 默认开启：
+
+```text
+--grasp-track-object True
+--grasp-track-source wrist
+--grasp-track-gain 1.0
+```
+
+当前默认 tracking source 是腕部相机，使用 wrist camera segmentation/depth 估计近场目标小位移；如需回退到仿真真值诊断，可显式加 `--grasp-track-source gt`。
+
+Tracking 阈值：
+
+```text
+--grasp-track-max-delta          0.020 m
+--grasp-track-activate-dist      0.080 m
+--grasp-track-max-invalid-frames 3
+--grasp-tracking-close-time      0.40 s
+```
+
+Replan 阈值：
+
+```text
+--grasp-replan-delta                 0.030 m
+--grasp-replan-max-attempts          1
+--grasp-replan-max-compute-attempts  3
+--grasp-replan-ready-dist            0.018 m
+--grasp-replan-retry-time            0.25 s
+--grasp-replan-report-interval       0.5 s
+--grasp-replan-settle-time           0.75 s
+```
+
+含义：
+
+```text
+初始 AnyGrasp 抓取不计入 replan attempts
+--grasp-replan-max-attempts 1 表示最多额外重抓 1 次
+所以默认最多 2 轮抓取动作：初始 1 次 + replan 1 次
+```
+
+Replan 触发：
+
+```text
+1. tracking 检测目标位移超过 --grasp-replan-delta
+2. lift 验证失败，且 replan_attempts 未用尽
+```
+
+Replan 失败后的特殊 close 规则：
+
+```text
+如果 REPLAN_GRASP 中 AnyGrasp 因 mask 点云太少/无候选失败，
+并且 TCP 仍在当前 grasp 近场，或者目标和夹爪已有接触，
+则不直接结束 episode，而是强制进入 CLOSE。
+```
+
+近场条件：
+
+```text
+tcp 到当前 grasp_pos 距离 <= --grasp-track-activate-dist
+默认 0.080 m
+```
+
+日志中会看到：
+
+```text
+grasp_replan.state = close_after_compute_failed
+```
+
+## 避障支线
+
+基础参数：
+
+```text
+--enable-cbf
+--cbf-d-safe            0.02 m
+--cbf-gamma             0.8
+--cbf-lambda            0.5
+--cbf-activate-margin   0.04 m
+CBF_FILTER_TAU          0.06
+```
+
+便捷开关：
+
+```text
+--enable-sdf-cbf-qp
+```
+
+这个开关会自动：
+
+```text
+args.enable_cbf = True
+如果 --obstacle-source 仍是默认 geom，则自动改为 geom_sdf
+```
+
+障碍物场景开关：
+
+```text
+--enable-obstacle
+```
+
+说明：
+
+```text
+--enable-obstacle 只控制场景里是否加载 obstacle_rod
+--enable-sdf-cbf-qp 只控制是否启用避障
+```
+
+当前推荐抓取避障第一版：
+
+```text
+--enable-obstacle --enable-sdf-cbf-qp
+```
+
+默认实际使用：
+
+```text
+--obstacle-source geom_sdf
+```
+
+这不是视觉 SDF，不使用相机内参，也不读深度图。它是：
+
+```text
+MuJoCo obstacle_rod geom
+→ 读取几何位姿
+→ 表面采样点云
+→ 构建理想 SDF
+→ CBF-QP 修正 policy dq
+```
+
+视觉/深度 SDF 可选：
+
+```text
+--obstacle-source workspace_sdf
+--obstacle-source scene_depth_sdf
+--obstacle-source vision_sdf
+```
+
+当前不建议在抓取主线直接使用 `workspace_sdf`，因为它会把相机看到的未知物体都当障碍物，目标 cube 也可能被纳入障碍，导致“想抓的东西被当成不能碰的东西”。
+
+Workspace SDF preset：
+
+```text
+--workspace-sdf-preset static
+--workspace-sdf-preset dynamic
+```
+
+`dynamic` 会缩短 voxel persistence，减少动态障碍残影。
+
+## 动态目标和动态障碍支线
+
+动态目标：
+
+```text
+--target-motion none|circle|line
+--target-motion-center x,y,z
+--target-motion-amp 0.03,0.03,0.00
+--target-motion-period 4.0
+```
+
+动态障碍：
+
+```text
+--obstacle-motion none|circle|line
+--obstacle-body obstacle_rod_mount
+--obstacle-motion-center x,y,z
+--obstacle-motion-amp 0.03,0.00,0.00
+--obstacle-motion-period 5.0
+```
+
+动态障碍需要 `--enable-obstacle` 才有对应 body。
+
+## 常用对比命令
+
+### 1. 无障碍物 + 无避障
+
+```bash
+python mujoco/play.py --episodes 1 --target-idx 123 \
+  --enable-grasp-chain \
+  --grasp-target-object cube \
+  --grasp-target-pos 0.42,0.08,0.021 \
+  --traj-log log/runtime/grasp_no_obstacle_no_cbf.jsonl \
+  --stop-on-success --verbose --speed 0.5 --view
+```
+
+### 2. 有障碍物 + 无避障
+
+```bash
+python mujoco/play.py --episodes 1 --target-idx 123 \
+  --enable-grasp-chain \
+  --enable-obstacle \
+  --grasp-target-object cube \
+  --grasp-target-pos 0.42,0.08,0.021 \
+  --traj-log log/runtime/grasp_obstacle_no_cbf.jsonl \
+  --stop-on-success --verbose --speed 0.5 --view
+```
+
+### 3. 有障碍物 + SDF-CBF-QP 避障
+
+```bash
+python mujoco/play.py --episodes 1 --target-idx 123 \
+  --enable-grasp-chain \
+  --enable-obstacle \
+  --enable-sdf-cbf-qp \
+  --grasp-target-object cube \
+  --grasp-target-pos 0.42,0.08,0.021 \
+  --traj-log log/runtime/grasp_obstacle_sdf_cbf.jsonl \
+  --stop-on-success --verbose --speed 0.5 --view
+```
+
+### 多次重抓
+
+默认最多：
+
+```text
+初始 1 次 + replan 1 次
+```
+
+增加重抓次数：
+
+```bash
+--grasp-replan-max-attempts 3
+```
+
+表示最多：
+
+```text
+初始 1 次 + replan 3 次 = 4 轮抓取尝试
+```
+
+### 临时关闭 tracking/replan 干扰
+
+```bash
+--no-grasp-track-object
+```
+
+用于只看 AnyGrasp 初始候选和 policy 执行，不让目标位移触发重规划。
+
+## 日志文件
+
+轨迹日志：
+
+```text
+--traj-log log/runtime/xxx.jsonl
+```
+
+主要字段：
+
+```text
+task_state
+target_pos
+tcp_pos
+pregrasp_pos
+grasp_pos
+control_err_m
+final_err_m
+quat_err_deg
+approach_err_deg
+target_contacts
+target_gripper_contacts
+grasp_track
+grasp_replan
+anygrasp_ok
+anygrasp_msg
+anygrasp_points
+anygrasp_candidates
+anygrasp_best_score
+h_min_m
+cbf_active
+dq_cbf_norm
+sdf_points
+```
+
+AnyGrasp debug 日志：
+
+```text
+--anygrasp-debug-log log/runtime/anygrasp_debug.jsonl
+```
+
+主要字段：
+
+```text
+mask.target_points
+mask.centroid_world
+mask.bbox_min_world
+mask.bbox_max_world
+selected.score
+selected.width_m
+selected.dist_to_target_m
+selected.grasp_pos
+selected.pregrasp_pos
+selected.approach_world
+candidates
+```
+
+CBF 单独日志：
+
+```text
+--cbf-log log/runtime/mujoco_cbf.jsonl
+```
+
+通常抓取对比优先看 `--traj-log`，因为其中已经记录 CBF 摘要。
+
+## 当前需要注意的问题
+
+1. 抓取仍可能失败在 close/lift 阶段。
+   - 需要继续观察 close 时 TCP 与目标相对位置。
+   - lift 目前只是上抬验证，被抓起高度超过 `0.015m` 才算成功。
+
+2. MuJoCo 中轻微穿模是正常现象。
+   - 1-3mm 级别通常可接受。
+   - 如果穿模导致物体被挤飞，需要再调 close_q、close_time、摩擦和 solver/contact 参数。
+
+3. 视觉 SDF 与抓取目标存在冲突。
+   - `workspace_sdf` 会把未知物体都当障碍物。
+   - 抓取目标也可能被当成障碍。
+   - 当前抓取+避障支线优先用 `geom_sdf` 验证算法，不直接引入视觉 SDF。
+
+4. Replan 失败不一定代表抓取失败。
+   - 点云太少可能是物体被手遮挡或已经在手里。
+   - 因此当前已加入 “replan 计算失败但近场/接触时强制 CLOSE” 逻辑。
+
+5. AnyGrasp 与 policy frame 映射仍是核心风险点。
+   - 当前固定使用 AnyGrasp 原始 roll。
+   - 当前不再用 top/side 人工偏好。
+   - 如果姿态仍显著不对，需要看 `approach_err_deg`、`gripper_body_closing_axis_best`、`anygrasp_debug` 中的候选轴。
+
+## 后续建议
+
+短期：
+
+```text
+1. 先用无障碍抓取稳定 close/lift。
+2. 再对比有障碍无避障 vs 有障碍 SDF-CBF-QP。
+3. 避障支线先用 geom_sdf，不急着用 workspace_sdf。
+```
+
+中期：
+
+```text
+1. 接入更真实的目标分割 mask，如 SAM。
+2. 视觉 SDF 中显式排除 target object。
+3. 引入真实相机标定链路和 wrist camera 近场跟踪。
+4. 完善抓取失败后二次 AnyGrasp 计算时的可见性策略。
+```
+
+## 常用运行指令：抓取与避障对比
+
+以下指令基于当前 `play.py` 参数。抓取链路默认使用 AnyGrasp，`--enable-sdf-cbf-qp` 会自动开启 CBF-QP，并在默认 `obstacle-source=geom` 时切到 `geom_sdf`。
+
+### 1. 无障碍、无避障抓取 baseline
+
+用于确认抓取链路本身，不加载障碍物：
+
+```bash
+python mujoco/play.py --episodes 1 --target-idx 123 \
+  --enable-grasp-chain \
+  --grasp-target-object cube \
+  --grasp-target-pos 0.42,0.08,0.021 \
+  --traj-log log/runtime/grasp_no_obstacle_no_avoid.jsonl \
+  --stop-on-success --verbose --speed 0.5 --view
+```
+
+### 2. 有障碍、无避障
+
+用于观察 baseline 是否会撞到障碍物，作为避障有效性的对照：
+
+```bash
+python mujoco/play.py --episodes 1 --target-idx 123 \
+  --enable-grasp-chain \
+  --enable-obstacle \
+  --grasp-target-object cube \
+  --grasp-target-pos 0.42,0.08,0.021 \
+  --traj-log log/runtime/grasp_obstacle_no_avoid.jsonl \
+  --stop-on-success --verbose --speed 0.5 --view
+```
+
+### 3. 有障碍、SDF-CBF-QP 避障
+
+用于验证障碍物场景下 SDF + CBF-QP 是否能减少碰撞，同时观察抓取是否被避障干扰：
+
+```bash
+python mujoco/play.py --episodes 1 --target-idx 123 \
+  --enable-grasp-chain \
+  --enable-obstacle \
+  --enable-sdf-cbf-qp \
+  --grasp-target-object cube \
+  --grasp-target-pos 0.42,0.08,0.021 \
+  --traj-log log/runtime/grasp_obstacle_sdf_cbf.jsonl \
+  --stop-on-success --verbose --speed 0.5 --view
+```
+
+### 备注
+
+如需慢速观察，把 `--speed 0.5` 改成：
+
+```bash
+--speed 0.2
+```
+
+如需固定目标物位置，可修改：
+
+```bash
+--grasp-target-pos x,y,z
+```
+
+当前 cube 常用观察点：
+
+```text
+0.42,0.08,0.021
+```

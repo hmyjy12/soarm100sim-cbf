@@ -1,3 +1,0 @@
-[INFO] [1784713578.989835863] [grasp_orchestrator]: grasp orchestrator ready: action=execute_grasp service=set_avoidance
-[ERROR] [1784713583.536450269] [grasp_orchestrator]: Error raised in execute callback: no running event loop
-[WARN] [1784713583.538433383] [grasp_orchestrator]: Goal state not set, assuming aborted. Goal ID: [ 67 146 196 134 146  76  70 199 152  93 159  99  10 189 214  72]

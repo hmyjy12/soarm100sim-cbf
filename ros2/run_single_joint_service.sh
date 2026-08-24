@@ -4,7 +4,7 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 ROS_WS="$ROOT_DIR/ros2"
 ROS_SETUP="${ROS_SETUP:-/opt/ros/humble/setup.bash}"
-ROS_LOG_DIR="${ROS_LOG_DIR:-$ROOT_DIR/logs/hardware/ros2}"
+ROS_LOG_DIR="${ROS_LOG_DIR:-$ROOT_DIR/log/runtime/hardware/ros2}"
 PORT="/dev/ttyACM0"
 LEROBOT_ENV="${LEROBOT_ENV:-lerobot}"
 BUILD_FIRST="false"

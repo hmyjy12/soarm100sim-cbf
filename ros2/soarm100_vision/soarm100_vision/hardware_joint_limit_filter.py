@@ -36,7 +36,7 @@ class HardwareJointLimitFilter:
         repo_root: Path,
         calibration_json: str,
         mapping_json: str,
-        margin_counts: int = 100,
+        margin_counts: int = 0,
         gripper_rad: float = 0.45,
     ) -> None:
         repo = Path(repo_root).expanduser().resolve()

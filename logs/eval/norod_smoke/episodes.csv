@@ -1,3 +1,0 @@
-idx,tier,target_x,target_y,target_z,baseline_best_dist_mm,baseline_best_ori_deg,baseline_end_dist_mm,baseline_contact_steps
-357,hard,0.229478,0.148901,0.215894,1.030,8.364,5.004,0
-3095,hard,0.126250,0.201202,0.304286,5.589,42.603,9.837,0

@@ -200,7 +200,7 @@ if ! show_residuals; then
   exit 1
 fi
 
-RUN_DIR="$ROOT_DIR/logs/hardware/policy_three_pose_$(date +%Y%m%d_%H%M%S)"
+RUN_DIR="$ROOT_DIR/log/runtime/hardware/policy_three_pose_$(date +%Y%m%d_%H%M%S)"
 mkdir -p "$RUN_DIR"
 echo "[three_pose] logs: $RUN_DIR"
 

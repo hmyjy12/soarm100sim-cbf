@@ -1,6 +1,0 @@
-1786087959.3053300 [INFO] [launch]: All log files can be found below /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/logs/ros2/fixed_yolo_tracking/2026-08-07-15-32-39-304701-sophie-Legion-Y7000P-IRX10-1102918
-1786087959.3054211 [INFO] [launch]: Default logging verbosity is set to INFO
-1786087959.3354192 [INFO] [fixed_yolo_tracker_node-1]: process started with pid [1102923]
-1786088004.5949824 [WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
-1786088005.2179911 [INFO] [fixed_yolo_tracker_node-1]: process has finished cleanly [pid 1102923]
-1786088005.2183180 [INFO] [launch]: process[fixed_yolo_tracker_node-1] was required: shutting down launched system

@@ -1,3 +1,0 @@
-[INFO] [1784875408.042465685] [soarm100_send_planned_grasp]: planned grasp goal accepted
-[INFO] [1784875408.042990763] [soarm100_send_planned_grasp]: feedback stage=STARTING_MUJOCO_INPROCESS lift=0.0000 reason=using converted AnyGrasp pose in GraspStateMachine + MuJoCo runner; pre=0.396291,0.077529,0.113929 grasp=0.413048,0.080493,0.046029 quat=0.48869514,0.23667226,0.82804161,-0.13967965 traj_log=logs/ros2_noavoid_egl_stage.jsonl
-[INFO] [1784875409.843509488] [soarm100_send_planned_grasp]: result success=False return_code=1 lift=0.0000 reason=inprocess_backend_failed:Failed to make the EGL context current.

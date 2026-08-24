@@ -1,7 +1,0 @@
-1786085932.9780805 [INFO] [launch]: All log files can be found below /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/logs/ros2/fixed_yolo_tracking/2026-08-07-14-58-52-977436-sophie-Legion-Y7000P-IRX10-1031498
-1786085932.9781771 [INFO] [launch]: Default logging verbosity is set to INFO
-1786085933.0094230 [INFO] [fixed_yolo_tracker_node-1]: process started with pid [1031499]
-1786085955.0354588 [WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
-1786085955.0361381 [INFO] [fixed_yolo_tracker_node-1]: sending signal 'SIGINT' to process[fixed_yolo_tracker_node-1]
-1786085955.5320761 [ERROR] [fixed_yolo_tracker_node-1]: process has died [pid 1031499, exit code -2, cmd '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/soarm100_vision/fixed_yolo_tracker_node --ros-args -r __node:=fixed_yolo_tracker --params-file /tmp/launch_params_uay7v6sq'].
-1786085955.5324481 [INFO] [launch]: process[fixed_yolo_tracker_node-1] was required: shutting down launched system

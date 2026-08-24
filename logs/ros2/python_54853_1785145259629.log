@@ -1,4 +1,0 @@
-[INFO] [1785145260.689683241] [soarm100_send_execute_grasp]: execute grasp goal accepted
-[INFO] [1785145260.690257616] [soarm100_send_execute_grasp]: feedback stage=SEGMENTING grasp=0.000 replan=False cbf=False reason=attempt=1
-[INFO] [1785145260.690715872] [soarm100_send_execute_grasp]: feedback stage=SEGMENT_FAILED grasp=0.000 replan=False cbf=False reason=segment_failed:waiting_for_rgb_depth_camera_info
-[INFO] [1785145260.690939736] [soarm100_send_execute_grasp]: result success=False attempts=2 lift=0.0000 reason=segment_failed:waiting_for_rgb_depth_camera_info final=(+0.420,+0.080,+0.021) quat=(+1.000,+0.000,+0.000,+0.000)

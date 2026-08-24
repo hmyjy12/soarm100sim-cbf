@@ -35,6 +35,8 @@ class HardwareControllerNode(Node):
         self.declare_parameter("driver_rate_hz", 20.0)
         self.declare_parameter("max_stream_command_delta_rad", 0.25)
         self.declare_parameter("raw_margin_counts", 0)
+        self.declare_parameter("move_position_tolerance_counts", 12)
+        self.declare_parameter("allow_move_static_error", False)
         self.declare_parameter("command_timeout", 20.0)
         self._command_lock = threading.Lock()
         self._responses: queue.Queue[dict] = queue.Queue()
@@ -107,7 +109,7 @@ class HardwareControllerNode(Node):
         repo = Path(str(self.get_parameter("repo_root").value)).resolve()
         timestamp = time.strftime("%Y%m%d_%H%M%S")
         self._driver_log_path = str(
-            repo / "logs/hardware" / f"controller_{timestamp}.jsonl"
+            repo / "log/runtime/hardware" / f"controller_{timestamp}.jsonl"
         )
         command = [
             "conda", "run", "--no-capture-output", "-n",
@@ -128,9 +130,13 @@ class HardwareControllerNode(Node):
             str(float(self.get_parameter("max_stream_command_delta_rad").value)),
             "--raw-margin-counts",
             str(int(self.get_parameter("raw_margin_counts").value)),
+            "--move-position-tolerance-counts",
+            str(int(self.get_parameter("move_position_tolerance_counts").value)),
             "--log",
             self._driver_log_path,
         ]
+        if bool(self.get_parameter("allow_move_static_error").value):
+            command.append("--allow-move-static-error")
         return subprocess.Popen(
             command,
             cwd=repo,
@@ -214,7 +220,7 @@ class HardwareControllerNode(Node):
             )
         response.success = bool(result.get("success"))
         response.reason = (
-            "target reached and actively held"
+            "motion completed and target is actively held"
             if response.success
             else str(result.get("reason", "unknown hardware failure"))
         )

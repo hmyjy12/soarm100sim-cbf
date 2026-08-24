@@ -1,9 +1,0 @@
-[INFO] [1785230490.090784196] [anygrasp_planner]: AnyGrasp planner ready: action=plan_grasp
-[INFO] [1785230501.733592086] [anygrasp_planner]: AnyGrasp candidate[00] frame=scene_depth_optical score=0.194 width=64.9mm pos=(+0.086,+0.016,+0.582) approach=(+0.14,-0.28,+0.95)
-[INFO] [1785230501.734954274] [anygrasp_planner]: AnyGrasp candidate[01] frame=scene_depth_optical score=0.179 width=64.6mm pos=(+0.093,+0.016,+0.581) approach=(+0.14,-0.28,+0.95)
-[INFO] [1785230501.735967999] [anygrasp_planner]: AnyGrasp candidate[02] frame=scene_depth_optical score=0.173 width=66.1mm pos=(+0.097,+0.005,+0.583) approach=(-0.13,+0.17,+0.98)
-[INFO] [1785230501.736869052] [anygrasp_planner]: AnyGrasp candidate[03] frame=scene_depth_optical score=0.162 width=75.4mm pos=(+0.101,+0.020,+0.582) approach=(-0.16,-0.33,+0.93)
-[INFO] [1785230501.737713091] [anygrasp_planner]: AnyGrasp candidate[04] frame=scene_depth_optical score=0.150 width=60.2mm pos=(+0.105,+0.020,+0.582) approach=(-0.16,-0.33,+0.93)
-[INFO] [1785230501.738541779] [anygrasp_planner]: AnyGrasp candidate[05] frame=scene_depth_optical score=0.122 width=63.4mm pos=(+0.087,+0.016,+0.581) approach=(+0.08,+0.28,+0.96)
-[INFO] [1785230501.739347345] [anygrasp_planner]: AnyGrasp candidate[06] frame=scene_depth_optical score=0.118 width=65.5mm pos=(+0.101,+0.012,+0.583) approach=(+0.10,+0.10,+0.99)
-[INFO] [1785230502.714564833] [anygrasp_planner]: AnyGrasp IK[00] pass=True reason=ok pre_err=4.8mm/0.1deg final_err=2.4mm/0.0deg joint_margin=0.615rad q_final=[ 0.146,-0.499, 0.619,-0.745,-0.55 , 0.62 ]

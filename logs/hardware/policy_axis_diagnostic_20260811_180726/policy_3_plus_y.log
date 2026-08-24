@@ -1,9 +1,0 @@
-[INFO] [1786442881.395262975] [so100_plus_policy_reach]: policy reach ready: checkpoint loaded, MuJoCo FK only, target=(+0.172,-0.005,+0.075), feedback-driven rate=20.0Hz vmax=0.200rad/s amax=0.800rad/s2 tracking_limit=0.250rad joint_limit_cbf=True start_on_launch=True
-[INFO] [1786442881.850247449] [so100_plus_policy_reach]: reach tick=10 pos_err=12.9mm ori_err=6.7deg |dq|=0.0591
-[INFO] [1786442882.349936586] [so100_plus_policy_reach]: reach tick=20 pos_err=6.5mm ori_err=10.0deg |dq|=0.1852
-[INFO] [1786442882.850197646] [so100_plus_policy_reach]: reach tick=30 pos_err=18.8mm ori_err=6.9deg |dq|=0.2129
-[INFO] [1786442883.350957726] [so100_plus_policy_reach]: reach tick=40 pos_err=6.8mm ori_err=11.7deg |dq|=0.2526
-[INFO] [1786442883.851573986] [so100_plus_policy_reach]: reach tick=50 pos_err=18.6mm ori_err=14.0deg |dq|=0.2555
-[INFO] [1786442884.351721607] [so100_plus_policy_reach]: reach tick=60 pos_err=16.4mm ori_err=4.4deg |dq|=0.2857
-[INFO] [1786442884.851286742] [so100_plus_policy_reach]: reach tick=70 pos_err=15.9mm ori_err=8.3deg |dq|=0.2624
-[WARN] [1786442885.352705484] [so100_plus_policy_reach]: policy reach stopped: JOINT_LIMIT_STALLED pos_err_m=0.012073483596055293 orientation_err_deg=15.291775806258483 offset_xyz_mm=(-8.72,+6.93,-4.66)

@@ -4,7 +4,7 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 BASE_FRAME="base"
 GRIPPER_FRAME="wrist_roll"
-OUTPUT_DIR="$ROOT_DIR/logs/hardware/wrist_handeye"
+OUTPUT_DIR="$ROOT_DIR/log/runtime/hardware/wrist_handeye"
 SQUARE_SIZE_M="0.0144"
 REJECT_DUPLICATES="true"
 

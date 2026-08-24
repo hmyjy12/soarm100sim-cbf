@@ -19,7 +19,8 @@ import numpy as np
 import rclpy
 from rclpy.executors import ExternalShutdownException
 from rclpy.node import Node
-from sensor_msgs.msg import JointState
+from geometry_msgs.msg import PointStamped
+from sensor_msgs.msg import JointState, PointCloud2
 from std_msgs.msg import Bool, String
 
 from soarm100_vision.control.policy_command_shaper import (
@@ -31,6 +32,7 @@ from soarm100_vision.control.joint_limit_cbf import (
     JointLimitCbfFilter,
 )
 from soarm100_vision.hardware_joint_limit_filter import HardwareJointLimitFilter
+from soarm100_vision.vision_utils import pointcloud2_to_xyz
 
 
 JOINT_NAMES = (
@@ -59,7 +61,8 @@ def _load_training_runtime(repo: Path):
         sys.path.insert(0, source_dir)
     import policy as reach_policy  # type: ignore
     import runtime as reach_runtime  # type: ignore
-    return mujoco, reach_policy, reach_runtime
+    import cbf as reach_cbf  # type: ignore
+    return mujoco, reach_policy, reach_runtime, reach_cbf
 
 
 def _quat_angle_deg(current: np.ndarray, desired: np.ndarray) -> float:
@@ -93,9 +96,20 @@ class PolicyReachNode(Node):
         self.declare_parameter("max_joint_acceleration_rad_s2", 0.80)
         self.declare_parameter("max_tracking_error_rad", 0.25)
         self.declare_parameter("enable_joint_limit_cbf", False)
+        self.declare_parameter("enable_obstacle_cbf", False)
+        self.declare_parameter("obstacle_cloud_topic", "/obstacle/cloud")
+        self.declare_parameter("obstacle_cloud_timeout_s", 0.75)
+        self.declare_parameter("obstacle_startup_timeout_s", 5.0)
+        self.declare_parameter("obstacle_startup_min_clouds", 3)
+        self.declare_parameter("obstacle_min_points", 30)
+        self.declare_parameter("obstacle_inflate_m", 0.0)
+        self.declare_parameter("obstacle_cbf_d_safe_m", 0.050)
+        self.declare_parameter("obstacle_hard_stop_distance_m", 0.030)
+        self.declare_parameter("obstacle_cbf_activate_margin_m", 0.040)
+        self.declare_parameter("obstacle_cbf_gamma", 0.80)
         self.declare_parameter("hardware_calibration_json", "hardware/calibration/lerobot/so100_plus_new_arm.json")
         self.declare_parameter("hardware_mapping_json", "hardware/calibration/policy_joint_mapping.json")
-        self.declare_parameter("hardware_limit_margin_counts", 100)
+        self.declare_parameter("hardware_limit_margin_counts", 0)
         self.declare_parameter("joint_limit_cbf_alpha", 4.0)
         self.declare_parameter("joint_limit_cbf_activation_margin_rad", 0.25)
         self.declare_parameter("joint_limit_cbf_recovery_velocity_rad_s", 0.05)
@@ -113,10 +127,10 @@ class PolicyReachNode(Node):
         self.declare_parameter("joint_state_timeout_s", 1.5)
         self.declare_parameter("training_range_recovery_margin_rad", 0.05)
         self.declare_parameter("start_on_launch", False)
-        self.declare_parameter("log_path", "logs/hardware/policy_reach.jsonl")
+        self.declare_parameter("log_path", "log/runtime/hardware/policy_reach.jsonl")
 
         self.repo = Path(str(self.get_parameter("repo_root").value)).resolve()
-        self.mujoco, policy_mod, self.runtime = _load_training_runtime(self.repo)
+        self.mujoco, policy_mod, self.runtime, self.cbf_mod = _load_training_runtime(self.repo)
         self.target_pos, self.target_quat, self.hold_current = self._load_target()
         self.model = self.mujoco.MjModel.from_xml_path(
             str(self.repo / str(self.get_parameter("mjcf").value))
@@ -154,6 +168,12 @@ class PolicyReachNode(Node):
             )
         )
         self.joint_limit_cbf: JointLimitCbfFilter | None = None
+        self.obstacle_cbf_config = None
+        self.obstacle_cbf_monitors = None
+        self.obstacle_cbf_obstacles: list = []
+        self.obstacle_cloud_received_at: float | None = None
+        self.obstacle_cloud_stamp_s: float | None = None
+        self.obstacle_cloud_seq = 0
         self.hardware_safe_low: np.ndarray | None = None
         self.hardware_safe_high: np.ndarray | None = None
         if bool(self.get_parameter("enable_joint_limit_cbf").value):
@@ -175,11 +195,43 @@ class PolicyReachNode(Node):
                     ),
                 )
             )
+        if bool(self.get_parameter("enable_obstacle_cbf").value):
+            d_safe = float(self.get_parameter("obstacle_cbf_d_safe_m").value)
+            activate = float(
+                self.get_parameter("obstacle_cbf_activate_margin_m").value
+            )
+            if not 0.01 <= d_safe <= 0.15:
+                raise ValueError("obstacle_cbf_d_safe_m must be within [0.01, 0.15]")
+            hard_stop = float(
+                self.get_parameter("obstacle_hard_stop_distance_m").value
+            )
+            if not 0.005 <= hard_stop < d_safe:
+                raise ValueError(
+                    "obstacle_hard_stop_distance_m must be >=0.005 and below d_safe"
+                )
+            if not 0.0 < activate <= 0.15:
+                raise ValueError(
+                    "obstacle_cbf_activate_margin_m must be within (0, 0.15]"
+                )
+            self.obstacle_cbf_config = self.cbf_mod.CbfConfig(
+                d_safe=d_safe,
+                gamma=float(self.get_parameter("obstacle_cbf_gamma").value),
+                dq_max=float(self.get_parameter("max_joint_velocity_rad_s").value)
+                / rate,
+                activate_margin=activate,
+                frozen_joint_mask=np.array([False] * 6 + [True], dtype=bool),
+            )
+            self.obstacle_cbf_monitors = self.cbf_mod.resolve_monitors(
+                self.model,
+                self.obstacle_cbf_config.monitor_specs,
+                self.obstacle_cbf_config.capsule_specs,
+            )
         self.current_q: np.ndarray | None = None
         self.last_joint_time: float | None = None
         self.last_observation: dict | None = None
         self.gripper_hold: float | None = None
         self.hold_q: np.ndarray | None = None
+        self.hold_started_at: float | None = None
         self.started_at: float | None = None
         self.start_range_reported = False
         self.in_training_range_recovery = False
@@ -193,8 +245,17 @@ class PolicyReachNode(Node):
 
         self.target_pub = self.create_publisher(JointState, "/hardware/joint_target", 1)
         self.status_pub = self.create_publisher(String, "/policy_reach/status", 10)
+        self.obstacle_worst_point_pub = self.create_publisher(
+            PointStamped, "/obstacle/worst_point", 1
+        )
         self.create_subscription(JointState, "/joint_states", self._on_joint_state, 10)
         self.create_subscription(Bool, "/hardware/joint_state_stale", self._on_stale, 1)
+        self.create_subscription(
+            PointCloud2,
+            str(self.get_parameter("obstacle_cloud_topic").value),
+            self._on_obstacle_cloud,
+            1,
+        )
         # Control is driven by fresh joint feedback.  This watchdog never
         # produces commands; it only catches a stopped feedback stream.
         self.create_timer(0.1, self._feedback_watchdog)
@@ -208,6 +269,7 @@ class PolicyReachNode(Node):
             f"amax={float(self.get_parameter('max_joint_acceleration_rad_s2').value):.3f}rad/s2 "
             f"tracking_limit={float(self.get_parameter('max_tracking_error_rad').value):.3f}rad "
             f"joint_limit_cbf={self.joint_limit_cbf is not None} "
+            f"obstacle_cbf={self.obstacle_cbf_config is not None} "
             f"start_on_launch={bool(self.get_parameter('start_on_launch').value)}"
         )
 
@@ -267,6 +329,40 @@ class PolicyReachNode(Node):
         if msg.data and not self.done and self.started_at is not None:
             self._stop("JOINT_STATE_STALE")
 
+    def _on_obstacle_cloud(self, msg: PointCloud2) -> None:
+        if self.obstacle_cbf_config is None:
+            return
+        if str(msg.header.frame_id) != "base":
+            self.get_logger().error(
+                f"ignored obstacle cloud in frame={msg.header.frame_id!r}; expected 'base'",
+                throttle_duration_sec=1.0,
+            )
+            return
+        try:
+            points = pointcloud2_to_xyz(msg)
+        except ValueError as exc:
+            self.get_logger().error(f"invalid obstacle cloud: {exc}")
+            return
+        min_points = int(self.get_parameter("obstacle_min_points").value)
+        if points.shape[0] >= min_points:
+            self.obstacle_cbf_obstacles = [
+                self.cbf_mod.PointCloudSdfObstacle(
+                    name="real_orbbec_obstacle_cloud",
+                    points=points,
+                    truncation_distance=0.15,
+                    voxel_size=0.01,
+                    inflate=float(self.get_parameter("obstacle_inflate_m").value),
+                    velocity=np.zeros(3, dtype=np.float64),
+                )
+            ]
+        else:
+            self.obstacle_cbf_obstacles = []
+        self.obstacle_cloud_received_at = time.monotonic()
+        self.obstacle_cloud_stamp_s = (
+            float(msg.header.stamp.sec) + float(msg.header.stamp.nanosec) * 1.0e-9
+        )
+        self.obstacle_cloud_seq += 1
+
     def _feedback_watchdog(self) -> None:
         if self.done or self.started_at is None or self.last_joint_time is None:
             return
@@ -275,12 +371,69 @@ class PolicyReachNode(Node):
         ):
             self._stop("JOINT_STATE_TIMEOUT")
 
+    def _obstacle_cloud_ready(self, now: float) -> bool:
+        if self.obstacle_cbf_config is None:
+            return True
+        min_clouds = int(self.get_parameter("obstacle_startup_min_clouds").value)
+        if self.obstacle_cloud_received_at is None or self.obstacle_cloud_seq < min_clouds:
+            assert self.started_at is not None
+            if now - self.started_at > float(
+                self.get_parameter("obstacle_startup_timeout_s").value
+            ):
+                self._stop(
+                    "OBSTACLE_CLOUD_MISSING",
+                    obstacle_cloud_seq=self.obstacle_cloud_seq,
+                    required_clouds=min_clouds,
+                )
+            return False
+        age = now - self.obstacle_cloud_received_at
+        if age > float(self.get_parameter("obstacle_cloud_timeout_s").value):
+            self._stop("OBSTACLE_CLOUD_STALE", obstacle_cloud_age_s=age)
+            return False
+        return True
+
     def _set_model_state(self, q: np.ndarray, qvel: np.ndarray) -> None:
         for adr, value in zip(self.ids.qpos_adr, q):
             self.data.qpos[adr] = float(value)
         for adr, value in zip(self.ids.dof_adr, qvel):
             self.data.qvel[adr] = float(value)
         self.mujoco.mj_forward(self.model, self.data)
+
+    def _publish_worst_obstacle_point(self, info: dict) -> dict:
+        name = str(info.get("cbf_worst_monitor", ""))
+        monitor = next(
+            (item for item in (self.obstacle_cbf_monitors or []) if item.name == name),
+            None,
+        )
+        if monitor is None or not self.obstacle_cbf_obstacles:
+            return {}
+        obstacle = self.obstacle_cbf_obstacles[0]
+        points = np.asarray(getattr(obstacle, "points", []), dtype=np.float64).reshape(-1, 3)
+        if points.shape[0] == 0:
+            return {}
+        if hasattr(monitor, "body_a_id"):
+            start = np.asarray(self.data.xpos[monitor.body_a_id], dtype=np.float64)
+            end = np.asarray(self.data.xpos[monitor.body_b_id], dtype=np.float64)
+            t = float(np.clip(info.get("cbf_worst_capsule_t", 0.0), 0.0, 1.0))
+            center = start + t * (end - start)
+        elif monitor.body_id is None:
+            center, _ = self.runtime.tcp_pose_w(self.data, self.ids)
+            center = np.asarray(center, dtype=np.float64)
+        else:
+            center = np.asarray(self.data.xpos[monitor.body_id], dtype=np.float64)
+        distances = np.linalg.norm(points - center.reshape(1, 3), axis=1)
+        index = int(np.argmin(distances))
+        point = points[index]
+        msg = PointStamped()
+        msg.header.stamp = self.get_clock().now().to_msg()
+        msg.header.frame_id = "base"
+        msg.point.x, msg.point.y, msg.point.z = (float(v) for v in point)
+        self.obstacle_worst_point_pub.publish(msg)
+        return {
+            "worst_point_base_m": point.tolist(),
+            "worst_center_base_m": center.tolist(),
+            "worst_center_distance_m": float(distances[index]),
+        }
 
     def _control_tick(self, now: float) -> None:
         if self.done:
@@ -308,8 +461,6 @@ class PolicyReachNode(Node):
                     )
                     self._log("start_outside_training_range", detail=detail)
             self.started_at = now
-            if self.hold_current:
-                self.hold_q = self.current_q.copy()
             self._publish_status("RUNNING")
 
         q = self.current_q.copy()
@@ -319,8 +470,16 @@ class PolicyReachNode(Node):
         tcp, quat = self.runtime.tcp_pose_w(self.data, self.ids)
         pos_err = float(np.linalg.norm(self.target_pos - tcp))
         ori_err = _quat_angle_deg(quat, self.target_quat)
+        if not self._obstacle_cloud_ready(now):
+            # Follow the latest measured pose until perception is ready. Locking
+            # an earlier startup sample can pull the arm when readiness arrives.
+            self._publish_target(q)
+            return
         if self.hold_current:
-            assert self.hold_q is not None
+            if self.hold_q is None:
+                self.hold_q = q.copy()
+                self.hold_started_at = now
+            assert self.hold_started_at is not None
             self._publish_target(self.hold_q)
             self.tick_index += 1
             self._log(
@@ -334,7 +493,7 @@ class PolicyReachNode(Node):
                 qvel_filtered=qvel.tolist(),
                 tracking_error_rad=(self.hold_q - q).tolist(),
             )
-            if now - self.started_at >= float(
+            if now - self.hold_started_at >= float(
                 self.get_parameter("hold_current_duration_s").value
             ):
                 self._stop("HOLD_TEST_COMPLETE")
@@ -353,6 +512,12 @@ class PolicyReachNode(Node):
         # restoring arm joints to the policy's trained state range.
         recovery_error[6] = 0.0
         if np.any(np.abs(recovery_error[:6]) > 1e-8):
+            if self.obstacle_cbf_config is not None:
+                self._stop(
+                    "START_OUTSIDE_TRAINING_RANGE_WITH_OBSTACLE_CBF",
+                    recovery_error_rad=recovery_error.tolist(),
+                )
+                return
             self.in_training_range_recovery = True
             recovery_action = np.sign(recovery_error)
             frozen = np.array([False] * 6 + [True], dtype=bool)
@@ -413,6 +578,69 @@ class PolicyReachNode(Node):
         frozen = np.zeros(7, dtype=bool)
         if bool(self.get_parameter("freeze_gripper").value):
             frozen[6] = True
+        action_state = self.shaper.filter_action(raw_action, timing["dt_s"])
+        filtered_action = action_state["filtered_action"].copy()
+        filtered_action[frozen] = 0.0
+        velocity_preview = self.shaper.preview_velocity(
+            filtered_action, timing["dt_s"]
+        )
+        projected_velocity = velocity_preview[
+            "acceleration_limited_velocity_rad_s"
+        ].copy()
+        obstacle_cbf_info: dict = {
+            "cbf_active": False,
+            "cbf_feasible": True,
+            "h_min": float("inf"),
+            "n_constraints": 0,
+            "dq_cbf_norm": 0.0,
+        }
+        if self.obstacle_cbf_config is not None and self.obstacle_cbf_monitors is not None:
+            dt = float(timing["dt_s"])
+            dq_nom_step = projected_velocity * dt
+            self.obstacle_cbf_config.dq_max = (
+                float(self.get_parameter("max_joint_velocity_rad_s").value) * dt
+            )
+            dq_cbf_step, obstacle_cbf_info = self.cbf_mod.solve_cbf_correction(
+                self.model,
+                self.data,
+                self.ids,
+                dq_nom_step,
+                self.obstacle_cbf_config,
+                self.obstacle_cbf_monitors,
+                self.obstacle_cbf_obstacles,
+                self.runtime.tcp_pose_w,
+            )
+            worst_point_fields = self._publish_worst_obstacle_point(obstacle_cbf_info)
+            h_min = float(obstacle_cbf_info.get("h_min", float("inf")))
+            hard_stop_h = (
+                float(self.get_parameter("obstacle_hard_stop_distance_m").value)
+                - float(self.obstacle_cbf_config.d_safe)
+            )
+            if h_min < hard_stop_h:
+                self._publish_target(q)
+                self._stop(
+                    "OBSTACLE_HARD_STOP",
+                    h_min_m=h_min,
+                    estimated_clearance_m=h_min
+                    + float(self.obstacle_cbf_config.d_safe),
+                    worst_monitor=str(
+                        obstacle_cbf_info.get("cbf_worst_monitor", "")
+                    ),
+                    **worst_point_fields,
+                )
+                return
+            if not bool(obstacle_cbf_info.get("cbf_feasible", True)):
+                self._publish_target(q)
+                self._stop(
+                    "OBSTACLE_CBF_INFEASIBLE",
+                    h_min_m=float(obstacle_cbf_info.get("h_min", float("nan"))),
+                    worst_monitor=str(
+                        obstacle_cbf_info.get("cbf_worst_monitor", "")
+                    ),
+                    **worst_point_fields,
+                )
+                return
+            projected_velocity = (dq_nom_step + dq_cbf_step) / dt
         cbf = None
         if self.joint_limit_cbf is not None:
             assert self.hardware_safe_low is not None and self.hardware_safe_high is not None
@@ -421,15 +649,18 @@ class PolicyReachNode(Node):
             )
             cbf["velocity_low_rad_s"][6] = -np.inf
             cbf["velocity_high_rad_s"][6] = np.inf
-        shaped = self.shaper.shape(
+        shaped = self.shaper.shape_filtered(
             q,
-            raw_action,
+            filtered_action,
             recovery_low,
             recovery_high,
             timing["dt_s"],
             frozen,
             None if cbf is None else cbf["velocity_low_rad_s"],
             None if cbf is None else cbf["velocity_high_rad_s"],
+            projected_velocity_rad_s=projected_velocity,
+            raw_action=action_state["raw_action"],
+            action_filter_alpha=action_state["action_filter_alpha"],
         )
         q_cmd = shaped["q_ref"]
         frozen_gripper_target = float(
@@ -525,6 +756,27 @@ class PolicyReachNode(Node):
             action_filter_alpha=shaped["action_filter_alpha"],
             velocity_filter_alpha=timing["velocity_filter_alpha"],
             action_scale=float(self.get_parameter("action_scale").value),
+            obstacle_cbf_enabled=self.obstacle_cbf_config is not None,
+            obstacle_cloud_seq=self.obstacle_cloud_seq,
+            obstacle_cloud_points=(
+                0
+                if not self.obstacle_cbf_obstacles
+                else int(self.obstacle_cbf_obstacles[0].points.shape[0])
+            ),
+            obstacle_h_min_m=float(obstacle_cbf_info.get("h_min", float("inf"))),
+            obstacle_cbf_active=bool(obstacle_cbf_info.get("cbf_active", False)),
+            obstacle_cbf_feasible=bool(
+                obstacle_cbf_info.get("cbf_feasible", True)
+            ),
+            obstacle_cbf_constraints=int(
+                obstacle_cbf_info.get("n_constraints", 0)
+            ),
+            obstacle_cbf_correction_norm=float(
+                obstacle_cbf_info.get("dq_cbf_norm", 0.0)
+            ),
+            obstacle_cbf_worst_monitor=str(
+                obstacle_cbf_info.get("cbf_worst_monitor", "")
+            ),
         )
         if self.tick_index % 10 == 0:
             self.get_logger().info(

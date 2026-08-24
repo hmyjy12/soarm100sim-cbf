@@ -6,10 +6,29 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 ROS_WS="$ROOT_DIR/ros2"
 SERIAL_PORT="/dev/ttyACM0"
+SQUARE_SIZE_M="0.0144"
 CAMERA_PID=""
 VIEWER_PID=""
 CONTROLLER_PID=""
 POWERED="false"
+
+usage() {
+  cat <<'EOF'
+Usage: ./ros2/run_wrist_handeye_manual.sh [options]
+
+Options:
+  --square-size-m VALUE  Measured checker square size in meters (default: 0.0144)
+  --help                 Show this help.
+EOF
+}
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --square-size-m) SQUARE_SIZE_M="$2"; shift 2 ;;
+    --help|-h) usage; exit 0 ;;
+    *) echo "[ERROR] unknown option: $1" >&2; usage >&2; exit 2 ;;
+  esac
+done
 
 source_relaxed() {
   set +u
@@ -187,13 +206,13 @@ power_on_hold() {
     return 1
   fi
   echo "[handeye_manual] powering ON and holding the current pose (NO capture yet)"
-  : >"$ROOT_DIR/logs/hardware/handeye_manual_controller.log"
+  : >"$ROOT_DIR/log/runtime/hardware/handeye_manual_controller.log"
   setsid "$ROOT_DIR/ros2/run_hardware_controller.sh" \
-    >"$ROOT_DIR/logs/hardware/handeye_manual_controller.log" 2>&1 &
+    >"$ROOT_DIR/log/runtime/hardware/handeye_manual_controller.log" 2>&1 &
   CONTROLLER_PID="$!"
   if ! wait_for_topic "/joint_states" 25; then
     echo "[handeye_manual] ERROR: /joint_states not available after power-on" >&2
-    echo "[handeye_manual] see logs/hardware/handeye_manual_controller.log" >&2
+    echo "[handeye_manual] see log/runtime/hardware/handeye_manual_controller.log" >&2
     stop_controller_only
     return 1
   fi
@@ -262,7 +281,7 @@ Tips:
 EOF
 }
 
-mkdir -p "$ROOT_DIR/logs/hardware"
+mkdir -p "$ROOT_DIR/log/runtime/hardware"
 source_relaxed /opt/ros/humble/setup.bash
 source_relaxed "$ROS_WS/install/setup.bash"
 
@@ -281,18 +300,20 @@ fi
 
 echo "[handeye_manual] Starting wrist camera + Viewer; robot remains UNPOWERED."
 setsid "$ROOT_DIR/ros2/run_wrist_camera.sh" \
-  >"$ROOT_DIR/logs/hardware/handeye_manual_camera.log" 2>&1 &
+  >"$ROOT_DIR/log/runtime/hardware/handeye_manual_camera.log" 2>&1 &
 CAMERA_PID="$!"
 sleep 3
 
-setsid "$ROOT_DIR/ros2/run_wrist_handeye.sh" --allow-duplicates \
-  >"$ROOT_DIR/logs/hardware/handeye_manual_viewer.log" 2>&1 &
+setsid "$ROOT_DIR/ros2/run_wrist_handeye.sh" \
+  --allow-duplicates \
+  --square-size-m "$SQUARE_SIZE_M" \
+  >"$ROOT_DIR/log/runtime/hardware/handeye_manual_viewer.log" 2>&1 &
 VIEWER_PID="$!"
 sleep 3
 
 if ! wait_for_service "/wrist_handeye/capture" 20; then
   echo "[handeye_manual] ERROR: Viewer/capture service failed to start" >&2
-  echo "[handeye_manual] see logs/hardware/handeye_manual_viewer.log" >&2
+  echo "[handeye_manual] see log/runtime/hardware/handeye_manual_viewer.log" >&2
   exit 1
 fi
 

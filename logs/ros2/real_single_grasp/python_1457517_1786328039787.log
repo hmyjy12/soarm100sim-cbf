@@ -1,4 +1,0 @@
-[INFO] [1786328039.928892638] [real_policy_grasp_backend]: real policy grasp backend ready: single plan, tracking=OFF, replan=OFF, avoidance=OFF
-[INFO] [1786328059.023368608] [real_policy_grasp_backend]: single grasp target=tissue pre=[0.09575093014251854, -0.12041595677332505, 0.0002964887771197966] grasp=[0.1651288733354687, -0.12079264325011162, -0.009007225836624166] width=92.8mm
-[INFO] [1786328059.023861191] [real_policy_grasp_backend]: stage=OPEN reason=opening gripper before policy motion
-[INFO] [1786328060.032132019] [real_policy_grasp_backend]: stage=MOVE_TO_PREGRASP reason={"start_rad": 0.11325403917135807, "target_rad": 0.45, "held_target_rad": 0.45, "measured_rad": 0.4063919472326505, "error_rad": 0.043608052767349526}

@@ -114,3 +114,27 @@ def test_shaper_applies_external_safety_velocity_bounds_before_integration():
 
     assert result["reference_velocity_rad_s"][2] <= 0.01 + 1e-12
     assert result["safety_velocity_clamped"][2]
+
+
+def test_projected_velocity_is_applied_after_nominal_acceleration_preview():
+    shaper = make_shaper()
+    q = np.zeros(7)
+    limits = np.full(7, 3.0)
+    obs = shaper.observe(q, 1.0)
+    action = shaper.filter_action(np.ones(7), obs["dt_s"])
+    preview = shaper.preview_velocity(action["filtered_action"], obs["dt_s"])
+    projected = preview["acceleration_limited_velocity_rad_s"].copy()
+    projected[0] = -0.01
+    result = shaper.shape_filtered(
+        q,
+        action["filtered_action"],
+        -limits,
+        limits,
+        obs["dt_s"],
+        projected_velocity_rad_s=projected,
+        raw_action=action["raw_action"],
+        action_filter_alpha=action["action_filter_alpha"],
+    )
+
+    assert np.isclose(result["reference_velocity_rad_s"][0], -0.01)
+    assert np.isclose(result["q_ref"][0], -0.01 * obs["dt_s"])

@@ -1,7 +1,0 @@
-[INFO] [1784715362.324245212] [anygrasp_planner]: AnyGrasp planner ready: action=plan_grasp
-[INFO] [1784715374.929813597] [anygrasp_planner]: AnyGrasp candidate[00] frame=scene_depth_optical score=0.321 width=77.5mm pos=(+0.100,+0.010,+0.576) approach=(-0.13,+0.17,+0.98)
-[INFO] [1784715374.930102979] [anygrasp_planner]: AnyGrasp candidate[01] frame=scene_depth_optical score=0.308 width=81.8mm pos=(+0.098,+0.006,+0.576) approach=(+0.08,+0.28,+0.96)
-[INFO] [1784715374.930308763] [anygrasp_planner]: AnyGrasp candidate[02] frame=scene_depth_optical score=0.264 width=88.7mm pos=(+0.095,+0.007,+0.576) approach=(+0.08,+0.28,+0.96)
-[INFO] [1784715374.930504546] [anygrasp_planner]: AnyGrasp candidate[03] frame=scene_depth_optical score=0.225 width=83.1mm pos=(+0.100,+0.016,+0.576) approach=(+0.10,+0.10,+0.99)
-[INFO] [1784715374.930700661] [anygrasp_planner]: AnyGrasp candidate[04] frame=scene_depth_optical score=0.220 width=89.9mm pos=(+0.093,+0.020,+0.574) approach=(+0.24,-0.04,+0.97)
-[INFO] [1784715374.930889209] [anygrasp_planner]: AnyGrasp candidate[05] frame=scene_depth_optical score=0.216 width=69.6mm pos=(+0.115,+0.021,+0.572) approach=(-0.52,-0.24,+0.82)

@@ -1,1 +1,0 @@
-[INFO] [1786095439.441165172] [hardware_controller]: hardware controller ready; current seven-axis position is powered and held; services=/hardware/move_joint_target,/hardware/set_torque stream_topic=/hardware/joint_target

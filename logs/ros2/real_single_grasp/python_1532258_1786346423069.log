@@ -1,6 +1,0 @@
-[INFO] [1786346423.170977333] [real_policy_grasp_backend]: real policy grasp backend ready: single plan, tracking=OFF, replan=OFF, avoidance=OFF
-[INFO] [1786346437.700812567] [real_policy_grasp_backend]: single grasp target=jpgCat pre=[0.2451068359517452, 0.08382679504978001, 0.047481724262325234] grasp=[0.2798264219343401, 0.09026177357813375, 0.028689667415433086] width=37.7mm
-[INFO] [1786346437.701126383] [real_policy_grasp_backend]: stage=OPEN reason=opening gripper before policy motion
-[INFO] [1786346438.707872922] [real_policy_grasp_backend]: stage=MOVE_TO_PREGRASP reason={"start_rad": 0.4386371171193928, "target_rad": 0.45, "held_target_rad": 0.45, "measured_rad": 0.4386371171193928, "error_rad": 0.011362882880607217}
-[ERROR] [1786346453.073913113] [real_policy_grasp_backend]: Error raised in execute callback: Failed get goal status array: feedback publisher is invalid, at ./src/rcl_action/action_server.c:919
-[WARN] [1786346453.074602712] [real_policy_grasp_backend]: Failed to send result response (the client may have gone away)

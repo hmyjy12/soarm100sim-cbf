@@ -56,7 +56,7 @@ class GraspOrchestratorNode(Node):
         self.declare_parameter("target_cloud_topic", "/target/cloud")
         self.declare_parameter("target_object", "cube")
         self.declare_parameter("target_pos", "0.42,0.08,0.021")
-        self.declare_parameter("traj_log", "logs/ros2_execute_grasp.jsonl")
+        self.declare_parameter("traj_log", "log/runtime/ros2_execute_grasp.jsonl")
         self.declare_parameter("wait_timeout_s", 10.0)
         self._avoidance_enabled = bool(self.get_parameter("default_enable_avoidance").value)
         self._target_cloud: PointCloud2 | None = None

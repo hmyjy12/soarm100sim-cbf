@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import math
 import os
 from pathlib import Path
 import queue
@@ -25,7 +26,15 @@ class HardwareControllerNode(Node):
         self.declare_parameter("repo_root", repo_default)
         self.declare_parameter("port", "/dev/ttyACM0")
         self.declare_parameter("lerobot_env", "lerobot")
+        self.declare_parameter(
+            "calibration_file",
+            "hardware/calibration/lerobot/so100_plus_new_arm.json",
+        )
         self.declare_parameter("shoulder_lift_p", 16)
+        self.declare_parameter("feedback_rate_hz", 20.0)
+        self.declare_parameter("driver_rate_hz", 20.0)
+        self.declare_parameter("max_stream_command_delta_rad", 0.25)
+        self.declare_parameter("raw_margin_counts", 0)
         self.declare_parameter("command_timeout", 20.0)
         self._command_lock = threading.Lock()
         self._responses: queue.Queue[dict] = queue.Queue()
@@ -43,11 +52,56 @@ class HardwareControllerNode(Node):
             SetHardwareTorque, "/hardware/set_torque", self._handle_torque
         )
         self._joint_pub = self.create_publisher(JointState, "/joint_states", 10)
-        self.create_timer(0.1, self._publish_joint_state)
+        self._stream_target_sub = self.create_subscription(
+            JointState,
+            "/hardware/joint_target",
+            self._on_stream_target,
+            1,
+        )
+        feedback_rate = float(self.get_parameter("feedback_rate_hz").value)
+        if not 10.0 <= feedback_rate <= 30.0:
+            raise ValueError("feedback_rate_hz must be within [10, 30]")
+        self.create_timer(1.0 / feedback_rate, self._publish_joint_state)
         self.get_logger().info(
             "hardware controller ready; current seven-axis position is powered "
-            "and held; services=/hardware/move_joint_target,/hardware/set_torque"
+            "and held; services=/hardware/move_joint_target,/hardware/set_torque "
+            "stream_topic=/hardware/joint_target"
         )
+
+    @staticmethod
+    def _joint_names() -> tuple[str, ...]:
+        return (
+            "shoulder_rotation_joint",
+            "shoulder_pitch_joint",
+            "ellbow_joint",
+            "wrist_pitch_joint",
+            "wrist_jaw_joint",
+            "wrist_roll_joint",
+            "gripper_joint",
+        )
+
+    def _on_stream_target(self, msg: JointState) -> None:
+        names = self._joint_names()
+        if tuple(msg.name) != names or len(msg.position) != len(names):
+            self.get_logger().error(
+                "rejected /hardware/joint_target: expected the canonical seven-joint order",
+                throttle_duration_sec=2.0,
+            )
+            return
+        values = [float(value) for value in msg.position]
+        if not all(math.isfinite(value) for value in values):
+            self.get_logger().error(
+                "rejected /hardware/joint_target: non-finite command",
+                throttle_duration_sec=2.0,
+            )
+            return
+        with self._command_lock:
+            result = self._request("stream", position_rad=values)
+        if not result.get("success"):
+            self.get_logger().error(
+                f"stream target rejected: {result.get('reason', 'unknown hardware failure')}",
+                throttle_duration_sec=1.0,
+            )
 
     def _start_driver(self) -> subprocess.Popen:
         repo = Path(str(self.get_parameter("repo_root").value)).resolve()
@@ -61,13 +115,19 @@ class HardwareControllerNode(Node):
             "python", str(repo / "hardware/tools/run_hardware_controller.py"),
             "--port", str(self.get_parameter("port").value),
             "--calibration",
-            str(repo / "hardware/calibration/lerobot/so100_plus_7dof.json"),
+            str(repo / str(self.get_parameter("calibration_file").value)),
             "--mapping",
             str(repo / "hardware/calibration/policy_joint_mapping.json"),
             "--safe-pose",
             str(repo / "hardware/calibration/hardware_safe_pose.json"),
             "--shoulder-lift-p",
             str(int(self.get_parameter("shoulder_lift_p").value)),
+            "--rate",
+            str(float(self.get_parameter("driver_rate_hz").value)),
+            "--max-stream-command-delta-rad",
+            str(float(self.get_parameter("max_stream_command_delta_rad").value)),
+            "--raw-margin-counts",
+            str(int(self.get_parameter("raw_margin_counts").value)),
             "--log",
             self._driver_log_path,
         ]
@@ -89,8 +149,16 @@ class HardwareControllerNode(Node):
                 self._responses.put(json.loads(line))
             except json.JSONDecodeError:
                 self.get_logger().warning(f"hardware driver output: {line.rstrip()}")
+        returncode = self._process.poll()
+        self.get_logger().error(
+            f"hardware driver exited unexpectedly, returncode={returncode}"
+        )
         self._responses.put(
-            {"event": "process_exit", "success": False, "reason": "driver exited"}
+            {
+                "event": "process_exit",
+                "success": False,
+                "reason": f"driver exited returncode={returncode}",
+            }
         )
 
     def _wait_message(
@@ -167,15 +235,7 @@ class HardwareControllerNode(Node):
             )
             return
         policy = result.get("policy", {})
-        names = (
-            "shoulder_rotation_joint",
-            "shoulder_pitch_joint",
-            "ellbow_joint",
-            "wrist_pitch_joint",
-            "wrist_jaw_joint",
-            "wrist_roll_joint",
-            "gripper_joint",
-        )
+        names = self._joint_names()
         if set(policy) != set(names):
             return
         msg = JointState()

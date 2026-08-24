@@ -1,0 +1,89 @@
+{
+  "schema_version": 1,
+  "formula": "policy_rad = sign * lerobot_value_rad + zero_offset_rad",
+  "gripper_formula": "policy_rad = clip(scale_rad_per_percent * lerobot_percent + zero_offset_rad, policy_clip_rad)",
+  "reference_pose": "policy_home",
+  "source_capture": "hardware/calibration/policy_home_capture_new_arm_20260820.json",
+  "approved_for_read_only_joint_state": true,
+  "approved_for_policy_control": false,
+  "validation_state": "pending_mujoco_read_only_validation",
+  "validation_note": "Zero offsets recomputed from a new home capture; policy control is not approved.",
+  "joints": {
+    "shoulder_pan": {
+      "policy_joint": "shoulder_rotation_joint",
+      "sign": -1,
+      "zero_offset_rad": 0.04526348389787492,
+      "home_lerobot_deg": 2.5934065934065935,
+      "home_policy_rad": 0.0,
+      "direction_observation": "hardware positive moves right while MuJoCo positive moves left",
+      "status": "verified",
+      "zero_offset_status": "pending_mujoco_read_only_validation"
+    },
+    "shoulder_lift": {
+      "policy_joint": "shoulder_pitch_joint",
+      "sign": 1,
+      "zero_offset_rad": -1.55008252907892,
+      "home_lerobot_deg": -1.1868131868131868,
+      "home_policy_rad": -1.5707963267948966,
+      "direction_observation": "hardware positive and MuJoCo positive both rotate forward",
+      "status": "verified",
+      "zero_offset_status": "pending_mujoco_read_only_validation"
+    },
+    "elbow_flex": {
+      "policy_joint": "ellbow_joint",
+      "sign": 1,
+      "zero_offset_rad": 1.3559865727032867,
+      "home_lerobot_deg": 12.307692307692308,
+      "home_policy_rad": 1.5707963267948966,
+      "direction_observation": "hardware positive and MuJoCo positive both move downward",
+      "status": "verified",
+      "zero_offset_status": "pending_mujoco_read_only_validation"
+    },
+    "wrist_flex": {
+      "policy_joint": "wrist_pitch_joint",
+      "sign": -1,
+      "zero_offset_rad": 0.003068710772737283,
+      "home_lerobot_deg": 0.17582417582417584,
+      "home_policy_rad": 0.0,
+      "direction_observation": "hardware positive moves down while MuJoCo positive moves up",
+      "status": "verified",
+      "zero_offset_status": "pending_mujoco_read_only_validation"
+    },
+    "wrist_yaw": {
+      "policy_joint": "wrist_jaw_joint",
+      "sign": 1,
+      "zero_offset_rad": -0.05216808313653381,
+      "home_lerobot_deg": 2.989010989010989,
+      "home_policy_rad": 0.0,
+      "direction_observation": "positive moves right when viewed from base toward gripper",
+      "status": "verified",
+      "zero_offset_status": "pending_mujoco_read_only_validation"
+    },
+    "wrist_roll": {
+      "policy_joint": "wrist_roll_joint",
+      "sign": -1,
+      "zero_offset_rad": 1.6210464656984696,
+      "home_lerobot_deg": 92.87912087912088,
+      "home_policy_rad": 0.0,
+      "direction_observation": "hardware positive is counterclockwise and MuJoCo positive is clockwise when viewed from base toward gripper",
+      "status": "verified",
+      "zero_offset_status": "pending_mujoco_read_only_validation"
+    },
+    "gripper": {
+      "policy_joint": "gripper_joint",
+      "sign": 1,
+      "input_unit": "percent",
+      "scale_rad_per_percent": 0.022000000000000002,
+      "zero_offset_rad": -0.0046380885453267745,
+      "home_lerobot_percent": 0.21082220660576245,
+      "home_policy_rad": 0.0,
+      "policy_clip_rad": [
+        -0.2,
+        2.0
+      ],
+      "direction_observation": "hardware percentage positive and MuJoCo positive both open the gripper",
+      "status": "verified",
+      "zero_offset_status": "pending_mujoco_read_only_validation"
+    }
+  }
+}

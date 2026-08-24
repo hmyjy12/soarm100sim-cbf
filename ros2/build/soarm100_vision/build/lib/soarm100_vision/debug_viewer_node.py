@@ -1,10 +1,12 @@
 from __future__ import annotations
 
+import re
 import time
 
 import numpy as np
 import rclpy
 from rclpy.node import Node
+from rclpy.qos import qos_profile_sensor_data
 from sensor_msgs.msg import Image
 from std_msgs.msg import String
 
@@ -42,8 +44,18 @@ class DebugViewerNode(Node):
             self._init_window()
 
         self._overlay_pub = self.create_publisher(Image, self.get_parameter("overlay_topic").value, 1)
-        self.create_subscription(Image, self.get_parameter("rgb_topic").value, self._on_rgb, 1)
-        self.create_subscription(Image, self.get_parameter("mask_topic").value, self._on_mask, 1)
+        self.create_subscription(
+            Image,
+            self.get_parameter("rgb_topic").value,
+            self._on_rgb,
+            qos_profile_sensor_data,
+        )
+        self.create_subscription(
+            Image,
+            self.get_parameter("mask_topic").value,
+            self._on_mask,
+            qos_profile_sensor_data,
+        )
         self.create_subscription(String, self.get_parameter("segmentation_status_topic").value, self._on_seg_status, 10)
         self.create_subscription(String, self.get_parameter("tracking_status_topic").value, self._on_track_status, 10)
         self.create_timer(1.0 / max(1.0, float(self.get_parameter("max_fps").value)), self._tick)
@@ -114,6 +126,30 @@ class DebugViewerNode(Node):
                     out[y1:y2 + 1, x1 : x1 + 2] = (255, 255, 0)
                     out[y1:y2 + 1, x2 : x2 + 2] = (255, 255, 0)
         if self._cv2 is not None:
+            bbox_match = re.search(
+                r"bbox=([-+0-9.]+),([-+0-9.]+),([-+0-9.]+),([-+0-9.]+)",
+                self._seg_status,
+            )
+            class_match = re.search(r"class=([^ ]+)", self._seg_status)
+            score_match = re.search(r"score=([-+0-9.]+)", self._seg_status)
+            if bbox_match is not None:
+                x1, y1, x2, y2 = (int(round(float(v))) for v in bbox_match.groups())
+                x1 = max(0, min(out.shape[1] - 1, x1))
+                x2 = max(0, min(out.shape[1] - 1, x2))
+                y1 = max(0, min(out.shape[0] - 1, y1))
+                y2 = max(0, min(out.shape[0] - 1, y2))
+                self._cv2.rectangle(out, (x1, y1), (x2, y2), (0, 255, 0), 3)
+                label = class_match.group(1) if class_match else "target"
+                if score_match:
+                    label += f" {float(score_match.group(1)):.2f}"
+                self._cv2.putText(
+                    out, label, (x1, max(22, y1 - 8)),
+                    self._cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 0), 4,
+                )
+                self._cv2.putText(
+                    out, label, (x1, max(22, y1 - 8)),
+                    self._cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2,
+                )
             lines = [
                 f"seg: {self._seg_status[:90]}",
                 f"track: {self._track_status[:90]}",
@@ -133,7 +169,8 @@ def main() -> None:
         rclpy.spin(node)
     finally:
         node.destroy_node()
-        rclpy.shutdown()
+        if rclpy.ok():
+            rclpy.shutdown()
 
 
 if __name__ == "__main__":

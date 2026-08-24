@@ -1,3 +1,0 @@
-[INFO] [1784709788.465477266] [soarm100_send_planned_grasp]: planned grasp goal accepted
-[INFO] [1784709788.466464041] [soarm100_send_planned_grasp]: feedback stage=STARTING_MUJOCO_INPROCESS lift=0.0000 reason=using GraspStateMachine + MuJoCo runner in current process
-[INFO] [1784709788.467120130] [soarm100_send_planned_grasp]: result success=False return_code=1 lift=0.0000 reason=inprocess_backend_failed:no running event loop

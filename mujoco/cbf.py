@@ -211,6 +211,9 @@ class CbfConfig:
     dq_max: float = ACTION_SCALE
     activate_margin: float = 0.04
     task_weight: np.ndarray = field(default_factory=lambda: np.ones(3, dtype=np.float64))
+    frozen_joint_mask: np.ndarray = field(
+        default_factory=lambda: np.zeros(ACTION_DIM, dtype=bool)
+    )
     monitor_specs: tuple[tuple[str, float], ...] = DEFAULT_MONITOR_SPECS
     capsule_specs: tuple[tuple[str, str, float], ...] = DEFAULT_CAPSULE_SPECS
     obstacle_geom_names: tuple[str, ...] = DEFAULT_OBSTACLE_GEOM_NAMES
@@ -658,7 +661,9 @@ def _build_constraints(
         h = float(rec["h"])
         if h >= cfg.activate_margin:
             continue
-        grad_q = np.asarray(rec["grad_q"], dtype=np.float64)
+        grad_q = np.asarray(rec["grad_q"], dtype=np.float64).copy()
+        frozen = np.asarray(cfg.frozen_joint_mask, dtype=bool).reshape(ACTION_DIM)
+        grad_q[frozen] = 0.0
         obs_step = float(rec.get("obs_step", 0.0))
         b_tot = obs_step - cfg.gamma * h
         rows.append(grad_q)
@@ -745,6 +750,7 @@ def solve_cbf_correction(
         info["cbf_worst_monitor"] = str(worst["monitor"])
         info["cbf_worst_obstacle"] = str(worst["obstacle"])
         info["cbf_worst_obs_step"] = float(worst.get("obs_step", 0.0))
+        info["cbf_worst_capsule_t"] = float(worst.get("capsule_t", 0.0))
         rhs_worst = float(worst.get("obs_step", 0.0)) - cfg.gamma * float(worst["h"])
         info["nom_violation"] = float(rhs_worst - float(worst["grad_q"] @ dq_nom))
 
@@ -767,6 +773,9 @@ def solve_cbf_correction(
     info["n_constraints"] = int(a_ineq.shape[0])
 
     lb_cbf, ub_cbf = _dq_cbf_bounds(dq_nom, cfg.dq_max)
+    frozen = np.asarray(cfg.frozen_joint_mask, dtype=bool).reshape(ACTION_DIM)
+    lb_cbf[frozen] = -dq_nom[frozen]
+    ub_cbf[frozen] = -dq_nom[frozen]
     dq_cbf, ok = _solve_qp_min_correction(a_ineq, b_cbf, lb_cbf, ub_cbf)
 
     if not ok or dq_cbf is None:

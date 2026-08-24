@@ -3,7 +3,7 @@
 
   cd soarm100sim
   python mujoco/eval_cbf.py --num-episodes 256 --seed 42
-  python mujoco/eval_cbf.py --indices-file logs/eval/cbf_fixed_rod/indices_seed42_n256.json
+  python mujoco/eval_cbf.py --indices-file log/runtime/eval/cbf_fixed_rod/indices_seed42_n256.json
 """
 
 from __future__ import annotations
@@ -28,7 +28,7 @@ _RL_ROOT = _THIS.parent / "rl"
 if str(_RL_ROOT) not in sys.path:
     sys.path.insert(0, str(_RL_ROOT))
 
-# 固定杆位置（与 scene_plus.xml 一致；评测范围见 mujoco/log.md）
+# 固定杆位置（与 scene_plus.xml 一致；评测范围见 docs/development/mujoco实验记录.md）
 FIXED_ROD_BODY = "obstacle_rod"
 FIXED_ROD_POS_M = (0.15, 0.09, 0.17)
 

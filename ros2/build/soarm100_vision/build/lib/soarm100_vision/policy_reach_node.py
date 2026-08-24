@@ -26,6 +26,11 @@ from soarm100_vision.control.policy_command_shaper import (
     PolicyCommandShaper,
     ShaperConfig,
 )
+from soarm100_vision.control.joint_limit_cbf import (
+    JointLimitCbfConfig,
+    JointLimitCbfFilter,
+)
+from soarm100_vision.hardware_joint_limit_filter import HardwareJointLimitFilter
 
 
 JOINT_NAMES = (
@@ -87,8 +92,19 @@ class PolicyReachNode(Node):
         self.declare_parameter("max_joint_velocity_rad_s", 0.20)
         self.declare_parameter("max_joint_acceleration_rad_s2", 0.80)
         self.declare_parameter("max_tracking_error_rad", 0.25)
+        self.declare_parameter("enable_joint_limit_cbf", False)
+        self.declare_parameter("hardware_calibration_json", "hardware/calibration/lerobot/so100_plus_new_arm.json")
+        self.declare_parameter("hardware_mapping_json", "hardware/calibration/policy_joint_mapping.json")
+        self.declare_parameter("hardware_limit_margin_counts", 100)
+        self.declare_parameter("joint_limit_cbf_alpha", 4.0)
+        self.declare_parameter("joint_limit_cbf_activation_margin_rad", 0.25)
+        self.declare_parameter("joint_limit_cbf_recovery_velocity_rad_s", 0.05)
+        self.declare_parameter("joint_limit_stall_timeout_s", 2.0)
+        self.declare_parameter("joint_limit_stall_min_progress_m", 0.003)
+        self.declare_parameter("workspace_min_z_m", 0.01)
         self.declare_parameter("action_deadband", 0.01)
         self.declare_parameter("freeze_gripper", True)
+        self.declare_parameter("frozen_gripper_target_rad", -999.0)
         self.declare_parameter("success_position_m", 0.015)
         self.declare_parameter("success_orientation_deg", 10.0)
         self.declare_parameter("success_consecutive_ticks", 5)
@@ -137,6 +153,28 @@ class PolicyReachNode(Node):
                 action_deadband=float(self.get_parameter("action_deadband").value),
             )
         )
+        self.joint_limit_cbf: JointLimitCbfFilter | None = None
+        self.hardware_safe_low: np.ndarray | None = None
+        self.hardware_safe_high: np.ndarray | None = None
+        if bool(self.get_parameter("enable_joint_limit_cbf").value):
+            hardware_filter = HardwareJointLimitFilter(
+                repo_root=self.repo,
+                calibration_json=str(self.get_parameter("hardware_calibration_json").value),
+                mapping_json=str(self.get_parameter("hardware_mapping_json").value),
+                margin_counts=int(self.get_parameter("hardware_limit_margin_counts").value),
+            )
+            self.hardware_safe_low, self.hardware_safe_high = hardware_filter.policy_safe_bounds()
+            self.joint_limit_cbf = JointLimitCbfFilter(
+                JointLimitCbfConfig(
+                    alpha=float(self.get_parameter("joint_limit_cbf_alpha").value),
+                    activation_margin_rad=float(
+                        self.get_parameter("joint_limit_cbf_activation_margin_rad").value
+                    ),
+                    recovery_velocity_rad_s=float(
+                        self.get_parameter("joint_limit_cbf_recovery_velocity_rad_s").value
+                    ),
+                )
+            )
         self.current_q: np.ndarray | None = None
         self.last_joint_time: float | None = None
         self.last_observation: dict | None = None
@@ -148,6 +186,9 @@ class PolicyReachNode(Node):
         self.done = False
         self.success_ticks = 0
         self.tick_index = 0
+        self.limit_active_since: float | None = None
+        self.limit_active_initial_error: float | None = None
+        self.limit_active_best_error: float | None = None
         self.log_file = None
 
         self.target_pub = self.create_publisher(JointState, "/hardware/joint_target", 1)
@@ -166,6 +207,7 @@ class PolicyReachNode(Node):
             f"vmax={float(self.get_parameter('max_joint_velocity_rad_s').value):.3f}rad/s "
             f"amax={float(self.get_parameter('max_joint_acceleration_rad_s2').value):.3f}rad/s2 "
             f"tracking_limit={float(self.get_parameter('max_tracking_error_rad').value):.3f}rad "
+            f"joint_limit_cbf={self.joint_limit_cbf is not None} "
             f"start_on_launch={bool(self.get_parameter('start_on_launch').value)}"
         )
 
@@ -178,7 +220,8 @@ class PolicyReachNode(Node):
         quat = np.asarray(payload.get("quaternion_wxyz"), dtype=np.float64).reshape(4)
         if not np.all(np.isfinite(pos)) or not np.all(np.isfinite(quat)):
             raise ValueError("target pose contains non-finite values")
-        if not (0.08 <= pos[0] <= 0.45 and -0.30 <= pos[1] <= 0.30 and 0.05 <= pos[2] <= 0.45):
+        min_z = float(self.get_parameter("workspace_min_z_m").value)
+        if not (0.08 <= pos[0] <= 0.45 and -0.30 <= pos[1] <= 0.30 and min_z <= pos[2] <= 0.45):
             raise ValueError(f"target position outside conservative workspace: {pos.tolist()}")
         quat /= max(float(np.linalg.norm(quat)), 1e-12)
         return pos, quat, bool(payload.get("hold_current", False))
@@ -315,9 +358,24 @@ class PolicyReachNode(Node):
             frozen = np.array([False] * 6 + [True], dtype=bool)
             command_low = np.minimum(recovery_low, q)
             command_high = np.maximum(recovery_high, q)
+            recovery_cbf = None
+            if self.joint_limit_cbf is not None:
+                assert self.hardware_safe_low is not None
+                assert self.hardware_safe_high is not None
+                recovery_cbf = self.joint_limit_cbf.velocity_bounds(
+                    q, self.hardware_safe_low, self.hardware_safe_high
+                )
+                recovery_cbf["velocity_low_rad_s"][6] = -np.inf
+                recovery_cbf["velocity_high_rad_s"][6] = np.inf
             shaped = self.shaper.shape(
-                q, recovery_action, command_low, command_high,
-                timing["dt_s"], frozen,
+                q,
+                recovery_action,
+                command_low,
+                command_high,
+                timing["dt_s"],
+                frozen,
+                None if recovery_cbf is None else recovery_cbf["velocity_low_rad_s"],
+                None if recovery_cbf is None else recovery_cbf["velocity_high_rad_s"],
             )
             q_cmd = shaped["q_ref"]
             self._publish_target(q_cmd)
@@ -334,6 +392,7 @@ class PolicyReachNode(Node):
                 qvel_filtered=qvel.tolist(),
                 reference_velocity_rad_s=shaped["reference_velocity_rad_s"].tolist(),
                 tracking_error_rad=shaped["tracking_error_rad"].tolist(),
+                joint_limit_cbf_clamped=shaped["safety_velocity_clamped"].tolist(),
                 tcp_pos_m=tcp.tolist(),
                 pos_err_m=pos_err,
                 orientation_err_deg=ori_err,
@@ -354,11 +413,72 @@ class PolicyReachNode(Node):
         frozen = np.zeros(7, dtype=bool)
         if bool(self.get_parameter("freeze_gripper").value):
             frozen[6] = True
+        cbf = None
+        if self.joint_limit_cbf is not None:
+            assert self.hardware_safe_low is not None and self.hardware_safe_high is not None
+            cbf = self.joint_limit_cbf.velocity_bounds(
+                q, self.hardware_safe_low, self.hardware_safe_high
+            )
+            cbf["velocity_low_rad_s"][6] = -np.inf
+            cbf["velocity_high_rad_s"][6] = np.inf
         shaped = self.shaper.shape(
-            q, raw_action, recovery_low, recovery_high, timing["dt_s"], frozen
+            q,
+            raw_action,
+            recovery_low,
+            recovery_high,
+            timing["dt_s"],
+            frozen,
+            None if cbf is None else cbf["velocity_low_rad_s"],
+            None if cbf is None else cbf["velocity_high_rad_s"],
         )
         q_cmd = shaped["q_ref"]
+        frozen_gripper_target = float(
+            self.get_parameter("frozen_gripper_target_rad").value
+        )
+        if bool(self.get_parameter("freeze_gripper").value) and frozen_gripper_target > -900.0:
+            # Preserve a close command during lift instead of replacing it with
+            # the measured, object-blocked finger position.
+            q_cmd[6] = float(
+                np.clip(
+                    frozen_gripper_target,
+                    q[6] - self.shaper.cfg.max_tracking_error_rad,
+                    q[6] + self.shaper.cfg.max_tracking_error_rad,
+                )
+            )
         dq_cmd = q_cmd - q
+
+        limit_clamped = shaped["safety_velocity_clamped"][:6]
+        if np.any(limit_clamped):
+            if self.limit_active_since is None:
+                self.limit_active_since = now
+                self.limit_active_initial_error = pos_err
+                self.limit_active_best_error = pos_err
+            else:
+                assert self.limit_active_initial_error is not None
+                assert self.limit_active_best_error is not None
+                self.limit_active_best_error = min(self.limit_active_best_error, pos_err)
+                active_for = now - self.limit_active_since
+                progress = self.limit_active_initial_error - self.limit_active_best_error
+                if (
+                    active_for >= float(self.get_parameter("joint_limit_stall_timeout_s").value)
+                    and progress < float(self.get_parameter("joint_limit_stall_min_progress_m").value)
+                ):
+                    active_names = [
+                        JOINT_NAMES[i] for i in np.flatnonzero(limit_clamped)
+                    ]
+                    self._publish_target(q)
+                    self._stop(
+                        "JOINT_LIMIT_STALLED",
+                        active_joints=active_names,
+                        active_for_s=active_for,
+                        progress_m=progress,
+                        **self._pose_error_fields(tcp, quat, pos_err, ori_err),
+                    )
+                    return
+        else:
+            self.limit_active_since = None
+            self.limit_active_initial_error = None
+            self.limit_active_best_error = None
 
         if pos_err <= float(self.get_parameter("success_position_m").value) and ori_err <= float(self.get_parameter("success_orientation_deg").value):
             self.success_ticks += 1
@@ -392,6 +512,14 @@ class PolicyReachNode(Node):
             q_ref=q_cmd.tolist(),
             desired_velocity_rad_s=shaped["desired_velocity_rad_s"].tolist(),
             reference_velocity_rad_s=shaped["reference_velocity_rad_s"].tolist(),
+            unconstrained_velocity_rad_s=shaped["unconstrained_velocity_rad_s"].tolist(),
+            joint_limit_cbf_enabled=cbf is not None,
+            joint_limit_cbf_active=(
+                [False] * 7 if cbf is None else cbf["active"].tolist()
+            ),
+            joint_limit_cbf_clamped=shaped["safety_velocity_clamped"].tolist(),
+            joint_limit_h_low_rad=(None if cbf is None else cbf["h_low_rad"].tolist()),
+            joint_limit_h_high_rad=(None if cbf is None else cbf["h_high_rad"].tolist()),
             tracking_error_rad=shaped["tracking_error_rad"].tolist(),
             tracking_clamped=shaped["tracking_clamped"].tolist(),
             action_filter_alpha=shaped["action_filter_alpha"],

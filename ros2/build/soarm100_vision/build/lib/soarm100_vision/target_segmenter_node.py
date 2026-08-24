@@ -7,6 +7,7 @@ import numpy as np
 import rclpy
 from geometry_msgs.msg import PoseStamped
 from rclpy.node import Node
+from rclpy.qos import qos_profile_sensor_data
 from sensor_msgs.msg import CameraInfo, Image, PointCloud2
 from std_msgs.msg import String
 
@@ -25,8 +26,35 @@ from soarm100_vision.vision_utils import (
 )
 
 
+def normalize_model_names(names) -> dict[int, str]:
+    if isinstance(names, dict):
+        return {int(class_id): str(name) for class_id, name in names.items()}
+    return {class_id: str(name) for class_id, name in enumerate(names)}
+
+
+def resolve_fixed_class_id(names, requested_class: str) -> tuple[int, str]:
+    model_names = normalize_model_names(names)
+    requested = str(requested_class).strip()
+    if not requested:
+        raise RuntimeError(
+            "fixed_yolo_target_class_empty available="
+            + ",".join(model_names.values())
+        )
+    matches = [
+        (class_id, name)
+        for class_id, name in model_names.items()
+        if name.casefold() == requested.casefold()
+    ]
+    if not matches:
+        raise RuntimeError(
+            f"fixed_yolo_unknown_class:{requested} available="
+            + ",".join(model_names.values())
+        )
+    return matches[0]
+
+
 class TargetSegmenterNode(Node):
-    """On-demand color or YOLO-World + SAM target segmentation.
+    """On-demand color, YOLO-World + SAM, or fixed YOLO + SAM segmentation.
 
     This node is intentionally service-triggered. Heavy open-vocabulary
     detection and SAM segmentation should run at task start or replan time,
@@ -45,6 +73,12 @@ class TargetSegmenterNode(Node):
         self.declare_parameter("target_center_topic", "/target/center")
         self.declare_parameter("status_topic", "/target/segmentation_status")
         self.declare_parameter("yolo_model", "models/vision/yolov8s-world.pt")
+        self.declare_parameter("fixed_yolo_model", "models/vision/yolowork_fixed_best.pt")
+        self.declare_parameter("fixed_yolo_target_class", "")
+        self.declare_parameter("fixed_yolo_conf", 0.01)
+        self.declare_parameter("fixed_yolo_iou", 0.70)
+        self.declare_parameter("fixed_yolo_imgsz", 640)
+        self.declare_parameter("fixed_yolo_device", "auto")
         self.declare_parameter("sam_model", "models/vision/mobile_sam.pt")
         self.declare_parameter("debug_dir", "logs/ros2_vision")
         self.declare_parameter("min_points", 30)
@@ -65,7 +99,10 @@ class TargetSegmenterNode(Node):
         self._sam = None
         self._detector_prompt = ""
         self._model_error = ""
-        if str(self._param("segmentation_mode")).strip().lower() == "yolo_sam":
+        if str(self._param("segmentation_mode")).strip().lower() in (
+            "yolo_sam",
+            "fixed_yolo_sam",
+        ):
             self._load_models()
 
         self._mask_pub = self.create_publisher(Image, self._param("mask_topic"), 1)
@@ -74,9 +111,18 @@ class TargetSegmenterNode(Node):
         self._roi_cloud_pub = self.create_publisher(PointCloud2, self._param("target_roi_cloud_topic"), 1)
         self._center_pub = self.create_publisher(PoseStamped, self._param("target_center_topic"), 1)
         self._status_pub = self.create_publisher(String, self._param("status_topic"), 1)
-        self.create_subscription(Image, self._param("rgb_topic"), self._on_rgb, 1)
-        self.create_subscription(Image, self._param("depth_topic"), self._on_depth, 1)
-        self.create_subscription(CameraInfo, self._param("camera_info_topic"), self._on_info, 10)
+        self.create_subscription(
+            Image, self._param("rgb_topic"), self._on_rgb, qos_profile_sensor_data
+        )
+        self.create_subscription(
+            Image, self._param("depth_topic"), self._on_depth, qos_profile_sensor_data
+        )
+        self.create_subscription(
+            CameraInfo,
+            self._param("camera_info_topic"),
+            self._on_info,
+            qos_profile_sensor_data,
+        )
         self.create_service(SegmentTarget, "segment_target", self._on_segment)
         self.get_logger().info(
             "target segmenter ready: "
@@ -96,8 +142,19 @@ class TargetSegmenterNode(Node):
             self._model_error = f"ultralytics unavailable: {exc}"
             return
         try:
-            self._detector = YOLO(str(self._param("yolo_model")))
+            mode = str(self._param("segmentation_mode")).strip().lower()
+            detector_path = (
+                self._param("fixed_yolo_model")
+                if mode == "fixed_yolo_sam"
+                else self._param("yolo_model")
+            )
+            self._detector = YOLO(str(detector_path))
             self._sam = SAM(str(self._param("sam_model")))
+            if mode == "fixed_yolo_sam":
+                names = normalize_model_names(self._detector.names)
+                self.get_logger().info(
+                    "fixed_yolo classes=" + ",".join(names.values())
+                )
         except Exception as exc:
             self._model_error = f"model load failed: {exc}"
 
@@ -116,7 +173,9 @@ class TargetSegmenterNode(Node):
             response.reason = "waiting_for_rgb_depth_camera_info"
             return response
         mode = str(self._param("segmentation_mode")).strip().lower()
-        if mode == "yolo_sam" and (self._detector is None or self._sam is None):
+        if mode in ("yolo_sam", "fixed_yolo_sam") and (
+            self._detector is None or self._sam is None
+        ):
             response.success = False
             response.reason = self._model_error or "models_not_loaded"
             return response
@@ -125,6 +184,7 @@ class TargetSegmenterNode(Node):
             rgb = image_to_numpy(self._rgb)
             depth = image_to_numpy(self._depth)
             used_fallback = False
+            selected_class = ""
             if mode == "color":
                 mask, bbox, score = self._color_mask(rgb)
             elif mode == "yolo_sam":
@@ -139,6 +199,14 @@ class TargetSegmenterNode(Node):
                         raise
                     mask, bbox, score = self._fallback_red_mask(rgb)
                     used_fallback = True
+            elif mode == "fixed_yolo_sam":
+                requested_class = str(self._param("fixed_yolo_target_class")).strip()
+                if not requested_class:
+                    requested_class = request.target_prompt
+                bbox, score, selected_class = self._detect_fixed_bbox(
+                    rgb, requested_class
+                )
+                mask = self._segment_mask(rgb, bbox)
             else:
                 raise RuntimeError(f"unsupported_segmentation_mode:{mode}")
             expanded_mask = expand_mask_bbox(mask, float(self._param("mask_expand_ratio")))
@@ -171,6 +239,7 @@ class TargetSegmenterNode(Node):
                     "target_prompt": request.target_prompt,
                     "segmentation_mode": mode,
                     "target_color_rgb": str(self._param("target_color_rgb")),
+                    "selected_class": selected_class,
                     "bbox_xyxy": [float(x) for x in bbox],
                     "score": float(score),
                     "fallback_red_mask": bool(used_fallback),
@@ -195,6 +264,8 @@ class TargetSegmenterNode(Node):
                 String(
                     data=(
                         f"ok mode={mode} prompt={request.target_prompt} points={points.shape[0]} "
+                        f"class={selected_class or '-'} "
+                        f"bbox={','.join(f'{float(x):.1f}' for x in bbox)} "
                         f"roi_points={roi_points.shape[0]} mask_px={int(np.count_nonzero(mask))} "
                         f"expanded_px={int(np.count_nonzero(expanded_mask))} score={score:.3f} "
                         f"fallback_red={used_fallback}"
@@ -211,7 +282,7 @@ class TargetSegmenterNode(Node):
         if hasattr(self._detector, "set_classes") and normalized_prompt != self._detector_prompt:
             self._detector.set_classes([normalized_prompt])
             self._detector_prompt = normalized_prompt
-        result = self._detector.predict(rgb, verbose=False)[0]
+        result = self._detector.predict(self._ultralytics_image(rgb), verbose=False)[0]
         boxes = getattr(result, "boxes", None)
         if boxes is None or len(boxes) == 0:
             raise RuntimeError("no_yolo_detection")
@@ -220,13 +291,51 @@ class TargetSegmenterNode(Node):
         idx = int(np.argmax(conf))
         return xyxy[idx].astype(np.float32), float(conf[idx])
 
+    def _detect_fixed_bbox(
+        self, rgb: np.ndarray, requested_class: str
+    ) -> tuple[np.ndarray, float, str]:
+        class_id, class_name = resolve_fixed_class_id(
+            self._detector.names, requested_class
+        )
+        kwargs = {
+            "conf": float(self._param("fixed_yolo_conf")),
+            "iou": float(self._param("fixed_yolo_iou")),
+            "imgsz": int(self._param("fixed_yolo_imgsz")),
+            "classes": [class_id],
+            "verbose": False,
+        }
+        device = str(self._param("fixed_yolo_device")).strip()
+        if device and device.lower() != "auto":
+            kwargs["device"] = device
+        result = self._detector.predict(self._ultralytics_image(rgb), **kwargs)[0]
+        boxes = getattr(result, "boxes", None)
+        if boxes is None or len(boxes) == 0:
+            raise RuntimeError(f"no_fixed_yolo_detection:{class_name}")
+        xyxy = boxes.xyxy.detach().cpu().numpy()
+        conf = (
+            boxes.conf.detach().cpu().numpy()
+            if getattr(boxes, "conf", None) is not None
+            else np.ones(len(xyxy), dtype=np.float32)
+        )
+        index = int(np.argmax(conf))
+        return xyxy[index].astype(np.float32), float(conf[index]), class_name
+
     def _segment_mask(self, rgb: np.ndarray, bbox: np.ndarray) -> np.ndarray:
-        result = self._sam.predict(rgb, bboxes=np.asarray([bbox], dtype=np.float32), verbose=False)[0]
+        result = self._sam.predict(
+            self._ultralytics_image(rgb),
+            bboxes=np.asarray([bbox], dtype=np.float32),
+            verbose=False,
+        )[0]
         masks = getattr(result, "masks", None)
         if masks is None or masks.data is None or len(masks.data) == 0:
             raise RuntimeError("no_sam_mask")
         mask = masks.data[0].detach().cpu().numpy() > 0.5
         return np.asarray(mask, dtype=bool)
+
+    @staticmethod
+    def _ultralytics_image(rgb: np.ndarray) -> np.ndarray:
+        # Ultralytics treats NumPy inputs as OpenCV BGR images.
+        return np.ascontiguousarray(np.asarray(rgb, dtype=np.uint8)[..., ::-1])
 
     def _fallback_red_mask(self, rgb: np.ndarray) -> tuple[np.ndarray, np.ndarray, float]:
         arr = np.asarray(rgb, dtype=np.uint8)
@@ -275,7 +384,8 @@ def main() -> None:
         rclpy.spin(node)
     finally:
         node.destroy_node()
-        rclpy.shutdown()
+        if rclpy.ok():
+            rclpy.shutdown()
 
 
 if __name__ == "__main__":

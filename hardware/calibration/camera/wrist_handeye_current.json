@@ -1,0 +1,73 @@
+{
+  "schema": "soarm100_real_wrist_handeye_result_v1",
+  "method": "Park (cv2.calibrateHandEye)",
+  "source_samples": "log/runtime/hardware/wrist_handeye/20260820_134805/samples.json",
+  "opencv_version": "4.5.4",
+  "transform_semantics": "T_gripper_camera maps wrist camera optical coordinates into wrist_roll coordinates",
+  "base_frame": "base",
+  "gripper_frame": "wrist_roll",
+  "camera_frame": "wrist_camera_optical_frame",
+  "sample_count": 12,
+  "pattern_inner_corners": [
+    9,
+    6
+  ],
+  "square_size_m": 0.0144,
+  "T_gripper_camera": {
+    "matrix": [
+      [
+        -0.9878727123606038,
+        0.1301917010198362,
+        0.08460274912121303,
+        0.0060542873074714175
+      ],
+      [
+        -0.15244858566852296,
+        -0.9166383924757268,
+        -0.36950437909065614,
+        0.031372944863304254
+      ],
+      [
+        0.029443724305406083,
+        -0.3779208626486126,
+        0.9253695957151142,
+        0.036708328301889956
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    ],
+    "translation_m": [
+      0.0060542873074714175,
+      0.031372944863304254,
+      0.036708328301889956
+    ],
+    "rotation_matrix": [
+      [
+        -0.9878727123606038,
+        0.1301917010198362,
+        0.08460274912121303
+      ],
+      [
+        -0.15244858566852296,
+        -0.9166383924757268,
+        -0.36950437909065614
+      ],
+      [
+        0.029443724305406083,
+        -0.3779208626486126,
+        0.9253695957151142
+      ]
+    ]
+  },
+  "validation": {
+    "fixed_board_translation_rms_mm": 11.958492113260176,
+    "fixed_board_translation_max_mm": 20.79478911200785,
+    "fixed_board_rotation_rms_deg_vs_first": 3.0051671254791263,
+    "fixed_board_rotation_max_deg_vs_first": 5.221595187232305,
+    "mean_pnp_reprojection_rms_px": 0.733954873741013
+  }
+}

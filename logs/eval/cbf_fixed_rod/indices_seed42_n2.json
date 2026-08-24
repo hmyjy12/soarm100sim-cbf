@@ -1,9 +1,0 @@
-{
-  "seed": 42,
-  "num_episodes": 2,
-  "bank_size": 4000,
-  "indices": [
-    357,
-    3095
-  ]
-}

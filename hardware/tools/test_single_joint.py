@@ -49,7 +49,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--log",
         type=Path,
-        default=Path("logs/hardware/single_joint_test.jsonl"),
+        default=Path("log/runtime/hardware/single_joint_test.jsonl"),
     )
     parser.add_argument(
         "--confirm",

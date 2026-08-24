@@ -86,7 +86,7 @@ class HardwareSingleJointServiceNode(Node):
             repo = Path(str(self.get_parameter("repo_root").value)).resolve()
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S_%f")
             log_path = (
-                repo / "logs/hardware" / f"ros2_named_pose_{timestamp}.jsonl"
+                repo / "log/runtime/hardware" / f"ros2_named_pose_{timestamp}.jsonl"
             )
             command = [
                 "conda", "run", "--no-capture-output", "-n",
@@ -187,7 +187,7 @@ class HardwareSingleJointServiceNode(Node):
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S_%f")
             log_path = (
                 repo
-                / "logs/hardware"
+                / "log/runtime/hardware"
                 / f"ros2_single_joint_{request.joint}_{timestamp}.jsonl"
             )
             command = [
@@ -310,7 +310,7 @@ class HardwareSingleJointServiceNode(Node):
             repo = Path(str(self.get_parameter("repo_root").value)).resolve()
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S_%f")
             log_path = (
-                repo / "logs/hardware" / f"ros2_multi_joint_{timestamp}.jsonl"
+                repo / "log/runtime/hardware" / f"ros2_multi_joint_{timestamp}.jsonl"
             )
             command = [
                 "conda", "run", "--no-capture-output", "-n",

@@ -1,9 +1,0 @@
-[INFO] [1786348896.798053392] [hardware_robot_state_publisher]: got segment base
-[INFO] [1786348896.798120123] [hardware_robot_state_publisher]: got segment ellbow
-[INFO] [1786348896.798125111] [hardware_robot_state_publisher]: got segment gripper
-[INFO] [1786348896.798127965] [hardware_robot_state_publisher]: got segment shoulder_pitch
-[INFO] [1786348896.798130643] [hardware_robot_state_publisher]: got segment shoulder_rotation
-[INFO] [1786348896.798133109] [hardware_robot_state_publisher]: got segment wrist_jaw
-[INFO] [1786348896.798135613] [hardware_robot_state_publisher]: got segment wrist_pitch
-[INFO] [1786348896.798138025] [hardware_robot_state_publisher]: got segment wrist_roll
-[INFO] [1786348948.240270637] [rclcpp]: signal_handler(SIGINT/SIGTERM)

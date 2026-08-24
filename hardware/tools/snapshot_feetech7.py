@@ -45,7 +45,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--output",
         type=Path,
-        default=Path("logs/hardware/feetech7_register_snapshot.json"),
+        default=Path("log/runtime/hardware/feetech7_register_snapshot.json"),
     )
     return parser.parse_args()
 

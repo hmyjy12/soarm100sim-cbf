@@ -20,10 +20,16 @@ def generate_launch_description():
     camera_info_topic = LaunchConfiguration("camera_info_topic")
     enable_visualizer = LaunchConfiguration("enable_visualizer")
     show_window = LaunchConfiguration("show_window")
+    python_executable = LaunchConfiguration("python_executable")
+    auto_segment_hz = LaunchConfiguration("auto_segment_hz")
 
     return LaunchDescription(
         [
             DeclareLaunchArgument("repo_root", default_value="."),
+            DeclareLaunchArgument(
+                "python_executable",
+                default_value="/home/sophie/miniconda3/envs/vision_seg/bin/python",
+            ),
             DeclareLaunchArgument("target_class", default_value="jpgCat"),
             DeclareLaunchArgument(
                 "detector_model",
@@ -36,6 +42,7 @@ def generate_launch_description():
             DeclareLaunchArgument("detector_iou", default_value="0.70"),
             DeclareLaunchArgument("detector_imgsz", default_value="640"),
             DeclareLaunchArgument("detector_device", default_value="auto"),
+            DeclareLaunchArgument("auto_segment_hz", default_value="2.0"),
             DeclareLaunchArgument(
                 "rgb_topic", default_value="/camera/color/image_raw"
             ),
@@ -52,6 +59,7 @@ def generate_launch_description():
                 executable="target_segmenter_node",
                 name="fixed_yolo_sam_segmenter",
                 output="screen",
+                prefix=[python_executable],
                 parameters=[
                     {
                         "repo_root": repo_root,
@@ -74,7 +82,11 @@ def generate_launch_description():
                         "rgb_topic": rgb_topic,
                         "depth_topic": depth_topic,
                         "camera_info_topic": camera_info_topic,
-                        "debug_dir": "logs/ros2_vision/fixed_yolo_sam",
+                        "auto_segment_hz": ParameterValue(
+                            auto_segment_hz, value_type=float
+                        ),
+                        "auto_target_prompt": target_class,
+                        "debug_dir": "log/runtime/ros2_vision/fixed_yolo_sam",
                     }
                 ],
             ),
@@ -83,6 +95,7 @@ def generate_launch_description():
                 executable="debug_viewer_node",
                 name="fixed_yolo_sam_viewer",
                 output="screen",
+                prefix=[python_executable],
                 condition=IfCondition(enable_visualizer),
                 parameters=[
                     {

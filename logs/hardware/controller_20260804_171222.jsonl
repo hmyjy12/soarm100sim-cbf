@@ -1,1 +1,0 @@
-{"timestamp": "2026-08-04T17:12:25.578638+08:00", "phase": "startup_hold", "goal_raw": {"shoulder_pan": 2043, "shoulder_lift": 1752, "elbow_flex": 2792, "wrist_flex": 1807, "wrist_yaw": 2002, "wrist_roll": 1994, "gripper": 2074}, "shoulder_lift_p_original": 16, "shoulder_lift_p_applied": 16}

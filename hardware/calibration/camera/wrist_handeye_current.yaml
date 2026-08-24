@@ -1,0 +1,19 @@
+%YAML:1.0
+---
+method: Park
+base_frame: base
+gripper_frame: wrist_roll
+camera_frame: wrist_camera_optical_frame
+T_gripper_camera: !!opencv-matrix
+   rows: 4
+   cols: 4
+   dt: d
+   data: [ -9.8787271236060381e-01, 1.3019170101983621e-01,
+       8.4602749121213031e-02, 6.0542873074714175e-03,
+       -1.5244858566852296e-01, -9.1663839247572676e-01,
+       -3.6950437909065614e-01, 3.1372944863304254e-02,
+       2.9443724305406083e-02, -3.7792086264861258e-01,
+       9.2536959571511423e-01, 3.6708328301889956e-02, 0., 0., 0., 1. ]
+sample_count: 12
+fixed_board_translation_rms_mm: 1.1958492113260176e+01
+fixed_board_rotation_rms_deg: 3.0051671254791263e+00

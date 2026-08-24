@@ -1,2 +1,0 @@
-[INFO] [1786348862.984764330] [fixed_yolo_sam_viewer]: debug viewer ready: rgb=/camera/color/image_raw mask=/target/mask overlay=/debug/target_overlay show_window=True
-[WARN] [1786348892.378929666] [fixed_yolo_sam_viewer]: debug overlay failed: Failed to publish: publisher's context is invalid, at ./src/rcl/publisher.c:389

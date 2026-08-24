@@ -133,7 +133,7 @@ def generate_launch_description():
                 "mujoco_obstacle_motion_amp", default_value="0.03,0.00,0.00"
             ),
             DeclareLaunchArgument("mujoco_obstacle_motion_period", default_value="5.0"),
-            DeclareLaunchArgument("mujoco_traj_log", default_value="logs/ros2_execute_grasp.jsonl"),
+            DeclareLaunchArgument("mujoco_traj_log", default_value="log/runtime/ros2_execute_grasp.jsonl"),
             DeclareLaunchArgument("mujoco_python", default_value="python"),
             DeclareLaunchArgument("mujoco_speed", default_value="1.0"),
             DeclareLaunchArgument("mujoco_backend_mode", default_value="subprocess"),

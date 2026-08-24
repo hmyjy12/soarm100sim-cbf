@@ -43,7 +43,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--log",
         type=Path,
-        default=Path("logs/hardware/policy_joint_stream.jsonl"),
+        default=Path("log/runtime/hardware/policy_joint_stream.jsonl"),
     )
     args = parser.parse_args()
     if args.rate < 1 or args.rate > 50:

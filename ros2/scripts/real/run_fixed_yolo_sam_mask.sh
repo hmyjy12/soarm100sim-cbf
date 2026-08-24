@@ -85,8 +85,8 @@ cleanup() {
 trap cleanup EXIT INT TERM
 
 source_relaxed /opt/ros/humble/setup.bash
-mkdir -p "$ROOT_DIR/logs/hardware"
-export ROS_LOG_DIR="${ROS_LOG_DIR:-$ROOT_DIR/logs/ros2/fixed_yolo_sam}"
+mkdir -p "$ROOT_DIR/log/runtime/hardware"
+export ROS_LOG_DIR="${ROS_LOG_DIR:-$ROOT_DIR/log/runtime/ros2/fixed_yolo_sam}"
 mkdir -p "$ROS_LOG_DIR"
 
 if [[ "$BUILD" == "true" ]]; then
@@ -121,7 +121,7 @@ source_relaxed "$ROS2_WS/install/setup.bash"
 
 if [[ "$START_CAMERA" == "true" ]]; then
   setsid "$ROOT_DIR/ros2/scripts/real/run_orbbec_rgbd.sh" \
-    >"$ROOT_DIR/logs/hardware/fixed_yolo_sam_orbbec.log" 2>&1 &
+    >"$ROOT_DIR/log/runtime/hardware/fixed_yolo_sam_orbbec.log" 2>&1 &
   CAMERA_PID="$!"
   echo "[fixed_yolo_sam] Orbbec started pid=$CAMERA_PID"
 fi
@@ -151,7 +151,7 @@ setsid ros2 launch soarm100_vision fixed_yolo_sam_mask.launch.py \
   detector_iou:="$IOU" \
   detector_device:="$DEVICE" \
   show_window:="$SHOW_WINDOW" \
-  >"$ROOT_DIR/logs/hardware/fixed_yolo_sam_nodes.log" 2>&1 &
+  >"$ROOT_DIR/log/runtime/hardware/fixed_yolo_sam_nodes.log" 2>&1 &
 VISION_PID="$!"
 
 echo "[fixed_yolo_sam] waiting for /segment_target ..."
@@ -160,7 +160,7 @@ for _ in $(seq 1 60); do
     break
   fi
   if ! kill -0 "$VISION_PID" 2>/dev/null; then
-    echo "[ERROR] vision launch exited; see logs/hardware/fixed_yolo_sam_nodes.log" >&2
+    echo "[ERROR] vision launch exited; see log/runtime/hardware/fixed_yolo_sam_nodes.log" >&2
     exit 1
   fi
   sleep 0.5

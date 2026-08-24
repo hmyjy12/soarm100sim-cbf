@@ -114,20 +114,41 @@ class PolicyCommandShaper:
         safety_velocity_low: np.ndarray | None = None,
         safety_velocity_high: np.ndarray | None = None,
     ) -> dict:
-        q = np.asarray(measured_q, dtype=np.float64).reshape(self.n)
-        raw = np.clip(np.asarray(raw_action, dtype=np.float64).reshape(self.n), -1.0, 1.0)
-        low = np.asarray(q_low, dtype=np.float64).reshape(self.n)
-        high = np.asarray(q_high, dtype=np.float64).reshape(self.n)
-        dt = float(np.clip(dt_s, self.cfg.min_dt_s, self.cfg.max_dt_s))
-        if self.q_ref is None:
-            self.q_ref = q.copy()
+        action = self.filter_action(raw_action, dt_s)
+        return self.shape_filtered(
+            measured_q,
+            action["filtered_action"],
+            q_low,
+            q_high,
+            dt_s,
+            frozen_mask,
+            safety_velocity_low,
+            safety_velocity_high,
+            raw_action=action["raw_action"],
+            action_filter_alpha=action["action_filter_alpha"],
+        )
 
+    def filter_action(self, raw_action: np.ndarray, dt_s: float) -> dict:
+        """Advance only the policy-action low-pass state."""
+        raw = np.clip(np.asarray(raw_action, dtype=np.float64).reshape(self.n), -1.0, 1.0)
+        dt = float(np.clip(dt_s, self.cfg.min_dt_s, self.cfg.max_dt_s))
         action_alpha = _alpha(dt, self.cfg.action_filter_tau_s)
         self.filtered_action += action_alpha * (raw - self.filtered_action)
         filtered = self.filtered_action.copy()
         filtered[np.abs(filtered) < self.cfg.action_deadband] = 0.0
-        requested_dq = self.cfg.action_scale_rad * filtered
+        return {
+            "raw_action": raw,
+            "filtered_action": filtered,
+            "action_filter_alpha": action_alpha,
+        }
 
+    def preview_velocity(self, filtered_action: np.ndarray, dt_s: float) -> dict:
+        """Preview the acceleration-limited velocity without mutating state."""
+        filtered = np.clip(
+            np.asarray(filtered_action, dtype=np.float64).reshape(self.n), -1.0, 1.0
+        )
+        dt = float(np.clip(dt_s, self.cfg.min_dt_s, self.cfg.max_dt_s))
+        requested_dq = self.cfg.action_scale_rad * filtered
         desired_velocity = np.clip(
             requested_dq / dt,
             -self.cfg.max_velocity_rad_s,
@@ -137,8 +158,50 @@ class PolicyCommandShaper:
         velocity_delta = np.clip(
             desired_velocity - self.reference_velocity, -max_dv, max_dv
         )
-        shaped_velocity = self.reference_velocity + velocity_delta
+        return {
+            "requested_dq": requested_dq,
+            "desired_velocity_rad_s": desired_velocity,
+            "acceleration_limited_velocity_rad_s": self.reference_velocity + velocity_delta,
+        }
 
+    def shape_filtered(
+        self,
+        measured_q: np.ndarray,
+        filtered_action: np.ndarray,
+        q_low: np.ndarray,
+        q_high: np.ndarray,
+        dt_s: float,
+        frozen_mask: np.ndarray | None = None,
+        safety_velocity_low: np.ndarray | None = None,
+        safety_velocity_high: np.ndarray | None = None,
+        *,
+        projected_velocity_rad_s: np.ndarray | None = None,
+        raw_action: np.ndarray | None = None,
+        action_filter_alpha: float = 0.0,
+    ) -> dict:
+        q = np.asarray(measured_q, dtype=np.float64).reshape(self.n)
+        filtered = np.clip(
+            np.asarray(filtered_action, dtype=np.float64).reshape(self.n), -1.0, 1.0
+        )
+        raw = filtered.copy() if raw_action is None else np.clip(
+            np.asarray(raw_action, dtype=np.float64).reshape(self.n), -1.0, 1.0
+        )
+        low = np.asarray(q_low, dtype=np.float64).reshape(self.n)
+        high = np.asarray(q_high, dtype=np.float64).reshape(self.n)
+        dt = float(np.clip(dt_s, self.cfg.min_dt_s, self.cfg.max_dt_s))
+        if self.q_ref is None:
+            self.q_ref = q.copy()
+
+        preview = self.preview_velocity(filtered, dt)
+        requested_dq = preview["requested_dq"]
+        desired_velocity = preview["desired_velocity_rad_s"]
+        shaped_velocity = preview["acceleration_limited_velocity_rad_s"]
+
+        if projected_velocity_rad_s is not None:
+            projected = np.asarray(projected_velocity_rad_s, dtype=np.float64).reshape(self.n)
+            if not np.all(np.isfinite(projected)):
+                raise ValueError("projected velocity contains non-finite values")
+            shaped_velocity = projected.copy()
         unconstrained_velocity = shaped_velocity.copy()
         safety_clamped = np.zeros(self.n, dtype=bool)
         if safety_velocity_low is not None or safety_velocity_high is not None:
@@ -191,5 +254,5 @@ class PolicyCommandShaper:
             "safety_velocity_clamped": safety_clamped,
             "tracking_error_rad": q_ref_next - q,
             "tracking_clamped": tracking_clamped,
-            "action_filter_alpha": action_alpha,
+            "action_filter_alpha": float(action_filter_alpha),
         }

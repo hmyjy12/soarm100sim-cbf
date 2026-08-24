@@ -34,6 +34,8 @@ setup(
             "fixed_yolo_tracker_node = soarm100_vision.fixed_yolo_tracker_node:main",
             "wrist_tracker_node = soarm100_vision.wrist_tracker_node:main",
             "obstacle_cloud_node = soarm100_vision.obstacle_cloud_node:main",
+            "obstacle_overlay_viewer_node = soarm100_vision.obstacle_overlay_viewer_node:main",
+            "link_self_occupancy_collector_node = soarm100_vision.link_self_occupancy_collector_node:main",
             "anygrasp_planner_node = soarm100_vision.anygrasp_planner_node:main",
             "mujoco_policy_backend_node = soarm100_vision.mujoco_policy_backend_node:main",
             "mujoco_mirror_viewer_node = soarm100_vision.mujoco_mirror_viewer_node:main",

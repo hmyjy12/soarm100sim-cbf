@@ -1,1 +1,26 @@
 anygrasp_sdk/
+
+# Python caches and local test state
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Colcon build products (root workspace and ros2 workspace)
+/build/
+/install/
+/ros2/build/
+/ros2/install/
+/ros2/log/
+
+# Unified local runtime/build/driver logs
+/log/
+
+# Editor and operating-system metadata
+.DS_Store
+*~
+*.swp
+
+# Local crash/debug output
+/MUJOCO_LOG.TXT

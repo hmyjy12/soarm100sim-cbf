@@ -4,7 +4,7 @@
   cd soarm100sim
   python mujoco/calib_chessboard_sim.py                    # 固定 scene_depth
   python mujoco/calib_chessboard_sim.py --camera wrist_rgb --arm-poses 12
-  python mujoco/calib_chessboard_sim.py --camera both --out-dir logs/calib/chess_sim
+  python mujoco/calib_chessboard_sim.py --camera both --out-dir log/runtime/calib/chess_sim
 
 流程：
   1. 场景内放置已知尺寸的棋盘格（scene_calib_chess.xml）
@@ -494,7 +494,7 @@ def run(args: argparse.Namespace) -> int:
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(description="MuJoCo 仿真棋盘格标定")
     p.add_argument("--mjcf", type=str, default=str(DEFAULT_MJCF))
-    p.add_argument("--out-dir", type=str, default="logs/calib/chess_sim")
+    p.add_argument("--out-dir", type=str, default="log/runtime/calib/chess_sim")
     p.add_argument(
         "--camera",
         choices=("scene_depth", "wrist_rgb", "both"),

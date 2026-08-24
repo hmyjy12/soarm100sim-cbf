@@ -3,7 +3,7 @@
 
   cd soarm100sim
   python mujoco/calib_verify.py
-  python mujoco/calib_verify.py --out logs/calib/camera_calib.json --poses 32
+  python mujoco/calib_verify.py --out log/runtime/calib/camera_calib.json --poses 32
   python mujoco/calib_verify.py --annotate   # 写带投影点的 PNG（需 OpenGL 渲染）
 """
 
@@ -341,7 +341,7 @@ def run(args: argparse.Namespace) -> int:
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(description="MuJoCo 双相机标定导出与验证")
     p.add_argument("--mjcf", type=str, default=str(DEFAULT_MJCF))
-    p.add_argument("--out", type=str, default="logs/calib/camera_calib.json")
+    p.add_argument("--out", type=str, default="log/runtime/calib/camera_calib.json")
     p.add_argument("--poses", type=int, default=24, help="腕部不变性随机姿态数")
     p.add_argument("--wrist-poses", type=int, default=20, help="腕部换姿态重投影采样数")
     p.add_argument("--seed", type=int, default=42)

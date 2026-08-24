@@ -14,6 +14,7 @@ from rclpy.action import ActionServer, CancelResponse, GoalResponse
 from rclpy.node import Node
 
 from soarm100_interfaces.action import PlanGrasp
+from soarm100_vision.hardware_joint_limit_filter import HardwareJointLimitFilter
 from soarm100_vision.mujoco_ik_filter import MujocoCandidateIkFilter
 from soarm100_vision.policy_backend_core import (
     pose_to_base_from_calib,
@@ -82,6 +83,25 @@ def _pose_quaternion(msg: PoseStamped) -> np.ndarray:
     return np.array([q.w, q.x, q.y, q.z], dtype=np.float64)
 
 
+def _pose_from_position_quaternion(
+    position: np.ndarray,
+    quaternion_wxyz: np.ndarray,
+    *,
+    stamp,
+    frame_id: str,
+) -> PoseStamped:
+    pos = np.asarray(position, dtype=np.float64).reshape(3)
+    quat = np.asarray(quaternion_wxyz, dtype=np.float64).reshape(4)
+    quat /= max(float(np.linalg.norm(quat)), 1e-12)
+    msg = PoseStamped()
+    msg.header.stamp = stamp
+    msg.header.frame_id = str(frame_id)
+    msg.pose.position.x, msg.pose.position.y, msg.pose.position.z = map(float, pos)
+    msg.pose.orientation.w, msg.pose.orientation.x = float(quat[0]), float(quat[1])
+    msg.pose.orientation.y, msg.pose.orientation.z = float(quat[2]), float(quat[3])
+    return msg
+
+
 def _policy_tcp_rotation_from_anygrasp(rotation: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
     """Map AnyGrasp (x=approach, y=closing) to policy TCP (z=approach, x=closing)."""
     raw = np.asarray(rotation, dtype=np.float64).reshape(3, 3)
@@ -110,6 +130,9 @@ class AnyGraspPlannerNode(Node):
         self.declare_parameter("min_score", 0.01)
         self.declare_parameter("max_width", 0.10)
         self.declare_parameter("pregrasp_distance", 0.07)
+        self.declare_parameter("grasp_approach_offset_m", 0.0)
+        self.declare_parameter("policy_workspace_min", [0.08, -0.30, 0.01])
+        self.declare_parameter("policy_workspace_max", [0.45, 0.30, 0.45])
         self.declare_parameter("timeout_s", 60.0)
         self.declare_parameter("repo_root", str(Path(__file__).resolve().parents[3]))
         self.declare_parameter("mjcf", "SO-ARM100/Simulation/SO100/mujoco/scene_plus_norod.xml")
@@ -121,7 +144,19 @@ class AnyGraspPlannerNode(Node):
         self.declare_parameter("ik_position_tolerance_m", 0.005)
         self.declare_parameter("ik_rotation_tolerance_deg", 3.0)
         self.declare_parameter("ik_max_iterations", 100)
+        self.declare_parameter("enable_hardware_limit_filter", False)
+        self.declare_parameter(
+            "hardware_calibration_json",
+            "hardware/calibration/lerobot/so100_plus_new_arm.json",
+        )
+        self.declare_parameter(
+            "hardware_mapping_json",
+            "hardware/calibration/policy_joint_mapping.json",
+        )
+        self.declare_parameter("hardware_limit_margin_counts", 100)
+        self.declare_parameter("hardware_gripper_open_rad", 0.45)
         self._ik_filter: MujocoCandidateIkFilter | None = None
+        self._hardware_filter: HardwareJointLimitFilter | None = None
         self._server = ActionServer(
             self,
             PlanGrasp,
@@ -158,6 +193,12 @@ class AnyGraspPlannerNode(Node):
                 raise RuntimeError(f"not_enough_points:{pts.shape[0]}")
             raw = self._predict(pts, int(goal_handle.request.top_k or int(self._param("top_k"))))
             candidates = list(raw.get("candidates", []))
+            # Preserve AnyGrasp score priority after applying workspace, IK and
+            # joint-limit feasibility filters.
+            candidates.sort(
+                key=lambda candidate: float(candidate.get("score", 0.0)),
+                reverse=True,
+            )
             feedback.stage = "ANYGRASP_DONE"
             feedback.candidate_count = len(candidates)
             feedback.best_score = float(candidates[0].get("score", 0.0)) if candidates else 0.0
@@ -168,6 +209,7 @@ class AnyGraspPlannerNode(Node):
             stamp = goal_handle.request.target_cloud.header.stamp
             frame_id = goal_handle.request.target_cloud.header.frame_id
             selected = None
+            selected_plan = None
             selected_index = -1
             ik_summaries = []
             for i, cand in enumerate(candidates[: min(8, len(candidates))]):
@@ -182,18 +224,72 @@ class AnyGraspPlannerNode(Node):
                     f"approach=({capp[0]:+.2f},{capp[1]:+.2f},{capp[2]:+.2f})"
                 )
             for i, cand in enumerate(candidates):
-                if not bool(self._param("enable_ik_filter")):
-                    selected = cand
-                    selected_index = i
-                    break
                 pos_i = np.asarray(cand["translation"], dtype=np.float64).reshape(3)
                 rot_i = np.asarray(cand["rotation_matrix"], dtype=np.float64).reshape(3, 3)
                 tcp_rot_i, app_i = _policy_tcp_rotation_from_anygrasp(rot_i)
                 pre_i = pos_i - float(self._param("pregrasp_distance")) * app_i
                 grasp_msg = _pose_from_grasp(pos_i, tcp_rot_i, stamp=stamp, frame_id=frame_id)
                 pre_msg = _pose_from_grasp(pre_i, tcp_rot_i, stamp=stamp, frame_id=frame_id)
-                base_grasp = self._pose_to_base(grasp_msg)
-                base_pre = self._pose_to_base(pre_msg)
+                raw_base_grasp = self._pose_to_base(grasp_msg)
+                raw_base_pre = self._pose_to_base(pre_msg)
+                raw_base_pos = _pose_position(raw_base_grasp)
+                raw_base_pre_pos = _pose_position(raw_base_pre)
+                approach_base = raw_base_pos - raw_base_pre_pos
+                approach_base /= max(float(np.linalg.norm(approach_base)), 1e-12)
+                offset = float(self._param("grasp_approach_offset_m"))
+                offset_world = offset * approach_base
+                base_grasp_pos = raw_base_pos + offset_world
+                base_pre_pos = (
+                    base_grasp_pos
+                    - float(self._param("pregrasp_distance")) * approach_base
+                )
+                base_quat = _pose_quaternion(raw_base_grasp)
+                base_frame = str(self._param("base_frame"))
+                base_grasp = _pose_from_position_quaternion(
+                    base_grasp_pos, base_quat, stamp=stamp, frame_id=base_frame
+                )
+                base_pre = _pose_from_position_quaternion(
+                    base_pre_pos, base_quat, stamp=stamp, frame_id=base_frame
+                )
+                workspace_min = np.asarray(
+                    self._param("policy_workspace_min"), dtype=np.float64
+                ).reshape(3)
+                workspace_max = np.asarray(
+                    self._param("policy_workspace_max"), dtype=np.float64
+                ).reshape(3)
+                workspace_ok = bool(
+                    np.all(base_grasp_pos >= workspace_min)
+                    and np.all(base_grasp_pos <= workspace_max)
+                    and np.all(base_pre_pos >= workspace_min)
+                    and np.all(base_pre_pos <= workspace_max)
+                )
+                self.get_logger().info(
+                    f"AnyGrasp base[{i:02d}] workspace={workspace_ok} "
+                    f"raw=({raw_base_pos[0]:+.3f},{raw_base_pos[1]:+.3f},{raw_base_pos[2]:+.3f}) "
+                    f"approach=({approach_base[0]:+.2f},{approach_base[1]:+.2f},{approach_base[2]:+.2f}) "
+                    f"offset={offset*1000.0:+.1f}mm "
+                    f"offset_world=({offset_world[0]:+.3f},{offset_world[1]:+.3f},{offset_world[2]:+.3f}) "
+                    f"final=({base_grasp_pos[0]:+.3f},{base_grasp_pos[1]:+.3f},{base_grasp_pos[2]:+.3f}) "
+                    f"pre=({base_pre_pos[0]:+.3f},{base_pre_pos[1]:+.3f},{base_pre_pos[2]:+.3f})"
+                )
+                if not workspace_ok:
+                    ik_summaries.append(
+                        f"{i}:policy_workspace:pre={base_pre_pos.tolist()}:"
+                        f"final={base_grasp_pos.tolist()}"
+                    )
+                    continue
+                plan_i = {
+                    "grasp": base_grasp,
+                    "pregrasp": base_pre,
+                    "approach_base": approach_base,
+                    "raw_base_pos": raw_base_pos,
+                    "offset_world": offset_world,
+                }
+                if not bool(self._param("enable_ik_filter")):
+                    selected = cand
+                    selected_plan = plan_i
+                    selected_index = i
+                    break
                 ik = self._get_ik_filter().evaluate(
                     pregrasp_pos=_pose_position(base_pre),
                     grasp_pos=_pose_position(base_grasp),
@@ -211,31 +307,54 @@ class AnyGraspPlannerNode(Node):
                     f"joint_margin={ik.min_joint_margin_rad:.3f}rad "
                     f"q_final={np.array2string(ik.q_grasp[:6], precision=3, separator=',')}"
                 )
+                if not ik.reachable:
+                    continue
+                if bool(self._param("enable_hardware_limit_filter")):
+                    hardware_filter = self._get_hardware_filter()
+                    pre_hw = hardware_filter.check_arm_q(
+                        ik.q_pregrasp, stage="pregrasp"
+                    )
+                    final_hw = hardware_filter.check_arm_q(
+                        ik.q_grasp, stage="final"
+                    )
+                    hardware_ok = pre_hw.accepted and final_hw.accepted
+                    ik_summaries.append(
+                        f"{i}:hardware_limits:{pre_hw.reason}:{final_hw.reason}"
+                    )
+                    self.get_logger().info(
+                        f"AnyGrasp HW[{i:02d}] pass={hardware_ok} "
+                        f"pre={pre_hw.reason} raw={pre_hw.raw} "
+                        f"final={final_hw.reason} raw={final_hw.raw}"
+                    )
+                    if not hardware_ok:
+                        continue
                 if ik.reachable:
                     selected = cand
+                    selected_plan = plan_i
                     selected_index = i
                     break
-            if selected is None:
+            if selected is None or selected_plan is None:
                 raise RuntimeError(
-                    "no_ik_reachable_candidate "
+                    "no_policy_workspace_or_ik_candidate "
                     f"pos_tol={float(self._param('ik_position_tolerance_m')):.4f}m "
                     f"rot_tol={float(self._param('ik_rotation_tolerance_deg')):.1f}deg "
                     f"checks={' | '.join(ik_summaries)}"
                 )
-            pos = np.asarray(selected["translation"], dtype=np.float64).reshape(3)
-            rot = np.asarray(selected["rotation_matrix"], dtype=np.float64).reshape(3, 3)
-            tcp_rot, approach = _policy_tcp_rotation_from_anygrasp(rot)
-            pre = pos - float(self._param("pregrasp_distance")) * approach
             result.success = True
-            result.reason = f"ok selected_index={selected_index} ik_filter={bool(self._param('enable_ik_filter'))}"
-            result.selected_grasp_pose = _pose_from_grasp(pos, tcp_rot, stamp=stamp, frame_id=frame_id)
-            result.selected_pregrasp_pose = _pose_from_grasp(pre, tcp_rot, stamp=stamp, frame_id=frame_id)
-            result.target_center_pose = _pose_from_grasp(
+            result.reason = (
+                f"ok selected_index={selected_index} "
+                f"approach_offset_m={float(self._param('grasp_approach_offset_m')):+.3f} "
+                f"ik_filter={bool(self._param('enable_ik_filter'))}"
+            )
+            result.selected_grasp_pose = selected_plan["grasp"]
+            result.selected_pregrasp_pose = selected_plan["pregrasp"]
+            raw_center = _pose_from_grasp(
                 np.nanmedian(pts, axis=0),
                 np.eye(3, dtype=np.float64),
                 stamp=stamp,
                 frame_id=frame_id,
             )
+            result.target_center_pose = self._pose_to_base(raw_center)
             result.grasp_score = float(selected.get("score", 0.0))
             result.gripper_width = float(selected.get("width", 0.0))
             result.candidate_count = len(candidates)
@@ -256,6 +375,17 @@ class AnyGraspPlannerNode(Node):
                 max_iterations=int(self._param("ik_max_iterations")),
             )
         return self._ik_filter
+
+    def _get_hardware_filter(self) -> HardwareJointLimitFilter:
+        if self._hardware_filter is None:
+            self._hardware_filter = HardwareJointLimitFilter(
+                repo_root=Path(str(self._param("repo_root"))),
+                calibration_json=str(self._param("hardware_calibration_json")),
+                mapping_json=str(self._param("hardware_mapping_json")),
+                margin_counts=int(self._param("hardware_limit_margin_counts")),
+                gripper_rad=float(self._param("hardware_gripper_open_rad")),
+            )
+        return self._hardware_filter
 
     def _pose_to_base(self, pose: PoseStamped) -> PoseStamped:
         repo = Path(str(self._param("repo_root"))).expanduser().resolve()

@@ -131,9 +131,17 @@ def dilate_mask(mask: np.ndarray, radius_px: int) -> np.ndarray:
     return out
 
 
-def depth_to_points(depth_m: np.ndarray, info: CameraInfo) -> np.ndarray:
+def depth_to_points(
+    depth_m: np.ndarray, info: CameraInfo, *, pixel_stride: int = 1
+) -> np.ndarray:
     d = np.asarray(depth_m, dtype=np.float32)
-    return masked_depth_to_points(d, np.isfinite(d) & (d > 1e-4), info)
+    valid = np.isfinite(d) & (d > 1e-4)
+    stride = max(int(pixel_stride), 1)
+    if stride > 1:
+        sampled = np.zeros_like(valid)
+        sampled[::stride, ::stride] = valid[::stride, ::stride]
+        valid = sampled
+    return masked_depth_to_points(d, valid, info)
 
 
 def crop_points_xyz(

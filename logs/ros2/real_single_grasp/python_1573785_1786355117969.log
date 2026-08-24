@@ -1,9 +1,0 @@
-[INFO] [1786355118.137670238] [real_policy_grasp_backend]: real policy grasp backend ready: single plan, tracking=OFF, replan=OFF, avoidance=OFF
-[INFO] [1786355135.945843985] [real_policy_grasp_backend]: single grasp target=jpgCat pre=[0.28677804985282884, 0.059029915292316784, 0.08288941147320128] grasp=[0.31013313022965505, 0.0556945089190258, 0.05058747213642156] width=64.9mm
-[INFO] [1786355135.946378616] [real_policy_grasp_backend]: stage=OPEN reason=opening gripper before policy motion
-[INFO] [1786355136.953551808] [real_policy_grasp_backend]: stage=MOVE_TO_PREGRASP reason={"start_rad": 0.4386371171193928, "target_rad": 0.45, "held_target_rad": 0.45, "measured_rad": 0.4386371171193928, "error_rad": 0.011362882880607217}
-[INFO] [1786355149.784679895] [real_policy_grasp_backend]: stage=FINAL_APPROACH reason=pregrasp reached
-[INFO] [1786355153.037403126] [real_policy_grasp_backend]: stage=CLOSE reason=final pose reached; tracking remains disabled
-[INFO] [1786355154.736368095] [real_policy_grasp_backend]: stage=LIFT reason={"start_rad": 0.44010280665969914, "target_rad": -0.15, "held_target_rad": -0.15, "measured_rad": -0.0934081860118531, "error_rad": -0.05659181398814689}
-[ERROR] [1786355164.202918027] [real_policy_grasp_backend]: Error raised in execute callback: Failed get goal status array: feedback publisher is invalid, at ./src/rcl_action/action_server.c:919
-[WARN] [1786355164.203701910] [real_policy_grasp_backend]: Failed to send result response (the client may have gone away)

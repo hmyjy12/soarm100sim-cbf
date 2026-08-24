@@ -116,7 +116,7 @@ cleanup() {
 }
 trap cleanup EXIT INT TERM
 
-mkdir -p "$ROOT_DIR/logs/hardware"
+mkdir -p "$ROOT_DIR/log/runtime/hardware"
 source_relaxed /opt/ros/humble/setup.bash
 source_relaxed "$ROS_WS/install/setup.bash"
 
@@ -138,12 +138,12 @@ echo "[handeye_all] Starting wrist camera and Viewer; robot remains unpowered."
 
 # Start each helper in its own session so quit can kill the whole tree.
 setsid "$ROOT_DIR/ros2/run_wrist_camera.sh" \
-  >"$ROOT_DIR/logs/hardware/handeye_camera.log" 2>&1 &
+  >"$ROOT_DIR/log/runtime/hardware/handeye_camera.log" 2>&1 &
 PIDS+=("$!")
 sleep 3
 
 setsid "$ROOT_DIR/ros2/run_wrist_handeye.sh" \
-  >"$ROOT_DIR/logs/hardware/handeye_viewer.log" 2>&1 &
+  >"$ROOT_DIR/log/runtime/hardware/handeye_viewer.log" 2>&1 &
 PIDS+=("$!")
 sleep 3
 
@@ -159,7 +159,7 @@ if [[ "$POWER_KEY" != " " ]]; then
 fi
 
 setsid "$ROOT_DIR/ros2/run_hardware_controller.sh" \
-  >"$ROOT_DIR/logs/hardware/handeye_controller.log" 2>&1 &
+  >"$ROOT_DIR/log/runtime/hardware/handeye_controller.log" 2>&1 &
 PIDS+=("$!")
 sleep 4
 

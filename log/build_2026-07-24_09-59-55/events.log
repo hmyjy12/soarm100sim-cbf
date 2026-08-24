@@ -1,8 +1,0 @@
-[0.000000] (-) TimerEvent: {}
-[0.000411] (-) JobUnselected: {'identifier': 'pointnet2'}
-[0.000698] (-) JobUnselected: {'identifier': 'so100_plus_description'}
-[0.000795] (-) JobUnselected: {'identifier': 'soarm100_interfaces'}
-[0.000859] (soarm100_vision) JobQueued: {'identifier': 'soarm100_vision', 'dependencies': OrderedDict([('soarm100_interfaces', '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/install/soarm100_interfaces')])}
-[0.000887] (soarm100_vision) JobStarted: {'identifier': 'soarm100_vision'}
-[0.004039] (soarm100_vision) JobEnded: {'identifier': 'soarm100_vision', 'rc': 1}
-[0.014349] (-) EventReactorShutdown: {}

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import threading
 import time
 
 import rclpy
@@ -21,6 +22,20 @@ def _pose_summary(label: str, pose: PoseStamped) -> str:
         f"pos=({p.x:+.3f},{p.y:+.3f},{p.z:+.3f}) "
         f"quat=({q.w:+.3f},{q.x:+.3f},{q.y:+.3f},{q.z:+.3f})]"
     )
+
+
+async def _await_future(future, timeout_s: float):
+    timeout = max(float(timeout_s), 0.1)
+    timer = threading.Timer(timeout, future.cancel)
+    timer.daemon = True
+    timer.start()
+    try:
+        result = await future
+        if future.cancelled():
+            raise TimeoutError(f"ROS future timed out after {timeout:.1f}s")
+        return result
+    finally:
+        timer.cancel()
 
 
 class GraspOrchestratorNode(Node):
@@ -152,7 +167,20 @@ class GraspOrchestratorNode(Node):
                 grasp_score=float(plan.grasp_score),
             )
             publish("EXECUTING_POLICY", "sending planned grasp to MuJoCo/policy backend", grasp_score=float(plan.grasp_score))
-            exec_res = await self._call_policy(plan, goal.enable_avoidance, max(timeout_s, 90.0))
+            def relay_policy_feedback(wrapped_feedback) -> None:
+                backend = wrapped_feedback.feedback
+                publish(
+                    str(backend.stage) or "EXECUTING_POLICY",
+                    str(backend.reason),
+                    grasp_score=float(plan.grasp_score),
+                )
+
+            exec_res = await self._call_policy(
+                plan,
+                goal.enable_avoidance,
+                max(timeout_s, 90.0),
+                feedback_callback=relay_policy_feedback,
+            )
             result.success = bool(exec_res.success)
             result.reason = str(exec_res.reason)
             result.final_grasp_pose = final_grasp
@@ -182,7 +210,13 @@ class GraspOrchestratorNode(Node):
         req.target_prompt = str(prompt)
         req.force_yolo = True
         fut = self._segment_client.call_async(req)
-        return await fut
+        try:
+            return await _await_future(fut, timeout_s)
+        except TimeoutError as exc:
+            res = SegmentTarget.Response()
+            res.success = False
+            res.reason = f"segment_service_timeout:{exc}"
+            return res
 
     async def _call_plan(self, prompt: str, cloud: PointCloud2, timeout_s: float):
         if not self._plan_client.wait_for_server(timeout_sec=timeout_s):
@@ -196,17 +230,35 @@ class GraspOrchestratorNode(Node):
         goal.target_cloud = cloud
         goal.top_k = 45
         send_future = self._plan_client.send_goal_async(goal)
-        plan_handle = await send_future
+        try:
+            plan_handle = await _await_future(send_future, timeout_s)
+        except TimeoutError as exc:
+            res = PlanGrasp.Result()
+            res.success = False
+            res.reason = f"plan_goal_timeout:{exc}"
+            return res
         if not plan_handle.accepted:
             res = PlanGrasp.Result()
             res.success = False
             res.reason = "plan_goal_rejected"
             return res
         result_future = plan_handle.get_result_async()
-        wrapped = await result_future
+        try:
+            wrapped = await _await_future(result_future, timeout_s)
+        except TimeoutError as exc:
+            res = PlanGrasp.Result()
+            res.success = False
+            res.reason = f"plan_result_timeout:{exc}"
+            return res
         return wrapped.result
 
-    async def _call_policy(self, plan: PlanGrasp.Result, enable_avoidance: bool, timeout_s: float):
+    async def _call_policy(
+        self,
+        plan: PlanGrasp.Result,
+        enable_avoidance: bool,
+        timeout_s: float,
+        feedback_callback=None,
+    ):
         if not self._policy_client.wait_for_server(timeout_sec=timeout_s):
             res = ExecutePlannedGrasp.Result()
             res.success = False
@@ -215,21 +267,36 @@ class GraspOrchestratorNode(Node):
         goal = ExecutePlannedGrasp.Goal()
         goal.pregrasp_pose = plan.selected_pregrasp_pose
         goal.grasp_pose = plan.selected_grasp_pose
+        goal.tracking_reference_pose = plan.target_center_pose
         goal.gripper_width = float(plan.gripper_width)
         goal.enable_avoidance = bool(enable_avoidance)
         goal.target_prompt = str(self._active_target_prompt)
         goal.target_object = str(self.get_parameter("target_object").value)
         goal.target_pos = str(self.get_parameter("target_pos").value)
         goal.traj_log = str(self.get_parameter("traj_log").value)
-        send_future = self._policy_client.send_goal_async(goal)
-        policy_handle = await send_future
+        send_future = self._policy_client.send_goal_async(
+            goal, feedback_callback=feedback_callback
+        )
+        try:
+            policy_handle = await _await_future(send_future, timeout_s)
+        except TimeoutError as exc:
+            res = ExecutePlannedGrasp.Result()
+            res.success = False
+            res.reason = f"policy_goal_timeout:{exc}"
+            return res
         if not policy_handle.accepted:
             res = ExecutePlannedGrasp.Result()
             res.success = False
             res.reason = "policy_goal_rejected"
             return res
         result_future = policy_handle.get_result_async()
-        wrapped = await result_future
+        try:
+            wrapped = await _await_future(result_future, timeout_s)
+        except TimeoutError as exc:
+            res = ExecutePlannedGrasp.Result()
+            res.success = False
+            res.reason = f"policy_result_timeout:{exc}"
+            return res
         return wrapped.result
 
 

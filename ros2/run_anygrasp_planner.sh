@@ -7,7 +7,7 @@ ROS_SETUP="${ROS_SETUP:-/opt/ros/humble/setup.bash}"
 CONDA_ENV="${CONDA_ENV:-graspnet_gpu}"
 SDK_ROOT="$ROOT_DIR/anygrasp_sdk"
 CHECKPOINT="$ROOT_DIR/anygrasp_sdk/grasp_detection/log/checkpoint_detection.tar"
-ROS_LOG_DIR="${ROS_LOG_DIR:-$ROOT_DIR/logs/ros2}"
+ROS_LOG_DIR="${ROS_LOG_DIR:-$ROOT_DIR/log/runtime/ros2}"
 
 source_relaxed() {
   set +u

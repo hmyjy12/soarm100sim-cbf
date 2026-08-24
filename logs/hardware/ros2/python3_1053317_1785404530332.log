@@ -1,3 +1,0 @@
-[INFO] [1785404530.378612893] [hardware_single_joint_service]: guarded single-joint service ready: /hardware/move_single_joint; max_delta=2deg, automatic return and torque-off
-[WARN] [1785404538.872174116] [hardware_single_joint_service]: executing guarded motion joint=wrist_roll delta=+1.00deg
-[INFO] [1785404545.439125580] [hardware_single_joint_service]: completed_and_returned; selected torque disabled

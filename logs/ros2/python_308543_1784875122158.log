@@ -1,6 +1,0 @@
-[INFO] [1784875122.194835219] [mujoco_policy_backend]: MuJoCo policy backend ready: action=execute_planned_grasp
-[INFO] [1784875124.422543745] [mujoco_policy_backend]: obstacle_init stamp=1784875124.067650929 depth=296770 robot_mask_received=True self_rm=10430 workspace=0 table_rm=0 raw_obstacle=0 persistent=0 voxels=0 mode=static frame=1/5 bbox=empty
-[INFO] [1784875124.534118094] [mujoco_policy_backend]: obstacle_init stamp=1784875124.225015043 depth=296770 robot_mask_received=True self_rm=10430 workspace=0 table_rm=0 raw_obstacle=0 persistent=0 voxels=0 mode=static frame=2/5 bbox=empty
-[INFO] [1784875124.693536840] [mujoco_policy_backend]: obstacle_init stamp=1784875124.366615108 depth=296770 robot_mask_received=True self_rm=10430 workspace=0 table_rm=0 raw_obstacle=0 persistent=0 voxels=0 mode=static frame=3/5 bbox=empty
-[INFO] [1784875124.896489011] [mujoco_policy_backend]: obstacle_init stamp=1784875124.587404316 depth=296770 robot_mask_received=True self_rm=10430 workspace=0 table_rm=0 raw_obstacle=0 persistent=0 voxels=0 mode=static frame=4/5 bbox=empty
-[INFO] [1784875125.119579809] [mujoco_policy_backend]: obstacle_init stamp=1784875124.792892541 depth=296770 robot_mask_received=True self_rm=10430 workspace=0 table_rm=0 raw_obstacle=0 persistent=0 voxels=0 mode=static frame=5/5 bbox=empty

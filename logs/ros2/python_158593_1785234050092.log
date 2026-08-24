@@ -1,1 +1,0 @@
-[INFO] [1785234050.123173899] [target_segmenter]: target segmenter ready: mode=color color=255,0,0 rgb=/camera/color/image_raw depth=/camera/depth/image_rect_raw mask=/target/mask cloud=/target/cloud

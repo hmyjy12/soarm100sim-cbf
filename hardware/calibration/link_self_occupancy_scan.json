@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "joint_order": [
+    "shoulder_rotation_joint",
+    "shoulder_pitch_joint",
+    "ellbow_joint",
+    "wrist_pitch_joint",
+    "wrist_jaw_joint",
+    "wrist_roll_joint",
+    "gripper_joint"
+  ],
+  "poses": [
+    {"name": "center_0", "offset_rad": [0, 0, 0, 0, 0, 0, 0]},
+    {"name": "wrist_pitch_pos", "offset_rad": [0, 0, 0, 0.25, 0, 0, 0]},
+    {"name": "center_pitch", "offset_rad": [0, 0, 0, 0, 0, 0, 0]},
+    {"name": "wrist_pitch_neg", "offset_rad": [0, 0, 0, -0.25, 0, 0, 0]},
+    {"name": "center_1", "offset_rad": [0, 0, 0, 0, 0, 0, 0]},
+    {"name": "wrist_jaw_pos", "offset_rad": [0, 0, 0, 0, 0.30, 0, 0]},
+    {"name": "center_jaw", "offset_rad": [0, 0, 0, 0, 0, 0, 0]},
+    {"name": "wrist_jaw_neg", "offset_rad": [0, 0, 0, 0, -0.30, 0, 0]},
+    {"name": "center_2", "offset_rad": [0, 0, 0, 0, 0, 0, 0]},
+    {"name": "wrist_roll_pos", "offset_rad": [0, 0, 0, 0, 0, 0.34, 0]},
+    {"name": "center_roll", "offset_rad": [0, 0, 0, 0, 0, 0, 0]},
+    {"name": "wrist_roll_neg", "offset_rad": [0, 0, 0, 0, 0, -0.34, 0]},
+    {"name": "center_3", "offset_rad": [0, 0, 0, 0, 0, 0, 0]},
+    {"name": "pitch_jaw_pp", "offset_rad": [0, 0, 0, 0.20, 0.22, 0, 0]},
+    {"name": "center_pitch_jaw", "offset_rad": [0, 0, 0, 0, 0, 0, 0]},
+    {"name": "pitch_jaw_nn", "offset_rad": [0, 0, 0, -0.20, -0.22, 0, 0]},
+    {"name": "center_combo_1", "offset_rad": [0, 0, 0, 0, 0, 0, 0]},
+    {"name": "jaw_roll_pn", "offset_rad": [0, 0, 0, 0, 0.22, -0.25, 0]},
+    {"name": "center_jaw_roll", "offset_rad": [0, 0, 0, 0, 0, 0, 0]},
+    {"name": "jaw_roll_np", "offset_rad": [0, 0, 0, 0, -0.22, 0.25, 0]},
+    {"name": "center_combo_2", "offset_rad": [0, 0, 0, 0, 0, 0, 0]},
+    {"name": "elbow_pitch_pos", "offset_rad": [0, 0, 0.15, -0.18, 0, 0, 0]},
+    {"name": "center_elbow_pitch", "offset_rad": [0, 0, 0, 0, 0, 0, 0]},
+    {"name": "elbow_pitch_neg", "offset_rad": [0, 0, -0.15, 0.18, 0, 0, 0]},
+    {"name": "center_final", "offset_rad": [0, 0, 0, 0, 0, 0, 0]}
+  ]
+}

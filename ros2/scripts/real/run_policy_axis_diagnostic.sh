@@ -150,7 +150,7 @@ if pgrep -af 'run_hardware_controller.py|hardware_controller_node|policy_reach_n
   exit 1
 fi
 
-RUN_DIR="$ROOT_DIR/logs/hardware/policy_axis_diagnostic_$(date +%Y%m%d_%H%M%S)"
+RUN_DIR="$ROOT_DIR/log/runtime/hardware/policy_axis_diagnostic_$(date +%Y%m%d_%H%M%S)"
 mkdir -p "$RUN_DIR"
 echo "[axis_diag] logs=$RUN_DIR"
 echo "[axis_diag] sequence=+X,-X,+Y,-Y,+Z,-Z step=${STEP_M}m hold=${HOLD_SECONDS}s"

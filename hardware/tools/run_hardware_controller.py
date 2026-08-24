@@ -56,6 +56,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--rate", type=float, default=20.0)
     parser.add_argument("--max-stream-command-delta-rad", type=float, default=0.25)
     parser.add_argument("--raw-margin-counts", type=int, default=0)
+    parser.add_argument("--move-position-tolerance-counts", type=int, default=12)
+    parser.add_argument("--allow-move-static-error", action="store_true")
     parser.add_argument("--shoulder-lift-p", type=int, default=16)
     parser.add_argument("--baseline-shoulder-lift-p", type=int, default=16)
     parser.add_argument("--log", type=Path, required=True)
@@ -66,6 +68,8 @@ def parse_args() -> argparse.Namespace:
         parser.error("--max-stream-command-delta-rad must be within [0.02, 0.35]")
     if not 0 <= args.raw_margin_counts <= 300:
         parser.error("--raw-margin-counts must be within [0, 300]")
+    if not 8 <= args.move_position_tolerance_counts <= 100:
+        parser.error("--move-position-tolerance-counts must be within [8, 100]")
     if not 1 <= args.shoulder_lift_p <= 64:
         parser.error("--shoulder-lift-p must be within [1, 64]")
     if not 1 <= args.baseline_shoulder_lift_p <= 64:
@@ -99,6 +103,8 @@ class Controller:
         self.rate = args.rate
         self.max_stream_command_delta_rad = args.max_stream_command_delta_rad
         self.raw_margin_counts = args.raw_margin_counts
+        self.move_position_tolerance_counts = args.move_position_tolerance_counts
+        self.allow_move_static_error = args.allow_move_static_error
         self.shoulder_lift_p = args.shoulder_lift_p
         self.baseline_shoulder_lift_p = args.baseline_shoulder_lift_p
         self.log_path = args.log
@@ -245,7 +251,7 @@ class Controller:
             self.bus.sync_write("Goal_Position", target_raw, normalize=False)
             telemetry = self._check_health(target_raw, "settle")
             if all(
-                abs(value) <= POSITION_TOLERANCE
+                abs(value) <= self.move_position_tolerance_counts
                 for value in telemetry["error_counts"].values()
             ):
                 consecutive += 1
@@ -255,7 +261,7 @@ class Controller:
                 consecutive = 0
             time.sleep(1.0 / self.rate)
         errors = telemetry["error_counts"] if telemetry else {}
-        if consecutive < 3:
+        if consecutive < 3 and not self.allow_move_static_error:
             raise RuntimeError(f"target did not converge: errors={errors}")
         return {
             "duration": duration,
@@ -263,6 +269,7 @@ class Controller:
             "target_policy_rad": target_policy,
             "target_raw": target_raw,
             "final_error_counts": errors,
+            "static_error_accepted": consecutive < 3,
         }
 
     def set_stream_target(self, target_values: list[float]) -> dict:
@@ -299,30 +306,29 @@ class Controller:
             soft_high = hard_high - self.raw_margin_counts
             current = int(current_raw[motor])
             target = int(target_raw[motor])
-            if not hard_low <= current <= hard_high:
-                raise RuntimeError(
-                    f"{motor} current raw {current} outside calibrated hard interval "
-                    f"[{hard_low}, {hard_high}]"
-                )
-
             if current < soft_low:
-                # Already near the low mechanical endpoint: allow only recovery
-                # toward the interior and hold this joint against outward motion.
+                # A measured position can drift a few counts beyond a calibrated
+                # endpoint. Permit only bounded inward recovery so that one such axis
+                # cannot deadlock the complete seven-axis stream.
                 if target < current:
                     raise RuntimeError(
                         f"{motor} is below safe interval at raw {current}; refusing "
                         f"outward stream target {target}"
                     )
-                target = min(target, soft_low)
+                target = min(
+                    soft_low,
+                    max(target, current + POSITION_TOLERANCE),
+                )
             elif current > soft_high:
-                # Already near the high mechanical endpoint: allow only recovery
-                # toward the interior and hold this joint against outward motion.
                 if target > current:
                     raise RuntimeError(
                         f"{motor} is above safe interval at raw {current}; refusing "
                         f"outward stream target {target}"
                     )
-                target = max(target, soft_high)
+                target = max(
+                    soft_high,
+                    min(target, current - POSITION_TOLERANCE),
+                )
             else:
                 if not soft_low <= target <= soft_high:
                     raise RuntimeError(

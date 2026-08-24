@@ -41,7 +41,7 @@ class WristTrackerNode(Node):
         self.declare_parameter("repo_root", str(Path(__file__).resolve().parents[3]))
         self.declare_parameter("save_failure_frames", True)
         self.declare_parameter(
-            "failure_frame_dir", "logs/ros2_tracking_failures"
+            "failure_frame_dir", "log/runtime/ros2_tracking_failures"
         )
 
         self._rgb: Image | None = None

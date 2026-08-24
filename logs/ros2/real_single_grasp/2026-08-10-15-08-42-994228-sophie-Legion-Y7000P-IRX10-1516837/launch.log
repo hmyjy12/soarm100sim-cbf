@@ -1,4 +1,0 @@
-1786345722.9949100 [INFO] [launch]: All log files can be found below /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/logs/ros2/real_single_grasp/2026-08-10-15-08-42-994228-sophie-Legion-Y7000P-IRX10-1516837
-1786345722.9950070 [INFO] [launch]: Default logging verbosity is set to INFO
-1786345723.0394535 [INFO] [hardware_controller_node-1]: process started with pid [1516887]
-1786345723.0395737 [INFO] [robot_state_publisher-2]: process started with pid [1516889]

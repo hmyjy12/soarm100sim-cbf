@@ -44,7 +44,7 @@ class RealPolicyGraspBackendNode(Node):
         self.declare_parameter("control_rate_hz", 20.0)
         self.declare_parameter("max_tracking_error_rad", 0.25)
         self.declare_parameter("enable_joint_limit_cbf", False)
-        self.declare_parameter("hardware_limit_margin_counts", 100)
+        self.declare_parameter("hardware_limit_margin_counts", 0)
         self.declare_parameter("workspace_min_z_m", 0.01)
         self.declare_parameter("reach_timeout_s", 25.0)
         self.declare_parameter("success_position_m", 0.020)
@@ -53,7 +53,7 @@ class RealPolicyGraspBackendNode(Node):
         self.declare_parameter("close_gripper_rad", -0.15)
         self.declare_parameter("gripper_velocity_rad_s", 0.35)
         self.declare_parameter("lift_height_m", 0.05)
-        self.declare_parameter("log_dir", "logs/hardware/real_single_grasp")
+        self.declare_parameter("log_dir", "log/runtime/hardware/real_single_grasp")
 
         self.repo = Path(str(self.get_parameter("repo_root").value)).resolve()
         self._q_lock = threading.Lock()

@@ -92,9 +92,9 @@ cleanup() {
 trap cleanup EXIT INT TERM
 
 source_relaxed /opt/ros/humble/setup.bash
-export ROS_LOG_DIR="${ROS_LOG_DIR:-$ROOT_DIR/logs/ros2/fixed_yolo_tracking}"
+export ROS_LOG_DIR="${ROS_LOG_DIR:-$ROOT_DIR/log/runtime/ros2/fixed_yolo_tracking}"
 export MPLCONFIGDIR="${MPLCONFIGDIR:-/tmp/matplotlib-fixed-yolo}"
-mkdir -p "$ROS_LOG_DIR" "$ROOT_DIR/logs/hardware"
+mkdir -p "$ROS_LOG_DIR" "$ROOT_DIR/log/runtime/hardware"
 
 if [[ "$BUILD" == "true" ]]; then
   (
@@ -125,7 +125,7 @@ source_relaxed "$ROS2_WS/install/setup.bash"
 
 if [[ "$START_CAMERA" == "true" ]]; then
   setsid "$ROOT_DIR/ros2/run_orbbec_camera.sh" \
-    >"$ROOT_DIR/logs/hardware/fixed_yolo_tracking_orbbec.log" 2>&1 &
+    >"$ROOT_DIR/log/runtime/hardware/fixed_yolo_tracking_orbbec.log" 2>&1 &
   CAMERA_PID="$!"
   echo "[fixed_yolo_tracking] Orbbec RGB started pid=$CAMERA_PID"
 fi

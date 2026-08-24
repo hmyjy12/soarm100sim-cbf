@@ -24,6 +24,8 @@ def generate_launch_description():
             DeclareLaunchArgument("driver_rate_hz", default_value="20.0"),
             DeclareLaunchArgument("max_stream_command_delta_rad", default_value="0.25"),
             DeclareLaunchArgument("raw_margin_counts", default_value="0"),
+            DeclareLaunchArgument("move_position_tolerance_counts", default_value="12"),
+            DeclareLaunchArgument("allow_move_static_error", default_value="false"),
             Node(
                 package="soarm100_vision",
                 executable="hardware_controller_node",
@@ -54,6 +56,14 @@ def generate_launch_description():
                         "raw_margin_counts": ParameterValue(
                             LaunchConfiguration("raw_margin_counts"),
                             value_type=int,
+                        ),
+                        "move_position_tolerance_counts": ParameterValue(
+                            LaunchConfiguration("move_position_tolerance_counts"),
+                            value_type=int,
+                        ),
+                        "allow_move_static_error": ParameterValue(
+                            LaunchConfiguration("allow_move_static_error"),
+                            value_type=bool,
                         ),
                     }
                 ],

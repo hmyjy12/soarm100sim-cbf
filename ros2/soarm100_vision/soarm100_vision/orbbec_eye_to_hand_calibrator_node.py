@@ -94,7 +94,7 @@ class OrbbecEyeToHandCalibrator(Node):
         self.declare_parameter("inner_cols", 9)
         self.declare_parameter("inner_rows", 6)
         self.declare_parameter("square_size_m", 0.0144)
-        self.declare_parameter("output_dir", "logs/hardware/orbbec_handeye")
+        self.declare_parameter("output_dir", "log/runtime/hardware/orbbec_handeye")
         self.declare_parameter("min_samples", 12)
         self.declare_parameter("max_reprojection_rms_px", 1.5)
         self.declare_parameter("reject_duplicate_samples", False)

@@ -72,7 +72,7 @@ class MujocoRunnerConfig:
     show_viewer: bool = False
     viewer_sync_interval: int = 1
     viewer_hold_s: float = 8.0
-    traj_log: str = "logs/ros2_inprocess_grasp.jsonl"
+    traj_log: str = "log/runtime/ros2_inprocess_grasp.jsonl"
 
 
 @dataclass

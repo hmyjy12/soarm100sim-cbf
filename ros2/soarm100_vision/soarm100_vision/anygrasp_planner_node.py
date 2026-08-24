@@ -136,7 +136,7 @@ class AnyGraspPlannerNode(Node):
         self.declare_parameter("timeout_s", 60.0)
         self.declare_parameter("repo_root", str(Path(__file__).resolve().parents[3]))
         self.declare_parameter("mjcf", "SO-ARM100/Simulation/SO100/mujoco/scene_plus_norod.xml")
-        self.declare_parameter("calib_json", "logs/calib/camera_calib.json")
+        self.declare_parameter("calib_json", "log/runtime/calib/camera_calib.json")
         self.declare_parameter("use_sim_camera_extrinsics", True)
         self.declare_parameter("input_camera_name", "scene_depth")
         self.declare_parameter("base_frame", "base")
@@ -153,7 +153,7 @@ class AnyGraspPlannerNode(Node):
             "hardware_mapping_json",
             "hardware/calibration/policy_joint_mapping.json",
         )
-        self.declare_parameter("hardware_limit_margin_counts", 100)
+        self.declare_parameter("hardware_limit_margin_counts", 0)
         self.declare_parameter("hardware_gripper_open_rad", 0.45)
         self._ik_filter: MujocoCandidateIkFilter | None = None
         self._hardware_filter: HardwareJointLimitFilter | None = None

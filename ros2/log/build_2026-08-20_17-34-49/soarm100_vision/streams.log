@@ -1,0 +1,37 @@
+[60.062s] Invoking command in '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_vision': AMENT_PREFIX_PATH=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces:/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/so100_plus_description:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces:/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/so100_plus_description:${CMAKE_PREFIX_PATH} CONDA_PROMPT_MODIFIER=(base) LD_LIBRARY_PATH=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_vision/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/python3.10/site-packages:/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_vision/build --no-deps symlink_data
+[60.243s] running develop
+[60.362s] running egg_info
+[60.362s] writing soarm100_vision.egg-info/PKG-INFO
+[60.362s] writing dependency_links to soarm100_vision.egg-info/dependency_links.txt
+[60.362s] writing entry points to soarm100_vision.egg-info/entry_points.txt
+[60.362s] writing requirements to soarm100_vision.egg-info/requires.txt
+[60.362s] writing top-level names to soarm100_vision.egg-info/top_level.txt
+[60.364s] reading manifest file 'soarm100_vision.egg-info/SOURCES.txt'
+[60.364s] writing manifest file 'soarm100_vision.egg-info/SOURCES.txt'
+[60.365s] running build_ext
+[60.365s] Creating /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/python3.10/site-packages/soarm100-vision.egg-link (link to .)
+[60.366s] Installing anygrasp_planner_node script to /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/soarm100_vision
+[60.366s] Installing debug_viewer_node script to /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/soarm100_vision
+[60.366s] Installing fixed_yolo_tracker_node script to /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/soarm100_vision
+[60.366s] Installing grasp_orchestrator_node script to /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/soarm100_vision
+[60.366s] Installing hardware_controller_node script to /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/soarm100_vision
+[60.366s] Installing hardware_joint_state_node script to /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/soarm100_vision
+[60.366s] Installing hardware_single_joint_service_node script to /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/soarm100_vision
+[60.366s] Installing mujoco_camera_publisher_node script to /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/soarm100_vision
+[60.366s] Installing mujoco_mirror_viewer_node script to /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/soarm100_vision
+[60.366s] Installing mujoco_policy_backend_node script to /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/soarm100_vision
+[60.367s] Installing obstacle_cloud_node script to /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/soarm100_vision
+[60.367s] Installing orbbec_eye_to_hand_calibrator_node script to /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/soarm100_vision
+[60.367s] Installing policy_reach_node script to /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/soarm100_vision
+[60.367s] Installing real_policy_grasp_backend_node script to /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/soarm100_vision
+[60.367s] Installing sdf_cbf_backend_node script to /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/soarm100_vision
+[60.367s] Installing send_execute_grasp script to /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/soarm100_vision
+[60.367s] Installing send_planned_grasp script to /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/soarm100_vision
+[60.367s] Installing target_segmenter_node script to /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/soarm100_vision
+[60.367s] Installing wrist_handeye_calibrator_node script to /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/soarm100_vision
+[60.367s] Installing wrist_handeye_pose_sequence_node script to /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/soarm100_vision
+[60.367s] Installing wrist_tracker_node script to /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/soarm100_vision
+[60.367s] 
+[60.367s] Installed /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_vision
+[60.367s] running symlink_data
+[60.383s] Invoked command in '/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_vision' returned '0': AMENT_PREFIX_PATH=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces:/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/so100_plus_description:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces:/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/so100_plus_description:${CMAKE_PREFIX_PATH} CONDA_PROMPT_MODIFIER=(base) LD_LIBRARY_PATH=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_vision/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_vision/lib/python3.10/site-packages:/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/soarm100_interfaces/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_vision/build --no-deps symlink_data

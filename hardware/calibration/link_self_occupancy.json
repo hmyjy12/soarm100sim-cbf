@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "source_dataset": "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/log/runtime/hardware/link_self_occupancy/20260821_162924",
+  "processed_frames": 200,
+  "voxel_size_m": 0.008,
+  "association_radius_m": 0.12,
+  "min_hit_frames": 3,
+  "mean_rigid_removed_points": 3856.12,
+  "mean_residual_points": 412.015,
+  "links": {
+    "ellbow": {
+      "voxels": 27,
+      "max_probability": 1.0
+    },
+    "wrist_pitch": {
+      "voxels": 13,
+      "max_probability": 0.11500000208616257
+    },
+    "wrist_jaw": {
+      "voxels": 84,
+      "max_probability": 1.0
+    },
+    "wrist_roll": {
+      "voxels": 218,
+      "max_probability": 1.0
+    }
+  },
+  "runtime_enabled": false
+}

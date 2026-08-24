@@ -1,6 +1,6 @@
 {
   "schema": "soarm100_real_orbbec_eye_to_hand_result_v1",
-  "source_session": "logs/hardware/orbbec_handeye/20260807_155222",
+  "source_session": "log/runtime/hardware/orbbec_handeye/20260807_155222",
   "configuration": "eye_to_hand",
   "method": "Tsai (cv2.CALIB_HAND_EYE_TSAI, inverted gripper poses)",
   "base_frame": "base",

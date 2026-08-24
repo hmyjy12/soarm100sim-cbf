@@ -3,7 +3,7 @@
 
   cd soarm100sim
   python mujoco/vision_smoke.py
-  python mujoco/vision_smoke.py --out-dir logs/vision_smoke --steps 120
+  python mujoco/vision_smoke.py --out-dir log/runtime/vision_smoke --steps 120
 """
 
 from __future__ import annotations

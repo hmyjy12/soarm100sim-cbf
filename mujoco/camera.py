@@ -255,7 +255,7 @@ class LiveCameraPreview:
         if backend == "save":
             from pathlib import Path
 
-            self._save_dir = Path(save_dir or "logs/vision_preview").expanduser().resolve()
+            self._save_dir = Path(save_dir or "log/runtime/vision_preview").expanduser().resolve()
             self._save_dir.mkdir(parents=True, exist_ok=True)
             return
         raise ValueError(f"unknown camera preview backend: {backend}")
