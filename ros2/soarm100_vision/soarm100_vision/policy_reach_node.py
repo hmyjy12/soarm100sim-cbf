@@ -267,7 +267,7 @@ class PolicyReachNode(Node):
             f"feedback-driven rate={rate:.1f}Hz "
             f"vmax={float(self.get_parameter('max_joint_velocity_rad_s').value):.3f}rad/s "
             f"amax={float(self.get_parameter('max_joint_acceleration_rad_s2').value):.3f}rad/s2 "
-            f"tracking_limit={float(self.get_parameter('max_tracking_error_rad').value):.3f}rad "
+            f"tracking_diagnostic={float(self.get_parameter('max_tracking_error_rad').value):.3f}rad "
             f"joint_limit_cbf={self.joint_limit_cbf is not None} "
             f"obstacle_cbf={self.obstacle_cbf_config is not None} "
             f"start_on_launch={bool(self.get_parameter('start_on_launch').value)}"
@@ -738,6 +738,7 @@ class PolicyReachNode(Node):
             raw_action=raw_action.tolist(),
             filtered_action=shaped["filtered_action"].tolist(),
             dq_policy=shaped["requested_dq"].tolist(),
+            q_policy_target=shaped["policy_target"].tolist(),
             dq_cmd=dq_cmd.tolist(),
             q_cmd=q_cmd.tolist(),
             q_ref=q_cmd.tolist(),
@@ -752,6 +753,10 @@ class PolicyReachNode(Node):
             joint_limit_h_low_rad=(None if cbf is None else cbf["h_low_rad"].tolist()),
             joint_limit_h_high_rad=(None if cbf is None else cbf["h_high_rad"].tolist()),
             tracking_error_rad=shaped["tracking_error_rad"].tolist(),
+            previous_command_error_rad=shaped[
+                "previous_command_error_rad"
+            ].tolist(),
+            tracking_exceeded=shaped["tracking_exceeded"].tolist(),
             tracking_clamped=shaped["tracking_clamped"].tolist(),
             action_filter_alpha=shaped["action_filter_alpha"],
             velocity_filter_alpha=timing["velocity_filter_alpha"],

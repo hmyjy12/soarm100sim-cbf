@@ -38,7 +38,7 @@ def test_reference_acceleration_is_bounded_across_reversal():
     )
 
 
-def test_reference_is_not_reanchored_to_encoder_noise():
+def test_reference_is_reanchored_to_latest_measurement():
     shaper = make_shaper()
     limits = np.full(7, 3.0)
     q0 = np.zeros(7)
@@ -48,15 +48,15 @@ def test_reference_is_not_reanchored_to_encoder_noise():
     obs = shaper.observe(q1, 1.05)
     result1 = shaper.shape(q1, np.ones(7), -limits, limits, obs["dt_s"])
 
-    assert np.all(result1["q_ref"] > result0["q_ref"])
-    # The 1 mrad measurement change is not copied directly into q_ref.
-    expected_without_measurement_reanchor = (
-        result0["q_ref"] + result1["reference_velocity_rad_s"] * obs["dt_s"]
+    expected = q1 + result1["reference_velocity_rad_s"] * obs["dt_s"]
+    assert np.allclose(result1["q_ref"], expected)
+    assert np.allclose(
+        result1["policy_target"],
+        q1 + shaper.cfg.action_scale_rad * result1["filtered_action"],
     )
-    assert np.allclose(result1["q_ref"], expected_without_measurement_reanchor)
 
 
-def test_tracking_error_is_bounded_and_frozen_joint_holds_measurement():
+def test_reference_does_not_wind_up_and_frozen_joint_holds_measurement():
     shaper = make_shaper()
     limits = np.full(7, 3.0)
     q = np.zeros(7)
@@ -65,11 +65,23 @@ def test_tracking_error_is_bounded_and_frozen_joint_holds_measurement():
     for _ in range(100):
         result = shaper.shape(q, np.ones(7), -limits, limits, obs["dt_s"], frozen)
 
-    assert np.all(
-        np.abs(result["tracking_error_rad"][:6])
-        <= shaper.cfg.max_tracking_error_rad + 1e-12
-    )
+    expected_step = shaper.cfg.max_velocity_rad_s * obs["dt_s"]
+    assert np.all(np.abs(result["tracking_error_rad"][:6]) <= expected_step + 1e-12)
     assert result["q_ref"][6] == 0.0
+
+
+def test_previous_command_lag_is_diagnostic_and_does_not_shift_next_origin():
+    shaper = make_shaper()
+    limits = np.full(7, 3.0)
+    q = np.zeros(7)
+    obs = shaper.observe(q, 1.0)
+    shaper.q_ref = np.full(7, 0.30)
+
+    result = shaper.shape(q, np.ones(7), -limits, limits, obs["dt_s"])
+
+    assert np.all(result["tracking_exceeded"])
+    assert not np.any(result["tracking_clamped"])
+    assert np.all(result["q_ref"] <= 0.04 * obs["dt_s"] + 1e-12)
 
 
 def test_joint_limit_cbf_tightens_velocity_toward_upper_limit():

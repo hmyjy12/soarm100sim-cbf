@@ -19,6 +19,10 @@ def generate_launch_description():
                 "calibration_file",
                 default_value="hardware/calibration/lerobot/so100_plus_new_arm.json",
             ),
+            DeclareLaunchArgument(
+                "safe_pose_file",
+                default_value="hardware/calibration/hardware_safe_pose.json",
+            ),
             DeclareLaunchArgument("shoulder_lift_p", default_value="16"),
             DeclareLaunchArgument("feedback_rate_hz", default_value="20.0"),
             DeclareLaunchArgument("driver_rate_hz", default_value="20.0"),
@@ -37,6 +41,7 @@ def generate_launch_description():
                         "port": LaunchConfiguration("port"),
                         "lerobot_env": LaunchConfiguration("lerobot_env"),
                         "calibration_file": LaunchConfiguration("calibration_file"),
+                        "safe_pose_file": LaunchConfiguration("safe_pose_file"),
                         "shoulder_lift_p": ParameterValue(
                             LaunchConfiguration("shoulder_lift_p"),
                             value_type=int,

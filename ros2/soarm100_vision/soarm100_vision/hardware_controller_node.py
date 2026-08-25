@@ -17,6 +17,7 @@ import rclpy
 from rclpy.node import Node
 from sensor_msgs.msg import JointState
 from soarm100_interfaces.srv import MoveJointTarget, SetHardwareTorque
+from std_srvs.srv import Trigger
 
 
 class HardwareControllerNode(Node):
@@ -29,6 +30,10 @@ class HardwareControllerNode(Node):
         self.declare_parameter(
             "calibration_file",
             "hardware/calibration/lerobot/so100_plus_new_arm.json",
+        )
+        self.declare_parameter(
+            "safe_pose_file",
+            "hardware/calibration/hardware_safe_pose.json",
         )
         self.declare_parameter("shoulder_lift_p", 16)
         self.declare_parameter("feedback_rate_hz", 20.0)
@@ -53,6 +58,11 @@ class HardwareControllerNode(Node):
         self._torque_service = self.create_service(
             SetHardwareTorque, "/hardware/set_torque", self._handle_torque
         )
+        self._startup_return_service = self.create_service(
+            Trigger,
+            "/hardware/return_to_startup_pose",
+            self._handle_startup_return,
+        )
         self._joint_pub = self.create_publisher(JointState, "/joint_states", 10)
         self._stream_target_sub = self.create_subscription(
             JointState,
@@ -67,6 +77,7 @@ class HardwareControllerNode(Node):
         self.get_logger().info(
             "hardware controller ready; current seven-axis position is powered "
             "and held; services=/hardware/move_joint_target,/hardware/set_torque "
+            "startup_return=/hardware/return_to_startup_pose "
             "stream_topic=/hardware/joint_target"
         )
 
@@ -121,7 +132,7 @@ class HardwareControllerNode(Node):
             "--mapping",
             str(repo / "hardware/calibration/policy_joint_mapping.json"),
             "--safe-pose",
-            str(repo / "hardware/calibration/hardware_safe_pose.json"),
+            str(repo / str(self.get_parameter("safe_pose_file").value)),
             "--shoulder-lift-p",
             str(int(self.get_parameter("shoulder_lift_p").value)),
             "--rate",
@@ -268,6 +279,19 @@ class HardwareControllerNode(Node):
             result = self._request("disable")
         response.success = bool(result.get("success"))
         response.reason = str(result.get("reason", "all torque disabled"))
+        return response
+
+    def _handle_startup_return(
+        self, _request: Trigger.Request, response: Trigger.Response
+    ) -> Trigger.Response:
+        with self._command_lock:
+            result = self._request("rollback_startup")
+        response.success = bool(result.get("success"))
+        response.message = (
+            "returned to the pose captured before power-on and holding"
+            if response.success
+            else str(result.get("reason", "startup return failed"))
+        )
         return response
 
     def destroy_node(self) -> bool:

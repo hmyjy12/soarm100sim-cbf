@@ -115,6 +115,8 @@ class Controller:
         self.stream_last_stale_log_time = 0.0
         self.stream_sequence = 0
         self._last_health_time = 0.0
+        self.startup_hold_raw: dict[str, int] | None = None
+        self.last_blocking_move_duration = 6.0
 
     def connect_and_hold(self) -> None:
         self.bus.connect(handshake=True)
@@ -155,6 +157,7 @@ class Controller:
         self.bus.enable_torque(list(MOTOR_ORDER), num_retry=3)
         self.torque_enabled = True
         self.stream_target_raw = goals.copy()
+        self.startup_hold_raw = goals.copy()
         self.stream_last_command_time = None
         time.sleep(0.3)
         self.log_path.parent.mkdir(parents=True, exist_ok=True)
@@ -218,6 +221,7 @@ class Controller:
             for name in names
         )
         duration = max(float(duration), required_duration, 0.5)
+        self.last_blocking_move_duration = duration
         target_raw = normalized_to_raw(
             policy_to_normalized(self.mapping, target_policy), self.calibration
         )
@@ -262,7 +266,27 @@ class Controller:
             time.sleep(1.0 / self.rate)
         errors = telemetry["error_counts"] if telemetry else {}
         if consecutive < 3 and not self.allow_move_static_error:
+            if telemetry is not None:
+                self.stream_target_raw = {
+                    name: int(telemetry["position_raw"][name])
+                    for name in MOTOR_ORDER
+                }
             raise RuntimeError(f"target did not converge: errors={errors}")
+        # The periodic stream watchdog is seeded with the power-on pose. A
+        # completed blocking move becomes the new held reference; otherwise
+        # the next tick_stream() call would command the arm back to its
+        # original unpowered posture before policy startup.
+        self.stream_target_raw = {
+            name: int(target_raw[name]) for name in MOTOR_ORDER
+        }
+        self.stream_last_command_time = None
+        self.stream_last_stale_log_time = 0.0
+        self._log(
+            "move_hold_handoff",
+            target_policy_rad=target_policy,
+            target_raw=self.stream_target_raw,
+            final_error_counts=errors,
+        )
         return {
             "duration": duration,
             "approved_safe_return": approved_safe_return,
@@ -270,6 +294,44 @@ class Controller:
             "target_raw": target_raw,
             "final_error_counts": errors,
             "static_error_accepted": consecutive < 3,
+        }
+
+    def return_to_startup_pose(self) -> dict:
+        """Retrace joint space to the raw pose captured immediately before power-on."""
+        if not self.torque_enabled:
+            raise RuntimeError("torque is disabled")
+        if self.startup_hold_raw is None:
+            raise RuntimeError("startup hold pose is unavailable")
+        current = self.bus.sync_read("Present_Position", normalize=False, num_retry=3)
+        start_raw = {name: int(current[name]) for name in MOTOR_ORDER}
+        target_raw = dict(self.startup_hold_raw)
+        duration = max(1.0, min(15.0, float(self.last_blocking_move_duration)))
+        steps = max(2, round(duration * self.rate))
+        for index in range(1, steps + 1):
+            ratio = index / steps
+            goals = {
+                name: round(
+                    start_raw[name] + (target_raw[name] - start_raw[name]) * ratio
+                )
+                for name in MOTOR_ORDER
+            }
+            self.bus.sync_write("Goal_Position", goals, normalize=False)
+            if index == 1 or index == steps or index % 10 == 0:
+                self._check_health(goals, "startup_return")
+            time.sleep(duration / steps)
+        self.stream_target_raw = target_raw.copy()
+        self.stream_last_command_time = None
+        telemetry = self._check_health(target_raw, "startup_return_settle")
+        self._log(
+            "startup_return_complete",
+            duration=duration,
+            target_raw=target_raw,
+            final_error_counts=telemetry["error_counts"],
+        )
+        return {
+            "duration": duration,
+            "target_raw": target_raw,
+            "final_error_counts": telemetry["error_counts"],
         }
 
     def set_stream_target(self, target_values: list[float]) -> dict:
@@ -501,6 +563,9 @@ def main() -> int:
                 elif action == "disable":
                     controller.disable()
                     emit(request_id=request_id, success=True, reason="all torque disabled")
+                elif action == "rollback_startup":
+                    result = controller.return_to_startup_pose()
+                    emit(request_id=request_id, success=True, result=result)
                 elif action == "status":
                     policy, raw = controller.current_policy()
                     emit(

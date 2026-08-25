@@ -8,6 +8,7 @@ LEROBOT_ENV="${LEROBOT_ENV:-lerobot}"
 BUILD_FIRST="false"
 SHOULDER_LIFT_P="16"
 CALIBRATION_FILE="hardware/calibration/lerobot/so100_plus_new_arm.json"
+SAFE_POSE_FILE="hardware/calibration/hardware_safe_pose_v1.json"
 CONTROL_RATE_HZ="20.0"
 MAX_STREAM_COMMAND_DELTA_RAD="0.25"
 RAW_MARGIN_COUNTS="0"
@@ -28,6 +29,7 @@ while [[ $# -gt 0 ]]; do
     --lerobot-env) LEROBOT_ENV="$2"; shift 2 ;;
     --shoulder-lift-p) SHOULDER_LIFT_P="$2"; shift 2 ;;
     --calibration) CALIBRATION_FILE="$2"; shift 2 ;;
+    --safe-pose) SAFE_POSE_FILE="$2"; shift 2 ;;
     --rate) CONTROL_RATE_HZ="$2"; shift 2 ;;
     --max-stream-command-delta-rad) MAX_STREAM_COMMAND_DELTA_RAD="$2"; shift 2 ;;
     --raw-margin-counts) RAW_MARGIN_COUNTS="$2"; shift 2 ;;
@@ -56,6 +58,7 @@ source_relaxed "$ROS_WS/install/setup.bash"
 echo "[hardware_controller] Starting persistent seven-axis hold controller."
 echo "[hardware_controller] shoulder_lift_p=$SHOULDER_LIFT_P (baseline restore=16)"
 echo "[hardware_controller] calibration=$CALIBRATION_FILE"
+echo "[hardware_controller] approved safe pose=$SAFE_POSE_FILE"
 echo "[hardware_controller] feedback/driver rate=${CONTROL_RATE_HZ}Hz"
 echo "[hardware_controller] stream command delta limit=${MAX_STREAM_COMMAND_DELTA_RAD}rad"
 echo "[hardware_controller] raw safety margin=${RAW_MARGIN_COUNTS} counts (calibrated hard limits remain active)"
@@ -65,6 +68,7 @@ echo "[hardware_controller] Ctrl+C performs verified all-axis torque-off."
 ros2 launch soarm100_vision hardware_controller.launch.py \
   repo_root:="$ROOT_DIR" port:="$PORT" lerobot_env:="$LEROBOT_ENV" \
   calibration_file:="$CALIBRATION_FILE" \
+  safe_pose_file:="$SAFE_POSE_FILE" \
   shoulder_lift_p:="$SHOULDER_LIFT_P" \
   feedback_rate_hz:="$CONTROL_RATE_HZ" \
   driver_rate_hz:="$CONTROL_RATE_HZ" \

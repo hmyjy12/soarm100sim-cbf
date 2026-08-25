@@ -20,8 +20,8 @@ class ShaperConfig:
     velocity_filter_tau_s: float = 0.12
     max_velocity_rad_s: float = 0.20
     max_acceleration_rad_s2: float = 0.80
-    # Allow loaded joints to build enough position-loop error to overcome
-    # gravity/deadband. The hardware driver independently rejects >6 degrees.
+    # Diagnostic threshold for a previous command that the measured joints did
+    # not follow. It does not clamp normal policy commands.
     max_tracking_error_rad: float = 0.25
     action_deadband: float = 0.01
     min_dt_s: float = 0.01
@@ -49,9 +49,10 @@ class ShaperConfig:
 class PolicyCommandShaper:
     """State estimator and command governor shared by real policy controllers.
 
-    The measured joints remain the policy observation.  A separate q_ref is
-    maintained for the actuator command so encoder quantization and actuator
-    lag are not copied directly into every new absolute position target.
+    Every policy target is anchored to the latest measured joints, matching the
+    training contract ``q_target = q_measured + action_scale * action``.  The
+    previous command is retained only for tracking diagnostics, never as an
+    integration origin for the next command.
     """
 
     def __init__(self, config: ShaperConfig, joint_count: int = 7) -> None:
@@ -222,29 +223,22 @@ class PolicyCommandShaper:
         shaped_velocity[mask] = 0.0
         requested_dq[mask] = 0.0
 
-        tracking_before = self.q_ref - q
-        tracking_clamped = np.abs(tracking_before) > self.cfg.max_tracking_error_rad
-        if np.any(tracking_clamped):
-            self.q_ref = q + np.clip(
-                tracking_before,
-                -self.cfg.max_tracking_error_rad,
-                self.cfg.max_tracking_error_rad,
-            )
-
-        q_ref_next = np.clip(self.q_ref + shaped_velocity * dt, low, high)
-        q_ref_next = q + np.clip(
-            q_ref_next - q,
-            -self.cfg.max_tracking_error_rad,
-            self.cfg.max_tracking_error_rad,
+        previous_command_error = self.q_ref - q
+        tracking_exceeded = (
+            np.abs(previous_command_error) > self.cfg.max_tracking_error_rad
         )
+
+        policy_target = np.clip(q + requested_dq, low, high)
+        q_ref_next = np.clip(q + shaped_velocity * dt, low, high)
         q_ref_next[mask] = q[mask]
-        shaped_velocity = (q_ref_next - self.q_ref) / dt
+        shaped_velocity = (q_ref_next - q) / dt
         shaped_velocity[mask] = 0.0
         self.reference_velocity = shaped_velocity.copy()
         self.q_ref = q_ref_next.copy()
 
         return {
             "q_ref": q_ref_next,
+            "policy_target": policy_target,
             "raw_action": raw,
             "filtered_action": filtered,
             "requested_dq": requested_dq,
@@ -253,6 +247,10 @@ class PolicyCommandShaper:
             "unconstrained_velocity_rad_s": unconstrained_velocity,
             "safety_velocity_clamped": safety_clamped,
             "tracking_error_rad": q_ref_next - q,
-            "tracking_clamped": tracking_clamped,
+            "previous_command_error_rad": previous_command_error,
+            "tracking_exceeded": tracking_exceeded,
+            # Kept for existing log consumers. No command is clamped by this
+            # diagnostic threshold anymore.
+            "tracking_clamped": np.zeros(self.n, dtype=bool),
             "action_filter_alpha": float(action_filter_alpha),
         }

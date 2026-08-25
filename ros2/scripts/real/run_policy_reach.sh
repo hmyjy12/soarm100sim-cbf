@@ -23,6 +23,13 @@ MAX_JOINT_VELOCITY_RAD_S="0.20"
 MAX_JOINT_ACCELERATION_RAD_S2="0.80"
 POLICY_TIMEOUT_S="20.0"
 HOLD_CURRENT_DURATION_S="3.0"
+INITIALIZE_POLICY_POSE="true"
+POLICY_READY_POSE="hardware/calibration/hardware_safe_pose_v1.json"
+INIT_DURATION_S="6.0"
+INIT_SETTLE_SECONDS="0.75"
+INIT_TOLERANCE_RAD="0.20"
+INIT_MOVE_TOLERANCE_COUNTS="80"
+INIT_TRAINING_MARGIN_RAD="0.10"
 ENABLE_OBSTACLE_CBF="false"
 OBSTACLE_GUI="true"
 RGB_TOPIC="/camera/color/image_raw"
@@ -170,6 +177,13 @@ while [[ $# -gt 0 ]]; do
     --max-joint-acceleration-rad-s2) MAX_JOINT_ACCELERATION_RAD_S2="$2"; shift 2 ;;
     --timeout-s) POLICY_TIMEOUT_S="$2"; shift 2 ;;
     --hold-current-duration-s) HOLD_CURRENT_DURATION_S="$2"; shift 2 ;;
+    --initialize-policy-pose) INITIALIZE_POLICY_POSE="$2"; shift 2 ;;
+    --policy-ready-pose) POLICY_READY_POSE="$2"; shift 2 ;;
+    --init-duration-s) INIT_DURATION_S="$2"; shift 2 ;;
+    --init-settle-seconds) INIT_SETTLE_SECONDS="$2"; shift 2 ;;
+    --init-tolerance-rad) INIT_TOLERANCE_RAD="$2"; shift 2 ;;
+    --init-move-tolerance-counts) INIT_MOVE_TOLERANCE_COUNTS="$2"; shift 2 ;;
+    --init-training-margin-rad) INIT_TRAINING_MARGIN_RAD="$2"; shift 2 ;;
     --success-position-m) SUCCESS_POSITION_M="$2"; shift 2 ;;
     --success-orientation-deg) SUCCESS_ORIENTATION_DEG="$2"; shift 2 ;;
     --confirm) CONFIRM="$2"; shift 2 ;;
@@ -292,6 +306,42 @@ if ! awk -v v="$HOLD_CURRENT_DURATION_S" 'BEGIN { exit !(v >= 3.0 && v <= 120.0)
   echo "[ERROR] --hold-current-duration-s must be within [3, 120]" >&2
   exit 2
 fi
+if [[ "$INITIALIZE_POLICY_POSE" == "on" ]]; then INITIALIZE_POLICY_POSE="true"; fi
+if [[ "$INITIALIZE_POLICY_POSE" == "off" ]]; then INITIALIZE_POLICY_POSE="false"; fi
+if [[ "$INITIALIZE_POLICY_POSE" != "true" && "$INITIALIZE_POLICY_POSE" != "false" ]]; then
+  echo "[ERROR] --initialize-policy-pose must be on/off or true/false" >&2
+  exit 2
+fi
+if ! awk -v v="$INIT_DURATION_S" 'BEGIN { exit !(v >= 0.5 && v <= 30.0) }'; then
+  echo "[ERROR] --init-duration-s must be within [0.5, 30]" >&2
+  exit 2
+fi
+if ! awk -v v="$INIT_SETTLE_SECONDS" 'BEGIN { exit !(v >= 0.2 && v <= 5.0) }'; then
+  echo "[ERROR] --init-settle-seconds must be within [0.2, 5.0]" >&2
+  exit 2
+fi
+if ! awk -v v="$INIT_TOLERANCE_RAD" 'BEGIN { exit !(v >= 0.01 && v <= 0.30) }'; then
+  echo "[ERROR] --init-tolerance-rad must be within [0.01, 0.30]" >&2
+  exit 2
+fi
+if ! [[ "$INIT_MOVE_TOLERANCE_COUNTS" =~ ^[0-9]+$ ]] || \
+   ! awk -v v="$INIT_MOVE_TOLERANCE_COUNTS" 'BEGIN { exit !(v >= 8 && v <= 100) }'; then
+  echo "[ERROR] --init-move-tolerance-counts must be within [8, 100]" >&2
+  exit 2
+fi
+if ! awk -v v="$INIT_TRAINING_MARGIN_RAD" 'BEGIN { exit !(v >= 0.0 && v <= 0.30) }'; then
+  echo "[ERROR] --init-training-margin-rad must be within [0, 0.30]" >&2
+  exit 2
+fi
+if [[ "$POLICY_READY_POSE" = /* ]]; then
+  POLICY_READY_POSE_PATH="$POLICY_READY_POSE"
+else
+  POLICY_READY_POSE_PATH="$ROOT_DIR/$POLICY_READY_POSE"
+fi
+if [[ "$INITIALIZE_POLICY_POSE" == "true" && ! -f "$POLICY_READY_POSE_PATH" ]]; then
+  echo "[ERROR] policy-ready pose not found: $POLICY_READY_POSE_PATH" >&2
+  exit 2
+fi
 if ! awk -v v="$SELF_FILTER_MARGIN_M" 'BEGIN { exit !(v >= 0.010 && v <= 0.050) }'; then
   echo "[ERROR] --self-filter-margin-m must be within [0.010, 0.050] m" >&2
   exit 2
@@ -370,14 +420,17 @@ if [[ -n "$RELATIVE_DELTA" ]]; then
   echo "[policy_reach] relative mode: current TCP + ($RELATIVE_DELTA) m (orientation held)"
   echo "[policy_reach] relative target norm limit=${MAX_RELATIVE_DELTA_M}m; final target must remain inside base workspace."
 fi
-echo "[policy_reach] transition layer: feedback/policy/driver=${CONTROL_RATE_PARAM}Hz, vmax=${MAX_JOINT_VELOCITY_RAD_S}rad/s, amax=${MAX_JOINT_ACCELERATION_RAD_S2}rad/s^2, tracking=${MAX_TRACKING_ERROR_PARAM}rad, driver_limit=${MAX_TRACKING_ERROR_PARAM}rad."
+echo "[policy_reach] transition layer: measured-relative policy targets, feedback/policy/driver=${CONTROL_RATE_PARAM}Hz, vmax=${MAX_JOINT_VELOCITY_RAD_S}rad/s, amax=${MAX_JOINT_ACCELERATION_RAD_S2}rad/s^2."
+echo "[policy_reach] previous-command lag diagnostic=${MAX_TRACKING_ERROR_PARAM}rad; driver single-command limit=${MAX_TRACKING_ERROR_PARAM}rad."
 echo "[policy_reach] calibrated joint-limit CBF=$ENABLE_JOINT_LIMIT_CBF raw_margin=0 counts."
 echo "[policy_reach] success threshold: position=${SUCCESS_POSITION_PARAM}m, orientation=${SUCCESS_ORIENTATION_PARAM}deg."
 echo "[policy_reach] obstacle CBF=$ENABLE_OBSTACLE_CBF vmax=${MAX_JOINT_VELOCITY_RAD_S}rad/s amax=${MAX_JOINT_ACCELERATION_RAD_S2}rad/s2."
 mkdir -p "$ROOT_DIR/log/runtime/hardware"
 setsid "$ROOT_DIR/ros2/run_hardware_controller.sh" --port "$PORT" --rate "$CONTROL_RATE_PARAM" \
+  --safe-pose "$POLICY_READY_POSE_PATH" \
   --max-stream-command-delta-rad "$MAX_TRACKING_ERROR_PARAM" \
   --raw-margin-counts 0 \
+  --move-position-tolerance-counts "$INIT_MOVE_TOLERANCE_COUNTS" \
   >"$ROOT_DIR/log/runtime/hardware/policy_reach_controller.log" 2>&1 &
 CONTROLLER_PID=$!
 
@@ -396,6 +449,24 @@ if ! hardware_controller_ready; then
   echo "[ERROR] hardware controller did not become ready; see log/runtime/hardware/policy_reach_controller.log" >&2
   tail -n 30 "$ROOT_DIR/log/runtime/hardware/policy_reach_controller.log" >&2 || true
   exit 1
+fi
+
+if [[ "$INITIALIZE_POLICY_POSE" == "true" ]]; then
+  echo "[policy_reach] INITIALIZING: moving to approved policy-ready pose before vision/policy."
+  echo "[policy_reach] init pose=$POLICY_READY_POSE_PATH duration=${INIT_DURATION_S}s settle=${INIT_SETTLE_SECONDS}s hardware_tolerance=${INIT_MOVE_TOLERANCE_COUNTS}counts policy_tolerance=${INIT_TOLERANCE_RAD}rad."
+  if ! conda run --no-capture-output -n "$VISION_ENV" python \
+    "$ROOT_DIR/ros2/scripts/real/initialize_policy_ready_pose.py" \
+    --pose "$POLICY_READY_POSE_PATH" \
+    --duration "$INIT_DURATION_S" \
+    --settle-seconds "$INIT_SETTLE_SECONDS" \
+    --tolerance-rad "$INIT_TOLERANCE_RAD" \
+    --training-margin-rad "$INIT_TRAINING_MARGIN_RAD"; then
+    echo "[ERROR] policy initialization failed; vision and policy were not started." >&2
+    exit 1
+  fi
+  echo "[policy_reach] initialization complete; subsequent target uses the initialized live state."
+else
+  echo "[policy_reach] WARNING: policy-pose initialization disabled."
 fi
 
 if [[ "$ENABLE_OBSTACLE_CBF" == "true" ]]; then
