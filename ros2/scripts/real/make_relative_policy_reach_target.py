@@ -68,8 +68,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--max-delta-norm-m",
         type=float,
-        default=0.10,
-        help="Refuse delta-vector norms larger than this (default 100 mm).",
+        default=None,
+        help=(
+            "Optional delta-vector norm limit in meters. By default only the "
+            "final base workspace is checked."
+        ),
     )
     parser.add_argument(
         "--allow-zero",
@@ -129,7 +132,7 @@ def main() -> int:
     norm = float(np.linalg.norm(delta))
     if norm < 1.0e-4 and not args.allow_zero:
         raise SystemExit("[ERROR] delta norm is ~0; choose a non-zero 2-3 cm offset")
-    if norm > float(args.max_delta_norm_m) + 1.0e-9:
+    if args.max_delta_norm_m is not None and norm > float(args.max_delta_norm_m) + 1.0e-9:
         raise SystemExit(
             f"[ERROR] |delta|={norm * 1000.0:.1f}mm exceeds "
             f"max {float(args.max_delta_norm_m) * 1000.0:.1f}mm; "

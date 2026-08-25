@@ -14,7 +14,7 @@ OBSTACLE_PID=""
 OBSTACLE_VIEWER_PID=""
 TARGET_SEGMENTER_PID=""
 CONTROL_RATE_HZ="20.0"
-MAX_RELATIVE_DELTA_M="0.10"
+MAX_RELATIVE_DELTA_M=""
 MAX_TRACKING_ERROR_RAD="0.25"
 LOAD_SUPPORT_MODE="off"
 LOAD_SUPPORT_CONFIG="ros2/config/real/load_support.json"
@@ -32,7 +32,8 @@ POLICY_READY_POSE="hardware/calibration/policy_ready_static_cbf.json"
 INIT_DURATION_S="6.0"
 INIT_SETTLE_SECONDS="0.75"
 INIT_TOLERANCE_RAD="0.20"
-INIT_MOVE_TOLERANCE_COUNTS="80"
+INIT_MOVE_TOLERANCE_COUNTS="100"
+INIT_MOVE_SETTLE_TIMEOUT_S="4.0"
 INIT_TRAINING_MARGIN_RAD="0.10"
 ENABLE_OBSTACLE_CBF="false"
 OBSTACLE_GUI="true"
@@ -58,11 +59,13 @@ THIN_ATTACHMENT_DISTANCE_M="0.025"
 THIN_MAX_ROBOT_DISTANCE_M="0.100"
 OBSTACLE_CBF_D_SAFE_M="0.050"
 OBSTACLE_CBF_ACTIVATE_MARGIN_M="0.040"
+OBSTACLE_HARD_STOP_DISTANCE_M="0.030"
 # The Orbbec stream occasionally pauses for about 0.8 s on this host. This
 # stage uses a fixed camera and static obstacles, so retain the last cloud
 # briefly while still stopping on a sustained camera outage.
 OBSTACLE_CLOUD_TIMEOUT_S="3.0"
 OBSTACLE_STARTUP_TIMEOUT_S="12.0"
+RGB_DEPTH_SYNC_TOLERANCE_S="0.10"
 
 source_relaxed() {
   set +u
@@ -179,8 +182,10 @@ while [[ $# -gt 0 ]]; do
     --thin-max-robot-distance-m) THIN_MAX_ROBOT_DISTANCE_M="$2"; shift 2 ;;
     --obstacle-safe-distance-m) OBSTACLE_CBF_D_SAFE_M="$2"; shift 2 ;;
     --obstacle-activate-margin-m) OBSTACLE_CBF_ACTIVATE_MARGIN_M="$2"; shift 2 ;;
+    --obstacle-hard-stop-distance-m) OBSTACLE_HARD_STOP_DISTANCE_M="$2"; shift 2 ;;
     --obstacle-cloud-timeout-s) OBSTACLE_CLOUD_TIMEOUT_S="$2"; shift 2 ;;
     --obstacle-startup-timeout-s) OBSTACLE_STARTUP_TIMEOUT_S="$2"; shift 2 ;;
+    --rgb-depth-sync-tolerance-s) RGB_DEPTH_SYNC_TOLERANCE_S="$2"; shift 2 ;;
     --max-joint-velocity-rad-s) MAX_JOINT_VELOCITY_RAD_S="$2"; shift 2 ;;
     --max-joint-acceleration-rad-s2) MAX_JOINT_ACCELERATION_RAD_S2="$2"; shift 2 ;;
     --timeout-s) POLICY_TIMEOUT_S="$2"; shift 2 ;;
@@ -208,10 +213,12 @@ if ! [[ "$CONTROL_RATE_HZ" =~ ^[0-9]+([.][0-9]+)?$ ]] || \
   echo "[ERROR] --rate must be within [5, 30] Hz" >&2
   exit 2
 fi
-if ! [[ "$MAX_RELATIVE_DELTA_M" =~ ^[0-9]+([.][0-9]+)?$ ]] || \
-   ! awk -v value="$MAX_RELATIVE_DELTA_M" 'BEGIN { exit !(value > 0 && value <= 0.15) }'; then
-  echo "[ERROR] --max-relative-delta-m must be within (0, 0.15] m" >&2
-  exit 2
+if [[ -n "$MAX_RELATIVE_DELTA_M" ]]; then
+  if ! [[ "$MAX_RELATIVE_DELTA_M" =~ ^[0-9]+([.][0-9]+)?$ ]] || \
+     ! awk -v value="$MAX_RELATIVE_DELTA_M" 'BEGIN { exit !(value > 0) }'; then
+    echo "[ERROR] --max-relative-delta-m must be positive when provided" >&2
+    exit 2
+  fi
 fi
 if ! [[ "$MAX_TRACKING_ERROR_RAD" =~ ^[0-9]+([.][0-9]+)?$ ]] || \
    ! awk -v value="$MAX_TRACKING_ERROR_RAD" 'BEGIN { exit !(value >= 0.02 && value <= 0.35) }'; then
@@ -316,6 +323,15 @@ if ! awk -v v="$OBSTACLE_TARGET_MASK_TOLERANCE_S" 'BEGIN { exit !(v >= 0.5 && v 
 fi
 if ! awk -v v="$OBSTACLE_STARTUP_TIMEOUT_S" 'BEGIN { exit !(v >= 3.0 && v <= 30.0) }'; then
   echo "[ERROR] --obstacle-startup-timeout-s must be within [3, 30] s" >&2
+  exit 2
+fi
+if ! awk -v hard="$OBSTACLE_HARD_STOP_DISTANCE_M" -v safe="$OBSTACLE_CBF_D_SAFE_M" \
+  'BEGIN { exit !(hard >= 0.005 && hard < safe) }'; then
+  echo "[ERROR] --obstacle-hard-stop-distance-m must be >=0.005m and below --obstacle-safe-distance-m (${OBSTACLE_CBF_D_SAFE_M}m)" >&2
+  exit 2
+fi
+if ! awk -v v="$RGB_DEPTH_SYNC_TOLERANCE_S" 'BEGIN { exit !(v >= 0.02 && v <= 0.20) }'; then
+  echo "[ERROR] --rgb-depth-sync-tolerance-s must be within [0.02, 0.20] s" >&2
   exit 2
 fi
 if [[ "$WRIST_ATTACHMENT_BOX" == "on" ]]; then WRIST_ATTACHMENT_BOX="true"; fi
@@ -426,8 +442,10 @@ printf -v OBSTACLE_TARGET_MASK_TOLERANCE_PARAM "%.6f" "$OBSTACLE_TARGET_MASK_TOL
 printf -v TABLE_Z_MAX_PARAM "%.6f" "$TABLE_Z_MAX_M"
 printf -v OBSTACLE_CLOUD_TIMEOUT_PARAM "%.6f" "$OBSTACLE_CLOUD_TIMEOUT_S"
 printf -v OBSTACLE_STARTUP_TIMEOUT_PARAM "%.6f" "$OBSTACLE_STARTUP_TIMEOUT_S"
+printf -v RGB_DEPTH_SYNC_TOLERANCE_PARAM "%.6f" "$RGB_DEPTH_SYNC_TOLERANCE_S"
 printf -v OBSTACLE_CBF_D_SAFE_PARAM "%.6f" "$OBSTACLE_CBF_D_SAFE_M"
 printf -v OBSTACLE_CBF_ACTIVATE_MARGIN_PARAM "%.6f" "$OBSTACLE_CBF_ACTIVATE_MARGIN_M"
+printf -v OBSTACLE_HARD_STOP_DISTANCE_PARAM "%.6f" "$OBSTACLE_HARD_STOP_DISTANCE_M"
 if [[ ! -r "$PORT" || ! -w "$PORT" ]]; then
   echo "[ERROR] serial port is not readable/writable: $PORT" >&2
   exit 1
@@ -449,10 +467,28 @@ fi
 source_relaxed "$ROS_WS/install/setup.bash"
 assert_no_residual_controller
 
+if [[ "$ENABLE_OBSTACLE_CBF" == "true" ]]; then
+  echo "[policy_reach] preflight: checking live synchronized RGB-D before arm power-on."
+  if ! conda run --no-capture-output -n "$VISION_ENV" python \
+    "$ROOT_DIR/ros2/scripts/real/check_orbbec_rgbd_sync.py" \
+    --rgb-topic "$RGB_TOPIC" \
+    --depth-topic "$DEPTH_TOPIC" \
+    --camera-info-topic "$CAMERA_INFO_TOPIC" \
+    --timeout-s "$OBSTACLE_STARTUP_TIMEOUT_PARAM" \
+    --tolerance-s "$RGB_DEPTH_SYNC_TOLERANCE_PARAM"; then
+    echo "[ERROR] RGB-D synchronization preflight failed; arm was not powered." >&2
+    exit 1
+  fi
+fi
+
 echo "[policy_reach] target config: $ROOT_DIR/$TARGET_CONFIG"
 if [[ -n "$RELATIVE_DELTA" ]]; then
   echo "[policy_reach] relative mode: current TCP + ($RELATIVE_DELTA) m (orientation held)"
-  echo "[policy_reach] relative target norm limit=${MAX_RELATIVE_DELTA_M}m; final target must remain inside base workspace."
+  if [[ -n "$MAX_RELATIVE_DELTA_M" ]]; then
+    echo "[policy_reach] optional relative target norm limit=${MAX_RELATIVE_DELTA_M}m; final target must remain inside base workspace."
+  else
+    echo "[policy_reach] relative target norm limit=off; final target must remain inside base workspace."
+  fi
 fi
 echo "[policy_reach] transition layer: measured-relative policy targets, feedback/policy/driver=${CONTROL_RATE_PARAM}Hz, vmax=${MAX_JOINT_VELOCITY_RAD_S}rad/s, amax=${MAX_JOINT_ACCELERATION_RAD_S2}rad/s^2."
 echo "[policy_reach] previous-command lag diagnostic=${MAX_TRACKING_ERROR_PARAM}rad; driver single-command limit=${MAX_TRACKING_ERROR_PARAM}rad."
@@ -468,13 +504,14 @@ else
 fi
 echo "[policy_reach] calibrated joint-limit CBF=$ENABLE_JOINT_LIMIT_CBF raw_margin=0 counts."
 echo "[policy_reach] success threshold: position=${SUCCESS_POSITION_PARAM}m, orientation=${SUCCESS_ORIENTATION_PARAM}deg."
-echo "[policy_reach] obstacle CBF=$ENABLE_OBSTACLE_CBF vmax=${MAX_JOINT_VELOCITY_RAD_S}rad/s amax=${MAX_JOINT_ACCELERATION_RAD_S2}rad/s2."
+echo "[policy_reach] obstacle CBF=$ENABLE_OBSTACLE_CBF safe=${OBSTACLE_CBF_D_SAFE_PARAM}m hard_stop=${OBSTACLE_HARD_STOP_DISTANCE_PARAM}m vmax=${MAX_JOINT_VELOCITY_RAD_S}rad/s amax=${MAX_JOINT_ACCELERATION_RAD_S2}rad/s2."
 mkdir -p "$ROOT_DIR/log/runtime/hardware"
 setsid "$ROOT_DIR/ros2/run_hardware_controller.sh" --port "$PORT" --rate "$CONTROL_RATE_PARAM" \
   --safe-pose "$POLICY_READY_POSE_PATH" \
   --max-stream-command-delta-rad "$MAX_TRACKING_ERROR_PARAM" \
   --raw-margin-counts 0 \
   --move-position-tolerance-counts "$INIT_MOVE_TOLERANCE_COUNTS" \
+  --move-settle-timeout-s "$INIT_MOVE_SETTLE_TIMEOUT_S" \
   >"$ROOT_DIR/log/runtime/hardware/policy_reach_controller.log" 2>&1 &
 CONTROLLER_PID=$!
 
@@ -497,7 +534,7 @@ fi
 
 if [[ "$INITIALIZE_POLICY_POSE" == "true" ]]; then
   echo "[policy_reach] INITIALIZING: moving to approved policy-ready pose before vision/policy."
-  echo "[policy_reach] init pose=$POLICY_READY_POSE_PATH duration=${INIT_DURATION_S}s settle=${INIT_SETTLE_SECONDS}s hardware_tolerance=${INIT_MOVE_TOLERANCE_COUNTS}counts policy_tolerance=${INIT_TOLERANCE_RAD}rad."
+  echo "[policy_reach] init pose=$POLICY_READY_POSE_PATH duration=${INIT_DURATION_S}s settle=${INIT_SETTLE_SECONDS}s hardware_tolerance=${INIT_MOVE_TOLERANCE_COUNTS}counts hardware_settle_timeout=${INIT_MOVE_SETTLE_TIMEOUT_S}s policy_tolerance=${INIT_TOLERANCE_RAD}rad."
   if ! conda run --no-capture-output -n "$VISION_ENV" python \
     "$ROOT_DIR/ros2/scripts/real/initialize_policy_ready_pose.py" \
     --pose "$POLICY_READY_POSE_PATH" \
@@ -538,6 +575,7 @@ if [[ "$ENABLE_OBSTACLE_CBF" == "true" ]]; then
       -p mask_topic:=/obstacle/selected_mask \
       -p expanded_mask_topic:=/obstacle/selected_mask_expanded \
       -p synchronized_depth_topic:=/obstacle/selected_depth \
+      -p rgb_depth_sync_tolerance_s:="$RGB_DEPTH_SYNC_TOLERANCE_PARAM" \
       -p target_cloud_topic:=/obstacle/selected_cloud_camera \
       -p target_roi_cloud_topic:=/obstacle/selected_cloud_roi_camera \
       -p target_center_topic:=/obstacle/selected_center_camera \
@@ -636,12 +674,16 @@ fi
 
 if [[ -n "$RELATIVE_DELTA" ]]; then
   echo "[policy_reach] sampling live /joint_states and writing relative target..."
+  RELATIVE_LIMIT_ARGS=()
+  if [[ -n "$MAX_RELATIVE_DELTA_M" ]]; then
+    RELATIVE_LIMIT_ARGS+=(--max-delta-norm-m "$MAX_RELATIVE_DELTA_M")
+  fi
   conda run --no-capture-output -n "$VISION_ENV" python \
     "$ROOT_DIR/ros2/scripts/real/make_relative_policy_reach_target.py" \
     --repo-root "$ROOT_DIR" \
     --output "$TARGET_CONFIG" \
     --delta-m "$RELATIVE_DELTA" \
-    --max-delta-norm-m "$MAX_RELATIVE_DELTA_M" \
+    "${RELATIVE_LIMIT_ARGS[@]}" \
     --allow-zero
 fi
 
@@ -665,6 +707,7 @@ conda run --no-capture-output -n "$VISION_ENV" python \
   -p obstacle_startup_timeout_s:="$OBSTACLE_STARTUP_TIMEOUT_PARAM" \
   -p obstacle_cbf_d_safe_m:="$OBSTACLE_CBF_D_SAFE_PARAM" \
   -p obstacle_cbf_activate_margin_m:="$OBSTACLE_CBF_ACTIVATE_MARGIN_PARAM" \
+  -p obstacle_hard_stop_distance_m:="$OBSTACLE_HARD_STOP_DISTANCE_PARAM" \
   -p success_position_m:="$SUCCESS_POSITION_PARAM" \
   -p success_orientation_deg:="$SUCCESS_ORIENTATION_PARAM" \
   -p timeout_s:="$POLICY_TIMEOUT_PARAM" \

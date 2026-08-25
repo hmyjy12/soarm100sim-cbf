@@ -29,6 +29,7 @@ def generate_launch_description():
             DeclareLaunchArgument("max_stream_command_delta_rad", default_value="0.25"),
             DeclareLaunchArgument("raw_margin_counts", default_value="0"),
             DeclareLaunchArgument("move_position_tolerance_counts", default_value="12"),
+            DeclareLaunchArgument("move_settle_timeout_s", default_value="2.0"),
             DeclareLaunchArgument("allow_move_static_error", default_value="false"),
             Node(
                 package="soarm100_vision",
@@ -65,6 +66,10 @@ def generate_launch_description():
                         "move_position_tolerance_counts": ParameterValue(
                             LaunchConfiguration("move_position_tolerance_counts"),
                             value_type=int,
+                        ),
+                        "move_settle_timeout_s": ParameterValue(
+                            LaunchConfiguration("move_settle_timeout_s"),
+                            value_type=float,
                         ),
                         "allow_move_static_error": ParameterValue(
                             LaunchConfiguration("allow_move_static_error"),

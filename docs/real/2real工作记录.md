@@ -456,12 +456,13 @@ ros2/soarm100_vision/soarm100_vision/control/policy_command_shaper.py
 当前默认功能和保守参数：
 
 - 使用每帧实际 `dt` 计算 action 和编码器速度低通，不假设计时器绝对准时。
-- 独立维护连续 `q_ref`，不再把每帧编码器量化波动直接复制到新目标。
+- 基线模式使用“实测关节位置 + 本周期整形增量”，避免旧版连续 `q_ref` 在舵机
+  落后时无限积累（windup）。负载轴需要建立更明显的位置误差时，显式开启后述
+  `bounded` policy-target tracker。
 - 最大参考速度 `0.20 rad/s`。
 - 最大参考加速度 `0.80 rad/s^2`，正反方向切换必须经过连续过渡。
-- `q_ref` 与实测关节的最大跟踪误差默认设为 `0.25 rad`（约 `14.3°`）；该值是参考关节位置相对实测关节位置的最大允许偏差，不是单步转角。可通过 `run_policy_reach.sh --max-tracking-error-rad` 显式覆盖
-  （约 `5.7 deg`），使肩部/肘部负载轴可以建立足够的位置环误差；硬件驱动
-  仍以独立的 `6 deg` 流式目标限制兜底。
+- `--max-tracking-error-rad` 当前用于上一条命令相对实测值的滞后诊断，并同步为
+  硬件单条流式命令限值；默认 `0.25 rad`（约 `14.3°`），不是 TCP 位移。
 - 夹爪在位姿到达阶段仍冻结在实测初始位置。
 
 一键脚本参数 `--rate` 会同时传递给反馈、policy 和底层驱动：
@@ -475,9 +476,8 @@ ros2/soarm100_vision/soarm100_vision/control/policy_command_shaper.py
 `--rate 20` 表示上位机每秒使用新反馈执行约 20 次 policy 推理和关节目标下发，
 即周期约 `50 ms`；它不是舵机内部位置环频率。当前允许范围为 `5～30 Hz`。
 
-相对 TCP 测试目标使用独立限制，默认允许三维位移向量的欧氏范数不超过
-`0.10 m`。例如 `--relative-delta 0.08,0,0` 的范数为 `0.08 m`，允许执行；
-同时生成后的绝对目标还必须满足 base 工作空间：
+相对 TCP 目标默认不再限制三维位移向量的欧氏范数；生成后的绝对目标必须满足
+base 工作空间，不可达目标由 policy 持续尝试并在 timeout 后结束：
 
 ```text
 x: [0.08, 0.45] m
@@ -485,7 +485,7 @@ y: [-0.30, 0.30] m
 z: [0.05, 0.45] m
 ```
 
-需要采用更小的实验上限时可以显式指定：
+需要为特定实验恢复额外位移范数上限时，可以显式指定：
 
 ```bash
 ./ros2/scripts/real/run_policy_reach.sh \
@@ -505,7 +505,8 @@ policy 发送值、映射后编码器目标和当时编码器反馈。首轮真�
 
 MuJoCo 在该链路中仅用于与训练一致的 FK、TCP 定义和 observation 构造，不启动
 物理仿真、GUI 或 `mujoco/play.py`。硬件侧额外执行关节模型限位、原始编码器安全
-区间、单次流式目标最大 6 deg、温度保护、串口断开保护和 0.5 s 无新命令保持。
+区间、单条流式目标限值（当前默认 `0.25 rad`）、温度保护、串口断开保护和
+0.5 s 无新命令保持。
 
 初次运行命令：
 
@@ -524,14 +525,65 @@ MuJoCo 在该链路中仅用于与训练一致的 FK、TCP 定义和 observation
 中 `shoulder_pitch_joint=-3.2448 rad` 低于 MuJoCo 训练下限 `-pi`，旧逻辑裁剪回模型边界后
 形成 `+5.91 deg` 指令跳变，被当时的硬件 `3 deg` 流式限幅拒绝。现在改为从真机实测角度
 先从真机实测角度小步恢复到 policy 训练范围内侧，再积分 PPO 输出；超出训练范围会记录
-泛化风险警告，但不拒绝启动，也不要求回到某个固定的 `hardware_safe_pose`。真机
-是否允许执行仅由标定编码器安全区间、单步限幅、温度和电流保护决定。
+泛化风险警告。当前主入口会先移动到后述已批准的 `policy_ready_static_cbf.json`，
+再以到位后的实测状态生成相对 TCP 目标；真机是否允许执行仍由标定编码器安全区间、
+单步限幅、温度和电流保护决定。
 若启动时已处于编码器端点预留区，该关节只允许向安全区内恢复，向外的指令分量保持在当前位置。
 
 启动脚本还会在上电前拒绝以下残留状态：串口被占用、`run_hardware_controller.py` 或
 `hardware_controller_node` 仍在运行、已有 `/hardware/set_torque` 或
 `/hardware/move_joint_target` service。它不会自动结束未知进程；先明确打印 PID，
 避免新 policy 错误接入早期遗留的 ROS2 controller。脚本仅清理自身创建的控制器进程组。
+
+#### 0.4.2 新 policy-ready 姿态与负载执行辅助（2026-08-25）
+
+为避免断力矩自然折叠姿态落在 policy 训练边界附近，新增单终端交互式 ready 姿态
+采集工具。机械臂在首次按空格前保持断力矩；采集通过后才原地上电保持，操作员输入
+`APPROVE` 后才生成正式文件。失败、拒绝或 Ctrl+C 均会验证七轴断力并释放串口。
+
+```bash
+./ros2/scripts/real/capture_policy_ready_pose.sh \
+  --confirm CAPTURE_POLICY_READY_POSE
+```
+
+本轮批准文件为：
+
+```text
+hardware/calibration/policy_ready_static_cbf.json
+```
+
+该文件已设为 `run_policy_reach.sh`、`run_hardware_controller.sh` 和后续 ready 姿态
+采集工具的默认安全姿态。当前采集值已通过 raw 余量、MuJoCo/policy 范围、上电保持
+及人工空间/线缆检查。
+
+真机执行层保留两个彼此独立、默认关闭的辅助模块：
+
+1. `--policy-target-tracker bounded`：把每周期整形后的小增量累积为连续关节目标，
+   但每个机械臂关节最多领先实测位置 `0.20 rad`，并继续受 policy 目标和关节限位
+   约束。作用是让负载关节建立足够的位置误差越过舵机死区，同时限制 windup。
+2. `--load-support position-gravity-bias`：在硬件映射前为
+   `shoulder_pitch_joint` 缓慢加入 `-0.04 rad` 位置偏置（速率 `0.04 rad/s`，配置硬上限
+   `0.10 rad`）。这不是力矩模型补偿，而是利用舵机内部位置环产生额外承重力。
+
+2026-08-25 对照试验中，遗漏上述两个开关时，请求 TCP `(+20,0,0) mm`，实际得到
+`(-0.35,+1.57,-16.19) mm`，最终误差 `26.05 mm` 并超时。policy 持续输出明显动作，
+但 measured-relative 单周期目标多数只有约 `0.01 rad`；多个关节只领先编码器
+`6～7 counts`，不足以稳定越过负载/死区，主要表现为 X 不前进和 Z 下坠。这不是
+相对目标生成错误，也不是新 ready 姿态映射错误。
+
+当前无障碍 policy 到达推荐基线命令：
+
+```bash
+./ros2/scripts/real/run_policy_reach.sh \
+  --relative-delta 0.02,0,0 \
+  --rate 20 \
+  --policy-target-tracker bounded \
+  --load-support position-gravity-bias \
+  --confirm RUN_POLICY_REACH
+```
+
+先用该基线复核新 ready 姿态的 X/Y/Z 到达误差，再在同一执行配置上开启静态障碍
+CBF；不要把“辅助模块关闭”的失败结果归因于 CBF。
 
 ### 0.5 真机 Orbbec 静态障碍 SDF-CBF（2026-08-20）
 
@@ -1604,6 +1656,30 @@ target-only：仅指定类别实例的 mask 内深度点进入障碍点云
 视觉部分复用固定类别 YOLO + MobileSAM。YOLO 检测指定类别并选取最高置信度
 实例，MobileSAM 根据 bbox 生成实例 mask；障碍节点在已对齐的深度图上应用该
 mask，再将保留的深度点转换到 base frame。默认自动刷新频率为 `2 Hz`。
+
+RGB 与对齐深度必须来自近似同一时刻，否则 mask 会被套到另一时刻的
+深度图上，运动物体、机械臂或相机抖动时会生成错位点云。Orbbec 启动脚本
+已启用 `enable_sync_host_time:=true` 和 `time_domain:=global`。启用 obstacle CBF
+时，`run_policy_reach.sh` 会在机械臂上电前自动检查 RGB、Depth、
+CameraInfo、图像尺寸和最近时间戳差；默认容差为 `0.10 s`，可用
+`--rgb-depth-sync-tolerance-s` 在 `[0.02, 0.20] s` 内显式调整。预检失败时
+不会给机械臂上电。
+
+单独检查同步状态：
+
+```bash
+cd /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim
+source /opt/ros/humble/setup.bash
+source ros2/install/setup.bash
+
+conda run --no-capture-output -n vision_seg python \
+  ros2/scripts/real/check_orbbec_rgbd_sync.py \
+  --timeout-s 12 \
+  --tolerance-s 0.10
+```
+
+成功时输出 `[rgbd_sync] PASS`。失败时会显示 RGB/Depth/CameraInfo 收帧数、
+两路图像尺寸和 `best_dt`，用于区分缺帧、分辨率不一致和时间戳不同步。
 
 安全降级规则：
 

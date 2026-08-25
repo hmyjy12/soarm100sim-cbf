@@ -108,6 +108,9 @@ class TargetSegmenterNode(Node):
         buffer_size = max(int(self._param("rgb_depth_buffer_size")), 2)
         self._rgb_buffer: deque[Image] = deque(maxlen=buffer_size)
         self._depth_buffer: deque[Image] = deque(maxlen=buffer_size)
+        self._rgb_count = 0
+        self._depth_count = 0
+        self._info_count = 0
         self._synced_bundle: tuple[Image, Image, CameraInfo, float] | None = None
         self._frame_lock = threading.Lock()
         self._detector = None
@@ -196,18 +199,21 @@ class TargetSegmenterNode(Node):
 
     def _on_rgb(self, msg: Image) -> None:
         with self._frame_lock:
+            self._rgb_count += 1
             self._rgb = msg
             self._rgb_buffer.append(msg)
             self._update_synced_bundle_locked()
 
     def _on_depth(self, msg: Image) -> None:
         with self._frame_lock:
+            self._depth_count += 1
             self._depth = msg
             self._depth_buffer.append(msg)
             self._update_synced_bundle_locked()
 
     def _on_info(self, msg: CameraInfo) -> None:
         with self._frame_lock:
+            self._info_count += 1
             self._info = msg
             self._update_synced_bundle_locked()
 
@@ -243,9 +249,28 @@ class TargetSegmenterNode(Node):
     def _on_segment(self, request: SegmentTarget.Request, response: SegmentTarget.Response):
         with self._frame_lock:
             bundle = self._synced_bundle
+            if bundle is None:
+                if not self._rgb_buffer:
+                    wait_reason = "waiting_for_rgb"
+                elif not self._depth_buffer:
+                    wait_reason = "waiting_for_depth"
+                elif self._info is None:
+                    wait_reason = "waiting_for_camera_info"
+                else:
+                    best_delta = min(
+                        abs(self._stamp_s(rgb) - self._stamp_s(depth))
+                        for rgb in self._rgb_buffer
+                        for depth in self._depth_buffer
+                    )
+                    wait_reason = (
+                        "waiting_for_rgb_depth_sync:"
+                        f"best_dt={best_delta:.6f}s:"
+                        f"tolerance={float(self._param('rgb_depth_sync_tolerance_s')):.6f}s:"
+                        f"counts={self._rgb_count},{self._depth_count},{self._info_count}"
+                    )
         if bundle is None:
             response.success = False
-            response.reason = "waiting_for_synchronized_rgb_depth_camera_info"
+            response.reason = wait_reason
             return response
         rgb_msg, depth_msg, info_msg, sync_delta_s = bundle
         mode = str(self._param("segmentation_mode")).strip().lower()

@@ -36,6 +36,8 @@ exec ros2 launch orbbec_camera gemini_330_series.launch.py \
   enable_point_cloud:=false \
   enable_colored_point_cloud:=false \
   depth_registration:=true \
+  enable_sync_host_time:=true \
+  time_domain:=global \
   color_width:="$COLOR_WIDTH" \
   color_height:="$COLOR_HEIGHT" \
   depth_width:="$DEPTH_WIDTH" \

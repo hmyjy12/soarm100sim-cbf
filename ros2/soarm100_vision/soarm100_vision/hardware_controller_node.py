@@ -41,6 +41,7 @@ class HardwareControllerNode(Node):
         self.declare_parameter("max_stream_command_delta_rad", 0.25)
         self.declare_parameter("raw_margin_counts", 0)
         self.declare_parameter("move_position_tolerance_counts", 12)
+        self.declare_parameter("move_settle_timeout_s", 2.0)
         self.declare_parameter("allow_move_static_error", False)
         self.declare_parameter("command_timeout", 20.0)
         self._command_lock = threading.Lock()
@@ -143,6 +144,8 @@ class HardwareControllerNode(Node):
             str(int(self.get_parameter("raw_margin_counts").value)),
             "--move-position-tolerance-counts",
             str(int(self.get_parameter("move_position_tolerance_counts").value)),
+            "--move-settle-timeout-s",
+            str(float(self.get_parameter("move_settle_timeout_s").value)),
             "--log",
             self._driver_log_path,
         ]
