@@ -27,10 +27,14 @@ from soarm100_vision.control.policy_command_shaper import (
     PolicyCommandShaper,
     ShaperConfig,
 )
+from soarm100_vision.control.bounded_policy_target_tracker import (
+    BoundedPolicyTargetTracker,
+)
 from soarm100_vision.control.joint_limit_cbf import (
     JointLimitCbfConfig,
     JointLimitCbfFilter,
 )
+from soarm100_vision.control.load_support_tracker import PositionGravityBias
 from soarm100_vision.hardware_joint_limit_filter import HardwareJointLimitFilter
 from soarm100_vision.vision_utils import pointcloud2_to_xyz
 
@@ -95,6 +99,15 @@ class PolicyReachNode(Node):
         self.declare_parameter("max_joint_velocity_rad_s", 0.20)
         self.declare_parameter("max_joint_acceleration_rad_s2", 0.80)
         self.declare_parameter("max_tracking_error_rad", 0.25)
+        self.declare_parameter("load_support_mode", "off")
+        self.declare_parameter(
+            "load_support_config", "ros2/config/real/load_support.json"
+        )
+        self.declare_parameter("policy_target_tracker_mode", "off")
+        self.declare_parameter(
+            "policy_target_tracker_config",
+            "ros2/config/real/policy_target_tracker.json",
+        )
         self.declare_parameter("enable_joint_limit_cbf", False)
         self.declare_parameter("enable_obstacle_cbf", False)
         self.declare_parameter("obstacle_cloud_topic", "/obstacle/cloud")
@@ -167,6 +180,36 @@ class PolicyReachNode(Node):
                 action_deadband=float(self.get_parameter("action_deadband").value),
             )
         )
+        load_support_mode = str(self.get_parameter("load_support_mode").value)
+        if load_support_mode not in ("off", "position-gravity-bias"):
+            raise ValueError(
+                "load_support_mode must be off or position-gravity-bias"
+            )
+        self.load_support: PositionGravityBias | None = None
+        if load_support_mode == "position-gravity-bias":
+            config_path = Path(
+                str(self.get_parameter("load_support_config").value)
+            )
+            if not config_path.is_absolute():
+                config_path = self.repo / config_path
+            self.load_support = PositionGravityBias.from_config(
+                config_path.resolve(), JOINT_NAMES
+            )
+        tracker_mode = str(
+            self.get_parameter("policy_target_tracker_mode").value
+        )
+        if tracker_mode not in ("off", "bounded"):
+            raise ValueError("policy_target_tracker_mode must be off or bounded")
+        self.policy_target_tracker: BoundedPolicyTargetTracker | None = None
+        if tracker_mode == "bounded":
+            tracker_path = Path(
+                str(self.get_parameter("policy_target_tracker_config").value)
+            )
+            if not tracker_path.is_absolute():
+                tracker_path = self.repo / tracker_path
+            self.policy_target_tracker = BoundedPolicyTargetTracker.from_config(
+                tracker_path.resolve(), JOINT_NAMES
+            )
         self.joint_limit_cbf: JointLimitCbfFilter | None = None
         self.obstacle_cbf_config = None
         self.obstacle_cbf_monitors = None
@@ -268,6 +311,8 @@ class PolicyReachNode(Node):
             f"vmax={float(self.get_parameter('max_joint_velocity_rad_s').value):.3f}rad/s "
             f"amax={float(self.get_parameter('max_joint_acceleration_rad_s2').value):.3f}rad/s2 "
             f"tracking_diagnostic={float(self.get_parameter('max_tracking_error_rad').value):.3f}rad "
+            f"load_support={load_support_mode} "
+            f"policy_target_tracker={tracker_mode} "
             f"joint_limit_cbf={self.joint_limit_cbf is not None} "
             f"obstacle_cbf={self.obstacle_cbf_config is not None} "
             f"start_on_launch={bool(self.get_parameter('start_on_launch').value)}"
@@ -676,6 +721,36 @@ class PolicyReachNode(Node):
                     q[6] + self.shaper.cfg.max_tracking_error_rad,
                 )
             )
+        q_cmd_before_policy_tracker = q_cmd.copy()
+        policy_tracker_info = {
+            "lead_rad": q_cmd - q,
+            "lead_limit_rad": np.zeros(7, dtype=np.float64),
+            "lead_clamped": np.zeros(7, dtype=bool),
+            "candidate_q": q_cmd.copy(),
+        }
+        if self.policy_target_tracker is not None:
+            policy_tracker_info = self.policy_target_tracker.apply(
+                q,
+                shaped["policy_target"],
+                shaped["reference_velocity_rad_s"],
+                recovery_low,
+                recovery_high,
+                timing["dt_s"],
+                frozen,
+            )
+            q_cmd = policy_tracker_info["q_cmd"]
+        q_cmd_before_load_support = q_cmd.copy()
+        load_support_info = {
+            "requested_bias_rad": np.zeros(7, dtype=np.float64),
+            "applied_bias_rad": np.zeros(7, dtype=np.float64),
+            "bias_magnitude_rad": np.zeros(7, dtype=np.float64),
+            "limit_clamped": np.zeros(7, dtype=bool),
+        }
+        if self.load_support is not None:
+            load_support_info = self.load_support.apply(
+                q_cmd, recovery_low, recovery_high, timing["dt_s"]
+            )
+            q_cmd = load_support_info["q_cmd"]
         dq_cmd = q_cmd - q
 
         limit_clamped = shaped["safety_velocity_clamped"][:6]
@@ -742,6 +817,34 @@ class PolicyReachNode(Node):
             dq_cmd=dq_cmd.tolist(),
             q_cmd=q_cmd.tolist(),
             q_ref=q_cmd.tolist(),
+            q_cmd_before_load_support=q_cmd_before_load_support.tolist(),
+            q_cmd_before_policy_target_tracker=q_cmd_before_policy_tracker.tolist(),
+            policy_target_tracker_enabled=self.policy_target_tracker is not None,
+            policy_target_tracker_candidate_q=policy_tracker_info[
+                "candidate_q"
+            ].tolist(),
+            policy_target_tracker_lead_rad=policy_tracker_info[
+                "lead_rad"
+            ].tolist(),
+            policy_target_tracker_lead_limit_rad=policy_tracker_info[
+                "lead_limit_rad"
+            ].tolist(),
+            policy_target_tracker_lead_clamped=policy_tracker_info[
+                "lead_clamped"
+            ].tolist(),
+            load_support_enabled=self.load_support is not None,
+            load_support_requested_bias_rad=load_support_info[
+                "requested_bias_rad"
+            ].tolist(),
+            load_support_applied_bias_rad=load_support_info[
+                "applied_bias_rad"
+            ].tolist(),
+            load_support_bias_magnitude_rad=load_support_info[
+                "bias_magnitude_rad"
+            ].tolist(),
+            load_support_limit_clamped=load_support_info[
+                "limit_clamped"
+            ].tolist(),
             desired_velocity_rad_s=shaped["desired_velocity_rad_s"].tolist(),
             reference_velocity_rad_s=shaped["reference_velocity_rad_s"].tolist(),
             unconstrained_velocity_rad_s=shaped["unconstrained_velocity_rad_s"].tolist(),

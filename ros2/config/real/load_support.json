@@ -1,0 +1,11 @@
+{
+  "mode": "position_gravity_bias",
+  "joints": {
+    "shoulder_pitch_joint": {
+      "direction": -1,
+      "bias_rad": 0.04,
+      "max_bias_rad": 0.10,
+      "ramp_rate_rad_s": 0.04
+    }
+  }
+}

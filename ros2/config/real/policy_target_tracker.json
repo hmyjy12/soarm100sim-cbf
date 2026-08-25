@@ -1,0 +1,12 @@
+{
+  "mode": "bounded",
+  "max_lead_rad": {
+    "shoulder_rotation_joint": 0.20,
+    "shoulder_pitch_joint": 0.20,
+    "ellbow_joint": 0.20,
+    "wrist_pitch_joint": 0.20,
+    "wrist_jaw_joint": 0.20,
+    "wrist_roll_joint": 0.20,
+    "gripper_joint": 0.00
+  }
+}

@@ -16,6 +16,10 @@ TARGET_SEGMENTER_PID=""
 CONTROL_RATE_HZ="20.0"
 MAX_RELATIVE_DELTA_M="0.10"
 MAX_TRACKING_ERROR_RAD="0.25"
+LOAD_SUPPORT_MODE="off"
+LOAD_SUPPORT_CONFIG="ros2/config/real/load_support.json"
+POLICY_TARGET_TRACKER_MODE="off"
+POLICY_TARGET_TRACKER_CONFIG="ros2/config/real/policy_target_tracker.json"
 ENABLE_JOINT_LIMIT_CBF="false"
 SUCCESS_POSITION_M="0.015"
 SUCCESS_ORIENTATION_DEG="10.0"
@@ -146,6 +150,10 @@ while [[ $# -gt 0 ]]; do
     --rate) CONTROL_RATE_HZ="$2"; shift 2 ;;
     --max-relative-delta-m) MAX_RELATIVE_DELTA_M="$2"; shift 2 ;;
     --max-tracking-error-rad) MAX_TRACKING_ERROR_RAD="$2"; shift 2 ;;
+    --load-support) LOAD_SUPPORT_MODE="$2"; shift 2 ;;
+    --load-support-config) LOAD_SUPPORT_CONFIG="$2"; shift 2 ;;
+    --policy-target-tracker) POLICY_TARGET_TRACKER_MODE="$2"; shift 2 ;;
+    --policy-target-tracker-config) POLICY_TARGET_TRACKER_CONFIG="$2"; shift 2 ;;
     --joint-limit-cbf) ENABLE_JOINT_LIMIT_CBF="$2"; shift 2 ;;
     --obstacle-cbf) ENABLE_OBSTACLE_CBF="$2"; shift 2 ;;
     --obstacle-gui) OBSTACLE_GUI="$2"; shift 2 ;;
@@ -208,6 +216,32 @@ fi
 if ! [[ "$MAX_TRACKING_ERROR_RAD" =~ ^[0-9]+([.][0-9]+)?$ ]] || \
    ! awk -v value="$MAX_TRACKING_ERROR_RAD" 'BEGIN { exit !(value >= 0.02 && value <= 0.35) }'; then
   echo "[ERROR] --max-tracking-error-rad must be within [0.02, 0.35] rad" >&2
+  exit 2
+fi
+if [[ "$LOAD_SUPPORT_MODE" != "off" && "$LOAD_SUPPORT_MODE" != "position-gravity-bias" ]]; then
+  echo "[ERROR] --load-support must be off or position-gravity-bias" >&2
+  exit 2
+fi
+if [[ "$LOAD_SUPPORT_CONFIG" = /* ]]; then
+  LOAD_SUPPORT_CONFIG_PATH="$LOAD_SUPPORT_CONFIG"
+else
+  LOAD_SUPPORT_CONFIG_PATH="$ROOT_DIR/$LOAD_SUPPORT_CONFIG"
+fi
+if [[ "$LOAD_SUPPORT_MODE" != "off" && ! -f "$LOAD_SUPPORT_CONFIG_PATH" ]]; then
+  echo "[ERROR] load-support config not found: $LOAD_SUPPORT_CONFIG_PATH" >&2
+  exit 2
+fi
+if [[ "$POLICY_TARGET_TRACKER_MODE" != "off" && "$POLICY_TARGET_TRACKER_MODE" != "bounded" ]]; then
+  echo "[ERROR] --policy-target-tracker must be off or bounded" >&2
+  exit 2
+fi
+if [[ "$POLICY_TARGET_TRACKER_CONFIG" = /* ]]; then
+  POLICY_TARGET_TRACKER_CONFIG_PATH="$POLICY_TARGET_TRACKER_CONFIG"
+else
+  POLICY_TARGET_TRACKER_CONFIG_PATH="$ROOT_DIR/$POLICY_TARGET_TRACKER_CONFIG"
+fi
+if [[ "$POLICY_TARGET_TRACKER_MODE" != "off" && ! -f "$POLICY_TARGET_TRACKER_CONFIG_PATH" ]]; then
+  echo "[ERROR] policy-target tracker config not found: $POLICY_TARGET_TRACKER_CONFIG_PATH" >&2
   exit 2
 fi
 if ! [[ "$SUCCESS_POSITION_M" =~ ^[0-9]+([.][0-9]+)?$ ]] || \
@@ -422,6 +456,16 @@ if [[ -n "$RELATIVE_DELTA" ]]; then
 fi
 echo "[policy_reach] transition layer: measured-relative policy targets, feedback/policy/driver=${CONTROL_RATE_PARAM}Hz, vmax=${MAX_JOINT_VELOCITY_RAD_S}rad/s, amax=${MAX_JOINT_ACCELERATION_RAD_S2}rad/s^2."
 echo "[policy_reach] previous-command lag diagnostic=${MAX_TRACKING_ERROR_PARAM}rad; driver single-command limit=${MAX_TRACKING_ERROR_PARAM}rad."
+if [[ "$LOAD_SUPPORT_MODE" == "off" ]]; then
+  echo "[policy_reach] load support=off."
+else
+  echo "[policy_reach] load support=$LOAD_SUPPORT_MODE config=$LOAD_SUPPORT_CONFIG_PATH."
+fi
+if [[ "$POLICY_TARGET_TRACKER_MODE" == "off" ]]; then
+  echo "[policy_reach] bounded policy-target tracker=off."
+else
+  echo "[policy_reach] bounded policy-target tracker=$POLICY_TARGET_TRACKER_MODE config=$POLICY_TARGET_TRACKER_CONFIG_PATH."
+fi
 echo "[policy_reach] calibrated joint-limit CBF=$ENABLE_JOINT_LIMIT_CBF raw_margin=0 counts."
 echo "[policy_reach] success threshold: position=${SUCCESS_POSITION_PARAM}m, orientation=${SUCCESS_ORIENTATION_PARAM}deg."
 echo "[policy_reach] obstacle CBF=$ENABLE_OBSTACLE_CBF vmax=${MAX_JOINT_VELOCITY_RAD_S}rad/s amax=${MAX_JOINT_ACCELERATION_RAD_S2}rad/s2."
@@ -609,6 +653,10 @@ conda run --no-capture-output -n "$VISION_ENV" python \
   -p target_config:="$TARGET_CONFIG" \
   -p control_rate_hz:="$CONTROL_RATE_PARAM" \
   -p max_tracking_error_rad:="$MAX_TRACKING_ERROR_PARAM" \
+  -p load_support_mode:="$LOAD_SUPPORT_MODE" \
+  -p load_support_config:="$LOAD_SUPPORT_CONFIG_PATH" \
+  -p policy_target_tracker_mode:="$POLICY_TARGET_TRACKER_MODE" \
+  -p policy_target_tracker_config:="$POLICY_TARGET_TRACKER_CONFIG_PATH" \
   -p max_joint_velocity_rad_s:="$MAX_JOINT_VELOCITY_PARAM" \
   -p max_joint_acceleration_rad_s2:="$MAX_JOINT_ACCELERATION_PARAM" \
   -p enable_joint_limit_cbf:="$ENABLE_JOINT_LIMIT_CBF" \
