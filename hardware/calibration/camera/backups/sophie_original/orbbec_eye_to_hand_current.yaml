@@ -1,0 +1,20 @@
+%YAML:1.0
+---
+method: Tsai_eye_to_hand
+configuration: eye_to_hand
+source_session: "log/runtime/hardware/orbbec_handeye/20260807_155222"
+base_frame: base
+gripper_frame: wrist_roll
+camera_frame: camera_color_optical_frame
+T_base_camera: !!opencv-matrix
+   rows: 4
+   cols: 4
+   dt: d
+   data: [ -0.013376927057821231, -0.74831619352492518,
+       0.66320730720556487, -0.031429700019811463, -0.99928736275483976,
+       0.033417740731458867, 0.017550533977132465, 0.020525855167369558,
+       -0.035296238623502063, -0.66249990876434972, -0.74822994221446448,
+       0.4402145046130379, 0., 0., 0., 1. ]
+sample_count: 17
+fixed_board_in_gripper_translation_rms_mm: 14.117042428742696
+fixed_board_in_gripper_rotation_rms_deg: 2.8041983873416525

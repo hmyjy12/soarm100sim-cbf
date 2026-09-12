@@ -13,9 +13,13 @@ __pycache__/
 /ros2/build/
 /ros2/install/
 /ros2/log/
+/ros2/logs/
 
 # Unified local runtime/build/driver logs
 /log/
+
+# Local archive for loose files, installers, and old one-off snippets
+/archive/
 
 # Editor and operating-system metadata
 .DS_Store
@@ -24,3 +28,12 @@ __pycache__/
 
 # Local crash/debug output
 /MUJOCO_LOG.TXT
+
+# Archive metadata from macOS zip exports
+__MACOSX/
+
+# Local runtime outputs and ad-hoc recovery copies
+/logs/
+*.bak
+*.bak_*
+*_screenshot_*.png
