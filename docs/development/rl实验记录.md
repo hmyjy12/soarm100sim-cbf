@@ -9,9 +9,9 @@
 
 | 代号 | 名称 | Checkpoint |
 |------|------|------------|
-| A | 2026-07-03_cfg1_agent_102400 | `/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/rl/checkpoints/2026-07-03_18-11-38/26-07-03_18-11-38-258181_PPO/checkpoints/agent_102400.pt` |
-| B | 2026-07-06_cfg2_pathA_best | `/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/rl/checkpoints/2026-07-06_11-37-06_resume/PPO_resume/checkpoints/best_agent.pt` |
-| C | 2026-07-06_bank_start_best | `/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/rl/checkpoints/2026-07-06_14-44-29/PPO/checkpoints/best_agent.pt` |
+| A | 2026-07-03_cfg1_agent_102400 | `rl/checkpoints/2026-07-03_18-11-38/26-07-03_18-11-38-258181_PPO/checkpoints/agent_102400.pt` |
+| B | 2026-07-06_cfg2_pathA_best | `rl/checkpoints/2026-07-06_11-37-06_resume/PPO_resume/checkpoints/best_agent.pt` |
+| C | 2026-07-06_bank_start_best | `rl/checkpoints/2026-07-06_14-44-29/PPO/checkpoints/best_agent.pt` |
 
 ### 背景简述
 

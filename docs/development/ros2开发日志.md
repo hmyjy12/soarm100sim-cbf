@@ -44,7 +44,7 @@ ros2/run_vision_grasp.sh
 默认使用 `vision_seg` 环境启动 ROS2 视觉抓取骨架：
 
 ```bash
-cd /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim
+cd ~/soarm100sim_project
 ./ros2/run_vision_grasp.sh --build
 ```
 
@@ -1063,7 +1063,7 @@ AnyGrasp planner：
 验证命令：
 
 ```bash
-/home/sophie/miniconda3/bin/python mujoco/play.py \
+python mujoco/play.py \
   --headless --episodes 1 --target-idx 123 \
   --enable-grasp-chain \
   --grasp-source external \
@@ -1131,7 +1131,7 @@ R_base = R_base_mj_cam @ R_mj_cam
 - MuJoCo subprocess 使用 `--mujoco-python` 指定的 python，默认：
 
 ```text
-/home/sophie/miniconda3/bin/python
+python（由 PATH 或 --mujoco-python 指定）
 ```
 
 避免用 `vision_seg` 或 `graspnet_gpu` 运行 MuJoCo。
@@ -2319,7 +2319,7 @@ models/vision/mobile_sam.pt
 独立验证链路不会启动抓取、policy、AnyGrasp 或避障：
 
 ```bash
-cd /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim
+cd ~/soarm100sim_project
 
 ./ros2/scripts/real/run_fixed_yolo_sam_mask.sh \
   --build \

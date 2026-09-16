@@ -11,8 +11,8 @@
 
 | 代号 | 名称 | Checkpoint |
 |------|------|------------|
-| A | 2026-07-03_cfg1_agent_102400 | `/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/rl/checkpoints/2026-07-03_18-11-38/26-07-03_18-11-38-258181_PPO/checkpoints/agent_102400.pt` |
-| B | 2026-07-06_bank_start_best | `/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/rl/checkpoints/2026-07-06_14-44-29/PPO/checkpoints/best_agent.pt` |
+| A | 2026-07-03_cfg1_agent_102400 | `rl/checkpoints/2026-07-03_18-11-38/26-07-03_18-11-38-258181_PPO/checkpoints/agent_102400.pt` |
+| B | 2026-07-06_bank_start_best | `rl/checkpoints/2026-07-06_14-44-29/PPO/checkpoints/best_agent.pt` |
 
 ### 背景简述
 
@@ -21,7 +21,7 @@
 
 ## 姿态误差分档成功率（episode-best，主表）
 
-姿态误差角：\(\theta = 2\arccos(|q\cdot q_{des}|)\)（度）。**回合内任意时刻**最小误差计入成功。
+姿态误差角：$\theta = 2\arccos(|q\cdot q_{des}|)$（度）。**回合内任意时刻**最小误差计入成功。
 
 | 阈值 | A (7.3) | B (今日续训) | Δ (B−A) |
 |------|---------|--------------|---------|
@@ -83,6 +83,6 @@ B 在姿态分档上整体更优或持平，位置指标未出现大幅崩塌，
 
 - 误差在 `ReachEnv._get_dones` **reset 之前**快照，避免读到 home 姿态。
 - episode-best = 回合内最小位置/姿态误差；更接近训练曲线的 `ever_*`。
-- ≤10° 对应训练 `orientation_enter_dot_threshold=0.9962`（\(\alpha=\cos(\theta/2)\)）。
+- ≤10° 对应训练 `orientation_enter_dot_threshold=0.9962`（$\alpha=\cos(\theta/2)$）。
 - 原始 JSON：`rl/logs/eval/orient_bins_compare.json`。
 - 复现：`rl/eval_orient_bins.py`。

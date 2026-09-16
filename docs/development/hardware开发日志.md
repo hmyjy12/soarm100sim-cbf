@@ -56,7 +56,7 @@ hardware/tools/read_feetech7.py
 标准运行方式：
 
 ```bash
-cd /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim
+cd ~/soarm100sim_project
 conda activate lerobot
 
 python hardware/tools/read_feetech7.py \
@@ -257,7 +257,7 @@ log/runtime/hardware/map_shoulder_pan.jsonl
 
 ## 2026-07-30：LeRobot 官方 follower 最小七轴合并
 
-将下载版 `/home/sophie/下载/so_follower.py` 的七电机映射合并至：
+将下载版 `~/Downloads/so_follower.py` 的七电机映射合并至：
 
 ```text
 lerobot-main/src/lerobot/robots/so_follower/so_follower.py

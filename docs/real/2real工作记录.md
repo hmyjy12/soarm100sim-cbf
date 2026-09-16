@@ -41,7 +41,7 @@ policy 抓取。
 环境：
 
 ```bash
-cd /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim
+cd ~/soarm100sim_project
 conda activate lerobot
 ```
 
@@ -112,7 +112,7 @@ python hardware/tools/read_feetech7.py \
 确认机械臂断力矩、串口空闲并有人托住后运行：
 
 ```bash
-cd /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim
+cd ~/soarm100sim_project
 conda activate lerobot
 
 lerobot-calibrate \
@@ -210,7 +210,7 @@ sudo fuser -v /dev/ttyACM0
 终端 A 启动 MuJoCo 映射窗口：
 
 ```bash
-cd /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim
+cd ~/soarm100sim_project
 conda activate base
 
 python hardware/tools/show_policy_joint_mirror.py \
@@ -222,7 +222,7 @@ python hardware/tools/show_policy_joint_mirror.py \
 终端 B 启动真机严格只读发送：
 
 ```bash
-cd /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim
+cd ~/soarm100sim_project
 conda activate lerobot
 
 python hardware/tools/stream_policy_joint_udp.py \
@@ -301,7 +301,7 @@ sudo fuser -v /dev/ttyACM0
 无输出后运行：
 
 ```bash
-cd /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim
+cd ~/soarm100sim_project
 conda activate lerobot
 
 python hardware/tools/interactive_joint_check.py \
@@ -739,7 +739,8 @@ third_party/orbbec_293_ws/
 
 ```bash
 source /opt/ros/humble/setup.bash
-source /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_293_ws/install/setup.bash
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+source "${REPO_ROOT}/third_party/orbbec_293_ws/install/setup.bash"
 ```
 
 已验证的双流规格：
@@ -1007,7 +1008,7 @@ V5 已作为当前 2Real 阶段腕部内参使用。其精度足以继续完成�
 项目已提供固定配置的一键脚本，正常使用时推荐直接运行：
 
 ```bash
-cd /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim
+cd ~/soarm100sim_project
 ./ros2/run_wrist_camera.sh
 ```
 
@@ -1032,12 +1033,14 @@ cd /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim
 ```bash
 source /opt/ros/humble/setup.bash
 
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+
 ros2 run v4l2_camera v4l2_camera_node \
   --ros-args \
   -p video_device:=/dev/video8 \
   -p image_size:="[1280,720]" \
   -p pixel_format:=YUYV \
-  -p camera_info_url:="file:///home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/hardware/calibration/camera/wrist_camera_1280x720.yaml" \
+  -p camera_info_url:="file://${REPO_ROOT}/hardware/calibration/camera/wrist_camera_1280x720.yaml" \
   -p camera_frame_id:=wrist_camera_optical_frame \
   -r image_raw:=/wrist/color/image_raw \
   -r camera_info:=/wrist/color/camera_info
@@ -1089,7 +1092,7 @@ hardware/calibration/handeye/wrist_handeye_poses.json
 推荐启动顺序：
 
 ```bash
-cd /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim
+cd ~/soarm100sim_project
 
 # 终端 1：机械臂上电保持，并发布 /joint_states 与 base -> wrist_roll TF
 ./ros2/run_hardware_controller.sh
@@ -1167,7 +1170,7 @@ hardware/calibration/handeye/calibration_seed_pose.json
 3. 只在一个终端执行：
 
 ```bash
-cd /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim
+cd ~/soarm100sim_project
 ./ros2/run_wrist_handeye_all.sh
 ```
 
@@ -1221,7 +1224,7 @@ q = 退出
 ### 3.14.2 当前推荐入口与操作
 
 ```bash
-cd /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim
+cd ~/soarm100sim_project
 ./ros2/run_wrist_handeye_manual.sh
 ```
 
@@ -1367,7 +1370,7 @@ gripper_frame：wrist_roll（会话中夹爪开合锁定，勿中途改变）
 #### 3.15.2 当前推荐入口与操作
 
 ```bash
-cd /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim
+cd ~/soarm100sim_project
 ./ros2/run_orbbec_handeye_manual.sh
 ```
 
@@ -1610,7 +1613,7 @@ ros2/scripts/real/run_single_grasp_2real.sh
 一键运行：
 
 ```bash
-cd /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim
+cd ~/soarm100sim_project
 
 ./ros2/scripts/real/run_single_grasp_2real.sh \
   --class jpgCat \
@@ -1668,7 +1671,7 @@ CameraInfo、图像尺寸和最近时间戳差；默认容差为 `0.10 s`，可�
 单独检查同步状态：
 
 ```bash
-cd /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim
+cd ~/soarm100sim_project
 source /opt/ros/humble/setup.bash
 source ros2/install/setup.bash
 
@@ -1712,7 +1715,7 @@ conda run --no-capture-output -n vision_seg python \
 仅将 `tissue` 作为障碍物的 policy reach 测试命令：
 
 ```bash
-cd /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim
+cd ~/soarm100sim_project
 
 ./ros2/scripts/real/run_policy_reach.sh \
   --relative-delta 0,0,0 \

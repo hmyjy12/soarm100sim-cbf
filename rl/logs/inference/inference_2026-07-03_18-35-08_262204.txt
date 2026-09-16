@@ -1,6 +1,6 @@
 # SO-100 Reach execute 推理运行日志
 wall_time=2026-07-03T18:35:08
-checkpoint=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/rl/checkpoints/2026-07-03_18-11-38/26-07-03_18-11-38-258181_PPO/checkpoints/best_agent.pt
+checkpoint=rl/checkpoints/2026-07-03_18-11-38/26-07-03_18-11-38-258181_PPO/checkpoints/best_agent.pt
 seed=42
 num_envs=128
 step_dt_s=0.03333333333333333

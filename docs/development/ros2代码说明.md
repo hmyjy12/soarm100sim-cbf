@@ -576,7 +576,7 @@ after_mj_step
 首次或接口修改后：
 
 ```bash
-cd /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2
+cd ~/soarm100sim_project/ros2
 source /opt/ros/humble/setup.bash
 colcon build --symlink-install
 source install/setup.bash

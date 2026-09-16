@@ -1,12 +1,12 @@
 mode=续训 (RESUME)
 is_resume=True
 wall_time=2026-07-06T11:37:06
-log_dir=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/rl/checkpoints/2026-07-06_11-37-06_resume
-resume_from=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/rl/checkpoints/2026-07-03_18-11-38/26-07-03_18-11-38-258181_PPO/checkpoints/agent_102400.pt
+log_dir=rl/checkpoints/2026-07-06_11-37-06_resume
+resume_from=rl/checkpoints/2026-07-03_18-11-38/26-07-03_18-11-38-258181_PPO/checkpoints/agent_102400.pt
 env_cfg_key=2
 env_cfg_module=reach_env_cfg2
 env_cfg_class=ReachEnvCfg2
-workspace_npz=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/rl/workspace_cache/workspace_tcp_merged_train.npz
+workspace_npz=rl/workspace_cache/workspace_tcp_merged_train.npz
 seed=42
 num_envs=128
 max_iterations=150

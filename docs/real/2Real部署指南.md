@@ -41,7 +41,7 @@ SO-ARM100。目标不是立即让机械臂全自动抓取，而是按可验证�
 
 ### 2.1 `SO-ARM100` 目录包含什么
 
-[`SO-ARM100`](/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/SO-ARM100)
+[`SO-ARM100`](../../SO-ARM100)
 主要包含：
 
 ```text
@@ -63,8 +63,8 @@ MuJoCo 资产
 
 相关说明位于：
 
-- [`SO100.md`](/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/SO-ARM100/SO100.md)
-- [`README.md`](/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/SO-ARM100/README.md)
+- [`SO100.md`](../../SO-ARM100/SO100.md)
+- [`README.md`](../../SO-ARM100/README.md)
 
 ### 2.2 它不包含什么
 
@@ -111,7 +111,7 @@ Conda 环境 graspnet_gpu
 
 ### 3.1 当前 policy 使用 7 维关节
 
-[`mujoco/constants.py`](/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/mujoco/constants.py)
+[`mujoco/constants.py`](../../mujoco/constants.py)
 定义：
 
 ```text
@@ -138,13 +138,13 @@ ACTION_DIM = 7
 ```
 
 活动仿真模型
-[`so100_plus.xml`](/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/SO-ARM100/Simulation/SO100/mujoco/so100_plus.xml)
+[`so100_plus.xml`](../../SO-ARM100/Simulation/SO100/mujoco/so100_plus.xml)
 也确实具有 7 个 actuator。
 
 ### 3.2 标准 SO-100 是 6 个舵机
 
 仓库中的标准模型
-[`so_100.xml`](/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/SO-ARM100/Simulation/SO100/mujoco/so_100.xml)
+[`so_100.xml`](../../SO-ARM100/Simulation/SO100/mujoco/so_100.xml)
 是：
 
 ```text
@@ -531,7 +531,7 @@ T_wrist_camera
 
 当前：
 
-[`log/runtime/calib/camera_calib.json`](/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/log/runtime/calib/camera_calib.json)
+`log/runtime/calib/camera_calib.json`（本地运行时输出，未纳入仓库）
 
 保存的是 MuJoCo 相机模型和安装位姿。它只能用于仿真，不能当作真实相机
 外参。

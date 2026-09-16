@@ -1,12 +1,12 @@
 mode=新训 (SCRATCH)
 is_resume=False
 wall_time=2026-07-06T14:44:29
-log_dir=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/rl/checkpoints/2026-07-06_14-44-29
+log_dir=rl/checkpoints/2026-07-06_14-44-29
 resume_from=
 env_cfg_key=1
 env_cfg_module=reach_env_cfg
 env_cfg_class=ReachEnvCfg
-workspace_npz=/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/rl/workspace_cache/workspace_tcp_merged_train.npz
+workspace_npz=rl/workspace_cache/workspace_tcp_merged_train.npz
 seed=42
 num_envs=256
 max_iterations=2000

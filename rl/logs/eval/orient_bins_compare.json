@@ -9,7 +9,7 @@
   "results": [
     {
       "name": "2026-07-03_cfg1_agent_102400",
-      "checkpoint": "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/rl/checkpoints/2026-07-03_18-11-38/26-07-03_18-11-38-258181_PPO/checkpoints/agent_102400.pt",
+      "checkpoint": "rl/checkpoints/2026-07-03_18-11-38/26-07-03_18-11-38-258181_PPO/checkpoints/agent_102400.pt",
       "num_episodes": 256,
       "episode_end": {
         "position": {
@@ -60,7 +60,7 @@
     },
     {
       "name": "2026-07-06_cfg2_pathA_best",
-      "checkpoint": "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/rl/checkpoints/2026-07-06_11-37-06_resume/PPO_resume/checkpoints/best_agent.pt",
+      "checkpoint": "rl/checkpoints/2026-07-06_11-37-06_resume/PPO_resume/checkpoints/best_agent.pt",
       "num_episodes": 256,
       "episode_end": {
         "position": {
