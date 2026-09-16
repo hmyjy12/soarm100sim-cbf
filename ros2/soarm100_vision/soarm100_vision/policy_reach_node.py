@@ -279,6 +279,9 @@ class PolicyReachNode(Node):
                 / rate,
                 activate_margin=activate,
                 frozen_joint_mask=np.array([False] * 6 + [True], dtype=bool),
+                # Pin the deployed real-robot CBF to its validated legacy metric.
+                capsule_sample_count=9,
+                qp_metric="identity",
             )
             self.obstacle_cbf_monitors = self.cbf_mod.resolve_monitors(
                 self.model,

@@ -1,7 +1,8 @@
 """EMBODISTEER 式全身 CBF-QP：在 PPO 名义增量上做最小安全修正。
 
 v2：在当前 q 评估 h；约束作用于 dq_total=dq_nom+dq_cbf；不可行时投影 dq_nom。
-v2.1 Step A：前臂 ellbow→wrist_pitch 胶囊监测（r=4cm，9 点采样）。
+共享默认保持 legacy/real-safe 行为：每段 capsule 采样 9 点，QP 使用 identity
+metric。仿真入口可通过 ``CbfConfig`` 显式选择更密的采样和 task-preserving metric。
 """
 
 from __future__ import annotations
@@ -149,6 +150,7 @@ DEFAULT_CAPSULE_SPECS: tuple[tuple[str, str, float], ...] = (
     ("wrist_roll", "gripper", 0.030),
 )
 
+# 对外兼容常量保持 legacy 值；增强采样必须由每个 CbfConfig 显式选择，不能改共享全局默认。
 CAPSULE_SEGMENT_SAMPLES = 9
 
 DEFAULT_OBSTACLE_GEOM_NAMES: tuple[str, ...] = ("obstacle_rod",)
@@ -204,6 +206,20 @@ Obstacle = AxisAlignedBoxObstacle | CylinderObstacle | PointCloudSdfObstacle
 
 
 @dataclass
+class CbfConstraint:
+    """OSCBF 风格的约束行：先把安全约束收集起来，再统一交给 QP。"""
+
+    name: str
+    source: str
+    a: np.ndarray
+    b_total: float
+    b_delta: float
+    h: float
+    active: bool = True
+    debug: dict = field(default_factory=dict)
+
+
+@dataclass
 class CbfConfig:
     d_safe: float = 0.02
     gamma: float = 0.8
@@ -217,6 +233,11 @@ class CbfConfig:
     monitor_specs: tuple[tuple[str, float], ...] = DEFAULT_MONITOR_SPECS
     capsule_specs: tuple[tuple[str, str, float], ...] = DEFAULT_CAPSULE_SPECS
     obstacle_geom_names: tuple[str, ...] = DEFAULT_OBSTACLE_GEOM_NAMES
+    # 共享默认刻意保持已验证的真机路径；增强能力必须由入口显式开启。
+    capsule_sample_count: int = CAPSULE_SEGMENT_SAMPLES
+    qp_metric: str = "identity"
+    task_preserve_weight: float = 1.0
+    dynamic_obstacle_lookahead_steps: float = 0.0
 
 
 @dataclass
@@ -608,15 +629,24 @@ def _worst_barrier(
             p1, j1 = body_pos_and_jacobian(model, data, ids, mon.body_b_id)
             for obs in obstacles:
                 h, grad_q, grad_p, t_seg = segment_obstacle_h_and_grad(
-                    p0, p1, j0, j1, obs, cfg.d_safe, mon.r_link
+                    p0,
+                    p1,
+                    j0,
+                    j1,
+                    obs,
+                    cfg.d_safe,
+                    mon.r_link,
+                    n_samples=cfg.capsule_sample_count,
                 )
-                obs_step = float(grad_p @ obstacle_step_velocity(obs))
+                obs_vel = obstacle_step_velocity(obs)
+                obs_step = float(grad_p @ obs_vel)
                 rec = {
                     "monitor": mon.name,
                     "obstacle": obs.name,
                     "h": float(h),
                     "grad_q": grad_q,
                     "obs_step": obs_step,
+                    "obs_speed": float(np.linalg.norm(obs_vel)),
                     "capsule_t": float(t_seg),
                 }
                 records.append(rec)
@@ -632,13 +662,15 @@ def _worst_barrier(
         for obs in obstacles:
             h, grad_p = obstacle_h_and_grad_p(pos, obs, cfg.d_safe, mon.r_link)
             grad_q = j_pos.T @ grad_p
-            obs_step = float(grad_p @ obstacle_step_velocity(obs))
+            obs_vel = obstacle_step_velocity(obs)
+            obs_step = float(grad_p @ obs_vel)
             rec = {
                 "monitor": mon.name,
                 "obstacle": obs.name,
                 "h": float(h),
                 "grad_q": grad_q,
                 "obs_step": obs_step,
+                "obs_speed": float(np.linalg.norm(obs_vel)),
             }
             records.append(rec)
             if float(h) < h_min:
@@ -653,9 +685,17 @@ def _build_constraints(
     dq_nom: np.ndarray,
 ) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
     """返回 A, b_total（约束 dq_total）, b_cbf（约束 dq_cbf）。"""
-    rows: list[np.ndarray] = []
-    rhs_total: list[float] = []
-    rhs_cbf: list[float] = []
+    constraints = build_cbf_constraints_from_records(records, cfg, dq_nom)
+    return stack_cbf_constraints(constraints, action_dim=ACTION_DIM)
+
+
+def build_cbf_constraints_from_records(
+    records: list[dict],
+    cfg: CbfConfig,
+    dq_nom: np.ndarray,
+) -> list[CbfConstraint]:
+    """把距离记录转成 OSCBF 风格的约束对象。"""
+    constraints: list[CbfConstraint] = []
     dq_nom = np.asarray(dq_nom, dtype=np.float64).reshape(ACTION_DIM)
     for rec in records:
         h = float(rec["h"])
@@ -665,16 +705,91 @@ def _build_constraints(
         frozen = np.asarray(cfg.frozen_joint_mask, dtype=bool).reshape(ACTION_DIM)
         grad_q[frozen] = 0.0
         obs_step = float(rec.get("obs_step", 0.0))
-        b_tot = obs_step - cfg.gamma * h
-        rows.append(grad_q)
-        rhs_total.append(b_tot)
-        rhs_cbf.append(b_tot - float(grad_q @ dq_nom))
-    if not rows:
+        obs_speed = float(rec.get("obs_speed", 0.0))
+        h_eff = h - max(0.0, float(cfg.dynamic_obstacle_lookahead_steps)) * obs_speed
+        b_tot = obs_step - cfg.gamma * h_eff
+        monitor = str(rec.get("monitor", ""))
+        obstacle = str(rec.get("obstacle", ""))
+        constraints.append(
+            CbfConstraint(
+                name=f"{monitor}->{obstacle}",
+                source="environment",
+                a=grad_q,
+                b_total=float(b_tot),
+                b_delta=float(b_tot - float(grad_q @ dq_nom)),
+                h=h,
+                active=True,
+                debug={
+                    **{k: v for k, v in rec.items() if k != "grad_q"},
+                    "h_eff": float(h_eff),
+                    "dynamic_padding": float(h - h_eff),
+                },
+            )
+        )
+    return constraints
+
+
+def stack_cbf_constraints(
+    constraints: list[CbfConstraint],
+    action_dim: int,
+) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+    """把约束对象打包成 QP 使用的 A、b_total、b_delta。"""
+    active = [c for c in constraints if c.active]
+    if not active:
         z = np.zeros(0, dtype=np.float64)
-        empty = np.zeros((0, ACTION_DIM), dtype=np.float64)
+        empty = np.zeros((0, int(action_dim)), dtype=np.float64)
         return empty, z, z
-    a = np.stack(rows, axis=0)
-    return a, np.asarray(rhs_total, dtype=np.float64), np.asarray(rhs_cbf, dtype=np.float64)
+    a = np.stack(
+        [np.asarray(c.a, dtype=np.float64).reshape(action_dim) for c in active],
+        axis=0,
+    )
+    b_total = np.asarray([float(c.b_total) for c in active], dtype=np.float64)
+    b_delta = np.asarray([float(c.b_delta) for c in active], dtype=np.float64)
+    return a, b_total, b_delta
+
+
+def make_task_preserving_hessian(
+    action_dim: int,
+    task_jacobians: list[tuple[np.ndarray, float]] | None = None,
+    base_weight: float = 1.0,
+) -> np.ndarray:
+    """采用 OSCBF 任务一致性思想，使 QP 修正在满足安全约束时尽量少扰动指定任务。"""
+    h_mat = float(base_weight) * np.eye(int(action_dim), dtype=np.float64)
+    if not task_jacobians:
+        return h_mat
+    for jac, weight in task_jacobians:
+        j = np.asarray(jac, dtype=np.float64)
+        if j.ndim == 1:
+            j = j.reshape(1, -1)
+        h_mat += float(weight) * (j.T @ j)
+    return h_mat
+
+
+def make_qp_metric_hessian(
+    cfg: CbfConfig,
+    action_dim: int,
+    tcp_jacobian: np.ndarray | None = None,
+) -> np.ndarray:
+    """按 ``cfg.qp_metric`` 显式构造 CBF 修正的 QP metric。
+
+    ``identity`` 是 legacy/真机安全默认；``task_preserving`` 才会增加
+    ``task_preserve_weight * J_tcp.T @ J_tcp``，供仿真实验显式启用。
+    ``gamma`` 是离散 CBF 屏障增益；``lambda_cbf`` 仅为兼容已有调用保留，不能暗中
+    变成 QP 目标权重。
+    """
+    metric = str(cfg.qp_metric).strip().lower()
+    if metric == "identity":
+        return np.eye(int(action_dim), dtype=np.float64)
+    if metric == "task_preserving":
+        if tcp_jacobian is None:
+            raise ValueError("task_preserving QP metric requires tcp_jacobian")
+        return make_task_preserving_hessian(
+            action_dim=int(action_dim),
+            task_jacobians=[(tcp_jacobian, float(cfg.task_preserve_weight))],
+        )
+    raise ValueError(
+        f"unknown qp_metric {cfg.qp_metric!r}; expected 'identity' or 'task_preserving'"
+    )
 
 
 def _solve_qp_min_correction(
@@ -682,23 +797,29 @@ def _solve_qp_min_correction(
     b_ineq: np.ndarray,
     lb: np.ndarray,
     ub: np.ndarray,
+    h_mat: np.ndarray | None = None,
 ) -> tuple[np.ndarray | None, bool]:
     """min ½‖dq_cbf‖²  s.t. A·dq_cbf ≥ b, box（贴近 dq_nom 的最小修正）。"""
-    n = ACTION_DIM
-    h_mat = np.eye(n, dtype=np.float64)
+    n = int(lb.shape[0])
+    if h_mat is None:
+        h_mat = np.eye(n, dtype=np.float64)
+    else:
+        h_mat = np.asarray(h_mat, dtype=np.float64).reshape(n, n)
 
     if a_ineq.shape[0] == 0:
         return np.zeros(n, dtype=np.float64), True
 
     if _HAS_SCIPY:
         def objective(x: np.ndarray) -> float:
-            return 0.5 * float(x @ x)
+            return 0.5 * float(x @ h_mat @ x)
 
         constraints = []
         for i in range(a_ineq.shape[0]):
             ai = a_ineq[i]
             bi = float(b_ineq[i])
-            constraints.append({"type": "ineq", "fun": lambda x, ai=ai, bi=bi: float(ai @ x - bi)})
+            constraints.append(
+                {"type": "ineq", "fun": lambda x, ai=ai, bi=bi: float(ai @ x - bi)}
+            )
 
         bounds = [(float(lb[i]), float(ub[i])) for i in range(n)]
         res = minimize(
@@ -750,6 +871,7 @@ def solve_cbf_correction(
         info["cbf_worst_monitor"] = str(worst["monitor"])
         info["cbf_worst_obstacle"] = str(worst["obstacle"])
         info["cbf_worst_obs_step"] = float(worst.get("obs_step", 0.0))
+        info["cbf_worst_obs_speed"] = float(worst.get("obs_speed", 0.0))
         info["cbf_worst_capsule_t"] = float(worst.get("capsule_t", 0.0))
         rhs_worst = float(worst.get("obs_step", 0.0)) - cfg.gamma * float(worst["h"])
         info["nom_violation"] = float(rhs_worst - float(worst["grad_q"] @ dq_nom))
@@ -776,7 +898,17 @@ def solve_cbf_correction(
     frozen = np.asarray(cfg.frozen_joint_mask, dtype=bool).reshape(ACTION_DIM)
     lb_cbf[frozen] = -dq_nom[frozen]
     ub_cbf[frozen] = -dq_nom[frozen]
-    dq_cbf, ok = _solve_qp_min_correction(a_ineq, b_cbf, lb_cbf, ub_cbf)
+    j_tcp = None
+    if str(cfg.qp_metric).strip().lower() == "task_preserving":
+        _, j_tcp = tcp_pos_and_jacobian(model, data, ids, tcp_pose_fn)
+    h_mat = make_qp_metric_hessian(cfg, ACTION_DIM, tcp_jacobian=j_tcp)
+    dq_cbf, ok = _solve_qp_min_correction(
+        a_ineq,
+        b_cbf,
+        lb_cbf,
+        ub_cbf,
+        h_mat=h_mat,
+    )
 
     if not ok or dq_cbf is None:
         dq_total, proj_ok = _project_dq_total(dq_nom, a_ineq, b_total, cfg.dq_max)
@@ -817,4 +949,5 @@ def cbf_step_log_record(ep: int, step: int, t: float, info: dict) -> dict:
         "cbf_projected": bool(info.get("cbf_projected", False)),
         "nom_violation": float(info.get("nom_violation", 0.0)),
         "worst_obs_step": float(info.get("cbf_worst_obs_step", 0.0)),
+        "worst_obs_speed": float(info.get("cbf_worst_obs_speed", 0.0)),
     }
