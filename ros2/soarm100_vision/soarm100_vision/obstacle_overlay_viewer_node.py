@@ -84,6 +84,7 @@ class ObstacleOverlayViewerNode(Node):
         self._cloud_received_at: float | None = None
         self._worst_point: np.ndarray | None = None
         self._last_draw_at = 0.0
+        self._warned_info_size_mismatch = False
         self._cv2 = None
         self._window_ok = False
         if bool(self.get_parameter("show_window").value):
@@ -180,6 +181,17 @@ class ObstacleOverlayViewerNode(Node):
             return
         out = rgb.copy()
         height, width = out.shape[:2]
+        if (
+            (int(self._info.width), int(self._info.height)) != (width, height)
+            and not self._warned_info_size_mismatch
+        ):
+            self._warned_info_size_mismatch = True
+            self.get_logger().warning(
+                "obstacle overlay RGB/CameraInfo size mismatch: "
+                f"RGB={width}x{height}, "
+                f"CameraInfo={int(self._info.width)}x{int(self._info.height)}; "
+                "projection overlay may be shifted"
+            )
         K = np.asarray(self._info.k, dtype=np.float64).reshape(3, 3)
         pixels, _ = project_base_points(
             self._points, self._T_parent_cam, K, width, height

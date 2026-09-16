@@ -5,6 +5,7 @@ import threading
 import time
 from pathlib import Path
 
+import cv2
 import numpy as np
 import rclpy
 from geometry_msgs.msg import PoseStamped
@@ -102,17 +103,25 @@ class TargetSegmenterNode(Node):
         self.declare_parameter("rgb_depth_sync_tolerance_s", 0.10)
         self.declare_parameter("rgb_depth_buffer_size", 60)
 
-        self._rgb: Image | None = None
-        self._depth: Image | None = None
+        self._rgb: tuple[Image, float] | None = None
+        self._depth: tuple[Image, float] | None = None
         self._info: CameraInfo | None = None
         buffer_size = max(int(self._param("rgb_depth_buffer_size")), 2)
-        self._rgb_buffer: deque[Image] = deque(maxlen=buffer_size)
-        self._depth_buffer: deque[Image] = deque(maxlen=buffer_size)
+        self._rgb_buffer: deque[tuple[Image, float]] = deque(maxlen=buffer_size)
+        self._depth_buffer: deque[tuple[Image, float]] = deque(maxlen=buffer_size)
         self._rgb_count = 0
         self._depth_count = 0
         self._info_count = 0
-        self._synced_bundle: tuple[Image, Image, CameraInfo, float] | None = None
+        self._selected_mask_publish_count = 0
+        self._synced_bundle: tuple[
+            Image, Image, CameraInfo, float, float, float, int, int
+        ] | None = None
         self._frame_lock = threading.Lock()
+        self._inference_lock = threading.Lock()
+        self._stop_event = threading.Event()
+        self._auto_thread: threading.Thread | None = None
+        self._last_auto_segment_depth_stamp_s = -1.0
+        self._last_successful_segment_depth_stamp_s = -1.0
         self._detector = None
         self._sam = None
         self._detector_prompt = ""
@@ -160,9 +169,12 @@ class TargetSegmenterNode(Node):
         )
         auto_hz = float(self._param("auto_segment_hz"))
         if auto_hz > 0.0:
-            self.create_timer(
-                1.0 / auto_hz, self._auto_segment, callback_group=inference_group
+            self._auto_thread = threading.Thread(
+                target=self._auto_loop,
+                args=(auto_hz,),
+                daemon=True,
             )
+            self._auto_thread.start()
         self.get_logger().info(
             "target segmenter ready: "
             f"mode={self._param('segmentation_mode')} "
@@ -198,17 +210,19 @@ class TargetSegmenterNode(Node):
             self._model_error = f"model load failed: {exc}"
 
     def _on_rgb(self, msg: Image) -> None:
+        received_wall_s = time.time()
         with self._frame_lock:
             self._rgb_count += 1
-            self._rgb = msg
-            self._rgb_buffer.append(msg)
+            self._rgb = (msg, received_wall_s)
+            self._rgb_buffer.append((msg, received_wall_s))
             self._update_synced_bundle_locked()
 
     def _on_depth(self, msg: Image) -> None:
+        received_wall_s = time.time()
         with self._frame_lock:
             self._depth_count += 1
-            self._depth = msg
-            self._depth_buffer.append(msg)
+            self._depth = (msg, received_wall_s)
+            self._depth_buffer.append((msg, received_wall_s))
             self._update_synced_bundle_locked()
 
     def _on_info(self, msg: CameraInfo) -> None:
@@ -221,24 +235,113 @@ class TargetSegmenterNode(Node):
     def _stamp_s(msg) -> float:
         return float(msg.header.stamp.sec) + float(msg.header.stamp.nanosec) * 1.0e-9
 
+    def _sync_debug_locked(self) -> dict[str, float | int]:
+        now = time.time()
+        latest_rgb_stamp_s = self._stamp_s(self._rgb[0]) if self._rgb else -1.0
+        latest_depth_stamp_s = self._stamp_s(self._depth[0]) if self._depth else -1.0
+        latest_rgb_age_s = now - self._rgb[1] if self._rgb else -1.0
+        latest_depth_age_s = now - self._depth[1] if self._depth else -1.0
+        best_delta_s = -1.0
+        if self._rgb_buffer and self._depth_buffer:
+            best_delta_s = min(
+                abs(self._stamp_s(rgb[0]) - self._stamp_s(depth[0]))
+                for rgb in self._rgb_buffer
+                for depth in self._depth_buffer
+            )
+        return {
+            "rgb_count": int(self._rgb_count),
+            "depth_count": int(self._depth_count),
+            "info_count": int(self._info_count),
+            "rgb_queue_size": int(len(self._rgb_buffer)),
+            "depth_queue_size": int(len(self._depth_buffer)),
+            "latest_rgb_stamp_s": float(latest_rgb_stamp_s),
+            "latest_depth_stamp_s": float(latest_depth_stamp_s),
+            "latest_rgb_age_s": float(latest_rgb_age_s),
+            "latest_depth_age_s": float(latest_depth_age_s),
+            "best_delta_s": float(best_delta_s),
+        }
+
+    @staticmethod
+    def _format_sync_debug(debug: dict[str, float | int]) -> str:
+        return (
+            f"counts={debug['rgb_count']},{debug['depth_count']},{debug['info_count']} "
+            f"queues={debug['rgb_queue_size']},{debug['depth_queue_size']} "
+            f"latest_rgb_stamp={debug['latest_rgb_stamp_s']:.6f} "
+            f"latest_depth_stamp={debug['latest_depth_stamp_s']:.6f} "
+            f"latest_rgb_age={debug['latest_rgb_age_s']:.3f}s "
+            f"latest_depth_age={debug['latest_depth_age_s']:.3f}s "
+            f"best_dt={debug['best_delta_s']:.6f}s"
+        )
+
     def _update_synced_bundle_locked(self) -> None:
         if not self._rgb_buffer or not self._depth_buffer or self._info is None:
             return
-        depth = self._depth_buffer[-1]
-        depth_stamp = self._stamp_s(depth)
-        rgb = min(
-            self._rgb_buffer,
-            key=lambda candidate: abs(self._stamp_s(candidate) - depth_stamp),
-        )
-        sync_delta = abs(self._stamp_s(rgb) - depth_stamp)
-        if sync_delta <= float(self._param("rgb_depth_sync_tolerance_s")):
-            self._synced_bundle = (rgb, depth, self._info, sync_delta)
+        tolerance_s = float(self._param("rgb_depth_sync_tolerance_s"))
+        for depth, depth_received_wall_s in reversed(self._depth_buffer):
+            depth_stamp = self._stamp_s(depth)
+            rgb, rgb_received_wall_s = min(
+                self._rgb_buffer,
+                key=lambda candidate: abs(self._stamp_s(candidate[0]) - depth_stamp),
+            )
+            sync_delta = abs(self._stamp_s(rgb) - depth_stamp)
+            if sync_delta > tolerance_s:
+                continue
+            self._synced_bundle = (
+                rgb,
+                depth,
+                self._info,
+                sync_delta,
+                rgb_received_wall_s,
+                depth_received_wall_s,
+                len(self._rgb_buffer),
+                len(self._depth_buffer),
+            )
+            return
+        self._synced_bundle = None
+
+    def _auto_loop(self, auto_hz: float) -> None:
+        period = 1.0 / max(float(auto_hz), 1.0e-3)
+        next_start = time.monotonic()
+        while not self._stop_event.is_set():
+            now = time.monotonic()
+            if now < next_start:
+                self._stop_event.wait(next_start - now)
+                continue
+            self._auto_segment()
+            # Heavy YOLO/SAM inference can overrun the requested period. Do
+            # not catch up with back-to-back inference; leave executor threads
+            # time to run image subscription callbacks and refresh snapshots.
+            next_start = time.monotonic() + period
 
     def _auto_segment(self) -> None:
+        depth_stamp_s = -1.0
+        with self._frame_lock:
+            bundle = self._synced_bundle
+            if bundle is not None:
+                depth_stamp_s = self._stamp_s(bundle[1])
+                if depth_stamp_s <= self._last_auto_segment_depth_stamp_s:
+                    debug = self._sync_debug_locked()
+                    reason = (
+                        "waiting_for_new_rgb_depth_pair:"
+                        f"last_depth_stamp={depth_stamp_s:.6f} "
+                        f"last_processed_depth_stamp="
+                        f"{self._last_auto_segment_depth_stamp_s:.6f} "
+                        + self._format_sync_debug(debug)
+                    )
+                    self._status_pub.publish(String(data=f"failed reason={reason}"))
+                    self.get_logger().warning(
+                        f"automatic target segmentation failed: {reason}",
+                        throttle_duration_sec=1.0,
+                    )
+                    return
         request = SegmentTarget.Request()
         request.target_prompt = str(self._param("auto_target_prompt"))
         request.force_yolo = True
         response = self._on_segment(request, SegmentTarget.Response())
+        if response.success:
+            self._last_auto_segment_depth_stamp_s = (
+                self._last_successful_segment_depth_stamp_s
+            )
         if not response.success:
             self._status_pub.publish(String(data=f"failed reason={response.reason}"))
             self.get_logger().warning(
@@ -257,22 +360,26 @@ class TargetSegmenterNode(Node):
                 elif self._info is None:
                     wait_reason = "waiting_for_camera_info"
                 else:
-                    best_delta = min(
-                        abs(self._stamp_s(rgb) - self._stamp_s(depth))
-                        for rgb in self._rgb_buffer
-                        for depth in self._depth_buffer
-                    )
+                    debug = self._sync_debug_locked()
                     wait_reason = (
                         "waiting_for_rgb_depth_sync:"
-                        f"best_dt={best_delta:.6f}s:"
                         f"tolerance={float(self._param('rgb_depth_sync_tolerance_s')):.6f}s:"
-                        f"counts={self._rgb_count},{self._depth_count},{self._info_count}"
+                        + self._format_sync_debug(debug)
                     )
         if bundle is None:
             response.success = False
             response.reason = wait_reason
             return response
-        rgb_msg, depth_msg, info_msg, sync_delta_s = bundle
+        (
+            rgb_msg,
+            depth_msg,
+            info_msg,
+            sync_delta_s,
+            rgb_received_wall_s,
+            depth_received_wall_s,
+            rgb_queue_size,
+            depth_queue_size,
+        ) = bundle
         mode = str(self._param("segmentation_mode")).strip().lower()
         if mode in ("yolo_sam", "fixed_yolo_sam") and (
             self._detector is None or self._sam is None
@@ -282,36 +389,65 @@ class TargetSegmenterNode(Node):
             return response
 
         try:
+            inference_start_wall_s = time.time()
             inference_started = time.perf_counter()
-            rgb = image_to_numpy(rgb_msg)
-            depth = image_to_numpy(depth_msg)
-            used_fallback = False
-            selected_class = ""
-            if mode == "color":
-                mask, bbox, score = self._color_mask(rgb)
-            elif mode == "yolo_sam":
-                try:
-                    bbox, score = self._detect_bbox(rgb, request.target_prompt)
+            yolo_latency_s = 0.0
+            sam_latency_s = 0.0
+            with self._inference_lock:
+                rgb = image_to_numpy(rgb_msg)
+                depth = image_to_numpy(depth_msg)
+                used_fallback = False
+                selected_class = ""
+                if mode == "color":
+                    mask, bbox, score = self._color_mask(rgb)
+                elif mode == "yolo_sam":
+                    try:
+                        yolo_start = time.perf_counter()
+                        bbox, score = self._detect_bbox(rgb, request.target_prompt)
+                        yolo_latency_s = time.perf_counter() - yolo_start
+                        sam_start = time.perf_counter()
+                        mask = self._segment_mask(rgb, bbox)
+                        sam_latency_s = time.perf_counter() - sam_start
+                    except RuntimeError as exc:
+                        if (
+                            not bool(self._param("fallback_red_mask"))
+                            or "no_yolo_detection" not in str(exc)
+                        ):
+                            raise
+                        mask, bbox, score = self._fallback_red_mask(rgb)
+                        used_fallback = True
+                elif mode == "fixed_yolo_sam":
+                    requested_class = str(self._param("fixed_yolo_target_class")).strip()
+                    if not requested_class:
+                        requested_class = request.target_prompt
+                    yolo_start = time.perf_counter()
+                    bbox, score, selected_class = self._detect_fixed_bbox(
+                        rgb, requested_class
+                    )
+                    yolo_latency_s = time.perf_counter() - yolo_start
+                    sam_start = time.perf_counter()
                     mask = self._segment_mask(rgb, bbox)
-                except RuntimeError as exc:
-                    if (
-                        not bool(self._param("fallback_red_mask"))
-                        or "no_yolo_detection" not in str(exc)
-                    ):
-                        raise
-                    mask, bbox, score = self._fallback_red_mask(rgb)
-                    used_fallback = True
-            elif mode == "fixed_yolo_sam":
-                requested_class = str(self._param("fixed_yolo_target_class")).strip()
-                if not requested_class:
-                    requested_class = request.target_prompt
-                bbox, score, selected_class = self._detect_fixed_bbox(
-                    rgb, requested_class
-                )
-                mask = self._segment_mask(rgb, bbox)
-            else:
-                raise RuntimeError(f"unsupported_segmentation_mode:{mode}")
+                    sam_latency_s = time.perf_counter() - sam_start
+                else:
+                    raise RuntimeError(f"unsupported_segmentation_mode:{mode}")
             expanded_mask = expand_mask_bbox(mask, float(self._param("mask_expand_ratio")))
+
+            depth_h, depth_w = depth.shape[:2]
+
+            if mask.shape[:2] != (depth_h, depth_w):
+                mask = cv2.resize(
+                    mask.astype(np.uint8),
+                    (depth_w, depth_h),
+                    interpolation=cv2.INTER_NEAREST,
+                ).astype(bool)
+
+            if expanded_mask.shape[:2] != (depth_h, depth_w):
+                expanded_mask = cv2.resize(
+                    expanded_mask.astype(np.uint8),
+                    (depth_w, depth_h),
+                    interpolation=cv2.INTER_NEAREST,
+                ).astype(bool)
+
             cloud_mask = expanded_mask if bool(self._param("use_expanded_mask_for_target_cloud")) else mask
             points = masked_depth_to_points(depth, cloud_mask, info_msg)
             roi_points = masked_depth_to_points(depth, expanded_mask, info_msg)
@@ -323,6 +459,7 @@ class TargetSegmenterNode(Node):
             # The mask is consumed together with depth, so bind it to the
             # synchronized depth frame rather than the inference finish time.
             stamp = depth_msg.header.stamp
+            selected_mask_publish_stamp_s = self._stamp_s(depth_msg)
             frame_id = rgb_msg.header.frame_id
             mask_msg = numpy_to_mask_msg(mask, stamp=stamp, frame_id=frame_id)
             expanded_mask_msg = numpy_to_mask_msg(expanded_mask, stamp=stamp, frame_id=frame_id)
@@ -330,6 +467,18 @@ class TargetSegmenterNode(Node):
             roi_cloud_msg = pointcloud2_xyz(roi_points, stamp=stamp, frame_id=frame_id)
             center_msg = pose_from_xyz(center, stamp=stamp, frame_id=frame_id)
             self._mask_pub.publish(mask_msg)
+            self._selected_mask_publish_count += 1
+            publish_wall_s = time.time()
+            self.get_logger().info(
+                "selected_mask publish invoked: "
+                f"publish_count={self._selected_mask_publish_count} "
+                f"stamp={self._stamp_s(mask_msg):.9f} "
+                f"frame_id={mask_msg.header.frame_id!r} "
+                f"width={mask_msg.width} height={mask_msg.height} "
+                f"encoding={mask_msg.encoding!r} "
+                f"mask_pixels={int(np.count_nonzero(mask))} "
+                f"publish_wall={publish_wall_s:.6f}",
+            )
             if self._synced_depth_pub is not None:
                 self._synced_depth_pub.publish(depth_msg)
             self._expanded_mask_pub.publish(expanded_mask_msg)
@@ -338,6 +487,8 @@ class TargetSegmenterNode(Node):
             self._center_pub.publish(center_msg)
 
             debug_path = Path(str(self._param("debug_dir"))) / "segment_target_latest.json"
+            inference_end_wall_s = time.time()
+            inference_latency_s = time.perf_counter() - inference_started
             debug_json = dump_json(
                 debug_path,
                 {
@@ -356,10 +507,33 @@ class TargetSegmenterNode(Node):
                     "n_points": int(points.shape[0]),
                     "n_roi_points": int(roi_points.shape[0]),
                     "center_camera": [float(x) for x in center],
+                    "rgb_msg_stamp_s": float(self._stamp_s(rgb_msg)),
+                    "depth_msg_stamp_s": float(self._stamp_s(depth_msg)),
                     "rgb_depth_sync_delta_s": float(sync_delta_s),
-                    "inference_latency_s": float(time.perf_counter() - inference_started),
+                    "rgb_wall_receive_age_s": float(
+                        inference_start_wall_s - rgb_received_wall_s
+                    ),
+                    "depth_wall_receive_age_s": float(
+                        inference_start_wall_s - depth_received_wall_s
+                    ),
+                    "rgb_queue_size": int(rgb_queue_size),
+                    "depth_queue_size": int(depth_queue_size),
+                    "inference_start_wall_s": float(inference_start_wall_s),
+                    "inference_end_wall_s": float(inference_end_wall_s),
+                    "yolo_latency_s": float(yolo_latency_s),
+                    "sam_latency_s": float(sam_latency_s),
+                    "inference_latency_s": float(inference_latency_s),
+                    "selected_mask_publish_stamp_s": float(
+                        selected_mask_publish_stamp_s
+                    ),
+                    "selected_mask_publish_count": int(
+                        self._selected_mask_publish_count
+                    ),
                     "stamp_s": float(time.time()),
                 },
+            )
+            self._last_successful_segment_depth_stamp_s = float(
+                selected_mask_publish_stamp_s
             )
             response.success = True
             response.reason = f"ok mode={mode}"
@@ -368,18 +542,26 @@ class TargetSegmenterNode(Node):
             response.bbox_xyxy = [float(x) for x in bbox]
             response.mask_topic = str(self._param("mask_topic"))
             response.debug_json = debug_json
-            self._status_pub.publish(
-                String(
-                    data=(
-                        f"ok mode={mode} prompt={request.target_prompt} points={points.shape[0]} "
-                        f"class={selected_class or '-'} "
-                        f"bbox={','.join(f'{float(x):.1f}' for x in bbox)} "
-                        f"roi_points={roi_points.shape[0]} mask_px={int(np.count_nonzero(mask))} "
-                        f"expanded_px={int(np.count_nonzero(expanded_mask))} score={score:.3f} "
-                        f"fallback_red={used_fallback} sync_dt={sync_delta_s:.4f}s "
-                        f"inference_s={time.perf_counter() - inference_started:.3f}"
-                    )
-                )
+            status_text = (
+                f"ok mode={mode} prompt={request.target_prompt} points={points.shape[0]} "
+                f"class={selected_class or '-'} "
+                f"bbox={','.join(f'{float(x):.1f}' for x in bbox)} "
+                f"roi_points={roi_points.shape[0]} mask_px={int(np.count_nonzero(mask))} "
+                f"expanded_px={int(np.count_nonzero(expanded_mask))} score={score:.3f} "
+                f"fallback_red={used_fallback} sync_dt={sync_delta_s:.4f}s "
+                f"rgb_stamp={self._stamp_s(rgb_msg):.6f} "
+                f"depth_stamp={self._stamp_s(depth_msg):.6f} "
+                f"rgb_age={inference_start_wall_s - rgb_received_wall_s:.3f}s "
+                f"depth_age={inference_start_wall_s - depth_received_wall_s:.3f}s "
+                f"queues={rgb_queue_size},{depth_queue_size} "
+                f"yolo_s={yolo_latency_s:.3f} sam_s={sam_latency_s:.3f} "
+                f"inference_s={inference_latency_s:.3f} "
+                f"mask_stamp={selected_mask_publish_stamp_s:.6f}"
+            )
+            self._status_pub.publish(String(data=status_text))
+            self.get_logger().info(
+                "automatic target segmentation succeeded: " + status_text,
+                throttle_duration_sec=0.2,
             )
         except Exception as exc:
             response.success = False
@@ -484,6 +666,12 @@ class TargetSegmenterNode(Node):
         bbox = np.asarray([x1, y1, x2 - 1, y2 - 1], dtype=np.float32)
         score = min(1.0, float(selected["area"]) / max((x2 - x1) * (y2 - y1), 1))
         return selected_mask, bbox, score
+
+    def destroy_node(self) -> bool:
+        self._stop_event.set()
+        if self._auto_thread is not None:
+            self._auto_thread.join(timeout=2.0)
+        return super().destroy_node()
 
 
 def main() -> None:

@@ -108,8 +108,10 @@ class PolicyReachNode(Node):
             "policy_target_tracker_config",
             "ros2/config/real/policy_target_tracker.json",
         )
+        self.declare_parameter("waypoint_planner_enabled", False)
         self.declare_parameter("enable_joint_limit_cbf", False)
         self.declare_parameter("enable_obstacle_cbf", False)
+        self.declare_parameter("obstacle_failsafe_mode", "stop")
         self.declare_parameter("obstacle_cloud_topic", "/obstacle/cloud")
         self.declare_parameter("obstacle_cloud_timeout_s", 0.75)
         self.declare_parameter("obstacle_startup_timeout_s", 5.0)
@@ -143,8 +145,17 @@ class PolicyReachNode(Node):
         self.declare_parameter("log_path", "log/runtime/hardware/policy_reach.jsonl")
 
         self.repo = Path(str(self.get_parameter("repo_root").value)).resolve()
+        self.waypoint_planner_enabled = bool(
+            self.get_parameter("waypoint_planner_enabled").value
+        )
+        if self.waypoint_planner_enabled:
+            raise ValueError("waypoint planner requested but not implemented")
         self.mujoco, policy_mod, self.runtime, self.cbf_mod = _load_training_runtime(self.repo)
         self.target_pos, self.target_quat, self.hold_current = self._load_target()
+        # There is currently no waypoint planner.  Keeping these explicit makes
+        # the no-planner contract visible in both logs and telemetry.
+        self.final_target_pos = self.target_pos.copy()
+        self.active_target_pos = self.final_target_pos.copy()
         self.model = self.mujoco.MjModel.from_xml_path(
             str(self.repo / str(self.get_parameter("mjcf").value))
         )
@@ -158,6 +169,11 @@ class PolicyReachNode(Node):
         if not 5.0 <= rate <= 30.0:
             raise ValueError("control_rate_hz must be within [5, 30]")
         self.dt = 1.0 / rate
+        self.obstacle_failsafe_mode = str(
+            self.get_parameter("obstacle_failsafe_mode").value
+        )
+        if self.obstacle_failsafe_mode not in ("stop", "hold"):
+            raise ValueError("obstacle_failsafe_mode must be stop or hold")
         self.shaper = PolicyCommandShaper(
             ShaperConfig(
                 nominal_rate_hz=rate,
@@ -284,6 +300,9 @@ class PolicyReachNode(Node):
         self.limit_active_since: float | None = None
         self.limit_active_initial_error: float | None = None
         self.limit_active_best_error: float | None = None
+        self.failsafe_hold_active = False
+        self.failsafe_reason = ""
+        self.failsafe_hold_started_at: float | None = None
         self.log_file = None
 
         self.target_pub = self.create_publisher(JointState, "/hardware/joint_target", 1)
@@ -313,8 +332,10 @@ class PolicyReachNode(Node):
             f"tracking_diagnostic={float(self.get_parameter('max_tracking_error_rad').value):.3f}rad "
             f"load_support={load_support_mode} "
             f"policy_target_tracker={tracker_mode} "
+            f"waypoint_planner={'on' if self.waypoint_planner_enabled else 'off'} "
             f"joint_limit_cbf={self.joint_limit_cbf is not None} "
             f"obstacle_cbf={self.obstacle_cbf_config is not None} "
+            f"obstacle_failsafe_mode={self.obstacle_failsafe_mode} "
             f"start_on_launch={bool(self.get_parameter('start_on_launch').value)}"
         )
 
@@ -394,7 +415,9 @@ class PolicyReachNode(Node):
                 self.cbf_mod.PointCloudSdfObstacle(
                     name="real_orbbec_obstacle_cloud",
                     points=points,
-                    truncation_distance=0.15,
+                    # Exact nearest-neighbour query: the finite-radius branch
+                    # returns a sentinel, not clearance minus d_safe/r_link.
+                    truncation_distance=float("inf"),
                     voxel_size=0.01,
                     inflate=float(self.get_parameter("obstacle_inflate_m").value),
                     velocity=np.zeros(3, dtype=np.float64),
@@ -425,17 +448,41 @@ class PolicyReachNode(Node):
             if now - self.started_at > float(
                 self.get_parameter("obstacle_startup_timeout_s").value
             ):
-                self._stop(
+                self._obstacle_perception_failsafe(
                     "OBSTACLE_CLOUD_MISSING",
                     obstacle_cloud_seq=self.obstacle_cloud_seq,
                     required_clouds=min_clouds,
+                    obstacle_cloud_age_s=float("inf"),
                 )
             return False
-        age = now - self.obstacle_cloud_received_at
+        # Receipt of a delayed/replayed depth must not refresh camera freshness.
+        source_age = self.get_clock().now().nanoseconds * 1.0e-9 - self.obstacle_cloud_stamp_s
+        age = max(now - self.obstacle_cloud_received_at, source_age)
         if age > float(self.get_parameter("obstacle_cloud_timeout_s").value):
-            self._stop("OBSTACLE_CLOUD_STALE", obstacle_cloud_age_s=age)
+            self._obstacle_perception_failsafe(
+                "OBSTACLE_CLOUD_STALE",
+                obstacle_cloud_age_s=age,
+                obstacle_cloud_seq=self.obstacle_cloud_seq,
+            )
+            return False
+        if not self.obstacle_cbf_obstacles:
+            self._obstacle_perception_failsafe(
+                "OBSTACLE_CLOUD_TOO_SPARSE",
+                required_points=int(self.get_parameter("obstacle_min_points").value),
+                obstacle_cloud_seq=self.obstacle_cloud_seq,
+                obstacle_cloud_age_s=age,
+            )
             return False
         return True
+
+    def _obstacle_perception_failsafe(self, reason: str, **values) -> None:
+        """Stop by default; in demo hold mode wait for fresh valid perception."""
+        if self.obstacle_failsafe_mode == "hold":
+            assert self.current_q is not None
+            values.setdefault("obstacle_cbf_feasible", False)
+            self._obstacle_failsafe_hold(self.current_q.copy(), reason, **values)
+            return
+        self._stop(reason, **values)
 
     def _set_model_state(self, q: np.ndarray, qvel: np.ndarray) -> None:
         for adr, value in zip(self.ids.qpos_adr, q):
@@ -478,7 +525,79 @@ class PolicyReachNode(Node):
             "worst_point_base_m": point.tolist(),
             "worst_center_base_m": center.tolist(),
             "worst_center_distance_m": float(distances[index]),
+            "worst_monitor_radius_m": float(monitor.r_link),
+            "obstacle_clearance_m": float(distances[index])
+            - float(monitor.r_link) - float(obstacle.inflate),
         }
+
+    def _obstacle_failsafe_hold(
+        self,
+        q: np.ndarray,
+        reason: str,
+        *,
+        obstacle_cbf_info: dict | None = None,
+        dq_nominal: np.ndarray | None = None,
+        dq_cbf_step: np.ndarray | None = None,
+        **values,
+    ) -> None:
+        """Publish the measured posture without bypassing an obstacle failure."""
+        zeros = np.zeros(7, dtype=np.float64)
+        info = obstacle_cbf_info or {}
+        nominal = zeros if dq_nominal is None else dq_nominal
+        correction = zeros if dq_cbf_step is None else dq_cbf_step
+        h_min = float(info.get("h_min", float("inf")))
+        clearance = (
+            h_min + float(self.obstacle_cbf_config.d_safe)
+            if self.obstacle_cbf_config is not None
+            else float("inf")
+        )
+        self._publish_target(q)
+        if not self.failsafe_hold_active or self.failsafe_reason != reason:
+            self.failsafe_hold_started_at = time.monotonic()
+            self._publish_status("FAILSAFE_HOLD", failsafe_reason=reason)
+        self.failsafe_hold_active = True
+        self.failsafe_reason = reason
+        self.tick_index += 1
+        telemetry = {
+            "tick": self.tick_index,
+            "failsafe_mode": self.obstacle_failsafe_mode,
+            "failsafe_hold_active": True,
+            "failsafe_reason": reason,
+            "failsafe_hold_duration_s": time.monotonic()
+            - self.failsafe_hold_started_at,
+            "q": q.tolist(),
+            "dq_nominal": nominal.tolist(),
+            "dq_cbf_step": correction.tolist(),
+            "dq_safe_step": zeros.tolist(),
+            "q_cmd_final": q.tolist(),
+            "waypoint_planner_enabled": self.waypoint_planner_enabled,
+            "waypoint_state": "FINAL",
+            "final_target_xyz": self.final_target_pos.tolist(),
+            "active_target_xyz": self.active_target_pos.tolist(),
+            "obstacle_h_min_m": h_min,
+            "obstacle_clearance_m": clearance,
+            "obstacle_cbf_feasible": bool(info.get("cbf_feasible", True)),
+        }
+        telemetry.update(values)
+        self._log("failsafe_hold", **telemetry)
+
+    def _clear_failsafe_hold(self) -> None:
+        if not self.failsafe_hold_active:
+            return
+        assert self.failsafe_hold_started_at is not None
+        duration = time.monotonic() - self.failsafe_hold_started_at
+        reason = self.failsafe_reason
+        telemetry = {
+            "reason": reason,
+            "failsafe_hold_duration_s": duration,
+            "obstacle_cloud_seq": self.obstacle_cloud_seq,
+            "failsafe_hold_active": False,
+        }
+        self._publish_status("FAILSAFE_HOLD_RECOVERED", **telemetry)
+        self._log("FAILSAFE_HOLD_RECOVERED", **telemetry)
+        self.failsafe_hold_active = False
+        self.failsafe_reason = ""
+        self.failsafe_hold_started_at = None
 
     def _control_tick(self, now: float) -> None:
         if self.done:
@@ -558,6 +677,13 @@ class PolicyReachNode(Node):
         recovery_error[6] = 0.0
         if np.any(np.abs(recovery_error[:6]) > 1e-8):
             if self.obstacle_cbf_config is not None:
+                if self.obstacle_failsafe_mode == "hold":
+                    self._obstacle_failsafe_hold(
+                        q,
+                        "START_OUTSIDE_TRAINING_RANGE_WITH_OBSTACLE_CBF",
+                        recovery_error_rad=recovery_error.tolist(),
+                    )
+                    return
                 self._stop(
                     "START_OUTSIDE_TRAINING_RANGE_WITH_OBSTACLE_CBF",
                     recovery_error_rad=recovery_error.tolist(),
@@ -629,7 +755,7 @@ class PolicyReachNode(Node):
         velocity_preview = self.shaper.preview_velocity(
             filtered_action, timing["dt_s"]
         )
-        projected_velocity = velocity_preview[
+        nominal_velocity = velocity_preview[
             "acceleration_limited_velocity_rad_s"
         ].copy()
         obstacle_cbf_info: dict = {
@@ -639,17 +765,88 @@ class PolicyReachNode(Node):
             "n_constraints": 0,
             "dq_cbf_norm": 0.0,
         }
+        dq_cbf_step = np.zeros(7, dtype=np.float64)
+        worst_point_fields = {}
+        dt = float(timing["dt_s"])
+
+        # First create the nominal policy reference. Tracker and load support
+        # are applied to this reference before obstacle CBF sees the command.
+        nominal_shaped = self.shaper.shape_filtered(
+            q,
+            filtered_action,
+            recovery_low,
+            recovery_high,
+            dt,
+            frozen,
+            projected_velocity_rad_s=nominal_velocity,
+            raw_action=action_state["raw_action"],
+            action_filter_alpha=action_state["action_filter_alpha"],
+        )
+        q_cmd_before_policy_tracker = nominal_shaped["q_ref"].copy()
+        policy_tracker_info = {
+            "lead_rad": q_cmd_before_policy_tracker - q,
+            "lead_limit_rad": np.zeros(7, dtype=np.float64),
+            "lead_clamped": np.zeros(7, dtype=bool),
+            "candidate_q": q_cmd_before_policy_tracker.copy(),
+        }
+        policy_target_tracker_applied_pre_cbf = False
+        q_nominal = q_cmd_before_policy_tracker.copy()
+        if self.policy_target_tracker is not None:
+            policy_tracker_info = self.policy_target_tracker.apply(
+                q,
+                nominal_shaped["policy_target"],
+                nominal_shaped["reference_velocity_rad_s"],
+                recovery_low,
+                recovery_high,
+                dt,
+                frozen,
+            )
+            q_nominal = policy_tracker_info["q_cmd"].copy()
+            policy_target_tracker_applied_pre_cbf = True
+
+        # A frozen gripper target is part of the nominal candidate and must be
+        # included in the obstacle-CBF displacement, never applied afterward.
+        frozen_gripper_target = float(
+            self.get_parameter("frozen_gripper_target_rad").value
+        )
+        if bool(self.get_parameter("freeze_gripper").value) and frozen_gripper_target > -900.0:
+            q_nominal[6] = float(
+                np.clip(
+                    frozen_gripper_target,
+                    q[6] - self.shaper.cfg.max_tracking_error_rad,
+                    q[6] + self.shaper.cfg.max_tracking_error_rad,
+                )
+            )
+
+        q_cmd_before_load_support = q_nominal.copy()
+        load_support_info = {
+            "requested_bias_rad": np.zeros(7, dtype=np.float64),
+            "applied_bias_rad": np.zeros(7, dtype=np.float64),
+            "bias_magnitude_rad": np.zeros(7, dtype=np.float64),
+            "limit_clamped": np.zeros(7, dtype=bool),
+        }
+        load_support_applied_pre_cbf = False
+        if self.load_support is not None:
+            load_support_info = self.load_support.apply(
+                q_nominal, recovery_low, recovery_high, dt
+            )
+            q_nominal = load_support_info["q_cmd"].copy()
+            load_support_applied_pre_cbf = True
+
+        dq_nominal = q_nominal - q
+        dq_safe_step = dq_nominal.copy()
         if self.obstacle_cbf_config is not None and self.obstacle_cbf_monitors is not None:
-            dt = float(timing["dt_s"])
-            dq_nom_step = projected_velocity * dt
-            self.obstacle_cbf_config.dq_max = (
-                float(self.get_parameter("max_joint_velocity_rad_s").value) * dt
+            # Bounds cover the actual candidate. They do not generate or enlarge
+            # the candidate; solve_cbf_correction only returns a correction.
+            self.obstacle_cbf_config.dq_max = max(
+                float(self.get_parameter("max_joint_velocity_rad_s").value) * dt,
+                float(np.max(np.abs(dq_nominal))),
             )
             dq_cbf_step, obstacle_cbf_info = self.cbf_mod.solve_cbf_correction(
                 self.model,
                 self.data,
                 self.ids,
-                dq_nom_step,
+                dq_nominal,
                 self.obstacle_cbf_config,
                 self.obstacle_cbf_monitors,
                 self.obstacle_cbf_obstacles,
@@ -662,7 +859,21 @@ class PolicyReachNode(Node):
                 - float(self.obstacle_cbf_config.d_safe)
             )
             if h_min < hard_stop_h:
-                self._publish_target(q)
+                if self.obstacle_failsafe_mode == "hold":
+                    self._obstacle_failsafe_hold(
+                        q,
+                        "OBSTACLE_HARD_STOP",
+                        obstacle_cbf_info=obstacle_cbf_info,
+                        dq_nominal=dq_nominal,
+                        dq_cbf_step=dq_cbf_step,
+                        estimated_clearance_m=h_min
+                        + float(self.obstacle_cbf_config.d_safe),
+                        worst_monitor=str(
+                            obstacle_cbf_info.get("cbf_worst_monitor", "")
+                        ),
+                        **worst_point_fields,
+                    )
+                    return
                 self._stop(
                     "OBSTACLE_HARD_STOP",
                     h_min_m=h_min,
@@ -675,7 +886,19 @@ class PolicyReachNode(Node):
                 )
                 return
             if not bool(obstacle_cbf_info.get("cbf_feasible", True)):
-                self._publish_target(q)
+                if self.obstacle_failsafe_mode == "hold":
+                    self._obstacle_failsafe_hold(
+                        q,
+                        "OBSTACLE_CBF_INFEASIBLE",
+                        obstacle_cbf_info=obstacle_cbf_info,
+                        dq_nominal=dq_nominal,
+                        dq_cbf_step=dq_cbf_step,
+                        worst_monitor=str(
+                            obstacle_cbf_info.get("cbf_worst_monitor", "")
+                        ),
+                        **worst_point_fields,
+                    )
+                    return
                 self._stop(
                     "OBSTACLE_CBF_INFEASIBLE",
                     h_min_m=float(obstacle_cbf_info.get("h_min", float("nan"))),
@@ -685,7 +908,9 @@ class PolicyReachNode(Node):
                     **worst_point_fields,
                 )
                 return
-            projected_velocity = (dq_nom_step + dq_cbf_step) / dt
+            dq_safe_step = dq_nominal + dq_cbf_step
+        self._clear_failsafe_hold()
+        projected_velocity = dq_safe_step / dt
         cbf = None
         if self.joint_limit_cbf is not None:
             assert self.hardware_safe_low is not None and self.hardware_safe_high is not None
@@ -708,50 +933,9 @@ class PolicyReachNode(Node):
             action_filter_alpha=action_state["action_filter_alpha"],
         )
         q_cmd = shaped["q_ref"]
-        frozen_gripper_target = float(
-            self.get_parameter("frozen_gripper_target_rad").value
-        )
-        if bool(self.get_parameter("freeze_gripper").value) and frozen_gripper_target > -900.0:
-            # Preserve a close command during lift instead of replacing it with
-            # the measured, object-blocked finger position.
-            q_cmd[6] = float(
-                np.clip(
-                    frozen_gripper_target,
-                    q[6] - self.shaper.cfg.max_tracking_error_rad,
-                    q[6] + self.shaper.cfg.max_tracking_error_rad,
-                )
-            )
-        q_cmd_before_policy_tracker = q_cmd.copy()
-        policy_tracker_info = {
-            "lead_rad": q_cmd - q,
-            "lead_limit_rad": np.zeros(7, dtype=np.float64),
-            "lead_clamped": np.zeros(7, dtype=bool),
-            "candidate_q": q_cmd.copy(),
-        }
-        if self.policy_target_tracker is not None:
-            policy_tracker_info = self.policy_target_tracker.apply(
-                q,
-                shaped["policy_target"],
-                shaped["reference_velocity_rad_s"],
-                recovery_low,
-                recovery_high,
-                timing["dt_s"],
-                frozen,
-            )
-            q_cmd = policy_tracker_info["q_cmd"]
-        q_cmd_before_load_support = q_cmd.copy()
-        load_support_info = {
-            "requested_bias_rad": np.zeros(7, dtype=np.float64),
-            "applied_bias_rad": np.zeros(7, dtype=np.float64),
-            "bias_magnitude_rad": np.zeros(7, dtype=np.float64),
-            "limit_clamped": np.zeros(7, dtype=bool),
-        }
-        if self.load_support is not None:
-            load_support_info = self.load_support.apply(
-                q_cmd, recovery_low, recovery_high, timing["dt_s"]
-            )
-            q_cmd = load_support_info["q_cmd"]
         dq_cmd = q_cmd - q
+        # The final joint-limit stage may only reduce the CBF-safe step.
+        dq_safe_step = dq_cmd.copy()
 
         limit_clamped = shaped["safety_velocity_clamped"][:6]
         if np.any(limit_clamped):
@@ -808,6 +992,10 @@ class PolicyReachNode(Node):
             tcp_quat_wxyz=quat.tolist(),
             target_pos_m=self.target_pos.tolist(),
             target_quat_wxyz=self.target_quat.tolist(),
+            waypoint_planner_enabled=self.waypoint_planner_enabled,
+            waypoint_state="FINAL",
+            final_target_xyz=self.final_target_pos.tolist(),
+            active_target_xyz=self.active_target_pos.tolist(),
             pos_err_m=pos_err,
             orientation_err_deg=ori_err,
             raw_action=raw_action.tolist(),
@@ -816,10 +1004,15 @@ class PolicyReachNode(Node):
             q_policy_target=shaped["policy_target"].tolist(),
             dq_cmd=dq_cmd.tolist(),
             q_cmd=q_cmd.tolist(),
+            q_cmd_final=q_cmd.tolist(),
+            q_cmd_minus_q=dq_cmd.tolist(),
             q_ref=q_cmd.tolist(),
             q_cmd_before_load_support=q_cmd_before_load_support.tolist(),
             q_cmd_before_policy_target_tracker=q_cmd_before_policy_tracker.tolist(),
             policy_target_tracker_enabled=self.policy_target_tracker is not None,
+            tracker_enabled=self.policy_target_tracker is not None,
+            policy_target_tracker_applied=policy_target_tracker_applied_pre_cbf,
+            tracker_applied_pre_cbf=policy_target_tracker_applied_pre_cbf,
             policy_target_tracker_candidate_q=policy_tracker_info[
                 "candidate_q"
             ].tolist(),
@@ -833,6 +1026,8 @@ class PolicyReachNode(Node):
                 "lead_clamped"
             ].tolist(),
             load_support_enabled=self.load_support is not None,
+            load_support_applied=load_support_applied_pre_cbf,
+            load_support_applied_pre_cbf=load_support_applied_pre_cbf,
             load_support_requested_bias_rad=load_support_info[
                 "requested_bias_rad"
             ].tolist(),
@@ -865,6 +1060,18 @@ class PolicyReachNode(Node):
             velocity_filter_alpha=timing["velocity_filter_alpha"],
             action_scale=float(self.get_parameter("action_scale").value),
             obstacle_cbf_enabled=self.obstacle_cbf_config is not None,
+            failsafe_mode=self.obstacle_failsafe_mode,
+            failsafe_hold_active=self.failsafe_hold_active,
+            failsafe_reason=self.failsafe_reason,
+            q_nominal=q_nominal.tolist(),
+            dq_nominal=dq_nominal.tolist(),
+            dq_cbf_step=dq_cbf_step.tolist(),
+            dq_safe_step=dq_safe_step.tolist(),
+            cbf_safe_step_norm=float(np.linalg.norm(dq_safe_step)),
+            final_command_step_norm=float(np.linalg.norm(dq_cmd)),
+            obstacle_cbf_nom_violation=float(
+                obstacle_cbf_info.get("nom_violation", 0.0)
+            ),
             obstacle_cloud_seq=self.obstacle_cloud_seq,
             obstacle_cloud_points=(
                 0
@@ -872,6 +1079,15 @@ class PolicyReachNode(Node):
                 else int(self.obstacle_cbf_obstacles[0].points.shape[0])
             ),
             obstacle_h_min_m=float(obstacle_cbf_info.get("h_min", float("inf"))),
+            obstacle_clearance_m=worst_point_fields.get(
+                "obstacle_clearance_m",
+                (
+                    float(obstacle_cbf_info.get("h_min", float("inf")))
+                    + float(self.obstacle_cbf_config.d_safe)
+                    if self.obstacle_cbf_config is not None
+                    else float("inf")
+                ),
+            ),
             obstacle_cbf_active=bool(obstacle_cbf_info.get("cbf_active", False)),
             obstacle_cbf_feasible=bool(
                 obstacle_cbf_info.get("cbf_feasible", True)
@@ -885,6 +1101,11 @@ class PolicyReachNode(Node):
             obstacle_cbf_worst_monitor=str(
                 obstacle_cbf_info.get("cbf_worst_monitor", "")
             ),
+            **{
+                key: value
+                for key, value in worst_point_fields.items()
+                if key != "obstacle_clearance_m"
+            },
         )
         if self.tick_index % 10 == 0:
             self.get_logger().info(

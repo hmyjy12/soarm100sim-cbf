@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Verify live Orbbec RGB, registered depth and CameraInfo before arm power-on."""
+"""Verify live Orbbec RGB, depth and depth CameraInfo before arm power-on."""
 
 from __future__ import annotations
 
@@ -25,6 +25,7 @@ class RgbdSyncCheck(Node):
         self.info_count = 0
         self.rgb_shape: tuple[int, int] | None = None
         self.depth_shape: tuple[int, int] | None = None
+        self.info_shape: tuple[int, int] | None = None
         self.create_subscription(Image, rgb_topic, self._on_rgb, qos_profile_sensor_data)
         self.create_subscription(Image, depth_topic, self._on_depth, qos_profile_sensor_data)
         self.create_subscription(CameraInfo, info_topic, self._on_info, qos_profile_sensor_data)
@@ -37,8 +38,9 @@ class RgbdSyncCheck(Node):
         self.depth_stamps.append(stamp_s(message))
         self.depth_shape = (int(message.width), int(message.height))
 
-    def _on_info(self, _message: CameraInfo) -> None:
+    def _on_info(self, message: CameraInfo) -> None:
         self.info_count += 1
+        self.info_shape = (int(message.width), int(message.height))
 
     def best_delta_s(self) -> float | None:
         if not self.rgb_stamps or not self.depth_stamps:
@@ -50,7 +52,7 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--rgb-topic", default="/camera/color/image_raw")
     parser.add_argument("--depth-topic", default="/camera/depth/image_raw")
-    parser.add_argument("--camera-info-topic", default="/camera/color/camera_info")
+    parser.add_argument("--camera-info-topic", default="/camera/depth/camera_info")
     parser.add_argument("--timeout-s", type=float, default=10.0)
     parser.add_argument("--tolerance-s", type=float, default=0.10)
     parser.add_argument("--min-frames", type=int, default=3)
@@ -71,12 +73,16 @@ def main() -> int:
                 and len(node.depth_stamps) >= int(args.min_frames)
                 and node.info_count > 0
             )
-            same_shape = node.rgb_shape is not None and node.rgb_shape == node.depth_shape
-            if enough and same_shape and best is not None and best <= float(args.tolerance_s):
+            depth_info_shape_ok = (
+                node.depth_shape is not None and node.depth_shape == node.info_shape
+            )
+            if enough and depth_info_shape_ok and best is not None and best <= float(args.tolerance_s):
                 print(
                     "[rgbd_sync] PASS "
                     f"rgb={len(node.rgb_stamps)} depth={len(node.depth_stamps)} "
-                    f"info={node.info_count} shape={node.rgb_shape} "
+                    f"info={node.info_count} rgb_shape={node.rgb_shape} "
+                    f"depth_shape={node.depth_shape} info_shape={node.info_shape} "
+                    f"rgb_depth_shape_match={node.rgb_shape == node.depth_shape} "
                     f"best_dt={best:.6f}s tolerance={float(args.tolerance_s):.6f}s"
                 )
                 return 0
@@ -90,8 +96,8 @@ def main() -> int:
             diagnosis = "missing_depth"
         elif node.info_count == 0:
             diagnosis = "missing_camera_info"
-        elif node.rgb_shape != node.depth_shape:
-            diagnosis = "rgb_depth_shape_mismatch"
+        elif node.depth_shape != node.info_shape:
+            diagnosis = "depth_camera_info_shape_mismatch"
         else:
             diagnosis = "rgb_depth_timestamp_mismatch"
         print(
@@ -99,7 +105,7 @@ def main() -> int:
             f"reason={diagnosis} "
             f"rgb={len(node.rgb_stamps)} depth={len(node.depth_stamps)} "
             f"info={node.info_count} rgb_shape={node.rgb_shape} "
-            f"depth_shape={node.depth_shape} "
+            f"depth_shape={node.depth_shape} info_shape={node.info_shape} "
             f"best_dt={'none' if best is None else f'{best:.6f}s'} "
             f"tolerance={float(args.tolerance_s):.6f}s"
         )

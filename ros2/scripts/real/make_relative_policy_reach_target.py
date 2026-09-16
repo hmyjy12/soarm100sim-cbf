@@ -58,7 +58,13 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--delta-m",
         required=True,
-        help="Comma-separated dx,dy,dz in base frame meters, e.g. 0.023,0,0",
+        help="Comma-separated dx,dy,dz in meters, e.g. 0.023,0,0",
+    )
+    parser.add_argument(
+        "--relative-delta-frame",
+        choices=("base", "tool"),
+        default="base",
+        help="Frame of --delta-m; base preserves legacy behavior, tool uses TCP-local axes.",
     )
     parser.add_argument(
         "--mjcf",
@@ -80,6 +86,15 @@ def parse_args() -> argparse.Namespace:
         help="Allow an exact current-pose target for powered hold diagnostics.",
     )
     return parser.parse_args()
+
+
+def _rotation_matrix_base_tool(mujoco, quat_wxyz: np.ndarray) -> np.ndarray:
+    """Return R_base_tool from a TCP quaternion in MuJoCo wxyz convention."""
+    quat = np.asarray(quat_wxyz, dtype=np.float64).reshape(4)
+    quat /= max(float(np.linalg.norm(quat)), 1e-12)
+    matrix = np.empty(9, dtype=np.float64)
+    mujoco.mju_quat2Mat(matrix, quat)
+    return matrix.reshape(3, 3)
 
 
 def _parse_delta(text: str) -> np.ndarray:
@@ -128,8 +143,8 @@ def _wait_joint_state(timeout_s: float) -> np.ndarray:
 def main() -> int:
     args = parse_args()
     repo = args.repo_root.resolve()
-    delta = _parse_delta(args.delta_m)
-    norm = float(np.linalg.norm(delta))
+    delta_input = _parse_delta(args.delta_m)
+    norm = float(np.linalg.norm(delta_input))
     if norm < 1.0e-4 and not args.allow_zero:
         raise SystemExit("[ERROR] delta norm is ~0; choose a non-zero 2-3 cm offset")
     if args.max_delta_norm_m is not None and norm > float(args.max_delta_norm_m) + 1.0e-9:
@@ -152,7 +167,13 @@ def main() -> int:
     tcp = np.asarray(tcp, dtype=np.float64).reshape(3)
     quat = np.asarray(quat, dtype=np.float64).reshape(4)
     quat /= max(float(np.linalg.norm(quat)), 1e-12)
-    target = tcp + delta
+    rotation_base_tool = _rotation_matrix_base_tool(mujoco, quat)
+    delta_base = (
+        rotation_base_tool @ delta_input
+        if args.relative_delta_frame == "tool"
+        else delta_input.copy()
+    )
+    target = tcp + delta_base
 
     # Same conservative workspace gate as policy_reach_node.
     if not (
@@ -175,24 +196,36 @@ def main() -> int:
         "quaternion_wxyz": [float(v) for v in quat],
         "description": (
             f"Relative policy-verification target: current TCP + "
-            f"({delta[0]:+.4f},{delta[1]:+.4f},{delta[2]:+.4f}) m "
+            f"({delta_input[0]:+.4f},{delta_input[1]:+.4f},{delta_input[2]:+.4f}) m "
+            f"in {args.relative_delta_frame} frame; base delta="
+            f"({delta_base[0]:+.4f},{delta_base[1]:+.4f},{delta_base[2]:+.4f}) m "
             f"(|delta|={norm * 1000.0:.1f} mm); orientation held."
         ),
         "source_tcp_m": [float(v) for v in tcp],
         "source_quaternion_wxyz": [float(v) for v in quat],
-        "delta_m": [float(v) for v in delta],
+        "relative_delta_frame": str(args.relative_delta_frame),
+        "delta_input_m": [float(v) for v in delta_input],
+        "delta_base_m": [float(v) for v in delta_base],
+        "current_tcp_rotation_base_tool": rotation_base_tool.tolist(),
+        "delta_m": [float(v) for v in delta_input],
         "source_joint_position_rad": [float(v) for v in q],
     }
     output.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
     print(
-        "[relative_target] "
-        f"tcp=({tcp[0]:+.4f},{tcp[1]:+.4f},{tcp[2]:+.4f}) "
-        f"delta=({delta[0]:+.4f},{delta[1]:+.4f},{delta[2]:+.4f}) "
+        "[relative_target] relative_delta_frame="
+        f"{args.relative_delta_frame} delta_input_m="
+        f"({delta_input[0]:+.4f},{delta_input[1]:+.4f},{delta_input[2]:+.4f}) "
         f"|delta|={norm * 1000.0:.1f}mm"
     )
     print(
-        "[relative_target] "
-        f"target=({target[0]:+.4f},{target[1]:+.4f},{target[2]:+.4f}) "
+        "[relative_target] current_tcp_xyz="
+        f"({tcp[0]:+.4f},{tcp[1]:+.4f},{tcp[2]:+.4f}) "
+        f"current_tcp_rotation={rotation_base_tool.tolist()}"
+    )
+    print(
+        "[relative_target] delta_base_m="
+        f"({delta_base[0]:+.4f},{delta_base[1]:+.4f},{delta_base[2]:+.4f}) "
+        f"final_target_xyz=({target[0]:+.4f},{target[1]:+.4f},{target[2]:+.4f}) "
         f"wrote {output}"
     )
     return 0

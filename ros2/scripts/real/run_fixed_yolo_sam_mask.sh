@@ -5,7 +5,7 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)"
 ROS2_WS="$ROOT_DIR/ros2"
 CONDA_ENV="${CONDA_ENV:-vision_seg}"
-TARGET_CLASS="jpgCat"
+TARGET_CLASS="cup"
 CONF="0.01"
 IOU="0.70"
 DEVICE="auto"
@@ -21,7 +21,7 @@ Usage:
   ./ros2/scripts/real/run_fixed_yolo_sam_mask.sh [options]
 
 Options:
-  --class NAME          Fixed model class: jpgCat, Chiikawa, or tissue.
+  --class NAME          Fixed model class: cup.
   --conf SCORE          YOLO confidence threshold. Default: 0.01.
   --iou SCORE           YOLO NMS IoU threshold. Default: 0.70.
   --device DEVICE       auto, cpu, or CUDA index such as 0. Default: auto.
@@ -59,10 +59,8 @@ while [[ $# -gt 0 ]]; do
 done
 
 case "${TARGET_CLASS,,}" in
-  jpgcat) TARGET_CLASS="jpgCat" ;;
-  chiikawa) TARGET_CLASS="Chiikawa" ;;
-  tissue) TARGET_CLASS="tissue" ;;
-  *) echo "[ERROR] unknown class '$TARGET_CLASS'; choose jpgCat, Chiikawa, or tissue" >&2; exit 2 ;;
+  cup) TARGET_CLASS="cup" ;;
+  *) echo "[ERROR] unknown class '$TARGET_CLASS'; choose cup" >&2; exit 2 ;;
 esac
 
 source_relaxed() {
@@ -139,13 +137,13 @@ for entry in "$ROS2_WS"/install/soarm100_vision/lib/soarm100_vision/*; do
 done
 
 echo "[fixed_yolo_sam] class=$TARGET_CLASS conf=$CONF iou=$IOU device=$DEVICE"
-echo "[fixed_yolo_sam] detector=$ROOT_DIR/models/vision/yolowork_fixed_best.pt"
+echo "[fixed_yolo_sam] detector=$ROOT_DIR/YoloWork/cup_model_package/best.pt"
 echo "[fixed_yolo_sam] SAM=$ROOT_DIR/models/vision/mobile_sam.pt"
 
 setsid ros2 launch soarm100_vision fixed_yolo_sam_mask.launch.py \
   repo_root:="$ROOT_DIR" \
   target_class:="$TARGET_CLASS" \
-  detector_model:="$ROOT_DIR/models/vision/yolowork_fixed_best.pt" \
+  detector_model:="$ROOT_DIR/YoloWork/cup_model_package/best.pt" \
   sam_model:="$ROOT_DIR/models/vision/mobile_sam.pt" \
   detector_conf:="$CONF" \
   detector_iou:="$IOU" \

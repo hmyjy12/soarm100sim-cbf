@@ -1,16 +1,24 @@
 from __future__ import annotations
 
 from collections import deque
+import json
 import os
 from pathlib import Path
 import sys
+import threading
 import time
 
 import numpy as np
 import rclpy
-from rclpy.executors import ExternalShutdownException
+from rclpy.callback_groups import MutuallyExclusiveCallbackGroup, ReentrantCallbackGroup
+from rclpy.executors import ExternalShutdownException, MultiThreadedExecutor
 from rclpy.node import Node
-from rclpy.qos import qos_profile_sensor_data
+from rclpy.qos import (
+    QoSDurabilityPolicy,
+    QoSProfile,
+    QoSReliabilityPolicy,
+    qos_profile_sensor_data,
+)
 from sensor_msgs.msg import CameraInfo, Image, JointState, PointCloud2
 from std_msgs.msg import String
 
@@ -124,13 +132,23 @@ class ObstacleCloudNode(Node):
         self._robot_mask: np.ndarray | None = None
         self._target_mask: np.ndarray | None = None
         self._target_mask_stamp_s = 0.0
+        self._target_mask_frame_id = ""
+        self._target_mask_encoding = ""
+        self._target_mask_width = 0
+        self._target_mask_height = 0
+        self._target_mask_pixels = 0
+        self._target_mask_callback_count = 0
+        self._depth_callback_count = 0
+        self._target_mask_lock = threading.Lock()
         self._target_mask_was_valid = False
         self._joint_samples: deque[tuple[float, np.ndarray]] = deque(maxlen=240)
         self._last_depth_stamp: tuple[int, int] | None = None
+        self._last_published_depth_stamp: tuple[int, int] | None = None
         self._processed_frames = 0
         self._locked_cloud: np.ndarray | None = None
         self._locked_ignored_thin = np.zeros((0, 3), dtype=np.float64)
         self._locked_source_stamp_s = 0.0
+        self._static_lock_candidate_frames = 0
         self._mujoco = None
         self._model = None
         self._data = None
@@ -150,35 +168,50 @@ class ObstacleCloudNode(Node):
             PointCloud2, self._param("ignored_thin_topic"), 1
         )
         self._status_pub = self.create_publisher(String, self._param("status_topic"), 1)
+        sensor_group = ReentrantCallbackGroup()
+        timer_group = MutuallyExclusiveCallbackGroup()
+        selected_mask_qos = QoSProfile(
+            depth=10,
+            reliability=QoSReliabilityPolicy.RELIABLE,
+            durability=QoSDurabilityPolicy.VOLATILE,
+        )
         self.create_subscription(
-            Image, self._param("depth_topic"), self._on_depth, qos_profile_sensor_data
+            Image,
+            self._param("depth_topic"),
+            self._on_depth,
+            qos_profile_sensor_data,
+            callback_group=sensor_group,
         )
         self.create_subscription(
             CameraInfo,
             self._param("camera_info_topic"),
             self._on_info,
             qos_profile_sensor_data,
+            callback_group=sensor_group,
         )
         self.create_subscription(
             Image,
             self._param("robot_mask_topic"),
             self._on_robot_mask,
             qos_profile_sensor_data,
+            callback_group=sensor_group,
         )
         self.create_subscription(
             Image,
             self._param("target_mask_topic"),
             self._on_target_mask,
-            qos_profile_sensor_data,
+            selected_mask_qos,
+            callback_group=sensor_group,
         )
         self.create_subscription(
             JointState,
             self._param("joint_state_topic"),
             self._on_joint_state,
             qos_profile_sensor_data,
+            callback_group=sensor_group,
         )
         period = 1.0 / max(float(self._param("publish_rate_hz")), 1e-3)
-        self.create_timer(period, self._tick)
+        self.create_timer(period, self._tick, callback_group=timer_group)
         self.get_logger().info(
             "obstacle cloud ready: "
             f"depth={self._param('depth_topic')} robot_mask={self._param('robot_mask_topic')} "
@@ -226,6 +259,7 @@ class ObstacleCloudNode(Node):
         return self.get_parameter(name).value
 
     def _on_depth(self, msg: Image) -> None:
+        self._depth_callback_count += 1
         self._depth = msg
 
     def _on_info(self, msg: CameraInfo) -> None:
@@ -235,10 +269,39 @@ class ObstacleCloudNode(Node):
         self._robot_mask = image_to_numpy(msg) > 0
 
     def _on_target_mask(self, msg: Image) -> None:
-        self._target_mask = image_to_numpy(msg) > 0
+        with self._target_mask_lock:
+            self._on_target_mask_locked(msg)
+
+    def _on_target_mask_locked(self, msg: Image) -> None:
+        self._target_mask_callback_count += 1
+        callback_wall_s = time.time()
+        self.get_logger().info(
+            "selected_mask callback received: "
+            f"callback_count={self._target_mask_callback_count} "
+            f"stamp={(float(msg.header.stamp.sec) + float(msg.header.stamp.nanosec) * 1.0e-9):.9f} "
+            f"frame_id={msg.header.frame_id!r} width={msg.width} height={msg.height} "
+            f"encoding={msg.encoding!r} receive_wall={callback_wall_s:.6f}",
+        )
+        try:
+            mask = image_to_numpy(msg) > 0
+        except Exception as exc:
+            self.get_logger().error(
+                "selected_mask callback rejected image: "
+                f"callback_count={self._target_mask_callback_count} "
+                f"stamp={(float(msg.header.stamp.sec) + float(msg.header.stamp.nanosec) * 1.0e-9):.9f} "
+                f"frame_id={msg.header.frame_id!r} width={msg.width} height={msg.height} "
+                f"encoding={msg.encoding!r} error={exc}"
+            )
+            return
+        self._target_mask = mask
         self._target_mask_stamp_s = (
             float(msg.header.stamp.sec) + float(msg.header.stamp.nanosec) * 1.0e-9
         )
+        self._target_mask_frame_id = str(msg.header.frame_id)
+        self._target_mask_encoding = str(msg.encoding)
+        self._target_mask_width = int(msg.width)
+        self._target_mask_height = int(msg.height)
+        self._target_mask_pixels = int(np.count_nonzero(mask))
         # Mask and synchronized depth use separate ROS topics. Re-evaluate the
         # current depth regardless of DDS delivery order once its mask arrives.
         self._last_depth_stamp = None
@@ -370,7 +433,7 @@ class ObstacleCloudNode(Node):
             int(self._depth.header.stamp.sec),
             int(self._depth.header.stamp.nanosec),
         )
-        if stamp_key == self._last_depth_stamp:
+        if stamp_key in (self._last_depth_stamp, self._last_published_depth_stamp):
             return
         self._last_depth_stamp = stamp_key
         self._processed_frames += 1
@@ -383,33 +446,55 @@ class ObstacleCloudNode(Node):
                 throttle_duration_sec=2.0,
             )
             return
+        with self._target_mask_lock:
+            target_mask = self._target_mask
+            target_mask_stamp_s = self._target_mask_stamp_s
+            target_mask_was_valid = self._target_mask_was_valid
         target_mask_valid = (
-            self._target_mask is not None
-            and self._target_mask.shape[:2] == depth.shape[:2]
-            and abs(depth_stamp_s - self._target_mask_stamp_s)
+            target_mask is not None
+            and target_mask.shape[:2] == depth.shape[:2]
+            and abs(depth_stamp_s - target_mask_stamp_s)
             <= float(self._param("target_mask_sync_tolerance_s"))
+        )
+        mask_dt_s = (
+            abs(depth_stamp_s - target_mask_stamp_s)
+            if target_mask is not None
+            else float("inf")
         )
         target_mask_pixels = 0
         if target_mask_valid:
-            assert self._target_mask is not None
-            if not self._target_mask_was_valid:
+            assert target_mask is not None
+            if not target_mask_was_valid:
                 self._persistence.records.clear()
-            target_mask_pixels = int(np.count_nonzero(self._target_mask))
+            target_mask_pixels = int(np.count_nonzero(target_mask))
             depth = depth.copy()
             if selection_mode == "all_except_target":
-                depth[self._target_mask] = np.nan
+                depth[target_mask] = np.nan
             else:
-                depth[~self._target_mask] = np.nan
+                depth[~target_mask] = np.nan
         elif selection_mode == "target_only":
-            self._target_mask_was_valid = False
+            with self._target_mask_lock:
+                self._target_mask_was_valid = False
             status = (
                 f"stamp={stamp_key[0]}.{stamp_key[1]:09d} valid=false "
-                "reason=target_mask_missing_or_stale"
+                "reason=target_mask_missing_or_stale "
+                f"latest_mask_stamp={target_mask_stamp_s:.9f} "
+                f"current_depth_stamp={depth_stamp_s:.9f} "
+                f"mask_dt={mask_dt_s:.6f}s "
+                f"tolerance={float(self._param('target_mask_sync_tolerance_s')):.6f}s "
+                f"mask_callback_count={self._target_mask_callback_count} "
+                f"depth_callback_count={self._depth_callback_count} "
+                f"mask_shape={None if self._target_mask is None else self._target_mask.shape} "
+                f"latest_mask_frame={self._target_mask_frame_id!r} "
+                f"latest_mask_encoding={self._target_mask_encoding!r} "
+                f"latest_mask_pixels={self._target_mask_pixels} "
+                f"depth_shape={depth.shape}"
             )
             self._status_pub.publish(String(data=status))
             self.get_logger().warning(status, throttle_duration_sec=1.0)
             return
-        self._target_mask_was_valid = target_mask_valid
+        with self._target_mask_lock:
+            self._target_mask_was_valid = target_mask_valid
         n_self = 0
         if bool(self._param("use_robot_mask")) and self._robot_mask is not None:
             if self._robot_mask.shape[:2] == depth.shape[:2]:
@@ -419,6 +504,7 @@ class ObstacleCloudNode(Node):
                 depth[self._robot_mask] = np.nan
         pixel_stride = max(int(self._param("depth_pixel_stride")), 1)
         pts_all = depth_to_points(depth, self._info, pixel_stride=pixel_stride)
+        optical_stats = cloud_stats(pts_all)
         repo = Path(str(self._param("repo_root"))).expanduser().resolve()
         if bool(self._param("use_sim_camera_extrinsics")):
             pts_all = points_to_base_from_mujoco_camera(
@@ -435,6 +521,7 @@ class ObstacleCloudNode(Node):
                 input_camera_name=str(self._param("input_camera_name")),
             )
         wx = [float(x) for x in self._param("workspace_x")]
+        base_stats = cloud_stats(pts_all)
         wy = [float(x) for x in self._param("workspace_y")]
         wz = [float(x) for x in self._param("workspace_z")]
         pts_workspace = WorkspaceCrop(
@@ -449,6 +536,7 @@ class ObstacleCloudNode(Node):
             enabled=bool(self._param("remove_table_plane")),
             z_max=float(self._param("table_z_max")),
         ).apply(pts_workspace)
+        before_self = pts.copy()
         (
             pts,
             n_capsule_self,
@@ -474,26 +562,37 @@ class ObstacleCloudNode(Node):
             # obstacle velocity separately from the simulation backend.
             self._persistence.min_hits = 1
             self._persistence.forget_frames = 0
+            # Also discard within-voxel averaging with older frames.
+            self._persistence.records.clear()
         else:
             self._persistence.min_hits = int(self._param("persistence_hits"))
             self._persistence.forget_frames = int(self._param("persistence_forget_frames"))
         persistent = self._persistence.update(pts)
-        if (
+        ready_to_lock_static = (
             mode == "static"
             and bool(self._param("lock_static_target_cloud"))
             and selection_mode == "target_only"
             and persistent.shape[0] >= int(self._param("min_points"))
+        )
+        if ready_to_lock_static:
+            self._static_lock_candidate_frames += 1
+        else:
+            self._static_lock_candidate_frames = 0
+        if ready_to_lock_static and self._static_lock_candidate_frames >= max(
+            int(self._param("static_frames")), 1
         ):
             self._locked_cloud = persistent.copy()
             self._locked_ignored_thin = ignored_thin.copy()
             self._locked_source_stamp_s = depth_stamp_s
             self.get_logger().info(
                 "locked static target cloud in base frame: "
-                f"points={persistent.shape[0]} source_stamp={depth_stamp_s:.9f}"
+                f"points={persistent.shape[0]} source_stamp={depth_stamp_s:.9f} "
+                f"frames={self._static_lock_candidate_frames}"
             )
         stamp = self._depth.header.stamp
         frame_id = str(self._param("base_frame"))
         self._cloud_pub.publish(pointcloud2_xyz(persistent, stamp=stamp, frame_id=frame_id))
+        self._last_published_depth_stamp = stamp_key
         self._ignored_thin_pub.publish(
             pointcloud2_xyz(ignored_thin, stamp=stamp, frame_id=frame_id)
         )
@@ -524,13 +623,47 @@ class ObstacleCloudNode(Node):
         )
         self._status_pub.publish(String(data=status))
         self.get_logger().info(status)
+        self.get_logger().info("geometry=" + json.dumps({
+            "source_stamp_s": depth_stamp_s, "mode": mode,
+            "locked": self._locked_cloud is not None,
+            "optical_selected": optical_stats, "base_before_filters": base_stats,
+            "base_output": cloud_stats(persistent),
+            "before_self_clearance_m": capsule_clearance(before_self, capsules),
+            "output_clearance_m": capsule_clearance(persistent, capsules),
+            "self_filter_margin_m": float(self._param("self_filter_margin_m")),
+            "self_filter_capsules": [
+                {"a": a.tolist(), "b": b.tolist(), "radius_m": r}
+                for a, b, r in capsules
+            ],
+        }))
+
+
+def cloud_stats(points: np.ndarray) -> dict:
+    if len(points) == 0:
+        return {"points": 0}
+    return {"points": len(points), "centroid_m": points.mean(axis=0).tolist(),
+            "bbox_min_m": points.min(axis=0).tolist(),
+            "bbox_max_m": points.max(axis=0).tolist()}
+
+
+def capsule_clearance(points: np.ndarray, capsules: list) -> float | None:
+    if not len(points) or not capsules:
+        return None
+    best = float("inf")
+    for a, b, radius in capsules:
+        ab = b - a
+        t = np.clip((points - a) @ ab / max(float(ab @ ab), 1e-20), 0, 1)
+        best = min(best, float(np.linalg.norm(points - (a + t[:, None] * ab), axis=1).min()) - radius)
+    return best
 
 
 def main() -> None:
     rclpy.init()
     node = ObstacleCloudNode()
     try:
-        rclpy.spin(node)
+        executor = MultiThreadedExecutor(num_threads=2)
+        executor.add_node(node)
+        executor.spin()
     except (KeyboardInterrupt, ExternalShutdownException):
         pass
     except Exception:

@@ -5,21 +5,25 @@ ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)"
 ROS_WS="$ROOT_DIR/ros2"
 TARGET_CONFIG="ros2/config/real/policy_reach_target.json"
 RELATIVE_DELTA=""
+RELATIVE_DELTA_FRAME="base"
 VISION_ENV="vision_seg"
 PORT="/dev/ttyACM0"
 BUILD_FIRST="false"
 CONFIRM=""
 CONTROLLER_PID=""
+POLICY_PID=""
 OBSTACLE_PID=""
 OBSTACLE_VIEWER_PID=""
 TARGET_SEGMENTER_PID=""
 CONTROL_RATE_HZ="20.0"
 MAX_RELATIVE_DELTA_M=""
+DISABLE_RELATIVE_DELTA_LIMIT="false"
 MAX_TRACKING_ERROR_RAD="0.25"
 LOAD_SUPPORT_MODE="off"
 LOAD_SUPPORT_CONFIG="ros2/config/real/load_support.json"
 POLICY_TARGET_TRACKER_MODE="off"
 POLICY_TARGET_TRACKER_CONFIG="ros2/config/real/policy_target_tracker.json"
+WAYPOINT_PLANNER="off"
 ENABLE_JOINT_LIMIT_CBF="false"
 SUCCESS_POSITION_M="0.015"
 SUCCESS_ORIENTATION_DEG="10.0"
@@ -36,10 +40,11 @@ INIT_MOVE_TOLERANCE_COUNTS="100"
 INIT_MOVE_SETTLE_TIMEOUT_S="4.0"
 INIT_TRAINING_MARGIN_RAD="0.10"
 ENABLE_OBSTACLE_CBF="false"
+OBSTACLE_FAILSAFE_MODE="stop"
 OBSTACLE_GUI="true"
 RGB_TOPIC="/camera/color/image_raw"
 DEPTH_TOPIC="/camera/depth/image_raw"
-CAMERA_INFO_TOPIC="/camera/color/camera_info"
+CAMERA_INFO_TOPIC="/camera/depth/camera_info"
 CAMERA_CALIB_JSON="hardware/calibration/camera/real_camera_calib.json"
 TABLE_Z_MAX_M="0.055"
 SELF_FILTER_MARGIN_M="0.035"
@@ -64,7 +69,9 @@ OBSTACLE_HARD_STOP_DISTANCE_M="0.030"
 # stage uses a fixed camera and static obstacles, so retain the last cloud
 # briefly while still stopping on a sustained camera outage.
 OBSTACLE_CLOUD_TIMEOUT_S="3.0"
+OBSTACLE_MODE="static"
 OBSTACLE_STARTUP_TIMEOUT_S="12.0"
+OBSTACLE_STARTUP_MIN_CLOUDS="3"
 RGB_DEPTH_SYNC_TOLERANCE_S="0.10"
 
 source_relaxed() {
@@ -76,31 +83,38 @@ source_relaxed() {
 cleanup() {
   local code=$?
   trap - EXIT INT TERM
-  if [[ -n "$TARGET_SEGMENTER_PID" ]] && kill -0 "$TARGET_SEGMENTER_PID" 2>/dev/null; then
-    kill -TERM "-$TARGET_SEGMENTER_PID" 2>/dev/null || true
-    wait "$TARGET_SEGMENTER_PID" 2>/dev/null || true
-  fi
-  if [[ -n "$OBSTACLE_VIEWER_PID" ]] && kill -0 "$OBSTACLE_VIEWER_PID" 2>/dev/null; then
-    kill -TERM "-$OBSTACLE_VIEWER_PID" 2>/dev/null || true
-    wait "$OBSTACLE_VIEWER_PID" 2>/dev/null || true
-  fi
-  if [[ -n "$OBSTACLE_PID" ]] && kill -0 "$OBSTACLE_PID" 2>/dev/null; then
-    kill -TERM "-$OBSTACLE_PID" 2>/dev/null || true
-    wait "$OBSTACLE_PID" 2>/dev/null || true
-  fi
-  if [[ -n "$CONTROLLER_PID" ]] && kill -0 "$CONTROLLER_PID" 2>/dev/null; then
+  terminate_group() {
+    local pid="$1"
+    [[ -z "$pid" ]] && return 0
+    kill -TERM "-$pid" 2>/dev/null || true
+    for _ in $(seq 1 30); do
+      if ! pgrep -g "$pid" >/dev/null 2>&1; then
+        break
+      fi
+      sleep 0.1
+    done
+    if pgrep -g "$pid" >/dev/null 2>&1; then
+      kill -KILL "-$pid" 2>/dev/null || true
+    fi
+    wait "$pid" 2>/dev/null || true
+  }
+  terminate_group "$POLICY_PID"
+  terminate_group "$TARGET_SEGMENTER_PID"
+  terminate_group "$OBSTACLE_VIEWER_PID"
+  terminate_group "$OBSTACLE_PID"
+  if [[ -n "$CONTROLLER_PID" ]]; then
     source_relaxed /opt/ros/humble/setup.bash
     source_relaxed "$ROS_WS/install/setup.bash"
     timeout 3 ros2 service call /hardware/set_torque soarm100_interfaces/srv/SetHardwareTorque \
       "{enabled: false, confirmation: SET_HARDWARE_TORQUE}" >/dev/null 2>&1 || true
     kill -TERM "-$CONTROLLER_PID" 2>/dev/null || true
     for _ in $(seq 1 50); do
-      if ! kill -0 "$CONTROLLER_PID" 2>/dev/null; then
+      if ! pgrep -g "$CONTROLLER_PID" >/dev/null 2>&1; then
         break
       fi
       sleep 0.1
     done
-    if kill -0 "$CONTROLLER_PID" 2>/dev/null; then
+    if pgrep -g "$CONTROLLER_PID" >/dev/null 2>&1; then
       kill -KILL "-$CONTROLLER_PID" 2>/dev/null || true
     fi
     wait "$CONTROLLER_PID" 2>/dev/null || true
@@ -148,17 +162,21 @@ while [[ $# -gt 0 ]]; do
       TARGET_CONFIG="ros2/config/real/policy_reach_target_relative.json"
       shift 2
       ;;
+    --relative-delta-frame) RELATIVE_DELTA_FRAME="$2"; shift 2 ;;
     --vision-env) VISION_ENV="$2"; shift 2 ;;
     --port) PORT="$2"; shift 2 ;;
     --rate) CONTROL_RATE_HZ="$2"; shift 2 ;;
     --max-relative-delta-m) MAX_RELATIVE_DELTA_M="$2"; shift 2 ;;
+    --disable-relative-delta-limit) DISABLE_RELATIVE_DELTA_LIMIT="true"; shift ;;
     --max-tracking-error-rad) MAX_TRACKING_ERROR_RAD="$2"; shift 2 ;;
     --load-support) LOAD_SUPPORT_MODE="$2"; shift 2 ;;
     --load-support-config) LOAD_SUPPORT_CONFIG="$2"; shift 2 ;;
     --policy-target-tracker) POLICY_TARGET_TRACKER_MODE="$2"; shift 2 ;;
     --policy-target-tracker-config) POLICY_TARGET_TRACKER_CONFIG="$2"; shift 2 ;;
+    --waypoint-planner) WAYPOINT_PLANNER="$2"; shift 2 ;;
     --joint-limit-cbf) ENABLE_JOINT_LIMIT_CBF="$2"; shift 2 ;;
     --obstacle-cbf) ENABLE_OBSTACLE_CBF="$2"; shift 2 ;;
+    --obstacle-failsafe-mode) OBSTACLE_FAILSAFE_MODE="$2"; shift 2 ;;
     --obstacle-gui) OBSTACLE_GUI="$2"; shift 2 ;;
     --rgb-topic) RGB_TOPIC="$2"; shift 2 ;;
     --depth-topic) DEPTH_TOPIC="$2"; shift 2 ;;
@@ -184,7 +202,9 @@ while [[ $# -gt 0 ]]; do
     --obstacle-activate-margin-m) OBSTACLE_CBF_ACTIVATE_MARGIN_M="$2"; shift 2 ;;
     --obstacle-hard-stop-distance-m) OBSTACLE_HARD_STOP_DISTANCE_M="$2"; shift 2 ;;
     --obstacle-cloud-timeout-s) OBSTACLE_CLOUD_TIMEOUT_S="$2"; shift 2 ;;
+    --obstacle-mode) OBSTACLE_MODE="$2"; shift 2 ;;
     --obstacle-startup-timeout-s) OBSTACLE_STARTUP_TIMEOUT_S="$2"; shift 2 ;;
+    --obstacle-startup-min-clouds) OBSTACLE_STARTUP_MIN_CLOUDS="$2"; shift 2 ;;
     --rgb-depth-sync-tolerance-s) RGB_DEPTH_SYNC_TOLERANCE_S="$2"; shift 2 ;;
     --max-joint-velocity-rad-s) MAX_JOINT_VELOCITY_RAD_S="$2"; shift 2 ;;
     --max-joint-acceleration-rad-s2) MAX_JOINT_ACCELERATION_RAD_S2="$2"; shift 2 ;;
@@ -213,12 +233,20 @@ if ! [[ "$CONTROL_RATE_HZ" =~ ^[0-9]+([.][0-9]+)?$ ]] || \
   echo "[ERROR] --rate must be within [5, 30] Hz" >&2
   exit 2
 fi
-if [[ -n "$MAX_RELATIVE_DELTA_M" ]]; then
+if [[ "$DISABLE_RELATIVE_DELTA_LIMIT" != "true" && -n "$MAX_RELATIVE_DELTA_M" ]]; then
   if ! [[ "$MAX_RELATIVE_DELTA_M" =~ ^[0-9]+([.][0-9]+)?$ ]] || \
      ! awk -v value="$MAX_RELATIVE_DELTA_M" 'BEGIN { exit !(value > 0) }'; then
     echo "[ERROR] --max-relative-delta-m must be positive when provided" >&2
     exit 2
   fi
+fi
+if [[ "$RELATIVE_DELTA_FRAME" != "base" && "$RELATIVE_DELTA_FRAME" != "tool" ]]; then
+  echo "[ERROR] --relative-delta-frame must be base or tool" >&2
+  exit 2
+fi
+if [[ "$OBSTACLE_FAILSAFE_MODE" != "stop" && "$OBSTACLE_FAILSAFE_MODE" != "hold" ]]; then
+  echo "[ERROR] --obstacle-failsafe-mode must be stop or hold" >&2
+  exit 2
 fi
 if ! [[ "$MAX_TRACKING_ERROR_RAD" =~ ^[0-9]+([.][0-9]+)?$ ]] || \
    ! awk -v value="$MAX_TRACKING_ERROR_RAD" 'BEGIN { exit !(value >= 0.02 && value <= 0.35) }'; then
@@ -241,6 +269,17 @@ fi
 if [[ "$POLICY_TARGET_TRACKER_MODE" != "off" && "$POLICY_TARGET_TRACKER_MODE" != "bounded" ]]; then
   echo "[ERROR] --policy-target-tracker must be off or bounded" >&2
   exit 2
+fi
+if [[ "$WAYPOINT_PLANNER" != "off" && "$WAYPOINT_PLANNER" != "on" ]]; then
+  echo "[ERROR] --waypoint-planner must be off or on" >&2
+  exit 2
+fi
+if [[ "$WAYPOINT_PLANNER" == "on" ]]; then
+  WAYPOINT_PLANNER_ENABLED="true"
+  echo "[ERROR] waypoint planner requested but not implemented" >&2
+  exit 2
+else
+  WAYPOINT_PLANNER_ENABLED="false"
 fi
 if [[ "$POLICY_TARGET_TRACKER_CONFIG" = /* ]]; then
   POLICY_TARGET_TRACKER_CONFIG_PATH="$POLICY_TARGET_TRACKER_CONFIG"
@@ -323,6 +362,11 @@ if ! awk -v v="$OBSTACLE_TARGET_MASK_TOLERANCE_S" 'BEGIN { exit !(v >= 0.5 && v 
 fi
 if ! awk -v v="$OBSTACLE_STARTUP_TIMEOUT_S" 'BEGIN { exit !(v >= 3.0 && v <= 30.0) }'; then
   echo "[ERROR] --obstacle-startup-timeout-s must be within [3, 30] s" >&2
+  exit 2
+fi
+if ! [[ "$OBSTACLE_STARTUP_MIN_CLOUDS" =~ ^[0-9]+$ ]] || \
+   ! awk -v v="$OBSTACLE_STARTUP_MIN_CLOUDS" 'BEGIN { exit !(v >= 1 && v <= 20) }'; then
+  echo "[ERROR] --obstacle-startup-min-clouds must be within [1, 20]" >&2
   exit 2
 fi
 if ! awk -v hard="$OBSTACLE_HARD_STOP_DISTANCE_M" -v safe="$OBSTACLE_CBF_D_SAFE_M" \
@@ -440,6 +484,11 @@ printf -v OBSTACLE_TARGET_CONF_PARAM "%.6f" "$OBSTACLE_TARGET_CONF"
 printf -v OBSTACLE_MASK_REFRESH_PARAM "%.6f" "$OBSTACLE_MASK_REFRESH_HZ"
 printf -v OBSTACLE_TARGET_MASK_TOLERANCE_PARAM "%.6f" "$OBSTACLE_TARGET_MASK_TOLERANCE_S"
 printf -v TABLE_Z_MAX_PARAM "%.6f" "$TABLE_Z_MAX_M"
+if [[ "$OBSTACLE_MODE" != "static" && "$OBSTACLE_MODE" != "dynamic" ]]; then
+  echo "[ERROR] --obstacle-mode must be static or dynamic" >&2
+  exit 2
+fi
+
 printf -v OBSTACLE_CLOUD_TIMEOUT_PARAM "%.6f" "$OBSTACLE_CLOUD_TIMEOUT_S"
 printf -v OBSTACLE_STARTUP_TIMEOUT_PARAM "%.6f" "$OBSTACLE_STARTUP_TIMEOUT_S"
 printf -v RGB_DEPTH_SYNC_TOLERANCE_PARAM "%.6f" "$RGB_DEPTH_SYNC_TOLERANCE_S"
@@ -483,8 +532,8 @@ fi
 
 echo "[policy_reach] target config: $ROOT_DIR/$TARGET_CONFIG"
 if [[ -n "$RELATIVE_DELTA" ]]; then
-  echo "[policy_reach] relative mode: current TCP + ($RELATIVE_DELTA) m (orientation held)"
-  if [[ -n "$MAX_RELATIVE_DELTA_M" ]]; then
+  echo "[policy_reach] relative mode: frame=${RELATIVE_DELTA_FRAME}, input current TCP + ($RELATIVE_DELTA) m (orientation held)"
+  if [[ "$DISABLE_RELATIVE_DELTA_LIMIT" != "true" && -n "$MAX_RELATIVE_DELTA_M" ]]; then
     echo "[policy_reach] optional relative target norm limit=${MAX_RELATIVE_DELTA_M}m; final target must remain inside base workspace."
   else
     echo "[policy_reach] relative target norm limit=off; final target must remain inside base workspace."
@@ -502,9 +551,10 @@ if [[ "$POLICY_TARGET_TRACKER_MODE" == "off" ]]; then
 else
   echo "[policy_reach] bounded policy-target tracker=$POLICY_TARGET_TRACKER_MODE config=$POLICY_TARGET_TRACKER_CONFIG_PATH."
 fi
+echo "[policy_reach] waypoint_planner=$WAYPOINT_PLANNER."
 echo "[policy_reach] calibrated joint-limit CBF=$ENABLE_JOINT_LIMIT_CBF raw_margin=0 counts."
 echo "[policy_reach] success threshold: position=${SUCCESS_POSITION_PARAM}m, orientation=${SUCCESS_ORIENTATION_PARAM}deg."
-echo "[policy_reach] obstacle CBF=$ENABLE_OBSTACLE_CBF safe=${OBSTACLE_CBF_D_SAFE_PARAM}m hard_stop=${OBSTACLE_HARD_STOP_DISTANCE_PARAM}m vmax=${MAX_JOINT_VELOCITY_RAD_S}rad/s amax=${MAX_JOINT_ACCELERATION_RAD_S2}rad/s2."
+echo "[policy_reach] obstacle CBF=$ENABLE_OBSTACLE_CBF mode=${OBSTACLE_MODE} failsafe=${OBSTACLE_FAILSAFE_MODE} safe=${OBSTACLE_CBF_D_SAFE_PARAM}m activate_margin=${OBSTACLE_CBF_ACTIVATE_MARGIN_PARAM}m hard_stop=${OBSTACLE_HARD_STOP_DISTANCE_PARAM}m vmax=${MAX_JOINT_VELOCITY_RAD_S}rad/s amax=${MAX_JOINT_ACCELERATION_RAD_S2}rad/s2."
 mkdir -p "$ROOT_DIR/log/runtime/hardware"
 setsid "$ROOT_DIR/ros2/run_hardware_controller.sh" --port "$PORT" --rate "$CONTROL_RATE_PARAM" \
   --safe-pose "$POLICY_READY_POSE_PATH" \
@@ -586,11 +636,14 @@ if [[ "$ENABLE_OBSTACLE_CBF" == "true" ]]; then
       -p auto_target_prompt:="$OBSTACLE_TARGET_CLASS" \
       >"$ROOT_DIR/log/runtime/hardware/policy_reach_target_segmenter.log" 2>&1 &
     TARGET_SEGMENTER_PID=$!
-    OBSTACLE_DEPTH_TOPIC="/obstacle/selected_depth"
   fi
   OBSTACLE_SELECTION_PARAM="${OBSTACLE_SELECTION_MODE//-/_}"
   OBSTACLE_PERSISTENCE_HITS=2
-  if [[ "$OBSTACLE_SELECTION_MODE" == "target-only" ]]; then
+  if [[ "$OBSTACLE_MODE" == "static" && "$OBSTACLE_SELECTION_PARAM" == "target_only" ]]; then
+    # The target mask is produced asynchronously from depth. With an unlocked
+    # static target cloud, occasional stale masks can make the next valid depth
+    # frame look like a first observation; requiring two hits then publishes an
+    # empty cloud even when the raw cup cloud is dense.
     OBSTACLE_PERSISTENCE_HITS=1
   fi
   PYTHONPATH="$ROS_WS/soarm100_vision${PYTHONPATH:+:$PYTHONPATH}" \
@@ -607,7 +660,7 @@ if [[ "$ENABLE_OBSTACLE_CBF" == "true" ]]; then
     -p target_mask_topic:=/obstacle/selected_mask \
     -p obstacle_selection_mode:="$OBSTACLE_SELECTION_PARAM" \
     -p target_mask_sync_tolerance_s:="$OBSTACLE_TARGET_MASK_TOLERANCE_PARAM" \
-    -p lock_static_target_cloud:=true \
+    -p lock_static_target_cloud:=false \
     -p use_joint_state_self_filter:=true \
     -p joint_sync_tolerance_s:=0.075 \
     -p self_filter_margin_m:="$SELF_FILTER_MARGIN_PARAM" \
@@ -618,7 +671,7 @@ if [[ "$ENABLE_OBSTACLE_CBF" == "true" ]]; then
     -p thin_min_aspect_ratio:="$THIN_MIN_ASPECT_RATIO_PARAM" \
     -p thin_attachment_distance_m:="$THIN_ATTACHMENT_DISTANCE_PARAM" \
     -p thin_max_robot_distance_m:="$THIN_MAX_ROBOT_DISTANCE_PARAM" \
-    -p obstacle_mode:=static \
+    -p obstacle_mode:="$OBSTACLE_MODE" \
     -p workspace_x:="[0.02, 0.45]" \
     -p workspace_y:="[-0.30, 0.30]" \
     -p workspace_z:="[0.01, 0.45]" \
@@ -641,7 +694,7 @@ if [[ "$ENABLE_OBSTACLE_CBF" == "true" ]]; then
       -p calib_json:="$CAMERA_CALIB_JSON" \
       -p input_camera_name:=scene_depth \
       -p rgb_topic:="$RGB_TOPIC" \
-      -p camera_info_topic:="$CAMERA_INFO_TOPIC" \
+      -p camera_info_topic:=/camera/color/camera_info \
       -p obstacle_cloud_topic:=/obstacle/cloud \
       -p cloud_stale_s:="$OBSTACLE_CLOUD_TIMEOUT_PARAM" \
       -p show_window:=true \
@@ -670,12 +723,39 @@ if [[ "$ENABLE_OBSTACLE_CBF" == "true" ]]; then
     fi
     echo "[policy_reach] target mask ready."
   fi
+  echo "[policy_reach] waiting for ${OBSTACLE_STARTUP_MIN_CLOUDS} valid /obstacle/cloud messages ..."
+  CLOUD_READY="false"
+  for _ in $(seq 1 60); do
+    if [[ -n "$OBSTACLE_PID" ]] && ! kill -0 "$OBSTACLE_PID" 2>/dev/null; then
+      echo "[ERROR] obstacle cloud node exited; see log/runtime/hardware/policy_reach_obstacle_cloud.log" >&2
+      tail -n 40 "$ROOT_DIR/log/runtime/hardware/policy_reach_obstacle_cloud.log" >&2 || true
+      exit 1
+    fi
+    CLOUD_COUNT=0
+    for _msg in $(seq 1 "$OBSTACLE_STARTUP_MIN_CLOUDS"); do
+      if timeout 2 ros2 topic echo /obstacle/cloud --once --field width >/dev/null 2>&1; then
+        CLOUD_COUNT=$((CLOUD_COUNT + 1))
+      else
+        break
+      fi
+    done
+    if [[ "$CLOUD_COUNT" -ge "$OBSTACLE_STARTUP_MIN_CLOUDS" ]]; then
+      CLOUD_READY="true"
+      break
+    fi
+  done
+  if [[ "$CLOUD_READY" != "true" ]]; then
+    echo "[ERROR] no stable obstacle cloud received; see log/runtime/hardware/policy_reach_obstacle_cloud.log" >&2
+    tail -n 60 "$ROOT_DIR/log/runtime/hardware/policy_reach_obstacle_cloud.log" >&2 || true
+    exit 1
+  fi
+  echo "[policy_reach] obstacle cloud ready."
 fi
 
 if [[ -n "$RELATIVE_DELTA" ]]; then
   echo "[policy_reach] sampling live /joint_states and writing relative target..."
   RELATIVE_LIMIT_ARGS=()
-  if [[ -n "$MAX_RELATIVE_DELTA_M" ]]; then
+  if [[ "$DISABLE_RELATIVE_DELTA_LIMIT" != "true" && -n "$MAX_RELATIVE_DELTA_M" ]]; then
     RELATIVE_LIMIT_ARGS+=(--max-delta-norm-m "$MAX_RELATIVE_DELTA_M")
   fi
   conda run --no-capture-output -n "$VISION_ENV" python \
@@ -683,12 +763,13 @@ if [[ -n "$RELATIVE_DELTA" ]]; then
     --repo-root "$ROOT_DIR" \
     --output "$TARGET_CONFIG" \
     --delta-m "$RELATIVE_DELTA" \
+    --relative-delta-frame "$RELATIVE_DELTA_FRAME" \
     "${RELATIVE_LIMIT_ARGS[@]}" \
     --allow-zero
 fi
 
 echo "[policy_reach] running. Ctrl+C stops policy and requests all-axis torque-off."
-conda run --no-capture-output -n "$VISION_ENV" python \
+setsid conda run --no-capture-output -n "$VISION_ENV" python \
   "$ROOT_DIR/ros2/soarm100_vision/soarm100_vision/policy_reach_node.py" \
   --ros-args \
   -p repo_root:="$ROOT_DIR" \
@@ -699,12 +780,15 @@ conda run --no-capture-output -n "$VISION_ENV" python \
   -p load_support_config:="$LOAD_SUPPORT_CONFIG_PATH" \
   -p "policy_target_tracker_mode:='$POLICY_TARGET_TRACKER_MODE'" \
   -p policy_target_tracker_config:="$POLICY_TARGET_TRACKER_CONFIG_PATH" \
+  -p waypoint_planner_enabled:="$WAYPOINT_PLANNER_ENABLED" \
   -p max_joint_velocity_rad_s:="$MAX_JOINT_VELOCITY_PARAM" \
   -p max_joint_acceleration_rad_s2:="$MAX_JOINT_ACCELERATION_PARAM" \
   -p enable_joint_limit_cbf:="$ENABLE_JOINT_LIMIT_CBF" \
   -p enable_obstacle_cbf:="$ENABLE_OBSTACLE_CBF" \
+  -p "obstacle_failsafe_mode:='$OBSTACLE_FAILSAFE_MODE'" \
   -p obstacle_cloud_timeout_s:="$OBSTACLE_CLOUD_TIMEOUT_PARAM" \
   -p obstacle_startup_timeout_s:="$OBSTACLE_STARTUP_TIMEOUT_PARAM" \
+  -p obstacle_startup_min_clouds:="$OBSTACLE_STARTUP_MIN_CLOUDS" \
   -p obstacle_cbf_d_safe_m:="$OBSTACLE_CBF_D_SAFE_PARAM" \
   -p obstacle_cbf_activate_margin_m:="$OBSTACLE_CBF_ACTIVATE_MARGIN_PARAM" \
   -p obstacle_hard_stop_distance_m:="$OBSTACLE_HARD_STOP_DISTANCE_PARAM" \
@@ -712,4 +796,6 @@ conda run --no-capture-output -n "$VISION_ENV" python \
   -p success_orientation_deg:="$SUCCESS_ORIENTATION_PARAM" \
   -p timeout_s:="$POLICY_TIMEOUT_PARAM" \
   -p hold_current_duration_s:="$HOLD_CURRENT_DURATION_PARAM" \
-  -p start_on_launch:=true
+  -p start_on_launch:=true &
+POLICY_PID=$!
+wait "$POLICY_PID"
