@@ -1,1 +1,0 @@
-/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/so100_plus_description/scripts/compare_fk_mujoco_urdf.py

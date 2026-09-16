@@ -1,2 +1,0 @@
-bool enable          # true starts recording, false stops recording
-string file_path     # path to save the .bag file when enable is true; empty uses current directory

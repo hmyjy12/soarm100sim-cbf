@@ -1,1 +1,0 @@
-/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/soarm100_vision/launch/fixed_yolo_sam_mask.launch.py

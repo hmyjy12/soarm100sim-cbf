@@ -1,8 +1,0 @@
-/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/so100_plus_description/share/so100_plus_description/meshes/shoulder_pitch.STL
-/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/so100_plus_description/share/so100_plus_description/meshes/gripper.STL
-/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/so100_plus_description/share/so100_plus_description/meshes/shoulder_rotation.STL
-/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/so100_plus_description/share/so100_plus_description/meshes/base_link.STL
-/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/so100_plus_description/share/so100_plus_description/meshes/wrist_jaw.STL
-/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/so100_plus_description/share/so100_plus_description/meshes/wrist_roll.STL
-/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/so100_plus_description/share/so100_plus_description/meshes/ellbow.STL
-/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/install/so100_plus_description/share/so100_plus_description/meshes/wrist_pitch.STL

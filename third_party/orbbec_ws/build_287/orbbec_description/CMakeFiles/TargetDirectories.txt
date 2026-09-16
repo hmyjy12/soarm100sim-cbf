@@ -1,9 +1,0 @@
-/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/build_287/orbbec_description/CMakeFiles/uninstall.dir
-/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/build_287/orbbec_description/CMakeFiles/orbbec_description_uninstall.dir
-/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/build_287/orbbec_description/CMakeFiles/test.dir
-/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/build_287/orbbec_description/CMakeFiles/edit_cache.dir
-/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/build_287/orbbec_description/CMakeFiles/rebuild_cache.dir
-/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/build_287/orbbec_description/CMakeFiles/list_install_components.dir
-/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/build_287/orbbec_description/CMakeFiles/install.dir
-/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/build_287/orbbec_description/CMakeFiles/install/local.dir
-/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/third_party/orbbec_ws/build_287/orbbec_description/CMakeFiles/install/strip.dir

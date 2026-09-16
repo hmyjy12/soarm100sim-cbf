@@ -1,8 +1,0 @@
-string pose_name
-float64 duration
-float64 hold
-string confirmation
----
-bool success
-string reason
-string log_path

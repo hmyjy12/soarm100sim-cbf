@@ -1,1 +1,0 @@
-/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_generator_py/soarm100_interfaces/_soarm100_interfaces_s.ep.rosidl_typesupport_introspection_c.c

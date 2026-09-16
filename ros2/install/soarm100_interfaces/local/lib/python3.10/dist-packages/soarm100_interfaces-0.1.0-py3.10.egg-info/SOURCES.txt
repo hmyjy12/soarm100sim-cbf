@@ -1,1 +1,0 @@
-/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/ament_cmake_python/soarm100_interfaces/soarm100_interfaces.egg-info/SOURCES.txt

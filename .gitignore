@@ -15,6 +15,24 @@ __pycache__/
 /ros2/log/
 /ros2/logs/
 
+# Third-party ROS/CMake local products
+/third_party/*/build/
+/third_party/*/build_*/
+/third_party/*/install/
+/third_party/*/install_*/
+/third_party/*/log/
+/third_party/*/log_*/
+/third_party/*/logs/
+/third_party/*/Log/
+
+# Vendored Orbbec SDK example build tree
+/third_party/orbbec_sdk_2_8_7_root/opt/OrbbecSDK_v2.8.7/examples/build_clean/
+
+# CMake-generated state
+**/CMakeFiles/
+**/CMakeCache.txt
+**/cmake_install.cmake
+
 # Unified local runtime/build/driver logs
 /log/
 

@@ -1,7 +1,0 @@
-float64[7] position_rad
-float64 duration
-string confirmation
----
-bool success
-string reason
-string log_path

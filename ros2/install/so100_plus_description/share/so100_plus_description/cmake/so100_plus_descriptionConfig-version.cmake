@@ -1,1 +1,0 @@
-/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/so100_plus_description/ament_cmake_core/so100_plus_descriptionConfig-version.cmake

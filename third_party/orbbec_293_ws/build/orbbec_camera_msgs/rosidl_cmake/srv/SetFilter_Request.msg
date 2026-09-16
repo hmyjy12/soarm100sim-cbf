@@ -1,4 +1,0 @@
-string filter_name
-bool filter_enable
-float32[] filter_param
-DepthFilterParam[] filter_config

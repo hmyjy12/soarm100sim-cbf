@@ -1,1 +1,0 @@
-/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/ros2/build/soarm100_interfaces/rosidl_typesupport_introspection_c/soarm100_interfaces/srv/detail/move_named_pose__rosidl_typesupport_introspection_c.h
