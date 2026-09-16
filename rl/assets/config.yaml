@@ -1,5 +1,6 @@
-asset_path: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/SO-ARM100/Simulation/SO100/mujoco/so100_plus.urdf
-usd_dir: /home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/rl/assets
+# Paths are relative to the repository root when invoking the converter.
+asset_path: SO-ARM100/Simulation/SO100/mujoco/so100_plus.urdf
+usd_dir: rl/assets
 usd_file_name: so100_plus.usd
 force_usd_conversion: true
 make_instanceable: true

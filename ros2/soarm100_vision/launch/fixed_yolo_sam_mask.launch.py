@@ -28,7 +28,7 @@ def generate_launch_description():
             DeclareLaunchArgument("repo_root", default_value="."),
             DeclareLaunchArgument(
                 "python_executable",
-                default_value="/home/sophie/miniconda3/envs/vision_seg/bin/python",
+                default_value="python3",
             ),
             DeclareLaunchArgument("target_class", default_value="jpgCat"),
             DeclareLaunchArgument(

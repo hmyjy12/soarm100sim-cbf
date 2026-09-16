@@ -28,6 +28,6 @@
       "chunk_000020.json"
     ]
   },
-  "output_path": "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/rl/datasets/workspace_joint_dataset.json",
-  "merged_npz": "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/rl/workspace_cache/workspace_tcp_merged.npz"
+  "output_path": "rl/datasets/workspace_joint_dataset.json",
+  "merged_npz": "rl/workspace_cache/workspace_tcp_merged.npz"
 }

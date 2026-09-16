@@ -12,29 +12,31 @@
 ================================================================================
 
 0) 前置：将 URDF 转为 USD（首次需要）
-   cd ~/isaac_lab/isaac_ws/IsaacLab
+   export SOARM100SIM_ROOT=/path/to/soarm100sim_project
+   export ISAACLAB_ROOT=/path/to/IsaacLab
+   cd "$ISAACLAB_ROOT"
    ./isaaclab.sh -p scripts/tools/convert_urdf.py \\
-     ~/isaac_lab/isaac_ws/rl_code/soarm100sim/SO-ARM100/Simulation/SO100/mujoco/so100_plus.urdf \\
-     ~/isaac_lab/isaac_ws/rl_code/soarm100sim/rl/assets/so100_plus.usd \\
+     "$SOARM100SIM_ROOT/SO-ARM100/Simulation/SO100/mujoco/so100_plus.urdf" \\
+     "$SOARM100SIM_ROOT/rl/assets/so100_plus.usd" \\
      --headless --fix-base
 
 1) 默认：headless 采样 + JSON/NPZ 导出 + train/test 划分
-   cd ~/isaac_lab/isaac_ws/IsaacLab
-   ./isaaclab.sh -p ../rl_code/soarm100sim/rl/sample.py --headless
+   cd "$ISAACLAB_ROOT"
+   ./isaaclab.sh -p "$SOARM100SIM_ROOT/rl/sample.py" --headless
 
 2) 仅采样，不划分
-   ./isaaclab.sh -p ../rl_code/soarm100sim/rl/sample.py --headless --no-enable-split
+   ./isaaclab.sh -p "$SOARM100SIM_ROOT/rl/sample.py" --headless --no-enable-split
 
 3) 仅对已有 merged NPZ 做 train/test 划分（不启动 Isaac Sim）
-   python3 ~/isaac_lab/isaac_ws/rl_code/soarm100sim/rl/sample.py \\
+   python3 "$SOARM100SIM_ROOT/rl/sample.py" \\
      --no-enable-sample --enable-split
 
 4) 小规模试跑
-   ./isaaclab.sh -p ../rl_code/soarm100sim/rl/sample.py --headless \\
+   ./isaaclab.sh -p "$SOARM100SIM_ROOT/rl/sample.py" --headless \\
      --num-samples 200 --num-envs 16
 
 5) 续跑（从 stream manifest 恢复）
-   ./isaaclab.sh -p ../rl_code/soarm100sim/rl/sample.py --headless --resume
+   ./isaaclab.sh -p "$SOARM100SIM_ROOT/rl/sample.py" --headless --resume
 
 ================================================================================
 输出路径（默认，可在下方 DEFAULTS 或 CLI 中修改）

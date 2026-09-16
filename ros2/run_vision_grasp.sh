@@ -50,7 +50,9 @@ MUJOCO_TARGET_MOTION_DWELL_TIME="1.0"
 MUJOCO_TARGET_MOTION_DELAY="0.5"
 MUJOCO_TRAJ_LOG="$ROOT_DIR/log/runtime/ros2_mujoco_grasp.jsonl"
 MUJOCO_SPEED="1.0"
-MUJOCO_PYTHON="${MUJOCO_PYTHON:-/home/sophie/miniconda3/bin/python}"
+# An explicit MUJOCO_PYTHON still wins.  Otherwise use the interpreter exposed
+# by the current shell instead of assuming a particular user's Conda install.
+MUJOCO_PYTHON="${MUJOCO_PYTHON:-}"
 MUJOCO_BACKEND_MODE="inprocess"
 MUJOCO_INPROCESS_VIEWER="true"
 MUJOCO_INTERNAL_TRACKING="true"
@@ -133,7 +135,7 @@ Options:
                                   Initial static delay. Default: 0.5 s.
   --mujoco-traj-log PATH          MuJoCo trajectory log path.
   --mujoco-speed SPEED            MuJoCo playback speed. Default: 1.0.
-  --mujoco-python PATH            Python executable for MuJoCo backend subprocess. Default: /home/sophie/miniconda3/bin/python.
+  --mujoco-python PATH            Python executable for MuJoCo backend subprocess. Default: current shell's python, then python3.
   --mujoco-backend-mode subprocess|inprocess
                                   Policy backend implementation. Default: subprocess.
   --mujoco-inprocess-viewer on|off
@@ -525,6 +527,17 @@ while [[ $# -gt 0 ]]; do
       ;;
   esac
 done
+
+if [[ -z "$MUJOCO_PYTHON" ]]; then
+  if command -v python >/dev/null 2>&1; then
+    MUJOCO_PYTHON="$(command -v python)"
+  elif command -v python3 >/dev/null 2>&1; then
+    MUJOCO_PYTHON="$(command -v python3)"
+  else
+    echo "[ERROR] no python interpreter found; set MUJOCO_PYTHON or pass --mujoco-python." >&2
+    exit 1
+  fi
+fi
 
 if [[ "$MUJOCO_OBSTACLE" == "auto" ]]; then
   MUJOCO_OBSTACLE="$ENABLE_AVOIDANCE"

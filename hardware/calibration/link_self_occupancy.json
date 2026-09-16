@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "source_dataset": "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/log/runtime/hardware/link_self_occupancy/20260821_162924",
+  "source_dataset": "log/runtime/hardware/link_self_occupancy/20260821_162924",
   "processed_frames": 200,
   "voxel_size_m": 0.008,
   "association_radius_m": 0.12,

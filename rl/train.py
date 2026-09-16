@@ -13,44 +13,46 @@
    - USD 已生成：rl/assets/so100_plus.usd
 
 1) 默认正式训练（headless，512 env × 500 iter）
-   cd ~/isaac_lab/isaac_ws/IsaacLab
-   ./isaaclab.sh -p ../rl_code/soarm100sim/rl/train.py --headless
+   export SOARM100SIM_ROOT=/path/to/soarm100sim_project
+   export ISAACLAB_ROOT=/path/to/IsaacLab
+   cd "$ISAACLAB_ROOT"
+   ./isaaclab.sh -p "$SOARM100SIM_ROOT/rl/train.py" --headless
 
 2) 小规模试训（快速验证管线）
-   ./isaaclab.sh -p ../rl_code/soarm100sim/rl/train.py --headless \\
+   ./isaaclab.sh -p "$SOARM100SIM_ROOT/rl/train.py" --headless \\
      --num_envs 64 --max_iterations 50
 
 3) 续训（加载已有 checkpoint；新目录名带 _resume，并写 RESUME.txt）
-   cd ~/isaac_lab/isaac_ws/IsaacLab
-   ./isaaclab.sh -p ../rl_code/soarm100sim/rl/train.py --headless \\
-     --checkpoint ../rl_code/soarm100sim/rl/checkpoints/2026-07-03_18-11-38/26-07-03_18-11-38-258181_PPO/checkpoints/agent_102400.pt \\
+   cd "$ISAACLAB_ROOT"
+   ./isaaclab.sh -p "$SOARM100SIM_ROOT/rl/train.py" --headless \\
+     --checkpoint "$SOARM100SIM_ROOT/rl/checkpoints/2026-07-03_18-11-38/26-07-03_18-11-38-258181_PPO/checkpoints/agent_102400.pt" \\
      --max_iterations 150
 
 3b) 指定环境配置（默认 1=稳定；2/ori=姿态实验 cfg2）
-   ./isaaclab.sh -p ../rl_code/soarm100sim/rl/train.py --headless --env-cfg 1
-   ./isaaclab.sh -p ../rl_code/soarm100sim/rl/train.py --headless --env-cfg 2 \\
+   ./isaaclab.sh -p "$SOARM100SIM_ROOT/rl/train.py" --headless --env-cfg 1
+   ./isaaclab.sh -p "$SOARM100SIM_ROOT/rl/train.py" --headless --env-cfg 2 \\
      --checkpoint .../agent_102400.pt --max_iterations 150
 
 4) 指定 workspace NPZ
-   ./isaaclab.sh -p ../rl_code/soarm100sim/rl/train.py --headless \\
-     --workspace-npz ../rl_code/soarm100sim/rl/workspace_cache/workspace_tcp_merged_train.npz
+   ./isaaclab.sh -p "$SOARM100SIM_ROOT/rl/train.py" --headless \\
+     --workspace-npz "$SOARM100SIM_ROOT/rl/workspace_cache/workspace_tcp_merged_train.npz"
 
 5) 带 GUI 看 TCP/目标球（红=目标，绿=TCP；env 数宜减小）
-   ./isaaclab.sh -p ../rl_code/soarm100sim/rl/train.py --num_envs 16
+   ./isaaclab.sh -p "$SOARM100SIM_ROOT/rl/train.py" --num_envs 16
 
 6) 关闭 debug marker / 动作滤波
-   ./isaaclab.sh -p ../rl_code/soarm100sim/rl/train.py --headless \\
+   ./isaaclab.sh -p "$SOARM100SIM_ROOT/rl/train.py" --headless \\
      --no-debug-vis --disable_action_filter
 
 7) TensorBoard（训练时另开终端）
-   tensorboard --logdir ~/isaac_lab/isaac_ws/rl_code/soarm100sim/rl/checkpoints
+   tensorboard --logdir "$SOARM100SIM_ROOT/rl/checkpoints"
    # 浏览器 http://localhost:6006
    # 关键标量：Metrics/success_rate, Metrics/orientation_success_rate,
    #           Metrics/ever_success_rate, Rewards/total_reward_mean
 
 8) 训练后推理
-   ./isaaclab.sh -p ../rl_code/soarm100sim/rl/execute.py \\
-     --checkpoint ../rl_code/soarm100sim/rl/checkpoints/<run>/agent.pt
+   ./isaaclab.sh -p "$SOARM100SIM_ROOT/rl/execute.py" \\
+     --checkpoint "$SOARM100SIM_ROOT/rl/checkpoints/<run>/agent.pt"
 
 ================================================================================
 输出路径（默认）

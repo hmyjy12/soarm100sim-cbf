@@ -149,5 +149,5 @@
   ],
   "approval_timestamp": "2026-08-25T15:56:30.402696+08:00",
   "approval_basis": "automatic limits passed; pose powered and held; operator visually approved",
-  "source_candidate": "/home/sophie/isaac_lab/isaac_ws/rl_code/soarm100sim/hardware/calibration/policy_ready_static_cbf.candidate.json"
+  "source_candidate": "hardware/calibration/policy_ready_static_cbf.candidate.json"
 }
