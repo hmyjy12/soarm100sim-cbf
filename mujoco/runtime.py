@@ -167,6 +167,181 @@ def make_obs(data: mujoco.MjData, ids: RobotIds, target_pos_w, target_quat_wxyz)
     return obs, info
 
 
+def _segment_closest_xy(a_xy: np.ndarray, b_xy: np.ndarray, p_xy: np.ndarray) -> tuple[float, float]:
+    ab = b_xy - a_xy
+    denom = float(ab @ ab)
+    if denom < 1e-12:
+        return 0.0, float(np.linalg.norm(p_xy - a_xy))
+    s = float(np.clip(((p_xy - a_xy) @ ab) / denom, 0.0, 1.0))
+    closest = a_xy + s * ab
+    return s, float(np.linalg.norm(p_xy - closest))
+
+
+def _guided_target_pos(
+    tcp_w: np.ndarray,
+    target_pos_w: np.ndarray,
+    obstacles: list,
+    clearance: float,
+    reach: float,
+    obstacle_lookahead_steps: float = 0.0,
+    forward: float = 0.0,
+    dynamic_clearance: float | None = None,
+    dynamic_forward: float = 0.0,
+    dynamic_speed_thresh: float = 1e-4,
+    dynamic_closing_speed_thresh: float = 2e-4,
+    preferred_side: float = 0.0,
+    switch_slack: float = 0.05,
+) -> tuple[np.ndarray, dict]:
+    """给 CBF 加一个轻量 waypoint：直线路径穿过障碍附近时，先绕到侧边。"""
+    target = np.asarray(target_pos_w, dtype=np.float64).reshape(3)
+    tcp = np.asarray(tcp_w, dtype=np.float64).reshape(3)
+    best_target = target.copy()
+    best_info = {"guided_target_active": False}
+
+    a_xy = tcp[:2]
+    b_xy = target[:2]
+    path = b_xy - a_xy
+    path_norm = float(np.linalg.norm(path))
+    if path_norm < max(float(reach), 1e-6):
+        return best_target, best_info
+    path_dir = path / path_norm
+    side_dir = np.array([-path_dir[1], path_dir[0]], dtype=np.float64)
+
+    for obs in obstacles:
+        if not hasattr(obs, "center"):
+            continue
+        center = np.asarray(getattr(obs, "center"), dtype=np.float64).reshape(3)
+        obs_vel = np.asarray(getattr(obs, "velocity", np.zeros(3)), dtype=np.float64).reshape(3)
+        obs_speed = float(np.linalg.norm(obs_vel))
+        is_dynamic = obs_speed > float(dynamic_speed_thresh)
+        s_now, dist_now_xy = _segment_closest_xy(a_xy, b_xy, center[:2])
+        closest_now_xy = a_xy + s_now * path
+        to_path_xy = closest_now_xy - center[:2]
+        to_path_norm = float(np.linalg.norm(to_path_xy))
+        closing_speed = 0.0
+        if to_path_norm > 1e-9:
+            closing_speed = float(obs_vel[:2] @ (to_path_xy / to_path_norm))
+        elif is_dynamic:
+            closing_speed = obs_speed
+        use_dynamic_params = is_dynamic and closing_speed > float(dynamic_closing_speed_thresh)
+        predicted_center = (
+            center + max(0.0, float(obstacle_lookahead_steps)) * obs_vel
+            if use_dynamic_params
+            else center
+        )
+        radius = float(getattr(obs, "radius", 0.0))
+        clearance_use = (
+            float(dynamic_clearance)
+            if use_dynamic_params and dynamic_clearance is not None
+            else float(clearance)
+        )
+        forward_use = float(forward) + (float(dynamic_forward) if use_dynamic_params else 0.0)
+        trigger = max(clearance_use, radius + clearance_use)
+        s, dist_xy = _segment_closest_xy(a_xy, b_xy, predicted_center[:2])
+        if s <= 0.05 or s >= 0.95 or dist_xy >= trigger:
+            continue
+
+        forward_offset = path_dir * max(0.0, forward_use)
+        cand_xy_pos = predicted_center[:2] + side_dir * trigger + forward_offset
+        cand_xy_neg = predicted_center[:2] - side_dir * trigger + forward_offset
+        cost_pos = float(np.linalg.norm(cand_xy_pos - a_xy) + np.linalg.norm(cand_xy_pos - b_xy))
+        cost_neg = float(np.linalg.norm(cand_xy_neg - a_xy) + np.linalg.norm(cand_xy_neg - b_xy))
+        natural_side = -1.0 if cost_neg < cost_pos else 1.0
+        chosen_side = natural_side
+        preferred_side = float(np.sign(preferred_side))
+        if preferred_side != 0.0:
+            preferred_cost = cost_pos if preferred_side > 0.0 else cost_neg
+            natural_cost = min(cost_pos, cost_neg)
+            if preferred_cost <= natural_cost + max(0.0, float(switch_slack)):
+                chosen_side = preferred_side
+        chosen_xy = cand_xy_pos if chosen_side > 0.0 else cand_xy_neg
+        waypoint = target.copy()
+        waypoint[:2] = chosen_xy
+        waypoint[2] = float(np.clip(target[2], min(tcp[2], target[2]), max(tcp[2], target[2])))
+        best_target = waypoint
+        best_info = {
+            "guided_target_active": True,
+            "guided_target_obstacle": str(getattr(obs, "name", "")),
+            "guided_target_s": float(s),
+            "guided_target_path_dist": float(dist_xy),
+            "guided_target_current_path_dist": float(dist_now_xy),
+            "guided_target_obs_speed": obs_speed,
+            "guided_target_dynamic": bool(is_dynamic),
+            "guided_target_dynamic_params": bool(use_dynamic_params),
+            "guided_target_closing_speed": float(closing_speed),
+            "guided_target_clearance": float(clearance_use),
+            "guided_target_forward": float(forward_use),
+            "guided_target_side": float(chosen_side),
+            "guided_target_natural_side": float(natural_side),
+            "guided_target_cost_pos": float(cost_pos),
+            "guided_target_cost_neg": float(cost_neg),
+        }
+        break
+
+    return best_target, best_info
+
+
+@dataclass
+class WaypointManager:
+    side: float = 0.0
+    miss_count: int = 0
+    last_waypoint: np.ndarray | None = None
+
+    def reset(self) -> None:
+        self.side = 0.0
+        self.miss_count = 0
+        self.last_waypoint = None
+
+    def update(
+        self,
+        tcp_w: np.ndarray,
+        target_pos_w: np.ndarray,
+        obstacles: list,
+        cfg: object,
+    ) -> tuple[np.ndarray, dict]:
+        target_for_policy, guide_info = _guided_target_pos(
+            tcp_w,
+            target_pos_w,
+            obstacles,
+            float(getattr(cfg, "target_guidance_clearance", 0.13)),
+            float(getattr(cfg, "target_guidance_reach", 0.04)),
+            float(getattr(cfg, "target_guidance_dynamic_lookahead_steps", 0.0)),
+            float(getattr(cfg, "target_guidance_forward", 0.0)),
+            float(getattr(cfg, "target_guidance_dynamic_clearance", 0.09)),
+            float(getattr(cfg, "target_guidance_dynamic_forward", 0.06)),
+            float(getattr(cfg, "target_guidance_dynamic_speed_thresh", 1e-4)),
+            float(getattr(cfg, "target_guidance_dynamic_closing_speed_thresh", 1e-4)),
+            self.side,
+            float(getattr(cfg, "target_guidance_switch_slack", 0.05)),
+        )
+        if bool(guide_info.get("guided_target_active", False)):
+            self.side = float(guide_info.get("guided_target_side", 0.0))
+            self.miss_count = 0
+            self.last_waypoint = np.asarray(target_for_policy, dtype=np.float64).reshape(3).copy()
+        else:
+            self.miss_count += 1
+            release_steps = int(getattr(cfg, "target_guidance_release_steps", 8))
+            if (
+                self.last_waypoint is not None
+                and self.side != 0.0
+                and self.miss_count < release_steps
+                and float(np.linalg.norm(tcp_w - target_pos_w)) > float(getattr(cfg, "target_guidance_reach", 0.04))
+            ):
+                target_for_policy = self.last_waypoint.copy()
+                guide_info = {
+                    **guide_info,
+                    "guided_target_active": True,
+                    "guided_target_held": True,
+                    "guided_target_side": float(self.side),
+                }
+            else:
+                self.side = 0.0
+                self.last_waypoint = None
+        guide_info["guided_target_memory_side"] = float(self.side)
+        guide_info["guided_target_miss_count"] = int(self.miss_count)
+        return target_for_policy, guide_info
+
+
 @dataclass
 class ReachStepper:
     policy: object
@@ -182,12 +357,15 @@ class ReachStepper:
     cbf_obstacles: list | None = None
     cbf_obstacle_source: object | None = None
     cbf_filter_tau: float = CBF_FILTER_TAU
+    enable_cbf_correction_filter: bool = True
+    cbf_bypass_filter_when_unsafe: bool = False
     filtered_action: np.ndarray = field(
         default_factory=lambda: np.zeros(ACTION_DIM, dtype=np.float64)
     )
     filtered_dq_cbf: np.ndarray = field(
         default_factory=lambda: np.zeros(ACTION_DIM, dtype=np.float64)
     )
+    waypoint_manager: WaypointManager = field(default_factory=WaypointManager)
 
     def __post_init__(self) -> None:
         dt_ctrl = self.sim_dt * self.decimation
@@ -212,6 +390,7 @@ class ReachStepper:
     def reset_filter(self) -> None:
         self.filtered_action[:] = 0.0
         self.filtered_dq_cbf[:] = 0.0
+        self.waypoint_manager.reset()
         if self.cbf_obstacle_source is not None:
             self.cbf_obstacle_source.reset()
 
@@ -231,7 +410,30 @@ class ReachStepper:
         )
 
     def compute_targets(self, model: mujoco.MjModel, data: mujoco.MjData, target_pos_w, target_quat_w):
-        obs, info = make_obs(data, self.ids, target_pos_w, target_quat_w)
+        target_for_policy = np.asarray(target_pos_w, dtype=np.float64).reshape(3)
+        guide_info: dict = {}
+        cbf_obstacles_refreshed = False
+        if self.enable_cbf and self.cbf_cfg is not None:
+            if (
+                self.cbf_obstacle_source is not None
+                and getattr(self.cbf_obstacle_source, "refresh_every_step", False)
+            ):
+                self.refresh_cbf_obstacles(data)
+                cbf_obstacles_refreshed = True
+            elif self.cbf_obstacles is None:
+                self.refresh_cbf_obstacles(data)
+                cbf_obstacles_refreshed = True
+            if bool(getattr(self.cbf_cfg, "target_guidance", False)):
+                tcp_w, _ = tcp_pose_w(data, self.ids)
+                target_for_policy, guide_info = self.waypoint_manager.update(
+                    tcp_w,
+                    target_for_policy,
+                    self.cbf_obstacles or [],
+                    self.cbf_cfg,
+                )
+
+        obs, _policy_info = make_obs(data, self.ids, target_for_policy, target_quat_w)
+        _, info = make_obs(data, self.ids, target_pos_w, target_quat_w)
         raw = np.clip(self.policy.act_mean(obs).astype(np.float64), -1.0, 1.0)
         self.filtered_action += self.beta * (raw - self.filtered_action)
         curr_q = joint_pos(data, self.ids)
@@ -243,9 +445,12 @@ class ReachStepper:
                 self.cbf_obstacle_source is not None
                 and getattr(self.cbf_obstacle_source, "refresh_every_step", False)
             ):
-                self.refresh_cbf_obstacles(data)
+                if not cbf_obstacles_refreshed:
+                    self.refresh_cbf_obstacles(data)
+                    cbf_obstacles_refreshed = True
             elif self.cbf_obstacles is None:
                 self.refresh_cbf_obstacles(data)
+                cbf_obstacles_refreshed = True
             try:
                 from .cbf import solve_cbf_correction
             except ImportError:
@@ -260,7 +465,18 @@ class ReachStepper:
                 self.cbf_obstacles or [],
                 tcp_pose_w,
             )
-            self.filtered_dq_cbf += self.cbf_beta * (dq_cbf_raw - self.filtered_dq_cbf)
+            if (
+                self.cbf_bypass_filter_when_unsafe
+                and float(cbf_info.get("h_min", float("inf"))) < 0.0
+            ):
+                self.filtered_dq_cbf = dq_cbf_raw.copy()
+                cbf_info["dq_cbf_filter_bypassed"] = True
+            elif not self.enable_cbf_correction_filter:
+                self.filtered_dq_cbf = dq_cbf_raw.copy()
+                cbf_info["dq_cbf_filter_bypassed"] = False
+            else:
+                self.filtered_dq_cbf += self.cbf_beta * (dq_cbf_raw - self.filtered_dq_cbf)
+                cbf_info["dq_cbf_filter_bypassed"] = False
             dq_cbf = self.filtered_dq_cbf.copy()
             cbf_info["dq_cbf_raw_norm"] = float(np.linalg.norm(dq_cbf_raw))
             cbf_info["dq_cbf_norm"] = float(np.linalg.norm(dq_cbf))
@@ -277,6 +493,7 @@ class ReachStepper:
             "raw_action": raw,
             "dq_nom": dq_nom,
             "dq_cbf": dq_cbf,
+            **guide_info,
             **cbf_info,
             **info,
         }

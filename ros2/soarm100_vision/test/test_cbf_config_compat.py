@@ -17,6 +17,8 @@ def test_shared_defaults_are_legacy_real_safe():
 
     assert cfg.capsule_sample_count == 9
     assert cfg.qp_metric == "identity"
+    assert not cfg.target_guidance
+    assert cbf_core.CbfConfig(target_guidance=True).target_guidance is True
     assert cfg.dynamic_obstacle_lookahead_steps == 0.0
 
 
@@ -128,3 +130,21 @@ def test_single_arm_solver_does_not_reference_dual_arm_entrypoint():
     ]
 
     assert "solve_dual_arm_cbf_correction" not in calls
+
+
+def test_runtime_filter_bypass_is_explicit_and_legacy_safe():
+    source = (REPO_ROOT / "mujoco/runtime.py").read_text(encoding="utf-8")
+    tree = ast.parse(source)
+    stepper = next(
+        node
+        for node in tree.body
+        if isinstance(node, ast.ClassDef) and node.name == "ReachStepper"
+    )
+    fields = {
+        node.target.id: node.value
+        for node in stepper.body
+        if isinstance(node, ast.AnnAssign) and isinstance(node.target, ast.Name)
+    }
+
+    assert ast.literal_eval(fields["enable_cbf_correction_filter"]) is True
+    assert ast.literal_eval(fields["cbf_bypass_filter_when_unsafe"]) is False

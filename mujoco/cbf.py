@@ -237,6 +237,17 @@ class CbfConfig:
     capsule_sample_count: int = CAPSULE_SEGMENT_SAMPLES
     qp_metric: str = "identity"
     task_preserve_weight: float = 1.0
+    target_guidance: bool = False
+    target_guidance_clearance: float = 0.07
+    target_guidance_reach: float = 0.04
+    target_guidance_forward: float = 0.0
+    target_guidance_dynamic_clearance: float = 0.14
+    target_guidance_dynamic_forward: float = 0.04
+    target_guidance_dynamic_speed_thresh: float = 1e-4
+    target_guidance_dynamic_closing_speed_thresh: float = 1e-4
+    target_guidance_release_steps: int = 32
+    target_guidance_switch_slack: float = 0.05
+    target_guidance_dynamic_lookahead_steps: float = 2.0
     dynamic_obstacle_lookahead_steps: float = 0.0
 
 
