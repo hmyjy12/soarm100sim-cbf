@@ -66,6 +66,7 @@ CBF_D_SAFE = _c.CBF_D_SAFE
 CBF_GAMMA = _c.CBF_GAMMA
 CBF_LAMBDA = _c.CBF_LAMBDA
 CBF_ACTIVATE_MARGIN = _c.CBF_ACTIVATE_MARGIN
+CBF_FILTER_TAU = _c.CBF_FILTER_TAU
 CbfConfig = _cbf.CbfConfig
 SkrlGaussianPolicy = _pol.SkrlGaussianPolicy
 ReachStepper = _rt.ReachStepper
@@ -914,6 +915,21 @@ def evaluate(args: argparse.Namespace) -> int:
         lambda_cbf=float(args.cbf_lambda),
         dq_max=float(args.action_scale),
         activate_margin=float(args.cbf_activate_margin),
+        capsule_sample_count=int(args.cbf_capsule_samples),
+        qp_metric=str(args.cbf_qp_metric),
+        task_preserve_weight=float(args.cbf_task_preserve_weight),
+        target_guidance=bool(args.cbf_target_guidance),
+        target_guidance_clearance=float(args.cbf_target_guidance_clearance),
+        target_guidance_reach=float(args.cbf_target_guidance_reach),
+        target_guidance_forward=float(args.cbf_target_guidance_forward),
+        target_guidance_dynamic_clearance=float(args.cbf_target_guidance_dynamic_clearance),
+        target_guidance_dynamic_forward=float(args.cbf_target_guidance_dynamic_forward),
+        target_guidance_dynamic_speed_thresh=float(args.cbf_target_guidance_dynamic_speed_thresh),
+        target_guidance_dynamic_closing_speed_thresh=float(args.cbf_target_guidance_dynamic_closing_speed_thresh),
+        target_guidance_release_steps=int(args.cbf_target_guidance_release_steps),
+        target_guidance_switch_slack=float(args.cbf_target_guidance_switch_slack),
+        target_guidance_dynamic_lookahead_steps=float(args.cbf_target_guidance_dynamic_lookahead_steps),
+        dynamic_obstacle_lookahead_steps=float(args.cbf_dynamic_lookahead_steps),
     )
     stepper_base = ReachStepper(
         policy=policy,
@@ -931,6 +947,9 @@ def evaluate(args: argparse.Namespace) -> int:
         model=model,
         action_scale=float(args.action_scale),
         filter_tau=float(args.filter_tau),
+        cbf_filter_tau=float(args.cbf_filter_tau),
+        enable_cbf_correction_filter=bool(args.cbf_correction_filter),
+        cbf_bypass_filter_when_unsafe=bool(args.cbf_bypass_filter_when_unsafe),
         sim_dt=float(SIM_DT),
         decimation=int(DECIMATION),
         enable_cbf=True,
@@ -1271,10 +1290,66 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--log-every", type=int, default=32)
     p.add_argument("--action-scale", type=float, default=ACTION_SCALE)
     p.add_argument("--filter-tau", type=float, default=ACTION_FILTER_TAU)
+    p.add_argument("--cbf-filter-tau", type=float, default=CBF_FILTER_TAU)
+    p.add_argument(
+        "--cbf-correction-filter",
+        action=argparse.BooleanOptionalAction,
+        default=True,
+        help="是否对 CBF 修正做一阶滤波；共享运行时默认保持开启",
+    )
+    p.add_argument(
+        "--cbf-bypass-filter-when-unsafe",
+        action=argparse.BooleanOptionalAction,
+        default=True,
+        help="仿真增强：h_min<0 时是否绕过 CBF 修正滤波",
+    )
     p.add_argument("--cbf-d-safe", type=float, default=CBF_D_SAFE)
     p.add_argument("--cbf-gamma", type=float, default=CBF_GAMMA)
-    p.add_argument("--cbf-lambda", type=float, default=CBF_LAMBDA)
+    p.add_argument(
+        "--cbf-lambda",
+        type=float,
+        default=CBF_LAMBDA,
+        help="仿真 CBF lambda 兼容参数；task-preserving 权重单独设置",
+    )
     p.add_argument("--cbf-activate-margin", type=float, default=CBF_ACTIVATE_MARGIN)
+    p.add_argument(
+        "--cbf-capsule-samples",
+        type=int,
+        default=17,
+        help="仿真增强配置：每段 capsule 采样数（共享/真机默认仍为 9）",
+    )
+    p.add_argument(
+        "--cbf-qp-metric",
+        choices=("identity", "task_preserving"),
+        default="task_preserving",
+        help="仿真 QP 修正 metric；默认显式启用 task_preserving",
+    )
+    p.add_argument(
+        "--cbf-task-preserve-weight",
+        type=float,
+        default=5.0,
+        help="task_preserving metric 的 TCP Jacobian 权重；不复用 lambda_cbf",
+    )
+    p.add_argument("--cbf-target-guidance", action=argparse.BooleanOptionalAction, default=True)
+    p.add_argument("--cbf-target-guidance-clearance", type=float, default=0.07)
+    p.add_argument("--cbf-target-guidance-reach", type=float, default=0.04)
+    p.add_argument("--cbf-target-guidance-forward", type=float, default=0.0)
+    p.add_argument("--cbf-target-guidance-dynamic-clearance", type=float, default=0.14)
+    p.add_argument("--cbf-target-guidance-dynamic-forward", type=float, default=0.04)
+    p.add_argument("--cbf-target-guidance-dynamic-speed-thresh", type=float, default=1e-4)
+    p.add_argument("--cbf-target-guidance-dynamic-closing-speed-thresh", type=float, default=1e-4)
+    p.add_argument("--cbf-target-guidance-release-steps", type=int, default=32)
+    p.add_argument("--cbf-target-guidance-switch-slack", type=float, default=0.05)
+    p.add_argument("--cbf-target-guidance-dynamic-lookahead-steps", type=float, default=2.0)
+    p.add_argument(
+        "--cbf-dynamic-lookahead-steps",
+        type=float,
+        default=0.0,
+        help=(
+            "按障碍物速度预测的 lookahead 步数；障碍物速度为 0 时不增加 dynamic padding。"
+            "本静态评测入口默认 0.0，属于入口默认而非 shared CBF 全局默认。"
+        ),
+    )
     p.add_argument(
         "--summarize-only",
         action="store_true",

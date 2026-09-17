@@ -1898,6 +1898,16 @@ def run(args: argparse.Namespace) -> int:
     bank_pos, bank_quat = load_target_bank(npz)
     joint_bank = _load_joint_bank(npz)
     rng = np.random.default_rng(int(args.seed))
+    target_indices: list[int] | None = None
+    if str(args.target_indices_file).strip():
+        indices_path = Path(args.target_indices_file).expanduser().resolve()
+        target_indices = [int(x) for x in json.loads(indices_path.read_text(encoding="utf-8"))]
+        if not target_indices:
+            raise ValueError(f"--target-indices-file is empty: {indices_path}")
+        bad = [idx for idx in target_indices if idx < 0 or idx >= bank_pos.shape[0]]
+        if bad:
+            raise ValueError(f"--target-indices-file contains out-of-range target index: {bad[0]}")
+        print(f"[mujoco_play] target indices file={indices_path}  count={len(target_indices)}")
     steps_per_ep = int(round(EPISODE_LENGTH_S / (SIM_DT * DECIMATION)))
     if bool(args.enable_grasp_chain):
         steps_per_ep = max(steps_per_ep, int(round(steps_per_ep * max(float(args.grasp_episode_time_scale), 1.0))))
@@ -2005,7 +2015,9 @@ def run(args: argparse.Namespace) -> int:
             if viewer is not None and not viewer.is_running():
                 break
 
-            if int(args.target_idx) >= 0:
+            if target_indices is not None:
+                idx = int(target_indices[ep % len(target_indices)])
+            elif int(args.target_idx) >= 0:
                 idx = int(args.target_idx)
                 if idx >= bank_pos.shape[0]:
                     raise ValueError(f"--target-idx {idx} out of range [0, {bank_pos.shape[0]})")
@@ -3103,6 +3115,7 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--episodes", type=int, default=20)
     p.add_argument("--seed", type=int, default=42)
     p.add_argument("--target-idx", type=int, default=-1, help=">=0 时固定使用指定 target bank index")
+    p.add_argument("--target-indices-file", type=str, default="", help="按 JSON 文件里的 target index 顺序连续播放多局")
     p.add_argument("--action-scale", type=float, default=ACTION_SCALE)
     p.add_argument("--filter-tau", type=float, default=ACTION_FILTER_TAU)
     p.add_argument("--cbf-filter-tau", type=float, default=CBF_FILTER_TAU)

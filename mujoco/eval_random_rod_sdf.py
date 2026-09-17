@@ -151,6 +151,36 @@ def main() -> int:
     p.add_argument("--cbf-gamma", type=float, default=ev.CBF_GAMMA)
     p.add_argument("--cbf-lambda", type=float, default=ev.CBF_LAMBDA)
     p.add_argument("--cbf-activate-margin", type=float, default=ev.CBF_ACTIVATE_MARGIN)
+    p.add_argument("--cbf-filter-tau", type=float, default=ev.CBF_FILTER_TAU)
+    p.add_argument("--cbf-correction-filter", action=argparse.BooleanOptionalAction, default=True)
+    p.add_argument("--cbf-bypass-filter-when-unsafe", action=argparse.BooleanOptionalAction, default=True)
+    p.add_argument("--cbf-capsule-samples", type=int, default=17)
+    p.add_argument(
+        "--cbf-qp-metric",
+        choices=("identity", "task_preserving"),
+        default="task_preserving",
+    )
+    p.add_argument("--cbf-task-preserve-weight", type=float, default=5.0)
+    p.add_argument("--cbf-target-guidance", action=argparse.BooleanOptionalAction, default=True)
+    p.add_argument("--cbf-target-guidance-clearance", type=float, default=0.07)
+    p.add_argument("--cbf-target-guidance-reach", type=float, default=0.04)
+    p.add_argument("--cbf-target-guidance-forward", type=float, default=0.0)
+    p.add_argument("--cbf-target-guidance-dynamic-clearance", type=float, default=0.14)
+    p.add_argument("--cbf-target-guidance-dynamic-forward", type=float, default=0.04)
+    p.add_argument("--cbf-target-guidance-dynamic-speed-thresh", type=float, default=1e-4)
+    p.add_argument("--cbf-target-guidance-dynamic-closing-speed-thresh", type=float, default=1e-4)
+    p.add_argument("--cbf-target-guidance-release-steps", type=int, default=32)
+    p.add_argument("--cbf-target-guidance-switch-slack", type=float, default=0.05)
+    p.add_argument("--cbf-target-guidance-dynamic-lookahead-steps", type=float, default=2.0)
+    p.add_argument(
+        "--cbf-dynamic-lookahead-steps",
+        type=float,
+        default=0.0,
+        help=(
+            "按障碍物速度预测的 lookahead 步数；障碍物速度为 0 时不增加 dynamic padding。"
+            "本静态评测入口默认 0.0，属于入口默认而非 shared CBF 全局默认。"
+        ),
+    )
     p.add_argument("--settle-methods", nargs="+", default=["ideal_sdf", "workspace_sdf"])
     p.add_argument("--success-dist", type=float, default=0.04)
     p.add_argument("--success-steps", type=int, default=5)

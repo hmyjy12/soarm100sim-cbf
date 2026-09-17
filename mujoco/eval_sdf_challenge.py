@@ -54,6 +54,7 @@ CBF_D_SAFE = _c.CBF_D_SAFE
 CBF_GAMMA = _c.CBF_GAMMA
 CBF_LAMBDA = _c.CBF_LAMBDA
 CBF_ACTIVATE_MARGIN = _c.CBF_ACTIVATE_MARGIN
+CBF_FILTER_TAU = _c.CBF_FILTER_TAU
 
 
 @dataclass
@@ -72,6 +73,7 @@ class RunResult:
     active_steps: int
     corrected_steps: int
     max_dq_cbf: float
+    max_obs_speed: float
     total_steps: int
 
 
@@ -101,6 +103,21 @@ def _make_stepper(model: mujoco.MjModel, ids, policy, method: str, args) -> _rt.
             gamma=float(args.cbf_gamma),
             lambda_cbf=float(args.cbf_lambda),
             activate_margin=float(args.cbf_activate_margin),
+            capsule_sample_count=int(args.cbf_capsule_samples),
+            qp_metric=str(args.cbf_qp_metric),
+            task_preserve_weight=float(args.cbf_task_preserve_weight),
+            target_guidance=bool(args.cbf_target_guidance),
+            target_guidance_clearance=float(args.cbf_target_guidance_clearance),
+            target_guidance_reach=float(args.cbf_target_guidance_reach),
+            target_guidance_forward=float(args.cbf_target_guidance_forward),
+            target_guidance_dynamic_clearance=float(args.cbf_target_guidance_dynamic_clearance),
+            target_guidance_dynamic_forward=float(args.cbf_target_guidance_dynamic_forward),
+            target_guidance_dynamic_speed_thresh=float(args.cbf_target_guidance_dynamic_speed_thresh),
+            target_guidance_dynamic_closing_speed_thresh=float(args.cbf_target_guidance_dynamic_closing_speed_thresh),
+            target_guidance_release_steps=int(args.cbf_target_guidance_release_steps),
+            target_guidance_switch_slack=float(args.cbf_target_guidance_switch_slack),
+            target_guidance_dynamic_lookahead_steps=float(args.cbf_target_guidance_dynamic_lookahead_steps),
+            dynamic_obstacle_lookahead_steps=float(args.cbf_dynamic_lookahead_steps),
         )
     stepper = _rt.ReachStepper(
         policy=policy,
@@ -108,6 +125,9 @@ def _make_stepper(model: mujoco.MjModel, ids, policy, method: str, args) -> _rt.
         model=model,
         action_scale=float(args.action_scale),
         filter_tau=float(args.filter_tau),
+        cbf_filter_tau=float(args.cbf_filter_tau),
+        enable_cbf_correction_filter=bool(args.cbf_correction_filter),
+        cbf_bypass_filter_when_unsafe=bool(args.cbf_bypass_filter_when_unsafe),
         sim_dt=float(SIM_DT),
         decimation=int(DECIMATION),
         enable_cbf=enable_cbf,
@@ -136,7 +156,23 @@ def _motion_spec(args, prefix: str):
     center = _dyn.parse_vec3(str(getattr(args, f"{prefix}_motion_center", "")), default=(0.0, 0.0, 0.0))
     amp = _dyn.parse_vec3(str(getattr(args, f"{prefix}_motion_amp", "0,0,0")), default=(0.0, 0.0, 0.0))
     period = float(getattr(args, f"{prefix}_motion_period", 4.0))
-    return _dyn.MotionSpec(kind=kind, center=center, amplitude=amp, period_s=period)
+    seed = int(getattr(args, f"{prefix}_motion_seed", getattr(args, "seed", 42)))
+    active_s = float(getattr(args, f"{prefix}_motion_active_time", 2.0))
+    clear_offset = _dyn.parse_vec3(
+        str(getattr(args, f"{prefix}_motion_clear_offset", "0.18,0.12,0.00")),
+        default=(0.18, 0.12, 0.0),
+    )
+    clear_time_s = float(getattr(args, f"{prefix}_motion_clear_time", 2.0))
+    return _dyn.MotionSpec(
+        kind=kind,
+        center=center,
+        amplitude=amp,
+        period_s=period,
+        seed=seed,
+        random_active_s=active_s,
+        clear_offset=clear_offset,
+        clear_time_s=clear_time_s,
+    )
 
 
 def _method_uses_settle(method: str, args) -> bool:
@@ -179,8 +215,6 @@ def run_episode(
 ) -> RunResult:
     _rt.reset_home(model, data, ids)
     stepper.reset_filter()
-    if method != "none":
-        stepper.refresh_cbf_obstacles(data)
 
     contact_steps = 0
     best_dist = float("inf")
@@ -190,6 +224,7 @@ def run_episode(
     active_steps = 0
     corrected_steps = 0
     max_dq_cbf = 0.0
+    max_obs_speed = 0.0
     ctrl_dt = float(SIM_DT) * int(DECIMATION)
     task_state = "APPROACH"
     success_counter = 0
@@ -206,18 +241,42 @@ def run_episode(
     dynamic_obstacle = str(getattr(args, "obstacle_motion", "none")).lower().strip() != "none"
     obstacle_body = str(getattr(args, "obstacle_body", "obstacle_rod_mount"))
     obstacle_base_pos = None
+    obstacle_runner = _dyn.MotionRunner(
+        spec=obstacle_motion,
+        probe_trigger_distance=float(args.obstacle_motion_probe_trigger_distance),
+        probe_offset=_dyn.parse_vec3(
+            str(args.obstacle_motion_probe_offset), default=(-0.07, 0.05, -0.15)
+        ),
+        probe_time_s=float(args.obstacle_motion_probe_time),
+    )
     if dynamic_obstacle:
         bid = mujoco.mj_name2id(model, mujoco.mjtObj.mjOBJ_BODY, obstacle_body)
         if bid >= 0:
-            obstacle_base_pos = np.asarray(model.body_pos[int(bid)], dtype=np.float64).copy()
+            home_positions = getattr(args, "_dynamic_obstacle_home_pos", {})
+            if isinstance(home_positions, dict) and obstacle_body in home_positions:
+                obstacle_base_pos = np.asarray(home_positions[obstacle_body], dtype=np.float64).copy()
+            else:
+                obstacle_base_pos = np.asarray(model.body_pos[int(bid)], dtype=np.float64).copy()
+            _dyn.set_body_pos(model, data, obstacle_body, obstacle_base_pos, lock_upright=True)
+
+    # 动态杆先回到受脚本控制的直立起点，再建立 obstacle source 的第一帧记录。
+    # 否则上一局残留的倾倒姿态会被误算成一次很大的障碍物速度。
+    if method != "none":
+        stepper.refresh_cbf_obstacles(data)
 
     for k in range(steps_per_ep):
         t_s = k * ctrl_dt
         if dynamic_target:
             target_pos = target_motion.position(t_s, base=target_base_pos)
         if dynamic_obstacle and obstacle_base_pos is not None:
-            obs_pos = obstacle_motion.position(t_s, base=obstacle_base_pos)
-            _dyn.set_body_pos(model, data, obstacle_body, obs_pos)
+            tcp_now, _ = _rt.tcp_pose_w(data, ids)
+            obs_pos = obstacle_runner.position(
+                t_s,
+                obstacle_base_pos,
+                tcp_w=tcp_now,
+                target_w=target_pos,
+            )
+            _dyn.set_body_pos(model, data, obstacle_body, obs_pos, lock_upright=True)
         if use_settle and task_state == "SETTLE" and str(args.settle_mode) == "hold_q" and hold_target_q is not None:
             tgt = hold_target_q.copy()
             tcp_now, ee_quat_now = _rt.tcp_pose_w(data, ids)
@@ -235,6 +294,8 @@ def run_episode(
             tgt, info = stepper.compute_targets(model, data, target_pos, target_quat)
         _rt.set_ctrl(data, ids, tgt)
         for _sub in range(int(DECIMATION)):
+            if dynamic_obstacle and obstacle_base_pos is not None:
+                _dyn.set_body_pos(model, data, obstacle_body, obs_pos, lock_upright=True)
             mujoco.mj_step(model, data)
         if _count_contacts(data, obstacle_gid) > 0:
             contact_steps += 1
@@ -250,6 +311,7 @@ def run_episode(
         if dq_cbf > 1e-6:
             corrected_steps += 1
             max_dq_cbf = max(max_dq_cbf, dq_cbf)
+        max_obs_speed = max(max_obs_speed, float(info.get("cbf_worst_obs_speed", 0.0)))
         if use_settle:
             if task_state == "APPROACH":
                 if float(info["distance"]) <= float(args.success_dist):
@@ -293,6 +355,7 @@ def run_episode(
         active_steps=int(active_steps),
         corrected_steps=int(corrected_steps),
         max_dq_cbf=float(max_dq_cbf),
+        max_obs_speed=float(max_obs_speed),
         total_steps=int(steps_per_ep),
     )
 
@@ -317,6 +380,9 @@ def _summarize(rows: list[RunResult]) -> dict:
             "n": len(rs),
             "contact_rate": float(np.mean([r.contact_steps > 0 for r in rs])) if rs else float("nan"),
             "reach_2cm_rate": float(np.mean([r.best_dist_m <= 0.02 for r in rs])) if rs else float("nan"),
+            "safe_reach_2cm_rate": float(
+                np.mean([(r.contact_steps == 0) and (r.best_dist_m <= 0.02) for r in rs])
+            ) if rs else float("nan"),
             "success_latch_rate": float(np.mean([r.success_latched for r in rs])) if rs else float("nan"),
             "mean_best_dist_m": float(np.mean([r.best_dist_m for r in rs])) if rs else float("nan"),
             "mean_end_dist_m": float(np.mean([r.end_dist_m for r in rs])) if rs else float("nan"),
@@ -324,6 +390,7 @@ def _summarize(rows: list[RunResult]) -> dict:
             "mean_max_tracking_dist_m": float(np.mean([r.max_dist_m for r in rs])) if rs else float("nan"),
             "mean_h_min_m": float(np.mean(finite_h)) if finite_h.size else float("nan"),
             "mean_max_dq_cbf": float(np.mean([r.max_dq_cbf for r in rs])) if rs else float("nan"),
+            "mean_max_obs_speed": float(np.mean([r.max_obs_speed for r in rs])) if rs else float("nan"),
         }
     return out
 
@@ -349,10 +416,56 @@ def main() -> int:
     p.add_argument("--use-sim-cam", action="store_true")
     p.add_argument("--action-scale", type=float, default=ACTION_SCALE)
     p.add_argument("--filter-tau", type=float, default=ACTION_FILTER_TAU)
+    p.add_argument("--cbf-filter-tau", type=float, default=CBF_FILTER_TAU)
+    p.add_argument("--cbf-correction-filter", action=argparse.BooleanOptionalAction, default=True)
+    p.add_argument("--cbf-bypass-filter-when-unsafe", action=argparse.BooleanOptionalAction, default=True)
     p.add_argument("--cbf-d-safe", type=float, default=CBF_D_SAFE)
     p.add_argument("--cbf-gamma", type=float, default=CBF_GAMMA)
-    p.add_argument("--cbf-lambda", type=float, default=CBF_LAMBDA)
+    p.add_argument(
+        "--cbf-lambda",
+        type=float,
+        default=CBF_LAMBDA,
+        help="仿真 CBF lambda 兼容参数；task-preserving 权重单独设置",
+    )
     p.add_argument("--cbf-activate-margin", type=float, default=CBF_ACTIVATE_MARGIN)
+    p.add_argument(
+        "--cbf-capsule-samples",
+        type=int,
+        default=17,
+        help="仿真增强配置：每段 capsule 采样数（共享/真机默认仍为 9）",
+    )
+    p.add_argument(
+        "--cbf-qp-metric",
+        choices=("identity", "task_preserving"),
+        default="task_preserving",
+        help="仿真 QP 修正 metric；默认显式启用 task_preserving",
+    )
+    p.add_argument(
+        "--cbf-task-preserve-weight",
+        type=float,
+        default=5.0,
+        help="task_preserving metric 的 TCP Jacobian 权重；不复用 lambda_cbf",
+    )
+    p.add_argument("--cbf-target-guidance", action=argparse.BooleanOptionalAction, default=True)
+    p.add_argument("--cbf-target-guidance-clearance", type=float, default=0.07)
+    p.add_argument("--cbf-target-guidance-reach", type=float, default=0.04)
+    p.add_argument("--cbf-target-guidance-forward", type=float, default=0.0)
+    p.add_argument("--cbf-target-guidance-dynamic-clearance", type=float, default=0.14)
+    p.add_argument("--cbf-target-guidance-dynamic-forward", type=float, default=0.04)
+    p.add_argument("--cbf-target-guidance-dynamic-speed-thresh", type=float, default=1e-4)
+    p.add_argument("--cbf-target-guidance-dynamic-closing-speed-thresh", type=float, default=1e-4)
+    p.add_argument("--cbf-target-guidance-release-steps", type=int, default=32)
+    p.add_argument("--cbf-target-guidance-switch-slack", type=float, default=0.05)
+    p.add_argument("--cbf-target-guidance-dynamic-lookahead-steps", type=float, default=2.0)
+    p.add_argument(
+        "--cbf-dynamic-lookahead-steps",
+        type=float,
+        default=2.0,
+        help=(
+            "按障碍物速度预测的 lookahead 步数；障碍物速度为 0 时不增加 dynamic padding。"
+            "本动态评测入口默认 2.0，属于入口默认而非 shared CBF 全局默认。"
+        ),
+    )
     p.add_argument("--settle-methods", nargs="+", default=[], help="Methods that use success/settle state machine")
     p.add_argument("--success-dist", type=float, default=0.03)
     p.add_argument("--success-steps", type=int, default=10)
@@ -367,11 +480,18 @@ def main() -> int:
     p.add_argument("--target-motion-center", type=str, default="")
     p.add_argument("--target-motion-amp", type=str, default="0.03,0.03,0.00")
     p.add_argument("--target-motion-period", type=float, default=4.0)
-    p.add_argument("--obstacle-motion", type=str, default="none", choices=("none", "circle", "line"))
+    p.add_argument("--obstacle-motion", type=str, default="none", choices=("none", "circle", "line", "random", "random_depart", "random_depart_probe"))
     p.add_argument("--obstacle-body", type=str, default="obstacle_rod_mount")
     p.add_argument("--obstacle-motion-center", type=str, default="")
     p.add_argument("--obstacle-motion-amp", type=str, default="0.03,0.00,0.00")
     p.add_argument("--obstacle-motion-period", type=float, default=5.0)
+    p.add_argument("--obstacle-motion-seed", type=int, default=42)
+    p.add_argument("--obstacle-motion-active-time", type=float, default=2.0)
+    p.add_argument("--obstacle-motion-clear-offset", type=str, default="0.18,0.12,0.00")
+    p.add_argument("--obstacle-motion-clear-time", type=float, default=2.0)
+    p.add_argument("--obstacle-motion-probe-trigger-distance", type=float, default=0.06)
+    p.add_argument("--obstacle-motion-probe-offset", type=str, default="-0.07,0.05,-0.15")
+    p.add_argument("--obstacle-motion-probe-time", type=float, default=1.5)
     p.add_argument("--workspace-sdf-preset", type=str, default="static", choices=("static", "dynamic"))
     p.add_argument("--log-every", type=int, default=16)
     args = p.parse_args()
@@ -380,6 +500,7 @@ def main() -> int:
     out_dir.mkdir(parents=True, exist_ok=True)
 
     model = mujoco.MjModel.from_xml_path(str(Path(args.mjcf).expanduser().resolve()))
+    model.opt.timestep = float(SIM_DT)
     data = mujoco.MjData(model)
     ids = _rt.resolve_robot_ids(model)
     policy = _pol.SkrlGaussianPolicy(Path(args.checkpoint).expanduser().resolve())
@@ -388,6 +509,11 @@ def main() -> int:
     obstacle_gid = _obstacle_gid(model, str(args.obstacle_geom))
     if obstacle_gid < 0:
         raise ValueError(f"obstacle geom not found: {args.obstacle_geom}")
+    obstacle_body_id = mujoco.mj_name2id(model, mujoco.mjtObj.mjOBJ_BODY, str(args.obstacle_body))
+    if obstacle_body_id >= 0:
+        args._dynamic_obstacle_home_pos = {
+            str(args.obstacle_body): np.asarray(model.body_pos[int(obstacle_body_id)], dtype=np.float64).copy()
+        }
 
     rng = np.random.default_rng(int(args.seed))
     if args.indices_file:
@@ -483,6 +609,10 @@ def main() -> int:
             "center": str(args.obstacle_motion_center),
             "amp": str(args.obstacle_motion_amp),
             "period_s": float(args.obstacle_motion_period),
+            "seed": int(args.obstacle_motion_seed),
+            "active_time_s": float(args.obstacle_motion_active_time),
+            "clear_offset": str(args.obstacle_motion_clear_offset),
+            "clear_time_s": float(args.obstacle_motion_clear_time),
         },
         "workspace_sdf_preset": str(args.workspace_sdf_preset),
         "metrics": _summarize(rows),
