@@ -45,6 +45,15 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--speed", type=float, default=0.3)
     p.add_argument("--enable-cbf", action="store_true")
     p.add_argument("--cam-depth", action="store_true")
+    p.add_argument(
+        "--cbf-dynamic-lookahead-steps",
+        type=float,
+        default=2.0,
+        help=(
+            "按障碍物速度预测的 lookahead 步数；障碍物速度为 0 时不增加 dynamic padding。"
+            "本动态预览入口默认 2.0，属于入口默认而非 shared CBF 全局默认。"
+        ),
+    )
     return p
 
 
@@ -61,5 +70,23 @@ if __name__ == "__main__":
     args.cbf_gamma = _play.CBF_GAMMA
     args.cbf_lambda = _play.CBF_LAMBDA
     args.cbf_activate_margin = _play.CBF_ACTIVATE_MARGIN
+    # Keep the preview aligned with the explicit enhanced simulation defaults.
+    args.cbf_capsule_samples = 17
+    args.cbf_qp_metric = "task_preserving"
+    args.cbf_task_preserve_weight = 5.0
+    args.cbf_target_guidance = True
+    args.cbf_target_guidance_clearance = 0.07
+    args.cbf_target_guidance_reach = 0.04
+    args.cbf_target_guidance_forward = 0.0
+    args.cbf_target_guidance_dynamic_clearance = 0.14
+    args.cbf_target_guidance_dynamic_forward = 0.04
+    args.cbf_target_guidance_dynamic_speed_thresh = 1e-4
+    args.cbf_target_guidance_dynamic_closing_speed_thresh = 1e-4
+    args.cbf_target_guidance_release_steps = 32
+    args.cbf_target_guidance_switch_slack = 0.05
+    args.cbf_target_guidance_dynamic_lookahead_steps = 2.0
+    args.cbf_filter_tau = _play.CBF_FILTER_TAU
+    args.cbf_correction_filter = True
+    args.cbf_bypass_filter_when_unsafe = True
     args.cbf_log = ""
     raise SystemExit(_play.run(args))

@@ -70,6 +70,7 @@ CBF_FILTER_TAU = _c.CBF_FILTER_TAU
 SCENE_DEPTH_CAM = _c.SCENE_DEPTH_CAM
 WRIST_RGB_CAM = _c.WRIST_RGB_CAM
 GRIPPER_BODY = _c.GRIPPER_BODY
+BASE_BODY = _c.BASE_BODY
 CbfConfig = _cbf.CbfConfig
 cbf_step_log_record = _cbf.cbf_step_log_record
 MotionSpec = _dyn.MotionSpec
@@ -1377,12 +1378,25 @@ def _anygrasp_debug_record(
     }
 
 
-def _motion_spec(kind: str, center: str, amplitude: str, period_s: float) -> MotionSpec:
+def _motion_spec(
+    kind: str,
+    center: str,
+    amplitude: str,
+    period_s: float,
+    seed: int = 42,
+    active_time_s: float = 2.0,
+    clear_offset: str = "0.18,0.12,0.00",
+    clear_time_s: float = 2.0,
+) -> MotionSpec:
     return MotionSpec(
         kind=str(kind),
         center=_dyn.parse_vec3(center, default=(0.0, 0.0, 0.0)),
         amplitude=_dyn.parse_vec3(amplitude, default=(0.0, 0.0, 0.0)),
         period_s=float(period_s),
+        seed=int(seed),
+        random_active_s=float(active_time_s),
+        clear_offset=_dyn.parse_vec3(clear_offset, default=(0.18, 0.12, 0.0)),
+        clear_time_s=float(clear_time_s),
     )
 
 
@@ -1742,10 +1756,27 @@ def run(args: argparse.Namespace) -> int:
             lambda_cbf=float(args.cbf_lambda),
             dq_max=float(args.action_scale),
             activate_margin=float(args.cbf_activate_margin),
+            capsule_sample_count=int(args.cbf_capsule_samples),
+            qp_metric=str(args.cbf_qp_metric),
+            task_preserve_weight=float(args.cbf_task_preserve_weight),
+            target_guidance=bool(args.cbf_target_guidance),
+            target_guidance_clearance=float(args.cbf_target_guidance_clearance),
+            target_guidance_reach=float(args.cbf_target_guidance_reach),
+            target_guidance_forward=float(args.cbf_target_guidance_forward),
+            target_guidance_dynamic_clearance=float(args.cbf_target_guidance_dynamic_clearance),
+            target_guidance_dynamic_forward=float(args.cbf_target_guidance_dynamic_forward),
+            target_guidance_dynamic_speed_thresh=float(args.cbf_target_guidance_dynamic_speed_thresh),
+            target_guidance_dynamic_closing_speed_thresh=float(args.cbf_target_guidance_dynamic_closing_speed_thresh),
+            target_guidance_release_steps=int(args.cbf_target_guidance_release_steps),
+            target_guidance_switch_slack=float(args.cbf_target_guidance_switch_slack),
+            target_guidance_dynamic_lookahead_steps=float(args.cbf_target_guidance_dynamic_lookahead_steps),
+            dynamic_obstacle_lookahead_steps=float(args.cbf_dynamic_lookahead_steps),
         )
         print(
             f"[mujoco_play] CBF=ON  d_safe={cbf_cfg.d_safe}m  gamma={cbf_cfg.gamma}  "
-            f"lambda={cbf_cfg.lambda_cbf}  activate<{cbf_cfg.activate_margin}m"
+            f"lambda={cbf_cfg.lambda_cbf}  activate<{cbf_cfg.activate_margin}m  "
+            f"samples={cbf_cfg.capsule_sample_count} metric={cbf_cfg.qp_metric} "
+            f"target_guidance={cbf_cfg.target_guidance}"
         )
 
     stepper = ReachStepper(
@@ -1754,6 +1785,9 @@ def run(args: argparse.Namespace) -> int:
         model=model,
         action_scale=float(args.action_scale),
         filter_tau=float(args.filter_tau),
+        cbf_filter_tau=float(args.cbf_filter_tau),
+        enable_cbf_correction_filter=bool(args.cbf_correction_filter),
+        cbf_bypass_filter_when_unsafe=bool(args.cbf_bypass_filter_when_unsafe),
         sim_dt=float(SIM_DT),
         decimation=int(DECIMATION),
         enable_cbf=bool(args.enable_cbf),
@@ -1934,6 +1968,18 @@ def run(args: argparse.Namespace) -> int:
         str(args.obstacle_motion_center),
         str(args.obstacle_motion_amp),
         float(args.obstacle_motion_period),
+        int(args.obstacle_motion_seed),
+        float(args.obstacle_motion_active_time),
+        str(args.obstacle_motion_clear_offset),
+        float(args.obstacle_motion_clear_time),
+    )
+    obstacle_runner = _dyn.MotionRunner(
+        spec=obstacle_motion,
+        probe_trigger_distance=float(args.obstacle_motion_probe_trigger_distance),
+        probe_offset=_dyn.parse_vec3(
+            str(args.obstacle_motion_probe_offset), default=(-0.07, 0.05, -0.15)
+        ),
+        probe_time_s=float(args.obstacle_motion_probe_time),
     )
     dynamic_target = str(args.target_motion).lower().strip() != "none"
     dynamic_obstacle = str(args.obstacle_motion).lower().strip() != "none"
@@ -1945,8 +1991,13 @@ def run(args: argparse.Namespace) -> int:
     if dynamic_obstacle:
         print(
             f"[mujoco_play] dynamic obstacle body={args.obstacle_body} motion={args.obstacle_motion} "
-            f"amp={args.obstacle_motion_amp} period={float(args.obstacle_motion_period):.2f}s"
+            f"amp={args.obstacle_motion_amp} period={float(args.obstacle_motion_period):.2f}s "
+            f"can_fall={bool(args.obstacle_can_fall)}"
         )
+    dynamic_obstacle_home_pos = None
+    obstacle_home_bid = mujoco.mj_name2id(model, mujoco.mjtObj.mjOBJ_BODY, str(args.obstacle_body))
+    if obstacle_home_bid >= 0:
+        dynamic_obstacle_home_pos = np.asarray(model.body_pos[int(obstacle_home_bid)], dtype=np.float64).copy()
 
     ep = 0
     try:
@@ -1969,12 +2020,25 @@ def run(args: argparse.Namespace) -> int:
             obstacle_base_pos = None
             obstacle_bid = mujoco.mj_name2id(model, mujoco.mjtObj.mjOBJ_BODY, str(args.obstacle_body))
             if obstacle_bid >= 0:
-                obstacle_base_pos = np.asarray(model.body_pos[int(obstacle_bid)], dtype=np.float64).copy()
+                obstacle_base_pos = (
+                    dynamic_obstacle_home_pos.copy()
+                    if dynamic_obstacle_home_pos is not None
+                    else np.asarray(model.body_pos[int(obstacle_bid)], dtype=np.float64).copy()
+                )
+                if dynamic_obstacle:
+                    _dyn.set_body_pos(
+                        model,
+                        data,
+                        str(args.obstacle_body),
+                        obstacle_base_pos,
+                        lock_upright=not bool(args.obstacle_can_fall),
+                    )
             stepper.reset_filter()
             if args.enable_cbf:
                 stepper.refresh_cbf_obstacles(data)
             best_dist = float("inf")
             best_ori = float("inf")
+            arm_obstacle_contact_steps = 0
             cbf_stats = CbfEpisodeStats() if args.enable_cbf else None
             t0 = time.perf_counter()
             prev_dq_total: np.ndarray | None = None
@@ -2330,8 +2394,20 @@ def run(args: argparse.Namespace) -> int:
                             close_start_q = None
                             verify_hold_q = None
                 if dynamic_obstacle and obstacle_base_pos is not None:
-                    obs_pos = obstacle_motion.position(t_s, base=obstacle_base_pos)
-                    _dyn.set_body_pos(model, data, str(args.obstacle_body), obs_pos)
+                    tcp_now, _ = tcp_pose_w(data, ids)
+                    obs_pos = obstacle_runner.position(
+                        t_s,
+                        obstacle_base_pos,
+                        tcp_w=tcp_now,
+                        target_w=target_pos,
+                    )
+                    _dyn.set_body_pos(
+                        model,
+                        data,
+                        str(args.obstacle_body),
+                        obs_pos,
+                        lock_upright=not bool(args.obstacle_can_fall),
+                    )
 
                 q_before = joint_pos(data, ids)
                 control_target_pos = target_pos
@@ -2467,7 +2543,17 @@ def run(args: argparse.Namespace) -> int:
                             f.write(json.dumps(rec, ensure_ascii=False) + "\n")
                 set_ctrl(data, ids, tgt)
                 for _ in range(int(DECIMATION)):
+                    if dynamic_obstacle and obstacle_base_pos is not None:
+                        _dyn.set_body_pos(
+                            model,
+                            data,
+                            str(args.obstacle_body),
+                            obs_pos,
+                            lock_upright=not bool(args.obstacle_can_fall),
+                        )
                     mujoco.mj_step(model, data)
+                if _geom_contact_count_with_body(model, data, str(args.obstacle_geom), str(args.obstacle_contact_body)) > 0:
+                    arm_obstacle_contact_steps += 1
                 q_after = joint_pos(data, ids)
                 tcp_after, tcp_quat_after = tcp_pose_w(data, ids)
                 target_contact_count = (
@@ -2980,6 +3066,7 @@ def run(args: argparse.Namespace) -> int:
                 f"[ep {ep:03d}] idx={idx}  best_dist={best_dist*1000:.2f}mm  "
                 f"best_ori={best_ori:.1f}deg  "
                 f"end_dist={float(np.linalg.norm(tcp - target_pos))*1000:.2f}mm  "
+                f"arm_obstacle_contacts={arm_obstacle_contact_steps}  "
                 f"state={task_state}  success_step={success_step}  wall={wall:.1f}s"
             )
             if cbf_stats is not None:
@@ -3018,6 +3105,9 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--target-idx", type=int, default=-1, help=">=0 时固定使用指定 target bank index")
     p.add_argument("--action-scale", type=float, default=ACTION_SCALE)
     p.add_argument("--filter-tau", type=float, default=ACTION_FILTER_TAU)
+    p.add_argument("--cbf-filter-tau", type=float, default=CBF_FILTER_TAU)
+    p.add_argument("--cbf-correction-filter", action=argparse.BooleanOptionalAction, default=True)
+    p.add_argument("--cbf-bypass-filter-when-unsafe", action=argparse.BooleanOptionalAction, default=True)
     p.add_argument("--headless", action="store_true")
     p.add_argument(
         "--hold-home",
@@ -3312,8 +3402,8 @@ def build_parser() -> argparse.ArgumentParser:
         "--obstacle-motion",
         type=str,
         default="none",
-        choices=("none", "circle", "line"),
-        help="动态障碍轨迹：移动 obstacle body 的 body_pos",
+        choices=("none", "circle", "line", "random", "random_depart", "random_depart_probe"),
+        help="动态障碍轨迹：line/circle、随机、随机后让路，或接近目标后回探",
     )
     p.add_argument("--obstacle-body", type=str, default="obstacle_rod_mount", help="动态障碍 body 名")
     p.add_argument(
@@ -3329,15 +3419,68 @@ def build_parser() -> argparse.ArgumentParser:
         help="动态障碍振幅 x,y,z (m)",
     )
     p.add_argument("--obstacle-motion-period", type=float, default=5.0, help="动态障碍周期 (s)")
+    p.add_argument("--obstacle-motion-seed", type=int, default=42, help="random 轨迹随机种子；同一 seed 可复现同一轨迹")
+    p.add_argument("--obstacle-geom", type=str, default="obstacle_rod", help="用于统计避障接触步数的障碍物 geom 名")
+    p.add_argument("--obstacle-contact-body", type=str, default=BASE_BODY, help="统计障碍物是否碰到该 body 及其子 body")
+    p.add_argument("--obstacle-can-fall", action="store_true", help="可视化用：动态杆被碰到后不再强制扶正，按 MuJoCo 物理倒下")
+    p.add_argument("--obstacle-motion-active-time", type=float, default=2.0, help="random_depart：前多少秒无规则运动")
+    p.add_argument("--obstacle-motion-clear-offset", type=str, default="0.18,0.12,0.00", help="random_depart：随后移动到相对初始位置的偏移 x,y,z")
+    p.add_argument("--obstacle-motion-clear-time", type=float, default=2.0, help="random_depart：移到让路位置需要多久 (s)")
+    p.add_argument("--obstacle-motion-probe-trigger-distance", type=float, default=0.06, help="random_depart_probe：TCP 离目标多近时触发回探 (m)")
+    p.add_argument("--obstacle-motion-probe-offset", type=str, default="-0.07,0.05,-0.15", help="random_depart_probe：回探杆 mount 相对触发 TCP 的偏移 x,y,z")
+    p.add_argument("--obstacle-motion-probe-time", type=float, default=1.5, help="random_depart_probe：回探靠近所用时间 (s)")
     p.add_argument("--enable-cbf", action="store_true", help="EMBODISTEER 式全身 CBF-QP 避障")
     p.add_argument("--cbf-d-safe", type=float, default=CBF_D_SAFE, help="到障碍面安全余量 (m)")
     p.add_argument("--cbf-gamma", type=float, default=CBF_GAMMA, help="CBF 增益 γ")
-    p.add_argument("--cbf-lambda", type=float, default=CBF_LAMBDA, help="关节修正正则 λ")
+    p.add_argument(
+        "--cbf-lambda",
+        type=float,
+        default=CBF_LAMBDA,
+        help="仿真 CBF lambda 兼容参数；task-preserving 权重请用 --cbf-task-preserve-weight",
+    )
     p.add_argument(
         "--cbf-activate-margin",
         type=float,
         default=CBF_ACTIVATE_MARGIN,
         help="h_min 低于该值 (m) 时激活 CBF",
+    )
+    p.add_argument(
+        "--cbf-capsule-samples",
+        type=int,
+        default=17,
+        help="仿真增强配置：每段 capsule 采样数（共享/真机默认仍为 9）",
+    )
+    p.add_argument(
+        "--cbf-qp-metric",
+        choices=("identity", "task_preserving"),
+        default="task_preserving",
+        help="仿真 QP 修正 metric；默认显式启用 task_preserving",
+    )
+    p.add_argument(
+        "--cbf-task-preserve-weight",
+        type=float,
+        default=5.0,
+        help="task_preserving metric 的 TCP Jacobian 权重；不复用 lambda_cbf",
+    )
+    p.add_argument("--cbf-target-guidance", action=argparse.BooleanOptionalAction, default=True)
+    p.add_argument("--cbf-target-guidance-clearance", type=float, default=0.07)
+    p.add_argument("--cbf-target-guidance-reach", type=float, default=0.04)
+    p.add_argument("--cbf-target-guidance-forward", type=float, default=0.0)
+    p.add_argument("--cbf-target-guidance-dynamic-clearance", type=float, default=0.14)
+    p.add_argument("--cbf-target-guidance-dynamic-forward", type=float, default=0.04)
+    p.add_argument("--cbf-target-guidance-dynamic-speed-thresh", type=float, default=1e-4)
+    p.add_argument("--cbf-target-guidance-dynamic-closing-speed-thresh", type=float, default=1e-4)
+    p.add_argument("--cbf-target-guidance-release-steps", type=int, default=32)
+    p.add_argument("--cbf-target-guidance-switch-slack", type=float, default=0.05)
+    p.add_argument("--cbf-target-guidance-dynamic-lookahead-steps", type=float, default=2.0)
+    p.add_argument(
+        "--cbf-dynamic-lookahead-steps",
+        type=float,
+        default=2.0,
+        help=(
+            "按障碍物速度预测的 lookahead 步数；障碍物速度为 0 时不增加 dynamic padding。"
+            "本动态仿真入口默认 2.0，属于入口默认而非 shared CBF 全局默认。"
+        ),
     )
     p.add_argument(
         "--cbf-log",
