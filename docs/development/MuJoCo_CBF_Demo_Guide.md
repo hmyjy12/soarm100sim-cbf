@@ -70,3 +70,78 @@ random_depart_probe 的触发时刻取决于 TCP 接近目标的过程，更适�
 - **结果不同**：固定 target index、target seed、motion seed、motion 参数和 CBF 参数。
 - **只要批量统计**：使用 eval_sdf_challenge.py 或 scripts/sweep_dynamic_obstacles.py，不必打开 viewer。
 - **把 demo 当成真机配置**：不要这样做；当前真机仍是静态 cup、9-point、identity 的单臂链路。
+
+## Static evaluator
+
+~~~bash
+python mujoco/eval_cbf.py \
+  --num-episodes 32 \
+  --seed 42 \
+  --cbf-capsule-samples 17 \
+  --cbf-qp-metric task_preserving \
+  --cbf-task-preserve-weight 5.0 \
+  --out-dir logs/eval/static_example
+~~~
+
+静态评测的 lookahead 默认是 0.0。输出目录包含 summary.json 与 summary.md；无接触不等于到达目标，应同时查看 safe reach 和距离指标。
+
+## Dynamic evaluator
+
+~~~bash
+python mujoco/eval_sdf_challenge.py \
+  --out-dir logs/eval/dynamic_example \
+  --seed 42 \
+  --scan-count 64 \
+  --max-challenges 16 \
+  --methods none geom \
+  --obstacle-motion random_depart \
+  --obstacle-motion-amp 0.02,0.02,0.00 \
+  --obstacle-motion-period 1.0 \
+  --obstacle-motion-seed 43 \
+  --obstacle-motion-active-time 2.0 \
+  --obstacle-motion-clear-offset 0.18,0.12,0.00 \
+  --obstacle-motion-clear-time 2.0 \
+  --workspace-sdf-preset dynamic
+~~~
+
+该入口默认使用动态 lookahead 2.0。输出中的 challenge_indices.json 可以重放 evaluator 使用的 target 顺序：
+
+~~~bash
+python mujoco/play.py \
+  --episodes 16 \
+  --enable-cbf \
+  --target-indices-file logs/eval/dynamic_example/challenge_indices.json \
+  --obstacle-motion random_depart \
+  --obstacle-motion-seed 43
+~~~
+
+## Sweep
+
+~~~bash
+python scripts/sweep_dynamic_obstacles.py \
+  --out-root logs/eval/dynamic_obstacle_sweep \
+  --obstacle-seeds 42,43,44,45 \
+  --motions random,random_depart \
+  --amps 0.02,0.02,0.00 \
+  --periods 1.0 \
+  --scan-count 64 \
+  --max-challenges 16
+~~~
+
+默认扫描两种 motion 和四个 obstacle seed，共 8 个场景。每组结果写在 out-root 下的 scenario 目录；汇总文件为 sweep_summary.csv 和 sweep_summary.md。
+
+扫描多组振幅时，--amps 用分号分隔三维向量：
+
+~~~bash
+--amps '0.01,0.01,0.00;0.02,0.02,0.00;0.03,0.03,0.00'
+~~~
+
+--skip-existing 默认开启，已有 summary.json 的场景会跳过；用 --no-skip-existing 可重跑并更新该场景结果。所有输出建议放在 logs/，该目录已被忽略。
+
+## Reproducibility checklist
+
+- 固定 --seed，保持 target 扫描/抽样一致。
+- 固定 --obstacle-motion-seed、motion、amplitude、period 与动态参数。
+- 记录 target index 或使用 evaluator 写出的 challenge_indices.json。
+- 显式写出关键 CBF 参数，不依赖环境或本机默认值。
+- 不要把 single demo、未完成的 MuJoCo regression 或真机未运行结果当作完整验证。
