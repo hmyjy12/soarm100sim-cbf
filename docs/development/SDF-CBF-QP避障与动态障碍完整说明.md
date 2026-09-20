@@ -340,29 +340,59 @@ bash ros2/scripts/real/run_obstacle_geometry_diagnostic.sh dynamic 60
 
 ## 当前验证到哪里
 
-当前已进入代码的能力包括：单臂 SDF-CBF-QP、静态真实 cup geometry、仿真 waypoint/target guidance、仿真动态障碍、动态 evaluator 和 sweep。已完成的验证主要是 AST、config/CLI 静态检查、pure-Python `MotionSpec`/`MotionRunner` smoke、seed 可复现检查，以及 real geometry diagnostic 的代码和静态 fixture 覆盖。诊断 fixture 覆盖旧 0.15 m 截断值与未截断最近邻的差异、生产 barrier/monitor 的 `h` 一致性、连续线段与采样 clearance、自过滤 25 mm 盲区、重复 mask 回调、近障碍 correction，以及空/过期 cloud 的 readiness 拒绝。
+当前已进入代码的主线能力包括：单臂 SDF-CBF-QP、静态真实 cup geometry、仿真 waypoint/target guidance、仿真动态障碍、动态 evaluator、sweep，以及下文单独说明的 guidance telemetry、实验性 dual-arm solver 和实验性 observer。已完成的验证主要是 AST、config/CLI 静态检查、pure-Python `MotionSpec`/`MotionRunner` smoke、seed 可复现检查，以及 real geometry diagnostic 的代码和静态 fixture 覆盖。诊断 fixture 覆盖旧 0.15 m 截断值与未截断最近邻的差异、生产 barrier/monitor 的 `h` 一致性、连续线段与采样 clearance、自过滤 25 mm 盲区、重复 mask 回调、近障碍 correction，以及空/过期 cloud 的 readiness 拒绝。
 
-本次文档整理时，当前 Python 环境实际运行了以下回归：
+### Waypoint guidance telemetry【已合入并验证】
 
-```text
-ros2/soarm100_vision/test/test_cbf_config_compat.py
-ros2/soarm100_vision/test/test_obstacle_robust_cbf.py
-ros2/soarm100_vision/test/test_sdf_cbf_core.py
-```
+waypoint 已在仿真 runtime 中工作，但只看最终轨迹很难解释“这一帧为什么选左边、动态规则是否启用、为什么又放弃了 waypoint”。因此这里没有增加新的控制算法，而是把 `WaypointManager` 已放入 runtime info 的状态写入两个日志 schema，供离线比较 guidance 行为。
 
-三份测试合计 16 项通过。它们分别检查 shared 默认仍是 9-point/identity、17-point 和 task-preserving 必须显式开启、`task_preserve_weight` 与 barrier 增益分离、single-arm 不会掉进 dual-arm 路径、zero velocity 不改变静态约束、点云 inflate/clearance 计算、时间戳配对，以及 capsule/薄附件/定向 box 的自过滤。这个结果证明纯 Python 的配置与几何辅助逻辑可用，不证明 MuJoCo 模型或真机已经回归。
+`mujoco/cbf.py` 的 `cbf_step_log_record()` 与 `mujoco/play.py` 的 trajectory record 使用相同的九个字段：`guided_target_active`、`guided_target_dynamic`、`guided_target_dynamic_params`、`guided_target_side`、`guided_target_memory_side`、`guided_target_miss_count`、`guided_target_closing_speed`、`guided_target_clearance` 和 `guided_target_forward`。它们记录 guidance 是否生效、是否采用动态参数、选边及其记忆、连续未命中的次数、接近速度，以及当时的 clearance/forward offset；`guided_target_dynamic_params` 当前是表示是否使用动态参数的布尔状态，不是额外参数字典。
 
-`test_real_geometry_diagnostic.py` 在当前解释器里于收集阶段失败，原因是 `ModuleNotFoundError: No module named 'mujoco'`，不是断言失败，因此本轮不能把该诊断测试写成通过。历史开发环境曾直接加载三个无 fixture 的诊断相关测试模块并运行 13 个测试函数，记录为通过，shell 语法检查也通过；`vision_seg` 当时没有可运行的 pytest。它说明这些纯代码路径曾被覆盖，仍不构成一次连接真实机械臂的验证。
+这些字段只做 telemetry：不会改 target、nominal action、CBF constraint、QP、correction 或 final action。`test_cbf_config_compat.py` 的 schema regression 覆盖缺少 guidance info 时的默认值、完整字段透传、JSON 序列化，以及 CBF log 与 trajectory record 字段一致性；提交时的 staged-tree 相关测试已通过。它说明日志格式能稳定记录既有 runtime 状态，不说明 guidance 策略本身已经完成物理或真机验证。
 
-尚未完成 MuJoCo full model-level FK/Jacobian/QP regression、GUI/physics regression、完整长时间动态 benchmark，以及当前 command path 的完整真机 regression。几何诊断是“检查输入是否可信”的工具，不是现场 hand-eye 精度或真机避障已经验收的结论。
+### Experimental dual-arm CBF solver【已合入，实验性】
 
-以下内容当前未正式合入：dual-arm CBF、inter-arm QP、`obstacle_motion_observer.py`、真机 velocity-aware dynamic CBF、真机 dynamic waypoint 和 `guided_target_*` telemetry。它们只能作为未来实验方向，不能被描述成当前真实机械臂能力。
+单臂 CBF 只处理一条机械臂与环境障碍之间的距离；两条机械臂相互接近时，单臂环境约束不会自动产生左右臂之间的安全条件。为探索这类约束，当前 `mujoco/cbf.py` 已加入实验性 inter-arm solver。它基于项目原有的 capsule approximation、SDF/CBF barrier convention、单臂 constraint builder 和 QP correction framework 扩展联合 action space；没有声称复现外部双臂系统或论文。
+
+实现包括 `CapsulePairBarrier`、`DualArmCbfConfig`、`closest_points_on_segments()`、`capsule_pair_h_and_grads()`、`inter_arm_constraint_from_capsule_pair()`、`lift_arm_constraint_to_dual()`、`build_environment_constraints_for_arm()`、`_capsule_endpoint_states()`、`build_inter_arm_constraints_from_capsules()` 和 `solve_dual_arm_cbf_correction()`。左右 capsule 先求 segment-segment 最近点和 capsule surface distance，再构造 barrier `h` 及左右 joint-space gradient；环境约束分别升维为 `[A_left, 0]` 与 `[0, A_right]`，inter-arm constraint 则同时作用于两侧。当前的联合 CBF 约定为 `a @ dq_total >= -gamma * h`。
+
+每臂 `ACTION_DIM=7`，联合维度从 `2 * ACTION_DIM` 推导，因此当前为 14 维，而不是旧记录中的 12 维；生产实现不硬编码 14。inter-arm capsule pair 会按 `h` 从危险到安全排序，`top_k_inter_arm` 可限制送入 QP 的候选数。当前配置默认值为 `3`；当调用方显式设为 `0` 时，语义是“不截断，保留全部候选”，不是 `None`。
+
+`test_dual_arm_cbf.py` 有 10 个 pytest function，覆盖平行、相交、端点和退化线段、左右对称、capsule `h` 符号与有限输出、解析梯度与 finite difference、联合约束升维、CBF inequality 符号、top-k、safe/unsafe mock QP、修正方向、action bound 和 single-arm isolation。该文件与相关 CBF regression 在当时的 staged-tree 中合计 27 passed；另做过 200 组随机 segment geometry 对 dense-grid distance 的数值 sanity check，`max_excess = 0.000e+00`。这些结果说明纯数学、geometry、constraint 和 mock QP 层能按预期工作：safe case 的 correction 接近零，unsafe case 的 correction 朝增大安全余量的方向变化；它们不是 MuJoCo 模型级结论。
+
+双臂目前仍未验证 MuJoCo FK/Jacobian、capsule body mapping、真实双臂模型中的 capsule 对应关系、environment 与 inter-arm 的联合场景、dynamic dual-arm avoidance 或双臂真机。`solve_cbf_correction()` 不会自动调用 `solve_dual_arm_cbf_correction()`，当前 real policy 也不调用它。因此它是已合入的 experimental solver，不是完成的双臂运行系统。
+
+### ObstacleMotionObserver【已合入，实验性 standalone module；未接入真机】
+
+当前真机把 cup obstacle 作为静态障碍处理，obstacle velocity 固定为 0。为了给未来连续 3D 观测下的动态障碍预留一个可测的速度估计器，仓库已加入 `ros2/soarm100_vision/soarm100_vision/control/obstacle_motion_observer.py`。它是 standalone module：当前没有 production caller、launch/config wiring、`policy_reach_node.py`、`obstacle_cloud_node.py` 或 `PointCloudSdfObstacle` 接线。
+
+observer 采用标准 constant-velocity Kalman filter，不依赖新论文或外部实现。state 是 `[x, y, z, vx, vy, vz]`，measurement 是 `[x, y, z]`；调用 `update(measured_center_m, stamp_s)` 后的 snapshot 提供 `position_m`、严格以 m/s 表示的 `velocity_m_s`、position/velocity uncertainty 与 innovation。实现使用 constant-velocity transition `F`、white-acceleration process model、Kalman update、Joseph covariance update、velocity clamp、reset/reinitialize。
+
+第一帧直接以 measurement 初始化 position，velocity 为 0。`raw_dt < min_dt_s` 时 measurement 被忽略且不推进 `last_stamp`，因此 zero/negative dt 同样被忽略；`raw_dt > max_dt_s` 时 reset 后用当前 measurement 重新初始化；NaN/Inf 输入抛出 `ValueError`。observer 没有独立的 predict-only API，调用方不调用 `update()` 时状态不会自行推进。
+
+单位边界必须保持明确：observer 的 `velocity_m_s` 是严格 m/s，而当前 simulation dynamic CBF 的 `PointCloudSdfObstacle.velocity` 语义是每次 CBF refresh/control step 的 displacement。未来真机接入不能直接赋值，必须先做 `obstacle_step_displacement = observer_velocity_m_s * cbf_control_dt_s`，再交给当前 dynamic CBF。合理的未来数据流是 target-only obstacle cloud → identity association/stable centroid → observer → velocity/uncertainty → control-dt conversion → per-step displacement → `PointCloudSdfObstacle.velocity`；其中仍要解决 identity、centroid jitter、dropped frames、timestamp/control dt、stale data 和 uncertainty gating。
+
+`test_obstacle_motion_observer.py` 有 9 个 pytest function，覆盖初始化、静态障碍、常速度、velocity clamp、reset/reinitialize、covariance/uncertainty、zero/short/negative dt、long-gap reset、deterministic behavior 与 NaN/Inf rejection。提交时 staged-tree 为 9 passed：静态位置下 velocity 收敛接近 0，0.1 m/s 常速度下估计量级接近 0.1 m/s，极端跳变会被 `max_velocity_m_s` 限幅，covariance 保持 finite 且对角非负。
+
+它仍有一个明确的 experimental 限制：velocity clamp 只投影 state velocity，不同步把 covariance 投影为受限 Kalman posterior。因此发生 clamp 后，`velocity_uncertainty_m_s` 不能视为截断 state 的严格后验不确定度；在将 uncertainty 用于 robust CBF 或 uncertainty gating 前，需要先解决这一一致性问题。
+
+### 验证边界
+
+共享/单臂 CBF 相关测试继续覆盖 shared 默认 9-point/identity、显式启用 17-point/task-preserving、`task_preserve_weight` 与 barrier 增益分离、single-arm isolation、zero velocity 的静态退化、点云 inflate/clearance 与时间戳配对。测试状态以模块分别记录，避免把会随文件增长而失效的“总共 N 项通过”写成长期事实。
+
+本次文档状态同步在当前 Python 环境运行了 36 个纯 Python 测试并全部通过：dual-arm 10 个、CBF compatibility 9 个、robust CBF 3 个、SDF core 5 个、observer 9 个。这个结果覆盖了本文所述的配置、日志 schema、几何、约束、mock QP 与 observer 数值行为；它不替代 MuJoCo 模型或真机回归。
+
+`test_real_geometry_diagnostic.py` 曾在当前解释器的收集阶段因 `ModuleNotFoundError: No module named 'mujoco'` 失败，这不是断言失败，不能写成通过。历史开发环境曾直接加载三个无 fixture 的诊断相关测试模块并运行 13 个测试函数，记录为通过；这同样不构成连接真实机械臂的验证。
+
+尚未完成 MuJoCo full model-level FK/Jacobian/QP regression、GUI/physics regression、完整长时间动态 benchmark，以及当前 command path 的完整真机 regression。特别是 dual-arm 的模型级/真机验证、observer 到 real pipeline 的接线、真实 velocity-aware dynamic CBF 和真机 dynamic waypoint 仍未完成。几何诊断是“检查输入是否可信”的工具，不是现场 hand-eye 精度或真机避障已经验收的结论。
+
+真机主线仍是 single-arm、static cup、obstacle velocity=0、dynamic lookahead=0、`capsule_sample_count=9`、`qp_metric=identity` 与 `target_guidance=false`。shared conservative defaults 仍为 samples 9、identity、guidance false、lookahead 0、unsafe bypass false；仿真增强入口才显式使用 samples 17、task-preserving、`task_preserve_weight=5.0`、guidance/filter/bypass true，动态仿真 lookahead 为 2.0，静态 evaluator 为 0.0。`CbfConfig.lambda_cbf` 的 shared/real 默认仍为 0.5，simulation constants 的 `CBF_LAMBDA=5.0` 也不承担 task-preserving Hessian weight。
 
 ## 后续工作
 
 下一步应先把当前真实 command path 在安全范围内稳定验证：PPO → tracker/load support → obstacle CBF → final bounded command → hardware。之后再补全真实 robot collision geometry，尤其是 finger、jaw 和 wrist housing；根据 hand-eye、depth 与执行延迟重新评估 real safety margin。
 
-在真机几何和静态行为可靠之前，不应急于接入动态预测。更合理的顺序是：先把仿真 waypoint 的目标逻辑迁移到 ROS2 real pipeline，再从连续 point cloud 估计 obstacle motion，最后接 velocity-aware CBF 与 dynamic waypoint。双臂需要单独的模型、约束定义和回归测试，应放在这些单臂问题之后。
+在真机几何和静态行为可靠之前，不应急于接入动态预测。更合理的顺序是：先把仿真 waypoint 的目标逻辑迁移到 ROS2 real pipeline，再从连续 point cloud 估计 obstacle motion，最后接 velocity-aware CBF 与 dynamic waypoint。双臂的纯数学 solver 已在仓库中，但仍需要单独完成模型映射、联合场景和回归测试，应放在这些单臂问题之后。
 
 ## 参考思路与资料
 
@@ -374,6 +404,6 @@ ros2/soarm100_vision/test/test_sdf_cbf_core.py
 - [StanfordASL/OSCBF](https://github.com/StanfordASL/oscbf)：将安全条件收集后统一交给 QP/安全层处理的工程参考。
 - [StanfordASL/cbfpy](https://github.com/StanfordASL/cbfpy)：理解 CBF 最小实现和 API 组织的 Python 参考。
 - [IEEE document 11246389](https://ieeexplore.ieee.org/document/11246389/)：历史笔记中用于“安全修正不应过度破坏任务”的参考链接。
-- [arXiv:1906.07322](https://arxiv.org/abs/1906.07322)：双臂互相避让的后续阅读方向；dual-arm 目前没有作为本项目正式合入能力。
+- [arXiv:1906.07322](https://arxiv.org/abs/1906.07322)：双臂互相避让的后续阅读方向；本项目已有 experimental dual-arm solver，但没有把该资料或 solver 误写成模型级/真机验证。
 
 这些资料帮助解释设计取向，不替代本项目的模型、日志和回归测试。尤其是双臂、真实障碍物速度观测和真机动态 waypoint 仍是后续方向，不能由引用反推为已实现功能。
