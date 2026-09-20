@@ -7,6 +7,10 @@
 
 - [代码结构与 Sim2Real 说明](project/代码结构与Sim2Real说明.md)：目录职责、
   sim/2real 数据流、共享边界和当前完成状态。
+- [新手目录地图](project/新手目录地图.md)：用白话说明每个一层目录是什么、
+  调实机避障应该先看哪条代码线。
+- [脚本与代码索引](project/脚本与代码索引.md)：按用途解释 `.sh` 入口、
+  ROS2 节点、硬件工具、MuJoCo 和 RL 文件。
 - [项目清理审计](project/项目清理审计.md)：哪些内容必须保留、可以归档、可以
   重新生成，以及建议的后续清理步骤。
 - [日志目录说明](project/日志目录说明.md)：统一日志根目录及三个子目录的来源。
@@ -19,6 +23,7 @@
 ## 算法
 
 - [SDF-CBF-QP 避障算法](algorithms/避障算法.md)
+- [SDF-CBF-QP 避障与动态障碍完整说明](development/SDF-CBF-QP避障与动态障碍完整说明.md)
 - [AnyGrasp Pre-Grasp 规范](algorithms/anygrasp_pregrasp_spec.md)
 - [tar&ori Reach 迁移说明](algorithms/tarori迁移algo.md)
 
