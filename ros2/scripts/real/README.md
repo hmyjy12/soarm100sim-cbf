@@ -125,6 +125,8 @@ git clone --recurse-submodules -b exp/geom \
 模型资产；ROS2 Humble、Python 环境、系统包、Orbbec runtime/SDK dependency，以及按需的
 CUDA/NVIDIA 环境仍需另行安装。`build/`、`install/`、`log/`、runtime snapshot 和 conda 环境
 均不存入 Git。本轮完成的是静态 Git 映射检查；新的 fresh-clone runtime smoke test 仍待后续执行。
+新机器的统一检查与恢复入口是
+[`scripts/setup/bootstrap_ubuntu22.sh`](../../../scripts/setup/bootstrap_ubuntu22.sh)；它不会自动校准或启动机械臂。
 
 要改避障距离，就加：
 
