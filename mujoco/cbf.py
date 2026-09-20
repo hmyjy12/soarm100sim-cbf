@@ -961,4 +961,13 @@ def cbf_step_log_record(ep: int, step: int, t: float, info: dict) -> dict:
         "nom_violation": float(info.get("nom_violation", 0.0)),
         "worst_obs_step": float(info.get("cbf_worst_obs_step", 0.0)),
         "worst_obs_speed": float(info.get("cbf_worst_obs_speed", 0.0)),
+        "guided_target_active": bool(info.get("guided_target_active", False)),
+        "guided_target_dynamic": bool(info.get("guided_target_dynamic", False)),
+        "guided_target_dynamic_params": bool(info.get("guided_target_dynamic_params", False)),
+        "guided_target_side": float(info.get("guided_target_side", 0.0)),
+        "guided_target_memory_side": float(info.get("guided_target_memory_side", 0.0)),
+        "guided_target_miss_count": int(info.get("guided_target_miss_count", 0)),
+        "guided_target_closing_speed": float(info.get("guided_target_closing_speed", 0.0)),
+        "guided_target_clearance": float(info.get("guided_target_clearance", 0.0)),
+        "guided_target_forward": float(info.get("guided_target_forward", 0.0)),
     }

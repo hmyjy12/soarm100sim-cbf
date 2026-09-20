@@ -1,6 +1,7 @@
 """Pure-Python regression coverage for shared CBF configuration boundaries."""
 
 import ast
+import json
 from pathlib import Path
 import sys
 
@@ -10,6 +11,19 @@ import numpy as np
 REPO_ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(REPO_ROOT / "mujoco"))
 import cbf as cbf_core  # noqa: E402
+
+
+GUIDED_TARGET_TELEMETRY_FIELDS = {
+    "guided_target_active",
+    "guided_target_dynamic",
+    "guided_target_dynamic_params",
+    "guided_target_side",
+    "guided_target_memory_side",
+    "guided_target_miss_count",
+    "guided_target_closing_speed",
+    "guided_target_clearance",
+    "guided_target_forward",
+}
 
 
 def test_shared_defaults_are_legacy_real_safe():
@@ -113,6 +127,51 @@ def test_real_policy_pins_legacy_shared_cbf_options():
 
     assert ast.literal_eval(kwargs["capsule_sample_count"]) == 9
     assert ast.literal_eval(kwargs["qp_metric"]) == "identity"
+
+
+def test_waypoint_guidance_telemetry_is_json_safe_and_schema_matched():
+    defaults = cbf_core.cbf_step_log_record(1, 2, 0.1, {})
+    assert {key: defaults[key] for key in GUIDED_TARGET_TELEMETRY_FIELDS} == {
+        "guided_target_active": False,
+        "guided_target_dynamic": False,
+        "guided_target_dynamic_params": False,
+        "guided_target_side": 0.0,
+        "guided_target_memory_side": 0.0,
+        "guided_target_miss_count": 0,
+        "guided_target_closing_speed": 0.0,
+        "guided_target_clearance": 0.0,
+        "guided_target_forward": 0.0,
+    }
+
+    guided = {
+        "guided_target_active": True,
+        "guided_target_dynamic": True,
+        "guided_target_dynamic_params": True,
+        "guided_target_side": -1.0,
+        "guided_target_memory_side": 1.0,
+        "guided_target_miss_count": 3,
+        "guided_target_closing_speed": 0.12,
+        "guided_target_clearance": 0.14,
+        "guided_target_forward": 0.04,
+    }
+    record = cbf_core.cbf_step_log_record(1, 2, 0.1, guided)
+    assert {key: record[key] for key in GUIDED_TARGET_TELEMETRY_FIELDS} == guided
+    json.dumps(record)
+
+    play_tree = ast.parse((REPO_ROOT / "mujoco/play.py").read_text(encoding="utf-8"))
+    traj_log = next(
+        node
+        for node in play_tree.body
+        if isinstance(node, ast.FunctionDef) and node.name == "_traj_log_record"
+    )
+    dict_keys = {
+        ast.literal_eval(key)
+        for node in ast.walk(traj_log)
+        if isinstance(node, ast.Dict)
+        for key in node.keys
+        if isinstance(key, ast.Constant) and isinstance(key.value, str)
+    }
+    assert GUIDED_TARGET_TELEMETRY_FIELDS <= dict_keys
 
 
 def test_single_arm_solver_does_not_reference_dual_arm_entrypoint():
