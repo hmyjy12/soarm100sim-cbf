@@ -17,6 +17,14 @@ bash scripts/setup/bootstrap_ubuntu22.sh --check
 bash scripts/setup/bootstrap_ubuntu22.sh
 ```
 
+第一次进行 ROS 2 build 或真机部署时，建议先退出未经明确支持的 Conda environment：
+
+```bash
+conda deactivate
+```
+
+没有安装 Conda 时无需执行这一步。
+
 bootstrap 会同步 submodule，检查 Ubuntu/架构、ROS 2 Humble、核心源码资产、Python 的
 `numpy`/`mujoco`、可选 GPU 与设备状态，并在已初始化时更新 `rosdep` 索引。它不会安装
 GPU driver/CUDA、自动校准、创建 Conda 环境、执行 `colcon build` 或移动机器人。脚本结束时会

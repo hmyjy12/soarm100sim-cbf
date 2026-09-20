@@ -109,9 +109,29 @@ check_file() {
 check_python_module() {
   local module_name="$1"
   if python3 -c "import $module_name" >/dev/null 2>&1; then
-    pass "Python module importable: $module_name"
+    pass "active Python module importable (not a ROS 2 compatibility check): $module_name"
   else
     fail "core Python module missing: $module_name"
+  fi
+}
+
+check_python_environment() {
+  local active_python
+  active_python="$(command -v python3)"
+  pass "active python3 command: $active_python"
+  pass "active Python version: $(python3 --version)"
+
+  if [[ -x /usr/bin/python3 ]]; then
+    pass "system Python version: $(/usr/bin/python3 --version)"
+  else
+    fail "system Python is missing: /usr/bin/python3"
+  fi
+
+  if [[ -n "${CONDA_PREFIX:-}" || -n "${CONDA_DEFAULT_ENV:-}" ]]; then
+    warn "Conda environment is active. ROS 2 Humble should normally be built and run with its compatible system Python environment unless this project explicitly documents a compatible Conda setup."
+  fi
+  if [[ -n "${CONDA_PREFIX:-}" && "$active_python" == "$CONDA_PREFIX/"* ]]; then
+    warn "active python3 is inside the Conda environment: $active_python"
   fi
 }
 
@@ -160,7 +180,7 @@ run_checks() {
   check_file "third_party/orbbec_293_ws/src/OrbbecSDK_ROS2/orbbec_camera/package.xml"
 
   if command -v python3 >/dev/null 2>&1; then
-    pass "Python version: $(python3 --version)"
+    check_python_environment
     check_python_module numpy
     check_python_module mujoco
   fi
