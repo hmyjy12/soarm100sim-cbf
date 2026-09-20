@@ -159,7 +159,7 @@ while [[ $# -gt 0 ]]; do
     --target-config) TARGET_CONFIG="$2"; shift 2 ;;
     --relative-delta)
       RELATIVE_DELTA="$2"
-      TARGET_CONFIG="ros2/config/real/policy_reach_target_relative.json"
+      TARGET_CONFIG="log/runtime/hardware/policy_reach_target_relative.json"
       shift 2
       ;;
     --relative-delta-frame) RELATIVE_DELTA_FRAME="$2"; shift 2 ;;
@@ -754,6 +754,7 @@ fi
 
 if [[ -n "$RELATIVE_DELTA" ]]; then
   echo "[policy_reach] sampling live /joint_states and writing relative target..."
+  mkdir -p "$ROOT_DIR/log/runtime/hardware"
   RELATIVE_LIMIT_ARGS=()
   if [[ "$DISABLE_RELATIVE_DELTA_LIMIT" != "true" && -n "$MAX_RELATIVE_DELTA_M" ]]; then
     RELATIVE_LIMIT_ARGS+=(--max-delta-norm-m "$MAX_RELATIVE_DELTA_M")

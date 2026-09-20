@@ -79,6 +79,26 @@ session 引用，artifact 文件名暂时保留历史的 `*_tsai.json` / `*_tsai
 
 要改目标距离，就改 `--relative-delta`。
 
+### Relative target snapshot 的保存位置
+
+`--relative-delta` 不是读取一份固定 target：启动前，`run_policy_reach.sh` 会调用
+`make_relative_policy_reach_target.py`，从 `/joint_states` 读取当前姿态、通过 MuJoCo FK
+得到 TCP，再生成当前 TCP 加相对位移的 target。旧的
+`ros2/config/real/policy_reach_target_relative.json` 因而会随每次现场运行覆盖，不是可复现
+配置；把它 tracked 会污染 Git 状态，也可能让某次现场姿态被误当成通用 target。
+
+现在生成文件写入已忽略的
+`log/runtime/hardware/policy_reach_target_relative.json`。普通静态 target
+`ros2/config/real/policy_reach_target.json` 保持不变。这个位置沿用仓库已有的
+`log/runtime/hardware/` runtime artifact 约定；`policy_reach_node.py` 仍读取同一轮启动刚生成
+的 JSON，target 计算、`--relative-delta` 的 frame 语义和控制行为均未改变。
+
+本次迁移通过 `bash -n`、generator 的 Python 编译、Git ignore/path 检查，以及迁移前后
+snapshot 的逐字节比较做了静态验证；未在本次路径迁移中重新执行真机 motion regression。
+旧手工命令若显式使用
+`--target-config ros2/config/real/policy_reach_target_relative.json`，需要改为新 runtime 路径。
+`log/runtime/` 是本地运行产物，不保证长期保留；需要保留某次 target 时应主动复制归档。
+
 要改避障距离，就加：
 
 ```bash

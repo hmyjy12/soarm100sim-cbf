@@ -53,7 +53,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--output",
         type=Path,
-        default=Path("ros2/config/real/policy_reach_target_relative.json"),
+        default=Path("log/runtime/hardware/policy_reach_target_relative.json"),
     )
     parser.add_argument(
         "--delta-m",
