@@ -1,0 +1,15 @@
+[submodule "SO-ARM100"]
+	path = SO-ARM100
+	url = https://github.com/hmyjy12/SO-ARM100.git
+
+[submodule "third_party/orbbec_293_ws/src/OrbbecSDK_ROS2"]
+	path = third_party/orbbec_293_ws/src/OrbbecSDK_ROS2
+	url = https://github.com/orbbec/OrbbecSDK_ROS2.git
+
+[submodule "third_party/orbbec_v1_ws/src/OrbbecSDK_ROS2"]
+	path = third_party/orbbec_v1_ws/src/OrbbecSDK_ROS2
+	url = https://github.com/orbbec/OrbbecSDK_ROS2.git
+
+[submodule "third_party/orbbec_ws/src/OrbbecSDK_ROS2"]
+	path = third_party/orbbec_ws/src/OrbbecSDK_ROS2
+	url = https://github.com/orbbec/OrbbecSDK_ROS2.git

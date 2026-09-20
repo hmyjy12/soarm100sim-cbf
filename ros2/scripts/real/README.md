@@ -99,6 +99,33 @@ snapshot 的逐字节比较做了静态验证；未在本次路径迁移中重�
 `--target-config ros2/config/real/policy_reach_target_relative.json`，需要改为新 runtime 路径。
 `log/runtime/` 是本地运行产物，不保证长期保留；需要保留某次 target 时应主动复制归档。
 
+## 换电脑恢复外部依赖
+
+主仓库的机器人模型和 Orbbec 驱动源码以固定 commit 的 submodule 保存。此前存在四个
+mode-160000 gitlink、却没有 `.gitmodules` 映射；fresh clone 无法得知它们的来源。本次依据
+fresh-clone 检查、当前 gitlink、SO-ARM100 fork 和官方 Orbbec 仓库补上来源映射。
+
+`SO-ARM100` 使用 `https://github.com/hmyjy12/SO-ARM100.git`，固定到
+`5d7c1cce4ecec709d8b8d0a394bf9b4558fad779`；该 commit 包含当前项目所需
+`Simulation/SO100/mujoco/` 与 `Simulation/SO100/so100/` custom simulation assets。
+当前 Gemini 336 主线是
+`third_party/orbbec_293_ws/src/OrbbecSDK_ROS2`，来源为官方
+`https://github.com/orbbec/OrbbecSDK_ROS2.git`，固定 revision 为
+`bfc0883a50b68f1117e449aaaac65d5675904f95`。`orbbec_v1_ws` 和 `orbbec_ws` 仅保留为
+legacy/compatibility source，不是当前 production launch 的默认依赖。
+
+新电脑推荐直接执行：
+
+```bash
+git clone --recurse-submodules -b exp/geom \
+  https://github.com/hmyjy12/soarm100sim-cbf.git
+```
+
+若已普通 clone，则执行 `git submodule update --init --recursive`。submodule 只恢复源码和
+模型资产；ROS2 Humble、Python 环境、系统包、Orbbec runtime/SDK dependency，以及按需的
+CUDA/NVIDIA 环境仍需另行安装。`build/`、`install/`、`log/`、runtime snapshot 和 conda 环境
+均不存入 Git。本轮完成的是静态 Git 映射检查；新的 fresh-clone runtime smoke test 仍待后续执行。
+
 要改避障距离，就加：
 
 ```bash
