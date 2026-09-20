@@ -220,6 +220,23 @@ class CbfConstraint:
 
 
 @dataclass
+class CapsulePairBarrier:
+    """两段 capsule 之间的 self/inter-arm 距离约束信息。"""
+
+    left_name: str
+    right_name: str
+    h: float
+    distance: float
+    normal: np.ndarray
+    s_left: float
+    t_right: float
+    p_left: np.ndarray
+    p_right: np.ndarray
+    grad_left: np.ndarray
+    grad_right: np.ndarray
+
+
+@dataclass
 class CbfConfig:
     d_safe: float = 0.02
     gamma: float = 0.8
@@ -249,6 +266,22 @@ class CbfConfig:
     target_guidance_switch_slack: float = 0.05
     target_guidance_dynamic_lookahead_steps: float = 2.0
     dynamic_obstacle_lookahead_steps: float = 0.0
+
+
+@dataclass
+class DualArmCbfConfig:
+    """实验性双臂 safety filter 配置：环境沿用单臂，左右臂互避单独调参。
+
+    当前仅覆盖纯数学和 QP 测试；双臂 MuJoCo 模型级回归尚未完成。
+    """
+
+    env: CbfConfig = field(default_factory=CbfConfig)
+    d_safe_inter_arm: float = 0.03
+    gamma_inter_arm: float = 0.8
+    activate_margin_inter_arm: float = 0.06
+    top_k_inter_arm: int = 3
+    dq_max: float = ACTION_SCALE
+    frozen_joint_mask: np.ndarray | None = None
 
 
 @dataclass
@@ -457,6 +490,100 @@ def segment_obstacle_h_and_grad(
             j_interp = (1.0 - t) * j0 + t * j1
             grad_q_best = j_interp.T @ grad_p
     return h_min, grad_q_best, grad_p_best, t_best
+
+
+def closest_points_on_segments(
+    a0: np.ndarray,
+    a1: np.ndarray,
+    b0: np.ndarray,
+    b1: np.ndarray,
+    eps: float = 1e-12,
+) -> tuple[float, float, np.ndarray, np.ndarray]:
+    """两条有限线段的最近点；self-collision / inter-arm capsule 距离会用到。"""
+    a0 = np.asarray(a0, dtype=np.float64).reshape(3)
+    a1 = np.asarray(a1, dtype=np.float64).reshape(3)
+    b0 = np.asarray(b0, dtype=np.float64).reshape(3)
+    b1 = np.asarray(b1, dtype=np.float64).reshape(3)
+
+    u = a1 - a0
+    v = b1 - b0
+    w0 = a0 - b0
+    aa = float(u @ u)
+    bb = float(u @ v)
+    cc = float(v @ v)
+    dd = float(u @ w0)
+    ee = float(v @ w0)
+    denom = aa * cc - bb * bb
+
+    if aa < eps and cc < eps:
+        s = 0.0
+        t = 0.0
+    elif aa < eps:
+        s = 0.0
+        t = float(np.clip(ee / max(cc, eps), 0.0, 1.0))
+    elif cc < eps:
+        t = 0.0
+        s = float(np.clip(-dd / max(aa, eps), 0.0, 1.0))
+    else:
+        if abs(denom) > eps:
+            s = float(np.clip((bb * ee - cc * dd) / denom, 0.0, 1.0))
+        else:
+            s = 0.0
+        t = float(np.clip((bb * s + ee) / max(cc, eps), 0.0, 1.0))
+        s = float(np.clip((bb * t - dd) / max(aa, eps), 0.0, 1.0))
+        t = float(np.clip((bb * s + ee) / max(cc, eps), 0.0, 1.0))
+
+    p_a = a0 + s * u
+    p_b = b0 + t * v
+    return s, t, p_a, p_b
+
+
+def capsule_pair_h_and_grads(
+    left_name: str,
+    right_name: str,
+    left_a: np.ndarray,
+    left_b: np.ndarray,
+    left_j_a: np.ndarray,
+    left_j_b: np.ndarray,
+    left_radius: float,
+    right_a: np.ndarray,
+    right_b: np.ndarray,
+    right_j_a: np.ndarray,
+    right_j_b: np.ndarray,
+    right_radius: float,
+    d_safe: float,
+) -> CapsulePairBarrier:
+    """左右两段 capsule 的 h 与两边关节梯度，用于 inter-arm CBF。"""
+    s, t, p_left, p_right = closest_points_on_segments(
+        left_a, left_b, right_a, right_b
+    )
+    delta = p_left - p_right
+    distance = float(np.linalg.norm(delta))
+    normal = delta / distance if distance > 1e-9 else np.array([0.0, 0.0, 1.0])
+
+    j_left = (1.0 - s) * np.asarray(
+        left_j_a, dtype=np.float64
+    ) + s * np.asarray(left_j_b, dtype=np.float64)
+    j_right = (1.0 - t) * np.asarray(
+        right_j_a, dtype=np.float64
+    ) + t * np.asarray(right_j_b, dtype=np.float64)
+    grad_left = j_left.T @ normal
+    grad_right = -(j_right.T @ normal)
+    h = distance - float(left_radius) - float(right_radius) - float(d_safe)
+
+    return CapsulePairBarrier(
+        left_name=left_name,
+        right_name=right_name,
+        h=float(h),
+        distance=distance,
+        normal=normal,
+        s_left=float(s),
+        t_right=float(t),
+        p_left=p_left,
+        p_right=p_right,
+        grad_left=np.asarray(grad_left, dtype=np.float64),
+        grad_right=np.asarray(grad_right, dtype=np.float64),
+    )
 
 
 def _geom_world_pose(model: mujoco.MjModel, data: mujoco.MjData, gid: int):
@@ -759,6 +886,37 @@ def stack_cbf_constraints(
     return a, b_total, b_delta
 
 
+def inter_arm_constraint_from_capsule_pair(
+    pair: CapsulePairBarrier,
+    dq_nom_dual: np.ndarray,
+    gamma: float,
+    activate_margin: float,
+) -> CbfConstraint:
+    """把 left-capsule/right-capsule 距离结果转成双臂 QP 约束。"""
+    grad_left = np.asarray(pair.grad_left, dtype=np.float64).reshape(-1)
+    grad_right = np.asarray(pair.grad_right, dtype=np.float64).reshape(-1)
+    a = np.concatenate([grad_left, grad_right])
+    dq_nom_dual = np.asarray(dq_nom_dual, dtype=np.float64).reshape(a.shape[0])
+    b_total = -float(gamma) * float(pair.h)
+    return CbfConstraint(
+        name=f"{pair.left_name}<->{pair.right_name}",
+        source="inter_arm",
+        a=a,
+        b_total=b_total,
+        b_delta=b_total - float(a @ dq_nom_dual),
+        h=float(pair.h),
+        active=bool(pair.h < float(activate_margin)),
+        debug={
+            "distance": float(pair.distance),
+            "normal": pair.normal,
+            "s_left": float(pair.s_left),
+            "t_right": float(pair.t_right),
+            "p_left": pair.p_left,
+            "p_right": pair.p_right,
+        },
+    )
+
+
 def make_task_preserving_hessian(
     action_dim: int,
     task_jacobians: list[tuple[np.ndarray, float]] | None = None,
@@ -801,6 +959,322 @@ def make_qp_metric_hessian(
     raise ValueError(
         f"unknown qp_metric {cfg.qp_metric!r}; expected 'identity' or 'task_preserving'"
     )
+
+
+def lift_arm_constraint_to_dual(
+    constraint: CbfConstraint,
+    side: str,
+    arm_dim: int,
+) -> CbfConstraint:
+    """单臂环境约束升维到双臂 QP：[A_L,0] 或 [0,A_R]。"""
+    arm_dim = int(arm_dim)
+    a_arm = np.asarray(constraint.a, dtype=np.float64).reshape(arm_dim)
+    a_dual = np.zeros(2 * arm_dim, dtype=np.float64)
+    side_norm = str(side).strip().lower()
+    if side_norm in ("left", "l"):
+        a_dual[:arm_dim] = a_arm
+        source = "left_env"
+    elif side_norm in ("right", "r"):
+        a_dual[arm_dim:] = a_arm
+        source = "right_env"
+    else:
+        raise ValueError(f"unknown dual-arm side: {side}")
+    return CbfConstraint(
+        name=constraint.name,
+        source=source,
+        a=a_dual,
+        b_total=float(constraint.b_total),
+        b_delta=float(constraint.b_delta),
+        h=float(constraint.h),
+        active=bool(constraint.active),
+        debug=dict(constraint.debug),
+    )
+
+
+def build_environment_constraints_for_arm(
+    model: mujoco.MjModel,
+    data: mujoco.MjData,
+    ids,
+    dq_nom: np.ndarray,
+    cfg: CbfConfig,
+    monitors: list[Monitor],
+    obstacles: list[Obstacle],
+    tcp_pose_fn,
+) -> tuple[list[CbfConstraint], dict]:
+    """只构造单臂环境 CBF 约束，不求解 QP。"""
+    dq_nom = np.asarray(dq_nom, dtype=np.float64).reshape(ACTION_DIM)
+    info: dict = {
+        "h_min": float("inf"),
+        "worst_monitor": "",
+        "worst_obstacle": "",
+        "n_constraints": 0,
+    }
+    if not obstacles:
+        return [], info
+    records, h_min, worst = _worst_barrier(
+        model, data, ids, monitors, obstacles, cfg, tcp_pose_fn
+    )
+    constraints = build_cbf_constraints_from_records(records, cfg, dq_nom)
+    info["h_min"] = float(h_min)
+    info["n_constraints"] = int(len(constraints))
+    if worst is not None:
+        info["worst_monitor"] = str(worst.get("monitor", ""))
+        info["worst_obstacle"] = str(worst.get("obstacle", ""))
+        info["worst_obs_step"] = float(worst.get("obs_step", 0.0))
+        info["worst_capsule_t"] = float(worst.get("capsule_t", 0.0))
+    return constraints, info
+
+
+def _capsule_endpoint_states(
+    model: mujoco.MjModel,
+    data: mujoco.MjData,
+    ids,
+    capsule: CapsuleMonitor,
+) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
+    p0, j0 = body_pos_and_jacobian(model, data, ids, capsule.body_a_id)
+    p1, j1 = body_pos_and_jacobian(model, data, ids, capsule.body_b_id)
+    return p0, j0, p1, j1
+
+
+def build_inter_arm_constraints_from_capsules(
+    model: mujoco.MjModel,
+    data: mujoco.MjData,
+    left_ids,
+    right_ids,
+    left_capsules: list[CapsuleMonitor],
+    right_capsules: list[CapsuleMonitor],
+    dq_nom_dual: np.ndarray,
+    cfg: DualArmCbfConfig,
+    pair_allowlist: set[tuple[str, str]] | None = None,
+) -> tuple[list[CbfConstraint], dict]:
+    """双臂扩展：以 OSCBF/VFI 思路将左右 capsule 的自碰距离转为 QP 约束。"""
+    barriers: list[CapsulePairBarrier] = []
+    for left_cap in left_capsules:
+        left_key = str(left_cap.name)
+        if pair_allowlist is not None:
+            allowed_right = {
+                right_name for left_name, right_name in pair_allowlist
+                if left_name == left_key
+            }
+            if not allowed_right:
+                continue
+        l0, jl0, l1, jl1 = _capsule_endpoint_states(model, data, left_ids, left_cap)
+        for right_cap in right_capsules:
+            right_key = str(right_cap.name)
+            if pair_allowlist is not None and right_key not in allowed_right:
+                continue
+            r0, jr0, r1, jr1 = _capsule_endpoint_states(
+                model, data, right_ids, right_cap
+            )
+            barriers.append(
+                capsule_pair_h_and_grads(
+                    left_name=left_key,
+                    right_name=right_key,
+                    left_a=l0,
+                    left_b=l1,
+                    left_j_a=jl0,
+                    left_j_b=jl1,
+                    left_radius=left_cap.r_link,
+                    right_a=r0,
+                    right_b=r1,
+                    right_j_a=jr0,
+                    right_j_b=jr1,
+                    right_radius=right_cap.r_link,
+                    d_safe=cfg.d_safe_inter_arm,
+                )
+            )
+
+    barriers.sort(key=lambda item: item.h)
+    # 只将 h 最小的危险 pair 送入 QP；top_k=0 表示不截断、保留全部候选。
+    top_k = max(0, int(cfg.top_k_inter_arm))
+    selected = barriers[:top_k] if top_k > 0 else barriers
+    constraints = [
+        inter_arm_constraint_from_capsule_pair(
+            pair,
+            dq_nom_dual=dq_nom_dual,
+            gamma=cfg.gamma_inter_arm,
+            activate_margin=cfg.activate_margin_inter_arm,
+        )
+        for pair in selected
+    ]
+
+    worst = barriers[0] if barriers else None
+    info: dict = {
+        "h_LR_min": float(worst.h) if worst is not None else float("inf"),
+        "distance_LR_min": float(worst.distance) if worst is not None else float("inf"),
+        "worst_left_link": str(worst.left_name) if worst is not None else "",
+        "worst_right_link": str(worst.right_name) if worst is not None else "",
+        "n_interarm_candidates": int(len(barriers)),
+        "n_interarm_selected": int(len(selected)),
+        "n_interarm_constraints": int(sum(1 for c in constraints if c.active)),
+    }
+    return constraints, info
+
+
+def solve_dual_arm_cbf_correction(
+    model: mujoco.MjModel,
+    data: mujoco.MjData,
+    left_ids,
+    right_ids,
+    dq_left_nom: np.ndarray,
+    dq_right_nom: np.ndarray,
+    cfg: DualArmCbfConfig,
+    left_monitors: list[Monitor],
+    right_monitors: list[Monitor],
+    obstacles: list[Obstacle],
+    left_tcp_pose_fn,
+    right_tcp_pose_fn,
+    pair_allowlist: set[tuple[str, str]] | None = None,
+    task_jacobians: list[tuple[np.ndarray, float]] | None = None,
+) -> tuple[np.ndarray, np.ndarray, dict]:
+    """实验性双臂 OSCBF safety filter：环境和 inter-arm 约束统一求解。
+
+    联合空间维度始终由 ``2 * ACTION_DIM`` 推导，不能假设固定关节数。
+    """
+    arm_dim = ACTION_DIM
+    dq_left_nom = np.asarray(dq_left_nom, dtype=np.float64).reshape(arm_dim)
+    dq_right_nom = np.asarray(dq_right_nom, dtype=np.float64).reshape(arm_dim)
+    dq_nom_dual = np.concatenate([dq_left_nom, dq_right_nom])
+
+    info: dict = {
+        "dual_cbf_active": False,
+        "dual_cbf_feasible": True,
+        "dual_cbf_projected": False,
+        "h_L_env_min": float("inf"),
+        "h_R_env_min": float("inf"),
+        "h_LR_min": float("inf"),
+        "dq_left_cbf_norm": 0.0,
+        "dq_right_cbf_norm": 0.0,
+        "dq_dual_nom_norm": float(np.linalg.norm(dq_nom_dual)),
+        "n_constraints": 0,
+        "n_left_env_constraints": 0,
+        "n_right_env_constraints": 0,
+        "n_interarm_constraints": 0,
+    }
+
+    left_env, left_info = build_environment_constraints_for_arm(
+        model,
+        data,
+        left_ids,
+        dq_left_nom,
+        cfg.env,
+        left_monitors,
+        obstacles,
+        left_tcp_pose_fn,
+    )
+    right_env, right_info = build_environment_constraints_for_arm(
+        model,
+        data,
+        right_ids,
+        dq_right_nom,
+        cfg.env,
+        right_monitors,
+        obstacles,
+        right_tcp_pose_fn,
+    )
+
+    dual_constraints: list[CbfConstraint] = []
+    dual_constraints.extend(
+        lift_arm_constraint_to_dual(c, side="left", arm_dim=arm_dim)
+        for c in left_env
+    )
+    dual_constraints.extend(
+        lift_arm_constraint_to_dual(c, side="right", arm_dim=arm_dim)
+        for c in right_env
+    )
+
+    left_capsules = [m for m in left_monitors if isinstance(m, CapsuleMonitor)]
+    right_capsules = [m for m in right_monitors if isinstance(m, CapsuleMonitor)]
+    inter_arm, inter_info = build_inter_arm_constraints_from_capsules(
+        model,
+        data,
+        left_ids,
+        right_ids,
+        left_capsules,
+        right_capsules,
+        dq_nom_dual,
+        cfg,
+        pair_allowlist=pair_allowlist,
+    )
+    dual_constraints.extend(inter_arm)
+
+    a_ineq, b_total, b_delta = stack_cbf_constraints(
+        dual_constraints,
+        action_dim=2 * arm_dim,
+    )
+    info["h_L_env_min"] = float(left_info.get("h_min", float("inf")))
+    info["h_R_env_min"] = float(right_info.get("h_min", float("inf")))
+    info["h_LR_min"] = float(inter_info.get("h_LR_min", float("inf")))
+    info["distance_LR_min"] = float(inter_info.get("distance_LR_min", float("inf")))
+    info["worst_left_env_monitor"] = str(left_info.get("worst_monitor", ""))
+    info["worst_left_env_obstacle"] = str(left_info.get("worst_obstacle", ""))
+    info["worst_right_env_monitor"] = str(right_info.get("worst_monitor", ""))
+    info["worst_right_env_obstacle"] = str(right_info.get("worst_obstacle", ""))
+    info["worst_left_link"] = str(inter_info.get("worst_left_link", ""))
+    info["worst_right_link"] = str(inter_info.get("worst_right_link", ""))
+    info["n_left_env_constraints"] = int(left_info.get("n_constraints", 0))
+    info["n_right_env_constraints"] = int(right_info.get("n_constraints", 0))
+    info["n_interarm_constraints"] = int(
+        inter_info.get("n_interarm_constraints", 0)
+    )
+    info["n_constraints"] = int(a_ineq.shape[0])
+
+    if a_ineq.shape[0] == 0:
+        z = np.zeros(arm_dim, dtype=np.float64)
+        return z, z, info
+
+    info["dual_cbf_active"] = True
+    lb_cbf, ub_cbf = _dq_cbf_bounds(dq_nom_dual, cfg.dq_max)
+    if cfg.frozen_joint_mask is not None:
+        frozen = np.asarray(cfg.frozen_joint_mask, dtype=bool).reshape(2 * arm_dim)
+        lb_cbf[frozen] = -dq_nom_dual[frozen]
+        ub_cbf[frozen] = -dq_nom_dual[frozen]
+
+    h_mat = make_task_preserving_hessian(
+        action_dim=2 * arm_dim,
+        task_jacobians=task_jacobians,
+    )
+    dq_cbf_dual, ok = _solve_qp_min_correction(
+        a_ineq,
+        b_delta,
+        lb_cbf,
+        ub_cbf,
+        h_mat=h_mat,
+    )
+
+    if not ok or dq_cbf_dual is None:
+        dq_total, proj_ok = _project_dq_total(
+            dq_nom_dual,
+            a_ineq,
+            b_total,
+            cfg.dq_max,
+        )
+        dq_cbf_dual = dq_total - dq_nom_dual
+        info["dual_cbf_feasible"] = bool(proj_ok)
+        info["dual_cbf_projected"] = True
+    else:
+        dq_total = dq_nom_dual + dq_cbf_dual
+        if not np.all(a_ineq @ dq_total >= b_total - 1e-5):
+            dq_total, proj_ok = _project_dq_total(
+                dq_nom_dual,
+                a_ineq,
+                b_total,
+                cfg.dq_max,
+            )
+            dq_cbf_dual = dq_total - dq_nom_dual
+            info["dual_cbf_feasible"] = bool(proj_ok)
+            info["dual_cbf_projected"] = True
+
+    dq_cbf_dual = np.clip(dq_cbf_dual, lb_cbf, ub_cbf)
+    dq_total = np.clip(dq_nom_dual + dq_cbf_dual, -cfg.dq_max, cfg.dq_max)
+    dq_cbf_dual = dq_total - dq_nom_dual
+    dq_left_cbf = dq_cbf_dual[:arm_dim]
+    dq_right_cbf = dq_cbf_dual[arm_dim:]
+    info["dq_left_cbf_norm"] = float(np.linalg.norm(dq_left_cbf))
+    info["dq_right_cbf_norm"] = float(np.linalg.norm(dq_right_cbf))
+    info["dq_dual_cbf_norm"] = float(np.linalg.norm(dq_cbf_dual))
+    info["dq_dual_total_norm"] = float(np.linalg.norm(dq_total))
+    return dq_left_cbf, dq_right_cbf, info
 
 
 def _solve_qp_min_correction(
