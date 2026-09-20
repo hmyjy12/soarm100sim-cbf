@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="650" viewBox="0 0 1600 650" role="img" aria-labelledby="title desc">
+  <title id="title">MuJoCo 动态障碍位置与位移数据链</title>
+  <desc id="desc">仅用于 MuJoCo 仿真。每个控制步刷新一次障碍物位置，当前中心减上一中心得到每次刷新位移。Waypoint 使用 closing speed，CBF 使用法向位移和动态 padding。</desc>
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0,0 L12,6 L0,12 Z" fill="#334155"/></marker>
+    <style>.title{font:700 30px 'Noto Sans CJK SC','Microsoft YaHei',sans-serif;fill:#0f172a}.label{font:700 21px 'Noto Sans CJK SC','Microsoft YaHei',sans-serif;fill:#0f172a}.small{font:400 16px 'Noto Sans CJK SC','Microsoft YaHei',sans-serif;fill:#334155}.note{font:400 18px 'Noto Sans CJK SC','Microsoft YaHei',sans-serif;fill:#475569}.box{stroke-width:2;rx:18;ry:18}.dash{stroke-dasharray:9 8}</style>
+  </defs>
+  <rect width="1600" height="650" fill="#f8fafc"/>
+  <text x="70" y="58" class="title">MuJoCo simulation only：动态障碍物的 position / displacement 如何进入 waypoint 与 CBF</text>
+  <rect x="70" y="85" width="1460" height="48" class="box" fill="#eff6ff" stroke="#60a5fa"/>
+  <text x="800" y="116" text-anchor="middle" class="note">当前代码记录的是每次 refresh / 每个 control step 的位移，未除以 dt，不是严格物理 m/s</text>
+  <rect x="75" y="185" width="230" height="120" class="box" fill="#dbeafe" stroke="#2563eb"/>
+  <text x="190" y="228" text-anchor="middle" class="label">ObstacleSource</text><text x="190" y="257" text-anchor="middle" class="small">MotionRunner 移动杆后</text><text x="190" y="281" text-anchor="middle" class="small">读取当前 obstacle center</text>
+  <line x1="305" y1="245" x2="375" y2="245" stroke="#334155" stroke-width="3" marker-end="url(#arrow)"/>
+  <rect x="385" y="165" width="330" height="160" class="box" fill="#fef3c7" stroke="#d97706"/>
+  <text x="550" y="208" text-anchor="middle" class="label">本控制步唯一 refresh</text><text x="550" y="238" text-anchor="middle" class="small">position = current_center</text><text x="550" y="264" text-anchor="middle" class="small">displacement = current − previous</text><text x="550" y="290" text-anchor="middle" class="small">同一份 obstacle state 供后续使用</text>
+  <line x1="715" y1="215" x2="810" y2="185" stroke="#334155" stroke-width="3" marker-end="url(#arrow)"/>
+  <line x1="715" y1="275" x2="810" y2="365" stroke="#334155" stroke-width="3" marker-end="url(#arrow)"/>
+  <rect x="820" y="145" width="330" height="155" class="box dash" fill="#e0f2fe" stroke="#0284c7"/>
+  <text x="985" y="184" text-anchor="middle" class="label">WaypointManager</text><text x="985" y="211" text-anchor="middle" class="small">仅 target_guidance=true（opt-in）</text><text x="985" y="237" text-anchor="middle" class="small">displacement → closing speed</text><text x="985" y="263" text-anchor="middle" class="small">判断是否朝 TCP→target 路线靠近</text><text x="985" y="289" text-anchor="middle" class="small">预测位置 / 动态 clearance / temporary waypoint</text>
+  <rect x="820" y="345" width="330" height="170" class="box" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="985" y="385" text-anchor="middle" class="label">CBF constraint + QP</text><text x="985" y="413" text-anchor="middle" class="small">obs_step = grad_p · obstacle_velocity</text><text x="985" y="439" text-anchor="middle" class="small">dynamic padding = ||obstacle_velocity||</text><text x="985" y="463" text-anchor="middle" class="small">× lookahead_steps</text><text x="985" y="491" text-anchor="middle" class="small">h_eff 与 barrier constraint</text>
+  <line x1="1150" y1="220" x2="1235" y2="270" stroke="#334155" stroke-width="3" marker-end="url(#arrow)"/>
+  <line x1="1150" y1="430" x2="1235" y2="355" stroke="#334155" stroke-width="3" marker-end="url(#arrow)"/>
+  <rect x="1245" y="245" width="285" height="135" class="box" fill="#fce7f3" stroke="#db2777"/>
+  <text x="1387" y="286" text-anchor="middle" class="label">仿真安全动作与临时目标</text><text x="1387" y="315" text-anchor="middle" class="small">waypoint 决定往哪绕</text><text x="1387" y="341" text-anchor="middle" class="small">CBF/QP 修正当前小步</text>
+  <rect x="110" y="390" width="575" height="95" class="box" fill="#f0fdf4" stroke="#16a34a"/>
+  <text x="397" y="425" text-anchor="middle" class="label">静态退化：obstacle displacement = 0</text><text x="397" y="453" text-anchor="middle" class="small">obs_step = 0，dynamic padding = 0，严格回到 static CBF behavior</text>
+  <rect x="160" y="545" width="1280" height="72" class="box" fill="#fee2e2" stroke="#dc2626"/>
+  <text x="800" y="577" text-anchor="middle" class="label">旧实现问题：同一 control step refresh 两次，第二次看不到位置变化 → displacement=0 → 动态信息丢失</text><text x="800" y="605" text-anchor="middle" class="small">当前用 cbf_obstacles_refreshed 保证 target guidance 与 CBF 共用第一次 refresh 的 obstacle state</text>
+</svg>
