@@ -3,7 +3,7 @@
 The checkerboard is rigidly held by the gripper (fingertips). The camera stays
 fixed in the workspace. This node never commands the robot; it consumes Orbbec
 RGB + CameraInfo and base<-wrist_roll TF. Press SPACE to capture, S to solve
-Tsai (eye-to-hand), Q to quit the viewer node.
+with Park (eye-to-hand), Q to quit the viewer node.
 
 Service: /orbbec_handeye/capture (std_srvs/Trigger)
 """
@@ -238,7 +238,7 @@ class OrbbecEyeToHandCalibrator(Node):
             cv2.putText(display, status, (18, 34), cv2.FONT_HERSHEY_SIMPLEX, 0.75, color, 2)
             cv2.putText(
                 display,
-                "EYE-TO-HAND  SPACE capture   S solve Tsai   Q quit",
+                "EYE-TO-HAND  SPACE capture   S solve Park   Q quit",
                 (18, 66),
                 cv2.FONT_HERSHEY_SIMPLEX,
                 0.6,
@@ -351,7 +351,7 @@ class OrbbecEyeToHandCalibrator(Node):
         return {
             "schema": "soarm100_real_orbbec_eye_to_hand_samples_v1",
             "configuration": "eye_to_hand",
-            "method": "Tsai",
+            "method": "Park",
             "base_frame": str(self.get_parameter("base_frame").value),
             "gripper_frame": str(self.get_parameter("gripper_frame").value),
             "camera_frame": self._image_msg.header.frame_id if self._image_msg else "",
@@ -395,7 +395,7 @@ class OrbbecEyeToHandCalibrator(Node):
             t_t2c.append(sample.T_camera_board[:3, 3].reshape(3, 1))
 
         R_c2b, t_c2b = cv2.calibrateHandEye(
-            R_g2b_inv, t_g2b_inv, R_t2c, t_t2c, method=cv2.CALIB_HAND_EYE_TSAI
+            R_g2b_inv, t_g2b_inv, R_t2c, t_t2c, method=cv2.CALIB_HAND_EYE_PARK
         )
         T_base_camera = np.eye(4, dtype=np.float64)
         T_base_camera[:3, :3] = R_c2b
@@ -416,7 +416,7 @@ class OrbbecEyeToHandCalibrator(Node):
         result = {
             "schema": "soarm100_real_orbbec_eye_to_hand_result_v1",
             "configuration": "eye_to_hand",
-            "method": "Tsai (cv2.CALIB_HAND_EYE_TSAI, inverted gripper poses)",
+            "method": "Park (cv2.CALIB_HAND_EYE_PARK, inverted gripper poses)",
             "transform_semantics": (
                 "T_base_camera maps Orbbec color/optical coordinates into robot base; "
                 "X_base = R * X_camera + t"
@@ -440,6 +440,8 @@ class OrbbecEyeToHandCalibrator(Node):
                 ),
             },
         }
+        # 保留历史 artifact 文件名，避免已有 session 引用失效；实际算法以 JSON/YAML
+        # 中的 ``method`` 字段为准。
         output = self._session_dir / "orbbec_eye_to_hand_tsai.json"
         output.write_text(json.dumps(result, indent=2), encoding="utf-8")
         v = result["validation"]
@@ -447,7 +449,7 @@ class OrbbecEyeToHandCalibrator(Node):
         storage = cv2.FileStorage(str(yaml_output), cv2.FILE_STORAGE_WRITE)
         if not storage.isOpened():
             raise RuntimeError(f"cannot open eye-to-hand YAML for writing: {yaml_output}")
-        storage.write("method", "Tsai_eye_to_hand")
+        storage.write("method", "Park_eye_to_hand")
         storage.write("configuration", "eye_to_hand")
         storage.write("base_frame", result["base_frame"])
         storage.write("gripper_frame", result["gripper_frame"])
@@ -464,7 +466,7 @@ class OrbbecEyeToHandCalibrator(Node):
         )
         storage.release()
         message = (
-            "SOLVED eye-to-hand Tsai: "
+            "SOLVED eye-to-hand Park: "
             f"samples={len(self._samples)} "
             f"board_in_gripper_spread={v['fixed_board_in_gripper_translation_rms_mm']:.2f}mm RMS, "
             f"rotation={v['fixed_board_in_gripper_rotation_rms_deg_vs_first']:.2f}deg RMS; "

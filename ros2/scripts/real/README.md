@@ -22,6 +22,43 @@
 | `run_policy_axis_diagnostic.sh` | 会 | 检查某个方向动得对不对 |
 | `run_policy_reach_three_pose.sh` | 会 | 连续测多个 reach 目标 |
 
+## Orbbec eye-to-hand 标定
+
+Orbbec 固定在工作区、标定板固定在夹爪时，使用仓库根目录保留的手动采样入口：
+
+```bash
+./ros2/run_orbbec_handeye_manual.sh
+```
+
+它会启动相机、标定 viewer 和受控的手动采样流程。标定板、相机和机械臂安装位置
+发生变化后，都应重新采样并生成新的 calibration artifact；不要把某次实验生成的
+target snapshot 当作通用标定配置。
+
+### Hand-eye calibration：Tsai → Park
+
+**为什么改。** 当前固定 Orbbec 的 eye-to-hand 场景中，原来的 Tsai 方法在实际标定
+和机械臂观察中的效果不如 Park，因此将求解方法切换为 Park。这里的结论只针对当前
+安装方式和采样条件，不代表 Park 对所有相机、机械臂或样本集都更好。
+
+**参考依据。** 改动直接使用 OpenCV 的 `calibrateHandEye` API，沿用本项目现有的
+eye-to-hand 管线（固定相机、夹爪持标定板），并以本次实际标定和机械臂/视觉检查为
+依据；没有引入或声称复现外部论文实现。
+
+**改了什么。** `orbbec_eye_to_hand_calibrator_node.py` 将
+`cv2.CALIB_HAND_EYE_TSAI` 替换为 `cv2.CALIB_HAND_EYE_PARK`；采样 metadata、
+JSON/YAML artifact 的 `method` 字段和 viewer 状态文字均同步为 Park。为兼容已有的
+session 引用，artifact 文件名暂时保留历史的 `*_tsai.json` / `*_tsai.yaml`；应以内容中的
+`method` 字段判断实际求解方法。
+
+**怎么测试、效果如何。** 本次使用 26 个 calibration samples 生成 Park artifact；
+固定板在夹爪坐标系下的 translation RMS 约为 19.96 mm，rotation RMS 约为 5.57°。
+已进行真实机械臂/视觉效果检查，当前 eye-to-hand setup 中的观察结果良好，标定结果
+可用于该现场配置。
+
+**限制。** 仓库中没有同一批样本下 Tsai 与 Park 的严格定量 A/B 对照，因此不能据此
+宣称 Park 在数值上普遍优于 Tsai。更换相机、机械臂安装位置、标定板固定方式或工作区
+后都需要重新标定与复核。
+
 ## 抓取相关
 
 | 文件 | 会不会动机械臂 | 白话用途 |
